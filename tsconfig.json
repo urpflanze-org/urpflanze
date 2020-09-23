@@ -1,0 +1,31 @@
+{
+	"compilerOptions": {
+		"sourceMap": true,
+		"outDir": "dist",
+		"noImplicitAny": true,
+		"module": "es6",
+		"target": "es6",
+		"moduleResolution": "node",
+		"removeComments": true,
+		"preserveConstEnums": true,
+		"baseUrl": ".",
+		"declaration": true,
+		"declarationDir": "dist",
+		"strictPropertyInitialization": false,
+		"allowSyntheticDefaultImports": true,
+		"strict": true,
+		"typeRoots": ["./node_modules/@types", "./src/typings"],
+		"paths": {
+			"@core/*": ["src/core/*"],
+			"@services/*": ["src/services/*"]
+		},
+		"plugins": [
+			{ "transform": "typescript-transform-paths" },
+			{ "transform": "typescript-transform-paths", "afterDeclarations": true }
+		],
+		"lib": ["es2017", "dom"]
+	},
+	"compileOnSave": true,
+	"include": ["src/**/*", "typings/node"],
+	"exclude": ["node_modules"]
+}

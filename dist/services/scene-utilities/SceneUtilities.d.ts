@@ -1,0 +1,33 @@
+import SceneChild from "../../core/SceneChild";
+import Scene from "../../core/Scene";
+import DrawerCanvas from "../drawer-canvas/DrawerCanvas";
+import { TSceneChildProps } from "../types/scene-utilities";
+export declare type SceneChildInstance = new (props: any) => SceneChild;
+declare class SceneUtilities {
+    private registeredSceneChilds;
+    constructor();
+    getRegistered(): Array<string>;
+    register(type: string, ref: SceneChildInstance): void;
+    unregister(type: string): void;
+    create(item: string | SceneChild, props?: TSceneChildProps, scene?: Scene, drawer?: DrawerCanvas): SceneChild | null;
+    getCountSceneChildOfType(scene: Scene, type: string): number;
+    copy(sceneChild: SceneChild, scene?: Scene, drawer?: DrawerCanvas, strict?: boolean): SceneChild | null;
+    add(parent: SceneChild | Scene, sceneChild: string | SceneChild, props?: TSceneChildProps, scene?: Scene): SceneChild | null;
+    remove(from: SceneChild, item?: SceneChild): void;
+    getRootParent(sceneChild: SceneChild): SceneChild | null;
+    getParent(sceneChild: SceneChild): SceneChild | null;
+    getParents(sceneChild: SceneChild): Array<SceneChild>;
+    getChildren(sceneChild: SceneChild): Array<SceneChild>;
+    getChildrenPrimitives(sceneChild: SceneChild): Array<SceneChild>;
+    getNeighbors(sceneChild: SceneChild): Array<SceneChild>;
+    getCountOfSceneChildType(scene: Scene, type: string): number;
+    walk(sceneChild: SceneChild, callback: (child: SceneChild) => void): void;
+    isGroup(sceneChild: SceneChild): boolean;
+    hasShapeChild(sceneChild: SceneChild): boolean;
+    hasShapeBuffer(sceneChild: SceneChild): boolean;
+    isAPrimitive(sceneChild: SceneChild): boolean;
+    hasLoop(sceneChild: SceneChild): boolean;
+    setProp(sceneChild: SceneChild, name: string, value: any, drawer: DrawerCanvas): void;
+}
+declare const _default: SceneUtilities;
+export default _default;
