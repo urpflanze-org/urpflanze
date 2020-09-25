@@ -7,7 +7,7 @@ class Timeline extends Emitter {
             end: 60000,
             durate: 60000,
             framerate: 60,
-            frames: ((60000 - 0) / 1000) * 60,
+            frames: ((6000 - 0) / 1000) * 60,
         };
         this.fps = this.sequence.framerate;
         this.fps_samples_size = 30;

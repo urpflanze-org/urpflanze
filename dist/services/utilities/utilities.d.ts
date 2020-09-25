@@ -1,2 +1,4 @@
+import { TArray } from "../../core/math/Vec2";
 declare const now: () => number;
-export { now };
+declare const toArray: (t: number | TArray) => (number | Float32Array)[];
+export { now, toArray };

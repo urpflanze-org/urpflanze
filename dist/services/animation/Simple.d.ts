@@ -1,5 +1,10 @@
 import { ShapeBaseProp } from "../../core/types/ShapeBase";
-import { ISimpleAnimation } from "../types/animation";
+import { ISimpleAnimation, TSimpleAnimationLoop, TSimpleAnimationStatic } from "../types/animation";
 import { TArray } from "../../core/math/Vec2";
-declare const composeSimpleAnimation: (simpleAnimation: ISimpleAnimation) => ShapeBaseProp<string | number | TArray>;
-export default composeSimpleAnimation;
+declare const Simple: {
+    loop: (props: TSimpleAnimationLoop) => ShapeBaseProp<string | number | TArray>;
+    uncontrolledLoop: (props: TSimpleAnimationStatic) => ShapeBaseProp<string | number | TArray>;
+    static: (props: TSimpleAnimationStatic) => ShapeBaseProp<string | number | TArray>;
+    compose: (simpleAnimation: ISimpleAnimation) => ShapeBaseProp<string | number | TArray>;
+};
+export default Simple;

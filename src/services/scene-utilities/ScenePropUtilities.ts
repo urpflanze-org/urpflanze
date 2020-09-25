@@ -1,5 +1,5 @@
 import { ShapeBasePropArguments, ShapeLoopGenerator } from '@core/types/ShapeBase'
-import { clamp, toDegrees, toRadians } from '@core/Utilites'
+import { toDegrees, toRadians } from '@core/Utilites'
 
 import DrawerCanvas from '@services/drawer-canvas/DrawerCanvas'
 import SceneChildPropsData, {

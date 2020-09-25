@@ -1,5 +1,6 @@
-declare const _default: {
+declare const parseFunction: {
+    suffix: string;
     parse: (data: any) => any;
     unparse: (data: any) => any;
 };
-export default _default;
+export default parseFunction;

@@ -19,12 +19,7 @@ class Circle extends ShapeLoop {
 		this.loop = {
 			start: 0,
 			end: ShapeLoop.PI2,
-			inc: prop_arguments => {
-				// const radius = Math.sqrt( this.sideLength[0] * this.sideLength[1] )
-				// return (1 / Math.sqrt(radius)) * ShapeLoop.PId2
-
-				return (1 / Math.pow(this.sideLength[0] * this.sideLength[1], 0.25)) * ShapeLoop.PId2
-			},
+			inc: () => (1 / Math.pow(this.sideLength[0] * this.sideLength[1], 0.25)) * ShapeLoop.PId2,
 			vertex: angle => [Math.cos(angle), Math.sin(angle)],
 		}
 	}

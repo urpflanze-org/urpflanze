@@ -8,7 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import * as JSZip from 'jszip';
-import { now } from "../utilities/utilities";
+import { now } from "../../core/Utilites";
 import { ICancelablePromise, cancelablePromise } from "../utilities/cancelablePromise";
 import Emitter from "../events/Emitter";
 import Capturer from "./Capturer";

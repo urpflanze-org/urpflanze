@@ -1,6 +1,6 @@
 import * as JSZip from 'jszip'
 
-import { now } from '@services/utilities/utilities'
+import { now } from '@core/Utilites'
 import { ICancelablePromise, cancelablePromise } from '@services/utilities/cancelablePromise'
 
 import Emitter from '@services/events/Emitter'

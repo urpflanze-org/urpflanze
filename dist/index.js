@@ -13,17 +13,20 @@ import Shape from "./core/shapes/Shape";
 import ShapePrimitive from "./core/shapes/ShapePrimitive";
 import ShapeLoop from "./core/shapes/ShapeLoop";
 import ShapeBuffer from "./core/shapes/ShapeBuffer";
+import Vec2 from "./core/math/Vec2";
 import { toDegrees, toRadians, isDef, clamp, relativeClamp } from "./core/Utilites";
 import Context from "./core/Context";
 import { ShapePrimitiveAdaptMode } from "./core/interfaces/shapes/Interfaces";
-import DrawerCanvas from "./services/drawer-canvas/DrawerCanvas";
-import Renderer from "./services/renderer/Renderer";
 import SceneUtilities from "./services/scene-utilities/SceneUtilities";
+import DrawerCanvas from "./services/drawer-canvas/DrawerCanvas";
+import SimpleAnimation from "./services/animation/Simple";
+import Renderer from "./services/renderer/Renderer";
 import JSONImporter from "./services/importers/JSONImporter";
 import JSONExporter from "./services/exporters/JSONExporter";
 const Urpflanze = {
     ShapePrimitiveAdaptMode,
     Context,
+    Vec2,
     toDegrees,
     toRadians,
     isDef,
@@ -45,6 +48,7 @@ const Urpflanze = {
     ShapeLoop,
     ShapePrimitive,
     DrawerCanvas,
+    SimpleAnimation,
     Renderer,
     SceneUtilities,
     JSONImporter,

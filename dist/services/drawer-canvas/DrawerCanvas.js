@@ -1,10 +1,10 @@
 import Vec2 from "../../core/math/Vec2";
 import Scene from "../../core/Scene";
-import { now } from "../utilities/utilities";
 import Timeline from "../timeline/Timeline";
 import SceneUtilities from "../scene-utilities/SceneUtilities";
 import FrameBuffer from "./FrameBuffer";
 import Emitter from "../events/Emitter";
+import { now } from "../../core/Utilites";
 class DrawerCanvas extends Emitter {
     constructor(scene, canvasOrContainer, drawOptions = {}, ratio = undefined, resolution = 0, bBuffering = false) {
         var _a, _b, _c, _d, _e, _f, _g;

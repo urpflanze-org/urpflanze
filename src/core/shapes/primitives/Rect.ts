@@ -1,8 +1,6 @@
 import { ShapeBufferSettings, ShapePrimitiveAdaptMode } from '@core/interfaces/shapes/Interfaces'
 import ShapeBuffer from '@core/shapes/ShapeBuffer'
 
-const RECT_BUFFER = Float32Array.from([-1, -1, 1, -1, 1, 1, -1, 1])
-
 class Rect extends ShapeBuffer {
 	/**
 	 * Creates an instance of Rect.
@@ -12,7 +10,7 @@ class Rect extends ShapeBuffer {
 	 */
 	constructor(settings: ShapeBufferSettings = {}) {
 		settings.type = 'Rect'
-		settings.shape = RECT_BUFFER
+		settings.shape = [-1, -1, 1, -1, 1, 1, -1, 1]
 		settings.bAdaptBuffer = ShapePrimitiveAdaptMode.None
 
 		super(settings)

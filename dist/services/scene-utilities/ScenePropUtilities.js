@@ -1,4 +1,4 @@
-import { clamp, toDegrees, toRadians } from "../../core/Utilites";
+import { toDegrees, toRadians } from "../../core/Utilites";
 import SceneChildPropsData, { ISceneChildPropData, TSceneChildPropsDataKeys, } from "./SceneChildPropsData";
 class ScenePropUtilities {
     static bValueLoop(value) {

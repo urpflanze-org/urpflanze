@@ -1,13 +1,13 @@
 import Vec2 from '@core/math/Vec2'
 import Scene from '@core/Scene'
 
-import { now } from '@services/utilities/utilities'
 import Timeline from '@services/timeline/Timeline'
 import SceneChild from '@core/SceneChild'
 import SceneUtilities from '@services/scene-utilities/SceneUtilities'
 import FrameBuffer from '@services/drawer-canvas/FrameBuffer'
 import Emitter from '@services/events/Emitter'
 import { DrawerCanvasEvents, DrawOptions } from '@services/types/drawer-canvas'
+import { now } from '@core/Utilites'
 
 class DrawerCanvas extends Emitter<DrawerCanvasEvents> {
 	private scene: Scene

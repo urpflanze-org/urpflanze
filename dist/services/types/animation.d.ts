@@ -25,18 +25,22 @@ interface IAnimationRaw {
 }
 export declare type TAnimation = IAnimationSimple | IAnimationRaw;
 export declare type TModeFunction = TEasing | 'sin' | 'cos';
+export declare type TSimpleAnimationType = 'loop' | 'uncontrolled-loop' | 'static';
 export interface ISimpleAnimation {
     from: number | Array<number> | string;
     to: number | Array<number> | string;
     durate: number;
     invertOdd: boolean;
-    type: 'loop' | 'uncontroller-loop' | 'static';
+    type: TSimpleAnimationType;
     mode: 'sinusoidal' | 'easing';
     mode_function?: TModeFunction;
     delay?: number;
     type_value?: 'int' | 'float';
     colorTransitionMode?: 'hue' | 'rgb';
 }
+export declare type TSimpleAnimationLoop = Omit<ISimpleAnimation, 'delay' | 'type'>;
+export declare type TSimpleAnimationUncontrolledLoop = Omit<ISimpleAnimation, 'type'>;
+export declare type TSimpleAnimationStatic = Omit<ISimpleAnimation, 'type'>;
 export interface IRawState extends ICallableValue<number | TArray | string> {
 }
 export {};

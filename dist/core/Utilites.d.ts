@@ -1,10 +1,12 @@
+import { TArray } from "./math/Vec2";
 declare const isDef: (object: any) => boolean;
 declare const now: () => number;
 declare const aOr: (...args: Array<any>) => any;
 declare const toDegrees: (radians: number) => number;
 declare const toRadians: (degrees: number) => number;
 declare const perf: (name: string, callback: any, log?: boolean) => number;
+declare const toArray: (t: number | TArray) => (number | Float32Array)[];
 declare const hasKey: (...args: any) => boolean;
 declare const clamp: (min: number, max: number, value: number) => number;
 declare const relativeClamp: (value: number, refMin: number, refMax: number, toMin: number, toMax: number) => number;
-export { isDef, now, aOr, toDegrees, toRadians, hasKey, perf, clamp, relativeClamp };
+export { isDef, now, aOr, toDegrees, toRadians, toArray, hasKey, perf, clamp, relativeClamp };

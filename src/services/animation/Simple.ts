@@ -1,55 +1,69 @@
 import ColorManager from '@pups/core/build/Models/Color/ColorManager'
 import { ShapeBaseProp, ShapeBasePropArguments } from '@core/types/ShapeBase'
-import { ISimpleAnimation, TModeFunction } from '@services/types/animation'
+import {
+	ISimpleAnimation,
+	TModeFunction,
+	TSimpleAnimationLoop,
+	TSimpleAnimationUncontrolledLoop,
+	TSimpleAnimationStatic,
+} from '@services/types/animation'
 import Easings, { TEasing } from '@services/animation/Easings'
-import { toArray } from '@services/utilities/utilities'
+import { toArray } from '@core/Utilites'
 import { TArray } from '@core/math/Vec2'
 
-const composeSimpleAnimation = (simpleAnimation: ISimpleAnimation): ShapeBaseProp<string | number | TArray> => {
-	if (typeof simpleAnimation.from !== 'string' && typeof simpleAnimation.to !== 'string') {
-		const bArray = Array.isArray(simpleAnimation.from) || Array.isArray(simpleAnimation.to)
+const Simple = {
+	loop: (props: TSimpleAnimationLoop): ShapeBaseProp<string | number | TArray> =>
+		Simple.compose({ ...props, type: 'loop', delay: undefined }),
+	uncontrolledLoop: (props: TSimpleAnimationStatic): ShapeBaseProp<string | number | TArray> =>
+		Simple.compose({ ...props, type: 'uncontrolled-loop' }),
+	static: (props: TSimpleAnimationStatic): ShapeBaseProp<string | number | TArray> =>
+		Simple.compose({ ...props, type: 'static' }),
 
-		const from = bArray ? toArray(simpleAnimation.from) : simpleAnimation.from
-		const to = bArray ? toArray(simpleAnimation.to) : simpleAnimation.to
+	compose: (simpleAnimation: ISimpleAnimation): ShapeBaseProp<string | number | TArray> => {
+		if (typeof simpleAnimation.from !== 'string' && typeof simpleAnimation.to !== 'string') {
+			const bArray = Array.isArray(simpleAnimation.from) || Array.isArray(simpleAnimation.to)
 
-		const vCallback = bArray
-			? (current_index: number, v: number) => {
-					const a = (simpleAnimation.invertOdd && current_index % 2 == 1 ? to : from) as TArray
-					const b = (simpleAnimation.invertOdd && current_index % 2 == 1 ? from : to) as TArray
+			const from = bArray ? toArray(simpleAnimation.from) : simpleAnimation.from
+			const to = bArray ? toArray(simpleAnimation.to) : simpleAnimation.to
 
-					return simpleAnimation.type_value === 'int'
-						? [Math.round(a[0] + v * (b[0] - a[0])), Math.round(a[1] + v * (b[1] - a[1]))]
-						: [a[0] + v * (b[0] - a[0]), a[1] + v * (b[1] - a[1])]
-			  }
-			: (current_index: number, v: number) => {
-					const a = (simpleAnimation.invertOdd && current_index % 2 == 1 ? to : from) as number
-					const b = (simpleAnimation.invertOdd && current_index % 2 == 1 ? from : to) as number
+			const vCallback = bArray
+				? (current_index: number, v: number) => {
+						const a = (simpleAnimation.invertOdd && current_index % 2 == 1 ? to : from) as TArray
+						const b = (simpleAnimation.invertOdd && current_index % 2 == 1 ? from : to) as TArray
 
-					return simpleAnimation.type_value === 'int' ? Math.round(a + v * (b - a)) : a + v * (b - a)
-			  }
+						return simpleAnimation.type_value === 'int'
+							? [Math.round(a[0] + v * (b[0] - a[0])), Math.round(a[1] + v * (b[1] - a[1]))]
+							: [a[0] + v * (b[0] - a[0]), a[1] + v * (b[1] - a[1])]
+				  }
+				: (current_index: number, v: number) => {
+						const a = (simpleAnimation.invertOdd && current_index % 2 == 1 ? to : from) as number
+						const b = (simpleAnimation.invertOdd && current_index % 2 == 1 ? from : to) as number
 
-		return createSimpleAnimationCallback<number | TArray>(simpleAnimation, (props, v) =>
-			vCallback(props.repetition.current_index, v)
-		)
-	} else {
-		const from = new ColorManager(simpleAnimation.from as string)
-		const to = new ColorManager(simpleAnimation.to as string)
+						return simpleAnimation.type_value === 'int' ? Math.round(a + v * (b - a)) : a + v * (b - a)
+				  }
 
-		const vCallback = simpleAnimation.colorTransitionMode == 'hue' ? interpolateColorHSL : interpolateColorRGB
+			return createSimpleAnimationCallback<number | TArray>(simpleAnimation, (props, v) =>
+				vCallback(props.repetition.current_index, v)
+			)
+		} else {
+			const from = new ColorManager(simpleAnimation.from as string)
+			const to = new ColorManager(simpleAnimation.to as string)
 
-		return createSimpleAnimationCallback<string>(simpleAnimation, (props, v) => {
-			const a = simpleAnimation.invertOdd && props.repetition.current_index % 2 == 1 ? to : from
-			const b = simpleAnimation.invertOdd && props.repetition.current_index % 2 == 1 ? from : to
+			const vCallback = simpleAnimation.colorTransitionMode == 'hue' ? interpolateColorHSL : interpolateColorRGB
 
-			return vCallback(a, b, v)
-		})
-	}
+			return createSimpleAnimationCallback<string>(simpleAnimation, (props, v) => {
+				const a = simpleAnimation.invertOdd && props.repetition.current_index % 2 == 1 ? to : from
+				const b = simpleAnimation.invertOdd && props.repetition.current_index % 2 == 1 ? from : to
+
+				return vCallback(a, b, v)
+			})
+		}
+	},
 }
-
-const createSimpleAnimationCallback = <T>(
+function createSimpleAnimationCallback<T>(
 	animation: ISimpleAnimation,
 	value: (props: ShapeBasePropArguments, currentInterpolation: number) => T
-): ShapeBaseProp<T> => {
+): ShapeBaseProp<T> {
 	let { durate, type, mode, mode_function, delay } = animation as Required<ISimpleAnimation>
 
 	if (type === 'static') {
@@ -117,7 +131,7 @@ const createSimpleAnimationCallback = <T>(
 	}
 }
 
-const interpolateColorRGB = (start: ColorManager, end: ColorManager, v: number): string => {
+function interpolateColorRGB(start: ColorManager, end: ColorManager, v: number): string {
 	const aAlpha = start.getAlpha()
 	const bAlpha = end.getAlpha()
 	const s = start.getRgb()
@@ -131,7 +145,7 @@ const interpolateColorRGB = (start: ColorManager, end: ColorManager, v: number):
 	return `rgba(${Math.floor(r)},${Math.floor(g)},${Math.floor(b)},${alpha <= 0 ? 0 : alpha >= 1 ? 1 : alpha})`
 }
 
-const interpolateColorHSL = (start: ColorManager, end: ColorManager, v: number): string => {
+function interpolateColorHSL(start: ColorManager, end: ColorManager, v: number): string {
 	const aAlpha = start.getAlpha()
 	const bAlpha = end.getAlpha()
 	const s = start.getHsl()
@@ -147,4 +161,4 @@ const interpolateColorHSL = (start: ColorManager, end: ColorManager, v: number):
 	})`
 }
 
-export default composeSimpleAnimation
+export default Simple

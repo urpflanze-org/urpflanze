@@ -20,7 +20,12 @@
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
 	"files": [
-		"dist/**/*"
+		"build",
+		"dist",
+		"src",
+		"package.json",
+		"README.md",
+		"LICENSE"
 	],
 	"scripts": {
 		"build": "ttsc",
@@ -33,16 +38,15 @@
 		"registry": "https://npm.pkg.github.com/"
 	},
 	"devDependencies": {
-		"ts-loader": "^8.0.4",
 		"ttypescript": "^1.5.12",
 		"typescript": "^4.0.3",
 		"typescript-transform-paths": "^1.1.15"
 	},
 	"dependencies": {
-		"simplex-noise": "^2.4.0",
 		"@pups/core": "0.0.0-b23",
 		"@types/uuid": "^8.3.0",
 		"jszip": "^3.5.0",
+		"simplex-noise": "^2.4.0",
 		"uuid": "^8.3.0"
 	}
 }

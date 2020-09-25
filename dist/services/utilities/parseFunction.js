@@ -1,16 +1,13 @@
-export default {
+const parseFunction = {
+    suffix: '$fn:',
     parse: (data) => {
-        if (typeof data === 'function') {
-            return '$' + data.toString();
-        }
-        return data;
+        return typeof data === 'function' ? parseFunction.suffix + data.toString() : data;
     },
     unparse: (data) => {
-        if (typeof data === 'string' && data[0] === '$') {
-            console.log('unparsefunction', data, [data.substr(1)]);
-            return eval(data.substr(1));
-        }
-        return data;
+        return typeof data === 'string' && data[0] === parseFunction.suffix
+            ? eval(data.substr(parseFunction.suffix.length))
+            : data;
     },
 };
+export default parseFunction;
 //# sourceMappingURL=parseFunction.js.map

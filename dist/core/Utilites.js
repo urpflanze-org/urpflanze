@@ -16,6 +16,7 @@ const perf = (name, callback, log = false) => {
     log && console.log('perf ' + name + ': ' + (t2 - t1));
     return t2 - t1;
 };
+const toArray = (t) => (Array.isArray(t) ? t : [t, t]);
 const hasKey = (...args) => {
     const props = args.shift();
     const keys = typeof props == 'object' ? Object.keys(props) : [props];
@@ -27,5 +28,5 @@ const hasKey = (...args) => {
 };
 const clamp = (min, max, value) => (value <= min ? min : value >= max ? max : value);
 const relativeClamp = (value, refMin, refMax, toMin, toMax) => clamp(toMin, toMax, ((value - refMin) / (refMax - refMin)) * (toMax - toMin) + toMin);
-export { isDef, now, aOr, toDegrees, toRadians, hasKey, perf, clamp, relativeClamp };
+export { isDef, now, aOr, toDegrees, toRadians, toArray, hasKey, perf, clamp, relativeClamp };
 //# sourceMappingURL=Utilites.js.map

@@ -1,11 +1,11 @@
 import { ShapeBufferSettings, ShapePrimitiveAdaptMode } from "../../interfaces/shapes/Interfaces";
 import ShapeBuffer from "../ShapeBuffer";
-const LINE_BUFFER = Float32Array.from([-1, 0, 1, 0]);
 class Line extends ShapeBuffer {
     constructor(settings = {}) {
         settings.type = 'Line';
-        settings.shape = LINE_BUFFER;
+        settings.shape = [-1, 0, 1, 0];
         settings.bAdaptBuffer = ShapePrimitiveAdaptMode.None;
+        settings.bCloseShape = false;
         super(settings);
     }
 }

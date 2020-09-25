@@ -1,41 +1,43 @@
 import ColorManager from '@pups/core/build/Models/Color/ColorManager';
 import Easings, { TEasing } from "./Easings";
-const toArray = (t) => (Array.isArray(t) ? t : [t, t]);
-const composeSimpleAnimation = (simpleAnimation) => {
-    if (typeof simpleAnimation.from !== 'string' && typeof simpleAnimation.to !== 'string') {
-        const from = Array.isArray(simpleAnimation.from) || Array.isArray(simpleAnimation.to)
-            ? toArray(simpleAnimation.from)
-            : simpleAnimation.from;
-        const to = Array.isArray(simpleAnimation.from) || Array.isArray(simpleAnimation.to)
-            ? toArray(simpleAnimation.to)
-            : simpleAnimation.to;
-        const vCallback = Array.isArray(simpleAnimation.from) || Array.isArray(simpleAnimation.to)
-            ? (current_index, v) => {
-                const a = (simpleAnimation.invertOdd && current_index % 2 == 1 ? to : from);
-                const b = (simpleAnimation.invertOdd && current_index % 2 == 1 ? from : to);
-                return simpleAnimation.type_value === 'int'
-                    ? [Math.round(a[0] + v * (b[0] - a[0])), Math.round(a[1] + v * (b[1] - a[1]))]
-                    : [a[0] + v * (b[0] - a[0]), a[1] + v * (b[1] - a[1])];
-            }
-            : (current_index, v) => {
-                const a = (simpleAnimation.invertOdd && current_index % 2 == 1 ? to : from);
-                const b = (simpleAnimation.invertOdd && current_index % 2 == 1 ? from : to);
-                return simpleAnimation.type_value === 'int' ? Math.round(a + v * (b - a)) : a + v * (b - a);
-            };
-        return _composeSimpleAnimation(simpleAnimation, (props, v) => vCallback(props.repetition.current_index, v));
-    }
-    else {
-        const start_color = new ColorManager(simpleAnimation.from);
-        const end_color = new ColorManager(simpleAnimation.to);
-        const vCallback = simpleAnimation.colorTransitionMode == 'hue' ? interpolateColorHSL : interpolateColorRGB;
-        return _composeSimpleAnimation(simpleAnimation, (props, v) => {
-            const from = simpleAnimation.invertOdd && props.repetition.current_index % 2 == 1 ? end_color : start_color;
-            const to = simpleAnimation.invertOdd && props.repetition.current_index % 2 == 1 ? start_color : end_color;
-            return vCallback(from, to, v);
-        });
-    }
+import { toArray } from "../../core/Utilites";
+const Simple = {
+    loop: (props) => Simple.compose(Object.assign(Object.assign({}, props), { type: 'loop', delay: undefined })),
+    uncontrolledLoop: (props) => Simple.compose(Object.assign(Object.assign({}, props), { type: 'uncontrolled-loop' })),
+    static: (props) => Simple.compose(Object.assign(Object.assign({}, props), { type: 'static' })),
+    compose: (simpleAnimation) => {
+        if (typeof simpleAnimation.from !== 'string' && typeof simpleAnimation.to !== 'string') {
+            const bArray = Array.isArray(simpleAnimation.from) || Array.isArray(simpleAnimation.to);
+            const from = bArray ? toArray(simpleAnimation.from) : simpleAnimation.from;
+            const to = bArray ? toArray(simpleAnimation.to) : simpleAnimation.to;
+            const vCallback = bArray
+                ? (current_index, v) => {
+                    const a = (simpleAnimation.invertOdd && current_index % 2 == 1 ? to : from);
+                    const b = (simpleAnimation.invertOdd && current_index % 2 == 1 ? from : to);
+                    return simpleAnimation.type_value === 'int'
+                        ? [Math.round(a[0] + v * (b[0] - a[0])), Math.round(a[1] + v * (b[1] - a[1]))]
+                        : [a[0] + v * (b[0] - a[0]), a[1] + v * (b[1] - a[1])];
+                }
+                : (current_index, v) => {
+                    const a = (simpleAnimation.invertOdd && current_index % 2 == 1 ? to : from);
+                    const b = (simpleAnimation.invertOdd && current_index % 2 == 1 ? from : to);
+                    return simpleAnimation.type_value === 'int' ? Math.round(a + v * (b - a)) : a + v * (b - a);
+                };
+            return createSimpleAnimationCallback(simpleAnimation, (props, v) => vCallback(props.repetition.current_index, v));
+        }
+        else {
+            const from = new ColorManager(simpleAnimation.from);
+            const to = new ColorManager(simpleAnimation.to);
+            const vCallback = simpleAnimation.colorTransitionMode == 'hue' ? interpolateColorHSL : interpolateColorRGB;
+            return createSimpleAnimationCallback(simpleAnimation, (props, v) => {
+                const a = simpleAnimation.invertOdd && props.repetition.current_index % 2 == 1 ? to : from;
+                const b = simpleAnimation.invertOdd && props.repetition.current_index % 2 == 1 ? from : to;
+                return vCallback(a, b, v);
+            });
+        }
+    },
 };
-const _composeSimpleAnimation = (animation, value) => {
+function createSimpleAnimationCallback(animation, value) {
     let { durate, type, mode, mode_function, delay } = animation;
     if (type === 'static') {
         if (delay && delay > 0)
@@ -92,8 +94,8 @@ const _composeSimpleAnimation = (animation, value) => {
             }
         }
     }
-};
-const interpolateColorRGB = (start, end, v) => {
+}
+function interpolateColorRGB(start, end, v) {
     const aAlpha = start.getAlpha();
     const bAlpha = end.getAlpha();
     const s = start.getRgb();
@@ -103,8 +105,8 @@ const interpolateColorRGB = (start, end, v) => {
     const b = s.b + v * (e.b - s.b);
     const alpha = aAlpha + v * (bAlpha - aAlpha);
     return `rgba(${Math.floor(r)},${Math.floor(g)},${Math.floor(b)},${alpha <= 0 ? 0 : alpha >= 1 ? 1 : alpha})`;
-};
-const interpolateColorHSL = (start, end, v) => {
+}
+function interpolateColorHSL(start, end, v) {
     const aAlpha = start.getAlpha();
     const bAlpha = end.getAlpha();
     const s = start.getHsl();
@@ -114,6 +116,6 @@ const interpolateColorHSL = (start, end, v) => {
     const _l = s.l + v * (e.l - s.l);
     const alpha = aAlpha + v * (bAlpha - aAlpha);
     return `hsla(${Math.floor(_h * 360)},${Math.floor(_s * 100)}%,${Math.floor(_l * 100)}%,${alpha <= 0 ? 0 : alpha >= 1 ? 1 : alpha})`;
-};
-export default composeSimpleAnimation;
+}
+export default Simple;
 //# sourceMappingURL=Simple.js.map

@@ -28,7 +28,6 @@ class Lissajous extends ShapeLoop {
                 const wx = this.getProp('wx', prop_arguments);
                 const wy = this.getProp('wy', prop_arguments);
                 const wz = this.getProp('wz', prop_arguments, 0);
-                const r = wx / wy;
                 return wx == wy ? [Math.cos(angle + wz), Math.sin(angle)] : [Math.cos(wx * angle + wz), Math.sin(wy * angle)];
             },
         };

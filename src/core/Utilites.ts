@@ -1,3 +1,5 @@
+import { TArray } from './math/Vec2'
+
 const isDef = (object: any): boolean => typeof object !== 'undefined' && object !== null
 
 const now = (): number => {
@@ -18,6 +20,9 @@ const perf = (name: string, callback: any, log: boolean = false): number => {
 	log && console.log('perf ' + name + ': ' + (t2 - t1))
 	return t2 - t1
 }
+
+const toArray = (t: number | TArray) => (Array.isArray(t) ? t : [t, t])
+
 /**
  * Return true if key exist in props
  * args[0] = props
@@ -39,7 +44,7 @@ const hasKey = (...args: any): boolean => {
 }
 
 /**
- * Ritorna un valore compreso tra {min} ed {max}
+ * Return number between {min} and {max}
  *
  * @param {number} min
  * @param {number} max
@@ -49,7 +54,7 @@ const hasKey = (...args: any): boolean => {
 const clamp = (min: number, max: number, value: number): number => (value <= min ? min : value >= max ? max : value)
 
 /**
- * Ritorna un valore compreso tra {min} e {max} in rifermiento a {refMin} e {refMax}
+ * Map number between {refMin} e {refMin} from {min} and  {max}
  *
  * @example
  * ```javascript
@@ -66,4 +71,4 @@ const clamp = (min: number, max: number, value: number): number => (value <= min
 const relativeClamp = (value: number, refMin: number, refMax: number, toMin: number, toMax: number) =>
 	clamp(toMin, toMax, ((value - refMin) / (refMax - refMin)) * (toMax - toMin) + toMin)
 
-export { isDef, now, aOr, toDegrees, toRadians, hasKey, perf, clamp, relativeClamp }
+export { isDef, now, aOr, toDegrees, toRadians, toArray, hasKey, perf, clamp, relativeClamp }

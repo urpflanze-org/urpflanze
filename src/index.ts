@@ -17,7 +17,7 @@ import Circle from '@core/shapes/primitives/Circle'
 import Rose from '@core/shapes/primitives/Rose'
 import Spiral from '@core/shapes/primitives/Spiral'
 import Lissajous from '@core/shapes/primitives/Lissajous'
-import Heart from '@core/shapes/primitives/Heart'
+// import Heart from '@core/shapes/primitives/Heart'
 
 import Shape from '@core/shapes/Shape'
 import ShapePrimitive from '@core/shapes/ShapePrimitive'
@@ -25,6 +25,7 @@ import ShapeLoop from '@core/shapes/ShapeLoop'
 import ShapeBuffer from '@core/shapes/ShapeBuffer'
 
 // Utilities
+import Vec2 from '@core/math/Vec2'
 import { toDegrees, toRadians, isDef, clamp, relativeClamp } from '@core/Utilites'
 
 import Context from '@core/Context'
@@ -34,9 +35,10 @@ import { ShapePrimitiveAdaptMode } from '@core/interfaces/shapes/Interfaces'
 /**
  * Services
  */
-import DrawerCanvas from '@services/drawer-canvas/DrawerCanvas'
-import Renderer from '@services/renderer/Renderer'
 import SceneUtilities from '@services/scene-utilities/SceneUtilities'
+import DrawerCanvas from '@services/drawer-canvas/DrawerCanvas'
+import SimpleAnimation from '@services/animation/Simple'
+import Renderer from '@services/renderer/Renderer'
 import JSONImporter from '@services/importers/JSONImporter'
 import JSONExporter from '@services/exporters/JSONExporter'
 
@@ -45,6 +47,7 @@ const Urpflanze = {
 
 	Context,
 
+	Vec2,
 	toDegrees,
 	toRadians,
 	isDef,
@@ -72,6 +75,7 @@ const Urpflanze = {
 
 	//
 	DrawerCanvas,
+	SimpleAnimation,
 	Renderer,
 	SceneUtilities,
 

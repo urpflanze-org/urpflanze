@@ -17,6 +17,7 @@ import { ShapePrimitiveAdaptMode } from "./core/interfaces/shapes/Interfaces";
 import DrawerCanvas from "./services/drawer-canvas/DrawerCanvas";
 import Renderer from "./services/renderer/Renderer";
 import JSONImporter from "./services/importers/JSONImporter";
+import JSONExporter from "./services/exporters/JSONExporter";
 declare const Urpflanze: {
     ShapePrimitiveAdaptMode: typeof ShapePrimitiveAdaptMode;
     Context: {
@@ -25,6 +26,26 @@ declare const Urpflanze: {
         distance: (repetition: import("./core/types/ShapeBase").Repetition, offsetFromCenter?: number | number[] | Float32Array, scaleDistance?: number | number[] | Float32Array) => number;
         percW: (percentage: number, shape: import("./core/shapes/ShapeBase").default) => number;
         percH: (percentage: number, shape: import("./core/shapes/ShapeBase").default) => number;
+    };
+    Vec2: {
+        create: (x?: number | number[] | Float32Array, y?: number | undefined) => number[] | Float32Array;
+        distance: (a: number[] | Float32Array, b: number[] | Float32Array) => number;
+        dot: (a: number[] | Float32Array, b: number[] | Float32Array) => number;
+        length: (vec: number[] | Float32Array) => number;
+        angle: (a: number[] | Float32Array, b: number[] | Float32Array) => number;
+        squeezeX: (vec: number[] | Float32Array, m: number) => void;
+        squeezeY: (vec: number[] | Float32Array, m: number) => void;
+        skewX: (vec: number[] | Float32Array, m: number) => void;
+        skewY: (vec: number[] | Float32Array, m: number) => void;
+        rotateX: (vec: number[] | Float32Array, pointToRotate: number[] | Float32Array, rad: number) => void;
+        rotateY: (vec: number[] | Float32Array, pointToRotate: number[] | Float32Array, rad: number) => void;
+        rotateZ: (vec: number[] | Float32Array, pointToRotate: number[] | Float32Array, rad: number) => void;
+        translate: (vec: number[] | Float32Array, to: number[] | Float32Array) => void;
+        scale: (vec: number[] | Float32Array, to: number[] | Float32Array) => void;
+        divide: (vec: number[] | Float32Array, to: number[] | Float32Array) => void;
+        toString: (vec: number[] | Float32Array) => string;
+        ZERO: number[];
+        ONE: number[];
     };
     toDegrees: (radians: number) => number;
     toRadians: (degrees: number) => number;
@@ -49,5 +70,6 @@ declare const Urpflanze: {
     DrawerCanvas: typeof DrawerCanvas;
     Renderer: typeof Renderer;
     JSONImporter: typeof JSONImporter;
+    JSONExporter: typeof JSONExporter;
 };
 export default Urpflanze;

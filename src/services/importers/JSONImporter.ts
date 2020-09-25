@@ -7,7 +7,6 @@ import { IProject, IProjectSceneChild, IProjectSceneChildDataProps } from '@serv
 import parseFunction from '@services/utilities/parseFunction'
 import SceneUtilities from '@services/scene-utilities/SceneUtilities'
 import { v1 as uuidv1 } from 'uuid'
-import { TSceneChildProps } from '@services/types/scene-utilities'
 
 export const createEmptyProject = (): IProject => {
 	return {

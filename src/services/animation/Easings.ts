@@ -71,372 +71,372 @@ const Easings = {
 	},
 
 	/**
-	 * @param {number} t current time
-	 * @param {number} b start value
-	 * @param {number} c end value
-	 * @param {number} d duration
+	 * @param {number} time current time
+	 * @param {number} start start value
+	 * @param {number} end end value
+	 * @param {number} durate duration
 	 * @returns {number}
 	 */
-	cubicIn: (t: number, b: number, c: number, d: number): number => {
-		t /= d
-		return c * t * t * t + b
+	cubicIn: (time: number, start: number, end: number, durate: number): number => {
+		time /= durate
+		return end * time * time * time + start
 	},
 
 	/**
-	 * @param {number} t current time
-	 * @param {number} b start value
-	 * @param {number} c end value
-	 * @param {number} d duration
+	 * @param {number} time current time
+	 * @param {number} start start value
+	 * @param {number} end end value
+	 * @param {number} durate duration
 	 * @returns {number}
 	 */
-	cubicOut: (t: number, b: number, c: number, d: number): number => {
-		t /= d
-		t--
-		return c * (t * t * t + 1) + b
+	cubicOut: (time: number, start: number, end: number, durate: number): number => {
+		time /= durate
+		time--
+		return end * (time * time * time + 1) + start
 	},
 
 	/**
-	 * @param {number} t current time
-	 * @param {number} b start value
-	 * @param {number} c end value
-	 * @param {number} d duration
+	 * @param {number} time current time
+	 * @param {number} start start value
+	 * @param {number} end end value
+	 * @param {number} durate duration
 	 * @returns {number}
 	 */
-	cubicInOut: (t: number, b: number, c: number, d: number): number => {
-		t /= d / 2
-		if (t < 1) return (c / 2) * t * t * t + b
-		t -= 2
-		return (c / 2) * (t * t * t + 2) + b
+	cubicInOut: (time: number, start: number, end: number, durate: number): number => {
+		time /= durate / 2
+		if (time < 1) return (end / 2) * time * time * time + start
+		time -= 2
+		return (end / 2) * (time * time * time + 2) + start
 	},
 
 	/**
-	 * @param {number} t current time
-	 * @param {number} b start value
-	 * @param {number} c end value
-	 * @param {number} d duration
+	 * @param {number} time current time
+	 * @param {number} start start value
+	 * @param {number} end end value
+	 * @param {number} durate duration
 	 * @returns {number}
 	 */
-	quarticIn: (t: number, b: number, c: number, d: number): number => {
-		t /= d
-		return c * t * t * t * t + b
+	quarticIn: (time: number, start: number, end: number, durate: number): number => {
+		time /= durate
+		return end * time * time * time * time + start
 	},
 
 	/**
-	 * @param {number} t current time
-	 * @param {number} b start value
-	 * @param {number} c end value
-	 * @param {number} d duration
+	 * @param {number} time current time
+	 * @param {number} start start value
+	 * @param {number} end end value
+	 * @param {number} durate duration
 	 * @returns {number}
 	 */
-	quarticOut: (t: number, b: number, c: number, d: number): number => {
-		t /= d
-		t--
-		return -c * (t * t * t * t - 1) + b
+	quarticOut: (time: number, start: number, end: number, durate: number): number => {
+		time /= durate
+		time--
+		return -end * (time * time * time * time - 1) + start
 	},
 
 	/**
-	 * @param {number} t current time
-	 * @param {number} b start value
-	 * @param {number} c end value
-	 * @param {number} d duration
+	 * @param {number} time current time
+	 * @param {number} start start value
+	 * @param {number} end end value
+	 * @param {number} durate duration
 	 * @returns {number}
 	 */
-	quarticInOut: (t: number, b: number, c: number, d: number): number => {
-		t /= d / 2
-		if (t < 1) return (c / 2) * t * t * t * t + b
-		t -= 2
-		return (-c / 2) * (t * t * t * t - 2) + b
+	quarticInOut: (time: number, start: number, end: number, durate: number): number => {
+		time /= durate / 2
+		if (time < 1) return (end / 2) * time * time * time * time + start
+		time -= 2
+		return (-end / 2) * (time * time * time * time - 2) + start
 	},
 
 	/**
-	 * @param {number} t current time
-	 * @param {number} b start value
-	 * @param {number} c end value
-	 * @param {number} d duration
+	 * @param {number} time current time
+	 * @param {number} start start value
+	 * @param {number} end end value
+	 * @param {number} durate duration
 	 * @returns {number}
 	 */
-	quinticIn: (t: number, b: number, c: number, d: number): number => {
-		t /= d
-		return c * t * t * t * t * t + b
+	quinticIn: (time: number, start: number, end: number, durate: number): number => {
+		time /= durate
+		return end * time * time * time * time * time + start
 	},
 
 	/**
-	 * @param {number} t current time
-	 * @param {number} b start value
-	 * @param {number} c end value
-	 * @param {number} d duration
+	 * @param {number} time current time
+	 * @param {number} start start value
+	 * @param {number} end end value
+	 * @param {number} durate duration
 	 * @returns {number}
 	 */
-	quinticOut: (t: number, b: number, c: number, d: number): number => {
-		t /= d
-		t--
-		return c * (t * t * t * t * t + 1) + b
+	quinticOut: (time: number, start: number, end: number, durate: number): number => {
+		time /= durate
+		time--
+		return end * (time * time * time * time * time + 1) + start
 	},
 
 	/**
-	 * @param {number} t current time
-	 * @param {number} b start value
-	 * @param {number} c end value
-	 * @param {number} d duration
+	 * @param {number} time current time
+	 * @param {number} start start value
+	 * @param {number} end end value
+	 * @param {number} durate duration
 	 * @returns {number}
 	 */
-	quinticInOut: (t: number, b: number, c: number, d: number): number => {
-		t /= d / 2
-		if (t < 1) return (c / 2) * t * t * t * t * t + b
-		t -= 2
-		return (c / 2) * (t * t * t * t * t + 2) + b
+	quinticInOut: (time: number, start: number, end: number, durate: number): number => {
+		time /= durate / 2
+		if (time < 1) return (end / 2) * time * time * time * time * time + start
+		time -= 2
+		return (end / 2) * (time * time * time * time * time + 2) + start
 	},
 
 	/**
-	 * @param {number} t current time
-	 * @param {number} b start value
-	 * @param {number} c end value
-	 * @param {number} d duration
+	 * @param {number} time current time
+	 * @param {number} start start value
+	 * @param {number} end end value
+	 * @param {number} durate duration
 	 * @returns {number}
 	 */
-	sinusoidalIn: (t: number, b: number, c: number, d: number): number => {
-		return -c * Math.cos((t / d) * (Math.PI / 2)) + c + b
+	sinusoidalIn: (time: number, start: number, end: number, durate: number): number => {
+		return -end * Math.cos((time / durate) * (Math.PI / 2)) + end + start
 	},
 
 	/**
-	 * @param {number} t current time
-	 * @param {number} b start value
-	 * @param {number} c end value
-	 * @param {number} d duration
+	 * @param {number} time current time
+	 * @param {number} start start value
+	 * @param {number} end end value
+	 * @param {number} durate duration
 	 * @returns {number}
 	 */
-	sinusoidalOut: (t: number, b: number, c: number, d: number): number => {
-		return c * Math.sin((t / d) * (Math.PI / 2)) + b
+	sinusoidalOut: (time: number, start: number, end: number, durate: number): number => {
+		return end * Math.sin((time / durate) * (Math.PI / 2)) + start
 	},
 
 	/**
-	 * @param {number} t current time
-	 * @param {number} b start value
-	 * @param {number} c end value
-	 * @param {number} d duration
+	 * @param {number} time current time
+	 * @param {number} start start value
+	 * @param {number} end end value
+	 * @param {number} durate duration
 	 * @returns {number}
 	 */
-	sinusoidalInOut: (t: number, b: number, c: number, d: number): number => {
-		return (-c / 2) * (Math.cos((Math.PI * t) / d) - 1) + b
+	sinusoidalInOut: (time: number, start: number, end: number, durate: number): number => {
+		return (-end / 2) * (Math.cos((Math.PI * time) / durate) - 1) + start
 	},
 
 	/**
-	 * @param {number} t current time
-	 * @param {number} b start value
-	 * @param {number} c end value
-	 * @param {number} d duration
+	 * @param {number} time current time
+	 * @param {number} start start value
+	 * @param {number} end end value
+	 * @param {number} durate duration
 	 * @returns {number}
 	 */
-	exponentialIn: (t: number, b: number, c: number, d: number): number => {
-		return c * Math.pow(2, 10 * (t / d - 1)) + b
+	exponentialIn: (time: number, start: number, end: number, durate: number): number => {
+		return end * Math.pow(2, 10 * (time / durate - 1)) + start
 	},
 
 	/**
-	 * @param {number} t current time
-	 * @param {number} b start value
-	 * @param {number} c end value
-	 * @param {number} d duration
+	 * @param {number} time current time
+	 * @param {number} start start value
+	 * @param {number} end end value
+	 * @param {number} durate duration
 	 * @returns {number}
 	 */
-	exponentialOut: (t: number, b: number, c: number, d: number): number => {
-		return c * (-Math.pow(2, (-10 * t) / d) + 1) + b
+	exponentialOut: (time: number, start: number, end: number, durate: number): number => {
+		return end * (-Math.pow(2, (-10 * time) / durate) + 1) + start
 	},
 
 	/**
-	 * @param {number} t current time
-	 * @param {number} b start value
-	 * @param {number} c end value
-	 * @param {number} d duration
+	 * @param {number} time current time
+	 * @param {number} start start value
+	 * @param {number} end end value
+	 * @param {number} durate duration
 	 * @returns {number}
 	 */
-	exponentialInOut: (t: number, b: number, c: number, d: number): number => {
-		t /= d / 2
-		if (t < 1) return (c / 2) * Math.pow(2, 10 * (t - 1)) + b
-		t--
-		return (c / 2) * (-Math.pow(2, -10 * t) + 2) + b
+	exponentialInOut: (time: number, start: number, end: number, durate: number): number => {
+		time /= durate / 2
+		if (time < 1) return (end / 2) * Math.pow(2, 10 * (time - 1)) + start
+		time--
+		return (end / 2) * (-Math.pow(2, -10 * time) + 2) + start
 	},
 
 	/**
-	 * @param {number} t current time
-	 * @param {number} b start value
-	 * @param {number} c end value
-	 * @param {number} d duration
+	 * @param {number} time current time
+	 * @param {number} start start value
+	 * @param {number} end end value
+	 * @param {number} durate duration
 	 * @returns {number}
 	 */
-	circularIn: (t: number, b: number, c: number, d: number): number => {
-		t /= d
-		return -c * (Math.sqrt(1 - t * t) - 1) + b
+	circularIn: (time: number, start: number, end: number, durate: number): number => {
+		time /= durate
+		return -end * (Math.sqrt(1 - time * time) - 1) + start
 	},
 
 	/**
-	 * @param {number} t current time
-	 * @param {number} b start value
-	 * @param {number} c end value
-	 * @param {number} d duration
+	 * @param {number} time current time
+	 * @param {number} start start value
+	 * @param {number} end end value
+	 * @param {number} durate duration
 	 * @returns {number}
 	 */
-	circularOut: (t: number, b: number, c: number, d: number): number => {
-		t /= d
-		t--
-		return c * Math.sqrt(1 - t * t) + b
+	circularOut: (time: number, start: number, end: number, durate: number): number => {
+		time /= durate
+		time--
+		return end * Math.sqrt(1 - time * time) + start
 	},
 
 	/**
-	 * @param {number} t current time
-	 * @param {number} b start value
-	 * @param {number} c end value
-	 * @param {number} d duration
+	 * @param {number} time current time
+	 * @param {number} start start value
+	 * @param {number} end end value
+	 * @param {number} durate duration
 	 * @returns {number}
 	 */
-	circularInOut: (t: number, b: number, c: number, d: number): number => {
-		t /= d / 2
-		if (t < 1) return (-c / 2) * (Math.sqrt(1 - t * t) - 1) + b
-		t -= 2
-		return (c / 2) * (Math.sqrt(1 - t * t) + 1) + b
+	circularInOut: (time: number, start: number, end: number, durate: number): number => {
+		time /= durate / 2
+		if (time < 1) return (-end / 2) * (Math.sqrt(1 - time * time) - 1) + start
+		time -= 2
+		return (end / 2) * (Math.sqrt(1 - time * time) + 1) + start
 	},
 
 	/**
-	 * @param {number} t current time
-	 * @param {number} b start value
-	 * @param {number} c end value
-	 * @param {number} d duration
+	 * @param {number} time current time
+	 * @param {number} start start value
+	 * @param {number} end end value
+	 * @param {number} durate duration
 	 * @param {number} a amplitude (optional)
 	 * @param {number} p period (optional)
 	 * @return {number}
 	 */
-	elasticIn: function (t: number, b: number, c: number, d: number, a: number, p: number) {
-		if (t == 0) {
-			return b
+	elasticIn: function (time: number, start: number, end: number, durate: number, a: number, p: number) {
+		if (time == 0) {
+			return start
 		}
-		if ((t /= d) == 1) {
-			return b + c
+		if ((time /= durate) == 1) {
+			return start + end
 		}
 		if (!p) {
-			p = d * 0.3
+			p = durate * 0.3
 		}
 
-		if (!a || a < Math.abs(c)) {
-			a = c
+		if (!a || a < Math.abs(end)) {
+			a = end
 			var s = p / 4
 		} else {
-			var s = (p / (2 * Math.PI)) * Math.asin(c / a)
+			var s = (p / (2 * Math.PI)) * Math.asin(end / a)
 		}
 
-		return -(a * Math.pow(2, 10 * (t -= 1)) * Math.sin(((t * d - s) * (2 * Math.PI)) / p)) + b
+		return -(a * Math.pow(2, 10 * (time -= 1)) * Math.sin(((time * durate - s) * (2 * Math.PI)) / p)) + start
 	},
 
 	/**
-	 * @param {number} t current time
-	 * @param {number} b start value
-	 * @param {number} c end value
-	 * @param {number} d duration
+	 * @param {number} time current time
+	 * @param {number} start start value
+	 * @param {number} end end value
+	 * @param {number} durate duration
 	 * @param {number} a amplitude (optional)
 	 * @param {number} p period (optional)
 	 * @return {number}
 	 */
-	elasticOut: function (t: number, b: number, c: number, d: number, a: number, p: number) {
-		if (t == 0) {
-			return b
+	elasticOut: function (time: number, start: number, end: number, durate: number, a: number, p: number) {
+		if (time == 0) {
+			return start
 		}
-		if ((t /= d) == 1) {
-			return b + c
+		if ((time /= durate) == 1) {
+			return start + end
 		}
 		if (!p) {
-			p = d * 0.3
+			p = durate * 0.3
 		}
 
-		if (!a || a < Math.abs(c)) {
-			a = c
+		if (!a || a < Math.abs(end)) {
+			a = end
 			var s = p / 4
 		} else {
-			var s = (p / (2 * Math.PI)) * Math.asin(c / a)
+			var s = (p / (2 * Math.PI)) * Math.asin(end / a)
 		}
 
-		return a * Math.pow(2, -10 * t) * Math.sin(((t * d - s) * (2 * Math.PI)) / p) + c + b
+		return a * Math.pow(2, -10 * time) * Math.sin(((time * durate - s) * (2 * Math.PI)) / p) + end + start
 	},
 
 	/**
-	 * @param {number} t current time
-	 * @param {number} b start value
-	 * @param {number} c end value
-	 * @param {number} d duration
+	 * @param {number} time current time
+	 * @param {number} start start value
+	 * @param {number} end end value
+	 * @param {number} durate duration
 	 * @param {number} a amplitude (optional)
 	 * @param {number} p period (optional)
 	 * @return {number}
 	 */
-	elasticBoth: function (t: number, b: number, c: number, d: number, a: number, p: number) {
-		if (t == 0) {
-			return b
+	elasticBoth: function (time: number, start: number, end: number, durate: number, a: number, p: number) {
+		if (time == 0) {
+			return start
 		}
 
-		if ((t /= d / 2) == 2) {
-			return b + c
+		if ((time /= durate / 2) == 2) {
+			return start + end
 		}
 
 		if (!p) {
-			p = d * (0.3 * 1.5)
+			p = durate * (0.3 * 1.5)
 		}
 
-		if (!a || a < Math.abs(c)) {
-			a = c
+		if (!a || a < Math.abs(end)) {
+			a = end
 			var s = p / 4
 		} else {
-			var s = (p / (2 * Math.PI)) * Math.asin(c / a)
+			var s = (p / (2 * Math.PI)) * Math.asin(end / a)
 		}
 
-		if (t < 1) {
-			return -0.5 * (a * Math.pow(2, 10 * (t -= 1)) * Math.sin(((t * d - s) * (2 * Math.PI)) / p)) + b
+		if (time < 1) {
+			return -0.5 * (a * Math.pow(2, 10 * (time -= 1)) * Math.sin(((time * durate - s) * (2 * Math.PI)) / p)) + start
 		}
-		return a * Math.pow(2, -10 * (t -= 1)) * Math.sin(((t * d - s) * (2 * Math.PI)) / p) * 0.5 + c + b
+		return a * Math.pow(2, -10 * (time -= 1)) * Math.sin(((time * durate - s) * (2 * Math.PI)) / p) * 0.5 + end + start
 	},
 
 	/**
-	 * @param {number} t current time
-	 * @param {number} b start value
-	 * @param {number} c end value
-	 * @param {number} d duration
+	 * @param {number} time current time
+	 * @param {number} start start value
+	 * @param {number} end end value
+	 * @param {number} durate duration
 	 * @param {number} s overshoot (optional)
 	 * @return {number}
 	 */
-	backIn: function (t: number, b: number, c: number, d: number, s: number) {
+	backIn: function (time: number, start: number, end: number, durate: number, s: number) {
 		if (typeof s == 'undefined') {
 			s = 1.70158
 		}
-		return c * (t /= d) * t * ((s + 1) * t - s) + b
+		return end * (time /= durate) * time * ((s + 1) * time - s) + start
 	},
 
 	/**
-	 * @param {number} t current time
-	 * @param {number} b start value
-	 * @param {number} c end value
-	 * @param {number} d duration
+	 * @param {number} time current time
+	 * @param {number} start start value
+	 * @param {number} end end value
+	 * @param {number} durate duration
 	 * @param {number} s overshoot (optional)
 	 * @return {number}
 	 */
-	backOut: function (t: number, b: number, c: number, d: number, s: number) {
+	backOut: function (time: number, start: number, end: number, durate: number, s: number) {
 		if (typeof s == 'undefined') {
 			s = 1.70158
 		}
-		return c * ((t = t / d - 1) * t * ((s + 1) * t + s) + 1) + b
+		return end * ((time = time / durate - 1) * time * ((s + 1) * time + s) + 1) + start
 	},
 
 	/**
-	 * @param {number} t current time
-	 * @param {number} b start value
-	 * @param {number} c end value
-	 * @param {number} d duration
+	 * @param {number} time current time
+	 * @param {number} start start value
+	 * @param {number} end end value
+	 * @param {number} durate duration
 	 * @param {number} s overshoot (optional)
 	 * @return {number}
 	 */
-	backBoth: function (t: number, b: number, c: number, d: number, s: number) {
+	backBoth: function (time: number, start: number, end: number, durate: number, s: number) {
 		if (typeof s == 'undefined') {
 			s = 1.70158
 		}
 
-		if ((t /= d / 2) < 1) {
-			return (c / 2) * (t * t * (((s *= 1.525) + 1) * t - s)) + b
+		if ((time /= durate / 2) < 1) {
+			return (end / 2) * (time * time * (((s *= 1.525) + 1) * time - s)) + start
 		}
-		return (c / 2) * ((t -= 2) * t * (((s *= 1.525) + 1) * t + s) + 2) + b
+		return (end / 2) * ((time -= 2) * time * (((s *= 1.525) + 1) * time + s) + 2) + start
 	},
 
 	/**
@@ -446,8 +446,8 @@ const Easings = {
 	 * @param {number} d duration
 	 * @return {number}
 	 */
-	bounceIn: function (t: number, b: number, c: number, d: number) {
-		return c - Easings.bounceOut(d - t, 0, c, d) + b
+	bounceIn: function (time: number, start: number, end: number, durate: number) {
+		return end - Easings.bounceOut(durate - time, 0, end, durate) + start
 	},
 
 	/**
@@ -457,15 +457,15 @@ const Easings = {
 	 * @param {number} d duration
 	 * @return {number}
 	 */
-	bounceOut: function (t: number, b: number, c: number, d: number) {
-		if ((t /= d) < 1 / 2.75) {
-			return c * (7.5625 * t * t) + b
-		} else if (t < 2 / 2.75) {
-			return c * (7.5625 * (t -= 1.5 / 2.75) * t + 0.75) + b
-		} else if (t < 2.5 / 2.75) {
-			return c * (7.5625 * (t -= 2.25 / 2.75) * t + 0.9375) + b
+	bounceOut: function (time: number, start: number, end: number, durate: number) {
+		if ((time /= durate) < 1 / 2.75) {
+			return end * (7.5625 * time * time) + start
+		} else if (time < 2 / 2.75) {
+			return end * (7.5625 * (time -= 1.5 / 2.75) * time + 0.75) + start
+		} else if (time < 2.5 / 2.75) {
+			return end * (7.5625 * (time -= 2.25 / 2.75) * time + 0.9375) + start
 		}
-		return c * (7.5625 * (t -= 2.625 / 2.75) * t + 0.984375) + b
+		return end * (7.5625 * (time -= 2.625 / 2.75) * time + 0.984375) + start
 	},
 
 	/**

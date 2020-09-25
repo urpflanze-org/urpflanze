@@ -39,6 +39,7 @@ interface IAnimationRaw {
 export type TAnimation = IAnimationSimple | IAnimationRaw
 
 export type TModeFunction = TEasing | 'sin' | 'cos'
+export type TSimpleAnimationType = 'loop' | 'uncontrolled-loop' | 'static'
 
 export interface ISimpleAnimation {
 	from: number | Array<number> | string
@@ -46,7 +47,7 @@ export interface ISimpleAnimation {
 	durate: number
 
 	invertOdd: boolean
-	type: 'loop' | 'uncontroller-loop' | 'static'
+	type: TSimpleAnimationType
 	mode: 'sinusoidal' | 'easing'
 	mode_function?: TModeFunction
 	delay?: number
@@ -54,5 +55,9 @@ export interface ISimpleAnimation {
 	type_value?: 'int' | 'float'
 	colorTransitionMode?: 'hue' | 'rgb'
 }
+
+export type TSimpleAnimationLoop = Omit<ISimpleAnimation, 'delay' | 'type'>
+export type TSimpleAnimationUncontrolledLoop = Omit<ISimpleAnimation, 'type'>
+export type TSimpleAnimationStatic = Omit<ISimpleAnimation, 'type'>
 
 export interface IRawState extends ICallableValue<number | TArray | string> {}

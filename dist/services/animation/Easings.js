@@ -1,207 +1,207 @@
 const Easings = {
-    linear: (t, b, c, d) => (c * t) / d + b,
-    quadraticIn: (t, b, c, d) => {
-        t /= d;
-        return c * t * t + b;
+    linear: (time, start, end, durate) => (end * time) / durate + start,
+    quadraticIn: (time, start, end, duratte) => {
+        time /= duratte;
+        return end * time * time + start;
     },
-    quadraticOut: (t, b, c, d) => {
-        t /= d;
-        return -c * t * (t - 2) + b;
+    quadraticOut: (time, start, end, durate) => {
+        time /= durate;
+        return -end * time * (time - 2) + start;
     },
-    quadraticInOut: (t, b, c, d) => {
-        t /= d / 2;
-        if (t < 1)
-            return (c / 2) * t * t + b;
-        t--;
-        return (-c / 2) * (t * (t - 2) - 1) + b;
+    quadraticInOut: (time, start, end, durate) => {
+        time /= durate / 2;
+        if (time < 1)
+            return (end / 2) * time * time + start;
+        time--;
+        return (-end / 2) * (time * (time - 2) - 1) + start;
     },
-    cubicIn: (t, b, c, d) => {
-        t /= d;
-        return c * t * t * t + b;
+    cubicIn: (time, start, end, durate) => {
+        time /= durate;
+        return end * time * time * time + start;
     },
-    cubicOut: (t, b, c, d) => {
-        t /= d;
-        t--;
-        return c * (t * t * t + 1) + b;
+    cubicOut: (time, start, end, durate) => {
+        time /= durate;
+        time--;
+        return end * (time * time * time + 1) + start;
     },
-    cubicInOut: (t, b, c, d) => {
-        t /= d / 2;
-        if (t < 1)
-            return (c / 2) * t * t * t + b;
-        t -= 2;
-        return (c / 2) * (t * t * t + 2) + b;
+    cubicInOut: (time, start, end, durate) => {
+        time /= durate / 2;
+        if (time < 1)
+            return (end / 2) * time * time * time + start;
+        time -= 2;
+        return (end / 2) * (time * time * time + 2) + start;
     },
-    quarticIn: (t, b, c, d) => {
-        t /= d;
-        return c * t * t * t * t + b;
+    quarticIn: (time, start, end, durate) => {
+        time /= durate;
+        return end * time * time * time * time + start;
     },
-    quarticOut: (t, b, c, d) => {
-        t /= d;
-        t--;
-        return -c * (t * t * t * t - 1) + b;
+    quarticOut: (time, start, end, durate) => {
+        time /= durate;
+        time--;
+        return -end * (time * time * time * time - 1) + start;
     },
-    quarticInOut: (t, b, c, d) => {
-        t /= d / 2;
-        if (t < 1)
-            return (c / 2) * t * t * t * t + b;
-        t -= 2;
-        return (-c / 2) * (t * t * t * t - 2) + b;
+    quarticInOut: (time, start, end, durate) => {
+        time /= durate / 2;
+        if (time < 1)
+            return (end / 2) * time * time * time * time + start;
+        time -= 2;
+        return (-end / 2) * (time * time * time * time - 2) + start;
     },
-    quinticIn: (t, b, c, d) => {
-        t /= d;
-        return c * t * t * t * t * t + b;
+    quinticIn: (time, start, end, durate) => {
+        time /= durate;
+        return end * time * time * time * time * time + start;
     },
-    quinticOut: (t, b, c, d) => {
-        t /= d;
-        t--;
-        return c * (t * t * t * t * t + 1) + b;
+    quinticOut: (time, start, end, durate) => {
+        time /= durate;
+        time--;
+        return end * (time * time * time * time * time + 1) + start;
     },
-    quinticInOut: (t, b, c, d) => {
-        t /= d / 2;
-        if (t < 1)
-            return (c / 2) * t * t * t * t * t + b;
-        t -= 2;
-        return (c / 2) * (t * t * t * t * t + 2) + b;
+    quinticInOut: (time, start, end, durate) => {
+        time /= durate / 2;
+        if (time < 1)
+            return (end / 2) * time * time * time * time * time + start;
+        time -= 2;
+        return (end / 2) * (time * time * time * time * time + 2) + start;
     },
-    sinusoidalIn: (t, b, c, d) => {
-        return -c * Math.cos((t / d) * (Math.PI / 2)) + c + b;
+    sinusoidalIn: (time, start, end, durate) => {
+        return -end * Math.cos((time / durate) * (Math.PI / 2)) + end + start;
     },
-    sinusoidalOut: (t, b, c, d) => {
-        return c * Math.sin((t / d) * (Math.PI / 2)) + b;
+    sinusoidalOut: (time, start, end, durate) => {
+        return end * Math.sin((time / durate) * (Math.PI / 2)) + start;
     },
-    sinusoidalInOut: (t, b, c, d) => {
-        return (-c / 2) * (Math.cos((Math.PI * t) / d) - 1) + b;
+    sinusoidalInOut: (time, start, end, durate) => {
+        return (-end / 2) * (Math.cos((Math.PI * time) / durate) - 1) + start;
     },
-    exponentialIn: (t, b, c, d) => {
-        return c * Math.pow(2, 10 * (t / d - 1)) + b;
+    exponentialIn: (time, start, end, durate) => {
+        return end * Math.pow(2, 10 * (time / durate - 1)) + start;
     },
-    exponentialOut: (t, b, c, d) => {
-        return c * (-Math.pow(2, (-10 * t) / d) + 1) + b;
+    exponentialOut: (time, start, end, durate) => {
+        return end * (-Math.pow(2, (-10 * time) / durate) + 1) + start;
     },
-    exponentialInOut: (t, b, c, d) => {
-        t /= d / 2;
-        if (t < 1)
-            return (c / 2) * Math.pow(2, 10 * (t - 1)) + b;
-        t--;
-        return (c / 2) * (-Math.pow(2, -10 * t) + 2) + b;
+    exponentialInOut: (time, start, end, durate) => {
+        time /= durate / 2;
+        if (time < 1)
+            return (end / 2) * Math.pow(2, 10 * (time - 1)) + start;
+        time--;
+        return (end / 2) * (-Math.pow(2, -10 * time) + 2) + start;
     },
-    circularIn: (t, b, c, d) => {
-        t /= d;
-        return -c * (Math.sqrt(1 - t * t) - 1) + b;
+    circularIn: (time, start, end, durate) => {
+        time /= durate;
+        return -end * (Math.sqrt(1 - time * time) - 1) + start;
     },
-    circularOut: (t, b, c, d) => {
-        t /= d;
-        t--;
-        return c * Math.sqrt(1 - t * t) + b;
+    circularOut: (time, start, end, durate) => {
+        time /= durate;
+        time--;
+        return end * Math.sqrt(1 - time * time) + start;
     },
-    circularInOut: (t, b, c, d) => {
-        t /= d / 2;
-        if (t < 1)
-            return (-c / 2) * (Math.sqrt(1 - t * t) - 1) + b;
-        t -= 2;
-        return (c / 2) * (Math.sqrt(1 - t * t) + 1) + b;
+    circularInOut: (time, start, end, durate) => {
+        time /= durate / 2;
+        if (time < 1)
+            return (-end / 2) * (Math.sqrt(1 - time * time) - 1) + start;
+        time -= 2;
+        return (end / 2) * (Math.sqrt(1 - time * time) + 1) + start;
     },
-    elasticIn: function (t, b, c, d, a, p) {
-        if (t == 0) {
-            return b;
+    elasticIn: function (time, start, end, durate, a, p) {
+        if (time == 0) {
+            return start;
         }
-        if ((t /= d) == 1) {
-            return b + c;
+        if ((time /= durate) == 1) {
+            return start + end;
         }
         if (!p) {
-            p = d * 0.3;
+            p = durate * 0.3;
         }
-        if (!a || a < Math.abs(c)) {
-            a = c;
+        if (!a || a < Math.abs(end)) {
+            a = end;
             var s = p / 4;
         }
         else {
-            var s = (p / (2 * Math.PI)) * Math.asin(c / a);
+            var s = (p / (2 * Math.PI)) * Math.asin(end / a);
         }
-        return -(a * Math.pow(2, 10 * (t -= 1)) * Math.sin(((t * d - s) * (2 * Math.PI)) / p)) + b;
+        return -(a * Math.pow(2, 10 * (time -= 1)) * Math.sin(((time * durate - s) * (2 * Math.PI)) / p)) + start;
     },
-    elasticOut: function (t, b, c, d, a, p) {
-        if (t == 0) {
-            return b;
+    elasticOut: function (time, start, end, durate, a, p) {
+        if (time == 0) {
+            return start;
         }
-        if ((t /= d) == 1) {
-            return b + c;
+        if ((time /= durate) == 1) {
+            return start + end;
         }
         if (!p) {
-            p = d * 0.3;
+            p = durate * 0.3;
         }
-        if (!a || a < Math.abs(c)) {
-            a = c;
+        if (!a || a < Math.abs(end)) {
+            a = end;
             var s = p / 4;
         }
         else {
-            var s = (p / (2 * Math.PI)) * Math.asin(c / a);
+            var s = (p / (2 * Math.PI)) * Math.asin(end / a);
         }
-        return a * Math.pow(2, -10 * t) * Math.sin(((t * d - s) * (2 * Math.PI)) / p) + c + b;
+        return a * Math.pow(2, -10 * time) * Math.sin(((time * durate - s) * (2 * Math.PI)) / p) + end + start;
     },
-    elasticBoth: function (t, b, c, d, a, p) {
-        if (t == 0) {
-            return b;
+    elasticBoth: function (time, start, end, durate, a, p) {
+        if (time == 0) {
+            return start;
         }
-        if ((t /= d / 2) == 2) {
-            return b + c;
+        if ((time /= durate / 2) == 2) {
+            return start + end;
         }
         if (!p) {
-            p = d * (0.3 * 1.5);
+            p = durate * (0.3 * 1.5);
         }
-        if (!a || a < Math.abs(c)) {
-            a = c;
+        if (!a || a < Math.abs(end)) {
+            a = end;
             var s = p / 4;
         }
         else {
-            var s = (p / (2 * Math.PI)) * Math.asin(c / a);
+            var s = (p / (2 * Math.PI)) * Math.asin(end / a);
         }
-        if (t < 1) {
-            return -0.5 * (a * Math.pow(2, 10 * (t -= 1)) * Math.sin(((t * d - s) * (2 * Math.PI)) / p)) + b;
+        if (time < 1) {
+            return -0.5 * (a * Math.pow(2, 10 * (time -= 1)) * Math.sin(((time * durate - s) * (2 * Math.PI)) / p)) + start;
         }
-        return a * Math.pow(2, -10 * (t -= 1)) * Math.sin(((t * d - s) * (2 * Math.PI)) / p) * 0.5 + c + b;
+        return a * Math.pow(2, -10 * (time -= 1)) * Math.sin(((time * durate - s) * (2 * Math.PI)) / p) * 0.5 + end + start;
     },
-    backIn: function (t, b, c, d, s) {
+    backIn: function (time, start, end, durate, s) {
         if (typeof s == 'undefined') {
             s = 1.70158;
         }
-        return c * (t /= d) * t * ((s + 1) * t - s) + b;
+        return end * (time /= durate) * time * ((s + 1) * time - s) + start;
     },
-    backOut: function (t, b, c, d, s) {
+    backOut: function (time, start, end, durate, s) {
         if (typeof s == 'undefined') {
             s = 1.70158;
         }
-        return c * ((t = t / d - 1) * t * ((s + 1) * t + s) + 1) + b;
+        return end * ((time = time / durate - 1) * time * ((s + 1) * time + s) + 1) + start;
     },
-    backBoth: function (t, b, c, d, s) {
+    backBoth: function (time, start, end, durate, s) {
         if (typeof s == 'undefined') {
             s = 1.70158;
         }
-        if ((t /= d / 2) < 1) {
-            return (c / 2) * (t * t * (((s *= 1.525) + 1) * t - s)) + b;
+        if ((time /= durate / 2) < 1) {
+            return (end / 2) * (time * time * (((s *= 1.525) + 1) * time - s)) + start;
         }
-        return (c / 2) * ((t -= 2) * t * (((s *= 1.525) + 1) * t + s) + 2) + b;
+        return (end / 2) * ((time -= 2) * time * (((s *= 1.525) + 1) * time + s) + 2) + start;
     },
-    bounceIn: function (t, b, c, d) {
-        return c - Easings.bounceOut(d - t, 0, c, d) + b;
+    bounceIn: function (time, start, end, durate) {
+        return end - Easings.bounceOut(durate - time, 0, end, durate) + start;
     },
-    bounceOut: function (t, b, c, d) {
-        if ((t /= d) < 1 / 2.75) {
-            return c * (7.5625 * t * t) + b;
+    bounceOut: function (time, start, end, durate) {
+        if ((time /= durate) < 1 / 2.75) {
+            return end * (7.5625 * time * time) + start;
         }
-        else if (t < 2 / 2.75) {
-            return c * (7.5625 * (t -= 1.5 / 2.75) * t + 0.75) + b;
+        else if (time < 2 / 2.75) {
+            return end * (7.5625 * (time -= 1.5 / 2.75) * time + 0.75) + start;
         }
-        else if (t < 2.5 / 2.75) {
-            return c * (7.5625 * (t -= 2.25 / 2.75) * t + 0.9375) + b;
+        else if (time < 2.5 / 2.75) {
+            return end * (7.5625 * (time -= 2.25 / 2.75) * time + 0.9375) + start;
         }
-        return c * (7.5625 * (t -= 2.625 / 2.75) * t + 0.984375) + b;
+        return end * (7.5625 * (time -= 2.625 / 2.75) * time + 0.984375) + start;
     },
-    bounceBoth: function (t, b, c, d) {
-        if (t < d / 2) {
-            return Easings.bounceIn(t * 2, 0, c, d) * 0.5 + b;
+    bounceBoth: function (time, start, end, durate) {
+        if (time < durate / 2) {
+            return Easings.bounceIn(time * 2, 0, end, durate) * 0.5 + start;
         }
-        return Easings.bounceOut(t * 2 - d, 0, c, d) * 0.5 + c * 0.5 + b;
+        return Easings.bounceOut(time * 2 - durate, 0, end, durate) * 0.5 + end * 0.5 + start;
     },
 };
 export default Easings;

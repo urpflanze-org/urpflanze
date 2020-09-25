@@ -1,7 +1,6 @@
 import ShapeBase from '@core/shapes/ShapeBase'
-import { ShapeSettings, ShapeBaseProps } from '@core/interfaces/shapes/Interfaces'
+import { ShapeSettings } from '@core/interfaces/shapes/Interfaces'
 import SceneChild from '@core/SceneChild'
-import Group from '@core/Group'
 import { ShapeBasePropArguments, ShapeBaseStreamIndexing, Repetition } from '@core/types/ShapeBase'
 import Scene from '@core/Scene'
 

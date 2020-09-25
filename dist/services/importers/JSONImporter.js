@@ -76,10 +76,8 @@ class JSONImporter {
             : undefined;
         const props = Object.assign({}, projectSceneChild.props);
         const propsKeys = Object.keys(props);
-        for (let i = 0, len = propsKeys.length; i < len; i++) {
+        for (let i = 0, len = propsKeys.length; i < len; i++)
             props[propsKeys[i]] = parseFunction.unparse(props[propsKeys[i]]);
-            console.log(props);
-        }
         const settings = {
             id: projectSceneChild.id,
             name: projectSceneChild.name,
