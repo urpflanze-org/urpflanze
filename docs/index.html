@@ -9,20 +9,26 @@
 	</head>
 	<body>
 		<main>
-			<section style="flex: 1">
+			<section class="first-section">
 				<header>
-					<div>
-						Urpflanze
-						<div id="lang-it">it</div>
-						<div id="lang-en">len</div>
-					</div>
-					<div>
-						<input id="search" />
-					</div>
+					<div>Urpflanze</div>
+					<div id="menu_btn">menu</div>
 				</header>
-				<nav id="nav"></nav>
+				<aside>
+					<div id="aside-bg"></div>
+					<div class="aside-content">
+						<div class="search-lang">
+							<input id="search" />
+							<select id="lang">
+								<option value="it">it</option>
+								<option value="en">en</option>
+							</select>
+						</div>
+						<nav id="nav"></nav>
+					</div>
+				</aside>
 			</section>
-			<section style="flex: 4.2">
+			<section class="dynamic-container">
 				<section id="content"></section>
 			</section>
 		</main>

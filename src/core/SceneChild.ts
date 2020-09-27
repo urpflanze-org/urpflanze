@@ -105,12 +105,15 @@ abstract class SceneChild {
 	/**
 	 * Find this or shape children
 	 *
-	 * @abstract
 	 * @param {string | number} id_or_name
 	 * @returns {(SceneChild | null)}
 	 * @memberof SceneChild
 	 */
-	abstract find(id_or_name: string | number): SceneChild | null
+	find(id_or_name: string | number): SceneChild | null {
+		if (this.id === id_or_name || this.name === id_or_name) return this
+
+		return null
+	}
 
 	/**
 	 * Item props
@@ -166,13 +169,13 @@ abstract class SceneChild {
 	 * Generate shape
 	 *
 	 * @abstract
-	 * @param {number} indexing_id
+	 * @param {number} generate_id
 	 * @param {boolean} [bDirectSceneChild]
 	 * @param {ShapeBasePropArguments} [parent_prop_arguments]
 	 * @memberof SceneChild
 	 */
 	abstract generate(
-		indexing_id: number,
+		generate_id: number,
 		bDirectSceneChild?: boolean,
 		parent_prop_arguments?: ShapeBasePropArguments
 	): void

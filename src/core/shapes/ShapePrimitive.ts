@@ -45,11 +45,11 @@ abstract class ShapePrimitive extends ShapeBase {
 	/**
 	 * Scale buffer
 	 *
-	 * @protected
+	 * @public
 	 * @type {Array<number>}
 	 * @memberof ShapePrimitive
 	 */
-	protected sideLength: TArray
+	public sideLength: TArray
 
 	/**
 	 * Transform any vertex
@@ -88,17 +88,6 @@ abstract class ShapePrimitive extends ShapeBase {
 				'function' /* && typeof this.vertexCallback !== 'function' <- set bStatic to false if vertexCallback as dynamic */ &&
 			super.isStatic()
 		)
-	}
-
-	/**
-	 * Find shape from id or name
-	 *
-	 * @param {number | string} id_or_name
-	 * @returns {(SceneChild | null)}
-	 * @memberof ShapePrimitive
-	 */
-	public find(id_or_name: number | string): SceneChild | null {
-		return this.id === id_or_name || this.name === id_or_name ? this : null
 	}
 
 	/**

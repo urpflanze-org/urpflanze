@@ -10,7 +10,7 @@ class Rect extends ShapeBuffer {
 	 */
 	constructor(settings: ShapeBufferSettings = {}) {
 		settings.type = 'Rect'
-		settings.shape = [-1, -1, 1, -1, 1, 1, -1, 1]
+		settings.shape = Float32Array.from([-1, -1, 1, -1, 1, 1, -1, 1])
 		settings.bAdaptBuffer = ShapePrimitiveAdaptMode.None
 
 		super(settings)

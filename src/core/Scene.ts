@@ -8,7 +8,6 @@ import SceneChild from '@core/SceneChild'
 import Group from '@core/Group'
 import Shape from './shapes/Shape'
 import Vec2, { TArray } from './math/Vec2'
-
 /**
  * Scene
  *

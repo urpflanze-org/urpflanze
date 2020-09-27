@@ -3,7 +3,7 @@ import ShapeBuffer from "../ShapeBuffer";
 class Triangle extends ShapeBuffer {
     constructor(settings = {}) {
         settings.type = 'Triangle';
-        settings.shape = [-1, -1, 1, 0, -1, 1];
+        settings.shape = Float32Array.from([-1, -1, 1, 0, -1, 1]);
         settings.bAdaptBuffer = ShapePrimitiveAdaptMode.None;
         super(settings);
     }

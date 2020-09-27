@@ -20,7 +20,9 @@ button {
 	text-rendering: optimizeLegibility;
 	font-family: 'JetBrains Mono';
 }
-
+* {
+	box-sizing: border-box;
+}
 html,
 body {
 	margin: 0;
@@ -29,8 +31,64 @@ body {
 	line-height: 1.618;
 	font-size: 16px;
 }
+@media (max-width: 660px) {
+	main {
+		flex-direction: column;
+	}
+	#menu_btn {
+		display: block;
+	}
+	aside {
+		position: fixed;
+		top: 0;
+		right: -60%;
+		max-width: 80%;
+		height: 100%;
+		z-index: 1000;
+		opacity: 0;
+		background: #111413;
+		transition: all 0.3s;
+		pointer-events: none;
+	}
+	aside.open {
+		pointer-events: auto;
+		right: 0;
+		opacity: 1;
+	}
+
+	#aside-bg {
+		width: 100vw;
+		height: 100%;
+		display: block;
+		content: ' ';
+		position: fixed;
+		top: 0;
+		left: 0;
+		background: rgba(0, 0, 0, 0.6);
+		z-index: -2;
+	}
+}
+@media (min-width: 660px) {
+	#menu_btn {
+		display: none;
+	}
+}
 
 main {
+	display: flex;
+}
+
+header {
+	display: flex;
+	justify-content: space-between;
+}
+.first-section {
+	flex: 1;
+}
+.dynamic-container {
+	flex: 4.2;
+}
+.search-lang {
 	display: flex;
 }
 #nav {
@@ -79,12 +137,17 @@ ul {
 #content {
 	max-width: 800px;
 	margin: 0 auto;
+	padding: 1.618rem;
 }
 
 #content pre.prettyprint {
 	background: #1c211f;
 	border: none;
 	padding: 1.618rem;
+	overflow: auto;
+	width: calc(100% + 1.618rem + 1.618rem);
+	position: relative;
+	left: -1.618rem;
 }
 #content pre.prettyprint .pln {
 	color: rgba(255, 255, 255, 0.6);

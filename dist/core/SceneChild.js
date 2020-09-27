@@ -8,6 +8,11 @@ class SceneChild {
         this.data = settings.data || {};
         this.props = {};
     }
+    find(id_or_name) {
+        if (this.id === id_or_name || this.name === id_or_name)
+            return this;
+        return null;
+    }
     getProps() {
         return this.props;
     }

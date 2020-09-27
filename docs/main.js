@@ -11,6 +11,13 @@ function init() {
 	bindLang()
 
 	goto(window.location.hash)
+
+	document
+		.getElementById('menu_btn')
+		.addEventListener('click', () => document.querySelector('aside').classList.add('open'), { passive: true })
+	document
+		.getElementById('aside-bg')
+		.addEventListener('click', () => document.querySelector('aside').classList.remove('open'), { passive: true })
 }
 
 function goto(page) {
@@ -31,6 +38,9 @@ function goto(page) {
 
 function bindLang() {
 	function selectLang(_lang) {
+		if (_lang != 'it' && _lang != 'en') _lang = 'en'
+
+		localStorage.setItem('lang', _lang)
 		lang = _lang
 		const page = window.location.hash.replace(/\/(en|it)\//gi, '/' + lang + '/')
 		createNav()
@@ -38,8 +48,12 @@ function bindLang() {
 		window.history.pushState(null, '', page)
 	}
 
-	document.getElementById('lang-it').addEventListener('click', () => selectLang('it'), { passive: true })
-	document.getElementById('lang-en').addEventListener('click', () => selectLang('en'), { passive: true })
+	const select = document.getElementById('lang')
+	const option = select.querySelector('option[value="' + lang + '"]')
+	if (option) {
+		option.setAttribute('selected', 'selected')
+	}
+	select.addEventListener('change', e => selectLang(e.target.value), { passive: true })
 }
 
 function bindRouting() {
@@ -113,7 +127,9 @@ const equalityString = (a, b) => {
 	const minLength = Math.min(a.length, b.length)
 	const maxLength = Math.max(a.length, b.length)
 
-	for (let i = 0; i < minLength; i++, a[i] === b[i] && equivalency++) return (equivalency / maxLength) * 100
+	for (let i = 0; i < minLength; i++) if (a[i] === b[i]) equivalency++
+
+	return (equivalency / minLength) * 100
 }
 
 const similarIntoArray = (needle, a) => {

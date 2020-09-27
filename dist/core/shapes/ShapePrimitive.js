@@ -20,9 +20,6 @@ class ShapePrimitive extends ShapeBase {
             'function' &&
             super.isStatic());
     }
-    find(id_or_name) {
-        return this.id === id_or_name || this.name === id_or_name ? this : null;
-    }
     getProp(key, prop_arguments, default_value) {
         return super.getProp(key, prop_arguments, default_value);
     }
