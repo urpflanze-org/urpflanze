@@ -1,17 +1,22 @@
 const content = document.querySelector('#content')
-let lang = localStorage.getItem('lang') || 'en'
+let lang = localStorage.getItem('lang') || (navigator.language.match(/it/gi) ? 'it' : 'en')
 let search = ''
 
 init()
 
+/**
+ *
+ */
 function init() {
 	createNav()
 	bindSearch()
 	bindRouting()
 	bindLang()
-
 	goto(window.location.hash)
+	layout()
+}
 
+function layout() {
 	document
 		.getElementById('menu_btn')
 		.addEventListener('click', () => document.querySelector('aside').classList.add('open'), { passive: true })
@@ -20,7 +25,14 @@ function init() {
 		.addEventListener('click', () => document.querySelector('aside').classList.remove('open'), { passive: true })
 }
 
+/**
+ * Dynamic content
+ */
 function goto(page) {
+	if (page.length === 0) {
+		page = document.querySelector('#nav a').getAttribute('href')
+	}
+
 	const links = document.querySelectorAll('.link')
 
 	for (let i = 0, len = links.length; i < len; i++) links[i].classList.remove('link--active')
@@ -28,13 +40,19 @@ function goto(page) {
 	const a = document.querySelector(`a[href="${page}"]`)
 	a && a.classList.add('link--active')
 
-	fetch(page.substr(1))
+	const endpoint = 'pages' + page.substr(1) + '.html'
+
+	fetch(endpoint)
 		.then(reponse => reponse.text())
 		.then(data => {
 			content.innerHTML = data
 			PR.prettyPrint()
 		})
 }
+
+/**
+ *
+ */
 
 function bindLang() {
 	function selectLang(_lang) {
@@ -50,38 +68,32 @@ function bindLang() {
 
 	const select = document.getElementById('lang')
 	const option = select.querySelector('option[value="' + lang + '"]')
-	if (option) {
-		option.setAttribute('selected', 'selected')
-	}
+	option && option.setAttribute('selected', 'selected')
 	select.addEventListener('change', e => selectLang(e.target.value), { passive: true })
 }
 
 function bindRouting() {
-	window.addEventListener(
-		'popstate',
-		e => {
-			goto(window.location.hash)
-		},
-		{ passive: true }
-	)
+	window.addEventListener('popstate', () => {
+		goto(window.location.hash)
+	})
 }
 
 function bindSearch() {
-	document.querySelector('#search').addEventListener(
-		'keyup',
-		e => {
-			search = e.target.value
-			createNav()
-		},
-		{ passive: true }
-	)
+	document.querySelector('#search').addEventListener('keyup', e => {
+		search = e.target.value
+		createNav()
+	})
 }
 
+/**
+ * Create Navigation
+ */
 function createNav() {
 	const fragment = document.createDocumentFragment()
+	const root = window.nav[lang]
 
-	Object.keys(window.nav).forEach(firstLevelKey => {
-		const firstLevelItem = window.nav[firstLevelKey]
+	Object.keys(root).forEach(firstLevelKey => {
+		const firstLevelItem = root[firstLevelKey]
 
 		const h2title = document.createElement('h2')
 		h2title.innerText = firstLevelKey
@@ -100,7 +112,7 @@ function createNav() {
 					const listItemLink = document.createElement('a')
 					listItemLink.className = 'link'
 					listItemLink.innerText = listItemKey
-					listItemLink.href = '#' + firstLevelItem[secondLevelKey][listItemKey].replace('$lang', lang)
+					listItemLink.href = '#/' + firstLevelItem[secondLevelKey][listItemKey].replace('$lang', lang)
 					listItem.appendChild(listItemLink)
 					list.appendChild(listItem)
 					added++
@@ -121,6 +133,10 @@ function createNav() {
 	nav.innerHTML = ''
 	nav.appendChild(fragment)
 }
+
+/**
+ * Utilities
+ */
 
 const equalityString = (a, b) => {
 	let equivalency = 0

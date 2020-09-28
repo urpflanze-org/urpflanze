@@ -1,10 +1,10 @@
 const parseFunction = {
     suffix: '$fn:',
     parse: (data) => {
-        return typeof data === 'function' ? parseFunction.suffix + data.toString() : data;
+        return typeof data === 'function' && data.name !== 'SimpleAnimation' ? parseFunction.suffix + data.toString() : data;
     },
     unparse: (data) => {
-        return typeof data === 'string' && data[0] === parseFunction.suffix
+        return typeof data === 'string' && data.indexOf(parseFunction.suffix) === 0
             ? eval(data.substr(parseFunction.suffix.length))
             : data;
     },

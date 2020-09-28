@@ -1,3 +1,4 @@
+import { TDrawerTransformation } from "../types/animation";
 import { TSceneChildProps } from "../types/scene-utilities";
 export declare type TPropInputType = 'range' | 'multiple-range' | 'color' | 'select' | 'checkbox' | 'radio' | 'slider';
 export interface ISceneChildPropData {
@@ -14,7 +15,7 @@ export interface ISceneChildPropData {
     default: any;
     default_animate?: any;
     canBArray?: boolean;
-    transformation: 'none' | 'angle' | 'resolution-based' | 'resolution-scaled-based';
+    transformation: TDrawerTransformation;
     animable?: boolean;
     type_value?: 'float' | 'int';
 }

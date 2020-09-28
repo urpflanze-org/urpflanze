@@ -1,28 +1,24 @@
 window.nav = {
-	Manual: {
-		'Getting Started': {
-			'Creating a scene': 'pages/$lang/manual/introduction/Creating-a-scene.html',
-			Installation: 'pages/$lang/manual/Hello2.html',
+	it: {
+		'': {
+			Introduzione: {
+				"Cos'è Urpflanze?": 'it/introduzione',
+			},
+
+			'Primi passi': {
+				Installazione: 'it/installazione',
+				'Crea una scena': 'it/crea-una-scena',
+				Drawer: '',
+			},
+			Avanzate: {
+				Ripetizioni: '',
+				Loop: '',
+				'Vertex Callback': '',
+			},
 		},
-		Repetitions: {
-			'How to': 'pages/$lang/hello.html',
-		},
-		Drawer: {
-			'How to': 'pages/$lang/hello.html',
-		},
+
+		Referenze: {},
 	},
 
-	Reference: {
-		Scene: {
-			Scene: 'scene',
-		},
-		Primitives: {
-			ShapeBuffer: 'scene',
-			ShapeLoop: 'scene',
-		},
-		Services: {
-			DrawerCanvas: 'drawer',
-			Renderer: 'drawer',
-		},
-	},
+	en: {},
 }

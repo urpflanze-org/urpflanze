@@ -31,9 +31,13 @@ class ScenePropUtilities {
         };
     }
     static bValueAnimation(value) {
-        return (typeof value === 'object' &&
+        return (value &&
+            typeof value === 'object' &&
             value.type &&
             (value.type === 'simple' || value.type === 'raw'));
+    }
+    static bValueDrawer(value) {
+        return value && typeof value === 'object' && value.type && value.type === 'drawer-transformation';
     }
     static bPropTransformable(name, value) {
         const sceneChildProp = SceneChildPropsData[name];
@@ -42,6 +46,10 @@ class ScenePropUtilities {
             typeof value !== 'undefined' &&
             typeof value !== 'function' &&
             !ScenePropUtilities.bValueAnimation(value));
+    }
+    static getValueDrawerTransformationType(name) {
+        const sceneChildProp = SceneChildPropsData[name];
+        return sceneChildProp && sceneChildProp.transformation !== 'none' ? sceneChildProp.transformation : null;
     }
     static getTransformedValue(drawer, name, value) {
         const sceneChildProp = SceneChildPropsData[name];

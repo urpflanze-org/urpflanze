@@ -287,8 +287,13 @@ class SceneUtilities {
             return;
         }
         if (ScenePropUtilities.bPropTransformable(name, value)) {
-            sceneChild.data.props[name] = value;
-            sceneChild.setProp(name, ScenePropUtilities.getTransformedValue(drawer, name, value));
+            if (ScenePropUtilities.bValueDrawer(value)) {
+                sceneChild.data.props[name] = value;
+                sceneChild.setProp(name, ScenePropUtilities.getTransformedValue(drawer, name, value.value));
+            }
+            else {
+                sceneChild.setProp(name, value);
+            }
             return;
         }
         if (name in SceneChildPropsData && SceneChildPropsData[name].transformation !== 'none')

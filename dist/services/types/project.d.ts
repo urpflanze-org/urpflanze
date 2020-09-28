@@ -1,5 +1,5 @@
 import { ShapePrimitiveAdaptMode } from "../../core/interfaces/shapes/Interfaces";
-import { IShapeLoop, IVertexCallback, TAnimation, TCallableValue } from "./animation";
+import { IShapeLoop, IVertexCallback, TAnimation, TCallableValue, TDrawerValue } from "./animation";
 import { TSceneChildProps } from "./scene-utilities";
 export interface IProjectSequence {
     start: number;
@@ -14,6 +14,7 @@ export interface IProject {
     background: string;
     width?: number;
     height?: number;
+    resolution?: number;
     ratio: number;
     backgroundImage?: string;
     clearCanvas: boolean;
@@ -44,11 +45,8 @@ export interface IProjectSceneChildData {
         a: number;
     };
 }
-export interface ISceneChildData extends IProjectSceneChildData {
-    props: IProjectSceneChildDataProps;
-}
 export declare type IProjectSceneChildDataProps = {
-    [k in keyof Omit<TSceneChildProps, 'id' | 'name' | 'order' | 'data' | 'bAdaptBuffer' | 'bCloseShape' | 'shape' | 'loop' | 'vertexCallback'>]: TAnimation | TCallableValue<number | Array<number> | string>;
+    [k in keyof Omit<TSceneChildProps, 'id' | 'name' | 'order' | 'data' | 'bAdaptBuffer' | 'bCloseShape' | 'shape' | 'loop' | 'vertexCallback'>]: TAnimation | TCallableValue<number | Array<number> | string> | TDrawerValue;
 } & {
     loop?: IShapeLoop;
     vertexCallback?: IVertexCallback;

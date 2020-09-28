@@ -8,6 +8,13 @@ interface ICallableValue<T> {
 
 export type TCallableValue<T> = T | ICallableValue<T>
 
+export type TDrawerTransformation = 'none' | 'angle' | 'resolution-based' | 'resolution-scaled-based'
+
+export type TDrawerValue = {
+	type: 'drawer-transformation'
+	value: any
+}
+
 //////////////////////////
 
 export interface IShapeLoop {
@@ -48,7 +55,7 @@ export interface ISimpleAnimation {
 
 	invertOdd: boolean
 	type: TSimpleAnimationType
-	mode: 'sinusoidal' | 'easing'
+	mode?: 'sinusoidal' | 'easing'
 	mode_function?: TModeFunction
 	delay?: number
 

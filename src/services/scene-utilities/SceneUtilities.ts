@@ -28,7 +28,7 @@ import DrawerCanvas from '@services/drawer-canvas/DrawerCanvas'
 import SceneChildPropsData, { TSceneChildPropsDataKeys } from '@services/scene-utilities/SceneChildPropsData'
 import ScenePropUtilities from '@services/scene-utilities/ScenePropUtilities'
 import Animation from '@services/animation/Animation'
-import { IShapeLoop } from '@services/types/animation'
+import { IShapeLoop, TDrawerTransformation } from '@services/types/animation'
 import { TSceneChildProps } from '@services/types/scene-utilities'
 
 export type SceneChildInstance = new (props: any) => SceneChild
@@ -538,8 +538,15 @@ class SceneUtilities {
 		}
 
 		if (ScenePropUtilities.bPropTransformable(name, value)) {
-			sceneChild.data.props[name] = value
-			sceneChild.setProp(name as keyof ShapeBaseProps, ScenePropUtilities.getTransformedValue(drawer, name, value))
+			if (ScenePropUtilities.bValueDrawer(value)) {
+				sceneChild.data.props[name] = value
+				sceneChild.setProp(
+					name as keyof ShapeBaseProps,
+					ScenePropUtilities.getTransformedValue(drawer, name, value.value)
+				)
+			} else {
+				sceneChild.setProp(name as keyof ShapeBaseProps, value)
+			}
 			return
 		}
 

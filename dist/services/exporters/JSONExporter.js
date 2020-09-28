@@ -20,6 +20,7 @@ class JSONExporter {
         project.name = name;
         project.width = scene.width;
         project.height = scene.height;
+        project.resolution = drawer.getResolution();
         project.mainColor = scene.mainColor;
         project.background = scene.background;
         project.clearCanvas = drawer.getOption('clearCanvas', true);
@@ -50,8 +51,7 @@ class JSONExporter {
         const props = sceneChild.getProps();
         const propsKeys = Object.keys(props);
         for (let i = 0, len = propsKeys.length; i < len; i++)
-            if (!(propsKeys[i] in sceneChild.data.props))
-                props[propsKeys[i]] = parseFunction.parse(props[propsKeys[i]]);
+            props[propsKeys[i]] = parseFunction.parse(props[propsKeys[i]]);
         projectSceneChild.props = Object.assign(Object.assign({}, props), sceneChild.data.props);
         if (sceneChild instanceof ShapeBuffer) {
             projectSceneChild.shape = sceneChild.shape;

@@ -33,6 +33,7 @@ class JSONExporter {
 		project.name = name
 		project.width = scene.width
 		project.height = scene.height
+		project.resolution = drawer.getResolution()
 		project.mainColor = scene.mainColor
 		project.background = scene.background
 
@@ -71,8 +72,8 @@ class JSONExporter {
 
 		const props = sceneChild.getProps()
 		const propsKeys = Object.keys(props) as Array<keyof ShapeBaseProps>
-		for (let i = 0, len = propsKeys.length; i < len; i++)
-			if (!(propsKeys[i] in sceneChild.data.props)) props[propsKeys[i]] = parseFunction.parse(props[propsKeys[i]])
+
+		for (let i = 0, len = propsKeys.length; i < len; i++) props[propsKeys[i]] = parseFunction.parse(props[propsKeys[i]])
 
 		projectSceneChild.props = { ...props, ...sceneChild.data.props }
 

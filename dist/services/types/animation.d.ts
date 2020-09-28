@@ -5,6 +5,11 @@ interface ICallableValue<T> {
     state: any;
 }
 export declare type TCallableValue<T> = T | ICallableValue<T>;
+export declare type TDrawerTransformation = 'none' | 'angle' | 'resolution-based' | 'resolution-scaled-based';
+export declare type TDrawerValue = {
+    type: 'drawer-transformation';
+    value: any;
+};
 export interface IShapeLoop {
     start: TCallableValue<number>;
     end: TCallableValue<number>;
@@ -32,7 +37,7 @@ export interface ISimpleAnimation {
     durate: number;
     invertOdd: boolean;
     type: TSimpleAnimationType;
-    mode: 'sinusoidal' | 'easing';
+    mode?: 'sinusoidal' | 'easing';
     mode_function?: TModeFunction;
     delay?: number;
     type_value?: 'int' | 'float';

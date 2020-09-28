@@ -13,11 +13,13 @@ import { TArray } from '@core/math/Vec2'
 
 const Simple = {
 	loop: (props: TSimpleAnimationLoop): ShapeBaseProp<string | number | TArray> =>
-		Simple.compose({ ...props, type: 'loop', delay: undefined }),
-	uncontrolledLoop: (props: TSimpleAnimationStatic): ShapeBaseProp<string | number | TArray> =>
-		Simple.compose({ ...props, type: 'uncontrolled-loop' }),
+		Simple.compose({ mode: 'sinusoidal', mode_function: 'cos', ...props, type: 'loop', delay: undefined }),
+
+	uncontrolledLoop: (props: TSimpleAnimationUncontrolledLoop): ShapeBaseProp<string | number | TArray> =>
+		Simple.compose({ mode: 'easing', mode_function: 'linear', ...props, type: 'uncontrolled-loop' }),
+
 	static: (props: TSimpleAnimationStatic): ShapeBaseProp<string | number | TArray> =>
-		Simple.compose({ ...props, type: 'static' }),
+		Simple.compose({ mode: 'easing', mode_function: 'linear', ...props, type: 'static' }),
 
 	compose: (simpleAnimation: ISimpleAnimation): ShapeBaseProp<string | number | TArray> => {
 		if (typeof simpleAnimation.from !== 'string' && typeof simpleAnimation.to !== 'string') {
@@ -68,8 +70,8 @@ function createSimpleAnimationCallback<T>(
 
 	if (type === 'static') {
 		if (delay && delay > 0)
-			return props =>
-				value(
+			return function SimpleAnimation(props: ShapeBasePropArguments) {
+				return value(
 					props,
 					props.time <= delay
 						? 0
@@ -77,18 +79,20 @@ function createSimpleAnimationCallback<T>(
 						? 1
 						: Easings[mode_function as TEasing](props.time - delay, 0, 1, durate)
 				)
+			}
 		else
-			return props =>
-				value(props, props.time <= durate ? Easings[mode_function as TEasing](props.time, 0, 1 - 0, durate) : 1)
+			return function SimpleAnimation(props: ShapeBasePropArguments) {
+				return value(props, props.time <= durate ? Easings[mode_function as TEasing](props.time, 0, 1 - 0, durate) : 1)
+			}
 	} else {
 		if (type === 'loop') {
 			if (mode == 'sinusoidal') {
-				return props => {
+				return function SimpleAnimation(props: ShapeBasePropArguments) {
 					const frequency = ((props.time || 0) * 2 * Math.PI) / durate
 					return value(props, 0.5 + Math[mode_function as Exclude<TModeFunction, TEasing>](frequency) * 0.5)
 				}
 			} /* easing */ else {
-				return props => {
+				return function SimpleAnimation(props: ShapeBasePropArguments) {
 					const d2 = durate / 2
 					const t = props.time % durate
 					return value(
@@ -102,7 +106,7 @@ function createSimpleAnimationCallback<T>(
 		} // uncontrolled-loop
 		else {
 			if (mode == 'sinusoidal') {
-				return props => {
+				return function SimpleAnimation(props: ShapeBasePropArguments) {
 					let time = props.time % (durate + delay)
 					time = time <= delay ? 0 : time - delay
 					const frequency = ((time || 0) * 2 * Math.PI) / durate
@@ -110,7 +114,7 @@ function createSimpleAnimationCallback<T>(
 				}
 			} else {
 				if (delay && delay > 0)
-					return props => {
+					return function SimpleAnimation(props: ShapeBasePropArguments) {
 						const time = props.time % (durate + delay)
 						return value(
 							props,
@@ -122,7 +126,7 @@ function createSimpleAnimationCallback<T>(
 						)
 					}
 				else
-					return props => {
+					return function SimpleAnimation(props: ShapeBasePropArguments) {
 						const time = props.time % durate
 						return value(props, time <= durate ? Easings[mode_function as TEasing](time, 0, 1 - 0, durate) : 1)
 					}

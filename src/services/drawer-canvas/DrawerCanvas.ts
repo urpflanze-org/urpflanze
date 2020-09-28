@@ -152,7 +152,9 @@ class DrawerCanvas extends Emitter<DrawerCanvasEvents> {
 			desynchronized: false,
 		})
 
-		this.resize(this.scene.width, this.scene.height) // and flush
+		if (this.scene) {
+			this.resize(this.scene.width, this.scene.height) // and flush
+		}
 	}
 
 	/**

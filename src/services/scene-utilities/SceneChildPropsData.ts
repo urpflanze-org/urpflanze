@@ -1,6 +1,7 @@
 import { ShapePrimitiveAdaptMode } from '@core/interfaces/shapes/Interfaces'
 
 import Spiral from '@core/shapes/primitives/Spiral'
+import { TDrawerTransformation } from '@services/types/animation'
 import { TSceneChildProps } from '@services/types/scene-utilities'
 
 export type TPropInputType = 'range' | 'multiple-range' | 'color' | 'select' | 'checkbox' | 'radio' | 'slider'
@@ -16,7 +17,7 @@ export interface ISceneChildPropData {
 	default: any
 	default_animate?: any
 	canBArray?: boolean
-	transformation: 'none' | 'angle' | 'resolution-based' | 'resolution-scaled-based'
+	transformation: TDrawerTransformation
 	animable?: boolean
 	type_value?: 'float' | 'int'
 }

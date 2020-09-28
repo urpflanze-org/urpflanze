@@ -2,9 +2,9 @@ import ColorManager from '@pups/core/build/Models/Color/ColorManager';
 import Easings, { TEasing } from "./Easings";
 import { toArray } from "../../core/Utilites";
 const Simple = {
-    loop: (props) => Simple.compose(Object.assign(Object.assign({}, props), { type: 'loop', delay: undefined })),
-    uncontrolledLoop: (props) => Simple.compose(Object.assign(Object.assign({}, props), { type: 'uncontrolled-loop' })),
-    static: (props) => Simple.compose(Object.assign(Object.assign({}, props), { type: 'static' })),
+    loop: (props) => Simple.compose(Object.assign(Object.assign({ mode: 'sinusoidal', mode_function: 'cos' }, props), { type: 'loop', delay: undefined })),
+    uncontrolledLoop: (props) => Simple.compose(Object.assign(Object.assign({ mode: 'easing', mode_function: 'linear' }, props), { type: 'uncontrolled-loop' })),
+    static: (props) => Simple.compose(Object.assign(Object.assign({ mode: 'easing', mode_function: 'linear' }, props), { type: 'static' })),
     compose: (simpleAnimation) => {
         if (typeof simpleAnimation.from !== 'string' && typeof simpleAnimation.to !== 'string') {
             const bArray = Array.isArray(simpleAnimation.from) || Array.isArray(simpleAnimation.to);
@@ -41,24 +41,28 @@ function createSimpleAnimationCallback(animation, value) {
     let { durate, type, mode, mode_function, delay } = animation;
     if (type === 'static') {
         if (delay && delay > 0)
-            return props => value(props, props.time <= delay
-                ? 0
-                : props.time - delay >= durate
-                    ? 1
-                    : Easings[mode_function](props.time - delay, 0, 1, durate));
+            return function SimpleAnimation(props) {
+                return value(props, props.time <= delay
+                    ? 0
+                    : props.time - delay >= durate
+                        ? 1
+                        : Easings[mode_function](props.time - delay, 0, 1, durate));
+            };
         else
-            return props => value(props, props.time <= durate ? Easings[mode_function](props.time, 0, 1 - 0, durate) : 1);
+            return function SimpleAnimation(props) {
+                return value(props, props.time <= durate ? Easings[mode_function](props.time, 0, 1 - 0, durate) : 1);
+            };
     }
     else {
         if (type === 'loop') {
             if (mode == 'sinusoidal') {
-                return props => {
+                return function SimpleAnimation(props) {
                     const frequency = ((props.time || 0) * 2 * Math.PI) / durate;
                     return value(props, 0.5 + Math[mode_function](frequency) * 0.5);
                 };
             }
             else {
-                return props => {
+                return function SimpleAnimation(props) {
                     const d2 = durate / 2;
                     const t = props.time % durate;
                     return value(props, t <= d2
@@ -69,7 +73,7 @@ function createSimpleAnimationCallback(animation, value) {
         }
         else {
             if (mode == 'sinusoidal') {
-                return props => {
+                return function SimpleAnimation(props) {
                     let time = props.time % (durate + delay);
                     time = time <= delay ? 0 : time - delay;
                     const frequency = ((time || 0) * 2 * Math.PI) / durate;
@@ -78,7 +82,7 @@ function createSimpleAnimationCallback(animation, value) {
             }
             else {
                 if (delay && delay > 0)
-                    return props => {
+                    return function SimpleAnimation(props) {
                         const time = props.time % (durate + delay);
                         return value(props, time <= delay
                             ? 0
@@ -87,7 +91,7 @@ function createSimpleAnimationCallback(animation, value) {
                                 : Easings[mode_function](time - delay, 0, 1, durate));
                     };
                 else
-                    return props => {
+                    return function SimpleAnimation(props) {
                         const time = props.time % durate;
                         return value(props, time <= durate ? Easings[mode_function](time, 0, 1 - 0, durate) : 1);
                     };

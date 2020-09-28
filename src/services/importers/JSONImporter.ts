@@ -7,6 +7,7 @@ import { IProject, IProjectSceneChild, IProjectSceneChildDataProps } from '@serv
 import parseFunction from '@services/utilities/parseFunction'
 import SceneUtilities from '@services/scene-utilities/SceneUtilities'
 import { v1 as uuidv1 } from 'uuid'
+import { ShapeBaseProps } from '@core/interfaces/shapes/Interfaces'
 
 export const createEmptyProject = (): IProject => {
 	return {
@@ -15,6 +16,7 @@ export const createEmptyProject = (): IProject => {
 
 		width: 600,
 		height: 600,
+		resolution: 600,
 		background: '#000',
 		mainColor: '#fff',
 
@@ -49,6 +51,7 @@ class JSONImporter {
 			name: parsed.name ?? emptyProject.name,
 			width: parsed.width ?? emptyProject.width,
 			height: parsed.height ?? emptyProject.height,
+			resolution: parsed.resolution ?? emptyProject.resolution,
 			background: parsed.background ?? emptyProject.background,
 			mainColor: parsed.mainColor ?? emptyProject.mainColor,
 
@@ -77,7 +80,7 @@ class JSONImporter {
 			width: project.width,
 			height: project.height,
 		})
-		const drawer = new DrawerCanvas(scene, undefined, drawOptions, project.ratio)
+		const drawer = new DrawerCanvas(scene, undefined, drawOptions, project.ratio, project.resolution)
 
 		const timeline = drawer.getTimeline()
 		timeline.setSequence(project.sequence.start, project.sequence.end, project.sequence.framerate)
@@ -98,11 +101,6 @@ class JSONImporter {
 				? Float32Array.from(Object.values(projectSceneChild.shape) as Array<number> | Float32Array)
 				: undefined
 
-		const props: IProjectSceneChildDataProps = { ...projectSceneChild.props }
-		const propsKeys = Object.keys(props) as Array<keyof IProjectSceneChildDataProps>
-		for (let i = 0, len = propsKeys.length; i < len; i++)
-			props[propsKeys[i]] = parseFunction.unparse(props[propsKeys[i]])
-
 		const settings = {
 			id: projectSceneChild.id,
 			name: projectSceneChild.name,
@@ -115,11 +113,13 @@ class JSONImporter {
 			shape: shape,
 		}
 
+		const props: IProjectSceneChildDataProps = { ...projectSceneChild.props }
+
 		const sceneChild = SceneUtilities.create(projectSceneChild.type, settings)
 
 		if (sceneChild) {
 			;(Object.keys(props) as Array<keyof IProjectSceneChildDataProps>).forEach(propKey => {
-				SceneUtilities.setProp(sceneChild, propKey as string, props[propKey], drawer)
+				SceneUtilities.setProp(sceneChild, propKey as string, parseFunction.unparse(props[propKey]), drawer)
 			})
 
 			if (projectSceneChild.children && projectSceneChild.children.length > 0) {

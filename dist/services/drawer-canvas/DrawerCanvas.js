@@ -94,7 +94,9 @@ class DrawerCanvas extends Emitter {
             alpha: true,
             desynchronized: false,
         });
-        this.resize(this.scene.width, this.scene.height);
+        if (this.scene) {
+            this.resize(this.scene.width, this.scene.height);
+        }
     }
     getCanvas() {
         return this.canvas;

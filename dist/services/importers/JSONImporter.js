@@ -9,6 +9,7 @@ export const createEmptyProject = () => {
         name: '',
         width: 600,
         height: 600,
+        resolution: 600,
         background: '#000',
         mainColor: '#fff',
         clearCanvas: true,
@@ -26,7 +27,7 @@ export const createEmptyProject = () => {
 };
 class JSONImporter {
     parse(project_json) {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
         if (!project_json)
             return null;
         const parsed = project_json && project_json.length > 0 ? JSON.parse(project_json) : {};
@@ -38,13 +39,14 @@ class JSONImporter {
             name: (_b = parsed.name) !== null && _b !== void 0 ? _b : emptyProject.name,
             width: (_c = parsed.width) !== null && _c !== void 0 ? _c : emptyProject.width,
             height: (_d = parsed.height) !== null && _d !== void 0 ? _d : emptyProject.height,
-            background: (_e = parsed.background) !== null && _e !== void 0 ? _e : emptyProject.background,
-            mainColor: (_f = parsed.mainColor) !== null && _f !== void 0 ? _f : emptyProject.mainColor,
-            clearCanvas: (_g = parsed.clearCanvas) !== null && _g !== void 0 ? _g : emptyProject.clearCanvas,
-            ghosts: (_h = parsed.ghosts) !== null && _h !== void 0 ? _h : emptyProject.ghosts,
-            ghost_skip_time: (_j = parsed.ghost_skip_time) !== null && _j !== void 0 ? _j : emptyProject.ghost_skip_time,
-            ghost_skip_function: (_k = parsed.ghost_skip_function) !== null && _k !== void 0 ? _k : emptyProject.ghost_skip_function,
-            ratio: (_l = parsed.ratio) !== null && _l !== void 0 ? _l : emptyProject.ratio,
+            resolution: (_e = parsed.resolution) !== null && _e !== void 0 ? _e : emptyProject.resolution,
+            background: (_f = parsed.background) !== null && _f !== void 0 ? _f : emptyProject.background,
+            mainColor: (_g = parsed.mainColor) !== null && _g !== void 0 ? _g : emptyProject.mainColor,
+            clearCanvas: (_h = parsed.clearCanvas) !== null && _h !== void 0 ? _h : emptyProject.clearCanvas,
+            ghosts: (_j = parsed.ghosts) !== null && _j !== void 0 ? _j : emptyProject.ghosts,
+            ghost_skip_time: (_k = parsed.ghost_skip_time) !== null && _k !== void 0 ? _k : emptyProject.ghost_skip_time,
+            ghost_skip_function: (_l = parsed.ghost_skip_function) !== null && _l !== void 0 ? _l : emptyProject.ghost_skip_function,
+            ratio: (_m = parsed.ratio) !== null && _m !== void 0 ? _m : emptyProject.ratio,
             scene: parsed.scene || emptyProject.scene,
             sequence: Object.assign(Object.assign({}, emptyProject.sequence), parsed.sequence),
         };
@@ -60,7 +62,7 @@ class JSONImporter {
             width: project.width,
             height: project.height,
         });
-        const drawer = new DrawerCanvas(scene, undefined, drawOptions, project.ratio);
+        const drawer = new DrawerCanvas(scene, undefined, drawOptions, project.ratio, project.resolution);
         const timeline = drawer.getTimeline();
         timeline.setSequence(project.sequence.start, project.sequence.end, project.sequence.framerate);
         const sceneChilds = Object.values(project.scene || []);
@@ -74,10 +76,6 @@ class JSONImporter {
         const shape = typeof projectSceneChild.shape !== 'undefined'
             ? Float32Array.from(Object.values(projectSceneChild.shape))
             : undefined;
-        const props = Object.assign({}, projectSceneChild.props);
-        const propsKeys = Object.keys(props);
-        for (let i = 0, len = propsKeys.length; i < len; i++)
-            props[propsKeys[i]] = parseFunction.unparse(props[propsKeys[i]]);
         const settings = {
             id: projectSceneChild.id,
             name: projectSceneChild.name,
@@ -89,11 +87,12 @@ class JSONImporter {
             vertexCallback: parseFunction.unparse(projectSceneChild.vertexCallback),
             shape: shape,
         };
+        const props = Object.assign({}, projectSceneChild.props);
         const sceneChild = SceneUtilities.create(projectSceneChild.type, settings);
         if (sceneChild) {
             ;
             Object.keys(props).forEach(propKey => {
-                SceneUtilities.setProp(sceneChild, propKey, props[propKey], drawer);
+                SceneUtilities.setProp(sceneChild, propKey, parseFunction.unparse(props[propKey]), drawer);
             });
             if (projectSceneChild.children && projectSceneChild.children.length > 0) {
                 for (let i = 0, len = projectSceneChild.children.length; i < len; i++) {

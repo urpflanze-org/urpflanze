@@ -6,7 +6,7 @@ import SceneChildPropsData, {
 	ISceneChildPropData,
 	TSceneChildPropsDataKeys,
 } from '@services/scene-utilities/SceneChildPropsData'
-import { IShapeLoop, TAnimation } from '@services/types/animation'
+import { IShapeLoop, TAnimation, TDrawerTransformation, TDrawerValue } from '@services/types/animation'
 
 class ScenePropUtilities {
 	public static readonly RAW_ARGUMENTS: string = '{ context, repetition, time, shape, shape_loop, data }'
@@ -102,10 +102,15 @@ class ScenePropUtilities {
 
 	static bValueAnimation(value: TAnimation | any): boolean {
 		return (
+			value &&
 			typeof value === 'object' &&
 			value.type &&
 			(value.type === 'simple' || value.type === 'raw') /*|| value.type == 'random'*/
 		)
+	}
+
+	static bValueDrawer(value: TDrawerValue | any): boolean {
+		return value && typeof value === 'object' && value.type && value.type === 'drawer-transformation'
 	}
 
 	static bPropTransformable(name: string, value: any): boolean {
@@ -118,6 +123,12 @@ class ScenePropUtilities {
 			typeof value !== 'function' &&
 			!ScenePropUtilities.bValueAnimation(value)
 		)
+	}
+
+	static getValueDrawerTransformationType(name: string): TDrawerTransformation | null {
+		const sceneChildProp = SceneChildPropsData[name as TSceneChildPropsDataKeys]
+
+		return sceneChildProp && sceneChildProp.transformation !== 'none' ? sceneChildProp.transformation : null
 	}
 
 	static getTransformedValue(drawer: DrawerCanvas, name: string, value: any): string | number | Array<number> {
