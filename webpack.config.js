@@ -2,7 +2,7 @@ const path = require('path')
 module.exports = (env, argv) => ({
 	entry: {
 		urpflanze: './dist/index.js',
-		'urpflanze-lite': './dist/index-lite.js',
+		'urpflanze-light': './dist/index-light.js',
 	},
 	output: {
 		filename: argv.mode && argv.mode == 'production' ? '[name].min.js' : '[name].js',
@@ -12,6 +12,7 @@ module.exports = (env, argv) => ({
 		globalObject: 'window',
 		// libraryExport: 'default',
 	},
+	devtool: 'source-map',
 	mode: argv.mode,
 	watch: argv.watch,
 })

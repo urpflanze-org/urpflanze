@@ -10,6 +10,6 @@ declare class ShapeBuffer extends ShapePrimitive {
     protected generateBuffer(generate_id: number, prop_arguments: ShapeBasePropArguments): Float32Array;
     setShape(shape: Float32Array): void;
     subdivide(level?: number): void;
-    static subdivide(shape: Float32Array): Float32Array | undefined;
+    static subdivide(shape: Float32Array, bClosed?: boolean): Float32Array | undefined;
 }
 export default ShapeBuffer;

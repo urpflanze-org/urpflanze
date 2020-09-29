@@ -27,7 +27,7 @@ function noise(seed: string = 'random', x = 0, y = 0, z = 0): number {
 }
 
 /**
- * Return angle from offset(or center)
+ * Return angle (atan) from offset(or center)
  *
  * @param {Repetition} repetition
  * @param {number | TArray} offsetFromCenter
@@ -44,10 +44,37 @@ function angle(repetition: Repetition, offsetFromCenter: number | TArray = [0, 0
 		center_matrix[0] += center_matrix[0] * matrixOffset[0]
 		center_matrix[1] += center_matrix[1] * matrixOffset[1]
 
-		return Math.atan(
-			((repetition.current_row as number) - 1 - center_matrix[1]) /
-				((repetition.current_col as number) - 1 - center_matrix[0])
+		const x = (repetition.current_col as number) - 1 - center_matrix[0]
+		const y = (repetition.current_row as number) - 1 - center_matrix[1]
+
+		return x === 0 ? 0 : Math.atan(y / x)
+	}
+
+	return repetition.current_angle ?? 0
+}
+
+/**
+ * Return angle (atan2, 4 quadrants) from offset(or center)
+ *
+ * @param {Repetition} repetition
+ * @param {number | TArray} offsetFromCenter
+ * @returns {number}
+ */
+function angle2(repetition: Repetition, offsetFromCenter: number | TArray = [0, 0]): number {
+	if (repetition.type == RepetitionType.Matrix) {
+		const matrixOffset = Vec2.create(offsetFromCenter)
+		const center_matrix = Vec2.create(
+			((repetition.count_col as number) - 1) / 2,
+			((repetition.count_row as number) - 1) / 2
 		)
+
+		center_matrix[0] += center_matrix[0] * matrixOffset[0]
+		center_matrix[1] += center_matrix[1] * matrixOffset[1]
+
+		const x = (repetition.current_col as number) - 1 - center_matrix[0]
+		const y = (repetition.current_row as number) - 1 - center_matrix[1]
+
+		return x === 0 ? 0 : Math.atan2(y, x)
 	}
 
 	return repetition.current_angle ?? 0
@@ -58,17 +85,11 @@ function angle(repetition: Repetition, offsetFromCenter: number | TArray = [0, 0
  *
  * @param {Repetition} repetition
  * @param {number | TArray} offsetFromCenter offset relative to distance prop
- * @param {number | TArray} scaleDistance divide result by scaleDistance
  * @returns {number}
  */
-function distance(
-	repetition: Repetition,
-	offsetFromCenter: number | TArray = [0, 0],
-	scaleDistance: number | TArray = [1, 1]
-): number {
+function distance(repetition: Repetition, offsetFromCenter: number | TArray = [0, 0]): number {
 	if (repetition.type == RepetitionType.Matrix) {
 		const matrixOffset = Vec2.create(offsetFromCenter)
-		const scale = Vec2.create(scaleDistance)
 
 		const center_matrix = Vec2.create(
 			((repetition.count_col as number) - 1) / 2,
@@ -79,8 +100,6 @@ function distance(
 		center_matrix[1] += center_matrix[1] * matrixOffset[1]
 
 		const current = Vec2.create(repetition.current_col - 1, repetition.current_row - 1)
-
-		Vec2.divide(current, scale)
 
 		return Vec2.distance(current, center_matrix)
 	}
@@ -113,6 +132,7 @@ function percH(percentage: number, shape: ShapeBase): number {
 export default {
 	noise,
 	angle,
+	angle2,
 	distance,
 	percW,
 	percH,

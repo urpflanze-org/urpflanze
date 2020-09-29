@@ -1,23 +1,42 @@
-<pre class="prettyprint">
-    <code class="language-html">&lt;!DOCTYPE html&gt;
-    &lt;html&gt;
-        &lt;head&gt;
-            &lt;meta charset="utf-8"&gt;
-            &lt;title&gt;First attempt to Urpflanze&lt;/title&gt;
-            &lt;style&gt;
-                body { 
-                    margin: 0; 
-                    display: flex; 
-                    justify-content: center; 
-                    align-items: center; 
-                }
-            &lt;/style&gt;
-        &lt;/head&gt;
-        &lt;body&gt;
-            &lt;script src="urpflanze.js"&gt;&lt;/script&gt;
-            &lt;script&gt;
-                // Create your scene
-            &lt;/script&gt;
-        &lt;/body&gt;
-    &lt;/html&gt;</code>
-    </pre>
+<h1>Crea una scena</h1>
+
+<h2>Hello Rect!</h2>
+Dopo aver <a href="#/it/installazione">installato o incluso</a> la liberia, per creare una scena hai bisogno soltanto di
+tre classi:<br />
+<ul>
+	<li><mark>Scene</mark> <i>Riferimento alla scena che si sta creando</i></li>
+	<li><mark>Rect</mark> <i>Una forma primitiva da aggiungere alla scena</i></li>
+	<li><mark>DrawerCanvas</mark> <i>Classe che permette di "disegnare" la scena su canvas</i></li>
+</ul>
+
+<!-- prettier-ignore -->
+<script id="c-e_1" class="runnable-script">/**
+ * Creazione di una scena con al centro un rettangolo
+ */
+const scene = new Urpflanze.Scene()
+const rect = new Urpflanze.Rect()
+scene.add(rect)
+
+const drawer = new Urpflanze.DrawerCanvas(scene, document.body)
+drawer.draw()
+</script>
+
+<h2>Muovi il rettangolo</h2>
+
+<!-- prettier-ignore -->
+<script id="c-e_2" class="runnable-script">/**
+ * Aggiungi ripetizioni
+ * anima la distanza dal centro 
+ * diminuisci la grandezza del rettangolo
+ */
+const scene = new Urpflanze.Scene()
+const rect = new Urpflanze.Rect({
+    repetitions: 20,
+    distance: ({ time }) => Math.sin(time / 400) * 100,
+    sideLength: 10
+})
+scene.add(rect)
+
+const drawer = new Urpflanze.DrawerCanvas(scene, document.body)
+drawer.startAnimation() // <- Avvia l'animazione
+</script>

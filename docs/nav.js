@@ -8,11 +8,12 @@ window.nav = {
 			'Primi passi': {
 				Installazione: 'it/installazione',
 				'Crea una scena': 'it/crea-una-scena',
-				Drawer: '',
+				'Settaggi del DrawerCanvas': '',
+				'Timeline e creazione di un loop': '',
 			},
 			Avanzate: {
 				Ripetizioni: '',
-				Loop: '',
+				'Forme generative': '',
 				'Vertex Callback': '',
 			},
 		},

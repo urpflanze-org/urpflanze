@@ -87,7 +87,7 @@ class ShapeBuffer extends ShapePrimitive {
 
 			for (let i = 0, j = 0; i < buffer_length; i += 2, j++) {
 				const vertex = [buffer[i], buffer[i + 1]]
-				this.vertexCallback.call(Context, vertex, prop_arguments, j, points_length)
+				this.vertexCallback(vertex, prop_arguments, j, points_length)
 
 				buffer[i] = vertex[0]
 				buffer[i + 1] = vertex[1]
@@ -114,15 +114,16 @@ class ShapeBuffer extends ShapePrimitive {
 	public subdivide(level: number = 1) {
 		let subdivided: Float32Array | undefined = this.shape
 
-		if (subdivided) for (let i = 0; i < level; i++) subdivided = ShapeBuffer.subdivide(subdivided as Float32Array)
+		if (subdivided)
+			for (let i = 0; i < level; i++) subdivided = ShapeBuffer.subdivide(subdivided as Float32Array, this.bCloseShape)
 
 		subdivided && this.setShape(subdivided)
 	}
 
-	public static subdivide(shape: Float32Array): Float32Array | undefined {
+	public static subdivide(shape: Float32Array, bClosed = true): Float32Array | undefined {
 		if (shape && shape.length) {
 			const shape_len = shape.length
-			const subdivided = new Float32Array(shape_len * 2)
+			const subdivided = new Float32Array(shape_len * 2 - (bClosed ? 0 : 2))
 
 			for (let i = 0; i < shape_len; i += 2) {
 				if (i === 0) {
@@ -145,8 +146,10 @@ class ShapeBuffer extends ShapePrimitive {
 					subdivided[i * 2 + 1] = y
 				}
 
-				subdivided[(shape_len - 1) * 2] = (shape[0] + shape[shape_len - 2]) / 2
-				subdivided[(shape_len - 1) * 2 + 1] = (shape[1] + shape[shape_len - 1]) / 2
+				if (bClosed) {
+					subdivided[(shape_len - 1) * 2] = (shape[0] + shape[shape_len - 2]) / 2
+					subdivided[(shape_len - 1) * 2 + 1] = (shape[1] + shape[shape_len - 1]) / 2
+				}
 			}
 
 			return subdivided

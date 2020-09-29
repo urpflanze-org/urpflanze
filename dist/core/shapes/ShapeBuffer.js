@@ -1,6 +1,5 @@
 import ShapePrimitive from "./ShapePrimitive";
 import { ShapeBufferSettings, ShapePrimitiveAdaptMode } from "../interfaces/shapes/Interfaces";
-import Context from "../Context";
 class ShapeBuffer extends ShapePrimitive {
     constructor(settings = {}) {
         settings.type = settings.type || 'ShapeBuffer';
@@ -34,7 +33,7 @@ class ShapeBuffer extends ShapePrimitive {
             const buffer = Float32Array.from(this.shape_buffer);
             for (let i = 0, j = 0; i < buffer_length; i += 2, j++) {
                 const vertex = [buffer[i], buffer[i + 1]];
-                this.vertexCallback.call(Context, vertex, prop_arguments, j, points_length);
+                this.vertexCallback(vertex, prop_arguments, j, points_length);
                 buffer[i] = vertex[0];
                 buffer[i + 1] = vertex[1];
             }
@@ -50,13 +49,13 @@ class ShapeBuffer extends ShapePrimitive {
         let subdivided = this.shape;
         if (subdivided)
             for (let i = 0; i < level; i++)
-                subdivided = ShapeBuffer.subdivide(subdivided);
+                subdivided = ShapeBuffer.subdivide(subdivided, this.bCloseShape);
         subdivided && this.setShape(subdivided);
     }
-    static subdivide(shape) {
+    static subdivide(shape, bClosed = true) {
         if (shape && shape.length) {
             const shape_len = shape.length;
-            const subdivided = new Float32Array(shape_len * 2);
+            const subdivided = new Float32Array(shape_len * 2 - (bClosed ? 0 : 2));
             for (let i = 0; i < shape_len; i += 2) {
                 if (i === 0) {
                     subdivided[0] = shape[0];
@@ -74,8 +73,10 @@ class ShapeBuffer extends ShapePrimitive {
                     subdivided[i * 2] = x;
                     subdivided[i * 2 + 1] = y;
                 }
-                subdivided[(shape_len - 1) * 2] = (shape[0] + shape[shape_len - 2]) / 2;
-                subdivided[(shape_len - 1) * 2 + 1] = (shape[1] + shape[shape_len - 1]) / 2;
+                if (bClosed) {
+                    subdivided[(shape_len - 1) * 2] = (shape[0] + shape[shape_len - 2]) / 2;
+                    subdivided[(shape_len - 1) * 2 + 1] = (shape[1] + shape[shape_len - 1]) / 2;
+                }
             }
             return subdivided;
         }
