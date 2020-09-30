@@ -11,6 +11,13 @@ import ShapeBase from './ShapeBase'
 import Vec2 from '@core/math/Vec2'
 import Context from '@core/Context'
 
+/**
+ * Shape Loop
+ *
+ * @public
+ * @class ShapeLoop
+ * @extends {ShapePrimitive}
+ */
 class ShapeLoop extends ShapePrimitive {
 	/**
 	 * PI2
@@ -308,9 +315,9 @@ class ShapeLoop extends ShapePrimitive {
 			shape_loop.current_index = i + 1
 			shape_loop.current_offset = shape_loop.current_index / shape_loop.count
 
-			const vertex = Float32Array.from(getVertex.call(Context, shape_loop.current_angle, prop_arguments))
+			const vertex = Float32Array.from(getVertex(shape_loop.current_angle, prop_arguments))
 
-			this.vertexCallback && this.vertexCallback.call(Context, vertex, prop_arguments, i, vertex_length)
+			this.vertexCallback && this.vertexCallback(vertex, prop_arguments, i, vertex_length)
 
 			buffer[j] = vertex[0]
 			buffer[j + 1] = vertex[1]
@@ -330,7 +337,7 @@ class ShapeLoop extends ShapePrimitive {
 	 * @memberof ShapeBase
 	 */
 	public getLoop(prop_arguments: ShapeBasePropArguments = ShapeBase.EMPTY_PROP_ARGUMENTS): LoopMeta {
-		prop_arguments.time = this.scene ? this.scene.current_time : 1
+		prop_arguments.time = this.scene?.current_time || 0
 
 		let start = this.props.loop?.start ?? this.loop.start
 		let end = this.props.loop?.end ?? this.loop.end

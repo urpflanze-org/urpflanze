@@ -3,7 +3,7 @@
 <h2>Hello Rect!</h2>
 Dopo aver <a href="#/it/installazione">installato o incluso</a> la liberia, per creare una scena hai bisogno soltanto di
 tre classi:<br />
-<ul>
+<ul class="details">
 	<li><mark>Scene</mark> <i>Riferimento alla scena che si sta creando</i></li>
 	<li><mark>Rect</mark> <i>Una forma primitiva da aggiungere alla scena</i></li>
 	<li><mark>DrawerCanvas</mark> <i>Classe che permette di "disegnare" la scena su canvas</i></li>
@@ -14,29 +14,54 @@ tre classi:<br />
  * Creazione di una scena con al centro un rettangolo
  */
 const scene = new Urpflanze.Scene()
+
 const rect = new Urpflanze.Rect()
-scene.add(rect)
+scene.add(rect) // Aggiunge il rettangolo alla scena
 
 const drawer = new Urpflanze.DrawerCanvas(scene, document.body)
-drawer.draw()
+drawer.draw() // Disegna la scena su canvas
 </script>
 
-<h2>Muovi il rettangolo</h2>
+<h2>Gestire la scena</h2>
+
+Prima di continuare è importante spiegare la gerarchia delle classi aggiungibili alla scena.<br />
+
+<img src="/assets/images/hierarchy.svg" class="hierarchy" />
+
+<ul class="details">
+	<li>
+		<mark>Group</mark>
+		<i>
+			è una classe logica, un contenitore di Group o ShapeBase, il suo scopo è quello di propagare le sue proprietà ai
+			figli
+		</i>
+	</li>
+	<li><mark>Shape</mark> <i>è un'incapsulatore di ShapeBase o Group su cui è possibile applicare le proprietà</i></li>
+	<li><mark>ShapeBuffer</mark> <i>è una forma primitiva generata da un buffer statico</i></li>
+	<li><mark>ShapeLoop</mark> <i>è una forma primitiva generata da un ciclo</i></li>
+</ul>
+
+Puoi utilizzare di base alcune ShapeBuffer e ShapeLoop
+
+<ul class="details">
+	<li><mark>ShapeBuffer</mark> <i>Line, Triangle, Rect</i></li>
+	<li><mark>ShapeLoop</mark> <i>RegularPolygon, Circle, Spiral, Rose, Lissajous</i></li>
+</ul>
+
+<h2>Group, Shape, ShapeBuffer, ShapeLoop</h2>
+
+Proviamo con un esempio.<br />
+Aggiungiamo alla scena
 
 <!-- prettier-ignore -->
 <script id="c-e_2" class="runnable-script">/**
- * Aggiungi ripetizioni
- * anima la distanza dal centro 
- * diminuisci la grandezza del rettangolo
+ * Creazione di una scena con al centro un rettangolo
  */
 const scene = new Urpflanze.Scene()
-const rect = new Urpflanze.Rect({
-    repetitions: 20,
-    distance: ({ time }) => Math.sin(time / 400) * 100,
-    sideLength: 10
-})
-scene.add(rect)
+
+const group = new Urpflanze.Group()
+// scene.add(rect) // Aggiunge il rettangolo alla scena
 
 const drawer = new Urpflanze.DrawerCanvas(scene, document.body)
-drawer.startAnimation() // <- Avvia l'animazione
+drawer.draw() // Disegna la scena su canvas
 </script>

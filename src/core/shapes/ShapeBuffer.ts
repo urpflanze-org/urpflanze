@@ -29,7 +29,11 @@ class ShapeBuffer extends ShapePrimitive {
 
 		super(settings)
 
-		this.shape = settings.shape instanceof Float32Array ? settings.shape : ShapeBuffer.EMPTY_BUFFER
+		if (typeof settings.shape === 'undefined') {
+			console.warn('[Urpflanze:ShapeBuffer] ShapeBuffer require a buffer passed from `shape` property')
+			this.shape = ShapeBuffer.EMPTY_BUFFER
+		} else this.shape = Float32Array.from(settings.shape)
+
 		this.shape_buffer =
 			this.isAdapted() != ShapePrimitiveAdaptMode.None
 				? ShapePrimitive.adaptBuffer(this.shape, this.isAdapted())

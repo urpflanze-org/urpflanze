@@ -112,7 +112,6 @@ class SVGExporter {
 			height / 2 - (scale > 1 ? (translate[1] * height) / (1 / ((scale - 1) / 2)) : 0),
 		]
 
-		// scene.update(time)
 		scene.current_time = time
 		scene.getChildren().forEach((sceneChild: SceneChild) => {
 			if (!(sceneChild?.data?.visible === false || (bGhost && sceneChild?.data?.disableGhost === true)))
@@ -121,7 +120,7 @@ class SVGExporter {
 
 		const Paths: Array<string> = []
 
-		scene.draw(({ lineWidth, strokeColor, fillColor, shape, buffer, buffer_length, current_buffer_index }) => {
+		scene.stream(({ lineWidth, strokeColor, fillColor, shape, buffer, buffer_length, current_buffer_index }) => {
 			if (shape?.data?.visible == false || (bGhost && shape?.data?.disableGhost == true)) return
 
 			const temp: Array<string> = []

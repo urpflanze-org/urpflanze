@@ -15,6 +15,7 @@ class Timeline extends Emitter<TimelineEvents> {
 	private last_tick: number
 	// private paused_time: number
 	private tick_time: number
+	private accumulator: number
 
 	private b_sequence_started: boolean
 
@@ -47,6 +48,7 @@ class Timeline extends Emitter<TimelineEvents> {
 		// this.paused_time = 0
 
 		this.last_tick = 0
+		this.accumulator = 0
 
 		this.calculateTickAndSequence()
 	}
@@ -195,6 +197,7 @@ class Timeline extends Emitter<TimelineEvents> {
 			this.b_sequence_started = true
 			// this.last_tick = now() - this.paused_time
 			this.last_tick = 0
+			this.accumulator = 0
 
 			this.dispatch('timeline:change_status', Timeline.START)
 		}
@@ -224,7 +227,6 @@ class Timeline extends Emitter<TimelineEvents> {
 			this.b_sequence_started = false
 			this.current_frame = -1
 			// this.paused_time = 0
-			this.last_tick = 0
 
 			this.dispatch('timeline:progress', {
 				current_frame: this.current_frame,
@@ -239,7 +241,7 @@ class Timeline extends Emitter<TimelineEvents> {
 	/**
 	 * Animation tick
 	 *
-	 * @param {number} timestamp
+	 * @param {number} timestamp current timestamp
 	 * @returns {boolean}
 	 * @memberof Timeline
 	 */
@@ -248,17 +250,22 @@ class Timeline extends Emitter<TimelineEvents> {
 			const currentTime = timestamp
 
 			const elapsed = currentTime - this.last_tick
+			this.accumulator += elapsed
 
-			if (elapsed >= this.tick_time) {
+			// if (elapsed >= this.tick_time) {
+			if (this.accumulator >= this.tick_time) {
 				const delta = (currentTime - this.last_tick) / 1000
 				this.calculateFPS(1 / delta)
 
-				this.last_tick = currentTime - (elapsed % this.tick_time)
-				this.current_frame = (this.current_frame + 1) % this.sequence.frames
+				// this.last_tick = currentTime - (elapsed % this.tick_time)
+				this.last_tick = currentTime
+				this.current_frame = this.getFrameAtTime(this.last_tick)
+				// this.current_frame = (this.current_frame + 1) % this.sequence.frames
+				this.accumulator -= this.tick_time
 
 				this.dispatch('timeline:progress', {
 					current_frame: this.current_frame,
-					current_time: this.getTime(),
+					current_time: this.last_tick,
 					fps: this.fps,
 				})
 

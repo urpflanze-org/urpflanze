@@ -612,7 +612,6 @@ class DrawerCanvas extends Emitter<DrawerCanvasEvents> {
 				height / 2 - (scale > 1 ? (translate[1] * height) / (1 / ((scale - 1) / 2)) : 0),
 			]
 
-			// scene.update(time)
 			scene.current_time = time
 			scene.getChildren().forEach((sceneChild: SceneChild) => {
 				if (
@@ -663,7 +662,7 @@ class DrawerCanvas extends Emitter<DrawerCanvasEvents> {
 				}
 			}
 
-			scene.draw(({ lineWidth, strokeColor, fillColor, shape, buffer, buffer_length, current_buffer_index }) => {
+			scene.stream(({ lineWidth, strokeColor, fillColor, shape, buffer, buffer_length, current_buffer_index }) => {
 				if (shape.data && (shape.data.visible === false || (bGhost && shape.data.disableGhost === true))) return
 
 				context.beginPath()

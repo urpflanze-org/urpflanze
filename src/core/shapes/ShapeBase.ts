@@ -225,7 +225,7 @@ abstract class ShapeBase extends SceneChild {
 			if (typeof prop_arguments.shape === 'undefined') prop_arguments.shape = this
 			if (typeof prop_arguments.context === 'undefined') prop_arguments.context = Context
 
-			if (this.scene) prop_arguments.time = this.scene.current_time
+			prop_arguments.time = this.scene?.current_time || 0
 
 			attribute = attribute(prop_arguments)
 		}
@@ -335,7 +335,7 @@ abstract class ShapeBase extends SceneChild {
 		const prop_arguments: ShapeBasePropArguments = {
 			repetition,
 			context: Context,
-			time: this.scene ? this.scene.current_time : 1,
+			time: this.scene?.current_time || 0,
 			shape: this,
 			data: this.data,
 			parent: parent_prop_arguments,

@@ -229,7 +229,7 @@ abstract class ShapePrimitive extends ShapeBase {
 	}
 
 	/**
-	 * Return adapted buffer between -1 and 1
+	 * Return adapted buffer between [-1,-1] and [1,1]
 	 *
 	 * @public
 	 * @static

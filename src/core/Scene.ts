@@ -1,13 +1,14 @@
 import { ShapeBaseStreamArguments } from '@core/types/ShapeBase'
 import SceneSettingsInterface from '@core/interfaces/SceneInterface'
 
-import { now, aOr, isDef } from '@core/Utilites'
+import { now, aOr } from '@core/Utilites'
 
 import SceneChild from '@core/SceneChild'
 
 import Group from '@core/Group'
 import Shape from './shapes/Shape'
 import Vec2, { TArray } from './math/Vec2'
+
 /**
  * Scene
  *
@@ -55,20 +56,13 @@ class Scene {
 	public mainColor: string
 
 	/**
-	 * Scene start time
+	 * Update start time
 	 *
+	 * @private
 	 * @type {number}
 	 * @memberof Scene
 	 */
-	public start_time: number = 0
-
-	/**
-	 * Last update time
-	 *
-	 * @type {number}
-	 * @memberof Scene
-	 */
-	public last_update_time: number = 0
+	private start_time: number = 0
 
 	/**
 	 * Current time
@@ -77,22 +71,6 @@ class Scene {
 	 * @memberof Scene
 	 */
 	public current_time: number = 0
-
-	/**
-	 * Delta time
-	 *
-	 * @type {number}
-	 * @memberof Scene
-	 */
-	public delta_time: number = 0
-
-	/**
-	 * FPS
-	 *
-	 * @type {number}
-	 * @memberof Scene
-	 */
-	public fps: number = 0
 
 	/**
 	 * A list of children added to scene
@@ -113,8 +91,8 @@ class Scene {
 		this.width = aOr(settings.width, 400)
 		this.height = aOr(settings.height, 400)
 
-		this.background = aOr(settings.background, '#fff')
-		this.mainColor = aOr(settings.mainColor, '#000')
+		this.background = aOr(settings.background, 'hsla(0, 0%, 0%, 1)')
+		this.mainColor = aOr(settings.mainColor, 'hsla(0, 0%, 100%, 1)')
 
 		this.children = []
 
@@ -143,18 +121,13 @@ class Scene {
 	 * @memberof Scene
 	 */
 	public update(at_time?: number): void {
-		if (at_time == undefined) {
+		if (typeof at_time === 'undefined') {
 			if (!this.start_time) {
 				this.start_time = now()
-				// this.last_update_time = this.start_time
 			}
 
 			const current_time = now()
 
-			// this.delta_time = current_time - this.last_update_time
-			// this.fps = 1000 / this.delta_time
-
-			// this.last_update_time = current_time
 			this.current_time = current_time - this.start_time
 		} else {
 			this.current_time = at_time
@@ -173,12 +146,12 @@ class Scene {
 	}
 
 	/**
-	 * Draw children (called after update)
+	 * Stream children for draw (called after update)
 	 *
 	 * @param {(stream_arguments: ShapeBaseStreamArguments) => boolean | void} callback
 	 * @memberof Scene
 	 */
-	public draw(callback: (stream_arguments: ShapeBaseStreamArguments) => void): void {
+	public stream(callback: (stream_arguments: ShapeBaseStreamArguments) => void): void {
 		this.children.forEach(sceneChild => sceneChild.stream(callback))
 	}
 

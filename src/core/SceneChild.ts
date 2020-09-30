@@ -1,6 +1,7 @@
 import { ShapeBasePropArguments, ShapeBaseStreamArguments, ShapeBaseStreamIndexing } from '@core/types/ShapeBase'
 import { ShapeBaseProps } from '@core/interfaces/shapes/Interfaces'
 import Scene from '@core/Scene'
+import SceneChildInterface from './interfaces/SceneChildInterface'
 
 let __id = 0
 
@@ -71,10 +72,10 @@ abstract class SceneChild {
 	/**
 	 * Creates an instance of SceneChild.
 	 *
-	 * @param {{ name?: string, order?: number, data?: any }} [settings={}]
+	 * @param {SceneChildInterface} settings
 	 * @memberof SceneChild
 	 */
-	constructor(settings: { id?: number | string; name?: string; type?: string; order?: number; data?: any }) {
+	constructor(settings: SceneChildInterface) {
 		this.id = settings.id ?? ++__id
 
 		this.type = settings.type || 'SceneChild'

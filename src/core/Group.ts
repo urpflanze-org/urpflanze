@@ -4,10 +4,10 @@ import { ShapeBaseProps, ShapeBaseSettings } from '@core/interfaces/shapes/Inter
 import SceneChild from '@core/SceneChild'
 import ShapeBase from '@core/shapes/ShapeBase'
 
-import { isDef } from '@core/Utilites'
-import Scene from './Scene'
+import Scene from '@core/Scene'
+
 /**
- * Group used for add multiple shape with same props
+ * Group used for add multiple SceneChild with same props
  *
  * @class Group
  * @extends {SceneChild}
@@ -67,14 +67,12 @@ class Group extends SceneChild {
 		return true
 	}
 
-	/**
-	 * Add new item into group
-	 *
-	 * @param {SceneChild} item
-	 * @memberof Group
-	 */
 	public add(item: SceneChild): void {
-		item.setProp(this.props)
+		const rawItemProps = item.getProps()
+
+		;(Object.keys(this.props) as Array<keyof ShapeBaseProps>).forEach((propKey: keyof ShapeBaseProps) => {
+			if (typeof rawItemProps[propKey] === 'undefined') item.setProp(propKey, this.props[propKey])
+		})
 
 		item.order =
 			typeof item.order !== 'undefined'
