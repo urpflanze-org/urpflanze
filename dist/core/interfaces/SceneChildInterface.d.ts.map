@@ -1,0 +1,1 @@
+{"version":3,"file":"SceneChildInterface.d.ts","sourceRoot":"","sources":["../../../src/core/interfaces/SceneChildInterface.ts"],"names":[],"mappings":"AAAA,UAAU,mBAAmB;IAC5B,EAAE,CAAC,EAAE,MAAM,GAAG,MAAM,CAAA;IACpB,IAAI,CAAC,EAAE,MAAM,CAAA;IACb,IAAI,CAAC,EAAE,MAAM,CAAA;IACb,KAAK,CAAC,EAAE,MAAM,CAAA;IACd,IAAI,CAAC,EAAE,GAAG,CAAA;CACV;AAED,eAAe,mBAAmB,CAAA"}

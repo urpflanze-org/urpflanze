@@ -1,7 +1,6 @@
 const path = require('path')
 const { exec } = require('child_process')
 const fs = require('fs')
-const util = require('util')
 
 const filename = path.resolve('./temp.json')
 const dest_name = path.resolve('./docs/assets/js/references.js')
@@ -32,24 +31,50 @@ function generate(typedocJSON) {
 		const parsed = parseModule(child)
 
 		result = [].concat(result, ...parsed.filter(d => !!d))
-
-		// if (parsed[0] && parsed[0].name === 'ShapeBaseProps') {
-		// }
 	}
 
 	return result
 }
 
 function parseModule(module) {
-	const result = []
+	let result = []
 
-	if (module.children) {
-		for (item of module.children) {
-			result.push(parse(item))
+	if (module.flags && module.flags.isExported) {
+		if (module.children) {
+			for (item of module.children) {
+				item.flags && item.flags.isExported && result.push(parse(item))
+			}
 		}
 	}
 
+	applyModuleCategories(module, result)
+
 	return result
+}
+
+function findModuleChildrenById(module, children_id) {
+	for (child of module.children) if (child.id === children_id) return child
+}
+
+function applyModuleCategories(module, parsedChildren) {
+	if (parsedChildren.length > 0 && module.groups && module.groups[0].categories) {
+		const categories = module.groups[0].categories
+
+		categories.forEach(category => {
+			const categoryName = category.title
+			for (item_to_apply of category.children) {
+				const finded = findModuleChildrenById(module, item_to_apply)
+				if (finded) {
+					for (parsed of parsedChildren) {
+						if (parsed.name === finded.name) {
+							parsed.category = categoryName
+							break
+						}
+					}
+				}
+			}
+		})
+	}
 }
 
 function parse(item) {
@@ -58,9 +83,82 @@ function parse(item) {
 			return parseClass(item)
 		case 'Interface':
 			return parseInterface(item)
+		case 'Function':
+			return parseMethod(item)
+		case 'Object literal':
+			return parseObject(item)
+		case 'Type alias':
+			return parseType(item)
 		case 'Enumeration':
 			break
 	}
+}
+
+function findExamples(item) {
+	const examples = []
+
+	if (item.comment && item.comment.tags) {
+		for (tag of item.comment.tags) {
+			if (tag.tag === 'example') examples.push(tag.text)
+		}
+	}
+
+	return examples.length === 0 ? undefined : examples
+}
+
+function parseType(item) {
+	const result = {
+		name: item.name,
+		type: 'Type',
+		source: item.sources[0].fileName,
+		description: parseDescription(item),
+		examples: findExamples(item),
+		parameter: parseProperty(item),
+		typeParameters: parseTypeParameter(item),
+	}
+
+	return result
+}
+
+function parseInterface(item) {
+	const result = {
+		type: 'Interface',
+		name: item.name,
+		source: item.sources[0].fileName,
+		extends: item && item.extendedTypes ? item.extendedTypes.map(extend => extend.name) : undefined,
+		description: parseDescription(item),
+		properties: item.children ? item.children.map(parseProperty) : [],
+		typeParameters: parseTypeParameter(item),
+	}
+	return result
+}
+
+function parseTypeParameter() {
+	if (item.typeParameter) {
+		return item.typeParameter.map(t => t.name)
+	}
+}
+
+function parseObject(item) {
+	const result = {
+		name: item.name,
+		type: 'Object',
+		source: item.sources[0].fileName,
+		description: parseDescription(item),
+		examples: findExamples(item),
+	}
+
+	let variables = findKind(item, 'Variable')
+	if (variables && variables.length > 0) {
+		result.variables = variables.map(parseProperty)
+	}
+
+	let functions = findKind(item, 'Function')
+	if (functions && functions.length > 0) {
+		result.functions = functions.map(parseMethod)
+	}
+
+	return result
 }
 
 function parseClass(item) {
@@ -69,14 +167,22 @@ function parseClass(item) {
 		type: 'Class',
 		source: item.sources[0].fileName,
 		extends: item && item.extendedTypes ? item.extendedTypes.map(extend => extend.name) : undefined,
+		description: parseDescription(item),
+		examples: findExamples(item),
 	}
 
-	let constructor = findKind(item, 'Constructor')
+	let constructor_ref = findKind(item, 'Constructor')
 
-	if (constructor && constructor[0]) {
-		result.description = constructor[0].comment ? constructor[0].comment.shortText : ''
-		if (constructor[0].signatures && constructor[0].signatures.length > 0 && constructor[0].signatures[0].parameters) {
-			result.constructor_parameters = constructor[0].signatures[0].parameters.map(parseProperty)
+	if (constructor_ref && constructor_ref[0]) {
+		if (
+			constructor_ref[0].signatures &&
+			constructor_ref[0].signatures.length > 0 &&
+			constructor_ref[0].signatures[0].parameters
+		) {
+			result.constructor_ref = {
+				parameters: constructor_ref[0].signatures[0].parameters.map(parseProperty),
+				description: parseDescription(constructor_ref[0]),
+			}
 		}
 	}
 
@@ -93,32 +199,39 @@ function parseClass(item) {
 	return result
 }
 
-function parseInterface(item) {
-	const result = {
-		name: item.name,
-		extends: item && item.extendedTypes ? item.extendedTypes.map(extend => extend.name) : undefined,
-	}
-	return result
-}
-
 function parseProperty(property) {
-	const type = property.type.type === 'intrinsic' ? property.type.name : property.type
+	const type = property.type
 
 	return {
 		name: property.name,
-		description: property.comment ? property.comment.text || property.comment.shortText : undefined,
+		bPublic: property.flags ? property.flags.isPublic : false,
+		bProtected: property.flags ? property.flags.isProtected : false,
+		bPrivate: property.flags ? property.flags.isPrivate : false,
+		bStatic: property.flags ? property.flags.isStatic : false,
+		bReadonly: property.flags ? property.flags.isReadonly : false,
+		description: parseDescription(property),
 		type,
 		defaultValue: property.defaultValue,
 	}
 }
 
+function parseDescription(item) {
+	return item.comment ? item.comment.text || item.comment.shortText : undefined
+}
+
 function parseMethod(method) {
-	const return_type =
-		method.signatures[0].type.type === 'intrinsic' ? method.signatures[0].type.name : method.signatures[0].type
+	const return_type = method.signatures[0].type
 	return {
 		name: method.name,
+		bPublic: method.flags ? method.flags.isPublic : false,
+		bProtected: method.flags ? method.flags.isProtected : false,
+		bPrivate: method.flags ? method.flags.isPrivate : false,
+		bAbstract: method.flags ? method.flags.isAbstract : false,
+		bStatic: method.flags ? method.flags.isStatic : false,
+		bReadonly: method.flags ? method.flags.isReadonly : false,
 		description: method.signatures[0].comment ? method.signatures[0].comment.shortText : undefined,
 		parameters: method.signatures[0].parameters ? method.signatures[0].parameters.map(parseParameter) : [],
+		examples: findExamples(method),
 		return_type,
 	}
 }

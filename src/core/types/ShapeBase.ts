@@ -115,11 +115,7 @@ type VertexCallbackGenerator = (
  *
  * @type ShapeLoopGenerator
  */
-type ShapeBaseProp<T> =
-	| T
-	| {
-			(prop_arguments: ShapeBasePropArguments): T
-	  }
+type ShapeBaseProp<T> = T | { (prop_arguments: ShapeBasePropArguments): T }
 
 interface ShapeBounding {
 	x: number

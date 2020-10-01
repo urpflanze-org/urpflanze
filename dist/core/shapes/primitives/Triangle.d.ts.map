@@ -1,0 +1,1 @@
+{"version":3,"file":"Triangle.d.ts","sourceRoot":"","sources":["../../../../src/core/shapes/primitives/Triangle.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,mBAAmB,EAA2B,MAAM,oCAAoC,CAAA;AACjG,OAAO,WAAW,MAAM,0BAA0B,CAAA;AAElD;;GAEG;AACH,cAAM,QAAS,SAAQ,WAAW;IACjC;;;;;OAKG;gBACS,QAAQ,GAAE,mBAAwB;CAO9C;AAED,eAAe,QAAQ,CAAA"}

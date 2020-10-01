@@ -2,7 +2,7 @@ import { ShapeBasePropArguments, ShapeLoopGenerator } from '@core/types/ShapeBas
 import { SpiralType } from '@core/types/Spiral'
 import { SpiralProps, SpiralSettings } from '@core/interfaces/shapes/PrimitiveInterfaces'
 
-import { aOr, clamp } from '@core/Utilites'
+import Uttilities from 'src/Utilites'
 
 import ShapeLoop from '../ShapeLoop'
 import { ShapeLoopProps, ShapePrimitiveAdaptMode } from '@core/interfaces/shapes/Interfaces'
@@ -51,9 +51,9 @@ class Spiral extends ShapeLoop {
 
 		super(settings, true)
 
-		this.props.spiral = aOr(settings.spiral, Spiral.types.ARCHIMEDE)
-		this.props.twists = aOr(settings.twists, 2)
-		this.props.twists_start = aOr(settings.twists_start, 0)
+		this.props.spiral = settings.spiral ?? Spiral.types.ARCHIMEDE
+		this.props.twists = settings.twists ?? 2
+		this.props.twists_start = settings.twists_start ?? 0
 
 		this.loop = {
 			start: (prop_arguments: ShapeBasePropArguments) => ShapeLoop.PI2 * this.getProp('twists_start', prop_arguments),

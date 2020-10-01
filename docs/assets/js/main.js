@@ -35,6 +35,7 @@ function goto(page) {
 	}
 
 	if (currentPage !== page) {
+		document.querySelector('aside').classList.remove('open')
 		const links = document.querySelectorAll('.link')
 
 		for (let i = 0, len = links.length; i < len; i++) links[i].classList.remove('link--active')
@@ -56,52 +57,6 @@ function goto(page) {
 				})
 		}
 	}
-}
-
-function loadReference(refName) {
-	const ref = window.references.find(e => e.name === refName)
-
-	content.innerHTML = `<h1>${ref.name}</h1>`
-
-	console.log(ref)
-	if (ref && ref.type === 'Class') {
-		content.innerHTML = `
-			<h1>${ref.name}</h1>
-
-			<div class="first-content-line">${ref.description}</div>
-			
-			<h2>Costruttore</h2>
-			<h3>${ref.name}(${ref.constructor_parameters
-			.map(parameter => `${parameter.name}: ${parameter.type.name}`)
-			.join(', ')})</h3>
-			
-			<h2>Proprietà</h2>
-			${ref.properties
-				.map(
-					property => `
-				<div>
-					<mark>${property.name}</mark>
-					${property.description}
-				</div>
-			`
-				)
-				.join('\n')}
-			
-			<h2>Metodi</h2>
-			${ref.methods
-				.map(
-					method => `
-				<div>
-					<mark>${method.name}</mark>
-					${method.description}
-				</div>
-			`
-				)
-				.join('\n')}
-		`
-	}
-
-	setTimeout(() => onLoadContent(), 100)
 }
 
 /**

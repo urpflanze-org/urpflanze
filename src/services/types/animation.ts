@@ -1,7 +1,21 @@
 import { TArray } from '@core/math/Vec2'
 import { TEasing } from '@services/animation/Easings'
 
-interface ICallableValue<T> {
+/**
+ *
+ *
+ * @category Core.Animation
+ * @export
+ * @interface ICallableValue
+ * @template T
+ */
+export interface ICallableValue<T> {
+	/**
+	 * raw function (string) return T
+	 *
+	 * @type {string}
+	 * @memberof ICallableValue
+	 */
 	raw: string
 	state: any
 }

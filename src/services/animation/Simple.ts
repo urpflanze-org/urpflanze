@@ -8,7 +8,7 @@ import {
 	TSimpleAnimationStatic,
 } from '@services/types/animation'
 import Easings, { TEasing } from '@services/animation/Easings'
-import { toArray } from '@core/Utilites'
+import Utilities from 'src/Utilites'
 import { TArray } from '@core/math/Vec2'
 
 const Simple = {
@@ -25,8 +25,8 @@ const Simple = {
 		if (typeof simpleAnimation.from !== 'string' && typeof simpleAnimation.to !== 'string') {
 			const bArray = Array.isArray(simpleAnimation.from) || Array.isArray(simpleAnimation.to)
 
-			const from = bArray ? toArray(simpleAnimation.from) : simpleAnimation.from
-			const to = bArray ? toArray(simpleAnimation.to) : simpleAnimation.to
+			const from = bArray ? Utilities.toArray(simpleAnimation.from) : simpleAnimation.from
+			const to = bArray ? Utilities.toArray(simpleAnimation.to) : simpleAnimation.to
 
 			const vCallback = bArray
 				? (current_index: number, v: number) => {

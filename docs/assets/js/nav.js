@@ -1,12 +1,41 @@
-const references = {}
+const References = { References: {} }
+window.mapped_references = {}
 
-window.references.forEach(refence => {
-	references[refence.name] = `ref/${refence.name}`
+window.references.forEach(reference => {
+	mapped_references[reference.name] = reference
+
+	if (reference.category) {
+		const categories = reference.category.split('.')
+		let r = References
+		level = 0
+		categories.forEach(category => {
+			if (typeof r[category] === 'undefined') r[category] = {}
+			r = r[category]
+			level++
+		})
+		if (level === 2) {
+			r[reference.name] = 'ref/' + reference.name
+		} else {
+			console.log(r)
+			if (typeof r[''] === 'undefined') {
+				r[''] = {}
+			}
+			r[''][reference.name] = 'ref/' + reference.name
+		}
+	} else {
+		References['References'][reference.name] = 'ref/' + reference.name
+	}
 })
+
+console.log(References)
+
+const ungroup = References['References']
+
+delete References['References']
 
 window.nav = {
 	it: {
-		'': {
+		Wiki: {
 			Introduzione: {
 				"Cos'è Urpflanze?": 'it/introduzione',
 			},
@@ -24,10 +53,14 @@ window.nav = {
 			},
 		},
 
-		Referenze: {
-			'': references,
+		...References,
+
+		'': {
+			'': ungroup,
 		},
 	},
 
 	en: {},
 }
+
+console.log(window.nav)

@@ -5,8 +5,7 @@ import {
 	ShapeBaseProps,
 	ShapePrimitiveAdaptMode,
 } from '@core/interfaces/shapes/Interfaces'
-import { aOr } from '@core/Utilites'
-import SceneChild from '@core/SceneChild'
+
 import {
 	ShapeBaseStreamIndexing,
 	ShapeBasePropArguments,
@@ -62,9 +61,11 @@ abstract class ShapePrimitive extends ShapeBase {
 	constructor(settings: ShapePrimitiveSettings = {}) {
 		super(settings)
 
-		this.props.sideLength = aOr(settings.sideLength, [50, 50])
+		this.props.sideLength = settings.sideLength ?? [50, 50]
 
-		this.sideLength = Vec2.create(aOr(settings.sideLength, [50, 50]))
+		this.sideLength = Vec2.create(
+			typeof settings.sideLength === 'number' || Array.isArray(settings.sideLength) ? settings.sideLength : [50, 50]
+		)
 
 		this.props.fillColor = settings.fillColor
 		this.props.lineWidth = settings.lineWidth

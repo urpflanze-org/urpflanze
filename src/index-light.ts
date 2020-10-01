@@ -26,7 +26,7 @@ export { default as ShapeBuffer } from '@core/shapes/ShapeBuffer'
 
 // Utilities
 export { default as Vec2 } from '@core/math/Vec2'
-export { toDegrees, toRadians, isDef, clamp, relativeClamp } from '@core/Utilites'
+export { default as Utilities } from 'src/Utilites'
 
 export { default as Context } from '@core/Context'
 

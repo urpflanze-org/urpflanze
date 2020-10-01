@@ -3,6 +3,11 @@ import { ShapeBaseProps } from '@core/interfaces/shapes/Interfaces'
 import Scene from '@core/Scene'
 import SceneChildInterface from './interfaces/SceneChildInterface'
 
+/**
+ * internal autoincrement id
+ *
+ * @ignore
+ */
 let __id = 0
 
 /**
@@ -224,7 +229,7 @@ abstract class SceneChild {
 	 * @param {boolean} [bPropagateToParents]
 	 * @memberof SceneChild
 	 */
-	abstract clearBuffer(bClearIndexed?: boolean, bPropagateToParents?: boolean): void
+	abstract clearBuffer(bClearIndexed: boolean, bPropagateToParents: boolean): void
 
 	/**
 	 * Index buffer

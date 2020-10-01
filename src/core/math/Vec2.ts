@@ -1,4 +1,4 @@
-import { clamp } from '@core/Utilites'
+import Utilities from 'src/Utilites'
 
 export type TArray = Array<number> | Float32Array
 
@@ -35,7 +35,7 @@ const length = (vec: TArray): number => Math.hypot(vec[0], vec[1])
 
 const angle = (a: TArray, b: TArray): number => {
 	const m = length(a) * length(b)
-	return Math.acos(clamp(-1, 1, m && dot(a, b) / m))
+	return Math.acos(Utilities.clamp(-1, 1, m && dot(a, b) / m))
 }
 
 const skewX = (vec: TArray, m: number): void => {

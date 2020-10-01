@@ -10,6 +10,7 @@ import Scene from '@core/Scene'
  * Group used for add multiple SceneChild with same props
  *
  * @class Group
+ * @category Core
  * @extends {SceneChild}
  */
 class Group extends SceneChild {

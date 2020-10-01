@@ -1,7 +1,6 @@
 import * as JSZip from 'jszip'
 
-import { now } from '@core/Utilites'
-import { ICancelablePromise, cancelablePromise } from '@services/utilities/cancelablePromise'
+import Utilities, { ICancelablePromise } from 'src/Utilites'
 
 import Emitter from '@services/events/Emitter'
 
@@ -54,16 +53,16 @@ class Renderer extends Emitter<IRenderEvents> {
 				.catch(reject)
 		})
 
-		this.renderPromise = cancelablePromise(promise)
+		this.renderPromise = Utilities.cancelablePromise(promise)
 
 		return promise
 	}
 
 	private async prepareRenderAnimation(drawer: DrawerCanvas, settings: IRenderSettings): Promise<IRenderStart> {
-		const startTimeDrawTime = performance.now()
+		const startTimeDrawTime = Utilities.now()
 		drawer.setOption('time', 0)
 		drawer.draw()
-		const drawTime = performance.now() - startTimeDrawTime
+		const drawTime = Utilities.now() - startTimeDrawTime
 
 		const sequence = drawer.getTimeline().getSequence()
 		const time = await Capturer.getRenderTime(drawer.getCanvas(), settings.type as TRenderImageType, settings.quality)
@@ -131,7 +130,7 @@ class Renderer extends Emitter<IRenderEvents> {
 			})
 		})
 
-		this.renderPromise = cancelablePromise(promise)
+		this.renderPromise = Utilities.cancelablePromise(promise)
 
 		return promise
 	}
@@ -159,11 +158,11 @@ class Renderer extends Emitter<IRenderEvents> {
 			if (!this.started) return undefined
 
 			const current_frame = i + frame_from
-			const measure_start = now()
+			const measure_start = Utilities.now()
 			timeline.setTime((sequence.start + current_frame * tick_time) % sequence.end)
 			drawer.draw()
 			await this.capturer.capture(drawer.getCanvas(), i)
-			const measure_end = now()
+			const measure_end = Utilities.now()
 			lastRenderTime = measure_end - measure_start
 
 			this.dispatch('renderer:render-frame', {

@@ -1,5 +1,5 @@
 import { ShapeBasePropArguments, ShapeLoopGenerator } from '@core/types/ShapeBase'
-import { toDegrees, toRadians } from '@core/Utilites'
+import Utilities from 'src/Utilites'
 
 import DrawerCanvas from '@services/drawer-canvas/DrawerCanvas'
 import SceneChildPropsData, {
@@ -139,7 +139,7 @@ class ScenePropUtilities {
 
 			switch (sceneChildProp.transformation) {
 				case 'angle':
-					transformedValueFunction = toRadians
+					transformedValueFunction = Utilities.toRadians
 					break
 				case 'resolution-based':
 					transformedValueFunction = drawer.getValueFromResolution.bind(drawer)
@@ -171,7 +171,7 @@ class ScenePropUtilities {
 
 			switch (sceneChildProp.transformation) {
 				case 'angle':
-					transformedValueFunction = toDegrees
+					transformedValueFunction = Utilities.toDegrees
 					break
 				case 'resolution-based':
 					transformedValueFunction = drawer.getValueFromResolutionScaled.bind(drawer)

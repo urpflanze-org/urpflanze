@@ -1,6 +1,5 @@
 import { ShapeBasePropArguments, ShapeLoopGenerator } from '@core/types/ShapeBase'
 
-import { aOr } from '@core/Utilites'
 import ShapeLoop from '../ShapeLoop'
 import { RoseProps, RoseSettings } from '@core/interfaces/shapes/PrimitiveInterfaces'
 import { ShapeLoopProps, ShapePrimitiveAdaptMode } from '@core/interfaces/shapes/Interfaces'
@@ -27,8 +26,8 @@ class Rose extends ShapeLoop {
 
 		super(settings, true)
 
-		this.props.n = aOr(settings.n, 1)
-		this.props.d = aOr(settings.d, 2)
+		this.props.n = settings.n ?? 1
+		this.props.d = settings.d ?? 2
 
 		this.loop = {
 			start: 0,

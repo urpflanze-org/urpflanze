@@ -109,13 +109,13 @@ class Shape extends ShapeBase {
 	public setShape(shape: SceneChild | undefined): void {
 		if (typeof shape === 'undefined') {
 			this.shape = undefined
-			this.clearBuffer(true)
+			this.clearBuffer(true, true)
 		} else {
 			this.scene && Scene.propagateToChilden(shape, this.scene)
 
 			this.shape = shape
 
-			this.shape.clearBuffer(true)
+			this.shape.clearBuffer(true, true)
 		}
 	}
 

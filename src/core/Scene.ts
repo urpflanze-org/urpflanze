@@ -1,7 +1,7 @@
 import { ShapeBaseStreamArguments } from '@core/types/ShapeBase'
 import SceneSettingsInterface from '@core/interfaces/SceneInterface'
 
-import { now, aOr } from '@core/Utilites'
+import Utilities from 'src/Utilites'
 
 import SceneChild from '@core/SceneChild'
 
@@ -88,11 +88,11 @@ class Scene {
 	 * @memberof Scene
 	 */
 	constructor(settings: SceneSettingsInterface = {}) {
-		this.width = aOr(settings.width, 400)
-		this.height = aOr(settings.height, 400)
+		this.width = settings.width || 400
+		this.height = settings.height || 400
 
-		this.background = aOr(settings.background, 'hsla(0, 0%, 0%, 1)')
-		this.mainColor = aOr(settings.mainColor, 'hsla(0, 0%, 100%, 1)')
+		this.background = settings.background || 'hsla(0, 0%, 0%, 1)'
+		this.mainColor = settings.mainColor || 'hsla(0, 0%, 100%, 1)'
 
 		this.children = []
 
@@ -111,7 +111,7 @@ class Scene {
 		this.height = height
 		this.center = Vec2.create(this.width / 2, this.height / 2)
 
-		this.children.forEach(sceneChild => sceneChild.clearBuffer())
+		this.children.forEach(sceneChild => sceneChild.clearBuffer(true, false))
 	}
 
 	/**
@@ -123,10 +123,10 @@ class Scene {
 	public update(at_time?: number): void {
 		if (typeof at_time === 'undefined') {
 			if (!this.start_time) {
-				this.start_time = now()
+				this.start_time = Utilities.now()
 			}
 
-			const current_time = now()
+			const current_time = Utilities.now()
 
 			this.current_time = current_time - this.start_time
 		} else {
@@ -194,7 +194,7 @@ class Scene {
 		Scene.propagateToChilden(item, this)
 
 		this.children.push(item)
-		item.clearBuffer()
+		item.clearBuffer(true, false)
 
 		this.sortChildren()
 	}
