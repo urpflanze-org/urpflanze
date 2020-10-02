@@ -77,6 +77,13 @@ function applyModuleCategories(module, parsedChildren) {
 	}
 }
 
+function replacer(data) {
+	if (data) {
+		data = data.replace(/\[base_url\]/gim, '#/ref')
+	}
+	return data
+}
+
 function parse(item) {
 	switch (item.kindString) {
 		case 'Class':
@@ -243,7 +250,7 @@ function parseProperty(property) {
 		value: property.value,
 		defaultValue: property.defaultValue,
 		declaration: property.declaration ? parseMethod(property.declaration) : undefined,
-
+		typeArguments: property.typeArguments,
 		operator: property.operator,
 		target: property.target ? parseProperty(property.target) : undefined,
 	}
@@ -265,7 +272,7 @@ function parseProperty(property) {
 }
 
 function parseDescription(item) {
-	return item.comment ? item.comment.text || item.comment.shortText : undefined
+	return item.comment ? replacer(item.comment.text || item.comment.shortText) : undefined
 }
 
 function parseMethod(method) {
@@ -273,9 +280,10 @@ function parseMethod(method) {
 		const return_type = method.signatures[0].type
 		const result = {
 			name: method.name,
-			description: method.signatures[0].comment ? method.signatures[0].comment.shortText : undefined,
+			description: parseDescription(method.signatures[0]),
 			parameters: method.signatures[0].parameters ? method.signatures[0].parameters.map(parseParameter) : [],
 			examples: findExamples(method),
+			typeParameter: method.signatures[0].typeParameter,
 			return_type,
 		}
 

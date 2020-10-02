@@ -411,13 +411,7 @@ class ShapeBase extends SceneChild {
  * @memberof ShapeBase
  */
 ShapeBase.EMPTY_BUFFER = new Float32Array(0);
-/**
- * Empty Repetition
- *
- * @static
- * @memberof ShapeLoop
- */
-ShapeBase.getEmptyRepetition = () => ({
+ShapeBase.EMPTY_REPETITION = {
     current_index: 1,
     current_offset: 0,
     current_angle: 0,
@@ -430,7 +424,14 @@ ShapeBase.getEmptyRepetition = () => ({
     count: 1,
     count_col: 1,
     count_row: 1,
-});
+};
+/**
+ * Empty Repetition
+ *
+ * @static
+ * @memberof ShapeLoop
+ */
+ShapeBase.getEmptyRepetition = () => (Object.assign({}, ShapeBase.EMPTY_REPETITION));
 /**
  * Empty Prop Arguments
  *

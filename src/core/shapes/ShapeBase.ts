@@ -40,12 +40,12 @@ abstract class ShapeBase extends SceneChild {
 	 */
 	public static getEmptyRepetition: () => IRepetition = () => ({
 		current_index: 1,
-		current_offset: 0,
+		current_offset: 1,
 		current_angle: 0,
 		current_col: 1,
 		current_row: 1,
-		current_col_offset: 0,
-		current_row_offset: 0,
+		current_col_offset: 1,
+		current_row_offset: 1,
 		type: ERepetitionType.Ring,
 		// random_offset: [0, 0],
 		count: 1,
@@ -61,7 +61,7 @@ abstract class ShapeBase extends SceneChild {
 	 * @memberof ShapeBase
 	 */
 	public static readonly EMPTY_PROP_ARGUMENTS: ISceneChildPropArguments = {
-		time: 1,
+		time: 0,
 		context: Context,
 		repetition: ShapeBase.getEmptyRepetition(),
 	}

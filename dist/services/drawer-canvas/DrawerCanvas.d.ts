@@ -109,13 +109,11 @@ declare class DrawerCanvas extends Emitter<DrawerCanvasEvents> {
      * Set draw option
      *
      * @template K
-     * @param {(K | { [e: string]: Required<DrawOptions>[K] })} name
+     * @param {(K | DrawOptions)} name
      * @param {Required<DrawOptions>[K]} [value]
      * @memberof CanvasDrawer
      */
-    setOption<K extends keyof DrawOptions>(name: K | {
-        [e in keyof DrawOptions]: Required<DrawOptions>[K];
-    }, value?: Required<DrawOptions>[K]): void;
+    setOption<K extends keyof DrawOptions>(name: K | DrawOptions, value?: Required<DrawOptions>[K]): void;
     /**
      *
      *

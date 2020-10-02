@@ -77,26 +77,6 @@ const Utilities = {
 	toArray: (t: number | Array<number>): Array<number> => (Array.isArray(t) ? t : [t, t]),
 
 	/**
-	 * Return true if key exist in props
-	 * args[0] = props
-	 * args[1...n] = search key
-	 *
-	 * @protected
-	 * @static
-	 * @param {...any} args
-	 * @returns {boolean}
-	 */
-	hasKey: (...args: any): boolean => {
-		const props = args.shift()
-		const keys = typeof props == 'object' ? Object.keys(props) : [props]
-
-		for (let i = 0, klen = keys.length; i < klen; i++)
-			for (let j = 0, alen = args.length; j < alen; j++) if (keys[i] == args[j]) return true
-
-		return false
-	},
-
-	/**
 	 * Return number between {min} and {max}
 	 *
 	 * @param {number} min

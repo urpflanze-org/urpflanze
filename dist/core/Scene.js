@@ -4,8 +4,7 @@ import Shape from '@core/shapes/Shape';
 import Vec2 from '@core/math/Vec2';
 /**
  * Container for all SceneChild.
- * The main purpose is to manage the drwaing order and update
- * the buffers of the sceneChild present in it
+ * The main purpose is to manage the drwaing order and update the buffers of the sceneChild present in it
  *
  *
  * @order 1

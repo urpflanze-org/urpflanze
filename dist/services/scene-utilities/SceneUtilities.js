@@ -442,9 +442,9 @@ class SceneUtilities {
             return;
         }
         if (name === 'loop') {
-            if (ScenePropUtilities.bValueLoop(value)) {
-                sceneChild.data.props[name] = value;
-                sceneChild.setProp(name, ScenePropUtilities.composeLoop(value));
+            if (sceneChild instanceof ShapeLoop && ScenePropUtilities.bValueLoop(value)) {
+                sceneChild.data.props.loop = value;
+                sceneChild.setProp('loop', ScenePropUtilities.composeLoop(value));
                 const dynamic = value.dynamyc;
                 const realDynamic = sceneChild.shapeLoopPropsDependencies.indexOf('prop_argumens') >= 0;
                 if (dynamic !== realDynamic) {
@@ -461,7 +461,7 @@ class SceneUtilities {
         }
         if (name === 'vertexCallback') {
             if (sceneChild instanceof ShapePrimitive && ScenePropUtilities.bValueVertexCallback(value)) {
-                sceneChild.data.props[name] = value;
+                sceneChild.data.props.vertexCallback = value;
                 sceneChild.vertexCallback = ScenePropUtilities.composeVertexCallback(value);
                 sceneChild.bUseParent = true;
                 sceneChild.clearBuffer(true, true);

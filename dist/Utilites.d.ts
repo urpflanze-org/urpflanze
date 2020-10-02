@@ -17,17 +17,6 @@ declare const Utilities: {
     toRadians: (degrees: number) => number;
     toArray: (t: number | Array<number>) => Array<number>;
     /**
-     * Return true if key exist in props
-     * args[0] = props
-     * args[1...n] = search key
-     *
-     * @protected
-     * @static
-     * @param {...any} args
-     * @returns {boolean}
-     */
-    hasKey: (...args: any) => boolean;
-    /**
      * Return number between {min} and {max}
      *
      * @param {number} min

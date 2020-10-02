@@ -141,7 +141,7 @@ class SceneUtilities {
 
 			if (sceneChild && drawer && this.isAPrimitive(sceneChild)) {
 				const sideLength = SceneChildPropsData.sideLength?.default
-				sceneChild.setProp(
+				;(sceneChild as ShapePrimitive).setProp(
 					'sideLength' as keyof ISceneChildProps,
 					ScenePropUtilities.getTransformedValue(drawer, 'sideLength', sideLength)
 				)
@@ -509,9 +509,9 @@ class SceneUtilities {
 		}
 
 		if (name === 'loop') {
-			if (ScenePropUtilities.bValueLoop(value)) {
-				sceneChild.data.props[name] = value
-				sceneChild.setProp(name as keyof ISceneChildProps, ScenePropUtilities.composeLoop(value))
+			if (sceneChild instanceof ShapeLoop && ScenePropUtilities.bValueLoop(value)) {
+				sceneChild.data.props.loop = value
+				sceneChild.setProp('loop', ScenePropUtilities.composeLoop(value))
 				const dynamic = (value as IShapeLoop).dynamyc
 				const realDynamic = (sceneChild as ShapeLoop).shapeLoopPropsDependencies.indexOf('prop_argumens') >= 0
 
@@ -529,7 +529,7 @@ class SceneUtilities {
 
 		if (name === 'vertexCallback') {
 			if (sceneChild instanceof ShapePrimitive && ScenePropUtilities.bValueVertexCallback(value)) {
-				sceneChild.data.props[name] = value
+				sceneChild.data.props.vertexCallback = value
 				sceneChild.vertexCallback = ScenePropUtilities.composeVertexCallback(value)
 				sceneChild.bUseParent = true
 				sceneChild.clearBuffer(true, true)
@@ -540,7 +540,7 @@ class SceneUtilities {
 		if (ScenePropUtilities.bPropTransformable(name, value)) {
 			if (ScenePropUtilities.bValueDrawer(value)) {
 				sceneChild.data.props[name] = value
-				sceneChild.setProp(
+				;(sceneChild as ShapePrimitive).setProp(
 					name as keyof ISceneChildProps,
 					ScenePropUtilities.getTransformedValue(drawer, name, value.value)
 				)

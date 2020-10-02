@@ -86,6 +86,8 @@ function resolveName(reference) {
 
 function resolveMethodOrPropertyName(mp) {
 	let prefix
+
+	console.log('resolveMethodOrPropertyName', mp)
 	switch (true) {
 		case mp.bAbstrasct:
 			prefix = 'abstract '
@@ -111,8 +113,16 @@ function resolveExtends(parentClass, result) {
 
 function resolveType(type) {
 	if (type) {
+		console.log(type)
 		if (typeof type === 'string') {
 			return type
+		}
+
+		if (type.name === 'Array' && type.typeArguments && type.typeArguments.length === 1) {
+			console.log('asdasd', type)
+			return type.typeArguments[0].id
+				? `Array&lt;<a href="#/ref/${type.typeArguments[0].name}">${type.typeArguments[0].name}</a>&gt;`
+				: `Array&lt;${type.typeArguments[0].name}&gt;`
 		}
 
 		if (type.type === 'stringLiteral') return type.value
@@ -122,12 +132,6 @@ function resolveType(type) {
 				(mapped_references[type.name] ? `<a href="#/ref/${type.name}">${type.name}</a>` : type.name) +
 				(type.typeArguments ? `&lt;${resolveType(type.typeArguments[0])}&gt;` : '')
 			)
-
-		if (type.name === 'Array' && type.typeArguments && type.typeArguments.length === 1) {
-			return type.typeArguments[0].id
-				? `Array&lt;<a href="#/ref/${type.typeArguments[0].name}">${type.typeArguments[0].name}</a>&gt;`
-				: `Array&lt;${type.typeArguments[0].name}&gt;`
-		}
 
 		if (type.type === 'reference' && typeof mapped_references[type.name] !== 'undefined') {
 			return `<a href="#/ref/${type.name}">${type.name}</a>`
@@ -189,6 +193,11 @@ function resolveType(type) {
 					.join(', ')}
 			}`
 		}
+
+		if (type.type === 'indexedAccess' && type.indexType && type.indexType.constraint) {
+			return `${resolveType(type.indexType.constraint.target)}[${type.indexType.name}]`
+		}
+
 		console.warn('cant resolve type', type)
 	}
 }

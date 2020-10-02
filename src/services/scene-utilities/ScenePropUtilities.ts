@@ -31,6 +31,7 @@ class ScenePropUtilities {
 	static bValueVertexCallback(value: any): boolean {
 		return value && value.raw && value.raw.length > 0
 	}
+
 	static composeVertexCallback(value: any): TVertexCallback | undefined {
 		if (value && value.raw) {
 			const vertexCallback = new Function(

@@ -2,9 +2,9 @@ import { TStreamCallback } from '@core/types/scene';
 import { ISceneChildPropArguments, ISceneChildProps, ISceneChildSettings, ISceneChildStreamIndexing } from '@core/types/scene-child';
 import Scene from '@core/Scene';
 /**
- * The element to snap into a scene.
+ * The element to be added into a scene.
  * Preserve settings (props), drawing order, generate and return buffers.
- * The only implementations of this class are `Group` and `ShapeBase`
+ * The only implementations of this class are <a href="[base_url]/Group">Group</a> and <a href="[base_url]/ShapeBase">ShapeBase</a>
  *
  * @abstract
  * @category Core.Scene
@@ -116,12 +116,13 @@ declare abstract class SceneChild {
      * Set a single or multiple props and clear buffer if shape vertex depends from prop
      *
      * @abstract
-     * @param {(keyof ISceneChildProps | ISceneChildProps)} key
-     * @param {*} [value]
+     * @template K
+     * @param {(K | ISceneChildProps)} key
+     * @param {ISceneChildProps[K]} [value]
      * @param {boolean} [bClearIndexed]
      * @memberof SceneChild
      */
-    abstract setProp(key: keyof ISceneChildProps | ISceneChildProps, value?: any, bClearIndexed?: boolean): void;
+    abstract setProp<K extends keyof ISceneChildProps>(key: K | ISceneChildProps, value?: ISceneChildProps[K], bClearIndexed?: boolean): void;
     /**
      * Set a single or multiple props
      *

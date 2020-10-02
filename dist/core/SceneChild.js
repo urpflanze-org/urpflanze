@@ -6,9 +6,9 @@
  */
 let __id = 0;
 /**
- * The element to snap into a scene.
+ * The element to be added into a scene.
  * Preserve settings (props), drawing order, generate and return buffers.
- * The only implementations of this class are `Group` and `ShapeBase`
+ * The only implementations of this class are <a href="[base_url]/Group">Group</a> and <a href="[base_url]/ShapeBase">ShapeBase</a>
  *
  * @abstract
  * @category Core.Scene

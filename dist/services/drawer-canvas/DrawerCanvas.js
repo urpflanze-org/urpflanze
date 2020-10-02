@@ -239,7 +239,7 @@ class DrawerCanvas extends Emitter {
      * Set draw option
      *
      * @template K
-     * @param {(K | { [e: string]: Required<DrawOptions>[K] })} name
+     * @param {(K | DrawOptions)} name
      * @param {Required<DrawOptions>[K]} [value]
      * @memberof CanvasDrawer
      */
