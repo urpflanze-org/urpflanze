@@ -19,7 +19,6 @@ import ShapePrimitive from '@core/shapes/ShapePrimitive'
 import ShapeLoop from '@core/shapes/ShapeLoop'
 import ShapeBuffer from '@core/shapes/ShapeBuffer'
 
-import { ShapeBaseProps } from '@core/interfaces/shapes/Interfaces'
 import Scene from '@core/Scene'
 import Group from '@core/Group'
 import ShapeBase from '@core/shapes/ShapeBase'
@@ -28,8 +27,9 @@ import DrawerCanvas from '@services/drawer-canvas/DrawerCanvas'
 import SceneChildPropsData, { TSceneChildPropsDataKeys } from '@services/scene-utilities/SceneChildPropsData'
 import ScenePropUtilities from '@services/scene-utilities/ScenePropUtilities'
 import Animation from '@services/animation/Animation'
-import { IShapeLoop, TDrawerTransformation } from '@services/types/animation'
+import { IShapeLoop } from '@services/types/animation'
 import { TSceneChildProps } from '@services/types/scene-utilities'
+import { ISceneChildProps } from '@core/types/scene-child'
 
 export type SceneChildInstance = new (props: any) => SceneChild
 
@@ -142,7 +142,7 @@ class SceneUtilities {
 			if (sceneChild && drawer && this.isAPrimitive(sceneChild)) {
 				const sideLength = SceneChildPropsData.sideLength?.default
 				sceneChild.setProp(
-					'sideLength' as keyof ShapeBaseProps,
+					'sideLength' as keyof ISceneChildProps,
 					ScenePropUtilities.getTransformedValue(drawer, 'sideLength', sideLength)
 				)
 				sceneChild.data.props.sideLength = sideLength
@@ -504,14 +504,14 @@ class SceneUtilities {
 	setProp(sceneChild: SceneChild, name: string, value: any, drawer: DrawerCanvas): void {
 		if (ScenePropUtilities.bValueAnimation(value)) {
 			sceneChild.data.props[name] = value
-			sceneChild.setProp(name as keyof ShapeBaseProps, Animation.composeAnimation(drawer, name, value))
+			sceneChild.setProp(name as keyof ISceneChildProps, Animation.composeAnimation(drawer, name, value))
 			return
 		}
 
 		if (name === 'loop') {
 			if (ScenePropUtilities.bValueLoop(value)) {
 				sceneChild.data.props[name] = value
-				sceneChild.setProp(name as keyof ShapeBaseProps, ScenePropUtilities.composeLoop(value))
+				sceneChild.setProp(name as keyof ISceneChildProps, ScenePropUtilities.composeLoop(value))
 				const dynamic = (value as IShapeLoop).dynamyc
 				const realDynamic = (sceneChild as ShapeLoop).shapeLoopPropsDependencies.indexOf('prop_argumens') >= 0
 
@@ -541,11 +541,11 @@ class SceneUtilities {
 			if (ScenePropUtilities.bValueDrawer(value)) {
 				sceneChild.data.props[name] = value
 				sceneChild.setProp(
-					name as keyof ShapeBaseProps,
+					name as keyof ISceneChildProps,
 					ScenePropUtilities.getTransformedValue(drawer, name, value.value)
 				)
 			} else {
-				sceneChild.setProp(name as keyof ShapeBaseProps, value)
+				sceneChild.setProp(name as keyof ISceneChildProps, value)
 			}
 			return
 		}
@@ -568,7 +568,7 @@ class SceneUtilities {
 				if (name.indexOf('.') > 0) {
 					const splitted = name.split('.')
 					sceneChild.setProp({ [splitted[0]]: { [splitted[1]]: value } })
-				} else sceneChild.setProp(name as keyof ShapeBaseProps, value)
+				} else sceneChild.setProp(name as keyof ISceneChildProps, value)
 				break
 		}
 	}

@@ -1,2 +1,2 @@
 export {};
-//# sourceMappingURL=Spiral.js.map
+//# sourceMappingURL=spiral.js.map

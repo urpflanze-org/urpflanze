@@ -1,6 +1,6 @@
 import SimplexNoise from 'simplex-noise';
+import { ERepetitionType } from '@core/types/scene-child';
 import Vec2 from '@core/math/Vec2';
-import { RepetitionType } from '@core/types/ShapeBase';
 const noises = {
     random: new SimplexNoise(Math.random),
 };
@@ -26,13 +26,13 @@ const Context = {
     /**
      * Return angle (atan) from offset(or center)
      *
-     * @param {Repetition} repetition
+     * @param {IRepetition} repetition
      * @param {number | TArray} offsetFromCenter
      * @returns {number}
      */
     angle: (repetition, offsetFromCenter = [0, 0]) => {
         var _a;
-        if (repetition.type == RepetitionType.Matrix) {
+        if (repetition.type == ERepetitionType.Matrix) {
             const matrixOffset = Vec2.create(offsetFromCenter);
             const center_matrix = Vec2.create((repetition.count_col - 1) / 2, (repetition.count_row - 1) / 2);
             center_matrix[0] += center_matrix[0] * matrixOffset[0];
@@ -46,13 +46,13 @@ const Context = {
     /**
      * Return angle (atan2, 4 quadrants) from offset(or center)
      *
-     * @param {Repetition} repetition
+     * @param {IRepetition} repetition
      * @param {number | TArray} offsetFromCenter
      * @returns {number}
      */
     angle2: (repetition, offsetFromCenter = [0, 0]) => {
         var _a;
-        if (repetition.type == RepetitionType.Matrix) {
+        if (repetition.type == ERepetitionType.Matrix) {
             const matrixOffset = Vec2.create(offsetFromCenter);
             const center_matrix = Vec2.create((repetition.count_col - 1) / 2, (repetition.count_row - 1) / 2);
             center_matrix[0] += center_matrix[0] * matrixOffset[0];
@@ -66,12 +66,12 @@ const Context = {
     /**
      * Return distance from offset (or center)
      *
-     * @param {Repetition} repetition
+     * @param {IRepetition} repetition
      * @param {number | TArray} offsetFromCenter offset relative to distance prop
      * @returns {number}
      */
     distance: (repetition, offsetFromCenter = [0, 0]) => {
-        if (repetition.type == RepetitionType.Matrix) {
+        if (repetition.type == ERepetitionType.Matrix) {
             const matrixOffset = Vec2.create(offsetFromCenter);
             const center_matrix = Vec2.create((repetition.count_col - 1) / 2, (repetition.count_row - 1) / 2);
             center_matrix[0] += center_matrix[0] * matrixOffset[0];
@@ -85,21 +85,21 @@ const Context = {
      * Get value percentage of scene width
      *
      * @param {number} percentage
-     * @param {ShapeBase} shape
+     * @param {SceneChild} sceneChild
      * @returns {number}
      */
-    percW: (percentage, shape) => {
-        return shape && shape.scene ? (shape.scene.width * percentage) / 100 : percentage;
+    percW: (percentage, sceneChild) => {
+        return sceneChild && sceneChild.scene ? (sceneChild.scene.width * percentage) / 100 : percentage;
     },
     /**
      * Get value percentage of scene height
      *
      * @param {number} percentage
-     * @param {ShapeBase} shape
+     * @param {SceneChild} sceneChild
      * @returns {number}
      */
-    percH: (percentage, shape) => {
-        return shape && shape.scene ? (shape.scene.height * percentage) / 100 : percentage;
+    percH: (percentage, sceneChild) => {
+        return sceneChild && sceneChild.scene ? (sceneChild.scene.height * percentage) / 100 : percentage;
     },
 };
 export default Context;

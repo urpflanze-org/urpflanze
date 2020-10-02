@@ -1,20 +1,26 @@
 /**
- * internal autoincrement id
+ * Autoincrement sceneChild default id
  *
+ * @internal
  * @ignore
  */
 let __id = 0;
 /**
- * Item to added into scene
+ * The element to snap into a scene.
+ * Preserve settings (props), drawing order, generate and return buffers.
+ * The only implementations of this class are `Group` and `ShapeBase`
  *
  * @abstract
+ * @category Core.Scene
+ * @order 2
  * @class SceneChild
  */
 class SceneChild {
     /**
      * Creates an instance of SceneChild.
+     * Base values ​​will be assigned in case they are not passed
      *
-     * @param {SceneChildInterface} settings
+     * @param {ISceneChildSettings} settings
      * @memberof SceneChild
      */
     constructor(settings) {
@@ -26,7 +32,8 @@ class SceneChild {
         this.props = {};
     }
     /**
-     * Find this or shape children
+     * Find this or form or children.
+     * Overridden by classes that extend it
      *
      * @param {string | number} id_or_name
      * @returns {(SceneChild | null)}
@@ -38,19 +45,19 @@ class SceneChild {
         return null;
     }
     /**
-     * Item props
+     * Return the sceneChild properties
      *
-     * @returns {ShapeBaseProps}
+     * @returns {ISceneChildProps}
      * @memberof SceneChild
      */
     getProps() {
         return this.props;
     }
     /**
-     * Return a prop
+     * Return a sceneChild prop or default value
      *
-     * @param {keyof ShapeBaseProps} key
-     * @param {ShapeBasePropArguments} [prop_arguments]
+     * @param {keyof ISceneChildProps} key
+     * @param {ISceneChildPropArguments} [prop_arguments]
      * @param {*} [default_value]
      * @returns {*}
      * @memberof SceneChild
@@ -62,7 +69,7 @@ class SceneChild {
     /**
      * Set a single or multiple props
      *
-     * @param {(keyof ShapeBaseProps | ShapeBaseProps)} key
+     * @param {(keyof ISceneChildProps | ISceneChildProps)} key
      * @param {*} [value]
      * @memberof ShapeBase
      */

@@ -1,9 +1,9 @@
-import { RepetitionType } from '@core/types/ShapeBase';
-import { ShapePrimitiveAdaptMode, } from '@core/interfaces/shapes/Interfaces';
 import ShapePrimitive from './ShapePrimitive';
 import ShapeBase from './ShapeBase';
 import Vec2 from '@core/math/Vec2';
 import Context from '@core/Context';
+import { ERepetitionType } from '@core/types/scene-child';
+import { EShapePrimitiveAdaptMode } from '@core/types/shape-base';
 /**
  * Shape Loop
  *
@@ -86,7 +86,7 @@ class ShapeLoop extends ShapePrimitive {
     /**
      * Set single or multiple props
      *
-     * @param {(keyof ShapeLoopProps | ShapeLoopProps)} key
+     * @param {(keyof IShapeLoopProps | IShapeLoopProps)} key
      * @param {*} [value]
      * @param {boolean} [bClearIndexed=false]
      * @memberof ShapeLoop
@@ -110,8 +110,8 @@ class ShapeLoop extends ShapePrimitive {
     /**
      * Get prop
      *
-     * @param {keyof ShapeLoopProps} key
-     * @param {ShapeBasePropArguments} [prop_arguments]
+     * @param {keyof IShapeLoopProps} key
+     * @param {ISceneChildPropArguments} [prop_arguments]
      * @param {*} [default_value]
      * @returns {*}
      * @memberof ShapeLoop
@@ -122,7 +122,7 @@ class ShapeLoop extends ShapePrimitive {
     /**
      * Return length of buffer
      *
-     * @param {ShapeBasePropArguments} [prop_arguments]
+     * @param {ISceneChildPropArguments} [prop_arguments]
      * @returns {number}
      * @memberof ShapeBase
      */
@@ -139,7 +139,7 @@ class ShapeLoop extends ShapePrimitive {
      *
      * @protected
      * @param {number} generate_id
-     * @param {ShapeBasePropArguments} prop_arguments
+     * @param {ISceneChildPropArguments} prop_arguments
      * @returns {Float32Array}
      * @memberof ShapeBase
      */
@@ -155,7 +155,7 @@ class ShapeLoop extends ShapePrimitive {
      * Generate loop buffer
      *
      * @private
-     * @param {ShapeBasePropArguments} prop_arguments
+     * @param {ISceneChildPropArguments} prop_arguments
      * @returns {Float32Array}
      * @memberof ShapeLoop
      */
@@ -170,7 +170,7 @@ class ShapeLoop extends ShapePrimitive {
             current_row: 1,
             current_col_offset: 0,
             current_row_offset: 0,
-            type: RepetitionType.Loop,
+            type: ERepetitionType.Loop,
             // random_offset: [0, 0],
             count: repetition,
             count_col: 1,
@@ -189,7 +189,7 @@ class ShapeLoop extends ShapePrimitive {
             buffer[j] = vertex[0];
             buffer[j + 1] = vertex[1];
         }
-        return this.bAdaptBuffer != ShapePrimitiveAdaptMode.None
+        return this.bAdaptBuffer != EShapePrimitiveAdaptMode.None
             ? ShapePrimitive.adaptBuffer(buffer, this.bAdaptBuffer)
             : buffer;
     }
@@ -197,7 +197,7 @@ class ShapeLoop extends ShapePrimitive {
      * Return information about a client loop gnerator
      *
      * @public
-     * @param {ShapeBasePropArguments} prop_arguments
+     * @param {ISceneChildPropArguments} prop_arguments
      * @returns {ShapeLoopInformation}
      * @memberof ShapeBase
      */
@@ -216,7 +216,7 @@ class ShapeLoop extends ShapePrimitive {
     /**
      * Set shape
      *
-     * @param {(ShapeLoopGenerator)} [shape]
+     * @param {(IShapeLoopGenerator)} [shape]
      * @memberof ShapeBase
      */
     setShape(loop) {
@@ -243,7 +243,7 @@ ShapeLoop.PId2 = Math.PI / 2;
  * Empty Prop Arguments
  *
  * @static
- * @type {ShapeBasePropArguments}
+ * @type {ISceneChildPropArguments}
  * @memberof ShapeBase
  */
 ShapeLoop.EMPTY_PROP_ARGUMENTS = {
@@ -251,7 +251,7 @@ ShapeLoop.EMPTY_PROP_ARGUMENTS = {
     context: Context,
     repetition: ShapeBase.getEmptyRepetition(),
     shape_loop: {
-        type: RepetitionType.Loop,
+        type: ERepetitionType.Loop,
         current_index: 0,
         current_offset: 0,
         current_angle: 0,

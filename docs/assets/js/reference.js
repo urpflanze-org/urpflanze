@@ -13,15 +13,24 @@ function loadReference(refName) {
 				content.innerHTML = getHTMLFromClassReference(ref)
 				break
 			case 'Interface':
+				console.log(ref)
 				content.innerHTML = `
                     <h1 class="reference__name">${resolveName(ref)}</h1>
-                    <div class="first-content-line">${ref.description || ''}</div>
-                    ${ref.properties ? printVariables(ref.properties) : ''}
+					<div class="first-content-line">${ref.description || ''}</div>
+					<pre class="prettyprint"><code translate="no" class="language-typescript">{
+${ref.properties
+	.map(
+		property =>
+			`\t${property.name}${property.bOptional ? '?' : ''}: ${resolveType(property.type)} ${
+				property.description ? `// ${property.description}` : ''
+			}`
+	)
+	.join('\n')}\r}</code></pre>
                 `
 				break
 			case 'Object':
 				content.innerHTML = `
-                    <h1 class="reference__name">${resolveName(ref)}</h1>
+                    <h1 class="reference__name">OBJ ${resolveName(ref)}</h1>
                     <div class="first-content-line">${ref.description || ''}</div>
                     ${ref.variables ? printVariables(ref.variables) : ''}
                     ${ref.functions ? `<h2>Functions</h2>${printFunctions(ref.functions)}` : ''}
@@ -29,9 +38,16 @@ function loadReference(refName) {
 				break
 			case 'Type':
 				content.innerHTML = `
-                    <h1 class="reference__name">${resolveName(ref)}</h1>
+                    <h1 class="reference__name">Type ${resolveName(ref)}</h1>
                     <div class="first-content-line">${ref.description || ''}</div>
-                    ${ref.parameter ? printVariables([ref.parameter]) : ''}
+                    ${ref.parameter ? resolveType(ref.parameter.type) : ''}
+                `
+				break
+			case 'Enumeration':
+				content.innerHTML = `
+                    <h1 class="reference__name">Enum ${resolveName(ref)}</h1>
+                    <div class="first-content-line">${ref.description || ''}</div>
+                    ${ref.members.map(member => `<div>${member.name}: ${member.defaultValue}</div>`).join('')}
                 `
 				break
 		}
@@ -94,47 +110,102 @@ function resolveExtends(parentClass, result) {
 }
 
 function resolveType(type) {
-	if (typeof type === 'string') {
-		return type
-	}
+	if (type) {
+		if (typeof type === 'string') {
+			return type
+		}
 
-	if (
-		(type.type === 'intrinsic' || type.type === 'reference' || type.type === 'typeParameter') &&
-		typeof type.id === 'undefined'
-	)
-		return type.name
+		if (type.type === 'stringLiteral') return type.value
 
-	if (type.name === 'Array' && type.typeArguments && type.typeArguments.length === 1) {
-		return type.typeArguments[0].id
-			? `Array&lt;<a href="#/ref/${type.typeArguments[0].name}">${type.typeArguments[0].name}</a>&gt;`
-			: `Array&lt;${type.typeArguments[0].name}&gt;`
-	}
+		if (type.type === 'intrinsic' || type.type === 'reference' || type.type === 'typeParameter')
+			return (
+				(mapped_references[type.name] ? `<a href="#/ref/${type.name}">${type.name}</a>` : type.name) +
+				(type.typeArguments ? `&lt;${resolveType(type.typeArguments[0])}&gt;` : '')
+			)
 
-	if (type.type === 'reference' && typeof type.id !== 'undefined') {
-		return `<a href="#/ref/${type.name}">${type.name}</a>`
-	}
+		if (type.name === 'Array' && type.typeArguments && type.typeArguments.length === 1) {
+			return type.typeArguments[0].id
+				? `Array&lt;<a href="#/ref/${type.typeArguments[0].name}">${type.typeArguments[0].name}</a>&gt;`
+				: `Array&lt;${type.typeArguments[0].name}&gt;`
+		}
 
-	if (type.type === 'union') {
-		return type.types.map(resolveType).join(' | ')
-	}
+		if (type.type === 'reference' && typeof mapped_references[type.name] !== 'undefined') {
+			return `<a href="#/ref/${type.name}">${type.name}</a>`
+		}
 
-	if (type.type === 'typeOperator') {
-		return `${type.operator} ${resolveType(type.target)}`
+		if (type.type === 'union') {
+			return type.types.map(resolveType).join(' | ')
+		}
+
+		if (type.type === 'typeOperator') {
+			return `${type.operator} ${resolveType(type.target)}`
+		}
+
+		if (type.type === 'reflection' && type.declaration && type.declaration.parameters) {
+			return `(${type.declaration.parameters
+				.map(
+					parameter =>
+						`<span class="reference__method__property_name">${
+							parameter.name
+						}</span>: <span class="reference__method__property_type">${resolveType(parameter.type)}</span>`
+				)
+				.join(', ')}): ${resolveType(type.declaration.return_type)}`
+		}
+
+		if (
+			type.type === 'reflection' &&
+			type.declaration &&
+			type.declaration.signatures &&
+			type.declaration.signatures[0].parameters
+		) {
+			return `(${type.declaration.signatures[0].parameters
+				.map(
+					parameter =>
+						`<span class="reference__method__property_name">${
+							parameter.name
+						}</span>: <span class="reference__method__property_type">${resolveType(parameter.type)}</span>`
+				)
+				.join(', ')}): ${resolveType(type.declaration.signatures[0].type)}`
+		}
+
+		if (
+			type.type === 'reflection' &&
+			type.declaration &&
+			type.declaration.signatures &&
+			type.declaration.signatures[0].kindString === 'Call signature'
+		) {
+			return `() => ${resolveType(type.declaration.signatures[0].type)}`
+		}
+
+		if (type.type === 'reflection' && type.declaration && type.declaration.children) {
+			return `{
+				${type.declaration.children
+					.map(
+						parameter =>
+							`<span class="reference__method__property_name">${
+								parameter.name
+							}</span>: <span class="reference__method__property_type">${resolveType(parameter.type)}</span>`
+					)
+					.join(', ')}
+			}`
+		}
+		console.warn('cant resolve type', type)
 	}
 }
 
 // prettier-ignore
 function printVariables(variables) {
 
-    console.log(
-        variables
-    )
+	console.log('printVariables', variables)
     return `
         <ul class="reference__list">
         ${variables.map(variable => `
             <li>
-                <div>${resolveMethodOrPropertyName(variable)}: <span class="reference__property__type">${resolveType(variable.type)}</span></div>
-                <div class="reference__property__description">${variable.description}</div>
+                <div>${resolveMethodOrPropertyName(variable)}: <span class="reference__property__type">${resolveType(variable.type)}</span>${variable.defaultValue 
+					? `<span class="reference__property__default_value"> = ${variable.defaultValue}</span>` 
+					: ''
+				}</div>
+                <div class="reference__property__description">${variable.description || ''}</div>
             </li>
         `).join('\n')}
         </ul>
@@ -161,11 +232,12 @@ function printFunctions(functions) {
             const parameters = callable.parameters || []
             return `<li>
                 <div>
-                    ${resolveMethodOrPropertyName(callable)}(
-                        ${parameters.map(parameter => 
-                            `<span class="reference__method__property_name">${parameter.name}</span>: <span class="reference__method__property_type">${resolveType(parameter.type)}</span>`
-                        ).join(', ')
-                    }): ${resolveType(callable.return_type)}
+                    ${resolveMethodOrPropertyName(callable)}(${parameters.map(parameter => 
+						`<span class="reference__method__property_name">${parameter.name}${parameter.bOptional ? '?' : ''}</span>: <span class="reference__method__property_type">${resolveType(parameter.type)}</span>${parameter.defaultValue 
+							? `<span class="reference__method__property_default_value>" = ${parameter.defaultValue}</span>` 
+							: ''
+						}`
+					).join(', ')}): ${resolveType(callable.return_type)}
                 </div>
                 <div class="reference__method__description">${callable.description || ''}</div>
                 ${callable.examples ? callable.examples.map(printFunctionExample) : ''}
@@ -180,14 +252,22 @@ function getHTMLFromClassReference(ref) {
 	const methods = ref.methods ? ref.methods.filter(p => !p.bPrivate) : []
 
 	function getContructorTemplate() {
-		const parameters = ref.constructor_ref.parameters || []
-		return `
-            <h2>Constructor</h2>
-            <h3 class="reference__constructor">${ref.name}(${parameters
-			.map(parameter => `${parameter.name}: ${resolveType(parameter.type)}`)
-			.join(', ')})</h3>
-            <div class="reference__constructor__description">${ref.constructor_ref.description || ''}</div>
-        `
+		if (ref.constructor_ref) {
+			const parameters = ref.constructor_ref.parameters || []
+			return `
+				<h2>Constructor</h2>
+				<h3 class="reference__constructor">${ref.name}(${parameters
+				.map(
+					parameter =>
+						`${parameter.name}: ${resolveType(parameter.type)}${
+							parameter.defaultValue ? ` = ${parameter.defaultValue}` : ''
+						}`
+				)
+				.join(', ')})</h3>
+				<div class="reference__constructor__description">${ref.constructor_ref.description || ''}</div>
+			`
+		}
+		return ''
 	}
 
 	// prettier-ignore
@@ -206,6 +286,7 @@ function getHTMLFromClassReference(ref) {
         `
     }
 
+	console.log(ref)
 	return `
         <h1 class="reference__name">${resolveName(ref)}</h1>
         <div class="first-content-line">${ref.description || ''}</div>

@@ -1,8 +1,7 @@
-import { RegularPolygonProps, RegularPolygonSettings } from '@core/interfaces/shapes/PrimitiveInterfaces'
-
-import ShapeLoop from '../ShapeLoop'
-import { ShapeBasePropArguments } from '@core/types/ShapeBase'
-import { ShapeLoopProps, ShapePrimitiveAdaptMode } from '@core/interfaces/shapes/Interfaces'
+import { IRegularPolygonProps, IRegularPolygonSettings, IShapeLoopProps } from '@core/types/shape-primitive'
+import ShapeLoop from '@core/shapes/ShapeLoop'
+import { EShapePrimitiveAdaptMode } from '@core/types/shape-base'
+import { ISceneChildPropArguments } from '@core/types/scene-child'
 
 /**
  * Polygon shape
@@ -11,12 +10,12 @@ import { ShapeLoopProps, ShapePrimitiveAdaptMode } from '@core/interfaces/shapes
  * @extends {ShapeLoop}
  */
 class RegularPolygon extends ShapeLoop {
-	protected props: RegularPolygonProps
+	protected props: IRegularPolygonProps
 
-	constructor(settings: RegularPolygonSettings = {}) {
+	constructor(settings: IRegularPolygonSettings = {}) {
 		settings.type = settings.type || 'RegularPolygon'
 		settings.shapeLoopPropsDependencies = (settings.shapeLoopPropsDependencies || []).concat(['sideNumber'])
-		settings.bAdaptBuffer = settings.bAdaptBuffer ?? ShapePrimitiveAdaptMode.None
+		settings.bAdaptBuffer = settings.bAdaptBuffer ?? EShapePrimitiveAdaptMode.None
 
 		super(settings, true)
 
@@ -25,7 +24,7 @@ class RegularPolygon extends ShapeLoop {
 		this.loop = {
 			start: 0,
 			end: ShapeLoop.PI2,
-			inc: (prop_arguments: ShapeBasePropArguments) => ShapeLoop.PI2 / this.getProp('sideNumber', prop_arguments, 5),
+			inc: (prop_arguments: ISceneChildPropArguments) => ShapeLoop.PI2 / this.getProp('sideNumber', prop_arguments, 5),
 			vertex: angle => {
 				return [Math.cos(angle), Math.sin(angle)]
 			},
@@ -39,25 +38,25 @@ class RegularPolygon extends ShapeLoop {
 	/**
 	 * Get property value
 	 *
-	 * @param {keyof RegularPolygonProps} key
-	 * @param {ShapeBasePropArguments} [prop_arguments]
+	 * @param {keyof IRegularPolygonProps} key
+	 * @param {ISceneChildPropArguments} [prop_arguments]
 	 * @param {*} [default_value]
 	 * @returns {*}
-	 * @memberof RegularPolygonProps
+	 * @memberof IRegularPolygonProps
 	 */
-	public getProp(key: keyof RegularPolygonProps, prop_arguments?: ShapeBasePropArguments, default_value?: any): any {
-		return super.getProp(key as keyof ShapeLoopProps, prop_arguments, default_value)
+	public getProp(key: keyof IRegularPolygonProps, prop_arguments?: ISceneChildPropArguments, default_value?: any): any {
+		return super.getProp(key as keyof IShapeLoopProps, prop_arguments, default_value)
 	}
 
 	/**
 	 * Set single or multiple props
 	 *
-	 * @param {(keyof RegularPolygonProps | RegularPolygonSettings)} key
+	 * @param {(keyof IRegularPolygonProps | RegularPolygonSettings)} key
 	 * @param {*} [value]
-	 * @memberof RegularPolygonProps
+	 * @memberof IRegularPolygonProps
 	 */
-	public setProp(key: keyof RegularPolygonProps | RegularPolygonSettings, value?: any): void {
-		super.setProp(key as keyof ShapeLoopProps, value)
+	public setProp(key: keyof IRegularPolygonProps | IRegularPolygonSettings, value?: any): void {
+		super.setProp(key as keyof IShapeLoopProps, value)
 	}
 }
 

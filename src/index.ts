@@ -1,15 +1,10 @@
 /**
- * Types
+ * Types & Intterface
  */
-export * from '@core/types/ShapeBase'
-export * from '@core/types/Spiral'
-
-/**
- * Interfaces
- */
-export * from '@core/interfaces/SceneInterface'
-export * from '@core/interfaces/shapes/Interfaces'
-export * from '@core/interfaces/shapes/PrimitiveInterfaces'
+export * from '@core/types/scene'
+export * from '@core/types/scene-child'
+export * from '@core/types/shape-base'
+export * from '@core/types/shape-primitive'
 
 export * from './index-light'
 

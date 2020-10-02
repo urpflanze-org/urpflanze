@@ -1,6 +1,6 @@
-import { ShapeBasePropArguments } from '@core/types/ShapeBase';
-import ShapeLoop from '../ShapeLoop';
-import { RoseProps, RoseSettings } from '@core/interfaces/shapes/PrimitiveInterfaces';
+import ShapeLoop from '@core/shapes/ShapeLoop';
+import { IRoseProps, IRoseSettings } from '@core/types/shape-primitive';
+import { ISceneChildPropArguments } from '@core/types/scene-child';
 /**
  * Rose shape
  *
@@ -8,32 +8,32 @@ import { RoseProps, RoseSettings } from '@core/interfaces/shapes/PrimitiveInterf
  * @extends {ShapeLoop}
  */
 declare class Rose extends ShapeLoop {
-    protected props: RoseProps;
+    protected props: IRoseProps;
     /**
      * Creates an instance of Rose.
      *
-     * @param {RoseSettings} [settings={}]
+     * @param {IRoseSettings} [settings={}]
      * @memberof Rose
      */
-    constructor(settings?: RoseSettings);
+    constructor(settings?: IRoseSettings);
     /**
      * Get property value
      *
      * @param {keyof RoseProps} key
-     * @param {ShapeBasePropArguments} [prop_arguments]
+     * @param {ISceneChildPropArguments} [prop_arguments]
      * @param {*} [default_value]
      * @returns {*}
      * @memberof Rose
      */
-    getProp(key: keyof RoseProps, prop_arguments?: ShapeBasePropArguments, default_value?: any): any;
+    getProp(key: keyof IRoseProps, prop_arguments?: ISceneChildPropArguments, default_value?: any): any;
     /**
      * Set single or multiple props
      *
-     * @param {(keyof RoseProps | RoseSettings)} key
+     * @param {(keyof IRoseProps | IRoseSettings)} key
      * @param {*} [value]
      * @memberof Rose
      */
-    setProp(key: keyof RoseProps | RoseSettings, value?: any): void;
+    setProp(key: keyof IRoseProps | IRoseSettings, value?: any): void;
     /**
      * Return end angle of rose
      *

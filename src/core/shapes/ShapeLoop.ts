@@ -1,15 +1,25 @@
-import { ShapeBasePropArguments, ShapeLoopGenerator, LoopMeta, Repetition, RepetitionType } from '@core/types/ShapeBase'
-import {
-	ShapeLoopProps,
-	ShapeLoopSettings,
-	ShapePrimitiveProps,
-	ShapePrimitiveAdaptMode,
-} from '@core/interfaces/shapes/Interfaces'
-
 import ShapePrimitive from './ShapePrimitive'
 import ShapeBase from './ShapeBase'
 import Vec2 from '@core/math/Vec2'
 import Context from '@core/Context'
+import { ERepetitionType, IRepetition, ISceneChildPropArguments } from '@core/types/scene-child'
+import { IShapeLoopGenerator, IShapeLoopProps, IShapeLoopSettings } from '@core/types/shape-primitive'
+import { EShapePrimitiveAdaptMode, IShapePrimitiveProps } from '@core/types/shape-base'
+
+/**
+ *
+ *
+ * @export
+ * @internal
+ * @ignore
+ * @interface LoopMeta
+ */
+export interface LoopMeta {
+	start: number
+	end: number
+	inc: number
+	repetition: number
+}
 
 /**
  * Shape Loop
@@ -41,15 +51,15 @@ class ShapeLoop extends ShapePrimitive {
 	 * Empty Prop Arguments
 	 *
 	 * @static
-	 * @type {ShapeBasePropArguments}
+	 * @type {ISceneChildPropArguments}
 	 * @memberof ShapeBase
 	 */
-	public static readonly EMPTY_PROP_ARGUMENTS: ShapeBasePropArguments = {
+	public static readonly EMPTY_PROP_ARGUMENTS: ISceneChildPropArguments = {
 		time: 1,
 		context: Context,
 		repetition: ShapeBase.getEmptyRepetition(),
 		shape_loop: {
-			type: RepetitionType.Loop,
+			type: ERepetitionType.Loop,
 			current_index: 0,
 			current_offset: 0,
 			current_angle: 0,
@@ -68,10 +78,10 @@ class ShapeLoop extends ShapePrimitive {
 	 * Shape loop props
 	 *
 	 * @protected
-	 * @type {ShapeLoopProps}
-	 * @memberof ShapeLoop
+	 * @type {IShapeLoopProps}
+	 * @memberof ShapeLoops
 	 */
-	protected props: ShapeLoopProps
+	protected props: IShapeLoopProps
 
 	/**
 	 * chek if loop generate a static shape
@@ -86,13 +96,13 @@ class ShapeLoop extends ShapePrimitive {
 	 * Loop generator
 	 *
 	 * @protected
-	 * @type {ShapeLoopGenerator}
+	 * @type {IShapeLoopGenerator}
 	 * @memberof ShapeLoop
 	 */
-	protected loop: ShapeLoopGenerator
+	protected loop: IShapeLoopGenerator
 
 	/**
-	 * Generate static loop buffer whem ShapeLoopGenerator props
+	 * Generate static loop buffer whem IShapeLoopGenerator props
 	 * haven't dynamic properties
 	 *
 	 * @protected
@@ -110,7 +120,7 @@ class ShapeLoop extends ShapePrimitive {
 	 */
 	public shapeLoopPropsDependencies: Array<string>
 
-	constructor(settings: ShapeLoopSettings = {}, bPreventGeneration: boolean = false) {
+	constructor(settings: IShapeLoopSettings = {}, bPreventGeneration: boolean = false) {
 		settings.type = settings.type || 'ShapeLoop'
 		super(settings)
 
@@ -146,7 +156,7 @@ class ShapeLoop extends ShapePrimitive {
 		if (this.shapeLoopPropsDependencies.indexOf('prop_arguments') >= 0) return false
 
 		for (let i = 0, len = this.shapeLoopPropsDependencies.length; i < len; i++)
-			if (typeof this.props[this.shapeLoopPropsDependencies[i] as keyof ShapeLoopProps] === 'function') return false
+			if (typeof this.props[this.shapeLoopPropsDependencies[i] as keyof IShapeLoopProps] === 'function') return false
 
 		return true
 	}
@@ -197,12 +207,12 @@ class ShapeLoop extends ShapePrimitive {
 	/**
 	 * Set single or multiple props
 	 *
-	 * @param {(keyof ShapeLoopProps | ShapeLoopProps)} key
+	 * @param {(keyof IShapeLoopProps | IShapeLoopProps)} key
 	 * @param {*} [value]
 	 * @param {boolean} [bClearIndexed=false]
 	 * @memberof ShapeLoop
 	 */
-	public setProp(key: keyof ShapeLoopProps | ShapeLoopProps, value?: any): void {
+	public setProp(key: keyof IShapeLoopProps | IShapeLoopProps, value?: any): void {
 		let bClearIndexed = false
 		key = typeof key === 'string' ? { [key]: value } : key
 
@@ -219,30 +229,30 @@ class ShapeLoop extends ShapePrimitive {
 			bClearIndexed = true
 		}
 
-		super.setProp(key as ShapePrimitiveProps, value, bClearIndexed)
+		super.setProp(key as IShapePrimitiveProps, value, bClearIndexed)
 	}
 
 	/**
 	 * Get prop
 	 *
-	 * @param {keyof ShapeLoopProps} key
-	 * @param {ShapeBasePropArguments} [prop_arguments]
+	 * @param {keyof IShapeLoopProps} key
+	 * @param {ISceneChildPropArguments} [prop_arguments]
 	 * @param {*} [default_value]
 	 * @returns {*}
 	 * @memberof ShapeLoop
 	 */
-	public getProp(key: keyof ShapeLoopProps, prop_arguments?: ShapeBasePropArguments, default_value?: any): any {
-		return super.getProp(key as keyof ShapePrimitiveProps, prop_arguments, default_value)
+	public getProp(key: keyof IShapeLoopProps, prop_arguments?: ISceneChildPropArguments, default_value?: any): any {
+		return super.getProp(key as keyof IShapePrimitiveProps, prop_arguments, default_value)
 	}
 
 	/**
 	 * Return length of buffer
 	 *
-	 * @param {ShapeBasePropArguments} [prop_arguments]
+	 * @param {ISceneChildPropArguments} [prop_arguments]
 	 * @returns {number}
 	 * @memberof ShapeBase
 	 */
-	public getBufferLength(prop_arguments: ShapeBasePropArguments): number {
+	public getBufferLength(prop_arguments: ISceneChildPropArguments): number {
 		if (this.bStatic && this.buffer && this.buffer.length > 0) return this.buffer.length
 
 		if (this.bStaticLoop && this.loop_buffer && this.loop_buffer.length > 0)
@@ -258,11 +268,11 @@ class ShapeLoop extends ShapePrimitive {
 	 *
 	 * @protected
 	 * @param {number} generate_id
-	 * @param {ShapeBasePropArguments} prop_arguments
+	 * @param {ISceneChildPropArguments} prop_arguments
 	 * @returns {Float32Array}
 	 * @memberof ShapeBase
 	 */
-	protected generateBuffer(generate_id: number, prop_arguments: ShapeBasePropArguments): Float32Array {
+	protected generateBuffer(generate_id: number, prop_arguments: ISceneChildPropArguments): Float32Array {
 		this.bindSideLength(prop_arguments)
 
 		if (!this.bStaticLoop) return this.generateLoopBuffer(prop_arguments)
@@ -276,19 +286,19 @@ class ShapeLoop extends ShapePrimitive {
 	 * Generate loop buffer
 	 *
 	 * @private
-	 * @param {ShapeBasePropArguments} prop_arguments
+	 * @param {ISceneChildPropArguments} prop_arguments
 	 * @returns {Float32Array}
 	 * @memberof ShapeLoop
 	 */
-	private generateLoopBuffer(prop_arguments: ShapeBasePropArguments): Float32Array {
+	private generateLoopBuffer(prop_arguments: ISceneChildPropArguments): Float32Array {
 		const { start, end, inc, repetition } = this.getLoop(prop_arguments)
 
 		const getVertex = (this.props.loop && this.props.loop.vertex ? this.props.loop.vertex : this.loop.vertex) as (
 			current_angle: number,
-			prop_arguments?: ShapeBasePropArguments
+			prop_arguments?: ISceneChildPropArguments
 		) => Array<number> | Float32Array
 
-		const shape_loop: Repetition = {
+		const shape_loop: IRepetition = {
 			current_index: 1,
 			current_offset: 0,
 			current_angle: 0,
@@ -296,7 +306,7 @@ class ShapeLoop extends ShapePrimitive {
 			current_row: 1,
 			current_col_offset: 0,
 			current_row_offset: 0,
-			type: RepetitionType.Loop,
+			type: ERepetitionType.Loop,
 			// random_offset: [0, 0],
 			count: repetition,
 			count_col: 1,
@@ -323,8 +333,8 @@ class ShapeLoop extends ShapePrimitive {
 			buffer[j + 1] = vertex[1]
 		}
 
-		return this.bAdaptBuffer != ShapePrimitiveAdaptMode.None
-			? ShapePrimitive.adaptBuffer(buffer, this.bAdaptBuffer as ShapePrimitiveAdaptMode)
+		return this.bAdaptBuffer != EShapePrimitiveAdaptMode.None
+			? ShapePrimitive.adaptBuffer(buffer, this.bAdaptBuffer as EShapePrimitiveAdaptMode)
 			: buffer
 	}
 
@@ -332,11 +342,11 @@ class ShapeLoop extends ShapePrimitive {
 	 * Return information about a client loop gnerator
 	 *
 	 * @public
-	 * @param {ShapeBasePropArguments} prop_arguments
+	 * @param {ISceneChildPropArguments} prop_arguments
 	 * @returns {ShapeLoopInformation}
 	 * @memberof ShapeBase
 	 */
-	public getLoop(prop_arguments: ShapeBasePropArguments = ShapeBase.EMPTY_PROP_ARGUMENTS): LoopMeta {
+	public getLoop(prop_arguments: ISceneChildPropArguments = ShapeBase.EMPTY_PROP_ARGUMENTS): LoopMeta {
 		prop_arguments.time = this.scene?.current_time || 0
 
 		let start = this.props.loop?.start ?? this.loop.start
@@ -355,10 +365,10 @@ class ShapeLoop extends ShapePrimitive {
 	/**
 	 * Set shape
 	 *
-	 * @param {(ShapeLoopGenerator)} [shape]
+	 * @param {(IShapeLoopGenerator)} [shape]
 	 * @memberof ShapeBase
 	 */
-	public setShape(loop: ShapeLoopGenerator): void {
+	public setShape(loop: IShapeLoopGenerator): void {
 		this.setProp('loop', loop)
 	}
 }

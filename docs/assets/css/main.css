@@ -423,6 +423,8 @@ aside,
 .reference__property__type,
 .reference__method__property_name,
 .reference__method__property_type,
+.reference__property__default_value,
+.reference__method__property_default_value,
 .reference__method__return_type {
 	font-size: 0.9rem;
 }
@@ -432,4 +434,8 @@ h1.reference__name small {
 }
 h3.reference__constructor {
 	margin: 0;
+}
+.reference__constructor__description {
+	margin: 1rem 0 0;
+	color: rgba(255, 255, 255, 0.4);
 }

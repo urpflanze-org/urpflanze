@@ -1,4 +1,3 @@
-import { ShapeBasePropArguments, ShapeLoopGenerator } from '@core/types/ShapeBase'
 import Utilities from 'src/Utilites'
 
 import DrawerCanvas from '@services/drawer-canvas/DrawerCanvas'
@@ -7,10 +6,12 @@ import SceneChildPropsData, {
 	TSceneChildPropsDataKeys,
 } from '@services/scene-utilities/SceneChildPropsData'
 import { IShapeLoop, TAnimation, TDrawerTransformation, TDrawerValue } from '@services/types/animation'
+import { IShapeLoopGenerator, TVertexCallback } from '@core/types/shape-primitive'
+import { ISceneChildPropArguments } from '@core/types/scene-child'
 
 class ScenePropUtilities {
 	public static readonly RAW_ARGUMENTS: string = '{ context, repetition, time, shape, shape_loop, data }'
-	public static readonly RAW_ARGUMENTS_WIT_PARENT: string =
+	public static readonly RAW_ARGUMENTS_WITH_PARENT: string =
 		'{ context, repetition, parent, time, shape, shape_loop, data }'
 
 	//#region ShapeLoop
@@ -30,16 +31,7 @@ class ScenePropUtilities {
 	static bValueVertexCallback(value: any): boolean {
 		return value && value.raw && value.raw.length > 0
 	}
-	static composeVertexCallback(
-		value: any
-	):
-		| ((
-				vertex: Array<number> | Float32Array,
-				prop_argumens: ShapeBasePropArguments,
-				vertex_index: number,
-				vertex_length: number
-		  ) => Array<number> | Float32Array)
-		| undefined {
+	static composeVertexCallback(value: any): TVertexCallback | undefined {
 		if (value && value.raw) {
 			const vertexCallback = new Function(
 				'vertex',
@@ -47,22 +39,17 @@ class ScenePropUtilities {
 				'vertex_index',
 				'vertex_lenght',
 				`return ${value.raw}`
-			) as (
-				vertex: Array<number> | Float32Array,
-				prop_argumens: ShapeBasePropArguments,
-				vertex_index: number,
-				vertex_length: number
-			) => Array<number> | Float32Array
+			) as TVertexCallback
 
 			return vertexCallback
 		}
 	}
 
-	static composeLoop(loop: IShapeLoop): ShapeLoopGenerator {
+	static composeLoop(loop: IShapeLoop): IShapeLoopGenerator {
 		const vertex = loop.vertex.raw
 			? (new Function('index', ScenePropUtilities.RAW_ARGUMENTS, `return ${loop.vertex.raw}`) as (
 					current_angle: number,
-					prop_arguments: ShapeBasePropArguments
+					prop_arguments: ISceneChildPropArguments
 			  ) => Array<number> | Float32Array)
 			: undefined
 

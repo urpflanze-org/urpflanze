@@ -1,5 +1,5 @@
 import ShapeLoop from '../ShapeLoop';
-import { ShapePrimitiveAdaptMode } from '@core/interfaces/shapes/Interfaces';
+import { EShapePrimitiveAdaptMode } from '@core/types/shape-base';
 /**
  * Spiral shape
  *
@@ -17,7 +17,7 @@ class Spiral extends ShapeLoop {
         var _a, _b, _c, _d;
         settings.type = 'Spiral';
         settings.bCloseShape = false;
-        settings.bAdaptBuffer = (_a = settings.bAdaptBuffer) !== null && _a !== void 0 ? _a : ShapePrimitiveAdaptMode.None;
+        settings.bAdaptBuffer = (_a = settings.bAdaptBuffer) !== null && _a !== void 0 ? _a : EShapePrimitiveAdaptMode.None;
         settings.shapeLoopPropsDependencies = (settings.shapeLoopPropsDependencies || []).concat([
             'twists',
             'twists_start',
@@ -42,7 +42,7 @@ class Spiral extends ShapeLoop {
                 return rep / (radius * twists);
             },
             vertex: (angle, prop_arguments) => {
-                const r = Spiral.getRFromSpiralType(this.getProp('spiral', prop_arguments), angle);
+                const r = Spiral.getRFromTSpiralType(this.getProp('spiral', prop_arguments), angle);
                 return [r * Math.cos(angle), r * Math.sin(angle)];
             },
         };
@@ -53,8 +53,8 @@ class Spiral extends ShapeLoop {
     /**
      * Get property value
      *
-     * @param {keyof SpiralProps} key
-     * @param {ShapeBasePropArguments} [prop_arguments]
+     * @param {keyof ISpiralProps} key
+     * @param {ISceneChildPropArguments} [prop_arguments]
      * @param {*} [defaul_value]
      * @returns {*}
      * @memberof Spiral
@@ -65,7 +65,7 @@ class Spiral extends ShapeLoop {
     /**
      * Set single or multiple props
      *
-     * @param {(keyof SpiralProps | SpiralSettings)} key
+     * @param {(keyof ISpiralProps | ISpiralProps)} key
      * @param {*} [value]
      * @memberof Spiral
      */
@@ -81,12 +81,12 @@ class Spiral extends ShapeLoop {
      * Point position and scale factor for spiral types
      *
      * @static
-     * @param {SpiralType} spiral
+     * @param {TSpiralType} spiral
      * @param {number} angle
      * @returns {number}
      * @memberof Spiral
      */
-    static getRFromSpiralType(spiral, angle) {
+    static getRFromTSpiralType(spiral, angle) {
         switch (spiral) {
             case Spiral.types.ARCHIMEDE:
                 return angle / 10;
@@ -106,7 +106,7 @@ class Spiral extends ShapeLoop {
  * Spural types
  *
  * @static
- * @type {{ [name in SpiralType]: SpiralType }}
+ * @type {{ [name in TSpiralType]: TSpiralType }}
  * @memberof Spiral
  */
 Spiral.types = {

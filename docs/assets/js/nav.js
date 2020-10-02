@@ -1,31 +1,33 @@
 const References = { References: {} }
 window.mapped_references = {}
 
-window.references.forEach(reference => {
-	mapped_references[reference.name] = reference
+window.references
+	.sort((a, b) => a.order - b.order)
+	.forEach(reference => {
+		mapped_references[reference.name] = reference
 
-	if (reference.category) {
-		const categories = reference.category.split('.')
-		let r = References
-		level = 0
-		categories.forEach(category => {
-			if (typeof r[category] === 'undefined') r[category] = {}
-			r = r[category]
-			level++
-		})
-		if (level === 2) {
-			r[reference.name] = 'ref/' + reference.name
-		} else {
-			console.log(r)
-			if (typeof r[''] === 'undefined') {
-				r[''] = {}
+		if (reference.category) {
+			const categories = reference.category.split('.')
+			let r = References
+			level = 0
+			categories.forEach(category => {
+				if (typeof r[category] === 'undefined') r[category] = {}
+				r = r[category]
+				level++
+			})
+			if (level === 2) {
+				r[reference.name] = 'ref/' + reference.name
+			} else {
+				console.log(r)
+				if (typeof r[''] === 'undefined') {
+					r[''] = {}
+				}
+				r[''][reference.name] = 'ref/' + reference.name
 			}
-			r[''][reference.name] = 'ref/' + reference.name
+		} else {
+			References['References'][reference.name] = 'ref/' + reference.name
 		}
-	} else {
-		References['References'][reference.name] = 'ref/' + reference.name
-	}
-})
+	})
 
 console.log(References)
 

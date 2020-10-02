@@ -1,23 +1,24 @@
 import ShapeBase from '@core/shapes/ShapeBase';
-import { ShapePrimitiveProps, ShapePrimitiveSettings, ShapePrimitiveAdaptMode } from '@core/interfaces/shapes/Interfaces';
-import { ShapeBaseStreamIndexing, ShapeBasePropArguments, ShapeBounding, Repetition, VertexCallbackGenerator } from '@core/types/ShapeBase';
 import { TArray } from '@core/math/Vec2';
+import { EShapePrimitiveAdaptMode, IShapeBounding, IShapePrimitiveProps, IShapePrimitiveSettings } from '@core/types/shape-base';
+import { IRepetition, ISceneChildPropArguments, ISceneChildStreamIndexing } from '@core/types/scene-child';
+import { TVertexCallback } from '@core/types/shape-primitive';
 declare abstract class ShapePrimitive extends ShapeBase {
     /**
      * Item props
      *
      * @protected
-     * @type {ShapePrimitiveProps}
+     * @type {IShapePrimitiveProps}
      * @memberof ShapePrimitive
      */
-    protected props: ShapePrimitiveProps;
+    protected props: IShapePrimitiveProps;
     /**
      * Adapt buffer mode
      *
-     * @type {ShapePrimitiveAdaptMode}
+     * @type {EShapePrimitiveAdaptMode}
      * @memberof ShapePrimitive
      */
-    bAdaptBuffer: ShapePrimitiveAdaptMode;
+    bAdaptBuffer: EShapePrimitiveAdaptMode;
     /**
      * Define shape is closed
      *
@@ -39,8 +40,8 @@ declare abstract class ShapePrimitive extends ShapeBase {
      * @public
      * @memberof ShapeBase
      */
-    vertexCallback?: VertexCallbackGenerator;
-    constructor(settings?: ShapePrimitiveSettings);
+    vertexCallback?: TVertexCallback;
+    constructor(settings?: IShapePrimitiveSettings);
     /**
      * Check if shape is static
      *
@@ -51,21 +52,21 @@ declare abstract class ShapePrimitive extends ShapeBase {
     /**
      * Get prop
      *
-     * @param {keyof ShapePrimitiveProps} key
-     * @param {ShapeBasePropArguments} [prop_arguments]
+     * @param {keyof IShapePrimitiveProps} key
+     * @param {ISceneChildPropArguments} [prop_arguments]
      * @param {*} [default_value]
      * @returns {*}
      * @memberof ShapePrimitive
      */
-    getProp(key: keyof ShapePrimitiveProps, prop_arguments?: ShapeBasePropArguments, default_value?: any): any;
+    getProp(key: keyof IShapePrimitiveProps, prop_arguments?: ISceneChildPropArguments, default_value?: any): any;
     /**
      * set side length when generate a buffer into shape loop or shape buffer
      *
      * @protected
-     * @param {ShapeBasePropArguments} prop_arguments
+     * @param {ISceneChildPropArguments} prop_arguments
      * @memberof ShapePrimitive
      */
-    protected bindSideLength(prop_arguments: ShapeBasePropArguments): void;
+    protected bindSideLength(prop_arguments: ISceneChildPropArguments): void;
     /**
      *
      *
@@ -91,48 +92,48 @@ declare abstract class ShapePrimitive extends ShapeBase {
     /**
      * Return bAdaptBuffer
      *
-     * @returns {ShapePrimitiveAdaptMode}
+     * @returns {EShapePrimitiveAdaptMode}
      * @memberof ShapeBase
      */
-    isAdapted(): ShapePrimitiveAdaptMode;
+    isAdapted(): EShapePrimitiveAdaptMode;
     /**
      * Set bAdaptBuffer
      *
-     * @param {ShapePrimitiveAdaptMode} bAdapted
+     * @param {EShapePrimitiveAdaptMode} bAdapted
      * @memberof ShapeBase
      */
-    setAdapted(bAdapted: ShapePrimitiveAdaptMode): void;
+    setAdapted(bAdapted: EShapePrimitiveAdaptMode): void;
     /**
      *
      *
      * @protected
-     * @param {Array<ShapeBaseStreamIndexing>} buffer
+     * @param {Array<ISceneChildStreamIndexing>} buffer
      * @param {number} frame_length
      * @param {Repetition} current_repetition
-     * @param {ShapeBaseStreamIndexing} [parent]
+     * @param {ISceneChildStreamIndexing} [parent]
      * @memberof ShapePrimitive
      */
-    protected addIndex(buffer: Array<ShapeBaseStreamIndexing>, frame_length: number, current_repetition: Repetition, parent?: ShapeBaseStreamIndexing): void;
+    protected addIndex(buffer: Array<ISceneChildStreamIndexing>, frame_length: number, current_repetition: IRepetition, parent?: ISceneChildStreamIndexing): void;
     /**
      * Get buffer bounding
      *
      * @static
      * @param {Float32Array} buffer
-     * @returns {ShapeBounding}
+     * @returns {IShapeBounding}
      * @memberof ShapePrimitive
      */
-    static getBounding(buffer: Float32Array): ShapeBounding;
+    static getBounding(buffer: Float32Array): IShapeBounding;
     /**
      * Return adapted buffer between [-1,-1] and [1,1]
      *
      * @public
      * @static
      * @param {Float32Array} input
-     * @param {ShapePrimitiveAdaptMode} mode
+     * @param {EShapePrimitiveAdaptMode} mode
      * @returns {Float32Array}
      * @memberof ShapePrimitive
      */
-    static adaptBuffer(input: Float32Array, mode: ShapePrimitiveAdaptMode): Float32Array;
+    static adaptBuffer(input: Float32Array, mode: EShapePrimitiveAdaptMode): Float32Array;
 }
 export default ShapePrimitive;
 //# sourceMappingURL=ShapePrimitive.d.ts.map

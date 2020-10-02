@@ -1,5 +1,5 @@
-import { ShapePrimitiveAdaptMode } from '@core/interfaces/shapes/Interfaces';
 import ShapeLoop from '@core/shapes/ShapeLoop';
+import { EShapePrimitiveAdaptMode } from '@core/types/shape-base';
 class Circle extends ShapeLoop {
     /**
      * Creates an instance of Circle.
@@ -11,7 +11,7 @@ class Circle extends ShapeLoop {
         var _a;
         settings.type = 'Circle';
         settings.shapeLoopPropsDependencies = (settings.shapeLoopPropsDependencies || []).concat(['sideLength']);
-        settings.bAdaptBuffer = (_a = settings.bAdaptBuffer) !== null && _a !== void 0 ? _a : ShapePrimitiveAdaptMode.Scale;
+        settings.bAdaptBuffer = (_a = settings.bAdaptBuffer) !== null && _a !== void 0 ? _a : EShapePrimitiveAdaptMode.Scale;
         super(settings);
         this.loop = {
             start: 0,

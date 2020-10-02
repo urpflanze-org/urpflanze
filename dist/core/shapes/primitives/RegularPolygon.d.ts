@@ -1,6 +1,6 @@
-import { RegularPolygonProps, RegularPolygonSettings } from '@core/interfaces/shapes/PrimitiveInterfaces';
-import ShapeLoop from '../ShapeLoop';
-import { ShapeBasePropArguments } from '@core/types/ShapeBase';
+import { IRegularPolygonProps, IRegularPolygonSettings } from '@core/types/shape-primitive';
+import ShapeLoop from '@core/shapes/ShapeLoop';
+import { ISceneChildPropArguments } from '@core/types/scene-child';
 /**
  * Polygon shape
  *
@@ -8,26 +8,26 @@ import { ShapeBasePropArguments } from '@core/types/ShapeBase';
  * @extends {ShapeLoop}
  */
 declare class RegularPolygon extends ShapeLoop {
-    protected props: RegularPolygonProps;
-    constructor(settings?: RegularPolygonSettings);
+    protected props: IRegularPolygonProps;
+    constructor(settings?: IRegularPolygonSettings);
     /**
      * Get property value
      *
-     * @param {keyof RegularPolygonProps} key
-     * @param {ShapeBasePropArguments} [prop_arguments]
+     * @param {keyof IRegularPolygonProps} key
+     * @param {ISceneChildPropArguments} [prop_arguments]
      * @param {*} [default_value]
      * @returns {*}
-     * @memberof RegularPolygonProps
+     * @memberof IRegularPolygonProps
      */
-    getProp(key: keyof RegularPolygonProps, prop_arguments?: ShapeBasePropArguments, default_value?: any): any;
+    getProp(key: keyof IRegularPolygonProps, prop_arguments?: ISceneChildPropArguments, default_value?: any): any;
     /**
      * Set single or multiple props
      *
-     * @param {(keyof RegularPolygonProps | RegularPolygonSettings)} key
+     * @param {(keyof IRegularPolygonProps | RegularPolygonSettings)} key
      * @param {*} [value]
-     * @memberof RegularPolygonProps
+     * @memberof IRegularPolygonProps
      */
-    setProp(key: keyof RegularPolygonProps | RegularPolygonSettings, value?: any): void;
+    setProp(key: keyof IRegularPolygonProps | IRegularPolygonSettings, value?: any): void;
 }
 export default RegularPolygon;
 //# sourceMappingURL=RegularPolygon.d.ts.map

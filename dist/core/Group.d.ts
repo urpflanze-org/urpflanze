@@ -1,12 +1,13 @@
-import { ShapeBasePropArguments, ShapeBaseStreamArguments, ShapeBaseStreamIndexing } from '@core/types/ShapeBase';
-import { ShapeBaseProps, ShapeBaseSettings } from '@core/interfaces/shapes/Interfaces';
+import { TStreamCallback } from '@core/types/scene';
+import { ISceneChildPropArguments, ISceneChildProps, ISceneChildSettings, ISceneChildStreamIndexing } from '@core/types/scene-child';
 import SceneChild from '@core/SceneChild';
 /**
  * Group used for add multiple SceneChild with same props
  *
- * @class Group
- * @category Core
+ * @order 3
+ * @category Core.Scene
  * @extends {SceneChild}
+ * @class Group
  */
 declare class Group extends SceneChild {
     /**
@@ -19,10 +20,10 @@ declare class Group extends SceneChild {
     /**
      * Creates an instance of Group
      *
-     * @param {ShapeBaseSettings} [settings={}]
+     * @param {ISceneChildSettings} [settings={}]
      * @memberof Group
      */
-    constructor(settings?: ShapeBaseSettings);
+    constructor(settings?: ISceneChildSettings);
     /**
      * Check group has static children
      *
@@ -87,10 +88,10 @@ declare class Group extends SceneChild {
      *
      * @param {number} indexing_id
      * @param {boolean} [bDirectSceneChild=false]
-     * @param {ShapeBasePropArguments} [parent_prop_arguments]
+     * @param {ISceneChildPropArguments} [parent_prop_arguments]
      * @memberof Group
      */
-    generate(indexing_id: number, bDirectSceneChild?: boolean, parent_prop_arguments?: ShapeBasePropArguments): void;
+    generate(indexing_id: number, bDirectSceneChild?: boolean, parent_prop_arguments?: ISceneChildPropArguments): void;
     /**
      * Chear children buffer
      *
@@ -103,19 +104,19 @@ declare class Group extends SceneChild {
      * Set a single or multiple props
      *
      * @abstract
-     * @param {(keyof ShapeBaseProps | ShapeBaseProps)} key
+     * @param {(keyof ISceneChildProps | ISceneChildProps)} key
      * @param {*} [value]
      * @memberof SceneChild
      */
-    setProp(key: keyof ShapeBaseProps | ShapeBaseProps, value?: any): void;
+    setProp(key: keyof ISceneChildProps | ISceneChildProps, value?: any): void;
     /**
      * Return length of buffer
      *
-     * @param {ShapeBasePropArguments} prop_arguments
+     * @param {ISceneChildPropArguments} prop_arguments
      * @returns {number}
      * @memberof Group
      */
-    getBufferLength(prop_arguments?: ShapeBasePropArguments): number;
+    getBufferLength(prop_arguments?: ISceneChildPropArguments): number;
     /**
      * return a single buffer binded from children
      *
@@ -126,48 +127,26 @@ declare class Group extends SceneChild {
     /**
      * return a single buffer binded from children
      *
-     * @returns {(Array<ShapeBaseStreamIndexing> | undefined)}
+     * @returns {(Array<ISceneChildStreamIndexing> | undefined)}
      * @memberof Group
      */
-    getIndexedBuffer(): Array<ShapeBaseStreamIndexing> | undefined;
+    getIndexedBuffer(): Array<ISceneChildStreamIndexing> | undefined;
     /**
      * Call strem on children
      *
-     * @param {(stream_arguments: ShapeBaseStreamArguments) => void} callback
+     * @param {TStreamCallback} callback
      * @memberof Group
      */
-    stream(callback: (stream_arguments: ShapeBaseStreamArguments) => void): void;
+    stream(callback: TStreamCallback): void;
     /**
      * Index vertex buffer
      *
      * @private
-     * @param {Array<ShapeBaseStreamIndexing>} buffer
-     * @param {ShapeBaseStreamIndexing} [parent]
+     * @param {Array<ISceneChildStreamIndexing>} buffer
+     * @param {ISceneChildStreamIndexing} [parent]
      * @memberof Group
      */
-    index(buffer: Array<ShapeBaseStreamIndexing>, parent?: ShapeBaseStreamIndexing): void;
-    /**
-     *
-     *
-     * @private
-     * @static
-     * @param {SceneChild} itemToPropagate
-     * @param {(keyof ShapeBaseProps | ShapeBaseProps)} key
-     * @param {*} value
-     * @memberof Group
-     */
-    private static propagateProp;
-    /**
-     * Remove duplicate props
-     *
-     * @private
-     * @static
-     * @param {Group} group
-     * @param {SceneChild} dest
-     * @returns {ShapeBaseProps}
-     * @memberof Group
-     */
-    private static removeIntersected;
+    index(buffer: Array<ISceneChildStreamIndexing>, parent?: ISceneChildStreamIndexing): void;
 }
 export default Group;
 //# sourceMappingURL=Group.d.ts.map

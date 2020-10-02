@@ -1,4 +1,4 @@
-import { ShapePrimitiveAdaptMode } from '@core/interfaces/shapes/Interfaces';
+import { EShapePrimitiveAdaptMode } from '@core/types/shape-base';
 import ShapeBuffer from '@core/shapes/ShapeBuffer';
 /**
  * Triangle ShapeBuffer
@@ -13,7 +13,7 @@ class Triangle extends ShapeBuffer {
     constructor(settings = {}) {
         settings.type = 'Triangle';
         settings.shape = [-1, -1, 1, 0, -1, 1];
-        settings.bAdaptBuffer = ShapePrimitiveAdaptMode.None;
+        settings.bAdaptBuffer = EShapePrimitiveAdaptMode.None;
         super(settings);
     }
 }

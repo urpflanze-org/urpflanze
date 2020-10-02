@@ -5,7 +5,6 @@ import Shape from '@core/shapes/Shape'
 import ShapeBase from '@core/shapes/ShapeBase'
 import ShapeBuffer from '@core/shapes/ShapeBuffer'
 import ShapePrimitive from '@core/shapes/ShapePrimitive'
-import { ShapeBaseProps } from '@core/interfaces/shapes/Interfaces'
 
 import Utilities from 'src/Utilites'
 
@@ -14,6 +13,7 @@ import JSONImporter from '@services/importers/JSONImporter'
 import Timeline from '@services/timeline/Timeline'
 import { IProject, IProjectSceneChild } from '@services/types/project'
 import SceneUtilities from '@services/scene-utilities/SceneUtilities'
+import { ISceneChildProps } from '@core/types/scene-child'
 
 class JSONExporter {
 	parse(drawer: DrawerCanvas, name = 'EmptyProject'): string {
@@ -71,7 +71,7 @@ class JSONExporter {
 		}
 
 		const props = sceneChild.getProps()
-		const propsKeys = Object.keys(props) as Array<keyof ShapeBaseProps>
+		const propsKeys = Object.keys(props) as Array<keyof ISceneChildProps>
 
 		for (let i = 0, len = propsKeys.length; i < len; i++)
 			props[propsKeys[i]] = Utilities.parseFunction.parse(props[propsKeys[i]])

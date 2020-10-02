@@ -1,9 +1,9 @@
 import ShapePrimitive from '@core/shapes/ShapePrimitive';
-import { ShapePrimitiveAdaptMode } from '@core/interfaces/shapes/Interfaces';
+import { EShapePrimitiveAdaptMode } from '@core/types/shape-base';
 class ShapeBuffer extends ShapePrimitive {
     constructor(settings = {}) {
         settings.type = settings.type || 'ShapeBuffer';
-        settings.bAdaptBuffer = settings.bAdaptBuffer || ShapePrimitiveAdaptMode.Scale;
+        settings.bAdaptBuffer = settings.bAdaptBuffer || EShapePrimitiveAdaptMode.Scale;
         super(settings);
         if (typeof settings.shape === 'undefined') {
             console.warn('[Urpflanze:ShapeBuffer] ShapeBuffer require a buffer passed from `shape` property');
@@ -12,7 +12,7 @@ class ShapeBuffer extends ShapePrimitive {
         else
             this.shape = Float32Array.from(settings.shape);
         this.shape_buffer =
-            this.isAdapted() != ShapePrimitiveAdaptMode.None
+            this.isAdapted() != EShapePrimitiveAdaptMode.None
                 ? ShapePrimitive.adaptBuffer(this.shape, this.isAdapted())
                 : this.shape;
         this.bStatic = this.isStatic();
@@ -28,7 +28,7 @@ class ShapeBuffer extends ShapePrimitive {
     clearBuffer(bClearIndexed = false, bPropagateToParents = true) {
         super.clearBuffer(bClearIndexed, bPropagateToParents);
         this.shape_buffer =
-            this.isAdapted() != ShapePrimitiveAdaptMode.None
+            this.isAdapted() != EShapePrimitiveAdaptMode.None
                 ? ShapePrimitive.adaptBuffer(this.shape, this.isAdapted())
                 : this.shape;
     }
@@ -48,7 +48,7 @@ class ShapeBuffer extends ShapePrimitive {
      *
      * @protected
      * @param {number} generate_id
-     * @param {ShapeBasePropArguments} prop_arguments
+     * @param {ISceneChildPropArguments} prop_arguments
      * @returns {Float32Array}
      * @memberof ShapeBase
      */

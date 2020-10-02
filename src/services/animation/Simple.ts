@@ -1,5 +1,4 @@
 import ColorManager from '@pups/core/build/Models/Color/ColorManager'
-import { ShapeBaseProp, ShapeBasePropArguments } from '@core/types/ShapeBase'
 import {
 	ISimpleAnimation,
 	TModeFunction,
@@ -10,18 +9,19 @@ import {
 import Easings, { TEasing } from '@services/animation/Easings'
 import Utilities from 'src/Utilites'
 import { TArray } from '@core/math/Vec2'
+import { ISceneChildPropArguments, TSceneChildProp } from '@core/types/scene-child'
 
 const Simple = {
-	loop: (props: TSimpleAnimationLoop): ShapeBaseProp<string | number | TArray> =>
+	loop: (props: TSimpleAnimationLoop): TSceneChildProp<string | number | TArray> =>
 		Simple.compose({ mode: 'sinusoidal', mode_function: 'cos', ...props, type: 'loop', delay: undefined }),
 
-	uncontrolledLoop: (props: TSimpleAnimationUncontrolledLoop): ShapeBaseProp<string | number | TArray> =>
+	uncontrolledLoop: (props: TSimpleAnimationUncontrolledLoop): TSceneChildProp<string | number | TArray> =>
 		Simple.compose({ mode: 'easing', mode_function: 'linear', ...props, type: 'uncontrolled-loop' }),
 
-	static: (props: TSimpleAnimationStatic): ShapeBaseProp<string | number | TArray> =>
+	static: (props: TSimpleAnimationStatic): TSceneChildProp<string | number | TArray> =>
 		Simple.compose({ mode: 'easing', mode_function: 'linear', ...props, type: 'static' }),
 
-	compose: (simpleAnimation: ISimpleAnimation): ShapeBaseProp<string | number | TArray> => {
+	compose: (simpleAnimation: ISimpleAnimation): TSceneChildProp<string | number | TArray> => {
 		if (typeof simpleAnimation.from !== 'string' && typeof simpleAnimation.to !== 'string') {
 			const bArray = Array.isArray(simpleAnimation.from) || Array.isArray(simpleAnimation.to)
 
@@ -64,13 +64,13 @@ const Simple = {
 }
 function createSimpleAnimationCallback<T>(
 	animation: ISimpleAnimation,
-	value: (props: ShapeBasePropArguments, currentInterpolation: number) => T
-): ShapeBaseProp<T> {
+	value: (props: ISceneChildPropArguments, currentInterpolation: number) => T
+): TSceneChildProp<T> {
 	let { durate, type, mode, mode_function, delay } = animation as Required<ISimpleAnimation>
 
 	if (type === 'static') {
 		if (delay && delay > 0)
-			return function SimpleAnimation(props: ShapeBasePropArguments) {
+			return function SimpleAnimation(props: ISceneChildPropArguments) {
 				return value(
 					props,
 					props.time <= delay
@@ -81,18 +81,18 @@ function createSimpleAnimationCallback<T>(
 				)
 			}
 		else
-			return function SimpleAnimation(props: ShapeBasePropArguments) {
+			return function SimpleAnimation(props: ISceneChildPropArguments) {
 				return value(props, props.time <= durate ? Easings[mode_function as TEasing](props.time, 0, 1 - 0, durate) : 1)
 			}
 	} else {
 		if (type === 'loop') {
 			if (mode == 'sinusoidal') {
-				return function SimpleAnimation(props: ShapeBasePropArguments) {
+				return function SimpleAnimation(props: ISceneChildPropArguments) {
 					const frequency = ((props.time || 0) * 2 * Math.PI) / durate
 					return value(props, 0.5 + Math[mode_function as Exclude<TModeFunction, TEasing>](frequency) * 0.5)
 				}
 			} /* easing */ else {
-				return function SimpleAnimation(props: ShapeBasePropArguments) {
+				return function SimpleAnimation(props: ISceneChildPropArguments) {
 					const d2 = durate / 2
 					const t = props.time % durate
 					return value(
@@ -106,7 +106,7 @@ function createSimpleAnimationCallback<T>(
 		} // uncontrolled-loop
 		else {
 			if (mode == 'sinusoidal') {
-				return function SimpleAnimation(props: ShapeBasePropArguments) {
+				return function SimpleAnimation(props: ISceneChildPropArguments) {
 					let time = props.time % (durate + delay)
 					time = time <= delay ? 0 : time - delay
 					const frequency = ((time || 0) * 2 * Math.PI) / durate
@@ -114,7 +114,7 @@ function createSimpleAnimationCallback<T>(
 				}
 			} else {
 				if (delay && delay > 0)
-					return function SimpleAnimation(props: ShapeBasePropArguments) {
+					return function SimpleAnimation(props: ISceneChildPropArguments) {
 						const time = props.time % (durate + delay)
 						return value(
 							props,
@@ -126,7 +126,7 @@ function createSimpleAnimationCallback<T>(
 						)
 					}
 				else
-					return function SimpleAnimation(props: ShapeBasePropArguments) {
+					return function SimpleAnimation(props: ISceneChildPropArguments) {
 						const time = props.time % durate
 						return value(props, time <= durate ? Easings[mode_function as TEasing](time, 0, 1 - 0, durate) : 1)
 					}

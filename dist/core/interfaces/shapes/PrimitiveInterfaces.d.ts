@@ -1,6 +1,6 @@
-import { ShapeBaseProp } from '@core/types/ShapeBase';
+import { ShapeBaseProp } from '@core/types/shape-base';
 import { ShapeLoopProps, ShapeLoopSettings } from './Interfaces';
-import { SpiralType } from '@core/types/Spiral';
+import { SpiralType } from '@core/types/spiral';
 interface RegularPolygonProps extends ShapeLoopProps {
     sideNumber?: ShapeBaseProp<number>;
 }

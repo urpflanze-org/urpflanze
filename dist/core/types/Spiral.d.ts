@@ -5,4 +5,4 @@
  */
 declare type SpiralType = 'ARCHIMEDE' | 'HYPERBOLIC' | 'FERMAT' | 'LITUUS' | 'LOGARITHMIC';
 export { SpiralType };
-//# sourceMappingURL=Spiral.d.ts.map
+//# sourceMappingURL=spiral.d.ts.map

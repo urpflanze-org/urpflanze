@@ -1,7 +1,7 @@
 import ShapePrimitive from '@core/shapes/ShapePrimitive'
-import { ShapeBufferSettings, ShapePrimitiveAdaptMode } from '@core/interfaces/shapes/Interfaces'
-import { ShapeBasePropArguments } from '@core/types/ShapeBase'
-import Context from '@core/Context'
+import { ISceneChildPropArguments } from '@core/types/scene-child'
+import { EShapePrimitiveAdaptMode } from '@core/types/shape-base'
+import { IShapeBufferSettings } from '@core/types/shape-primitive'
 
 class ShapeBuffer extends ShapePrimitive {
 	/**
@@ -23,9 +23,9 @@ class ShapeBuffer extends ShapePrimitive {
 	 */
 	private shape_buffer: Float32Array
 
-	constructor(settings: ShapeBufferSettings = {}) {
+	constructor(settings: IShapeBufferSettings = {}) {
 		settings.type = settings.type || 'ShapeBuffer'
-		settings.bAdaptBuffer = settings.bAdaptBuffer || ShapePrimitiveAdaptMode.Scale
+		settings.bAdaptBuffer = settings.bAdaptBuffer || EShapePrimitiveAdaptMode.Scale
 
 		super(settings)
 
@@ -35,7 +35,7 @@ class ShapeBuffer extends ShapePrimitive {
 		} else this.shape = Float32Array.from(settings.shape)
 
 		this.shape_buffer =
-			this.isAdapted() != ShapePrimitiveAdaptMode.None
+			this.isAdapted() != EShapePrimitiveAdaptMode.None
 				? ShapePrimitive.adaptBuffer(this.shape, this.isAdapted())
 				: this.shape
 
@@ -54,7 +54,7 @@ class ShapeBuffer extends ShapePrimitive {
 		super.clearBuffer(bClearIndexed, bPropagateToParents)
 
 		this.shape_buffer =
-			this.isAdapted() != ShapePrimitiveAdaptMode.None
+			this.isAdapted() != EShapePrimitiveAdaptMode.None
 				? ShapePrimitive.adaptBuffer(this.shape, this.isAdapted())
 				: this.shape
 	}
@@ -76,11 +76,11 @@ class ShapeBuffer extends ShapePrimitive {
 	 *
 	 * @protected
 	 * @param {number} generate_id
-	 * @param {ShapeBasePropArguments} prop_arguments
+	 * @param {ISceneChildPropArguments} prop_arguments
 	 * @returns {Float32Array}
 	 * @memberof ShapeBase
 	 */
-	protected generateBuffer(generate_id: number, prop_arguments: ShapeBasePropArguments): Float32Array {
+	protected generateBuffer(generate_id: number, prop_arguments: ISceneChildPropArguments): Float32Array {
 		this.bindSideLength(prop_arguments)
 
 		if (this.vertexCallback) {

@@ -1,7 +1,6 @@
-import { ShapeBasePropArguments } from '@core/types/ShapeBase';
-import { SpiralType } from '@core/types/Spiral';
-import { SpiralProps, SpiralSettings } from '@core/interfaces/shapes/PrimitiveInterfaces';
 import ShapeLoop from '../ShapeLoop';
+import { ISpiralProps, ISpiralSettings, TSpiralType } from '@core/types/shape-primitive';
+import { ISceneChildPropArguments } from '@core/types/scene-child';
 /**
  * Spiral shape
  *
@@ -9,16 +8,16 @@ import ShapeLoop from '../ShapeLoop';
  * @extends {ShapeLoop}
  */
 declare class Spiral extends ShapeLoop {
-    protected props: SpiralProps;
+    protected props: ISpiralProps;
     /**
      * Spural types
      *
      * @static
-     * @type {{ [name in SpiralType]: SpiralType }}
+     * @type {{ [name in TSpiralType]: TSpiralType }}
      * @memberof Spiral
      */
     static readonly types: {
-        [name in SpiralType]: SpiralType;
+        [name in TSpiralType]: TSpiralType;
     };
     /**
      * Creates an instance of Spiral.
@@ -26,35 +25,35 @@ declare class Spiral extends ShapeLoop {
      * @param {SpiralSettings} [settings={}]
      * @memberof Spiral
      */
-    constructor(settings?: SpiralSettings);
+    constructor(settings?: ISpiralSettings);
     /**
      * Get property value
      *
-     * @param {keyof SpiralProps} key
-     * @param {ShapeBasePropArguments} [prop_arguments]
+     * @param {keyof ISpiralProps} key
+     * @param {ISceneChildPropArguments} [prop_arguments]
      * @param {*} [defaul_value]
      * @returns {*}
      * @memberof Spiral
      */
-    getProp(key: keyof SpiralProps, prop_arguments?: ShapeBasePropArguments, defaul_value?: any): any;
+    getProp(key: keyof ISpiralProps, prop_arguments?: ISceneChildPropArguments, defaul_value?: any): any;
     /**
      * Set single or multiple props
      *
-     * @param {(keyof SpiralProps | SpiralSettings)} key
+     * @param {(keyof ISpiralProps | ISpiralProps)} key
      * @param {*} [value]
      * @memberof Spiral
      */
-    setProp(key: keyof SpiralProps | SpiralSettings, value?: any): void;
+    setProp(key: keyof ISpiralProps | ISpiralProps, value?: any): void;
     /**
      * Point position and scale factor for spiral types
      *
      * @static
-     * @param {SpiralType} spiral
+     * @param {TSpiralType} spiral
      * @param {number} angle
      * @returns {number}
      * @memberof Spiral
      */
-    static getRFromSpiralType(spiral: SpiralType, angle: number): number;
+    static getRFromTSpiralType(spiral: TSpiralType, angle: number): number;
 }
 export default Spiral;
 //# sourceMappingURL=Spiral.d.ts.map

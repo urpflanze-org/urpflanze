@@ -1,4 +1,4 @@
-import { ShapeLoopProps, ShapePrimitiveProps, ShapePrimitiveAdaptMode } from '@core/interfaces/shapes/Interfaces'
+import { EShapePrimitiveAdaptMode } from '@core/types/shape-base'
 import { IShapeLoop, IVertexCallback, TAnimation, TCallableValue, TDrawerValue } from '@services/types/animation'
 import { TSceneChildProps } from './scene-utilities'
 
@@ -63,7 +63,7 @@ export interface IProjectSceneChild {
 	name: string
 	order: number
 	data: IProjectSceneChildData
-	bAdaptBuffer?: ShapePrimitiveAdaptMode
+	bAdaptBuffer?: EShapePrimitiveAdaptMode
 	bCloseShape?: boolean
 	bUseParent?: boolean
 	vertexCallback?: string

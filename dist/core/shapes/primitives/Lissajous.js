@@ -1,5 +1,5 @@
 import ShapeLoop from '@core/shapes/ShapeLoop';
-import { ShapePrimitiveAdaptMode } from '@core/interfaces/shapes/Interfaces';
+import { EShapePrimitiveAdaptMode } from '@core/types/shape-base';
 /**
  * Lissajous shape
  *
@@ -10,7 +10,7 @@ class Lissajous extends ShapeLoop {
     /**
      * Creates an instance of Lissajous.
      *
-     * @param {LissajousSettings} [settings={}]
+     * @param {ILissajousSettings} [settings={}]
      * @memberof Lissajous
      */
     constructor(settings = {}) {
@@ -22,7 +22,7 @@ class Lissajous extends ShapeLoop {
             'wz',
             'sideLength',
         ]);
-        settings.bAdaptBuffer = (_a = settings.bAdaptBuffer) !== null && _a !== void 0 ? _a : ShapePrimitiveAdaptMode.Scale;
+        settings.bAdaptBuffer = (_a = settings.bAdaptBuffer) !== null && _a !== void 0 ? _a : EShapePrimitiveAdaptMode.Scale;
         super(settings, true);
         this.props.wx = settings.wx || 1;
         this.props.wy = settings.wy || 2;
@@ -50,8 +50,8 @@ class Lissajous extends ShapeLoop {
     /**
      * Get property value
      *
-     * @param {keyof LissajousProps} key
-     * @param {ShapeBasePropArguments} [prop_arguments]
+     * @param {keyof ILissajousProps} key
+     * @param {ISceneChildPropArguments} [prop_arguments]
      * @param {*} [default_value]
      * @returns {*}
      * @memberof Lissajous
@@ -62,7 +62,7 @@ class Lissajous extends ShapeLoop {
     /**
      * Set single or multiple props
      *
-     * @param {(keyof LissajousProps | LissajousSettings)} key
+     * @param {(keyof ILissajousProps | ILissajousProps)} key
      * @param {*} [value]
      * @memberof Lissajous
      */

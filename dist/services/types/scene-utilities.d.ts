@@ -1,8 +1,8 @@
 import { IProjectSceneChildData } from '@services/types/project';
-import { RegularPolygonSettings, LissajousSettings, SpiralSettings, RoseSettings } from '@core/interfaces/shapes/PrimitiveInterfaces';
-import { ShapeBufferSettings, ShapeLoopSettings, ShapeSettings } from '@core/interfaces/shapes/Interfaces';
 import SceneChild from '@core/SceneChild';
-export declare type TSceneChildProps = Omit<(ShapeLoopSettings & ShapeBufferSettings & ShapeSettings & RegularPolygonSettings & LissajousSettings & SpiralSettings & RoseSettings) & {
+import { ILissajousSettings, IRegularPolygonSettings, IRoseSettings, IShapeBufferSettings, IShapeLoopSettings, ISpiralSettings } from '@core/types/shape-primitive';
+import { IShapeSettings } from '@core/types/shape-base';
+export declare type TSceneChildProps = Omit<(IShapeLoopSettings & IShapeBufferSettings & IShapeSettings & IRegularPolygonSettings & ILissajousSettings & ISpiralSettings & IRoseSettings) & {
     id?: number | string;
     name?: string;
     order?: number;

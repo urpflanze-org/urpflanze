@@ -1,17 +1,22 @@
-import { ShapeBasePropArguments, ShapeBaseStreamArguments, ShapeBaseStreamIndexing } from '@core/types/ShapeBase'
-import { ShapeBaseProps, ShapeBaseSettings } from '@core/interfaces/shapes/Interfaces'
-
-import SceneChild from '@core/SceneChild'
-import ShapeBase from '@core/shapes/ShapeBase'
+import { TStreamCallback } from '@core/types/scene'
+import {
+	ISceneChildPropArguments,
+	ISceneChildProps,
+	ISceneChildSettings,
+	ISceneChildStreamIndexing,
+} from '@core/types/scene-child'
 
 import Scene from '@core/Scene'
+import SceneChild from '@core/SceneChild'
+import ShapeBase from '@core/shapes/ShapeBase'
 
 /**
  * Group used for add multiple SceneChild with same props
  *
- * @class Group
- * @category Core
+ * @order 3
+ * @category Core.Scene
  * @extends {SceneChild}
+ * @class Group
  */
 class Group extends SceneChild {
 	/**
@@ -25,10 +30,10 @@ class Group extends SceneChild {
 	/**
 	 * Creates an instance of Group
 	 *
-	 * @param {ShapeBaseSettings} [settings={}]
+	 * @param {ISceneChildSettings} [settings={}]
 	 * @memberof Group
 	 */
-	constructor(settings: ShapeBaseSettings = {}) {
+	constructor(settings: ISceneChildSettings = {}) {
 		settings.type = 'Group'
 		super(settings)
 
@@ -36,7 +41,7 @@ class Group extends SceneChild {
 
 		// remove sceneChild props
 		;['id', 'name', 'order', 'type'].forEach((prop: string) => {
-			if (prop in settings) delete settings[prop as keyof ShapeBaseSettings]
+			if (prop in settings) delete settings[prop as keyof ISceneChildSettings]
 		})
 
 		this.props = settings
@@ -71,7 +76,7 @@ class Group extends SceneChild {
 	public add(item: SceneChild): void {
 		const rawItemProps = item.getProps()
 
-		;(Object.keys(this.props) as Array<keyof ShapeBaseProps>).forEach((propKey: keyof ShapeBaseProps) => {
+		;(Object.keys(this.props) as Array<keyof ISceneChildProps>).forEach((propKey: keyof ISceneChildProps) => {
 			if (typeof rawItemProps[propKey] === 'undefined') item.setProp(propKey, this.props[propKey])
 		})
 
@@ -188,13 +193,13 @@ class Group extends SceneChild {
 	 *
 	 * @param {number} indexing_id
 	 * @param {boolean} [bDirectSceneChild=false]
-	 * @param {ShapeBasePropArguments} [parent_prop_arguments]
+	 * @param {ISceneChildPropArguments} [parent_prop_arguments]
 	 * @memberof Group
 	 */
 	public generate(
 		indexing_id: number,
 		bDirectSceneChild: boolean = false,
-		parent_prop_arguments?: ShapeBasePropArguments
+		parent_prop_arguments?: ISceneChildPropArguments
 	) {
 		this.children.forEach(item => item.generate(indexing_id, bDirectSceneChild, parent_prop_arguments))
 	}
@@ -229,29 +234,28 @@ class Group extends SceneChild {
 	 * Set a single or multiple props
 	 *
 	 * @abstract
-	 * @param {(keyof ShapeBaseProps | ShapeBaseProps)} key
+	 * @param {(keyof ISceneChildProps | ISceneChildProps)} key
 	 * @param {*} [value]
 	 * @memberof SceneChild
 	 */
-	public setProp(key: keyof ShapeBaseProps | ShapeBaseProps, value?: any): void {
+	public setProp(key: keyof ISceneChildProps | ISceneChildProps, value?: any): void {
 		if (typeof key === 'object')
 			Object.keys(key).forEach(
-				(k: string) => (this.props[k as keyof ShapeBaseProps] = key[k as keyof ShapeBaseProps] as any)
+				(k: string) => (this.props[k as keyof ISceneChildProps] = key[k as keyof ISceneChildProps] as any)
 			)
 		else this.props[key] = value
 
-		// this.children.forEach(item => Group.propagateProp(item, key, value))
 		this.children.forEach(item => item.setProp(key, value))
 	}
 
 	/**
 	 * Return length of buffer
 	 *
-	 * @param {ShapeBasePropArguments} prop_arguments
+	 * @param {ISceneChildPropArguments} prop_arguments
 	 * @returns {number}
 	 * @memberof Group
 	 */
-	public getBufferLength(prop_arguments?: ShapeBasePropArguments): number {
+	public getBufferLength(prop_arguments?: ISceneChildPropArguments): number {
 		return this.children.map(sceneChild => sceneChild.getBufferLength(prop_arguments)).reduce((p, c) => p + c, 0)
 	}
 
@@ -286,24 +290,24 @@ class Group extends SceneChild {
 	/**
 	 * return a single buffer binded from children
 	 *
-	 * @returns {(Array<ShapeBaseStreamIndexing> | undefined)}
+	 * @returns {(Array<ISceneChildStreamIndexing> | undefined)}
 	 * @memberof Group
 	 */
-	public getIndexedBuffer(): Array<ShapeBaseStreamIndexing> | undefined {
+	public getIndexedBuffer(): Array<ISceneChildStreamIndexing> | undefined {
 		const indexed = this.children.map(item => item.getIndexedBuffer()).filter(b => b !== undefined) as Array<
-			Array<ShapeBaseStreamIndexing>
+			Array<ISceneChildStreamIndexing>
 		>
 
-		return ([] as Array<ShapeBaseStreamIndexing>).concat.apply(null, indexed)
+		return ([] as Array<ISceneChildStreamIndexing>).concat.apply(null, indexed)
 	}
 
 	/**
 	 * Call strem on children
 	 *
-	 * @param {(stream_arguments: ShapeBaseStreamArguments) => void} callback
+	 * @param {TStreamCallback} callback
 	 * @memberof Group
 	 */
-	public stream(callback: (stream_arguments: ShapeBaseStreamArguments) => void): void {
+	public stream(callback: TStreamCallback): void {
 		this.children.forEach(item => item.stream(callback))
 	}
 
@@ -311,58 +315,40 @@ class Group extends SceneChild {
 	 * Index vertex buffer
 	 *
 	 * @private
-	 * @param {Array<ShapeBaseStreamIndexing>} buffer
-	 * @param {ShapeBaseStreamIndexing} [parent]
+	 * @param {Array<ISceneChildStreamIndexing>} buffer
+	 * @param {ISceneChildStreamIndexing} [parent]
 	 * @memberof Group
 	 */
-	public index(buffer: Array<ShapeBaseStreamIndexing>, parent?: ShapeBaseStreamIndexing): void {
+	public index(buffer: Array<ISceneChildStreamIndexing>, parent?: ISceneChildStreamIndexing): void {
 		for (let i = 0, len = this.children.length; i < len; i++) this.children[i].index(buffer, parent)
 	}
 
-	/**
-	 *
-	 *
-	 * @private
-	 * @static
-	 * @param {SceneChild} itemToPropagate
-	 * @param {(keyof ShapeBaseProps | ShapeBaseProps)} key
-	 * @param {*} value
-	 * @memberof Group
-	 */
-	private static propagateProp(
-		itemToPropagate: SceneChild,
-		key: keyof ShapeBaseProps | ShapeBaseProps,
-		value: any
-	): void {
-		itemToPropagate.setProp(key, value)
-	}
+	// /**
+	//  * Remove duplicate props
+	//  *
+	//  * @private
+	//  * @static
+	//  * @param {Group} group
+	//  * @param {SceneChild} dest
+	//  * @returns {ISceneChildProps}
+	//  * @memberof Group
+	//  */
+	// private static removeIntersected(group: Group, dest: SceneChild): ISceneChildProps {
+	// 	const groupProps = group.getProps()
+	// 	const destProps = dest.getProps()
 
-	/**
-	 * Remove duplicate props
-	 *
-	 * @private
-	 * @static
-	 * @param {Group} group
-	 * @param {SceneChild} dest
-	 * @returns {ShapeBaseProps}
-	 * @memberof Group
-	 */
-	private static removeIntersected(group: Group, dest: SceneChild): ShapeBaseProps {
-		const groupProps = group.getProps()
-		const destProps = dest.getProps()
+	// 	const groupPropsKeys = Object.keys(groupProps) as Array<keyof ISceneChildProps>
+	// 	const destPropsKeys = Object.keys(destProps) as Array<keyof ISceneChildProps>
 
-		const groupPropsKeys = Object.keys(groupProps) as Array<keyof ShapeBaseProps>
-		const destPropsKeys = Object.keys(destProps) as Array<keyof ShapeBaseProps>
+	// 	const result: ISceneChildProps = {}
 
-		const result: ShapeBaseProps = {}
+	// 	groupPropsKeys.forEach((key: keyof ISceneChildProps) => {
+	// 		// destPropsKeys.indexOf(key) >= 0 && !isDef(destProps[key]) && (result[key] = groupProps[key] as any)
+	// 		destPropsKeys.indexOf(key) >= 0 && (result[key] = groupProps[key] as any)
+	// 	})
 
-		groupPropsKeys.forEach((key: keyof ShapeBaseProps) => {
-			// destPropsKeys.indexOf(key) >= 0 && !isDef(destProps[key]) && (result[key] = groupProps[key] as any)
-			destPropsKeys.indexOf(key) >= 0 && (result[key] = groupProps[key] as any)
-		})
-
-		return result
-	}
+	// 	return result
+	// }
 }
 
 export default Group

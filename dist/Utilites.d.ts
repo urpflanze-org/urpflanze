@@ -1,4 +1,3 @@
-import { TArray } from './core/math/Vec2';
 export interface ICancelablePromise<T> {
     promise: Promise<T>;
     resolved: () => boolean;
@@ -16,7 +15,7 @@ declare const Utilities: {
     now: () => number;
     toDegrees: (radians: number) => number;
     toRadians: (degrees: number) => number;
-    toArray: (t: number | TArray) => (number | Float32Array)[];
+    toArray: (t: number | Array<number>) => Array<number>;
     /**
      * Return true if key exist in props
      * args[0] = props

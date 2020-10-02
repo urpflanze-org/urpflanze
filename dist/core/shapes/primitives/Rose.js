@@ -1,5 +1,5 @@
-import ShapeLoop from '../ShapeLoop';
-import { ShapePrimitiveAdaptMode } from '@core/interfaces/shapes/Interfaces';
+import ShapeLoop from '@core/shapes/ShapeLoop';
+import { EShapePrimitiveAdaptMode } from '@core/types/shape-base';
 /**
  * Rose shape
  *
@@ -10,14 +10,14 @@ class Rose extends ShapeLoop {
     /**
      * Creates an instance of Rose.
      *
-     * @param {RoseSettings} [settings={}]
+     * @param {IRoseSettings} [settings={}]
      * @memberof Rose
      */
     constructor(settings = {}) {
         var _a, _b, _c;
         settings.type = 'Rose';
         settings.shapeLoopPropsDependencies = (settings.shapeLoopPropsDependencies || []).concat(['n', 'd', 'sideLength']);
-        settings.bAdaptBuffer = (_a = settings.bAdaptBuffer) !== null && _a !== void 0 ? _a : ShapePrimitiveAdaptMode.Scale;
+        settings.bAdaptBuffer = (_a = settings.bAdaptBuffer) !== null && _a !== void 0 ? _a : EShapePrimitiveAdaptMode.Scale;
         super(settings, true);
         this.props.n = (_b = settings.n) !== null && _b !== void 0 ? _b : 1;
         this.props.d = (_c = settings.d) !== null && _c !== void 0 ? _c : 2;
@@ -45,7 +45,7 @@ class Rose extends ShapeLoop {
      * Get property value
      *
      * @param {keyof RoseProps} key
-     * @param {ShapeBasePropArguments} [prop_arguments]
+     * @param {ISceneChildPropArguments} [prop_arguments]
      * @param {*} [default_value]
      * @returns {*}
      * @memberof Rose
@@ -56,7 +56,7 @@ class Rose extends ShapeLoop {
     /**
      * Set single or multiple props
      *
-     * @param {(keyof RoseProps | RoseSettings)} key
+     * @param {(keyof IRoseProps | IRoseSettings)} key
      * @param {*} [value]
      * @memberof Rose
      */

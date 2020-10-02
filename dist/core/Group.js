@@ -1,18 +1,19 @@
+import Scene from '@core/Scene';
 import SceneChild from '@core/SceneChild';
 import ShapeBase from '@core/shapes/ShapeBase';
-import Scene from '@core/Scene';
 /**
  * Group used for add multiple SceneChild with same props
  *
- * @class Group
- * @category Core
+ * @order 3
+ * @category Core.Scene
  * @extends {SceneChild}
+ * @class Group
  */
 class Group extends SceneChild {
     /**
      * Creates an instance of Group
      *
-     * @param {ShapeBaseSettings} [settings={}]
+     * @param {ISceneChildSettings} [settings={}]
      * @memberof Group
      */
     constructor(settings = {}) {
@@ -151,7 +152,7 @@ class Group extends SceneChild {
      *
      * @param {number} indexing_id
      * @param {boolean} [bDirectSceneChild=false]
-     * @param {ShapeBasePropArguments} [parent_prop_arguments]
+     * @param {ISceneChildPropArguments} [parent_prop_arguments]
      * @memberof Group
      */
     generate(indexing_id, bDirectSceneChild = false, parent_prop_arguments) {
@@ -184,7 +185,7 @@ class Group extends SceneChild {
      * Set a single or multiple props
      *
      * @abstract
-     * @param {(keyof ShapeBaseProps | ShapeBaseProps)} key
+     * @param {(keyof ISceneChildProps | ISceneChildProps)} key
      * @param {*} [value]
      * @memberof SceneChild
      */
@@ -193,13 +194,12 @@ class Group extends SceneChild {
             Object.keys(key).forEach((k) => (this.props[k] = key[k]));
         else
             this.props[key] = value;
-        // this.children.forEach(item => Group.propagateProp(item, key, value))
         this.children.forEach(item => item.setProp(key, value));
     }
     /**
      * Return length of buffer
      *
-     * @param {ShapeBasePropArguments} prop_arguments
+     * @param {ISceneChildPropArguments} prop_arguments
      * @returns {number}
      * @memberof Group
      */
@@ -231,7 +231,7 @@ class Group extends SceneChild {
     /**
      * return a single buffer binded from children
      *
-     * @returns {(Array<ShapeBaseStreamIndexing> | undefined)}
+     * @returns {(Array<ISceneChildStreamIndexing> | undefined)}
      * @memberof Group
      */
     getIndexedBuffer() {
@@ -241,7 +241,7 @@ class Group extends SceneChild {
     /**
      * Call strem on children
      *
-     * @param {(stream_arguments: ShapeBaseStreamArguments) => void} callback
+     * @param {TStreamCallback} callback
      * @memberof Group
      */
     stream(callback) {
@@ -251,48 +251,13 @@ class Group extends SceneChild {
      * Index vertex buffer
      *
      * @private
-     * @param {Array<ShapeBaseStreamIndexing>} buffer
-     * @param {ShapeBaseStreamIndexing} [parent]
+     * @param {Array<ISceneChildStreamIndexing>} buffer
+     * @param {ISceneChildStreamIndexing} [parent]
      * @memberof Group
      */
     index(buffer, parent) {
         for (let i = 0, len = this.children.length; i < len; i++)
             this.children[i].index(buffer, parent);
-    }
-    /**
-     *
-     *
-     * @private
-     * @static
-     * @param {SceneChild} itemToPropagate
-     * @param {(keyof ShapeBaseProps | ShapeBaseProps)} key
-     * @param {*} value
-     * @memberof Group
-     */
-    static propagateProp(itemToPropagate, key, value) {
-        itemToPropagate.setProp(key, value);
-    }
-    /**
-     * Remove duplicate props
-     *
-     * @private
-     * @static
-     * @param {Group} group
-     * @param {SceneChild} dest
-     * @returns {ShapeBaseProps}
-     * @memberof Group
-     */
-    static removeIntersected(group, dest) {
-        const groupProps = group.getProps();
-        const destProps = dest.getProps();
-        const groupPropsKeys = Object.keys(groupProps);
-        const destPropsKeys = Object.keys(destProps);
-        const result = {};
-        groupPropsKeys.forEach((key) => {
-            // destPropsKeys.indexOf(key) >= 0 && !isDef(destProps[key]) && (result[key] = groupProps[key] as any)
-            destPropsKeys.indexOf(key) >= 0 && (result[key] = groupProps[key]);
-        });
-        return result;
     }
 }
 export default Group;

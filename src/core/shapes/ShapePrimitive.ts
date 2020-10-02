@@ -1,37 +1,37 @@
 import ShapeBase from '@core/shapes/ShapeBase'
-import {
-	ShapePrimitiveProps,
-	ShapePrimitiveSettings,
-	ShapeBaseProps,
-	ShapePrimitiveAdaptMode,
-} from '@core/interfaces/shapes/Interfaces'
 
-import {
-	ShapeBaseStreamIndexing,
-	ShapeBasePropArguments,
-	ShapeBounding,
-	Repetition,
-	VertexCallbackGenerator,
-} from '@core/types/ShapeBase'
 import Vec2, { TArray } from '@core/math/Vec2'
+import {
+	EShapePrimitiveAdaptMode,
+	IShapeBounding,
+	IShapePrimitiveProps,
+	IShapePrimitiveSettings,
+} from '@core/types/shape-base'
+import {
+	IRepetition,
+	ISceneChildPropArguments,
+	ISceneChildProps,
+	ISceneChildStreamIndexing,
+} from '@core/types/scene-child'
+import { TVertexCallback } from '@core/types/shape-primitive'
 
 abstract class ShapePrimitive extends ShapeBase {
 	/**
 	 * Item props
 	 *
 	 * @protected
-	 * @type {ShapePrimitiveProps}
+	 * @type {IShapePrimitiveProps}
 	 * @memberof ShapePrimitive
 	 */
-	protected props: ShapePrimitiveProps
+	protected props: IShapePrimitiveProps
 
 	/**
 	 * Adapt buffer mode
 	 *
-	 * @type {ShapePrimitiveAdaptMode}
+	 * @type {EShapePrimitiveAdaptMode}
 	 * @memberof ShapePrimitive
 	 */
-	public bAdaptBuffer: ShapePrimitiveAdaptMode
+	public bAdaptBuffer: EShapePrimitiveAdaptMode
 
 	/**
 	 * Define shape is closed
@@ -56,9 +56,9 @@ abstract class ShapePrimitive extends ShapeBase {
 	 * @public
 	 * @memberof ShapeBase
 	 */
-	public vertexCallback?: VertexCallbackGenerator
+	public vertexCallback?: TVertexCallback
 
-	constructor(settings: ShapePrimitiveSettings = {}) {
+	constructor(settings: IShapePrimitiveSettings = {}) {
 		super(settings)
 
 		this.props.sideLength = settings.sideLength ?? [50, 50]
@@ -71,7 +71,7 @@ abstract class ShapePrimitive extends ShapeBase {
 		this.props.lineWidth = settings.lineWidth
 		this.props.strokeColor = settings.strokeColor
 
-		this.bAdaptBuffer = settings.bAdaptBuffer ?? ShapePrimitiveAdaptMode.None
+		this.bAdaptBuffer = settings.bAdaptBuffer ?? EShapePrimitiveAdaptMode.None
 		this.bCloseShape = settings.bCloseShape ?? true
 
 		this.vertexCallback = settings.vertexCallback
@@ -94,24 +94,24 @@ abstract class ShapePrimitive extends ShapeBase {
 	/**
 	 * Get prop
 	 *
-	 * @param {keyof ShapePrimitiveProps} key
-	 * @param {ShapeBasePropArguments} [prop_arguments]
+	 * @param {keyof IShapePrimitiveProps} key
+	 * @param {ISceneChildPropArguments} [prop_arguments]
 	 * @param {*} [default_value]
 	 * @returns {*}
 	 * @memberof ShapePrimitive
 	 */
-	public getProp(key: keyof ShapePrimitiveProps, prop_arguments?: ShapeBasePropArguments, default_value?: any): any {
-		return super.getProp(key as keyof ShapeBaseProps, prop_arguments, default_value)
+	getProp(key: keyof IShapePrimitiveProps, prop_arguments?: ISceneChildPropArguments, default_value?: any): any {
+		super.getProp(key as keyof ISceneChildProps, prop_arguments, default_value)
 	}
 
 	/**
 	 * set side length when generate a buffer into shape loop or shape buffer
 	 *
 	 * @protected
-	 * @param {ShapeBasePropArguments} prop_arguments
+	 * @param {ISceneChildPropArguments} prop_arguments
 	 * @memberof ShapePrimitive
 	 */
-	protected bindSideLength(prop_arguments: ShapeBasePropArguments): void {
+	protected bindSideLength(prop_arguments: ISceneChildPropArguments): void {
 		this.sideLength = Vec2.create(this.getProp('sideLength', prop_arguments, [50, 50]))
 	}
 
@@ -150,20 +150,20 @@ abstract class ShapePrimitive extends ShapeBase {
 	/**
 	 * Return bAdaptBuffer
 	 *
-	 * @returns {ShapePrimitiveAdaptMode}
+	 * @returns {EShapePrimitiveAdaptMode}
 	 * @memberof ShapeBase
 	 */
-	public isAdapted(): ShapePrimitiveAdaptMode {
-		return this.bAdaptBuffer as ShapePrimitiveAdaptMode
+	public isAdapted(): EShapePrimitiveAdaptMode {
+		return this.bAdaptBuffer as EShapePrimitiveAdaptMode
 	}
 
 	/**
 	 * Set bAdaptBuffer
 	 *
-	 * @param {ShapePrimitiveAdaptMode} bAdapted
+	 * @param {EShapePrimitiveAdaptMode} bAdapted
 	 * @memberof ShapeBase
 	 */
-	public setAdapted(bAdapted: ShapePrimitiveAdaptMode): void {
+	public setAdapted(bAdapted: EShapePrimitiveAdaptMode): void {
 		this.bAdaptBuffer = bAdapted
 
 		this.clearBuffer(true)
@@ -173,19 +173,19 @@ abstract class ShapePrimitive extends ShapeBase {
 	 *
 	 *
 	 * @protected
-	 * @param {Array<ShapeBaseStreamIndexing>} buffer
+	 * @param {Array<ISceneChildStreamIndexing>} buffer
 	 * @param {number} frame_length
 	 * @param {Repetition} current_repetition
-	 * @param {ShapeBaseStreamIndexing} [parent]
+	 * @param {ISceneChildStreamIndexing} [parent]
 	 * @memberof ShapePrimitive
 	 */
 	protected addIndex(
-		buffer: Array<ShapeBaseStreamIndexing>,
+		buffer: Array<ISceneChildStreamIndexing>,
 		frame_length: number,
-		current_repetition: Repetition,
-		parent?: ShapeBaseStreamIndexing
+		current_repetition: IRepetition,
+		parent?: ISceneChildStreamIndexing
 	): void {
-		const current: ShapeBaseStreamIndexing = {
+		const current: ISceneChildStreamIndexing = {
 			shape: this,
 			buffer_length: frame_length,
 			parent,
@@ -199,10 +199,10 @@ abstract class ShapePrimitive extends ShapeBase {
 	 *
 	 * @static
 	 * @param {Float32Array} buffer
-	 * @returns {ShapeBounding}
+	 * @returns {IShapeBounding}
 	 * @memberof ShapePrimitive
 	 */
-	public static getBounding(buffer: Float32Array): ShapeBounding {
+	public static getBounding(buffer: Float32Array): IShapeBounding {
 		let minX = Number.MAX_VALUE,
 			minY = Number.MAX_VALUE,
 			maxX = Number.MIN_VALUE,
@@ -235,23 +235,25 @@ abstract class ShapePrimitive extends ShapeBase {
 	 * @public
 	 * @static
 	 * @param {Float32Array} input
-	 * @param {ShapePrimitiveAdaptMode} mode
+	 * @param {EShapePrimitiveAdaptMode} mode
 	 * @returns {Float32Array}
 	 * @memberof ShapePrimitive
 	 */
-	public static adaptBuffer(input: Float32Array, mode: ShapePrimitiveAdaptMode): Float32Array {
-		if (mode == ShapePrimitiveAdaptMode.None) return input
+	public static adaptBuffer(input: Float32Array, mode: EShapePrimitiveAdaptMode): Float32Array {
+		if (mode == EShapePrimitiveAdaptMode.None) return input
 
 		const output: Float32Array = new Float32Array(input.length)
-		const rect: ShapeBounding = ShapePrimitive.getBounding(input)
+		const rect: IShapeBounding = ShapePrimitive.getBounding(input)
 
 		let scale =
-			rect.width > 2 || rect.height > 2 || (mode >= ShapePrimitiveAdaptMode.Fill && (rect.width < 2 || rect.height < 2))
+			rect.width > 2 ||
+			rect.height > 2 ||
+			(mode >= EShapePrimitiveAdaptMode.Fill && (rect.width < 2 || rect.height < 2))
 				? 2 / Math.max(rect.width, rect.height)
 				: 1
 
-		let translateX = mode >= ShapePrimitiveAdaptMode.Center ? rect.cx : 0
-		let translateY = mode >= ShapePrimitiveAdaptMode.Center ? rect.cy : 0
+		let translateX = mode >= EShapePrimitiveAdaptMode.Center ? rect.cx : 0
+		let translateY = mode >= EShapePrimitiveAdaptMode.Center ? rect.cy : 0
 
 		for (let i = 0, len = input.length; i < len; i += 2) {
 			output[i] = (input[i] - translateX) * scale

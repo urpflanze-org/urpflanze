@@ -1,3 +1,9 @@
+/**
+ * get timestamp
+ *
+ * @ignore
+ */
+const getTimestamp = performance && performance.now ? performance.now : Date.now;
 const Utilities = {
     parseFunction: {
         suffix: '$fn:',
@@ -36,7 +42,7 @@ const Utilities = {
         };
     },
     isDef: (object) => typeof object !== 'undefined' && object !== null,
-    now: performance && performance.now ? performance.now : Date.now,
+    now: () => getTimestamp(),
     // aOr: (...args: Array<any>): any => {
     // 	for (let i = 0; i < args.length; i++) if (Utilities.isDef(args[i])) return args[i]
     // },

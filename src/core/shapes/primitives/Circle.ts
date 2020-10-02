@@ -1,6 +1,6 @@
-import { ShapeLoopSettings, ShapePrimitiveAdaptMode } from '@core/interfaces/shapes/Interfaces'
-
 import ShapeLoop from '@core/shapes/ShapeLoop'
+import { EShapePrimitiveAdaptMode } from '@core/types/shape-base'
+import { IShapeLoopSettings } from '@core/types/shape-primitive'
 
 class Circle extends ShapeLoop {
 	/**
@@ -9,10 +9,10 @@ class Circle extends ShapeLoop {
 	 * @param {ShapeLoopSettings} [settings={}]
 	 * @memberof Circle
 	 */
-	constructor(settings: ShapeLoopSettings = {}) {
+	constructor(settings: IShapeLoopSettings = {}) {
 		settings.type = 'Circle'
 		settings.shapeLoopPropsDependencies = (settings.shapeLoopPropsDependencies || []).concat(['sideLength'])
-		settings.bAdaptBuffer = settings.bAdaptBuffer ?? ShapePrimitiveAdaptMode.Scale
+		settings.bAdaptBuffer = settings.bAdaptBuffer ?? EShapePrimitiveAdaptMode.Scale
 
 		super(settings)
 

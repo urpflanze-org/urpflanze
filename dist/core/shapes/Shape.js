@@ -14,6 +14,9 @@ class Shape extends ShapeBase {
         if (settings.shape instanceof SceneChild) {
             this.shape = settings.shape;
         }
+        else {
+            console.warn('[Urpflanze:Shape] requires the shape property to be instance of SceneChild,\nYou passed:', settings.shape);
+        }
         this.bStatic = this.isStatic();
         this.bStaticIndexed = this.isStaticIndexed();
     }
@@ -52,7 +55,7 @@ class Shape extends ShapeBase {
     /**
      * Return length of buffer
      *
-     * @param {ShapeBasePropArguments} prop_arguments
+     * @param {ISceneChildPropArguments} prop_arguments
      * @returns {number}
      * @memberof Shape
      */
@@ -67,7 +70,7 @@ class Shape extends ShapeBase {
      *
      * @protected
      * @param {number} generate_id
-     * @param {ShapeBasePropArguments} prop_arguments
+     * @param {ISceneChildPropArguments} prop_arguments
      * @returns {Float32Array}
      * @memberof ShapeBase
      */
@@ -99,10 +102,10 @@ class Shape extends ShapeBase {
      *
      *
      * @protected
-     * @param {Array<ShapeBaseStreamIndexing>} buffer
+     * @param {Array<ISceneChildStreamIndexing>} buffer
      * @param {number} frame_length
      * @param {Repetition} current_repetition
-     * @param {ShapeBaseStreamIndexing} [parent]
+     * @param {ISceneChildStreamIndexing} [parent]
      * @memberof ShapePrimitive
      */
     addIndex(buffer, frame_length, current_repetition, parent) {

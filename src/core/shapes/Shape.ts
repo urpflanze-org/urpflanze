@@ -1,8 +1,8 @@
 import ShapeBase from '@core/shapes/ShapeBase'
-import { ShapeSettings } from '@core/interfaces/shapes/Interfaces'
 import SceneChild from '@core/SceneChild'
-import { ShapeBasePropArguments, ShapeBaseStreamIndexing, Repetition } from '@core/types/ShapeBase'
+import { IShapeSettings } from '@core/types/shape-base'
 import Scene from '@core/Scene'
+import { IRepetition, ISceneChildPropArguments, ISceneChildStreamIndexing } from '@core/types/scene-child'
 
 class Shape extends ShapeBase {
 	/**
@@ -19,12 +19,17 @@ class Shape extends ShapeBase {
 	 * @param {ShapeSettings} [settings={}]
 	 * @memberof Shape
 	 */
-	constructor(settings: ShapeSettings = {}) {
+	constructor(settings: IShapeSettings = {}) {
 		settings.type = settings.type || 'Shape'
 		super(settings)
 
 		if (settings.shape instanceof SceneChild) {
 			this.shape = settings.shape
+		} else {
+			console.warn(
+				'[Urpflanze:Shape] requires the shape property to be instance of SceneChild,\nYou passed:',
+				settings.shape
+			)
 		}
 
 		this.bStatic = this.isStatic()
@@ -69,11 +74,11 @@ class Shape extends ShapeBase {
 	/**
 	 * Return length of buffer
 	 *
-	 * @param {ShapeBasePropArguments} prop_arguments
+	 * @param {ISceneChildPropArguments} prop_arguments
 	 * @returns {number}
 	 * @memberof Shape
 	 */
-	public getBufferLength(prop_arguments: ShapeBasePropArguments): number {
+	public getBufferLength(prop_arguments: ISceneChildPropArguments): number {
 		if (this.bStatic && this.buffer && this.buffer.length > 0) return this.buffer.length
 
 		const child_buffer_length = this.shape ? this.shape.getBufferLength(prop_arguments) : 0
@@ -86,11 +91,11 @@ class Shape extends ShapeBase {
 	 *
 	 * @protected
 	 * @param {number} generate_id
-	 * @param {ShapeBasePropArguments} prop_arguments
+	 * @param {ISceneChildPropArguments} prop_arguments
 	 * @returns {Float32Array}
 	 * @memberof ShapeBase
 	 */
-	protected generateBuffer(generate_id: number, prop_arguments: ShapeBasePropArguments): Float32Array {
+	protected generateBuffer(generate_id: number, prop_arguments: ISceneChildPropArguments): Float32Array {
 		if (this.shape) {
 			this.shape.generate(generate_id, false, prop_arguments)
 
@@ -123,20 +128,20 @@ class Shape extends ShapeBase {
 	 *
 	 *
 	 * @protected
-	 * @param {Array<ShapeBaseStreamIndexing>} buffer
+	 * @param {Array<ISceneChildStreamIndexing>} buffer
 	 * @param {number} frame_length
 	 * @param {Repetition} current_repetition
-	 * @param {ShapeBaseStreamIndexing} [parent]
+	 * @param {ISceneChildStreamIndexing} [parent]
 	 * @memberof ShapePrimitive
 	 */
 	protected addIndex(
-		buffer: Array<ShapeBaseStreamIndexing>,
+		buffer: Array<ISceneChildStreamIndexing>,
 		frame_length: number,
-		current_repetition: Repetition,
-		parent?: ShapeBaseStreamIndexing
+		current_repetition: IRepetition,
+		parent?: ISceneChildStreamIndexing
 	): void {
 		if (this.shape) {
-			const current: ShapeBaseStreamIndexing = {
+			const current: ISceneChildStreamIndexing = {
 				shape: this,
 				buffer_length: frame_length,
 				parent,

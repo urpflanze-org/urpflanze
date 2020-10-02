@@ -1,6 +1,6 @@
 import ShapePrimitive from '@core/shapes/ShapePrimitive';
-import { ShapeBufferSettings } from '@core/interfaces/shapes/Interfaces';
-import { ShapeBasePropArguments } from '@core/types/ShapeBase';
+import { ISceneChildPropArguments } from '@core/types/scene-child';
+import { IShapeBufferSettings } from '@core/types/shape-primitive';
 declare class ShapeBuffer extends ShapePrimitive {
     /**
      * Custom vertex buffer or shape
@@ -19,7 +19,7 @@ declare class ShapeBuffer extends ShapePrimitive {
      * @memberof ShapeBuffer
      */
     private shape_buffer;
-    constructor(settings?: ShapeBufferSettings);
+    constructor(settings?: IShapeBufferSettings);
     /**
      *  Unset buffer
      *
@@ -40,11 +40,11 @@ declare class ShapeBuffer extends ShapePrimitive {
      *
      * @protected
      * @param {number} generate_id
-     * @param {ShapeBasePropArguments} prop_arguments
+     * @param {ISceneChildPropArguments} prop_arguments
      * @returns {Float32Array}
      * @memberof ShapeBase
      */
-    protected generateBuffer(generate_id: number, prop_arguments: ShapeBasePropArguments): Float32Array;
+    protected generateBuffer(generate_id: number, prop_arguments: ISceneChildPropArguments): Float32Array;
     /**
      * Set shape
      *

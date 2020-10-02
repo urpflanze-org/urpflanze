@@ -1,6 +1,6 @@
 import SceneChild from '@core/SceneChild';
 import { ShapeBaseProp, ShapeLoopGenerator, VertexCallbackGenerator } from '@core/types/ShapeBase';
-declare enum ShapePrimitiveAdaptMode {
+export declare enum ShapePrimitiveAdaptMode {
     None = 0,
     Scale = 2,
     Center = 4,
@@ -74,5 +74,5 @@ interface ShapeBufferSettings extends ShapePrimitiveSettings {
 interface ShapeSettings extends ShapeBaseSettings {
     shape?: SceneChild;
 }
-export { ShapeBaseProps, ShapeBaseSettings, ShapePrimitiveAdaptMode, ShapePrimitiveProps, ShapePrimitiveSettings, ShapeSettings, ShapeBufferSettings, ShapeLoopProps, ShapeLoopSettings, };
+export { ShapeBaseProps, ShapeBaseSettings, ShapePrimitiveProps, ShapePrimitiveSettings, ShapeSettings, ShapeBufferSettings, ShapeLoopProps, ShapeLoopSettings, };
 //# sourceMappingURL=Interfaces.d.ts.map

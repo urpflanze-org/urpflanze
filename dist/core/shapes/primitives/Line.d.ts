@@ -1,4 +1,4 @@
-import { ShapeBufferSettings } from '@core/interfaces/shapes/Interfaces';
+import { IShapeBufferSettings } from '@core/types/shape-primitive';
 import ShapeBuffer from '@core/shapes/ShapeBuffer';
 declare class Line extends ShapeBuffer {
     /**
@@ -7,7 +7,7 @@ declare class Line extends ShapeBuffer {
      * @param {ShapeBaseSettings} [settings={}]
      * @memberof Line
      */
-    constructor(settings?: ShapeBufferSettings);
+    constructor(settings?: IShapeBufferSettings);
 }
 export default Line;
 //# sourceMappingURL=Line.d.ts.map

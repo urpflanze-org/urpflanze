@@ -1,17 +1,19 @@
-import {
-	ShapeLoopGenerator,
-	ShapeBasePropArguments,
-	ShapeBaseStreamIndexing,
-	Repetition,
-	ShapeBaseStreamArguments,
-	RepetitionType,
-} from '@core/types/ShapeBase'
-
-import { ShapeBaseSettings, ShapeBaseProps } from '@core/interfaces/shapes/Interfaces'
-
 import SceneChild from '@core/SceneChild'
 import Vec2, { TArray } from '@core/math/Vec2'
 import Context from '@core/Context'
+import {
+	ERepetitionType,
+	IRepetition,
+	ISceneChildPropArguments,
+	ISceneChildProps,
+	ISceneChildStreamArguments,
+	ISceneChildStreamIndexing,
+} from '@core/types/scene-child'
+
+import { TStreamCallback } from '@core/types/scene'
+
+import { IShapeBaseSettings } from '@core/types/shape-base'
+import ShapePrimitive from './ShapePrimitive'
 
 /**
  * Shape Base
@@ -36,7 +38,7 @@ abstract class ShapeBase extends SceneChild {
 	 * @static
 	 * @memberof ShapeLoop
 	 */
-	public static getEmptyRepetition: () => Repetition = () => ({
+	public static getEmptyRepetition: () => IRepetition = () => ({
 		current_index: 1,
 		current_offset: 0,
 		current_angle: 0,
@@ -44,7 +46,7 @@ abstract class ShapeBase extends SceneChild {
 		current_row: 1,
 		current_col_offset: 0,
 		current_row_offset: 0,
-		type: RepetitionType.Ring,
+		type: ERepetitionType.Ring,
 		// random_offset: [0, 0],
 		count: 1,
 		count_col: 1,
@@ -55,10 +57,10 @@ abstract class ShapeBase extends SceneChild {
 	 * Empty Prop Arguments
 	 *
 	 * @static
-	 * @type {ShapeBasePropArguments}
+	 * @type {ISceneChildPropArguments}
 	 * @memberof ShapeBase
 	 */
-	public static readonly EMPTY_PROP_ARGUMENTS: ShapeBasePropArguments = {
+	public static readonly EMPTY_PROP_ARGUMENTS: ISceneChildPropArguments = {
 		time: 1,
 		context: Context,
 		repetition: ShapeBase.getEmptyRepetition(),
@@ -116,10 +118,10 @@ abstract class ShapeBase extends SceneChild {
 	 * only for first level scene children
 	 *
 	 * @protected
-	 * @type {Array<ShapeBaseStreamIndexing>}
+	 * @type {Array<ISceneChildStreamIndexing>}
 	 * @memberof ShapeBase
 	 */
-	protected indexed_buffer?: Array<ShapeBaseStreamIndexing>
+	protected indexed_buffer?: Array<ISceneChildStreamIndexing>
 
 	/**
 	 * A ShapeLoop can be dynamic buffer lenght for eacch repetition.
@@ -143,10 +145,10 @@ abstract class ShapeBase extends SceneChild {
 	/**
 	 * Creates an instance of ShapeBase.
 	 *
-	 * @param {ShapeBaseSettings} [settings={}]
+	 * @param {ISceneChildSettings} [settings={}]
 	 * @memberof ShapeBase
 	 */
-	constructor(settings: ShapeBaseSettings = {}) {
+	constructor(settings: IShapeBaseSettings = {}) {
 		super(settings)
 
 		this.props = {
@@ -210,13 +212,13 @@ abstract class ShapeBase extends SceneChild {
 	/**
 	 * Return a prop value
 	 *
-	 * @param {keyof ShapeBaseProps} key
-	 * @param {ShapeBasePropArguments} [prop_arguments]
+	 * @param {keyof ISceneChildProps} key
+	 * @param {ISceneChildPropArguments} [prop_arguments]
 	 * @param {*} [default_value]
 	 * @returns {*}
 	 * @memberof ShapeBase
 	 */
-	public getProp(key: keyof ShapeBaseProps, prop_arguments?: ShapeBasePropArguments, default_value?: any): any {
+	public getProp(key: keyof ISceneChildProps, prop_arguments?: ISceneChildPropArguments, default_value?: any): any {
 		let attribute: any = this.props[key] as any
 
 		if (typeof attribute == 'function') {
@@ -236,12 +238,12 @@ abstract class ShapeBase extends SceneChild {
 	/**
 	 * Set a single or multiple props
 	 *
-	 * @param {(keyof ShapeBaseProps | ShapeBaseProps)} key
+	 * @param {(keyof ISceneChildProps | ISceneChildProps)} key
 	 * @param {*} [value]
 	 * @param {boolean} [bClearIndexed=false]
 	 * @memberof ShapeBase
 	 */
-	public setProp(key: keyof ShapeBaseProps | ShapeBaseProps, value?: any, bClearIndexed: boolean = false): void {
+	public setProp(key: keyof ISceneChildProps | ISceneChildProps, value?: any, bClearIndexed: boolean = false): void {
 		if (typeof key == 'string') {
 			bClearIndexed = bClearIndexed || key == 'repetitions'
 			this.props[key] = value
@@ -249,7 +251,7 @@ abstract class ShapeBase extends SceneChild {
 			bClearIndexed = bClearIndexed || 'repetitions' in key
 			Object.keys(key).forEach(
 				(k: string) =>
-					(this.props[k as keyof ShapeBaseProps] = (key as ShapeBaseProps)[k as keyof ShapeBaseProps] as any)
+					(this.props[k as keyof ISceneChildProps] = (key as ISceneChildProps)[k as keyof ISceneChildProps] as any)
 			)
 		}
 		this.clearBuffer(bClearIndexed)
@@ -298,19 +300,19 @@ abstract class ShapeBase extends SceneChild {
 	 *
 	 * @param {number} generate_id generation id
 	 * @param {boolean} [bDirectSceneChild=false] adjust shape of center of scene
-	 * @param {ShapeBasePropArguments} [parent_prop_arguments]
+	 * @param {ISceneChildPropArguments} [parent_prop_arguments]
 	 * @memberof ShapeBase
 	 */
 	public generate(
 		generate_id: number,
 		bDirectSceneChild: boolean = false,
-		parent_prop_arguments?: ShapeBasePropArguments
+		parent_prop_arguments?: ISceneChildPropArguments
 	): void {
 		if (!this.scene || (this.buffer && (this.bStatic || (generate_id === this.generate_id && !this.bUseParent)))) return
 
 		this.generate_id = generate_id
 
-		const repetition: Repetition = ShapeBase.getEmptyRepetition()
+		const repetition: IRepetition = ShapeBase.getEmptyRepetition()
 
 		// const bRandomRepetitions: boolean = typeof this.props.randomSeed !== 'undefined'
 		const repetitions: Array<number> | number = this.getProp(
@@ -320,7 +322,7 @@ abstract class ShapeBase extends SceneChild {
 		)
 
 		// const repetition_type = bRandomRepetitions ? RepetitionType.Random : Array.isArray(repetitions) ? RepetitionType.Matrix : RepetitionType.Ring
-		const repetition_type = Array.isArray(repetitions) ? RepetitionType.Matrix : RepetitionType.Ring
+		const repetition_type = Array.isArray(repetitions) ? ERepetitionType.Matrix : ERepetitionType.Ring
 		const repetition_count = Array.isArray(repetitions)
 			? repetitions[0] * (repetitions[1] ?? repetitions[0])
 			: repetitions
@@ -332,7 +334,7 @@ abstract class ShapeBase extends SceneChild {
 		repetition.count_row = repetition_row_count
 		repetition.type = repetition_type
 
-		const prop_arguments: ShapeBasePropArguments = {
+		const prop_arguments: ISceneChildPropArguments = {
 			repetition,
 			context: Context,
 			time: this.scene?.current_time || 0,
@@ -360,7 +362,7 @@ abstract class ShapeBase extends SceneChild {
 				repetition.current_offset = repetition.current_index / repetition.count
 
 				repetition.current_angle =
-					repetition_type == RepetitionType.Ring ? ((Math.PI * 2) / repetition_count) * current_index : 0
+					repetition_type === ERepetitionType.Ring ? ((Math.PI * 2) / repetition_count) * current_index : 0
 				repetition.current_col = current_col_repetition + 1
 				repetition.current_col_offset = repetition.current_col / repetition.count_col
 				repetition.current_row = current_row_repetition + 1
@@ -391,11 +393,11 @@ abstract class ShapeBase extends SceneChild {
 				let offset: TArray
 
 				switch (repetition_type) {
-					case RepetitionType.Ring:
+					case ERepetitionType.Ring:
 						offset = Vec2.create(distance[0], 0)
 						Vec2.rotateZ(offset, Vec2.ZERO, repetition.current_angle + displace)
 						break
-					case RepetitionType.Matrix:
+					case ERepetitionType.Matrix:
 						offset = Vec2.create(
 							distance[0] * (current_col_repetition - center_matrix[0]),
 							distance[1] * (current_row_repetition - center_matrix[1])
@@ -425,7 +427,7 @@ abstract class ShapeBase extends SceneChild {
 					;(scale[0] != 1 || scale[1] != 1) && Vec2.scale(vertex, scale)
 					;(translate[0] != 0 || translate[1] != 0) && Vec2.translate(vertex, translate)
 
-					if (repetition_type === RepetitionType.Ring) {
+					if (repetition_type === ERepetitionType.Ring) {
 						Vec2.rotateZ(vertex, Vec2.ZERO, repetition.current_angle + displace)
 					}
 
@@ -475,19 +477,18 @@ abstract class ShapeBase extends SceneChild {
 	 *
 	 * @protected
 	 * @param {number} generate_id
-	 * @param {ShapeBasePropArguments} prop_arguments
+	 * @param {ISceneChildPropArguments} prop_arguments
 	 * @returns {Float32Array}
 	 * @memberof ShapeBase
 	 */
-	protected abstract generateBuffer(generate_id: number, prop_arguments: ShapeBasePropArguments): Float32Array
+	protected abstract generateBuffer(generate_id: number, prop_arguments: ISceneChildPropArguments): Float32Array
 
 	/**
 	 * Set shape
 	 *
-	 * @param {(SceneChild | Float32Array | undefined | ShapeLoopGenerator)} [shape]
 	 * @memberof ShapeBase
 	 */
-	public abstract setShape(shape_or_loop: SceneChild | Float32Array | ShapeLoopGenerator | undefined): void
+	public abstract setShape(shape_or_loop: any): void
 
 	/**
 	 * Return buffer
@@ -502,10 +503,10 @@ abstract class ShapeBase extends SceneChild {
 	/**
 	 * Return indexed buffer
 	 *
-	 * @returns {(Array<ShapeBaseStreamIndexing> | undefined)}
+	 * @returns {(Array<ISceneChildStreamIndexing> | undefined)}
 	 * @memberof ShapeBase
 	 */
-	public getIndexedBuffer(): Array<ShapeBaseStreamIndexing> | undefined {
+	public getIndexedBuffer(): Array<ISceneChildStreamIndexing> | undefined {
 		return this.indexed_buffer
 	}
 
@@ -522,15 +523,15 @@ abstract class ShapeBase extends SceneChild {
 	/**
 	 * Stream buffer
 	 *
-	 * @param {(stream_arguments: ShapeBaseStreamArguments) => void} callback
+	 * @param {(TStreamCallback} callback
 	 * @memberof ShapeBase
 	 */
-	public stream(callback: (stream_arguments: ShapeBaseStreamArguments) => void) {
+	public stream(callback: TStreamCallback) {
 		if (this.scene && this.buffer && this.indexed_buffer) {
 			for (let i = 0, j = 0, len = this.indexed_buffer.length; i < len; i++) {
-				const current_indexing: ShapeBaseStreamIndexing = this.indexed_buffer[i]
+				const current_indexing: ISceneChildStreamIndexing = this.indexed_buffer[i]
 
-				const prop_arguments: ShapeBasePropArguments = {
+				const prop_arguments: ISceneChildPropArguments = {
 					shape: current_indexing.shape,
 					repetition: current_indexing.repetition,
 					context: Context,
@@ -539,21 +540,20 @@ abstract class ShapeBase extends SceneChild {
 					data: current_indexing.shape.data,
 				}
 
-				const fillColor = current_indexing.shape.getProp('fillColor' as keyof ShapeBaseProps, prop_arguments)
+				const fillColor = current_indexing.shape.getProp('fillColor' as keyof ISceneChildProps, prop_arguments)
 				const lineWidth = current_indexing.shape.getProp(
-					'lineWidth' as keyof ShapeBaseProps,
+					'lineWidth' as keyof ISceneChildProps,
 					prop_arguments,
 					fillColor ? undefined : 1
 				)
 				const strokeColor = current_indexing.shape.getProp(
-					'strokeColor' as keyof ShapeBaseProps,
+					'strokeColor' as keyof ISceneChildProps,
 					prop_arguments,
 					fillColor ? undefined : this.scene.mainColor
 				)
 
-				const streamArguments: ShapeBaseStreamArguments = {
-					//@ts-ignore
-					shape: current_indexing.shape,
+				const streamArguments: ISceneChildStreamArguments = {
+					shape: current_indexing.shape as ShapePrimitive,
 					repetition: current_indexing.repetition,
 					buffer: this.buffer,
 					buffer_length: current_indexing.buffer_length,
@@ -576,11 +576,11 @@ abstract class ShapeBase extends SceneChild {
 	 * Index vertex buffer
 	 *
 	 * @public
-	 * @param {Array<ShapeBaseStreamIndexing>} buffer
-	 * @param {ShapeBaseStreamIndexing} [parent]
+	 * @param {Array<ISceneChildStreamIndexing>} buffer
+	 * @param {ISceneChildStreamIndexing} [parent]
 	 * @memberof Shape
 	 */
-	public index(buffer: Array<ShapeBaseStreamIndexing>, parent?: ShapeBaseStreamIndexing) {
+	public index(buffer: Array<ISceneChildStreamIndexing>, parent?: ISceneChildStreamIndexing) {
 		const shape_buffer = this.getBuffer()
 
 		if (shape_buffer) {
@@ -593,7 +593,7 @@ abstract class ShapeBase extends SceneChild {
 			// const bRandomRepetitions: boolean = typeof this.props.randomSeed !== 'undefined'
 			// this.rand_prng = bRandomRepetitions ? seedrandom(this.props.randomSeed as string) : undefined
 
-			const repetition_type = Array.isArray(repetitions) ? RepetitionType.Matrix : RepetitionType.Ring
+			const repetition_type = Array.isArray(repetitions) ? ERepetitionType.Matrix : ERepetitionType.Ring
 			const repetition_count = Array.isArray(repetitions)
 				? repetitions[0] * (repetitions[1] ?? repetitions[0])
 				: repetitions
@@ -610,11 +610,11 @@ abstract class ShapeBase extends SceneChild {
 					current_col_repetition < repetition_col_count;
 					current_col_repetition++, current_index++
 				) {
-					const repetition: Repetition = {
+					const repetition: IRepetition = {
 						current_index: current_index + 1,
 						current_offset: (current_index + 1) / repetition_count,
 						current_angle:
-							repetition_type == RepetitionType.Ring ? ((Math.PI * 2) / repetition_count) * current_index : 0,
+							repetition_type === ERepetitionType.Ring ? ((Math.PI * 2) / repetition_count) * current_index : 0,
 						count: repetition_count,
 						count_col: repetition_col_count,
 						count_row: repetition_row_count,
@@ -637,17 +637,17 @@ abstract class ShapeBase extends SceneChild {
 	 *
 	 * @protected
 	 * @abstract
-	 * @param {Array<ShapeBaseStreamIndexing>} buffer
+	 * @param {Array<ISceneChildStreamIndexing>} buffer
 	 * @param {number} frame_length
 	 * @param {Repetition} current_repetition
-	 * @param {ShapeBaseStreamIndexing} [parent]
+	 * @param {ISceneChildStreamIndexing} [parent]
 	 * @memberof ShapeBase
 	 */
 	protected abstract addIndex(
-		buffer: Array<ShapeBaseStreamIndexing>,
+		buffer: Array<ISceneChildStreamIndexing>,
 		frame_length: number,
-		current_repetition: Repetition,
-		parent?: ShapeBaseStreamIndexing
+		current_repetition: IRepetition,
+		parent?: ISceneChildStreamIndexing
 	): void
 }
 

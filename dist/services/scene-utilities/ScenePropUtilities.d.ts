@@ -1,14 +1,14 @@
-import { ShapeBasePropArguments, ShapeLoopGenerator } from '@core/types/ShapeBase';
 import DrawerCanvas from '@services/drawer-canvas/DrawerCanvas';
 import { TSceneChildPropsDataKeys } from '@services/scene-utilities/SceneChildPropsData';
 import { IShapeLoop, TAnimation, TDrawerTransformation, TDrawerValue } from '@services/types/animation';
+import { IShapeLoopGenerator, TVertexCallback } from '@core/types/shape-primitive';
 declare class ScenePropUtilities {
     static readonly RAW_ARGUMENTS: string;
-    static readonly RAW_ARGUMENTS_WIT_PARENT: string;
+    static readonly RAW_ARGUMENTS_WITH_PARENT: string;
     static bValueLoop(value: any): boolean;
     static bValueVertexCallback(value: any): boolean;
-    static composeVertexCallback(value: any): ((vertex: Array<number> | Float32Array, prop_argumens: ShapeBasePropArguments, vertex_index: number, vertex_length: number) => Array<number> | Float32Array) | undefined;
-    static composeLoop(loop: IShapeLoop): ShapeLoopGenerator;
+    static composeVertexCallback(value: any): TVertexCallback | undefined;
+    static composeLoop(loop: IShapeLoop): IShapeLoopGenerator;
     static bValueAnimation(value: TAnimation | any): boolean;
     static bValueDrawer(value: TDrawerValue | any): boolean;
     static bPropTransformable(name: string, value: any): boolean;

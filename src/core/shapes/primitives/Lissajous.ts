@@ -1,8 +1,7 @@
-import { ShapeBasePropArguments } from '@core/types/ShapeBase'
-
 import ShapeLoop from '@core/shapes/ShapeLoop'
-import { LissajousProps, LissajousSettings } from '@core/interfaces/shapes/PrimitiveInterfaces'
-import { ShapeLoopProps, ShapePrimitiveAdaptMode } from '@core/interfaces/shapes/Interfaces'
+import { ISceneChildPropArguments } from '@core/types/scene-child'
+import { EShapePrimitiveAdaptMode } from '@core/types/shape-base'
+import { ILissajousProps, ILissajousSettings, IShapeLoopProps } from '@core/types/shape-primitive'
 
 /**
  * Lissajous shape
@@ -11,15 +10,15 @@ import { ShapeLoopProps, ShapePrimitiveAdaptMode } from '@core/interfaces/shapes
  * @extends {ShapeLoop}
  */
 class Lissajous extends ShapeLoop {
-	protected props: LissajousProps
+	protected props: ILissajousProps
 
 	/**
 	 * Creates an instance of Lissajous.
 	 *
-	 * @param {LissajousSettings} [settings={}]
+	 * @param {ILissajousSettings} [settings={}]
 	 * @memberof Lissajous
 	 */
-	constructor(settings: LissajousSettings = {}) {
+	constructor(settings: ILissajousSettings = {}) {
 		settings.type = 'Lissajous'
 		settings.shapeLoopPropsDependencies = (settings.shapeLoopPropsDependencies || []).concat([
 			'wx',
@@ -27,7 +26,7 @@ class Lissajous extends ShapeLoop {
 			'wz',
 			'sideLength',
 		])
-		settings.bAdaptBuffer = settings.bAdaptBuffer ?? ShapePrimitiveAdaptMode.Scale
+		settings.bAdaptBuffer = settings.bAdaptBuffer ?? EShapePrimitiveAdaptMode.Scale
 
 		super(settings, true)
 
@@ -46,7 +45,7 @@ class Lissajous extends ShapeLoop {
 
 				return (1 / Math.pow(this.sideLength[0] * this.sideLength[1], 0.25)) * ratio
 			},
-			vertex: (angle: number, prop_arguments?: ShapeBasePropArguments): Array<number> => {
+			vertex: (angle: number, prop_arguments?: ISceneChildPropArguments): Array<number> => {
 				const wx = this.getProp('wx', prop_arguments)
 				const wy = this.getProp('wy', prop_arguments)
 				const wz = this.getProp('wz', prop_arguments, 0)
@@ -63,25 +62,25 @@ class Lissajous extends ShapeLoop {
 	/**
 	 * Get property value
 	 *
-	 * @param {keyof LissajousProps} key
-	 * @param {ShapeBasePropArguments} [prop_arguments]
+	 * @param {keyof ILissajousProps} key
+	 * @param {ISceneChildPropArguments} [prop_arguments]
 	 * @param {*} [default_value]
 	 * @returns {*}
 	 * @memberof Lissajous
 	 */
-	public getProp(key: keyof LissajousProps, prop_arguments?: ShapeBasePropArguments, default_value?: any): any {
-		return super.getProp(key as keyof ShapeLoopProps, prop_arguments, default_value)
+	public getProp(key: keyof ILissajousProps, prop_arguments?: ISceneChildPropArguments, default_value?: any): any {
+		return super.getProp(key as keyof IShapeLoopProps, prop_arguments, default_value)
 	}
 
 	/**
 	 * Set single or multiple props
 	 *
-	 * @param {(keyof LissajousProps | LissajousSettings)} key
+	 * @param {(keyof ILissajousProps | ILissajousProps)} key
 	 * @param {*} [value]
 	 * @memberof Lissajous
 	 */
-	public setProp(key: keyof LissajousProps | LissajousSettings, value?: any): void {
-		super.setProp(key as keyof ShapeLoopProps, value)
+	public setProp(key: keyof ILissajousProps | ILissajousProps, value?: any): void {
+		super.setProp(key as keyof IShapeLoopProps, value)
 	}
 }
 

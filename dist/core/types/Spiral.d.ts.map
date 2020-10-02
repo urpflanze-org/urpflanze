@@ -1,1 +1,1 @@
-{"version":3,"file":"Spiral.d.ts","sourceRoot":"","sources":["../../../src/core/types/Spiral.ts"],"names":[],"mappings":"AAAA;;;;GAIG;AACH,aAAK,UAAU,GAAG,WAAW,GAAG,YAAY,GAAG,QAAQ,GAAG,QAAQ,GAAG,aAAa,CAAA;AAElF,OAAO,EAAE,UAAU,EAAE,CAAA"}
+{"version":3,"file":"spiral.d.ts","sourceRoot":"","sources":["../../../src/core/types/spiral.ts"],"names":[],"mappings":"AAAA;;;;GAIG;AACH,aAAK,UAAU,GAAG,WAAW,GAAG,YAAY,GAAG,QAAQ,GAAG,QAAQ,GAAG,aAAa,CAAA;AAElF,OAAO,EAAE,UAAU,EAAE,CAAA"}

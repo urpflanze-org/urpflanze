@@ -1,7 +1,8 @@
-import { ShapeLoopGenerator, ShapeBasePropArguments, ShapeBaseStreamIndexing, Repetition, ShapeBaseStreamArguments } from '@core/types/ShapeBase';
-import { ShapeBaseSettings, ShapeBaseProps } from '@core/interfaces/shapes/Interfaces';
 import SceneChild from '@core/SceneChild';
 import { TArray } from '@core/math/Vec2';
+import { IRepetition, ISceneChildPropArguments, ISceneChildProps, ISceneChildStreamIndexing } from '@core/types/scene-child';
+import { TStreamCallback } from '@core/types/scene';
+import { IShapeBaseSettings } from '@core/types/shape-base';
 /**
  * Shape Base
  *
@@ -24,15 +25,15 @@ declare abstract class ShapeBase extends SceneChild {
      * @static
      * @memberof ShapeLoop
      */
-    static getEmptyRepetition: () => Repetition;
+    static getEmptyRepetition: () => IRepetition;
     /**
      * Empty Prop Arguments
      *
      * @static
-     * @type {ShapeBasePropArguments}
+     * @type {ISceneChildPropArguments}
      * @memberof ShapeBase
      */
-    static readonly EMPTY_PROP_ARGUMENTS: ShapeBasePropArguments;
+    static readonly EMPTY_PROP_ARGUMENTS: ISceneChildPropArguments;
     /**
      * Shape generation id
      * used for prevent buffer calculation
@@ -80,10 +81,10 @@ declare abstract class ShapeBase extends SceneChild {
      * only for first level scene children
      *
      * @protected
-     * @type {Array<ShapeBaseStreamIndexing>}
+     * @type {Array<ISceneChildStreamIndexing>}
      * @memberof ShapeBase
      */
-    protected indexed_buffer?: Array<ShapeBaseStreamIndexing>;
+    protected indexed_buffer?: Array<ISceneChildStreamIndexing>;
     /**
      * A ShapeLoop can be dynamic buffer lenght for eacch repetition.
      * This array contain a length of buffer for each repetition.
@@ -103,10 +104,10 @@ declare abstract class ShapeBase extends SceneChild {
     /**
      * Creates an instance of ShapeBase.
      *
-     * @param {ShapeBaseSettings} [settings={}]
+     * @param {ISceneChildSettings} [settings={}]
      * @memberof ShapeBase
      */
-    constructor(settings?: ShapeBaseSettings);
+    constructor(settings?: IShapeBaseSettings);
     /**
      * Check if shape is static
      *
@@ -124,22 +125,22 @@ declare abstract class ShapeBase extends SceneChild {
     /**
      * Return a prop value
      *
-     * @param {keyof ShapeBaseProps} key
-     * @param {ShapeBasePropArguments} [prop_arguments]
+     * @param {keyof ISceneChildProps} key
+     * @param {ISceneChildPropArguments} [prop_arguments]
      * @param {*} [default_value]
      * @returns {*}
      * @memberof ShapeBase
      */
-    getProp(key: keyof ShapeBaseProps, prop_arguments?: ShapeBasePropArguments, default_value?: any): any;
+    getProp(key: keyof ISceneChildProps, prop_arguments?: ISceneChildPropArguments, default_value?: any): any;
     /**
      * Set a single or multiple props
      *
-     * @param {(keyof ShapeBaseProps | ShapeBaseProps)} key
+     * @param {(keyof ISceneChildProps | ISceneChildProps)} key
      * @param {*} [value]
      * @param {boolean} [bClearIndexed=false]
      * @memberof ShapeBase
      */
-    setProp(key: keyof ShapeBaseProps | ShapeBaseProps, value?: any, bClearIndexed?: boolean): void;
+    setProp(key: keyof ISceneChildProps | ISceneChildProps, value?: any, bClearIndexed?: boolean): void;
     /**
      *  Unset buffer
      *
@@ -160,10 +161,10 @@ declare abstract class ShapeBase extends SceneChild {
      *
      * @param {number} generate_id generation id
      * @param {boolean} [bDirectSceneChild=false] adjust shape of center of scene
-     * @param {ShapeBasePropArguments} [parent_prop_arguments]
+     * @param {ISceneChildPropArguments} [parent_prop_arguments]
      * @memberof ShapeBase
      */
-    generate(generate_id: number, bDirectSceneChild?: boolean, parent_prop_arguments?: ShapeBasePropArguments): void;
+    generate(generate_id: number, bDirectSceneChild?: boolean, parent_prop_arguments?: ISceneChildPropArguments): void;
     /**
      *
      *
@@ -184,18 +185,17 @@ declare abstract class ShapeBase extends SceneChild {
      *
      * @protected
      * @param {number} generate_id
-     * @param {ShapeBasePropArguments} prop_arguments
+     * @param {ISceneChildPropArguments} prop_arguments
      * @returns {Float32Array}
      * @memberof ShapeBase
      */
-    protected abstract generateBuffer(generate_id: number, prop_arguments: ShapeBasePropArguments): Float32Array;
+    protected abstract generateBuffer(generate_id: number, prop_arguments: ISceneChildPropArguments): Float32Array;
     /**
      * Set shape
      *
-     * @param {(SceneChild | Float32Array | undefined | ShapeLoopGenerator)} [shape]
      * @memberof ShapeBase
      */
-    abstract setShape(shape_or_loop: SceneChild | Float32Array | ShapeLoopGenerator | undefined): void;
+    abstract setShape(shape_or_loop: any): void;
     /**
      * Return buffer
      *
@@ -206,10 +206,10 @@ declare abstract class ShapeBase extends SceneChild {
     /**
      * Return indexed buffer
      *
-     * @returns {(Array<ShapeBaseStreamIndexing> | undefined)}
+     * @returns {(Array<ISceneChildStreamIndexing> | undefined)}
      * @memberof ShapeBase
      */
-    getIndexedBuffer(): Array<ShapeBaseStreamIndexing> | undefined;
+    getIndexedBuffer(): Array<ISceneChildStreamIndexing> | undefined;
     /**
      * Return Array of single repetition buffer length
      *
@@ -220,31 +220,31 @@ declare abstract class ShapeBase extends SceneChild {
     /**
      * Stream buffer
      *
-     * @param {(stream_arguments: ShapeBaseStreamArguments) => void} callback
+     * @param {(TStreamCallback} callback
      * @memberof ShapeBase
      */
-    stream(callback: (stream_arguments: ShapeBaseStreamArguments) => void): void;
+    stream(callback: TStreamCallback): void;
     /**
      * Index vertex buffer
      *
      * @public
-     * @param {Array<ShapeBaseStreamIndexing>} buffer
-     * @param {ShapeBaseStreamIndexing} [parent]
+     * @param {Array<ISceneChildStreamIndexing>} buffer
+     * @param {ISceneChildStreamIndexing} [parent]
      * @memberof Shape
      */
-    index(buffer: Array<ShapeBaseStreamIndexing>, parent?: ShapeBaseStreamIndexing): void;
+    index(buffer: Array<ISceneChildStreamIndexing>, parent?: ISceneChildStreamIndexing): void;
     /**
      * Add index to buffer
      *
      * @protected
      * @abstract
-     * @param {Array<ShapeBaseStreamIndexing>} buffer
+     * @param {Array<ISceneChildStreamIndexing>} buffer
      * @param {number} frame_length
      * @param {Repetition} current_repetition
-     * @param {ShapeBaseStreamIndexing} [parent]
+     * @param {ISceneChildStreamIndexing} [parent]
      * @memberof ShapeBase
      */
-    protected abstract addIndex(buffer: Array<ShapeBaseStreamIndexing>, frame_length: number, current_repetition: Repetition, parent?: ShapeBaseStreamIndexing): void;
+    protected abstract addIndex(buffer: Array<ISceneChildStreamIndexing>, frame_length: number, current_repetition: IRepetition, parent?: ISceneChildStreamIndexing): void;
 }
 export default ShapeBase;
 //# sourceMappingURL=ShapeBase.d.ts.map

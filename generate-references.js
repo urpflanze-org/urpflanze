@@ -90,7 +90,7 @@ function parse(item) {
 		case 'Type alias':
 			return parseType(item)
 		case 'Enumeration':
-			break
+			return parseEnum(item)
 	}
 }
 
@@ -105,11 +105,38 @@ function findExamples(item) {
 
 	return examples.length === 0 ? undefined : examples
 }
+function findOrder(item) {
+	if (item.comment && item.comment.tags) {
+		for (tag of item.comment.tags) {
+			if (tag.tag === 'order') return parseFloat(tag.text)
+		}
+	}
+
+	return 9999
+}
+
+function parseEnum(item) {
+	const result = {
+		name: item.name,
+		type: 'Enumeration',
+		source: item.sources[0].fileName,
+		order: findOrder(item),
+		examples: findExamples(item),
+		description: parseDescription(item),
+		members: item.children.map(member => ({
+			name: member.name,
+			defaultValue: member.defaultValue,
+		})),
+	}
+
+	return result
+}
 
 function parseType(item) {
 	const result = {
 		name: item.name,
 		type: 'Type',
+		order: findOrder(item),
 		source: item.sources[0].fileName,
 		description: parseDescription(item),
 		examples: findExamples(item),
@@ -124,6 +151,7 @@ function parseInterface(item) {
 	const result = {
 		type: 'Interface',
 		name: item.name,
+		order: findOrder(item),
 		source: item.sources[0].fileName,
 		extends: item && item.extendedTypes ? item.extendedTypes.map(extend => extend.name) : undefined,
 		description: parseDescription(item),
@@ -143,6 +171,7 @@ function parseObject(item) {
 	const result = {
 		name: item.name,
 		type: 'Object',
+		order: findOrder(item),
 		source: item.sources[0].fileName,
 		description: parseDescription(item),
 		examples: findExamples(item),
@@ -165,6 +194,7 @@ function parseClass(item) {
 	const result = {
 		name: item.name,
 		type: 'Class',
+		order: findOrder(item),
 		source: item.sources[0].fileName,
 		extends: item && item.extendedTypes ? item.extendedTypes.map(extend => extend.name) : undefined,
 		description: parseDescription(item),
@@ -202,17 +232,36 @@ function parseClass(item) {
 function parseProperty(property) {
 	const type = property.type
 
-	return {
+	if (type.types) {
+		type.types = type.types.map(parseProperty)
+	}
+
+	const result = {
 		name: property.name,
-		bPublic: property.flags ? property.flags.isPublic : false,
-		bProtected: property.flags ? property.flags.isProtected : false,
-		bPrivate: property.flags ? property.flags.isPrivate : false,
-		bStatic: property.flags ? property.flags.isStatic : false,
-		bReadonly: property.flags ? property.flags.isReadonly : false,
 		description: parseDescription(property),
 		type,
+		value: property.value,
 		defaultValue: property.defaultValue,
+		declaration: property.declaration ? parseMethod(property.declaration) : undefined,
+
+		operator: property.operator,
+		target: property.target ? parseProperty(property.target) : undefined,
 	}
+
+	if (typeof property.flags !== 'undefined' && typeof property.flags.isOptional !== 'undefined')
+		result.bOptional = property.flags.isOptional
+	if (typeof property.flags !== 'undefined' && typeof property.flags.isPublic !== 'undefined')
+		result.bPublic = property.flags.isPublic
+	if (typeof property.flags !== 'undefined' && typeof property.flags.isProtected !== 'undefined')
+		result.bProtected = property.flags.isProtected
+	if (typeof property.flags !== 'undefined' && typeof property.flags.isPrivate !== 'undefined')
+		result.bPrivate = property.flags.isPrivate
+	if (typeof property.flags !== 'undefined' && typeof property.flags.isStatic !== 'undefined')
+		result.bStatic = property.flags.isStatic
+	if (typeof property.flags !== 'undefined' && typeof property.flags.isReadonly !== 'undefined')
+		result.bReadonly = property.flags.isReadonly
+
+	return result
 }
 
 function parseDescription(item) {
@@ -220,19 +269,28 @@ function parseDescription(item) {
 }
 
 function parseMethod(method) {
-	const return_type = method.signatures[0].type
-	return {
-		name: method.name,
-		bPublic: method.flags ? method.flags.isPublic : false,
-		bProtected: method.flags ? method.flags.isProtected : false,
-		bPrivate: method.flags ? method.flags.isPrivate : false,
-		bAbstract: method.flags ? method.flags.isAbstract : false,
-		bStatic: method.flags ? method.flags.isStatic : false,
-		bReadonly: method.flags ? method.flags.isReadonly : false,
-		description: method.signatures[0].comment ? method.signatures[0].comment.shortText : undefined,
-		parameters: method.signatures[0].parameters ? method.signatures[0].parameters.map(parseParameter) : [],
-		examples: findExamples(method),
-		return_type,
+	if (method.signatures) {
+		const return_type = method.signatures[0].type
+		const result = {
+			name: method.name,
+			description: method.signatures[0].comment ? method.signatures[0].comment.shortText : undefined,
+			parameters: method.signatures[0].parameters ? method.signatures[0].parameters.map(parseParameter) : [],
+			examples: findExamples(method),
+			return_type,
+		}
+
+		if (typeof method.flags !== 'undefined' && typeof method.flags.isPublic !== 'undefined')
+			result.bPublic = method.flags.isPublic
+		if (typeof method.flags !== 'undefined' && typeof method.flags.isProtected !== 'undefined')
+			result.bProtected = method.flags.isProtected
+		if (typeof method.flags !== 'undefined' && typeof method.flags.isPrivate !== 'undefined')
+			result.bPrivate = method.flags.isPrivate
+		if (typeof method.flags !== 'undefined' && typeof method.flags.isStatic !== 'undefined')
+			result.bStatic = method.flags.isStatic
+		if (typeof method.flags !== 'undefined' && typeof method.flags.isReadonly !== 'undefined')
+			result.bReadonly = method.flags.isReadonly
+
+		return result
 	}
 }
 

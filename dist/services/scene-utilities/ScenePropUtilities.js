@@ -120,6 +120,6 @@ class ScenePropUtilities {
     }
 }
 ScenePropUtilities.RAW_ARGUMENTS = '{ context, repetition, time, shape, shape_loop, data }';
-ScenePropUtilities.RAW_ARGUMENTS_WIT_PARENT = '{ context, repetition, parent, time, shape, shape_loop, data }';
+ScenePropUtilities.RAW_ARGUMENTS_WITH_PARENT = '{ context, repetition, parent, time, shape, shape_loop, data }';
 export default ScenePropUtilities;
 //# sourceMappingURL=ScenePropUtilities.js.map

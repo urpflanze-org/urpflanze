@@ -1,10 +1,10 @@
-import { ShapePrimitiveAdaptMode } from '@core/interfaces/shapes/Interfaces';
 import Spiral from '@core/shapes/primitives/Spiral';
+import { EShapePrimitiveAdaptMode } from '@core/types/shape-base';
 const OptionShapePrimitiveAdaptMode = [
-    { key: 'None', value: ShapePrimitiveAdaptMode.None },
-    { key: 'Scale', value: ShapePrimitiveAdaptMode.Scale },
-    { key: 'Center', value: ShapePrimitiveAdaptMode.Center },
-    { key: 'Fill', value: ShapePrimitiveAdaptMode.Fill },
+    { key: 'None', value: EShapePrimitiveAdaptMode.None },
+    { key: 'Scale', value: EShapePrimitiveAdaptMode.Scale },
+    { key: 'Center', value: EShapePrimitiveAdaptMode.Center },
+    { key: 'Fill', value: EShapePrimitiveAdaptMode.Fill },
 ];
 const OptionSpiralType = [
     { key: 'ARCHIMEDE', value: Spiral.types.ARCHIMEDE },

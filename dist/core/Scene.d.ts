@@ -1,56 +1,54 @@
-import { ShapeBaseStreamArguments } from '@core/types/ShapeBase';
-import SceneSettingsInterface from '@core/interfaces/SceneInterface';
+import { TStreamCallback, ISceneSettingsInterface } from '@core/types/scene';
 import SceneChild from '@core/SceneChild';
-import { TArray } from './math/Vec2';
+import { TArray } from '@core/math/Vec2';
 /**
- * Scene
+ * Container for all SceneChild.
+ * The main purpose is to manage the drwaing order and update
+ * the buffers of the sceneChild present in it
  *
+ *
+ * @order 1
+ * @category Core.Scene
  * @class Scene
  */
 declare class Scene {
     /**
-     * Scene width
+     * Logical number, the render will take care
+     * of defining the unit of measure
      *
      * @type {number}
      * @memberof Scene
      */
     width: number;
     /**
-     * Scene height
+     * Logical number, the render will take care
+     * of defining the unit of measure
      *
      * @type {number}
      * @memberof Scene
      */
     height: number;
     /**
-     * The center of scene
+     * Refers to the central point of the scene
      *
      * @type {TArray}
      * @memberof Scene
      */
     center: TArray;
     /**
-     * Scene Background
+     * Default background color (black)
      *
      * @type {string}
      * @memberof Scene
      */
     background: string;
     /**
-     * Scene main color (defaul: stroke)
+     * Default ScenePrimitive stroke color (white)
      *
      * @type {string}
      * @memberof Scene
      */
     mainColor: string;
-    /**
-     * Update start time
-     *
-     * @private
-     * @type {number}
-     * @memberof Scene
-     */
-    private start_time;
     /**
      * Current time
      *
@@ -68,13 +66,14 @@ declare class Scene {
     private children;
     /**
      * Creates an instance of Scene.
+     * You can see the default values ​​in the property definitions
      *
-     * @param {SceneSettingsInterface} [settings={}]
+     * @param {ISceneSettingsInterface} [settings={}]
      * @memberof Scene
      */
-    constructor(settings?: SceneSettingsInterface);
+    constructor(settings?: ISceneSettingsInterface);
     /**
-     * Resize scene
+     * Resize the scene dimension
      *
      * @param {number} width
      * @param {number} [height=width]
@@ -82,25 +81,19 @@ declare class Scene {
      */
     resize(width: number, height?: number): void;
     /**
-     * Update scene an children
+     * Update all children, generate a streamable buffer for drawing
      *
      * @param {number} [at_time] time in ms
      * @memberof Scene
      */
-    update(at_time?: number): void;
+    update(at_time: number): void;
     /**
-     * Clear all scene items buffer
+     * Traverse the child buffer and use it with callback
      *
+     * @param {TStreamCallback} callback
      * @memberof Scene
      */
-    clearAllBuffers(): void;
-    /**
-     * Stream children for draw (called after update)
-     *
-     * @param {(stream_arguments: ShapeBaseStreamArguments) => boolean | void} callback
-     * @memberof Scene
-     */
-    stream(callback: (stream_arguments: ShapeBaseStreamArguments) => void): void;
+    stream(callback: TStreamCallback): void;
     /**
      * Return a list of children
      *
@@ -109,7 +102,7 @@ declare class Scene {
      */
     getChildren(): Array<SceneChild>;
     /**
-     * Add shpe to scene
+     * Add SceneChild to Scene, pass `order` for drawing priorities
      *
      * @param {SceneChild} item
      * @param {number} [order]
@@ -117,11 +110,47 @@ declare class Scene {
      */
     add(item: SceneChild, order?: number): void;
     /**
-     * Sort children
+     * Sort children by order
      *
      * @memberof Scene
      */
     sortChildren(): void;
+    /**
+     * Find sceneChild from id or name in the whole scene
+     *
+     * @param {string | number} id_or_name
+     * @returns {(SceneChild | null)}
+     * @memberof Scene
+     */
+    find(id_or_name: string | number): SceneChild | null;
+    /**
+     * Get shape by index
+     *
+     * @param {number} index
+     * @returns {(SceneChild | null)}
+     * @memberof Scene
+     */
+    get(index: number): SceneChild | null;
+    /**
+     * Remove a shape by index
+     *
+     * @param {number} index
+     * @memberof Scene
+     */
+    remove(index: number): void;
+    /**
+     * Removes all children
+     *
+     * @memberof Scene
+     */
+    removeChildren(): void;
+    /**
+     * Remove sceneChild by id or name
+     *
+     * @param {number | number} id_or_name
+     * @memberof Scene
+     */
+    removeFromId(id_or_name: number | string): void;
     /**
      * Return true if sceneChild is direct children
      *
@@ -131,43 +160,7 @@ declare class Scene {
      */
     isFirstLevelChild(sceneChild: SceneChild): boolean;
     /**
-     * Find scene child from id
-     *
-     * @param {string | number} id_or_name
-     * @returns {(SceneChild | null)}
-     * @memberof Scene
-     */
-    find(id_or_name: string | number): SceneChild | null;
-    /**
-     * Get shape from index
-     *
-     * @param {number} index
-     * @returns {(SceneChild | null)}
-     * @memberof Scene
-     */
-    get(index: number): SceneChild | null;
-    /**
-     * Remove a shape
-     *
-     * @param {number} index
-     * @memberof Scene
-     */
-    remove(index: number): void;
-    /**
-     * Remove all children
-     *
-     * @memberof Scene
-     */
-    clearChildren(): void;
-    /**
-     * Remove from id
-     *
-     * @param {number} id
-     * @memberof Scene
-     */
-    removeFromId(id: number | string): void;
-    /**
-     * Return a list of parents of sceneChild
+     * Returns the list of sceneChild hierarchy starting from the scene
      *
      * @param {SceneChild} sceneChild
      * @returns {Array<SceneChild>}
@@ -175,7 +168,7 @@ declare class Scene {
      */
     getParentsOfSceneChild(sceneChild: SceneChild): Array<SceneChild>;
     /**
-     * Return a list of parents of sceneChild
+     * Returns the list of sceneChild hierarchy starting from the scene
      *
      * @static
      * @param {(Scene | SceneChild)} current
@@ -186,7 +179,7 @@ declare class Scene {
      */
     static getParentsOfSceneChild(current: Scene | SceneChild, sceneChild: SceneChild, parents?: Array<SceneChild | Scene>): Array<SceneChild | Scene> | null;
     /**
-     * Walk through scene
+     * Walk through the scene
      *
      * @static
      * @param {SceneChild} callbackk
@@ -195,14 +188,14 @@ declare class Scene {
      */
     static walk(callback: (sceneChild: SceneChild) => boolean | void, current: Scene | SceneChild): boolean | void;
     /**
-     * Propagate scene to child
+     * Propagate scene to sceneChild (and children)
      *
      * @static
-     * @param {SceneChild} child
+     * @param {SceneChild} sceneChild
      * @param {Scene} scene
      * @memberof Scene
      */
-    static propagateToChilden(child: SceneChild, scene: Scene): void;
+    static propagateToChilden(sceneChild: SceneChild, scene: Scene): void;
 }
 export default Scene;
 //# sourceMappingURL=Scene.d.ts.map

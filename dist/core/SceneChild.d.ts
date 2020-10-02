@@ -1,57 +1,60 @@
-import { ShapeBasePropArguments, ShapeBaseStreamArguments, ShapeBaseStreamIndexing } from '@core/types/ShapeBase';
-import { ShapeBaseProps } from '@core/interfaces/shapes/Interfaces';
+import { TStreamCallback } from '@core/types/scene';
+import { ISceneChildPropArguments, ISceneChildProps, ISceneChildSettings, ISceneChildStreamIndexing } from '@core/types/scene-child';
 import Scene from '@core/Scene';
-import SceneChildInterface from './interfaces/SceneChildInterface';
 /**
- * Item to added into scene
+ * The element to snap into a scene.
+ * Preserve settings (props), drawing order, generate and return buffers.
+ * The only implementations of this class are `Group` and `ShapeBase`
  *
  * @abstract
+ * @category Core.Scene
+ * @order 2
  * @class SceneChild
  */
 declare abstract class SceneChild {
     /**
-     * Reference to scene
+     * Reference of the scene to which it is attached
      *
      * @type {Scene}
      * @memberof SceneChild
      */
     scene?: Scene;
     /**
-     * Item id
+     * The unique id
      *
      * @type {number | string}
      * @memberof SceneChild
      */
     id: number | string;
     /**
-     * item name
+     * The human readable name
      *
      * @type {string}
      * @memberof SceneChild
      */
     name: string;
     /**
-     * item type
+     * The human readable type label
      *
      * @type {string}
      * @memberof SceneChild
      */
     type: string;
     /**
-     * item order (like z-index)
+     * The number that refers to the drawinf order
      *
      * @type {number}
      * @memberof SceneChild
      */
     order: number;
     /**
-     * Item props
+     * The basic properties
      *
      * @protected
-     * @type {ShapeBaseProps}
+     * @type {ISceneChildProps}
      * @memberof SceneChild
      */
-    protected props: ShapeBaseProps;
+    protected props: ISceneChildProps;
     /**
      * Custom client data
      *
@@ -61,13 +64,14 @@ declare abstract class SceneChild {
     data: any;
     /**
      * Creates an instance of SceneChild.
+     * Base values ​​will be assigned in case they are not passed
      *
-     * @param {SceneChildInterface} settings
+     * @param {ISceneChildSettings} settings
      * @memberof SceneChild
      */
-    constructor(settings: SceneChildInterface);
+    constructor(settings: ISceneChildSettings);
     /**
-     * Check shape is static
+     * With this method it is possible to check if the buffer will be generated at each update
      *
      * @abstract
      * @returns {boolean}
@@ -75,7 +79,7 @@ declare abstract class SceneChild {
      */
     abstract isStatic(): boolean;
     /**
-     * Checkk shape has static index
+     * With this method you can check if the streaming buffer will be generated at each update
      *
      * @abstract
      * @returns {boolean}
@@ -83,7 +87,8 @@ declare abstract class SceneChild {
      */
     abstract isStaticIndexed(): boolean;
     /**
-     * Find this or shape children
+     * Find this or form or children.
+     * Overridden by classes that extend it
      *
      * @param {string | number} id_or_name
      * @returns {(SceneChild | null)}
@@ -91,58 +96,60 @@ declare abstract class SceneChild {
      */
     find(id_or_name: string | number): SceneChild | null;
     /**
-     * Item props
+     * Return the sceneChild properties
      *
-     * @returns {ShapeBaseProps}
+     * @returns {ISceneChildProps}
      * @memberof SceneChild
      */
-    getProps(): ShapeBaseProps;
+    getProps(): ISceneChildProps;
     /**
-     * Return a prop
+     * Return a sceneChild prop or default value
      *
-     * @param {keyof ShapeBaseProps} key
-     * @param {ShapeBasePropArguments} [prop_arguments]
+     * @param {keyof ISceneChildProps} key
+     * @param {ISceneChildPropArguments} [prop_arguments]
      * @param {*} [default_value]
      * @returns {*}
      * @memberof SceneChild
      */
-    getProp(key: keyof ShapeBaseProps, prop_arguments?: ShapeBasePropArguments, default_value?: any): any;
+    getProp(key: keyof ISceneChildProps, prop_arguments?: ISceneChildPropArguments, default_value?: any): any;
     /**
      * Set a single or multiple props and clear buffer if shape vertex depends from prop
      *
      * @abstract
-     * @param {(keyof ShapeBaseProps | ShapeBaseProps)} key
+     * @param {(keyof ISceneChildProps | ISceneChildProps)} key
      * @param {*} [value]
      * @param {boolean} [bClearIndexed]
      * @memberof SceneChild
      */
-    abstract setProp(key: keyof ShapeBaseProps | ShapeBaseProps, value?: any, bClearIndexed?: boolean): void;
+    abstract setProp(key: keyof ISceneChildProps | ISceneChildProps, value?: any, bClearIndexed?: boolean): void;
     /**
      * Set a single or multiple props
      *
-     * @param {(keyof ShapeBaseProps | ShapeBaseProps)} key
+     * @param {(keyof ISceneChildProps | ISceneChildProps)} key
      * @param {*} [value]
      * @memberof ShapeBase
      */
-    setPropUnsafe(key: keyof ShapeBaseProps | ShapeBaseProps, value?: any): void;
+    setPropUnsafe(key: keyof ISceneChildProps | ISceneChildProps, value?: any): void;
     /**
-     * Generate shape
+     * Generate shape.
+     * Best explained in ShapeBase
      *
      * @abstract
      * @param {number} generate_id
      * @param {boolean} [bDirectSceneChild]
-     * @param {ShapeBasePropArguments} [parent_prop_arguments]
+     * @param {ISceneChildPropArguments} [parent_prop_arguments]
      * @memberof SceneChild
      */
-    abstract generate(generate_id: number, bDirectSceneChild?: boolean, parent_prop_arguments?: ShapeBasePropArguments): void;
+    abstract generate(generate_id: number, bDirectSceneChild?: boolean, parent_prop_arguments?: ISceneChildPropArguments): void;
     /**
      * Stream shape
+     * Best explained in ShapeBase
      *
      * @abstract
-     * @param {(stream_arguments: ShapeBaseStreamArguments) =>  void} callback
+     * @param {TStreamCallback} callback
      * @memberof SceneChild
      */
-    abstract stream(callback: (stream_arguments: ShapeBaseStreamArguments) => void): void;
+    abstract stream(callback: TStreamCallback): void;
     /**
      * Return buffer
      *
@@ -153,19 +160,19 @@ declare abstract class SceneChild {
     /**
      * Return indexed buffer
      *
-     * @returns {(Array<ShapeBaseStreamIndexing> | undefined)}
+     * @returns {(Array<ISceneChildStreamIndexing> | undefined)}
      * @memberof ShapeBase
      */
-    abstract getIndexedBuffer(): Array<ShapeBaseStreamIndexing> | undefined;
+    abstract getIndexedBuffer(): Array<ISceneChildStreamIndexing> | undefined;
     /**
      * Get length of buffer
      *
      * @abstract
-     * @param {ShapeBasePropArguments} [prop_arguments]
+     * @param {ISceneChildPropArguments} [prop_arguments]
      * @returns {number}
      * @memberof SceneChild
      */
-    abstract getBufferLength(prop_arguments?: ShapeBasePropArguments): number;
+    abstract getBufferLength(prop_arguments?: ISceneChildPropArguments): number;
     /**
      * Clear buffer
      *
@@ -179,11 +186,11 @@ declare abstract class SceneChild {
      * Index buffer
      *
      * @abstract
-     * @param {Array<ShapeBaseStreamIndexing>} buffer
-     * @param {ShapeBaseStreamIndexing} [parent]
+     * @param {Array<ISceneChildStreamIndexing>} buffer
+     * @param {ISceneChildStreamIndexing} [parent]
      * @memberof SceneChild
      */
-    abstract index(buffer: Array<ShapeBaseStreamIndexing>, parent?: ShapeBaseStreamIndexing): void;
+    abstract index(buffer: Array<ISceneChildStreamIndexing>, parent?: ISceneChildStreamIndexing): void;
 }
 export default SceneChild;
 //# sourceMappingURL=SceneChild.d.ts.map

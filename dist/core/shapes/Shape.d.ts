@@ -1,7 +1,7 @@
 import ShapeBase from '@core/shapes/ShapeBase';
-import { ShapeSettings } from '@core/interfaces/shapes/Interfaces';
 import SceneChild from '@core/SceneChild';
-import { ShapeBasePropArguments, ShapeBaseStreamIndexing, Repetition } from '@core/types/ShapeBase';
+import { IShapeSettings } from '@core/types/shape-base';
+import { IRepetition, ISceneChildPropArguments, ISceneChildStreamIndexing } from '@core/types/scene-child';
 declare class Shape extends ShapeBase {
     /**
      * child shape
@@ -16,7 +16,7 @@ declare class Shape extends ShapeBase {
      * @param {ShapeSettings} [settings={}]
      * @memberof Shape
      */
-    constructor(settings?: ShapeSettings);
+    constructor(settings?: IShapeSettings);
     /**
      * Check if shape is static
      *
@@ -42,21 +42,21 @@ declare class Shape extends ShapeBase {
     /**
      * Return length of buffer
      *
-     * @param {ShapeBasePropArguments} prop_arguments
+     * @param {ISceneChildPropArguments} prop_arguments
      * @returns {number}
      * @memberof Shape
      */
-    getBufferLength(prop_arguments: ShapeBasePropArguments): number;
+    getBufferLength(prop_arguments: ISceneChildPropArguments): number;
     /**
      * Return a buffer of children shape or loop generated buffer
      *
      * @protected
      * @param {number} generate_id
-     * @param {ShapeBasePropArguments} prop_arguments
+     * @param {ISceneChildPropArguments} prop_arguments
      * @returns {Float32Array}
      * @memberof ShapeBase
      */
-    protected generateBuffer(generate_id: number, prop_arguments: ShapeBasePropArguments): Float32Array;
+    protected generateBuffer(generate_id: number, prop_arguments: ISceneChildPropArguments): Float32Array;
     /**
      * Set shape
      *
@@ -68,13 +68,13 @@ declare class Shape extends ShapeBase {
      *
      *
      * @protected
-     * @param {Array<ShapeBaseStreamIndexing>} buffer
+     * @param {Array<ISceneChildStreamIndexing>} buffer
      * @param {number} frame_length
      * @param {Repetition} current_repetition
-     * @param {ShapeBaseStreamIndexing} [parent]
+     * @param {ISceneChildStreamIndexing} [parent]
      * @memberof ShapePrimitive
      */
-    protected addIndex(buffer: Array<ShapeBaseStreamIndexing>, frame_length: number, current_repetition: Repetition, parent?: ShapeBaseStreamIndexing): void;
+    protected addIndex(buffer: Array<ISceneChildStreamIndexing>, frame_length: number, current_repetition: IRepetition, parent?: ISceneChildStreamIndexing): void;
 }
 export default Shape;
 //# sourceMappingURL=Shape.d.ts.map

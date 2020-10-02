@@ -1,4 +1,9 @@
-import { TArray } from './core/math/Vec2'
+/**
+ * get timestamp
+ *
+ * @ignore
+ */
+const getTimestamp = performance && performance.now ? performance.now : Date.now
 
 export interface ICancelablePromise<T> {
 	promise: Promise<T>
@@ -52,14 +57,14 @@ const Utilities = {
 
 	isDef: (object: any): boolean => typeof object !== 'undefined' && object !== null,
 
-	now: performance && performance.now ? performance.now : Date.now,
+	now: (): number => getTimestamp(),
 
 	// aOr: (...args: Array<any>): any => {
 	// 	for (let i = 0; i < args.length; i++) if (Utilities.isDef(args[i])) return args[i]
 	// },
 
-	toDegrees: (radians: number) => (radians * 180) / Math.PI,
-	toRadians: (degrees: number) => (degrees * Math.PI) / 180,
+	toDegrees: (radians: number): number => (radians * 180) / Math.PI,
+	toRadians: (degrees: number): number => (degrees * Math.PI) / 180,
 
 	// perf: (name: string, callback: any, log: boolean = false): number => {
 	// 	const t1 = now()
@@ -69,7 +74,7 @@ const Utilities = {
 	// 	return t2 - t1
 	// }
 
-	toArray: (t: number | TArray) => (Array.isArray(t) ? t : [t, t]),
+	toArray: (t: number | Array<number>): Array<number> => (Array.isArray(t) ? t : [t, t]),
 
 	/**
 	 * Return true if key exist in props

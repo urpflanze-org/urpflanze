@@ -1,11 +1,7 @@
-import { ShapeBasePropArguments, ShapeLoopGenerator } from '@core/types/ShapeBase'
-import { SpiralType } from '@core/types/Spiral'
-import { SpiralProps, SpiralSettings } from '@core/interfaces/shapes/PrimitiveInterfaces'
-
-import Uttilities from 'src/Utilites'
-
 import ShapeLoop from '../ShapeLoop'
-import { ShapeLoopProps, ShapePrimitiveAdaptMode } from '@core/interfaces/shapes/Interfaces'
+import { IShapeLoopProps, ISpiralProps, ISpiralSettings, TSpiralType } from '@core/types/shape-primitive'
+import { ISceneChildPropArguments } from '@core/types/scene-child'
+import { EShapePrimitiveAdaptMode } from '@core/types/shape-base'
 
 /**
  * Spiral shape
@@ -14,16 +10,16 @@ import { ShapeLoopProps, ShapePrimitiveAdaptMode } from '@core/interfaces/shapes
  * @extends {ShapeLoop}
  */
 class Spiral extends ShapeLoop {
-	protected props: SpiralProps
+	protected props: ISpiralProps
 
 	/**
 	 * Spural types
 	 *
 	 * @static
-	 * @type {{ [name in SpiralType]: SpiralType }}
+	 * @type {{ [name in TSpiralType]: TSpiralType }}
 	 * @memberof Spiral
 	 */
-	public static readonly types: { [name in SpiralType]: SpiralType } = {
+	public static readonly types: { [name in TSpiralType]: TSpiralType } = {
 		ARCHIMEDE: 'ARCHIMEDE',
 		HYPERBOLIC: 'HYPERBOLIC',
 		FERMAT: 'FERMAT',
@@ -37,10 +33,10 @@ class Spiral extends ShapeLoop {
 	 * @param {SpiralSettings} [settings={}]
 	 * @memberof Spiral
 	 */
-	constructor(settings: SpiralSettings = {}) {
+	constructor(settings: ISpiralSettings = {}) {
 		settings.type = 'Spiral'
 		settings.bCloseShape = false
-		settings.bAdaptBuffer = settings.bAdaptBuffer ?? ShapePrimitiveAdaptMode.None
+		settings.bAdaptBuffer = settings.bAdaptBuffer ?? EShapePrimitiveAdaptMode.None
 
 		settings.shapeLoopPropsDependencies = (settings.shapeLoopPropsDependencies || []).concat([
 			'twists',
@@ -56,10 +52,10 @@ class Spiral extends ShapeLoop {
 		this.props.twists_start = settings.twists_start ?? 0
 
 		this.loop = {
-			start: (prop_arguments: ShapeBasePropArguments) => ShapeLoop.PI2 * this.getProp('twists_start', prop_arguments),
-			end: (prop_arguments: ShapeBasePropArguments) =>
+			start: (prop_arguments: ISceneChildPropArguments) => ShapeLoop.PI2 * this.getProp('twists_start', prop_arguments),
+			end: (prop_arguments: ISceneChildPropArguments) =>
 				ShapeLoop.PI2 * (this.getProp('twists_start', prop_arguments) + this.getProp('twists', prop_arguments)),
-			inc: (prop_arguments: ShapeBasePropArguments) => {
+			inc: (prop_arguments: ISceneChildPropArguments) => {
 				// const twists = this.getProp('twists', prop_arguments)
 				// const rep = ShapeLoop.PI2 * twists
 				// const radius = 2 * Math.sqrt(this.sideLength[0] * this.sideLength[1])
@@ -72,8 +68,8 @@ class Spiral extends ShapeLoop {
 
 				return rep / (radius * twists)
 			},
-			vertex: (angle: number, prop_arguments?: ShapeBasePropArguments): Array<number> => {
-				const r = Spiral.getRFromSpiralType(this.getProp('spiral', prop_arguments), angle)
+			vertex: (angle: number, prop_arguments?: ISceneChildPropArguments): Array<number> => {
+				const r = Spiral.getRFromTSpiralType(this.getProp('spiral', prop_arguments), angle)
 				return [r * Math.cos(angle), r * Math.sin(angle)]
 			},
 		}
@@ -86,24 +82,24 @@ class Spiral extends ShapeLoop {
 	/**
 	 * Get property value
 	 *
-	 * @param {keyof SpiralProps} key
-	 * @param {ShapeBasePropArguments} [prop_arguments]
+	 * @param {keyof ISpiralProps} key
+	 * @param {ISceneChildPropArguments} [prop_arguments]
 	 * @param {*} [defaul_value]
 	 * @returns {*}
 	 * @memberof Spiral
 	 */
-	public getProp(key: keyof SpiralProps, prop_arguments?: ShapeBasePropArguments, defaul_value?: any): any {
-		return super.getProp(key as keyof ShapeLoopProps, prop_arguments, defaul_value)
+	public getProp(key: keyof ISpiralProps, prop_arguments?: ISceneChildPropArguments, defaul_value?: any): any {
+		return super.getProp(key as keyof IShapeLoopProps, prop_arguments, defaul_value)
 	}
 
 	/**
 	 * Set single or multiple props
 	 *
-	 * @param {(keyof SpiralProps | SpiralSettings)} key
+	 * @param {(keyof ISpiralProps | ISpiralProps)} key
 	 * @param {*} [value]
 	 * @memberof Spiral
 	 */
-	public setProp(key: keyof SpiralProps | SpiralSettings, value?: any): void {
+	public setProp(key: keyof ISpiralProps | ISpiralProps, value?: any): void {
 		key = typeof key === 'string' ? { [key]: value } : key
 
 		if (('twists' in key || 'twists_start' in key) && this.props.loop) {
@@ -111,19 +107,19 @@ class Spiral extends ShapeLoop {
 			this.props.loop.end = undefined
 		}
 
-		super.setProp(key as keyof ShapeLoopProps, value)
+		super.setProp(key as keyof IShapeLoopProps, value)
 	}
 
 	/**
 	 * Point position and scale factor for spiral types
 	 *
 	 * @static
-	 * @param {SpiralType} spiral
+	 * @param {TSpiralType} spiral
 	 * @param {number} angle
 	 * @returns {number}
 	 * @memberof Spiral
 	 */
-	static getRFromSpiralType(spiral: SpiralType, angle: number): number {
+	static getRFromTSpiralType(spiral: TSpiralType, angle: number): number {
 		switch (spiral) {
 			case Spiral.types.ARCHIMEDE:
 				return angle / 10

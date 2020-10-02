@@ -1,24 +1,34 @@
-import { ShapeBasePropArguments, ShapeBaseStreamArguments, ShapeBaseStreamIndexing } from '@core/types/ShapeBase'
-import { ShapeBaseProps } from '@core/interfaces/shapes/Interfaces'
+import { TStreamCallback } from '@core/types/scene'
+import {
+	ISceneChildPropArguments,
+	ISceneChildProps,
+	ISceneChildSettings,
+	ISceneChildStreamIndexing,
+} from '@core/types/scene-child'
+
 import Scene from '@core/Scene'
-import SceneChildInterface from './interfaces/SceneChildInterface'
 
 /**
- * internal autoincrement id
+ * Autoincrement sceneChild default id
  *
+ * @internal
  * @ignore
  */
 let __id = 0
 
 /**
- * Item to added into scene
+ * The element to snap into a scene.
+ * Preserve settings (props), drawing order, generate and return buffers.
+ * The only implementations of this class are `Group` and `ShapeBase`
  *
  * @abstract
+ * @category Core.Scene
+ * @order 2
  * @class SceneChild
  */
 abstract class SceneChild {
 	/**
-	 * Reference to scene
+	 * Reference of the scene to which it is attached
 	 *
 	 * @type {Scene}
 	 * @memberof SceneChild
@@ -26,7 +36,7 @@ abstract class SceneChild {
 	public scene?: Scene
 
 	/**
-	 * Item id
+	 * The unique id
 	 *
 	 * @type {number | string}
 	 * @memberof SceneChild
@@ -34,7 +44,7 @@ abstract class SceneChild {
 	public id: number | string
 
 	/**
-	 * item name
+	 * The human readable name
 	 *
 	 * @type {string}
 	 * @memberof SceneChild
@@ -42,7 +52,7 @@ abstract class SceneChild {
 	public name: string
 
 	/**
-	 * item type
+	 * The human readable type label
 	 *
 	 * @type {string}
 	 * @memberof SceneChild
@@ -50,7 +60,7 @@ abstract class SceneChild {
 	public type: string
 
 	/**
-	 * item order (like z-index)
+	 * The number that refers to the drawinf order
 	 *
 	 * @type {number}
 	 * @memberof SceneChild
@@ -58,13 +68,13 @@ abstract class SceneChild {
 	public order: number
 
 	/**
-	 * Item props
+	 * The basic properties
 	 *
 	 * @protected
-	 * @type {ShapeBaseProps}
+	 * @type {ISceneChildProps}
 	 * @memberof SceneChild
 	 */
-	protected props: ShapeBaseProps
+	protected props: ISceneChildProps
 
 	/**
 	 * Custom client data
@@ -76,11 +86,12 @@ abstract class SceneChild {
 
 	/**
 	 * Creates an instance of SceneChild.
+	 * Base values ​​will be assigned in case they are not passed
 	 *
-	 * @param {SceneChildInterface} settings
+	 * @param {ISceneChildSettings} settings
 	 * @memberof SceneChild
 	 */
-	constructor(settings: SceneChildInterface) {
+	constructor(settings: ISceneChildSettings) {
 		this.id = settings.id ?? ++__id
 
 		this.type = settings.type || 'SceneChild'
@@ -91,7 +102,7 @@ abstract class SceneChild {
 	}
 
 	/**
-	 * Check shape is static
+	 * With this method it is possible to check if the buffer will be generated at each update
 	 *
 	 * @abstract
 	 * @returns {boolean}
@@ -100,7 +111,7 @@ abstract class SceneChild {
 	public abstract isStatic(): boolean
 
 	/**
-	 * Checkk shape has static index
+	 * With this method you can check if the streaming buffer will be generated at each update
 	 *
 	 * @abstract
 	 * @returns {boolean}
@@ -109,7 +120,8 @@ abstract class SceneChild {
 	public abstract isStaticIndexed(): boolean
 
 	/**
-	 * Find this or shape children
+	 * Find this or form or children.
+	 * Overridden by classes that extend it
 	 *
 	 * @param {string | number} id_or_name
 	 * @returns {(SceneChild | null)}
@@ -122,25 +134,25 @@ abstract class SceneChild {
 	}
 
 	/**
-	 * Item props
+	 * Return the sceneChild properties
 	 *
-	 * @returns {ShapeBaseProps}
+	 * @returns {ISceneChildProps}
 	 * @memberof SceneChild
 	 */
-	public getProps(): ShapeBaseProps {
+	public getProps(): ISceneChildProps {
 		return this.props
 	}
 
 	/**
-	 * Return a prop
+	 * Return a sceneChild prop or default value
 	 *
-	 * @param {keyof ShapeBaseProps} key
-	 * @param {ShapeBasePropArguments} [prop_arguments]
+	 * @param {keyof ISceneChildProps} key
+	 * @param {ISceneChildPropArguments} [prop_arguments]
 	 * @param {*} [default_value]
 	 * @returns {*}
 	 * @memberof SceneChild
 	 */
-	public getProp(key: keyof ShapeBaseProps, prop_arguments?: ShapeBasePropArguments, default_value?: any): any {
+	public getProp(key: keyof ISceneChildProps, prop_arguments?: ISceneChildPropArguments, default_value?: any): any {
 		return this.props[key] ?? default_value
 	}
 
@@ -148,52 +160,54 @@ abstract class SceneChild {
 	 * Set a single or multiple props and clear buffer if shape vertex depends from prop
 	 *
 	 * @abstract
-	 * @param {(keyof ShapeBaseProps | ShapeBaseProps)} key
+	 * @param {(keyof ISceneChildProps | ISceneChildProps)} key
 	 * @param {*} [value]
 	 * @param {boolean} [bClearIndexed]
 	 * @memberof SceneChild
 	 */
-	abstract setProp(key: keyof ShapeBaseProps | ShapeBaseProps, value?: any, bClearIndexed?: boolean): void
+	abstract setProp(key: keyof ISceneChildProps | ISceneChildProps, value?: any, bClearIndexed?: boolean): void
 
 	/**
 	 * Set a single or multiple props
 	 *
-	 * @param {(keyof ShapeBaseProps | ShapeBaseProps)} key
+	 * @param {(keyof ISceneChildProps | ISceneChildProps)} key
 	 * @param {*} [value]
 	 * @memberof ShapeBase
 	 */
-	public setPropUnsafe(key: keyof ShapeBaseProps | ShapeBaseProps, value?: any): void {
+	public setPropUnsafe(key: keyof ISceneChildProps | ISceneChildProps, value?: any): void {
 		if (typeof key == 'string') this.props[key] = value
 		else
 			Object.keys(key).forEach(
 				(k: string) =>
-					(this.props[k as keyof ShapeBaseProps] = (key as ShapeBaseProps)[k as keyof ShapeBaseProps] as any)
+					(this.props[k as keyof ISceneChildProps] = (key as ISceneChildProps)[k as keyof ISceneChildProps] as any)
 			)
 	}
 
 	/**
-	 * Generate shape
+	 * Generate shape.
+	 * Best explained in ShapeBase
 	 *
 	 * @abstract
 	 * @param {number} generate_id
 	 * @param {boolean} [bDirectSceneChild]
-	 * @param {ShapeBasePropArguments} [parent_prop_arguments]
+	 * @param {ISceneChildPropArguments} [parent_prop_arguments]
 	 * @memberof SceneChild
 	 */
 	abstract generate(
 		generate_id: number,
 		bDirectSceneChild?: boolean,
-		parent_prop_arguments?: ShapeBasePropArguments
+		parent_prop_arguments?: ISceneChildPropArguments
 	): void
 
 	/**
 	 * Stream shape
+	 * Best explained in ShapeBase
 	 *
 	 * @abstract
-	 * @param {(stream_arguments: ShapeBaseStreamArguments) =>  void} callback
+	 * @param {TStreamCallback} callback
 	 * @memberof SceneChild
 	 */
-	abstract stream(callback: (stream_arguments: ShapeBaseStreamArguments) => void): void
+	abstract stream(callback: TStreamCallback): void
 
 	/**
 	 * Return buffer
@@ -206,20 +220,20 @@ abstract class SceneChild {
 	/**
 	 * Return indexed buffer
 	 *
-	 * @returns {(Array<ShapeBaseStreamIndexing> | undefined)}
+	 * @returns {(Array<ISceneChildStreamIndexing> | undefined)}
 	 * @memberof ShapeBase
 	 */
-	public abstract getIndexedBuffer(): Array<ShapeBaseStreamIndexing> | undefined
+	public abstract getIndexedBuffer(): Array<ISceneChildStreamIndexing> | undefined
 
 	/**
 	 * Get length of buffer
 	 *
 	 * @abstract
-	 * @param {ShapeBasePropArguments} [prop_arguments]
+	 * @param {ISceneChildPropArguments} [prop_arguments]
 	 * @returns {number}
 	 * @memberof SceneChild
 	 */
-	abstract getBufferLength(prop_arguments?: ShapeBasePropArguments): number
+	abstract getBufferLength(prop_arguments?: ISceneChildPropArguments): number
 
 	/**
 	 * Clear buffer
@@ -235,11 +249,11 @@ abstract class SceneChild {
 	 * Index buffer
 	 *
 	 * @abstract
-	 * @param {Array<ShapeBaseStreamIndexing>} buffer
-	 * @param {ShapeBaseStreamIndexing} [parent]
+	 * @param {Array<ISceneChildStreamIndexing>} buffer
+	 * @param {ISceneChildStreamIndexing} [parent]
 	 * @memberof SceneChild
 	 */
-	abstract index(buffer: Array<ShapeBaseStreamIndexing>, parent?: ShapeBaseStreamIndexing): void
+	abstract index(buffer: Array<ISceneChildStreamIndexing>, parent?: ISceneChildStreamIndexing): void
 }
 
 export default SceneChild

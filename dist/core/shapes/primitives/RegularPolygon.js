@@ -1,5 +1,5 @@
-import ShapeLoop from '../ShapeLoop';
-import { ShapePrimitiveAdaptMode } from '@core/interfaces/shapes/Interfaces';
+import ShapeLoop from '@core/shapes/ShapeLoop';
+import { EShapePrimitiveAdaptMode } from '@core/types/shape-base';
 /**
  * Polygon shape
  *
@@ -11,7 +11,7 @@ class RegularPolygon extends ShapeLoop {
         var _a;
         settings.type = settings.type || 'RegularPolygon';
         settings.shapeLoopPropsDependencies = (settings.shapeLoopPropsDependencies || []).concat(['sideNumber']);
-        settings.bAdaptBuffer = (_a = settings.bAdaptBuffer) !== null && _a !== void 0 ? _a : ShapePrimitiveAdaptMode.None;
+        settings.bAdaptBuffer = (_a = settings.bAdaptBuffer) !== null && _a !== void 0 ? _a : EShapePrimitiveAdaptMode.None;
         super(settings, true);
         this.props.sideNumber = settings.sideNumber;
         this.loop = {
@@ -29,11 +29,11 @@ class RegularPolygon extends ShapeLoop {
     /**
      * Get property value
      *
-     * @param {keyof RegularPolygonProps} key
-     * @param {ShapeBasePropArguments} [prop_arguments]
+     * @param {keyof IRegularPolygonProps} key
+     * @param {ISceneChildPropArguments} [prop_arguments]
      * @param {*} [default_value]
      * @returns {*}
-     * @memberof RegularPolygonProps
+     * @memberof IRegularPolygonProps
      */
     getProp(key, prop_arguments, default_value) {
         return super.getProp(key, prop_arguments, default_value);
@@ -41,9 +41,9 @@ class RegularPolygon extends ShapeLoop {
     /**
      * Set single or multiple props
      *
-     * @param {(keyof RegularPolygonProps | RegularPolygonSettings)} key
+     * @param {(keyof IRegularPolygonProps | RegularPolygonSettings)} key
      * @param {*} [value]
-     * @memberof RegularPolygonProps
+     * @memberof IRegularPolygonProps
      */
     setProp(key, value) {
         super.setProp(key, value);

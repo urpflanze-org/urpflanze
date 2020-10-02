@@ -1,29 +1,56 @@
-import Utilities from 'src/Utilites';
 import SceneChild from '@core/SceneChild';
 import Group from '@core/Group';
-import Shape from './shapes/Shape';
-import Vec2 from './math/Vec2';
+import Shape from '@core/shapes/Shape';
+import Vec2 from '@core/math/Vec2';
 /**
- * Scene
+ * Container for all SceneChild.
+ * The main purpose is to manage the drwaing order and update
+ * the buffers of the sceneChild present in it
  *
+ *
+ * @order 1
+ * @category Core.Scene
  * @class Scene
  */
 class Scene {
     /**
      * Creates an instance of Scene.
+     * You can see the default values ​​in the property definitions
      *
-     * @param {SceneSettingsInterface} [settings={}]
+     * @param {ISceneSettingsInterface} [settings={}]
      * @memberof Scene
      */
     constructor(settings = {}) {
         /**
-         * Update start time
+         * Logical number, the render will take care
+         * of defining the unit of measure
          *
-         * @private
          * @type {number}
          * @memberof Scene
          */
-        this.start_time = 0;
+        this.width = 400;
+        /**
+         * Logical number, the render will take care
+         * of defining the unit of measure
+         *
+         * @type {number}
+         * @memberof Scene
+         */
+        this.height = 400;
+        /**
+         * Default background color (black)
+         *
+         * @type {string}
+         * @memberof Scene
+         */
+        this.background = 'hsla(0, 0%, 0%, 1)';
+        /**
+         * Default ScenePrimitive stroke color (white)
+         *
+         * @type {string}
+         * @memberof Scene
+         */
+        this.mainColor = 'hsla(0, 0%, 100%, 1)';
         /**
          * Current time
          *
@@ -31,15 +58,19 @@ class Scene {
          * @memberof Scene
          */
         this.current_time = 0;
-        this.width = settings.width || 400;
-        this.height = settings.height || 400;
-        this.background = settings.background || 'hsla(0, 0%, 0%, 1)';
-        this.mainColor = settings.mainColor || 'hsla(0, 0%, 100%, 1)';
+        if (typeof settings.width !== 'undefined')
+            this.width = settings.width;
+        if (typeof settings.height !== 'undefined')
+            this.height = settings.height;
+        if (typeof settings.background !== 'undefined')
+            this.background = settings.background;
+        if (typeof settings.mainColor !== 'undefined')
+            this.mainColor = settings.mainColor;
         this.children = [];
         this.center = Vec2.create(this.width / 2, this.height / 2);
     }
     /**
-     * Resize scene
+     * Resize the scene dimension
      *
      * @param {number} width
      * @param {number} [height=width]
@@ -52,36 +83,19 @@ class Scene {
         this.children.forEach(sceneChild => sceneChild.clearBuffer(true, false));
     }
     /**
-     * Update scene an children
+     * Update all children, generate a streamable buffer for drawing
      *
      * @param {number} [at_time] time in ms
      * @memberof Scene
      */
     update(at_time) {
-        if (typeof at_time === 'undefined') {
-            if (!this.start_time) {
-                this.start_time = Utilities.now();
-            }
-            const current_time = Utilities.now();
-            this.current_time = current_time - this.start_time;
-        }
-        else {
-            this.current_time = at_time;
-        }
+        this.current_time = at_time;
         this.children.forEach((child) => child.generate(this.current_time, true));
     }
     /**
-     * Clear all scene items buffer
+     * Traverse the child buffer and use it with callback
      *
-     * @memberof Scene
-     */
-    clearAllBuffers() {
-        Scene.walk((child) => child.clearBuffer(true, false), this);
-    }
-    /**
-     * Stream children for draw (called after update)
-     *
-     * @param {(stream_arguments: ShapeBaseStreamArguments) => boolean | void} callback
+     * @param {TStreamCallback} callback
      * @memberof Scene
      */
     stream(callback) {
@@ -102,7 +116,7 @@ class Scene {
         return this.children;
     }
     /**
-     * Add shpe to scene
+     * Add SceneChild to Scene, pass `order` for drawing priorities
      *
      * @param {SceneChild} item
      * @param {number} [order]
@@ -115,7 +129,7 @@ class Scene {
                 : typeof item.order !== 'undefined'
                     ? item.order
                     : this.children.length > 0
-                        ? Math.max.apply(this, this.children.map(e => { var _a; return (_a = e.order) !== null && _a !== void 0 ? _a : 0; })) + 1
+                        ? Math.max.apply(this, this.children.map(e => e.order)) + 1
                         : 0;
         Scene.propagateToChilden(item, this);
         this.children.push(item);
@@ -123,7 +137,7 @@ class Scene {
         this.sortChildren();
     }
     /**
-     * Sort children
+     * Sort children by order
      *
      * @memberof Scene
      */
@@ -133,6 +147,62 @@ class Scene {
             child.order = index;
             return child;
         });
+    }
+    /**
+     * Find sceneChild from id or name in the whole scene
+     *
+     * @param {string | number} id_or_name
+     * @returns {(SceneChild | null)}
+     * @memberof Scene
+     */
+    find(id_or_name) {
+        const children = this.getChildren();
+        for (let i = 0, len = children.length; i < len; i++) {
+            const result = children[i].find(id_or_name);
+            if (result !== null)
+                return result;
+        }
+        return null;
+    }
+    /**
+     * Get shape by index
+     *
+     * @param {number} index
+     * @returns {(SceneChild | null)}
+     * @memberof Scene
+     */
+    get(index) {
+        return index >= 0 && index < this.children.length ? this.children[index] : null;
+    }
+    /**
+     * Remove a shape by index
+     *
+     * @param {number} index
+     * @memberof Scene
+     */
+    remove(index) {
+        index >= 0 && index < this.children.length && this.children.splice(index, 1);
+    }
+    /**
+     * Removes all children
+     *
+     * @memberof Scene
+     */
+    removeChildren() {
+        this.children = [];
+    }
+    /**
+     * Remove sceneChild by id or name
+     *
+     * @param {number | number} id_or_name
+     * @memberof Scene
+     */
+    removeFromId(id_or_name) {
+        for (let i = 0, len = this.children.length; i < len; i++)
+            if (this.children[i].id === id_or_name || this.children[i].name === id_or_name) {
+                this.children.splice(i, 1);
+                return;
+            }
     }
     /**
      * Return true if sceneChild is direct children
@@ -149,63 +219,7 @@ class Scene {
         return parents.length == 1 && parents[0] instanceof Group;
     }
     /**
-     * Find scene child from id
-     *
-     * @param {string | number} id_or_name
-     * @returns {(SceneChild | null)}
-     * @memberof Scene
-     */
-    find(id_or_name) {
-        const children = this.getChildren();
-        for (let i = 0, len = children.length; i < len; i++) {
-            const result = children[i].find(id_or_name);
-            if (result !== null)
-                return result;
-        }
-        return null;
-    }
-    /**
-     * Get shape from index
-     *
-     * @param {number} index
-     * @returns {(SceneChild | null)}
-     * @memberof Scene
-     */
-    get(index) {
-        return index >= 0 && index < this.children.length ? this.children[index] : null;
-    }
-    /**
-     * Remove a shape
-     *
-     * @param {number} index
-     * @memberof Scene
-     */
-    remove(index) {
-        index >= 0 && index < this.children.length && this.children.splice(index, 1);
-    }
-    /**
-     * Remove all children
-     *
-     * @memberof Scene
-     */
-    clearChildren() {
-        this.children = [];
-    }
-    /**
-     * Remove from id
-     *
-     * @param {number} id
-     * @memberof Scene
-     */
-    removeFromId(id) {
-        for (let i = 0, len = this.children.length; i < len; i++)
-            if (this.children[i].id == id) {
-                this.children.splice(i, 1);
-                return;
-            }
-    }
-    /**
-     * Return a list of parents of sceneChild
+     * Returns the list of sceneChild hierarchy starting from the scene
      *
      * @param {SceneChild} sceneChild
      * @returns {Array<SceneChild>}
@@ -220,7 +234,7 @@ class Scene {
         return [];
     }
     /**
-     * Return a list of parents of sceneChild
+     * Returns the list of sceneChild hierarchy starting from the scene
      *
      * @static
      * @param {(Scene | SceneChild)} current
@@ -254,7 +268,7 @@ class Scene {
         return null;
     }
     /**
-     * Walk through scene
+     * Walk through the scene
      *
      * @static
      * @param {SceneChild} callbackk
@@ -279,23 +293,23 @@ class Scene {
         }
     }
     /**
-     * Propagate scene to child
+     * Propagate scene to sceneChild (and children)
      *
      * @static
-     * @param {SceneChild} child
+     * @param {SceneChild} sceneChild
      * @param {Scene} scene
      * @memberof Scene
      */
-    static propagateToChilden(child, scene) {
-        child.scene = scene;
-        if (child instanceof Group) {
-            child.children.forEach((item) => {
+    static propagateToChilden(sceneChild, scene) {
+        sceneChild.scene = scene;
+        if (sceneChild instanceof Group) {
+            sceneChild.children.forEach((item) => {
                 Scene.propagateToChilden(item, scene);
             });
         }
-        else if (child instanceof Shape && child.shape) {
-            child.shape.scene = scene;
-            Scene.propagateToChilden(child.shape, scene);
+        else if (sceneChild instanceof Shape && sceneChild.shape) {
+            sceneChild.shape.scene = scene;
+            Scene.propagateToChilden(sceneChild.shape, scene);
         }
     }
 }

@@ -1,4 +1,4 @@
-import { ShapeBufferSettings } from '@core/interfaces/shapes/Interfaces';
+import { IShapeBufferSettings } from '@core/types/shape-primitive';
 import ShapeBuffer from '@core/shapes/ShapeBuffer';
 declare class Rect extends ShapeBuffer {
     /**
@@ -7,7 +7,7 @@ declare class Rect extends ShapeBuffer {
      * @param {ShapeBaseSettings} [settings={}]
      * @memberof Rect
      */
-    constructor(settings?: ShapeBufferSettings);
+    constructor(settings?: IShapeBufferSettings);
 }
 export default Rect;
 //# sourceMappingURL=Rect.d.ts.map

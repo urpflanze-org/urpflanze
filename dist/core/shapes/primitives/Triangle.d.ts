@@ -1,4 +1,4 @@
-import { ShapeBufferSettings } from '@core/interfaces/shapes/Interfaces';
+import { IShapeBufferSettings } from '@core/types/shape-primitive';
 import ShapeBuffer from '@core/shapes/ShapeBuffer';
 /**
  * Triangle ShapeBuffer
@@ -10,7 +10,7 @@ declare class Triangle extends ShapeBuffer {
      * @param {ShapeBaseSettings} [settings={}]
      * @memberof Triangle
      */
-    constructor(settings?: ShapeBufferSettings);
+    constructor(settings?: IShapeBufferSettings);
 }
 export default Triangle;
 //# sourceMappingURL=Triangle.d.ts.map

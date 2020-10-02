@@ -1,8 +1,7 @@
-import { ShapeBasePropArguments, ShapeLoopGenerator } from '@core/types/ShapeBase'
-
-import ShapeLoop from '../ShapeLoop'
-import { RoseProps, RoseSettings } from '@core/interfaces/shapes/PrimitiveInterfaces'
-import { ShapeLoopProps, ShapePrimitiveAdaptMode } from '@core/interfaces/shapes/Interfaces'
+import ShapeLoop from '@core/shapes/ShapeLoop'
+import { IRoseProps, IRoseSettings, IShapeLoopProps } from '@core/types/shape-primitive'
+import { EShapePrimitiveAdaptMode } from '@core/types/shape-base'
+import { ISceneChildPropArguments } from '@core/types/scene-child'
 
 /**
  * Rose shape
@@ -11,18 +10,18 @@ import { ShapeLoopProps, ShapePrimitiveAdaptMode } from '@core/interfaces/shapes
  * @extends {ShapeLoop}
  */
 class Rose extends ShapeLoop {
-	protected props: RoseProps
+	protected props: IRoseProps
 
 	/**
 	 * Creates an instance of Rose.
 	 *
-	 * @param {RoseSettings} [settings={}]
+	 * @param {IRoseSettings} [settings={}]
 	 * @memberof Rose
 	 */
-	constructor(settings: RoseSettings = {}) {
+	constructor(settings: IRoseSettings = {}) {
 		settings.type = 'Rose'
 		settings.shapeLoopPropsDependencies = (settings.shapeLoopPropsDependencies || []).concat(['n', 'd', 'sideLength'])
-		settings.bAdaptBuffer = settings.bAdaptBuffer ?? ShapePrimitiveAdaptMode.Scale
+		settings.bAdaptBuffer = settings.bAdaptBuffer ?? EShapePrimitiveAdaptMode.Scale
 
 		super(settings, true)
 
@@ -31,9 +30,9 @@ class Rose extends ShapeLoop {
 
 		this.loop = {
 			start: 0,
-			end: (prop_arguments: ShapeBasePropArguments) =>
+			end: (prop_arguments: ISceneChildPropArguments) =>
 				Rose.getFinalAngleFromK(this.getProp('n', prop_arguments), this.getProp('d', prop_arguments)),
-			inc: (prop_arguments: ShapeBasePropArguments) => {
+			inc: (prop_arguments: ISceneChildPropArguments) => {
 				const n = this.getProp('n', prop_arguments)
 				const d = this.getProp('d', prop_arguments)
 
@@ -43,7 +42,7 @@ class Rose extends ShapeLoop {
 				return ShapeLoop.PI2 / (sides * k)
 			},
 
-			vertex: (angle: number, prop_arguments?: ShapeBasePropArguments): Array<number> => {
+			vertex: (angle: number, prop_arguments?: ISceneChildPropArguments): Array<number> => {
 				const k = this.getProp('n', prop_arguments) / this.getProp('d', prop_arguments)
 				const f = Math.cos(k * angle)
 
@@ -60,24 +59,24 @@ class Rose extends ShapeLoop {
 	 * Get property value
 	 *
 	 * @param {keyof RoseProps} key
-	 * @param {ShapeBasePropArguments} [prop_arguments]
+	 * @param {ISceneChildPropArguments} [prop_arguments]
 	 * @param {*} [default_value]
 	 * @returns {*}
 	 * @memberof Rose
 	 */
-	public getProp(key: keyof RoseProps, prop_arguments?: ShapeBasePropArguments, default_value?: any): any {
-		return super.getProp(key as keyof ShapeLoopProps, prop_arguments, default_value)
+	public getProp(key: keyof IRoseProps, prop_arguments?: ISceneChildPropArguments, default_value?: any): any {
+		return super.getProp(key as keyof IShapeLoopProps, prop_arguments, default_value)
 	}
 
 	/**
 	 * Set single or multiple props
 	 *
-	 * @param {(keyof RoseProps | RoseSettings)} key
+	 * @param {(keyof IRoseProps | IRoseSettings)} key
 	 * @param {*} [value]
 	 * @memberof Rose
 	 */
-	public setProp(key: keyof RoseProps | RoseSettings, value?: any): void {
-		super.setProp(key as keyof ShapeLoopProps, value)
+	public setProp(key: keyof IRoseProps | IRoseSettings, value?: any): void {
+		super.setProp(key as keyof IShapeLoopProps, value)
 	}
 
 	/**

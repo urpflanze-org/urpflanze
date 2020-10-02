@@ -30,8 +30,6 @@ export { default as Utilities } from 'src/Utilites'
 
 export { default as Context } from '@core/Context'
 
-export { ShapePrimitiveAdaptMode } from '@core/interfaces/shapes/Interfaces'
-
 /**
  * Services
  */

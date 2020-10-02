@@ -19,7 +19,6 @@ export { default as ShapeBuffer } from '@core/shapes/ShapeBuffer';
 export { default as Vec2 } from '@core/math/Vec2';
 export { default as Utilities } from 'src/Utilites';
 export { default as Context } from '@core/Context';
-export { ShapePrimitiveAdaptMode } from '@core/interfaces/shapes/Interfaces';
 /**
  * Services
  */
