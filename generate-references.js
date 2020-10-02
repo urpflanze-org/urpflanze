@@ -3,7 +3,7 @@ const { exec } = require('child_process')
 const fs = require('fs')
 
 const filename = path.resolve('./temp.json')
-const dest_name = path.resolve('./docs/assets/js/references.js')
+const dest_name = path.resolve('./docs/src/references.json')
 
 exec(`typedoc --json ${filename}`, (error, stdout, stderr) => {
 	if (error) {
@@ -19,7 +19,7 @@ exec(`typedoc --json ${filename}`, (error, stdout, stderr) => {
 
 	// fs.unlinkSync(filename)
 
-	const references = `window.references = ${JSON.stringify(data)}`
+	const references = `${JSON.stringify(data, null, '\t')}`
 	fs.writeFileSync(dest_name, references)
 })
 
@@ -148,7 +148,7 @@ function parseType(item) {
 		description: parseDescription(item),
 		examples: findExamples(item),
 		parameter: parseProperty(item),
-		typeParameters: parseTypeParameter(item),
+		typeParameters: item.typeParameter,
 	}
 
 	return result
@@ -163,15 +163,9 @@ function parseInterface(item) {
 		extends: item && item.extendedTypes ? item.extendedTypes.map(extend => extend.name) : undefined,
 		description: parseDescription(item),
 		properties: item.children ? item.children.map(parseProperty) : [],
-		typeParameters: parseTypeParameter(item),
+		typeParameters: item.typeParameter,
 	}
 	return result
-}
-
-function parseTypeParameter() {
-	if (item.typeParameter) {
-		return item.typeParameter.map(t => t.name)
-	}
 }
 
 function parseObject(item) {
@@ -281,7 +275,7 @@ function parseMethod(method) {
 		const result = {
 			name: method.name,
 			description: parseDescription(method.signatures[0]),
-			parameters: method.signatures[0].parameters ? method.signatures[0].parameters.map(parseParameter) : [],
+			parameters: method.signatures[0].parameters ? method.signatures[0].parameters.map(parseProperty) : [],
 			examples: findExamples(method),
 			typeParameter: method.signatures[0].typeParameter,
 			return_type,
@@ -300,10 +294,6 @@ function parseMethod(method) {
 
 		return result
 	}
-}
-
-function parseParameter(parameter) {
-	return parseProperty(parameter)
 }
 
 function findKind(module, type) {
