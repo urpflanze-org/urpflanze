@@ -5,7 +5,7 @@ const fs = require('fs')
 const filename = path.resolve('./temp.json')
 const dest_name = path.resolve('./docs/src/references.json')
 
-exec(`typedoc --json ${filename}`, (error, stdout, stderr) => {
+exec(`npx typedoc --json ${filename}`, (error, stdout, stderr) => {
 	if (error) {
 		console.log(`error: ${error.message}`)
 		return
@@ -162,7 +162,7 @@ function parseInterface(item) {
 		source: item.sources[0].fileName,
 		extends: item && item.extendedTypes ? item.extendedTypes.map(extend => extend.name) : undefined,
 		description: parseDescription(item),
-		properties: item.children ? item.children.map(parseProperty) : [],
+		properties: item.children ? item.children.filter(c => !c.inheritedFrom).map(parseProperty) : [],
 		typeParameters: item.typeParameter,
 	}
 	return result

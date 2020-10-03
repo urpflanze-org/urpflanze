@@ -2,7 +2,7 @@ import { References } from '../references'
 import { createPageName, resolveType } from './create-page-utility'
 
 function printDescription(property) {
-	return property.description ? `\n\t// ${property.description.split('\n').join('\n\t// ')}` : ''
+	return property.description ? `\n\t// ${property.description.split('\n').join('\n\t// ')}\n\t` : ''
 }
 
 function loadReference(refName) {
@@ -17,13 +17,12 @@ function loadReference(refName) {
 				break
 			case 'Interface':
 				content.innerHTML = `
-				<h1 class="reference__name">${createPageName(ireference)}</h1>
-				<div class="first-content-line">${ireference.description || ''}</div>
-				<pre class="prettyprint"><code translate="no" class="language-typescript">{
-				${ireference.properties
+				<h1 class="reference__name">${createPageName(ref)}</h1>
+				<div class="first-content-line">${ref.description || ''}</div>
+				<pre class="prettyprint"><code translate="no" class="language-typescript">{\n${ref.properties
 					.map(
 						property =>
-							`\t${printDescription(property)}\n\t${property.name}${property.bOptional ? '?' : ''}: ${resolveType(
+							`\t${printDescription(property)}${property.name}${property.bOptional ? '?' : ''}: ${resolveType(
 								property.type
 							)}`
 					)
@@ -42,8 +41,10 @@ function loadReference(refName) {
 			case 'Type':
 				content.innerHTML = `
                     <h1 class="reference__name">${createPageName(ref)}</h1>
-                    <div class="first-content-line">${ref.description || ''}</div>
-                    ${ref.parameter ? resolveType(ref.parameter.type) : ''}
+					<div class="first-content-line">${ref.description || ''}</div>
+					<pre class="prettyprint"><code translate="no" class="language-typescript">${
+						ref.parameter ? resolveType(ref.parameter.type) : ''
+					}</code></pre>
                 `
 				break
 			case 'Enumeration':
@@ -79,15 +80,10 @@ function resolveMethodOrPropertyName(mp) {
 	return `${prefix}<h4 class="reference__property__name">${mp.name}</h4>`
 }
 
-function resolveExtends(parentClass, result) {
-	if (References[parentClass].extends && References[parentClass].extends.length > 0) {
-		resolveExtends(References[parentClass].extends[0], result)
-	}
-	result.push(parentClass)
-}
-
 // prettier-ignore
 function printVariables(variables) {
+
+
     return `
         <ul class="reference__list">
         ${variables.map(variable => `
@@ -117,13 +113,24 @@ function printFunctionExample(example) {
 
 // prettier-ignore
 function printFunctions(functions) {
+
+	function resolveTypeParameter(variable){
+		if (variable.typeParameter) {
+			return '&lt;' + variable.typeParameter.map(typeParameter => {
+				return `${typeParameter.name}${typeParameter.type ? `  extends ${resolveType(typeParameter.type)}` : ''}`
+			}).join(', ') + '&gt;'
+		}
+
+		return ''
+	}
+
     return `
         <ul class="reference__list">
         ${functions.map(callable => {
             const parameters = callable.parameters || []
             return `<li>
                 <div>
-                    ${resolveMethodOrPropertyName(callable)}(${parameters.map(parameter => 
+                    ${resolveMethodOrPropertyName(callable)}${resolveTypeParameter(callable)}(${parameters.map(parameter => 
 						`<span class="reference__method__property_name">${parameter.name}${parameter.bOptional ? '?' : ''}</span>: <span class="reference__method__property_type">${resolveType(parameter.type)}</span>${parameter.defaultValue 
 							? `<span class="reference__method__property_default_value>" = ${parameter.defaultValue}</span>` 
 							: ''

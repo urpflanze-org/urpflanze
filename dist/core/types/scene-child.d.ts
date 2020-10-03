@@ -57,8 +57,10 @@ export interface ISceneChildProps {
      */
     repetitions?: TSceneChildProp<number | Array<number>>;
     /**
-     * If the repeat is Ring, pass a numerical value referring to the distance from the center.
-     * If the repeat is Matrix, pass an array (2) which refers to the distance between columns and rows.
+     * If the repeat is Ring, pass a numerical value
+     * referring to the distance from the center.
+     * If the repeat is Matrix, pass an array (2) which refers
+     * to the distance between columns and rows.
      *
      * @type {(TSceneChildProp<number | Array<number>>)}
      * @memberof ISceneChildProps
@@ -190,16 +192,14 @@ export declare type TSceneChildProp<T> = T | {
 };
 /**
  * Object for index the buffer
- *
- * @type ShapeBaseStreamIndexing
  */
-export declare type ISceneChildStreamIndexing = {
+export interface ISceneChildStreamIndexing {
     shape: ShapeBase;
     parent?: ISceneChildStreamIndexing;
     buffer_length: number;
     repetition: IRepetition;
-};
-export declare type ISceneChildStreamArguments = {
+}
+export interface ISceneChildStreamArguments {
     shape: ShapePrimitive;
     parent?: ISceneChildStreamIndexing;
     data?: any;
@@ -212,5 +212,5 @@ export declare type ISceneChildStreamArguments = {
     current_shape_index: number;
     total_shapes: number;
     repetition: IRepetition;
-};
+}
 //# sourceMappingURL=scene-child.d.ts.map

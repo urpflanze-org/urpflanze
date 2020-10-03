@@ -4,13 +4,17 @@ export function createPageName(reference) {
 	let name = ''
 
 	if (typeof reference.extends !== 'undefined') {
-		const extends_class = []
-		reference.extends.length > 0 && resolveExtends(reference.extends[0], extends_class)
+		// const extends_class = []
+		// reference.extends.length > 0 && resolveExtends(reference.extends[0], extends_class)
 
-		name += '<small class="too">'
-		name += extends_class.map(extend => `<a href="#/ref/${extend}">${extend}</a>`).join(' -> ')
-		name += ' -> '
-		name += '</small>'
+		// name += '<small class="too">'
+		// name += extends_class.map(extend => `<a href="#/ref/${extend}">${extend}</a>`).join(' -> ')
+		// name += ' -> '
+		// name += '</small>'
+
+		name += `<small class="too">${reference.extends
+			.map(extend => `<a href="#/ref/${extend}">${extend}</a>`)
+			.join(', ')} -></small>`
 	}
 
 	if (reference.typeParameters && reference.typeParameters.length > 1) {
@@ -21,14 +25,22 @@ export function createPageName(reference) {
 		reference.name +
 		(reference.typeParameters
 			? reference.typeParameters.length === 1
-				? '&lt;' + reference.typeParameters[0] + '&gt;'
+				? '&lt;' + reference.typeParameters[0].name + '&gt;'
 				: ''
 			: '')
 
 	return name
 }
 
+function resolveExtends(parentClass, result) {
+	if (References[parentClass].extends && References[parentClass].extends.length > 0) {
+		resolveExtends(References[parentClass].extends[0], result)
+	}
+	result.push(parentClass)
+}
+
 export function resolveType(type) {
+	console.log('type', type)
 	if (type) {
 		if (typeof type === 'string') {
 			return type
@@ -40,12 +52,12 @@ export function resolveType(type) {
 				: `Array&lt;${type.typeArguments[0].name}&gt;`
 		}
 
-		if (type.type === 'stringLiteral') return type.value
+		if (type.type === 'stringLiteral') return `'${type.value}'`
 
 		if (type.type === 'intrinsic' || type.type === 'reference' || type.type === 'typeParameter')
 			return (
 				(References[type.name] ? `<a href="#/ref/${type.name}">${type.name}</a>` : type.name) +
-				(type.typeArguments ? `&lt;${resolveType(type.typeArguments[0])}&gt;` : '')
+				(type.typeArguments ? `&lt;${type.typeArguments.map(t => resolveType(t)).join(', ')}&gt;` : '')
 			)
 
 		if (type.type === 'reference' && typeof References[type.name] !== 'undefined') {

@@ -12,7 +12,6 @@ import Circle from '@core/shapes/primitives/Circle'
 import Rose from '@core/shapes/primitives/Rose'
 import Spiral from '@core/shapes/primitives/Spiral'
 import Lissajous from '@core/shapes/primitives/Lissajous'
-// import Heart from '@core/shapes/primitives/Heart'
 
 import Shape from '@core/shapes/Shape'
 import ShapePrimitive from '@core/shapes/ShapePrimitive'
@@ -48,7 +47,6 @@ class SceneUtilities {
 			Rose,
 			Spiral,
 			Lissajous,
-			// Heart,
 			Group,
 			Shape,
 			ShapeLoop,

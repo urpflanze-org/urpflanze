@@ -19,7 +19,6 @@ declare abstract class ShapeBase extends SceneChild {
      * @memberof ShapeBase
      */
     static readonly EMPTY_BUFFER: Float32Array;
-    static readonly EMPTY_REPETITION: IRepetition;
     /**
      * Empty Repetition
      *
