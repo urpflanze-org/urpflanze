@@ -6,6 +6,7 @@ import { EShapePrimitiveAdaptMode } from '@core/types/shape-base'
 /**
  * Spiral shape
  *
+ * @category Core.Primitives
  * @class Spiral
  * @extends {ShapeLoop}
  */

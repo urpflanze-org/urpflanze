@@ -1,5 +1,11 @@
-import { IShapeBufferSettings } from '@core/types/shape-primitive';
-import ShapeBuffer from '@core/shapes/ShapeBuffer';
+import { IShapeBufferSettings } from "../../types/shape-primitive";
+import ShapeBuffer from "../ShapeBuffer";
+/**
+ *
+ * @category Core.Primitives
+ * @class Line
+ * @extends {ShapeBuffer}
+ */
 declare class Line extends ShapeBuffer {
     /**
      * Creates an instance of Line.

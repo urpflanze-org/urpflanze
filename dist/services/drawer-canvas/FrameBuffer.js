@@ -1,3 +1,8 @@
+/**
+ *
+ * @category Services.DrawerCavnas
+ * @class FrameBuffer
+ */
 class FrameBuffer {
     constructor() {
         this.frames = {};

@@ -1,3 +1,8 @@
+/**
+ *
+ * @category Services.DrawerCavnas
+ * @class FrameBuffer
+ */
 declare class FrameBuffer {
     private frames;
     constructor();

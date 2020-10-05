@@ -1,4 +1,10 @@
-import Emitter from '@services/events/Emitter';
+import Emitter from "../events/Emitter";
+/**
+ *
+ * @category Services.Timeline
+ * @class Timeline
+ * @extends {Emitter<TimelineEvents>}
+ */
 class Timeline extends Emitter {
     /**
      * Class used for time and rendering managment

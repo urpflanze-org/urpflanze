@@ -1,3 +1,8 @@
+/**
+ *
+ * @category Services.Renderer
+ * @class Capturer
+ */
 class Capturer {
     constructor(settings = {}) {
         this.type = settings.type || 'image/jpeg';

@@ -15,6 +15,9 @@ import {
 } from '@core/types/scene-child'
 import { TVertexCallback } from '@core/types/shape-primitive'
 
+/**
+ * @category Core.Abstract
+ */
 abstract class ShapePrimitive extends ShapeBase {
 	/**
 	 * Item props
@@ -101,7 +104,15 @@ abstract class ShapePrimitive extends ShapeBase {
 	 * @memberof ShapePrimitive
 	 */
 	getProp(key: keyof IShapePrimitiveProps, prop_arguments?: ISceneChildPropArguments, default_value?: any): any {
-		super.getProp(key as keyof ISceneChildProps, prop_arguments, default_value)
+		const value = super.getProp(key as keyof ISceneChildProps, prop_arguments, default_value)
+
+		// if (key === 'rotationOrigin') {
+		// 	const clone = Vec2.create(value)
+		// 	Vec2.scale(clone, this.sideLength)
+		// 	return clone
+		// }
+
+		return value
 	}
 
 	/**

@@ -1,6 +1,6 @@
 import SimplexNoise from 'simplex-noise'
 
-import { ERepetitionType, IContext, IRepetition } from '@core/types/scene-child'
+import { ERepetitionType, IRepetition } from '@core/types/scene-child'
 
 import SceneChild from '@core/SceneChild'
 import Vec2, { TArray } from '@core/math/Vec2'
@@ -12,9 +12,11 @@ const noises: {
 }
 
 /**
- * Test
+ * Utilities function passed to <a href="[base_url]/ISceneChildPropArguments">ISceneChildPropArguments</a>
+ *
+ * @category Core.Utilities
  */
-const Context: IContext = {
+const Context = {
 	/**
 	 * SimplexNoise <a href="https://www.npmjs.com/package/simplex-noise">url</a>
 	 *
@@ -33,7 +35,8 @@ const Context: IContext = {
 	},
 
 	/**
-	 * Return angle (atan) from offset(or center)
+	 * Return angle (atan) from offset (or center).
+	 * Offset is array between [-1, -1] and [1, 1]
 	 *
 	 * @param {IRepetition} repetition
 	 * @param {number | TArray} offsetFromCenter
@@ -60,7 +63,8 @@ const Context: IContext = {
 	},
 
 	/**
-	 * Return angle (atan2, 4 quadrants) from offset(or center)
+	 * Return angle (atan2, 4 quadrants) from offset (or center).
+	 * Offset is array between [-1, -1] and [1, 1]
 	 *
 	 * @param {IRepetition} repetition
 	 * @param {number | TArray} offsetFromCenter

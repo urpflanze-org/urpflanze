@@ -1,5 +1,11 @@
-import { EShapePrimitiveAdaptMode } from '@core/types/shape-base';
-import ShapeBuffer from '@core/shapes/ShapeBuffer';
+import { EShapePrimitiveAdaptMode } from "../../types/shape-base";
+import ShapeBuffer from "../ShapeBuffer";
+/**
+ *
+ * @category Core.Primitives
+ * @class Line
+ * @extends {ShapeBuffer}
+ */
 class Line extends ShapeBuffer {
     /**
      * Creates an instance of Line.

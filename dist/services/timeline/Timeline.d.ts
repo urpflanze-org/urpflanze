@@ -1,5 +1,11 @@
-import Emitter from '@services/events/Emitter';
-import { SequenceMeta, TimelineEvents } from '@services/types/timeline';
+import Emitter from "../events/Emitter";
+import { SequenceMeta, TimelineEvents } from "../types/timeline";
+/**
+ *
+ * @category Services.Timeline
+ * @class Timeline
+ * @extends {Emitter<TimelineEvents>}
+ */
 declare class Timeline extends Emitter<TimelineEvents> {
     static START: string;
     static PAUSE: string;

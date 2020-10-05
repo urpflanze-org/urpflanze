@@ -8,9 +8,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import * as JSZip from 'jszip';
-import Utilities from 'src/Utilites';
-import Emitter from '@services/events/Emitter';
-import Capturer from '@services/renderer/Capturer';
+import { cancelablePromise, now, ICancelablePromise } from "../../Utilites";
+import Emitter from "../events/Emitter";
+import Capturer from "./Capturer";
+/**
+ *
+ * @category Services.Renderer
+ * @class Renderer
+ * @extends {Emitter<IRenderEvents>}
+ */
 class Renderer extends Emitter {
     constructor() {
         super();
@@ -45,15 +51,15 @@ class Renderer extends Emitter {
             })
                 .catch(reject);
         });
-        this.renderPromise = Utilities.cancelablePromise(promise);
+        this.renderPromise = cancelablePromise(promise);
         return promise;
     }
     prepareRenderAnimation(drawer, settings) {
         return __awaiter(this, void 0, void 0, function* () {
-            const startTimeDrawTime = Utilities.now();
+            const startTimeDrawTime = now();
             drawer.setOption('time', 0);
             drawer.draw();
-            const drawTime = Utilities.now() - startTimeDrawTime;
+            const drawTime = now() - startTimeDrawTime;
             const sequence = drawer.getTimeline().getSequence();
             const time = yield Capturer.getRenderTime(drawer.getCanvas(), settings.type, settings.quality);
             const renderTime = time + drawTime;
@@ -106,7 +112,7 @@ class Renderer extends Emitter {
                 this.started = false;
             }));
         });
-        this.renderPromise = Utilities.cancelablePromise(promise);
+        this.renderPromise = cancelablePromise(promise);
         return promise;
     }
     renderAnimationPart(drawer, settings, frame_from, frame_count, part, total_frames, total_parts) {
@@ -122,11 +128,11 @@ class Renderer extends Emitter {
                 if (!this.started)
                     return undefined;
                 const current_frame = i + frame_from;
-                const measure_start = Utilities.now();
+                const measure_start = now();
                 timeline.setTime((sequence.start + current_frame * tick_time) % sequence.end);
                 drawer.draw();
                 yield this.capturer.capture(drawer.getCanvas(), i);
-                const measure_end = Utilities.now();
+                const measure_end = now();
                 lastRenderTime = measure_end - measure_start;
                 this.dispatch('renderer:render-frame', {
                     frame: current_frame,

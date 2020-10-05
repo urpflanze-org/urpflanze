@@ -32,6 +32,11 @@ import { ISceneChildProps } from '@core/types/scene-child'
 
 export type SceneChildInstance = new (props: any) => SceneChild
 
+/**
+ *
+ * @category Services.Scene Utilities
+ * @class SceneUtilities
+ */
 class SceneUtilities {
 	private registeredSceneChilds: { [type: string]: SceneChildInstance } = {}
 

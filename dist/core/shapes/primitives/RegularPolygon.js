@@ -1,8 +1,9 @@
-import ShapeLoop from '@core/shapes/ShapeLoop';
-import { EShapePrimitiveAdaptMode } from '@core/types/shape-base';
+import ShapeLoop from "../ShapeLoop";
+import { EShapePrimitiveAdaptMode } from "../../types/shape-base";
 /**
  * Polygon shape
  *
+ * @category Core.Primitives
  * @class RegularPolygon
  * @extends {ShapeLoop}
  */

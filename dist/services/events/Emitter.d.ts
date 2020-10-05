@@ -1,3 +1,10 @@
+/**
+ *
+ * @category Services
+ * @abstract
+ * @class Emitter
+ * @template EventTypes
+ */
 declare abstract class Emitter<EventTypes> {
     private callbacks;
     constructor();

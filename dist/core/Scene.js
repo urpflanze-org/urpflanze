@@ -1,7 +1,7 @@
-import SceneChild from '@core/SceneChild';
-import Group from '@core/Group';
-import Shape from '@core/shapes/Shape';
-import Vec2 from '@core/math/Vec2';
+import SceneChild from "./SceneChild";
+import Group from "./Group";
+import Shape from "./shapes/Shape";
+import Vec2, { TArray } from "./math/Vec2";
 /**
  * Container for all SceneChild.
  * The main purpose is to manage the drwaing order and update the buffers of the sceneChild present in it
@@ -21,7 +21,7 @@ class Scene {
      */
     constructor(settings = {}) {
         /**
-         * Logical number, the render will take care
+         * Logical number, the drawer will take care
          * of defining the unit of measure
          *
          * @type {number}
@@ -29,7 +29,7 @@ class Scene {
          */
         this.width = 400;
         /**
-         * Logical number, the render will take care
+         * Logical number, the drawer will take care
          * of defining the unit of measure
          *
          * @type {number}

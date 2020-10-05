@@ -1,6 +1,9 @@
-import ShapeBase from '@core/shapes/ShapeBase';
-import Vec2 from '@core/math/Vec2';
-import { EShapePrimitiveAdaptMode, } from '@core/types/shape-base';
+import ShapeBase from "./ShapeBase";
+import Vec2, { TArray } from "../math/Vec2";
+import { EShapePrimitiveAdaptMode, IShapeBounding, IShapePrimitiveProps, IShapePrimitiveSettings, } from "../types/shape-base";
+/**
+ * @category Core.Abstract
+ */
 class ShapePrimitive extends ShapeBase {
     constructor(settings = {}) {
         var _a, _b, _c;
@@ -35,7 +38,13 @@ class ShapePrimitive extends ShapeBase {
      * @memberof ShapePrimitive
      */
     getProp(key, prop_arguments, default_value) {
-        super.getProp(key, prop_arguments, default_value);
+        const value = super.getProp(key, prop_arguments, default_value);
+        // if (key === 'rotationOrigin') {
+        // 	const clone = Vec2.create(value)
+        // 	Vec2.scale(clone, this.sideLength)
+        // 	return clone
+        // }
+        return value;
     }
     /**
      * set side length when generate a buffer into shape loop or shape buffer

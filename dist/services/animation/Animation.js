@@ -1,5 +1,5 @@
-import ScenePropUtilities from '@services/scene-utilities/ScenePropUtilities';
-import Simple from '@services/animation/Simple';
+import ScenePropUtilities from "../scene-utilities/ScenePropUtilities";
+import Simple from "./Simple";
 const Animation = {
     composeAnimation: (drawer, prop_name, animation) => {
         switch (animation.type) {

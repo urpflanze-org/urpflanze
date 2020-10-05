@@ -1,24 +1,29 @@
 import { v1 as uuidv1 } from 'uuid';
-import SceneChild from '@core/SceneChild';
+import SceneChild from "../../core/SceneChild";
 // Shapes
-import Line from '@core/shapes/primitives/Line';
-import Triangle from '@core/shapes/primitives/Triangle';
-import Rect from '@core/shapes/primitives/Rect';
-import RegularPolygon from '@core/shapes/primitives/RegularPolygon';
-import Circle from '@core/shapes/primitives/Circle';
-import Rose from '@core/shapes/primitives/Rose';
-import Spiral from '@core/shapes/primitives/Spiral';
-import Lissajous from '@core/shapes/primitives/Lissajous';
-import Shape from '@core/shapes/Shape';
-import ShapePrimitive from '@core/shapes/ShapePrimitive';
-import ShapeLoop from '@core/shapes/ShapeLoop';
-import ShapeBuffer from '@core/shapes/ShapeBuffer';
-import Scene from '@core/Scene';
-import Group from '@core/Group';
-import ShapeBase from '@core/shapes/ShapeBase';
-import SceneChildPropsData from '@services/scene-utilities/SceneChildPropsData';
-import ScenePropUtilities from '@services/scene-utilities/ScenePropUtilities';
-import Animation from '@services/animation/Animation';
+import Line from "../../core/shapes/primitives/Line";
+import Triangle from "../../core/shapes/primitives/Triangle";
+import Rect from "../../core/shapes/primitives/Rect";
+import RegularPolygon from "../../core/shapes/primitives/RegularPolygon";
+import Circle from "../../core/shapes/primitives/Circle";
+import Rose from "../../core/shapes/primitives/Rose";
+import Spiral from "../../core/shapes/primitives/Spiral";
+import Lissajous from "../../core/shapes/primitives/Lissajous";
+import Shape from "../../core/shapes/Shape";
+import ShapePrimitive from "../../core/shapes/ShapePrimitive";
+import ShapeLoop from "../../core/shapes/ShapeLoop";
+import ShapeBuffer from "../../core/shapes/ShapeBuffer";
+import Scene from "../../core/Scene";
+import Group from "../../core/Group";
+import ShapeBase from "../../core/shapes/ShapeBase";
+import SceneChildPropsData, { TSceneChildPropsDataKeys } from "./SceneChildPropsData";
+import ScenePropUtilities from "./ScenePropUtilities";
+import Animation from "../animation/Animation";
+/**
+ *
+ * @category Services.Scene Utilities
+ * @class SceneUtilities
+ */
 class SceneUtilities {
     constructor() {
         this.registeredSceneChilds = {};

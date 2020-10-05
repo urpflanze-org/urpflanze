@@ -1,4 +1,9 @@
-import Utilities from 'src/Utilites';
+import { clamp } from "../../Utilites";
+/**
+ * Temporany matrix
+ *
+ * @internal
+ */
 const MATRIX = new Array(4);
 const create_matrix = () => {
     return [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1];
@@ -27,7 +32,7 @@ const dot = (a, b) => a[0] * b[0] + a[1] * b[1];
 const length = (vec) => Math.hypot(vec[0], vec[1]);
 const angle = (a, b) => {
     const m = length(a) * length(b);
-    return Math.acos(Utilities.clamp(-1, 1, m && dot(a, b) / m));
+    return Math.acos(clamp(-1, 1, m && dot(a, b) / m));
 };
 const skewX = (vec, m) => {
     vec[0] += Math.tan(m) * vec[1];

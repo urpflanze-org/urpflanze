@@ -90,14 +90,14 @@ function parse(item) {
 			return parseClass(item)
 		case 'Interface':
 			return parseInterface(item)
-		case 'Function':
-			return parseMethod(item)
 		case 'Object literal':
 			return parseObject(item)
 		case 'Type alias':
 			return parseType(item)
 		case 'Enumeration':
 			return parseEnum(item)
+		case 'Function':
+			return parseFunction(item)
 	}
 }
 
@@ -106,6 +106,11 @@ function findExamples(item) {
 
 	if (item.comment && item.comment.tags) {
 		for (tag of item.comment.tags) {
+			if (tag.tag === 'example') examples.push(tag.text)
+		}
+	}
+	if (item.signatures && item.signatures[0] && item.signatures[0].comment && item.signatures[0].comment.tags) {
+		for (tag of item.signatures[0].comment.tags) {
 			if (tag.tag === 'example') examples.push(tag.text)
 		}
 	}
@@ -122,6 +127,10 @@ function findOrder(item) {
 	return 9999
 }
 
+function parseFunction(item) {
+	return { ...parseMethod(item), type: 'Function' }
+}
+
 function parseEnum(item) {
 	const result = {
 		name: item.name,
@@ -133,6 +142,7 @@ function parseEnum(item) {
 		members: item.children.map(member => ({
 			name: member.name,
 			defaultValue: member.defaultValue,
+			description: parseDescription(member),
 		})),
 	}
 
@@ -279,6 +289,7 @@ function parseMethod(method) {
 			examples: findExamples(method),
 			typeParameter: method.signatures[0].typeParameter,
 			return_type,
+			defaultValue: method.defaultValue,
 		}
 
 		if (typeof method.flags !== 'undefined' && typeof method.flags.isPublic !== 'undefined')

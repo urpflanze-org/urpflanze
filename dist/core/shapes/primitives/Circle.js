@@ -1,5 +1,11 @@
-import ShapeLoop from '@core/shapes/ShapeLoop';
-import { EShapePrimitiveAdaptMode } from '@core/types/shape-base';
+import ShapeLoop from "../ShapeLoop";
+import { EShapePrimitiveAdaptMode } from "../../types/shape-base";
+/**
+ *
+ * @category Core.Primitives
+ * @class Circle
+ * @extends {ShapeLoop}
+ */
 class Circle extends ShapeLoop {
     /**
      * Creates an instance of Circle.

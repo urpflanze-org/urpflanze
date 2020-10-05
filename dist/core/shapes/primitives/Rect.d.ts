@@ -1,5 +1,11 @@
-import { IShapeBufferSettings } from '@core/types/shape-primitive';
-import ShapeBuffer from '@core/shapes/ShapeBuffer';
+import { IShapeBufferSettings } from "../../types/shape-primitive";
+import ShapeBuffer from "../ShapeBuffer";
+/**
+ *
+ * @category Core.Primitives
+ * @class Rect
+ * @extends {ShapeBuffer}
+ */
 declare class Rect extends ShapeBuffer {
     /**
      * Creates an instance of Rect.

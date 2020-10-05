@@ -2672,6 +2672,172 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 /***/ }),
 
+/***/ "./dist/Utilites.js":
+/*!**************************!*\
+  !*** ./dist/Utilites.js ***!
+  \**************************/
+/*! exports provided: parseFunction, cancelablePromise, now, toDegrees, toRadians, toArray, clamp, relativeClamp */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parseFunction", function() { return parseFunction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cancelablePromise", function() { return cancelablePromise; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "now", function() { return now; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toDegrees", function() { return toDegrees; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toRadians", function() { return toRadians; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toArray", function() { return toArray; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "clamp", function() { return clamp; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "relativeClamp", function() { return relativeClamp; });
+/**
+ * @ignore
+ */
+const parseFunction = {
+    suffix: '$fn:',
+    parse: (data) => {
+        return typeof data === 'function' && data.name !== 'SimpleAnimation' ? parseFunction.suffix + data.toString() : data;
+    },
+    unparse: (data) => {
+        return typeof data === 'string' && data.indexOf(parseFunction.suffix) === 0
+            ? eval(data.substr(parseFunction.suffix.length))
+            : data;
+    },
+};
+/**
+ * Create Cancellable Promise
+ *
+ * @ignore
+ * @template T
+ * @param {Promise<T>} promise
+ * @returns {ICancelablePromise<T>}
+ */
+function cancelablePromise(promise) {
+    let resolved = false;
+    let canceled = false;
+    const wrappedPromise = new Promise((resolve, reject) => {
+        promise
+            .then(val => {
+            resolved = true;
+            canceled ? reject('canceled') : resolve(val);
+        })
+            .catch(error => {
+            resolved = true;
+            canceled ? reject('canceled') : reject(error);
+        });
+    });
+    return {
+        promise: wrappedPromise,
+        resolved: () => resolved,
+        canceled: () => canceled,
+        cancel: () => {
+            canceled = true;
+        },
+    };
+}
+// isDef: (object: any): boolean => typeof object !== 'undefined' && object !== null,
+/**
+ * Get current timestamp in milliseconds
+ *
+ * @category Utilities
+ * @returns {number}
+ */
+function now() {
+    return performance.now();
+}
+// aOr: (...args: Array<any>): any => {
+// 	for (let i = 0; i < args.length; i++) if (Utilities.isDef(args[i])) return args[i]
+// },
+/**
+ * Convert number from radians to degrees
+ *
+ * @category Utilities
+ *
+ * @example
+ * ```javascript
+ * Urpflanze.toDegrees(Math.PI) // 180
+ * ```
+ *
+ * @param {number} radians
+ * @returns {number}
+ */
+function toDegrees(radians) {
+    return (radians * 180) / Math.PI;
+}
+/**
+ * Convert angle from degrees to radians
+ * @example
+ * ```javascript
+ * Urpflanze.toRadians(180) // 3.141592653589793
+ * ```
+ *
+ * @category Utilities
+ * @param {number} degrees
+ * @returns {number}
+ */
+function toRadians(degrees) {
+    return (degrees * Math.PI) / 180;
+}
+// perf: (name: string, callback: any, log: boolean = false): number => {
+// 	const t1 = now()
+// 	callback()
+// 	const t2 = now()
+// 	log && console.log('perf ' + name + ': ' + (t2 - t1))
+// 	return t2 - t1
+// }
+/**
+ * Force value to array
+ *
+ * @ignore
+ * @param {(number | Array<number>)} t
+ * @returns {Array<number>}
+ */
+function toArray(t) {
+    return Array.isArray(t) ? t : [t, t];
+}
+/**
+ * Return number between min and max
+ *
+ * @category Utilities
+ * @example
+ * ```javascript
+ * Urpflanze.clamp(0, 1, 1.2) // 1
+ * ```
+ * @example
+ * ```javascript
+ * Urpflanze.clamp(0, 1, -2) // 0
+ * ```
+ * @param {number} min
+ * @param {number} max
+ * @param {number} value
+ * @returns {number}
+ */
+function clamp(min, max, value) {
+    return value <= min ? min : value >= max ? max : value;
+}
+/**
+ * Map number between refMin e refMax from min and max
+ *
+ * @category Utilities
+ *
+ * @example
+ * ```javascript
+ * Urpflanze.relativeClamp(0, 1, 0.5, 100, 200) // 150
+ * ```
+ *
+ * @param {number} refMin
+ * @param {number} refMax
+ * @param {number} value
+ * @param {number} toMin
+ * @param {number} toMax
+ * @returns {number}
+ */
+function relativeClamp(refMin, refMax, value, toMin, toMax) {
+    return clamp(toMin, toMax, ((value - refMin) / (refMax - refMin)) * (toMax - toMin) + toMin);
+}
+//# sourceMappingURL=Utilites.js.map
+
+/***/ }),
+
 /***/ "./dist/core/Context.js":
 /*!******************************!*\
   !*** ./dist/core/Context.js ***!
@@ -2683,71 +2849,117 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var simplex_noise__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! simplex-noise */ "./node_modules/simplex-noise/simplex-noise.js");
 /* harmony import */ var simplex_noise__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(simplex_noise__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _math_Vec2__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./math/Vec2 */ "./dist/core/math/Vec2.js");
-/* harmony import */ var _types_ShapeBase__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./types/ShapeBase */ "./dist/core/types/ShapeBase.js");
+/* harmony import */ var _types_scene_child__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./types/scene-child */ "./dist/core/types/scene-child.js");
+/* harmony import */ var _math_Vec2__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./math/Vec2 */ "./dist/core/math/Vec2.js");
 
 
 
 const noises = {
     random: new simplex_noise__WEBPACK_IMPORTED_MODULE_0___default.a(Math.random),
 };
-function noise(seed = 'random', x = 0, y = 0, z = 0) {
-    if (!noises[seed]) {
-        noises[seed] = new simplex_noise__WEBPACK_IMPORTED_MODULE_0___default.a(seed);
-    }
-    return noises[seed].noise3D(x, y, z);
-}
-function angle(repetition, offsetFromCenter = [0, 0]) {
-    var _a;
-    if (repetition.type == _types_ShapeBase__WEBPACK_IMPORTED_MODULE_2__["RepetitionType"].Matrix) {
-        const matrixOffset = _math_Vec2__WEBPACK_IMPORTED_MODULE_1__["default"].create(offsetFromCenter);
-        const center_matrix = _math_Vec2__WEBPACK_IMPORTED_MODULE_1__["default"].create((repetition.count_col - 1) / 2, (repetition.count_row - 1) / 2);
-        center_matrix[0] += center_matrix[0] * matrixOffset[0];
-        center_matrix[1] += center_matrix[1] * matrixOffset[1];
-        const x = repetition.current_col - 1 - center_matrix[0];
-        const y = repetition.current_row - 1 - center_matrix[1];
-        return x === 0 ? 0 : Math.atan(y / x);
-    }
-    return (_a = repetition.current_angle) !== null && _a !== void 0 ? _a : 0;
-}
-function angle2(repetition, offsetFromCenter = [0, 0]) {
-    var _a;
-    if (repetition.type == _types_ShapeBase__WEBPACK_IMPORTED_MODULE_2__["RepetitionType"].Matrix) {
-        const matrixOffset = _math_Vec2__WEBPACK_IMPORTED_MODULE_1__["default"].create(offsetFromCenter);
-        const center_matrix = _math_Vec2__WEBPACK_IMPORTED_MODULE_1__["default"].create((repetition.count_col - 1) / 2, (repetition.count_row - 1) / 2);
-        center_matrix[0] += center_matrix[0] * matrixOffset[0];
-        center_matrix[1] += center_matrix[1] * matrixOffset[1];
-        const x = repetition.current_col - 1 - center_matrix[0];
-        const y = repetition.current_row - 1 - center_matrix[1];
-        return x === 0 ? 0 : Math.atan2(y, x);
-    }
-    return (_a = repetition.current_angle) !== null && _a !== void 0 ? _a : 0;
-}
-function distance(repetition, offsetFromCenter = [0, 0]) {
-    if (repetition.type == _types_ShapeBase__WEBPACK_IMPORTED_MODULE_2__["RepetitionType"].Matrix) {
-        const matrixOffset = _math_Vec2__WEBPACK_IMPORTED_MODULE_1__["default"].create(offsetFromCenter);
-        const center_matrix = _math_Vec2__WEBPACK_IMPORTED_MODULE_1__["default"].create((repetition.count_col - 1) / 2, (repetition.count_row - 1) / 2);
-        center_matrix[0] += center_matrix[0] * matrixOffset[0];
-        center_matrix[1] += center_matrix[1] * matrixOffset[1];
-        const current = _math_Vec2__WEBPACK_IMPORTED_MODULE_1__["default"].create(repetition.current_col - 1, repetition.current_row - 1);
-        return _math_Vec2__WEBPACK_IMPORTED_MODULE_1__["default"].distance(current, center_matrix);
-    }
-    return 1;
-}
-function percW(percentage, shape) {
-    return shape && shape.scene ? (shape.scene.width * percentage) / 100 : percentage;
-}
-function percH(percentage, shape) {
-    return shape && shape.scene ? (shape.scene.height * percentage) / 100 : percentage;
-}
-/* harmony default export */ __webpack_exports__["default"] = ({
-    noise,
-    angle,
-    angle2,
-    distance,
-    percW,
-    percH,
-});
+/**
+ * Utilities function passed to <a href="[base_url]/ISceneChildPropArguments">ISceneChildPropArguments</a>
+ *
+ * @category Core.Utilities
+ */
+const Context = {
+    /**
+     * SimplexNoise <a href="https://www.npmjs.com/package/simplex-noise">url</a>
+     *
+     * @param {string} [seed='random']
+     * @param {number} [x=0]
+     * @param {number} [y=0]
+     * @param {number} [z=0]
+     * @returns {number}
+     */
+    noise: (seed = 'random', x = 0, y = 0, z = 0) => {
+        if (!noises[seed]) {
+            noises[seed] = new simplex_noise__WEBPACK_IMPORTED_MODULE_0___default.a(seed);
+        }
+        return noises[seed].noise3D(x, y, z);
+    },
+    /**
+     * Return angle (atan) from offset (or center).
+     * Offset is array between [-1, -1] and [1, 1]
+     *
+     * @param {IRepetition} repetition
+     * @param {number | TArray} offsetFromCenter
+     * @returns {number}
+     */
+    angle: (repetition, offsetFromCenter = [0, 0]) => {
+        var _a;
+        if (repetition.type == _types_scene_child__WEBPACK_IMPORTED_MODULE_1__["ERepetitionType"].Matrix) {
+            const matrixOffset = _math_Vec2__WEBPACK_IMPORTED_MODULE_2__["default"].create(offsetFromCenter);
+            const center_matrix = _math_Vec2__WEBPACK_IMPORTED_MODULE_2__["default"].create((repetition.count_col - 1) / 2, (repetition.count_row - 1) / 2);
+            center_matrix[0] += center_matrix[0] * matrixOffset[0];
+            center_matrix[1] += center_matrix[1] * matrixOffset[1];
+            const x = repetition.current_col - 1 - center_matrix[0];
+            const y = repetition.current_row - 1 - center_matrix[1];
+            return x === 0 ? 0 : Math.atan(y / x);
+        }
+        return (_a = repetition.current_angle) !== null && _a !== void 0 ? _a : 0;
+    },
+    /**
+     * Return angle (atan2, 4 quadrants) from offset (or center).
+     * Offset is array between [-1, -1] and [1, 1]
+     *
+     * @param {IRepetition} repetition
+     * @param {number | TArray} offsetFromCenter
+     * @returns {number}
+     */
+    angle2: (repetition, offsetFromCenter = [0, 0]) => {
+        var _a;
+        if (repetition.type == _types_scene_child__WEBPACK_IMPORTED_MODULE_1__["ERepetitionType"].Matrix) {
+            const matrixOffset = _math_Vec2__WEBPACK_IMPORTED_MODULE_2__["default"].create(offsetFromCenter);
+            const center_matrix = _math_Vec2__WEBPACK_IMPORTED_MODULE_2__["default"].create((repetition.count_col - 1) / 2, (repetition.count_row - 1) / 2);
+            center_matrix[0] += center_matrix[0] * matrixOffset[0];
+            center_matrix[1] += center_matrix[1] * matrixOffset[1];
+            const x = repetition.current_col - 1 - center_matrix[0];
+            const y = repetition.current_row - 1 - center_matrix[1];
+            return x === 0 ? 0 : Math.atan2(y, x);
+        }
+        return (_a = repetition.current_angle) !== null && _a !== void 0 ? _a : 0;
+    },
+    /**
+     * Return distance from offset (or center)
+     *
+     * @param {IRepetition} repetition
+     * @param {number | TArray} offsetFromCenter offset relative to distance prop
+     * @returns {number}
+     */
+    distance: (repetition, offsetFromCenter = [0, 0]) => {
+        if (repetition.type == _types_scene_child__WEBPACK_IMPORTED_MODULE_1__["ERepetitionType"].Matrix) {
+            const matrixOffset = _math_Vec2__WEBPACK_IMPORTED_MODULE_2__["default"].create(offsetFromCenter);
+            const center_matrix = _math_Vec2__WEBPACK_IMPORTED_MODULE_2__["default"].create((repetition.count_col - 1) / 2, (repetition.count_row - 1) / 2);
+            center_matrix[0] += center_matrix[0] * matrixOffset[0];
+            center_matrix[1] += center_matrix[1] * matrixOffset[1];
+            const current = _math_Vec2__WEBPACK_IMPORTED_MODULE_2__["default"].create(repetition.current_col - 1, repetition.current_row - 1);
+            return _math_Vec2__WEBPACK_IMPORTED_MODULE_2__["default"].distance(current, center_matrix);
+        }
+        return 1;
+    },
+    /**
+     * Get value percentage of scene width
+     *
+     * @param {number} percentage
+     * @param {SceneChild} sceneChild
+     * @returns {number}
+     */
+    percW: (percentage, sceneChild) => {
+        return sceneChild && sceneChild.scene ? (sceneChild.scene.width * percentage) / 100 : percentage;
+    },
+    /**
+     * Get value percentage of scene height
+     *
+     * @param {number} percentage
+     * @param {SceneChild} sceneChild
+     * @returns {number}
+     */
+    percH: (percentage, sceneChild) => {
+        return sceneChild && sceneChild.scene ? (sceneChild.scene.height * percentage) / 100 : percentage;
+    },
+};
+/* harmony default export */ __webpack_exports__["default"] = (Context);
 //# sourceMappingURL=Context.js.map
 
 /***/ }),
@@ -2761,13 +2973,27 @@ function percH(percentage, shape) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _SceneChild__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SceneChild */ "./dist/core/SceneChild.js");
-/* harmony import */ var _shapes_ShapeBase__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./shapes/ShapeBase */ "./dist/core/shapes/ShapeBase.js");
-/* harmony import */ var _Scene__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Scene */ "./dist/core/Scene.js");
+/* harmony import */ var _Scene__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Scene */ "./dist/core/Scene.js");
+/* harmony import */ var _SceneChild__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SceneChild */ "./dist/core/SceneChild.js");
+/* harmony import */ var _shapes_ShapeBase__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./shapes/ShapeBase */ "./dist/core/shapes/ShapeBase.js");
 
 
 
-class Group extends _SceneChild__WEBPACK_IMPORTED_MODULE_0__["default"] {
+/**
+ * Group used for add multiple SceneChild with same props
+ *
+ * @order 3
+ * @category Core.Scene
+ * @extends {SceneChild}
+ * @class Group
+ */
+class Group extends _SceneChild__WEBPACK_IMPORTED_MODULE_1__["default"] {
+    /**
+     * Creates an instance of Group
+     *
+     * @param {ISceneChildSettings} [settings={}]
+     * @memberof Group
+     */
     constructor(settings = {}) {
         settings.type = 'Group';
         super(settings);
@@ -2778,6 +3004,12 @@ class Group extends _SceneChild__WEBPACK_IMPORTED_MODULE_0__["default"] {
         });
         this.props = settings;
     }
+    /**
+     * Check group has static children
+     *
+     * @returns {boolean}
+     * @memberof Group
+     */
     isStatic() {
         const children = this.children;
         for (let i = 0, len = children.length; i < len; i++)
@@ -2785,6 +3017,12 @@ class Group extends _SceneChild__WEBPACK_IMPORTED_MODULE_0__["default"] {
                 return false;
         return true;
     }
+    /**
+     * Check group has static children indexed
+     *
+     * @returns {boolean}
+     * @memberof Group
+     */
     isStaticIndexed() {
         const children = this.children;
         for (let i = 0, len = children.length; i < len; i++)
@@ -2793,17 +3031,26 @@ class Group extends _SceneChild__WEBPACK_IMPORTED_MODULE_0__["default"] {
         return true;
     }
     add(item) {
-        item.setProp(this.props);
+        const rawItemProps = item.getProps();
+        Object.keys(this.props).forEach((propKey) => {
+            if (typeof rawItemProps[propKey] === 'undefined')
+                item.setProp(propKey, this.props[propKey]);
+        });
         item.order =
             typeof item.order !== 'undefined'
                 ? item.order
                 : this.children.length > 0
                     ? Math.max.apply(this, this.children.map(e => e.order || 0)) + 1
                     : 0;
-        this.scene && _Scene__WEBPACK_IMPORTED_MODULE_2__["default"].propagateToChilden(item, this.scene);
+        this.scene && _Scene__WEBPACK_IMPORTED_MODULE_0__["default"].propagateToChilden(item, this.scene);
         this.children.push(item);
         this.sortChildren();
     }
+    /**
+     * Sort children
+     *
+     * @memberof Group
+     */
     sortChildren() {
         this.children.sort((a, b) => a.order - b.order);
         this.children = this.children.map((child, index) => {
@@ -2812,9 +3059,22 @@ class Group extends _SceneChild__WEBPACK_IMPORTED_MODULE_0__["default"] {
         });
         this.clearBuffer(true);
     }
+    /**
+     * Return shape children
+     *
+     * @returns {Array<SceneChild>}
+     * @memberof Group
+     */
     getChildren() {
         return this.children;
     }
+    /**
+     * Find scene child from id or name
+     *
+     * @param {number | string} id_or_name
+     * @returns {(SceneChild | null)}
+     * @memberof Group
+     */
     find(id_or_name) {
         if (this.id === id_or_name || this.name === id_or_name)
             return this;
@@ -2826,9 +3086,23 @@ class Group extends _SceneChild__WEBPACK_IMPORTED_MODULE_0__["default"] {
         }
         return null;
     }
+    /**
+     * Get item from group
+     *
+     * @param {number} index
+     * @returns {(SceneChild | null)}
+     * @memberof Group
+     */
     get(index) {
         return index >= 0 && index < this.children.length ? this.children[index] : null;
     }
+    /**
+     * Remove item from group
+     *
+     * @param {number} index
+     * @returns {(false | Array<SceneChild>)}
+     * @memberof Group
+     */
     remove(index) {
         if (index >= 0 && index < this.children.length) {
             const removed = this.children.splice(index, 1);
@@ -2837,6 +3111,12 @@ class Group extends _SceneChild__WEBPACK_IMPORTED_MODULE_0__["default"] {
         }
         return false;
     }
+    /**
+     * Remove from id
+     *
+     * @param {number} id
+     * @memberof Scene
+     */
     removeFromId(id) {
         for (let i = 0, len = this.children.length; i < len; i++) {
             if (this.children[i].id == id) {
@@ -2845,16 +3125,48 @@ class Group extends _SceneChild__WEBPACK_IMPORTED_MODULE_0__["default"] {
             }
         }
     }
+    /**
+     * Generate children buffers
+     *
+     * @param {number} indexing_id
+     * @param {boolean} [bDirectSceneChild=false]
+     * @param {ISceneChildPropArguments} [parent_prop_arguments]
+     * @memberof Group
+     */
     generate(indexing_id, bDirectSceneChild = false, parent_prop_arguments) {
         this.children.forEach(item => item.generate(indexing_id, bDirectSceneChild, parent_prop_arguments));
     }
+    /**
+     * Chear children buffer
+     *
+     * @param {boolean} [bClearIndexed=false]
+     * @param {boolean} [bPropagateToParents=false]
+     * @memberof Group
+     */
     clearBuffer(bClearIndexed = false, bPropagateToParents = true) {
         this.children.forEach(item => item.clearBuffer(bClearIndexed, false));
         if (this.scene && bPropagateToParents) {
             const parents = this.scene.getParentsOfSceneChild(this);
-            parents.length > 0 && parents[parents.length - 1].clearBuffer(bClearIndexed, bPropagateToParents);
+            parents.length > 0 && parents[parents.length - 1].clearBuffer(bClearIndexed, bPropagateToParents /* true */);
         }
+        // if (bPropagateToParents && this.scene)
+        // {
+        //     const parents = this.scene.getParentsOfSceneChild(this)
+        //     parents.length > 0 && parents[parents.length - 1].clearBuffer(bClearIndexed, true, false)
+        // }
+        // if (bPropagateToChildren)
+        // {
+        //     this.children.forEach(sceneChild => sceneChild.clearBuffer(bClearIndexed, false, true))
+        // }
     }
+    /**
+     * Set a single or multiple props
+     *
+     * @abstract
+     * @param {(keyof ISceneChildProps | ISceneChildProps)} key
+     * @param {*} [value]
+     * @memberof SceneChild
+     */
     setProp(key, value) {
         if (typeof key === 'object')
             Object.keys(key).forEach((k) => (this.props[k] = key[k]));
@@ -2862,9 +3174,22 @@ class Group extends _SceneChild__WEBPACK_IMPORTED_MODULE_0__["default"] {
             this.props[key] = value;
         this.children.forEach(item => item.setProp(key, value));
     }
+    /**
+     * Return length of buffer
+     *
+     * @param {ISceneChildPropArguments} prop_arguments
+     * @returns {number}
+     * @memberof Group
+     */
     getBufferLength(prop_arguments) {
         return this.children.map(sceneChild => sceneChild.getBufferLength(prop_arguments)).reduce((p, c) => p + c, 0);
     }
+    /**
+     * return a single buffer binded from children
+     *
+     * @returns {Float32Array}
+     * @memberof Group
+     */
     getBuffer() {
         const buffers = this.children
             .map(item => item.getBuffer())
@@ -2879,32 +3204,38 @@ class Group extends _SceneChild__WEBPACK_IMPORTED_MODULE_0__["default"] {
             }
             return result;
         }
-        return _shapes_ShapeBase__WEBPACK_IMPORTED_MODULE_1__["default"].EMPTY_BUFFER;
+        return _shapes_ShapeBase__WEBPACK_IMPORTED_MODULE_2__["default"].EMPTY_BUFFER;
     }
+    /**
+     * return a single buffer binded from children
+     *
+     * @returns {(Array<ISceneChildStreamIndexing> | undefined)}
+     * @memberof Group
+     */
     getIndexedBuffer() {
         const indexed = this.children.map(item => item.getIndexedBuffer()).filter(b => b !== undefined);
         return [].concat.apply(null, indexed);
     }
+    /**
+     * Call strem on children
+     *
+     * @param {TStreamCallback} callback
+     * @memberof Group
+     */
     stream(callback) {
         this.children.forEach(item => item.stream(callback));
     }
+    /**
+     * Index vertex buffer
+     *
+     * @private
+     * @param {Array<ISceneChildStreamIndexing>} buffer
+     * @param {ISceneChildStreamIndexing} [parent]
+     * @memberof Group
+     */
     index(buffer, parent) {
         for (let i = 0, len = this.children.length; i < len; i++)
             this.children[i].index(buffer, parent);
-    }
-    static propagateProp(itemToPropagate, key, value) {
-        itemToPropagate.setProp(key, value);
-    }
-    static removeIntersected(group, dest) {
-        const groupProps = group.getProps();
-        const destProps = dest.getProps();
-        const groupPropsKeys = Object.keys(groupProps);
-        const destPropsKeys = Object.keys(destProps);
-        const result = {};
-        groupPropsKeys.forEach((key) => {
-            destPropsKeys.indexOf(key) >= 0 && (result[key] = groupProps[key]);
-        });
-        return result;
     }
 }
 /* harmony default export */ __webpack_exports__["default"] = (Group);
@@ -2921,58 +3252,133 @@ class Group extends _SceneChild__WEBPACK_IMPORTED_MODULE_0__["default"] {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Utilites */ "./dist/core/Utilites.js");
-/* harmony import */ var _SceneChild__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SceneChild */ "./dist/core/SceneChild.js");
-/* harmony import */ var _Group__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Group */ "./dist/core/Group.js");
-/* harmony import */ var _shapes_Shape__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./shapes/Shape */ "./dist/core/shapes/Shape.js");
-/* harmony import */ var _math_Vec2__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./math/Vec2 */ "./dist/core/math/Vec2.js");
+/* harmony import */ var _SceneChild__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SceneChild */ "./dist/core/SceneChild.js");
+/* harmony import */ var _Group__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Group */ "./dist/core/Group.js");
+/* harmony import */ var _shapes_Shape__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./shapes/Shape */ "./dist/core/shapes/Shape.js");
+/* harmony import */ var _math_Vec2__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./math/Vec2 */ "./dist/core/math/Vec2.js");
 
 
 
 
-
+/**
+ * Container for all SceneChild.
+ * The main purpose is to manage the drwaing order and update the buffers of the sceneChild present in it
+ *
+ *
+ * @order 1
+ * @category Core.Scene
+ * @class Scene
+ */
 class Scene {
+    /**
+     * Creates an instance of Scene.
+     * You can see the default values ​​in the property definitions
+     *
+     * @param {ISceneSettingsInterface} [settings={}]
+     * @memberof Scene
+     */
     constructor(settings = {}) {
-        this.start_time = 0;
-        this.last_update_time = 0;
+        /**
+         * Logical number, the render will take care
+         * of defining the unit of measure
+         *
+         * @type {number}
+         * @memberof Scene
+         */
+        this.width = 400;
+        /**
+         * Logical number, the render will take care
+         * of defining the unit of measure
+         *
+         * @type {number}
+         * @memberof Scene
+         */
+        this.height = 400;
+        /**
+         * Default background color (black)
+         *
+         * @type {string}
+         * @memberof Scene
+         */
+        this.background = 'hsla(0, 0%, 0%, 1)';
+        /**
+         * Default ScenePrimitive stroke color (white)
+         *
+         * @type {string}
+         * @memberof Scene
+         */
+        this.mainColor = 'hsla(0, 0%, 100%, 1)';
+        /**
+         * Current time
+         *
+         * @type {number}
+         * @memberof Scene
+         */
         this.current_time = 0;
-        this.delta_time = 0;
-        this.fps = 0;
-        this.width = Object(_Utilites__WEBPACK_IMPORTED_MODULE_0__["aOr"])(settings.width, 400);
-        this.height = Object(_Utilites__WEBPACK_IMPORTED_MODULE_0__["aOr"])(settings.height, 400);
-        this.background = Object(_Utilites__WEBPACK_IMPORTED_MODULE_0__["aOr"])(settings.background, '#fff');
-        this.mainColor = Object(_Utilites__WEBPACK_IMPORTED_MODULE_0__["aOr"])(settings.mainColor, '#000');
+        if (typeof settings.width !== 'undefined')
+            this.width = settings.width;
+        if (typeof settings.height !== 'undefined')
+            this.height = settings.height;
+        if (typeof settings.background !== 'undefined')
+            this.background = settings.background;
+        if (typeof settings.mainColor !== 'undefined')
+            this.mainColor = settings.mainColor;
         this.children = [];
-        this.center = _math_Vec2__WEBPACK_IMPORTED_MODULE_4__["default"].create(this.width / 2, this.height / 2);
+        this.center = _math_Vec2__WEBPACK_IMPORTED_MODULE_3__["default"].create(this.width / 2, this.height / 2);
     }
+    /**
+     * Resize the scene dimension
+     *
+     * @param {number} width
+     * @param {number} [height=width]
+     * @memberof Scene
+     */
     resize(width, height = width) {
         this.width = width;
         this.height = height;
-        this.center = _math_Vec2__WEBPACK_IMPORTED_MODULE_4__["default"].create(this.width / 2, this.height / 2);
-        this.children.forEach(sceneChild => sceneChild.clearBuffer());
+        this.center = _math_Vec2__WEBPACK_IMPORTED_MODULE_3__["default"].create(this.width / 2, this.height / 2);
+        this.children.forEach(sceneChild => sceneChild.clearBuffer(true, false));
     }
+    /**
+     * Update all children, generate a streamable buffer for drawing
+     *
+     * @param {number} [at_time] time in ms
+     * @memberof Scene
+     */
     update(at_time) {
-        if (at_time == undefined) {
-            if (!this.start_time) {
-                this.start_time = Object(_Utilites__WEBPACK_IMPORTED_MODULE_0__["now"])();
-            }
-            const current_time = Object(_Utilites__WEBPACK_IMPORTED_MODULE_0__["now"])();
-            this.current_time = current_time - this.start_time;
-        }
-        else {
-            this.current_time = at_time;
-        }
+        this.current_time = at_time;
         this.children.forEach((child) => child.generate(this.current_time, true));
     }
-    clearAllBuffers() {
-        Scene.walk((child) => child.clearBuffer(true, false), this);
-    }
-    draw(callback) {
+    /**
+     * Traverse the child buffer and use it with callback
+     *
+     * @param {TStreamCallback} callback
+     * @memberof Scene
+     */
+    stream(callback) {
         this.children.forEach(sceneChild => sceneChild.stream(callback));
     }
+    /*
+     |--------------------------------------------------------------------------
+     |  SceneChild
+     |--------------------------------------------------------------------------
+     */
+    /**
+     * Return a list of children
+     *
+     * @returns {Array<SceneChild>}
+     * @memberof Scene
+     */
     getChildren() {
         return this.children;
     }
+    /**
+     * Add SceneChild to Scene, pass `order` for drawing priorities
+     *
+     * @param {SceneChild} item
+     * @param {number} [order]
+     * @memberof Scene
+     */
     add(item, order) {
         item.order =
             typeof order !== 'undefined'
@@ -2980,13 +3386,18 @@ class Scene {
                 : typeof item.order !== 'undefined'
                     ? item.order
                     : this.children.length > 0
-                        ? Math.max.apply(this, this.children.map(e => { var _a; return (_a = e.order) !== null && _a !== void 0 ? _a : 0; })) + 1
+                        ? Math.max.apply(this, this.children.map(e => e.order)) + 1
                         : 0;
         Scene.propagateToChilden(item, this);
         this.children.push(item);
-        item.clearBuffer();
+        item.clearBuffer(true, false);
         this.sortChildren();
     }
+    /**
+     * Sort children by order
+     *
+     * @memberof Scene
+     */
     sortChildren() {
         this.children.sort((a, b) => a.order - b.order);
         this.children = this.children.map((child, index) => {
@@ -2994,13 +3405,13 @@ class Scene {
             return child;
         });
     }
-    isFirstLevelChild(sceneChild) {
-        for (let i = 0, len = this.children.length; i < len; i++)
-            if (this.children[i].id == sceneChild.id)
-                return true;
-        const parents = this.getParentsOfSceneChild(sceneChild);
-        return parents.length == 1 && parents[0] instanceof _Group__WEBPACK_IMPORTED_MODULE_2__["default"];
-    }
+    /**
+     * Find sceneChild from id or name in the whole scene
+     *
+     * @param {string | number} id_or_name
+     * @returns {(SceneChild | null)}
+     * @memberof Scene
+     */
     find(id_or_name) {
         const children = this.getChildren();
         for (let i = 0, len = children.length; i < len; i++) {
@@ -3010,22 +3421,67 @@ class Scene {
         }
         return null;
     }
+    /**
+     * Get shape by index
+     *
+     * @param {number} index
+     * @returns {(SceneChild | null)}
+     * @memberof Scene
+     */
     get(index) {
         return index >= 0 && index < this.children.length ? this.children[index] : null;
     }
+    /**
+     * Remove a shape by index
+     *
+     * @param {number} index
+     * @memberof Scene
+     */
     remove(index) {
         index >= 0 && index < this.children.length && this.children.splice(index, 1);
     }
-    clearChildren() {
+    /**
+     * Removes all children
+     *
+     * @memberof Scene
+     */
+    removeChildren() {
         this.children = [];
     }
-    removeFromId(id) {
+    /**
+     * Remove sceneChild by id or name
+     *
+     * @param {number | number} id_or_name
+     * @memberof Scene
+     */
+    removeFromId(id_or_name) {
         for (let i = 0, len = this.children.length; i < len; i++)
-            if (this.children[i].id == id) {
+            if (this.children[i].id === id_or_name || this.children[i].name === id_or_name) {
                 this.children.splice(i, 1);
                 return;
             }
     }
+    /**
+     * Return true if sceneChild is direct children
+     *
+     * @param {SceneChild} sceneChild
+     * @returns {boolean}
+     * @memberof Scene
+     */
+    isFirstLevelChild(sceneChild) {
+        for (let i = 0, len = this.children.length; i < len; i++)
+            if (this.children[i].id == sceneChild.id)
+                return true;
+        const parents = this.getParentsOfSceneChild(sceneChild);
+        return parents.length == 1 && parents[0] instanceof _Group__WEBPACK_IMPORTED_MODULE_1__["default"];
+    }
+    /**
+     * Returns the list of sceneChild hierarchy starting from the scene
+     *
+     * @param {SceneChild} sceneChild
+     * @returns {Array<SceneChild>}
+     * @memberof Scene
+     */
     getParentsOfSceneChild(sceneChild) {
         const result = Scene.getParentsOfSceneChild(this, sceneChild);
         if (result) {
@@ -3034,19 +3490,29 @@ class Scene {
         }
         return [];
     }
+    /**
+     * Returns the list of sceneChild hierarchy starting from the scene
+     *
+     * @static
+     * @param {(Scene | SceneChild)} current
+     * @param {SceneChild} sceneChild
+     * @param {(Array<SceneChild | Scene>)} [parents=[]]
+     * @returns {(Array<SceneChild | Scene> | null)}
+     * @memberof Scene
+     */
     static getParentsOfSceneChild(current, sceneChild, parents = []) {
         let result;
-        if (current instanceof _SceneChild__WEBPACK_IMPORTED_MODULE_1__["default"]) {
+        if (current instanceof _SceneChild__WEBPACK_IMPORTED_MODULE_0__["default"]) {
             if (current.id == sceneChild.id)
                 return parents;
-            if (current instanceof _shapes_Shape__WEBPACK_IMPORTED_MODULE_3__["default"] && current.shape) {
+            if (current instanceof _shapes_Shape__WEBPACK_IMPORTED_MODULE_2__["default"] && current.shape) {
                 const tmp_parents = parents.slice();
                 tmp_parents.push(current);
                 if ((result = Scene.getParentsOfSceneChild(current.shape, sceneChild, tmp_parents)))
                     return result;
             }
         }
-        if (current instanceof Scene || current instanceof _Group__WEBPACK_IMPORTED_MODULE_2__["default"]) {
+        if (current instanceof Scene || current instanceof _Group__WEBPACK_IMPORTED_MODULE_1__["default"]) {
             const children = current.getChildren();
             parents.push(current);
             for (let i = 0, len = children.length; i < len; i++) {
@@ -3058,15 +3524,23 @@ class Scene {
         }
         return null;
     }
+    /**
+     * Walk through the scene
+     *
+     * @static
+     * @param {SceneChild} callbackk
+     * @param {(Scene | SceneChild)} current
+     * @memberof Scene
+     */
     static walk(callback, current) {
-        if (current instanceof _SceneChild__WEBPACK_IMPORTED_MODULE_1__["default"]) {
+        if (current instanceof _SceneChild__WEBPACK_IMPORTED_MODULE_0__["default"]) {
             if (callback(current) === false)
                 return false;
-            if (current instanceof _shapes_Shape__WEBPACK_IMPORTED_MODULE_3__["default"] && current.shape)
+            if (current instanceof _shapes_Shape__WEBPACK_IMPORTED_MODULE_2__["default"] && current.shape)
                 if (Scene.walk(callback, current.shape) === false)
                     return false;
         }
-        if (current instanceof Scene || current instanceof _Group__WEBPACK_IMPORTED_MODULE_2__["default"]) {
+        if (current instanceof Scene || current instanceof _Group__WEBPACK_IMPORTED_MODULE_1__["default"]) {
             const children = current.getChildren();
             for (let i = 0, len = children.length; i < len; i++) {
                 const child = children[i];
@@ -3075,16 +3549,24 @@ class Scene {
             }
         }
     }
-    static propagateToChilden(child, scene) {
-        child.scene = scene;
-        if (child instanceof _Group__WEBPACK_IMPORTED_MODULE_2__["default"]) {
-            child.children.forEach((item) => {
+    /**
+     * Propagate scene to sceneChild (and children)
+     *
+     * @static
+     * @param {SceneChild} sceneChild
+     * @param {Scene} scene
+     * @memberof Scene
+     */
+    static propagateToChilden(sceneChild, scene) {
+        sceneChild.scene = scene;
+        if (sceneChild instanceof _Group__WEBPACK_IMPORTED_MODULE_1__["default"]) {
+            sceneChild.children.forEach((item) => {
                 Scene.propagateToChilden(item, scene);
             });
         }
-        else if (child instanceof _shapes_Shape__WEBPACK_IMPORTED_MODULE_3__["default"] && child.shape) {
-            child.shape.scene = scene;
-            Scene.propagateToChilden(child.shape, scene);
+        else if (sceneChild instanceof _shapes_Shape__WEBPACK_IMPORTED_MODULE_2__["default"] && sceneChild.shape) {
+            sceneChild.shape.scene = scene;
+            Scene.propagateToChilden(sceneChild.shape, scene);
         }
     }
 }
@@ -3102,8 +3584,31 @@ class Scene {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/**
+ * Autoincrement sceneChild default id
+ *
+ * @internal
+ * @ignore
+ */
 let __id = 0;
+/**
+ * The element to be added into a scene.
+ * Preserve settings (props), drawing order, generate and return buffers.
+ * The only implementations of this class are <a href="[base_url]/Group">Group</a> and <a href="[base_url]/ShapeBase">ShapeBase</a>
+ *
+ * @abstract
+ * @category Core.Abstract
+ * @order 2
+ * @class SceneChild
+ */
 class SceneChild {
+    /**
+     * Creates an instance of SceneChild.
+     * Base values ​​will be assigned in case they are not passed
+     *
+     * @param {ISceneChildSettings} settings
+     * @memberof SceneChild
+     */
     constructor(settings) {
         var _a;
         this.id = (_a = settings.id) !== null && _a !== void 0 ? _a : ++__id;
@@ -3112,18 +3617,48 @@ class SceneChild {
         this.data = settings.data || {};
         this.props = {};
     }
+    /**
+     * Find this or form or children.
+     * Overridden by classes that extend it
+     *
+     * @param {string | number} id_or_name
+     * @returns {(SceneChild | null)}
+     * @memberof SceneChild
+     */
     find(id_or_name) {
         if (this.id === id_or_name || this.name === id_or_name)
             return this;
         return null;
     }
+    /**
+     * Return the sceneChild properties
+     *
+     * @returns {ISceneChildProps}
+     * @memberof SceneChild
+     */
     getProps() {
         return this.props;
     }
+    /**
+     * Return a sceneChild prop or default value
+     *
+     * @param {keyof ISceneChildProps} key
+     * @param {ISceneChildPropArguments} [prop_arguments]
+     * @param {*} [default_value]
+     * @returns {*}
+     * @memberof SceneChild
+     */
     getProp(key, prop_arguments, default_value) {
         var _a;
         return (_a = this.props[key]) !== null && _a !== void 0 ? _a : default_value;
     }
+    /**
+     * Set a single or multiple props
+     *
+     * @param {(keyof ISceneChildProps | ISceneChildProps)} key
+     * @param {*} [value]
+     * @memberof ShapeBase
+     */
     setPropUnsafe(key, value) {
         if (typeof key == 'string')
             this.props[key] = value;
@@ -3136,82 +3671,6 @@ class SceneChild {
 
 /***/ }),
 
-/***/ "./dist/core/Utilites.js":
-/*!*******************************!*\
-  !*** ./dist/core/Utilites.js ***!
-  \*******************************/
-/*! exports provided: isDef, now, aOr, toDegrees, toRadians, toArray, hasKey, perf, clamp, relativeClamp */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isDef", function() { return isDef; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "now", function() { return now; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "aOr", function() { return aOr; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toDegrees", function() { return toDegrees; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toRadians", function() { return toRadians; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toArray", function() { return toArray; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "hasKey", function() { return hasKey; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "perf", function() { return perf; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "clamp", function() { return clamp; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "relativeClamp", function() { return relativeClamp; });
-const isDef = (object) => typeof object !== 'undefined' && object !== null;
-const now = () => {
-    return performance && performance.now ? performance.now() : Date.now();
-};
-const aOr = (...args) => {
-    for (let i = 0; i < args.length; i++)
-        if (isDef(args[i]))
-            return args[i];
-};
-const toDegrees = (radians) => (radians * 180) / Math.PI;
-const toRadians = (degrees) => (degrees * Math.PI) / 180;
-const perf = (name, callback, log = false) => {
-    const t1 = now();
-    callback();
-    const t2 = now();
-    log && console.log('perf ' + name + ': ' + (t2 - t1));
-    return t2 - t1;
-};
-const toArray = (t) => (Array.isArray(t) ? t : [t, t]);
-const hasKey = (...args) => {
-    const props = args.shift();
-    const keys = typeof props == 'object' ? Object.keys(props) : [props];
-    for (let i = 0, klen = keys.length; i < klen; i++)
-        for (let j = 0, alen = args.length; j < alen; j++)
-            if (keys[i] == args[j])
-                return true;
-    return false;
-};
-const clamp = (min, max, value) => (value <= min ? min : value >= max ? max : value);
-const relativeClamp = (value, refMin, refMax, toMin, toMax) => clamp(toMin, toMax, ((value - refMin) / (refMax - refMin)) * (toMax - toMin) + toMin);
-
-//# sourceMappingURL=Utilites.js.map
-
-/***/ }),
-
-/***/ "./dist/core/interfaces/shapes/Interfaces.js":
-/*!***************************************************!*\
-  !*** ./dist/core/interfaces/shapes/Interfaces.js ***!
-  \***************************************************/
-/*! exports provided: ShapePrimitiveAdaptMode */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ShapePrimitiveAdaptMode", function() { return ShapePrimitiveAdaptMode; });
-var ShapePrimitiveAdaptMode;
-(function (ShapePrimitiveAdaptMode) {
-    ShapePrimitiveAdaptMode[ShapePrimitiveAdaptMode["None"] = 0] = "None";
-    ShapePrimitiveAdaptMode[ShapePrimitiveAdaptMode["Scale"] = 2] = "Scale";
-    ShapePrimitiveAdaptMode[ShapePrimitiveAdaptMode["Center"] = 4] = "Center";
-    ShapePrimitiveAdaptMode[ShapePrimitiveAdaptMode["Fill"] = 8] = "Fill";
-})(ShapePrimitiveAdaptMode || (ShapePrimitiveAdaptMode = {}));
-
-//# sourceMappingURL=Interfaces.js.map
-
-/***/ }),
-
 /***/ "./dist/core/math/Vec2.js":
 /*!********************************!*\
   !*** ./dist/core/math/Vec2.js ***!
@@ -3221,12 +3680,24 @@ var ShapePrimitiveAdaptMode;
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Utilites */ "./dist/core/Utilites.js");
+/* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Utilites */ "./dist/Utilites.js");
 
+/**
+ * Temporany matrix
+ *
+ * @internal
+ */
 const MATRIX = new Array(4);
 const create_matrix = () => {
     return [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1];
 };
+/**
+ * Create new vertex
+ *
+ * @param {TArray | number} [x=0]
+ * @param {number} [y]
+ * @returns {TArray}
+ */
 const create = (x = 0, y) => {
     const out = new Array(2);
     if (typeof x === 'number') {
@@ -3264,6 +3735,13 @@ const rotate = (vec, MATRIX, pointToRotate) => {
     vec[0] = p0 * MATRIX[0] + p1 * MATRIX[1] + pointToRotate[0];
     vec[1] = p0 * MATRIX[2] + p1 * MATRIX[3] + pointToRotate[1];
 };
+/**
+ * RotateX vertex
+ *
+ * @param {TArray} vec
+ * @param {TArray} pointToRotate
+ * @param {number} rad
+ */
 const rotateX = (vec, pointToRotate, rad) => {
     MATRIX[0] = 1;
     MATRIX[1] = 0;
@@ -3271,6 +3749,13 @@ const rotateX = (vec, pointToRotate, rad) => {
     MATRIX[3] = Math.cos(rad);
     rotate(vec, MATRIX, pointToRotate);
 };
+/**
+ * RotateY vertex
+ *
+ * @param {TArray} vec
+ * @param {TArray} pointToRotate
+ * @param {number} rad
+ */
 const rotateY = (vec, pointToRotate, rad) => {
     MATRIX[0] = Math.cos(rad);
     MATRIX[1] = 0;
@@ -3278,6 +3763,13 @@ const rotateY = (vec, pointToRotate, rad) => {
     MATRIX[3] = 1;
     rotate(vec, MATRIX, pointToRotate);
 };
+/**
+ * RotateZ vertex
+ *
+ * @param {TArray} vec
+ * @param {TArray} pointToRotate
+ * @param {number} rad
+ */
 const rotateZ = (vec, pointToRotate, rad) => {
     MATRIX[0] = Math.cos(rad);
     MATRIX[1] = -Math.sin(rad);
@@ -3285,14 +3777,32 @@ const rotateZ = (vec, pointToRotate, rad) => {
     MATRIX[3] = Math.cos(rad);
     rotate(vec, MATRIX, pointToRotate);
 };
+/**
+ * Translate vertex
+ *
+ * @param {TArray} vec
+ * @param {TArray} to
+ */
 const translate = (vec, to) => {
     vec[0] += to[0];
     vec[1] += to[1];
 };
+/**
+ * Scale vertex
+ *
+ * @param {TArray} vec
+ * @param {TArray} to
+ */
 const scale = (vec, to) => {
     vec[0] *= to[0];
     vec[1] *= to[1];
 };
+/**
+ * Scale vertex
+ *
+ * @param {TArray} vec
+ * @param {TArray} to
+ */
 const divide = (vec, to) => {
     vec[0] /= to[0];
     vec[1] /= to[1];
@@ -3316,8 +3826,20 @@ const applyTransformation = (vec, rotateX, rotateY, rotateZ, translate, scale) =
         matrix[10] = matrix[10] + c;
     }
 };
+/**
+ * Vec to string
+ *
+ * @param {TArray} vec
+ * @return {string}
+ */
 const toString = (vec) => `x: ${vec[0]}, y: ${vec[1]}`;
+/*
+ * Vertex [0, 0]
+ */
 const ZERO = Array.from([0, 0]);
+/*
+ * Vertex [1, 1]
+ */
 const ONE = Array.from([1, 1]);
 /* harmony default export */ __webpack_exports__["default"] = ({
     create,
@@ -3358,22 +3880,53 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/**
+ * @category Core.Shapes
+ */
 class Shape extends _ShapeBase__WEBPACK_IMPORTED_MODULE_0__["default"] {
+    /**
+     * Creates an instance of Shape.
+     *
+     * @param {ShapeSettings} [settings={}]
+     * @memberof Shape
+     */
     constructor(settings = {}) {
         settings.type = settings.type || 'Shape';
         super(settings);
         if (settings.shape instanceof _SceneChild__WEBPACK_IMPORTED_MODULE_1__["default"]) {
             this.shape = settings.shape;
         }
+        else {
+            console.warn('[Urpflanze:Shape] requires the shape property to be instance of SceneChild,\nYou passed:', settings.shape);
+        }
         this.bStatic = this.isStatic();
         this.bStaticIndexed = this.isStaticIndexed();
     }
+    /**
+     * Check if shape is static
+     *
+     * @returns {boolean}
+     * @memberof Shape
+     */
     isStatic() {
         return super.isStatic() && (this.shape ? this.shape.isStatic() : true);
     }
+    /**
+     * Check if shape has static index
+     *
+     * @returns {boolean}
+     * @memberof Shape
+     */
     isStaticIndexed() {
         return super.isStaticIndexed() && (this.shape ? this.shape.isStaticIndexed() : true);
     }
+    /**
+     * Find shape by id or name
+     *
+     * @param {number | string} id_or_name
+     * @returns {(SceneChild | null)}
+     * @memberof Shape
+     */
     find(id_or_name) {
         if (this.id === id_or_name || this.name === id_or_name)
             return this;
@@ -3381,12 +3934,28 @@ class Shape extends _ShapeBase__WEBPACK_IMPORTED_MODULE_0__["default"] {
             return this.shape.find(id_or_name);
         return null;
     }
+    /**
+     * Return length of buffer
+     *
+     * @param {ISceneChildPropArguments} prop_arguments
+     * @returns {number}
+     * @memberof Shape
+     */
     getBufferLength(prop_arguments) {
         if (this.bStatic && this.buffer && this.buffer.length > 0)
             return this.buffer.length;
         const child_buffer_length = this.shape ? this.shape.getBufferLength(prop_arguments) : 0;
         return child_buffer_length * this.getRepetitionCount();
     }
+    /**
+     * Return a buffer of children shape or loop generated buffer
+     *
+     * @protected
+     * @param {number} generate_id
+     * @param {ISceneChildPropArguments} prop_arguments
+     * @returns {Float32Array}
+     * @memberof ShapeBase
+     */
     generateBuffer(generate_id, prop_arguments) {
         if (this.shape) {
             this.shape.generate(generate_id, false, prop_arguments);
@@ -3394,17 +3963,33 @@ class Shape extends _ShapeBase__WEBPACK_IMPORTED_MODULE_0__["default"] {
         }
         return Shape.EMPTY_BUFFER;
     }
+    /**
+     * Set shape
+     *
+     * @param {(SceneChild | undefined)} [shape]
+     * @memberof ShapeBase
+     */
     setShape(shape) {
         if (typeof shape === 'undefined') {
             this.shape = undefined;
-            this.clearBuffer(true);
+            this.clearBuffer(true, true);
         }
         else {
             this.scene && _Scene__WEBPACK_IMPORTED_MODULE_2__["default"].propagateToChilden(shape, this.scene);
             this.shape = shape;
-            this.shape.clearBuffer(true);
+            this.shape.clearBuffer(true, true);
         }
     }
+    /**
+     *
+     *
+     * @protected
+     * @param {Array<ISceneChildStreamIndexing>} buffer
+     * @param {number} frame_length
+     * @param {Repetition} current_repetition
+     * @param {ISceneChildStreamIndexing} [parent]
+     * @memberof ShapePrimitive
+     */
     addIndex(buffer, frame_length, current_repetition, parent) {
         if (this.shape) {
             const current = {
@@ -3431,17 +4016,47 @@ class Shape extends _ShapeBase__WEBPACK_IMPORTED_MODULE_0__["default"] {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _types_ShapeBase__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../types/ShapeBase */ "./dist/core/types/ShapeBase.js");
-/* harmony import */ var _SceneChild__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../SceneChild */ "./dist/core/SceneChild.js");
-/* harmony import */ var _math_Vec2__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../math/Vec2 */ "./dist/core/math/Vec2.js");
-/* harmony import */ var _Context__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Context */ "./dist/core/Context.js");
+/* harmony import */ var _SceneChild__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../SceneChild */ "./dist/core/SceneChild.js");
+/* harmony import */ var _math_Vec2__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../math/Vec2 */ "./dist/core/math/Vec2.js");
+/* harmony import */ var _Context__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Context */ "./dist/core/Context.js");
+/* harmony import */ var _types_scene_child__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../types/scene-child */ "./dist/core/types/scene-child.js");
 
 
 
 
-class ShapeBase extends _SceneChild__WEBPACK_IMPORTED_MODULE_1__["default"] {
+/**
+ * Shape Base
+ *
+ * @category Core.Abstract
+ * @abstract
+ * @class ShapeBase
+ * @extends {SceneChild}
+ */
+class ShapeBase extends _SceneChild__WEBPACK_IMPORTED_MODULE_0__["default"] {
+    /**
+     * Random function
+     *
+     * @private
+     * @type {(seedrandom.prng | undefined)}
+     * @memberof ShapeBase
+     */
+    // private rand_prng: seedrandom.prng | undefined
+    /**
+     * Creates an instance of ShapeBase.
+     *
+     * @param {ISceneChildSettings} [settings={}]
+     * @memberof ShapeBase
+     */
     constructor(settings = {}) {
         super(settings);
+        /**
+         * Shape generation id
+         * used for prevent buffer calculation
+         *
+         * @protected
+         * @type {number}
+         * @memberof ShapeBase
+         */
         this.generate_id = -1;
         this.props = {
             distance: settings.distance,
@@ -3460,6 +4075,12 @@ class ShapeBase extends _SceneChild__WEBPACK_IMPORTED_MODULE_1__["default"] {
         };
         this.bUseParent = !!settings.bUseParent;
     }
+    /**
+     * Check if shape is static
+     *
+     * @returns {boolean}
+     * @memberof ShapeBase
+     */
     isStatic() {
         const props = this.props;
         return (typeof props.distance !== 'function' &&
@@ -3476,23 +4097,46 @@ class ShapeBase extends _SceneChild__WEBPACK_IMPORTED_MODULE_1__["default"] {
             typeof props.scale !== 'function' &&
             typeof props.rotationOrigin !== 'function');
     }
+    /**
+     * Check if shape has static indexed
+     *
+     * @returns {boolean}
+     * @memberof ShapeBase
+     */
     isStaticIndexed() {
         return typeof this.props.repetitions !== 'function';
     }
+    /**
+     * Return a prop value
+     *
+     * @param {keyof ISceneChildProps} key
+     * @param {ISceneChildPropArguments} [prop_arguments]
+     * @param {*} [default_value]
+     * @returns {*}
+     * @memberof ShapeBase
+     */
     getProp(key, prop_arguments, default_value) {
+        var _a;
         let attribute = this.props[key];
         if (typeof attribute == 'function') {
             prop_arguments = prop_arguments || ShapeBase.EMPTY_PROP_ARGUMENTS;
             if (typeof prop_arguments.shape === 'undefined')
                 prop_arguments.shape = this;
             if (typeof prop_arguments.context === 'undefined')
-                prop_arguments.context = _Context__WEBPACK_IMPORTED_MODULE_3__["default"];
-            if (this.scene)
-                prop_arguments.time = this.scene.current_time;
+                prop_arguments.context = _Context__WEBPACK_IMPORTED_MODULE_2__["default"];
+            prop_arguments.time = ((_a = this.scene) === null || _a === void 0 ? void 0 : _a.current_time) || 0;
             attribute = attribute(prop_arguments);
         }
         return typeof attribute === 'undefined' || Number.isNaN(attribute) ? default_value : attribute;
     }
+    /**
+     * Set a single or multiple props
+     *
+     * @param {(keyof ISceneChildProps | ISceneChildProps)} key
+     * @param {*} [value]
+     * @param {boolean} [bClearIndexed=false]
+     * @memberof ShapeBase
+     */
     setProp(key, value, bClearIndexed = false) {
         if (typeof key == 'string') {
             bClearIndexed = bClearIndexed || key == 'repetitions';
@@ -3504,6 +4148,14 @@ class ShapeBase extends _SceneChild__WEBPACK_IMPORTED_MODULE_1__["default"] {
         }
         this.clearBuffer(bClearIndexed);
     }
+    /**
+     *  Unset buffer
+     *
+     * @param {boolean} [bClearIndexed=false]
+     * @param {boolean} [bPropagateToParents=false]
+     * @param {boolean} [bPropagateToChildren=false]
+     * @memberof ShapeBase
+     */
     clearBuffer(bClearIndexed = false, bPropagateToParents = true) {
         this.buffer = undefined;
         if (bClearIndexed)
@@ -3512,17 +4164,41 @@ class ShapeBase extends _SceneChild__WEBPACK_IMPORTED_MODULE_1__["default"] {
         this.bStaticIndexed = this.isStaticIndexed();
         if (bPropagateToParents && this.scene && !this.scene.isFirstLevelChild(this)) {
             const parents = this.scene.getParentsOfSceneChild(this);
-            parents.length > 0 && parents[parents.length - 1].clearBuffer(bClearIndexed, bPropagateToParents);
+            parents.length > 0 && parents[parents.length - 1].clearBuffer(bClearIndexed, bPropagateToParents /* true */);
         }
     }
+    /**
+     * Get random number
+     *
+     * @returns {number}
+     * @memberof ShapeBase
+     */
+    // public rand(): number
+    // {
+    //     if (!this.rand_prng)
+    //     {
+    //         this.rand_prng = seedrandom(this.props.randomSeed || this.id + '')
+    //     }
+    //     return this.rand_prng()
+    // }
+    /**
+     * Generate shape buffer
+     *
+     * @param {number} generate_id generation id
+     * @param {boolean} [bDirectSceneChild=false] adjust shape of center of scene
+     * @param {ISceneChildPropArguments} [parent_prop_arguments]
+     * @memberof ShapeBase
+     */
     generate(generate_id, bDirectSceneChild = false, parent_prop_arguments) {
-        var _a, _b;
+        var _a, _b, _c;
         if (!this.scene || (this.buffer && (this.bStatic || (generate_id === this.generate_id && !this.bUseParent))))
             return;
         this.generate_id = generate_id;
         const repetition = ShapeBase.getEmptyRepetition();
-        const repetitions = this.getProp('repetitions', { parent: parent_prop_arguments, repetition, time: 1, context: _Context__WEBPACK_IMPORTED_MODULE_3__["default"] }, 1);
-        const repetition_type = Array.isArray(repetitions) ? _types_ShapeBase__WEBPACK_IMPORTED_MODULE_0__["RepetitionType"].Matrix : _types_ShapeBase__WEBPACK_IMPORTED_MODULE_0__["RepetitionType"].Ring;
+        // const bRandomRepetitions: boolean = typeof this.props.randomSeed !== 'undefined'
+        const repetitions = this.getProp('repetitions', { parent: parent_prop_arguments, repetition, time: 1, context: _Context__WEBPACK_IMPORTED_MODULE_2__["default"] }, 1);
+        // const repetition_type = bRandomRepetitions ? RepetitionType.Random : Array.isArray(repetitions) ? RepetitionType.Matrix : RepetitionType.Ring
+        const repetition_type = Array.isArray(repetitions) ? _types_scene_child__WEBPACK_IMPORTED_MODULE_3__["ERepetitionType"].Matrix : _types_scene_child__WEBPACK_IMPORTED_MODULE_3__["ERepetitionType"].Ring;
         const repetition_count = Array.isArray(repetitions)
             ? repetitions[0] * ((_a = repetitions[1]) !== null && _a !== void 0 ? _a : repetitions[0])
             : repetitions;
@@ -3534,31 +4210,32 @@ class ShapeBase extends _SceneChild__WEBPACK_IMPORTED_MODULE_1__["default"] {
         repetition.type = repetition_type;
         const prop_arguments = {
             repetition,
-            context: _Context__WEBPACK_IMPORTED_MODULE_3__["default"],
-            time: this.scene ? this.scene.current_time : 1,
+            context: _Context__WEBPACK_IMPORTED_MODULE_2__["default"],
+            time: ((_c = this.scene) === null || _c === void 0 ? void 0 : _c.current_time) || 0,
             shape: this,
             data: this.data,
             parent: parent_prop_arguments,
         };
         this.single_repetition_buffer_length = new Uint16Array(repetition_count);
         let total_buffer_length = 0;
+        // this.rand_prng = bRandomRepetitions ? seedrandom(this.props.randomSeed as string) : undefined
         const buffers = [];
         let current_index = 0;
-        const center_matrix = _math_Vec2__WEBPACK_IMPORTED_MODULE_2__["default"].create((repetition_col_count - 1) / 2, (repetition_row_count - 1) / 2);
+        const center_matrix = _math_Vec2__WEBPACK_IMPORTED_MODULE_1__["default"].create((repetition_col_count - 1) / 2, (repetition_row_count - 1) / 2);
         for (let current_row_repetition = 0; current_row_repetition < repetition_row_count; current_row_repetition++) {
             for (let current_col_repetition = 0; current_col_repetition < repetition_col_count; current_col_repetition++, current_index++) {
                 repetition.current_index = current_index + 1;
                 repetition.current_offset = repetition.current_index / repetition.count;
                 repetition.current_angle =
-                    repetition_type == _types_ShapeBase__WEBPACK_IMPORTED_MODULE_0__["RepetitionType"].Ring ? ((Math.PI * 2) / repetition_count) * current_index : 0;
+                    repetition_type === _types_scene_child__WEBPACK_IMPORTED_MODULE_3__["ERepetitionType"].Ring ? ((Math.PI * 2) / repetition_count) * current_index : 0;
                 repetition.current_col = current_col_repetition + 1;
                 repetition.current_col_offset = repetition.current_col / repetition.count_col;
                 repetition.current_row = current_row_repetition + 1;
                 repetition.current_row_offset = repetition.current_row / repetition.count_row;
-                const distance = _math_Vec2__WEBPACK_IMPORTED_MODULE_2__["default"].create(this.getProp('distance', prop_arguments, _math_Vec2__WEBPACK_IMPORTED_MODULE_2__["default"].ZERO));
+                const distance = _math_Vec2__WEBPACK_IMPORTED_MODULE_1__["default"].create(this.getProp('distance', prop_arguments, _math_Vec2__WEBPACK_IMPORTED_MODULE_1__["default"].ZERO));
                 const displace = this.getProp('displace', prop_arguments, 0);
-                const scale = _math_Vec2__WEBPACK_IMPORTED_MODULE_2__["default"].create(this.getProp('scale', prop_arguments, _math_Vec2__WEBPACK_IMPORTED_MODULE_2__["default"].ONE));
-                const translate = _math_Vec2__WEBPACK_IMPORTED_MODULE_2__["default"].create(this.getProp('translate', prop_arguments, _math_Vec2__WEBPACK_IMPORTED_MODULE_2__["default"].ZERO));
+                const scale = _math_Vec2__WEBPACK_IMPORTED_MODULE_1__["default"].create(this.getProp('scale', prop_arguments, _math_Vec2__WEBPACK_IMPORTED_MODULE_1__["default"].ONE));
+                const translate = _math_Vec2__WEBPACK_IMPORTED_MODULE_1__["default"].create(this.getProp('translate', prop_arguments, _math_Vec2__WEBPACK_IMPORTED_MODULE_1__["default"].ZERO));
                 const skewX = this.getProp('skewX', prop_arguments, 0);
                 const skewY = this.getProp('skewY', prop_arguments, 0);
                 const squeezeX = this.getProp('squeezeX', prop_arguments, 0);
@@ -3566,7 +4243,8 @@ class ShapeBase extends _SceneChild__WEBPACK_IMPORTED_MODULE_1__["default"] {
                 const rotateX = this.getProp('rotateX', prop_arguments, 0);
                 const rotateY = this.getProp('rotateY', prop_arguments, 0);
                 const rotateZ = this.getProp('rotateZ', prop_arguments, 0);
-                const rotationOrigin = _math_Vec2__WEBPACK_IMPORTED_MODULE_2__["default"].create(this.getProp('rotationOrigin', prop_arguments, _math_Vec2__WEBPACK_IMPORTED_MODULE_2__["default"].ZERO));
+                const rotationOrigin = _math_Vec2__WEBPACK_IMPORTED_MODULE_1__["default"].create(this.getProp('rotationOrigin', prop_arguments, _math_Vec2__WEBPACK_IMPORTED_MODULE_1__["default"].ZERO));
+                // const rotationOrigin = Vec2.ZERO
                 const buffer = this.generateBuffer(generate_id, prop_arguments);
                 const buffer_length = buffer.length;
                 buffers[current_index] = new Float32Array(buffer_length);
@@ -3574,30 +4252,36 @@ class ShapeBase extends _SceneChild__WEBPACK_IMPORTED_MODULE_1__["default"] {
                 total_buffer_length += buffer_length;
                 let offset;
                 switch (repetition_type) {
-                    case _types_ShapeBase__WEBPACK_IMPORTED_MODULE_0__["RepetitionType"].Ring:
-                        offset = _math_Vec2__WEBPACK_IMPORTED_MODULE_2__["default"].create(distance[0], 0);
-                        _math_Vec2__WEBPACK_IMPORTED_MODULE_2__["default"].rotateZ(offset, _math_Vec2__WEBPACK_IMPORTED_MODULE_2__["default"].ZERO, repetition.current_angle + displace);
+                    case _types_scene_child__WEBPACK_IMPORTED_MODULE_3__["ERepetitionType"].Ring:
+                        offset = _math_Vec2__WEBPACK_IMPORTED_MODULE_1__["default"].create(distance[0], 0);
+                        _math_Vec2__WEBPACK_IMPORTED_MODULE_1__["default"].rotateZ(offset, _math_Vec2__WEBPACK_IMPORTED_MODULE_1__["default"].ZERO, repetition.current_angle + displace);
                         break;
-                    case _types_ShapeBase__WEBPACK_IMPORTED_MODULE_0__["RepetitionType"].Matrix:
-                        offset = _math_Vec2__WEBPACK_IMPORTED_MODULE_2__["default"].create(distance[0] * (current_col_repetition - center_matrix[0]), distance[1] * (current_row_repetition - center_matrix[1]));
+                    case _types_scene_child__WEBPACK_IMPORTED_MODULE_3__["ERepetitionType"].Matrix:
+                        offset = _math_Vec2__WEBPACK_IMPORTED_MODULE_1__["default"].create(distance[0] * (current_col_repetition - center_matrix[0]), distance[1] * (current_row_repetition - center_matrix[1]));
                         break;
+                    // case RepetitionType.Random:
+                    //     offset = Vec2.create(
+                    //         (distance[0] * 2) * this.rand() - distance[1],
+                    //         (distance[1] * 2) * this.rand() - distance[0]
+                    //     )
+                    //     break
                 }
                 for (let buffer_index = 0; buffer_index < buffer_length; buffer_index += 2) {
-                    const vertex = _math_Vec2__WEBPACK_IMPORTED_MODULE_2__["default"].create(buffer[buffer_index], buffer[buffer_index + 1]);
+                    const vertex = _math_Vec2__WEBPACK_IMPORTED_MODULE_1__["default"].create(buffer[buffer_index], buffer[buffer_index + 1]);
                     this.applyVertexTransform(vertex);
-                    squeezeX !== 0 && _math_Vec2__WEBPACK_IMPORTED_MODULE_2__["default"].squeezeX(vertex, squeezeX);
-                    squeezeY !== 0 && _math_Vec2__WEBPACK_IMPORTED_MODULE_2__["default"].squeezeY(vertex, squeezeY);
-                    rotateX !== 0 && _math_Vec2__WEBPACK_IMPORTED_MODULE_2__["default"].rotateX(vertex, rotationOrigin, rotateX);
-                    rotateY !== 0 && _math_Vec2__WEBPACK_IMPORTED_MODULE_2__["default"].rotateY(vertex, rotationOrigin, rotateY);
-                    rotateZ !== 0 && _math_Vec2__WEBPACK_IMPORTED_MODULE_2__["default"].rotateZ(vertex, rotationOrigin, rotateZ);
-                    skewX !== 0 && _math_Vec2__WEBPACK_IMPORTED_MODULE_2__["default"].skewX(vertex, skewX);
-                    skewY !== 0 && _math_Vec2__WEBPACK_IMPORTED_MODULE_2__["default"].skewY(vertex, skewY);
-                    (scale[0] != 1 || scale[1] != 1) && _math_Vec2__WEBPACK_IMPORTED_MODULE_2__["default"].scale(vertex, scale);
-                    (translate[0] != 0 || translate[1] != 0) && _math_Vec2__WEBPACK_IMPORTED_MODULE_2__["default"].translate(vertex, translate);
-                    if (repetition_type === _types_ShapeBase__WEBPACK_IMPORTED_MODULE_0__["RepetitionType"].Ring) {
-                        _math_Vec2__WEBPACK_IMPORTED_MODULE_2__["default"].rotateZ(vertex, _math_Vec2__WEBPACK_IMPORTED_MODULE_2__["default"].ZERO, repetition.current_angle + displace);
+                    squeezeX !== 0 && _math_Vec2__WEBPACK_IMPORTED_MODULE_1__["default"].squeezeX(vertex, squeezeX);
+                    squeezeY !== 0 && _math_Vec2__WEBPACK_IMPORTED_MODULE_1__["default"].squeezeY(vertex, squeezeY);
+                    rotateX !== 0 && _math_Vec2__WEBPACK_IMPORTED_MODULE_1__["default"].rotateX(vertex, rotationOrigin, rotateX);
+                    rotateY !== 0 && _math_Vec2__WEBPACK_IMPORTED_MODULE_1__["default"].rotateY(vertex, rotationOrigin, rotateY);
+                    rotateZ !== 0 && _math_Vec2__WEBPACK_IMPORTED_MODULE_1__["default"].rotateZ(vertex, rotationOrigin, rotateZ);
+                    skewX !== 0 && _math_Vec2__WEBPACK_IMPORTED_MODULE_1__["default"].skewX(vertex, skewX);
+                    skewY !== 0 && _math_Vec2__WEBPACK_IMPORTED_MODULE_1__["default"].skewY(vertex, skewY);
+                    (scale[0] != 1 || scale[1] != 1) && _math_Vec2__WEBPACK_IMPORTED_MODULE_1__["default"].scale(vertex, scale);
+                    (translate[0] != 0 || translate[1] != 0) && _math_Vec2__WEBPACK_IMPORTED_MODULE_1__["default"].translate(vertex, translate);
+                    if (repetition_type === _types_scene_child__WEBPACK_IMPORTED_MODULE_3__["ERepetitionType"].Ring) {
+                        _math_Vec2__WEBPACK_IMPORTED_MODULE_1__["default"].rotateZ(vertex, _math_Vec2__WEBPACK_IMPORTED_MODULE_1__["default"].ZERO, repetition.current_angle + displace);
                     }
-                    _math_Vec2__WEBPACK_IMPORTED_MODULE_2__["default"].translate(vertex, offset);
+                    _math_Vec2__WEBPACK_IMPORTED_MODULE_1__["default"].translate(vertex, offset);
                     if (bDirectSceneChild) {
                         vertex[0] += this.scene.center[0];
                         vertex[1] += this.scene.center[1];
@@ -3613,21 +4297,58 @@ class ShapeBase extends _SceneChild__WEBPACK_IMPORTED_MODULE_1__["default"] {
         if (bDirectSceneChild && (!this.indexed_buffer || !this.bStaticIndexed))
             this.index((this.indexed_buffer = []));
     }
+    /**
+     *
+     *
+     * @protected
+     * @param {TArray} vertex
+     * @memberof ShapeBase
+     */
     applyVertexTransform(vertex) { }
+    /**
+     * Get number of repetitions
+     *
+     * @returns {number}
+     * @memberof ShapeBase
+     */
     getRepetitionCount() {
         var _a;
         let repetitions = this.getProp('repetitions', undefined, 1);
         return Array.isArray(repetitions) ? repetitions[0] * ((_a = repetitions[1]) !== null && _a !== void 0 ? _a : repetitions[0]) : repetitions;
     }
+    /**
+     * Return buffer
+     *
+     * @returns {(Float32Array | undefined)}
+     * @memberof ShapeBase
+     */
     getBuffer() {
         return this.buffer;
     }
+    /**
+     * Return indexed buffer
+     *
+     * @returns {(Array<ISceneChildStreamIndexing> | undefined)}
+     * @memberof ShapeBase
+     */
     getIndexedBuffer() {
         return this.indexed_buffer;
     }
+    /**
+     * Return Array of single repetition buffer length
+     *
+     * @returns {Uint16Array}
+     * @memberof ShapeBase
+     */
     getSingleRepetitionBufferLength() {
         return this.single_repetition_buffer_length;
     }
+    /**
+     * Stream buffer
+     *
+     * @param {(TStreamCallback} callback
+     * @memberof ShapeBase
+     */
     stream(callback) {
         if (this.scene && this.buffer && this.indexed_buffer) {
             for (let i = 0, j = 0, len = this.indexed_buffer.length; i < len; i++) {
@@ -3635,7 +4356,7 @@ class ShapeBase extends _SceneChild__WEBPACK_IMPORTED_MODULE_1__["default"] {
                 const prop_arguments = {
                     shape: current_indexing.shape,
                     repetition: current_indexing.repetition,
-                    context: _Context__WEBPACK_IMPORTED_MODULE_3__["default"],
+                    context: _Context__WEBPACK_IMPORTED_MODULE_2__["default"],
                     time: 0,
                     parent: current_indexing.parent,
                     data: current_indexing.shape.data,
@@ -3660,24 +4381,40 @@ class ShapeBase extends _SceneChild__WEBPACK_IMPORTED_MODULE_1__["default"] {
             }
         }
     }
+    /**
+     * Index vertex buffer
+     *
+     * @public
+     * @param {Array<ISceneChildStreamIndexing>} buffer
+     * @param {ISceneChildStreamIndexing} [parent]
+     * @memberof Shape
+     */
     index(buffer, parent) {
         var _a, _b;
         const shape_buffer = this.getBuffer();
         if (shape_buffer) {
-            const repetitions = this.getProp('repetitions', { parent, time: 1, repetition: ShapeBase.getEmptyRepetition(), context: _Context__WEBPACK_IMPORTED_MODULE_3__["default"] }, 1);
-            const repetition_type = Array.isArray(repetitions) ? _types_ShapeBase__WEBPACK_IMPORTED_MODULE_0__["RepetitionType"].Matrix : _types_ShapeBase__WEBPACK_IMPORTED_MODULE_0__["RepetitionType"].Ring;
+            const repetitions = this.getProp('repetitions', {
+                parent,
+                time: 1,
+                repetition: ShapeBase.getEmptyRepetition(),
+                context: _Context__WEBPACK_IMPORTED_MODULE_2__["default"],
+            }, 1);
+            // const bRandomRepetitions: boolean = typeof this.props.randomSeed !== 'undefined'
+            // this.rand_prng = bRandomRepetitions ? seedrandom(this.props.randomSeed as string) : undefined
+            const repetition_type = Array.isArray(repetitions) ? _types_scene_child__WEBPACK_IMPORTED_MODULE_3__["ERepetitionType"].Matrix : _types_scene_child__WEBPACK_IMPORTED_MODULE_3__["ERepetitionType"].Ring;
             const repetition_count = Array.isArray(repetitions)
                 ? repetitions[0] * ((_a = repetitions[1]) !== null && _a !== void 0 ? _a : repetitions[0])
                 : repetitions;
             const repetition_col_count = Array.isArray(repetitions) ? repetitions[0] : repetition_count;
             const repetition_row_count = Array.isArray(repetitions) ? (_b = repetitions[1]) !== null && _b !== void 0 ? _b : repetitions[0] : 1;
+            // const frame_buffer_length = shape_buffer.length / repetition_count
             let current_index = 0;
             for (let current_row_repetition = 0; current_row_repetition < repetition_row_count; current_row_repetition++) {
                 for (let current_col_repetition = 0; current_col_repetition < repetition_col_count; current_col_repetition++, current_index++) {
                     const repetition = {
                         current_index: current_index + 1,
                         current_offset: (current_index + 1) / repetition_count,
-                        current_angle: repetition_type == _types_ShapeBase__WEBPACK_IMPORTED_MODULE_0__["RepetitionType"].Ring ? ((Math.PI * 2) / repetition_count) * current_index : 0,
+                        current_angle: repetition_type === _types_scene_child__WEBPACK_IMPORTED_MODULE_3__["ERepetitionType"].Ring ? ((Math.PI * 2) / repetition_count) * current_index : 0,
                         count: repetition_count,
                         count_col: repetition_col_count,
                         count_row: repetition_row_count,
@@ -3687,29 +4424,51 @@ class ShapeBase extends _SceneChild__WEBPACK_IMPORTED_MODULE_1__["default"] {
                         current_row_offset: (current_row_repetition + 1) / repetition_row_count,
                         type: repetition_type,
                     };
+                    // random_offset: bRandomRepetitions ? Vec2.create(this.rand(), this.rand()) : Vec2.create(0, 0)
                     this.addIndex(buffer, this.single_repetition_buffer_length[current_index], repetition, parent);
                 }
             }
         }
     }
 }
+/**
+ * Empty buffer
+ *
+ * @static
+ * @type {Float32Array}
+ * @memberof ShapeBase
+ */
 ShapeBase.EMPTY_BUFFER = new Float32Array(0);
+/**
+ * Empty Repetition
+ *
+ * @static
+ * @memberof ShapeLoop
+ */
 ShapeBase.getEmptyRepetition = () => ({
     current_index: 1,
-    current_offset: 0,
+    current_offset: 1,
     current_angle: 0,
     current_col: 1,
     current_row: 1,
-    current_col_offset: 0,
-    current_row_offset: 0,
-    type: _types_ShapeBase__WEBPACK_IMPORTED_MODULE_0__["RepetitionType"].Ring,
+    current_col_offset: 1,
+    current_row_offset: 1,
+    type: _types_scene_child__WEBPACK_IMPORTED_MODULE_3__["ERepetitionType"].Ring,
+    // random_offset: [0, 0],
     count: 1,
     count_col: 1,
     count_row: 1,
 });
+/**
+ * Empty Prop Arguments
+ *
+ * @static
+ * @type {ISceneChildPropArguments}
+ * @memberof ShapeBase
+ */
 ShapeBase.EMPTY_PROP_ARGUMENTS = {
-    time: 1,
-    context: _Context__WEBPACK_IMPORTED_MODULE_3__["default"],
+    time: 0,
+    context: _Context__WEBPACK_IMPORTED_MODULE_2__["default"],
     repetition: ShapeBase.getEmptyRepetition(),
 };
 /* harmony default export */ __webpack_exports__["default"] = (ShapeBase);
@@ -3727,34 +4486,64 @@ ShapeBase.EMPTY_PROP_ARGUMENTS = {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ShapePrimitive__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ShapePrimitive */ "./dist/core/shapes/ShapePrimitive.js");
-/* harmony import */ var _interfaces_shapes_Interfaces__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../interfaces/shapes/Interfaces */ "./dist/core/interfaces/shapes/Interfaces.js");
+/* harmony import */ var _types_shape_base__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../types/shape-base */ "./dist/core/types/shape-base.js");
 
 
+/**
+ * @category Core.Shapes
+ */
 class ShapeBuffer extends _ShapePrimitive__WEBPACK_IMPORTED_MODULE_0__["default"] {
     constructor(settings = {}) {
         settings.type = settings.type || 'ShapeBuffer';
-        settings.bAdaptBuffer = settings.bAdaptBuffer || _interfaces_shapes_Interfaces__WEBPACK_IMPORTED_MODULE_1__["ShapePrimitiveAdaptMode"].Scale;
+        settings.bAdaptBuffer = settings.bAdaptBuffer || _types_shape_base__WEBPACK_IMPORTED_MODULE_1__["EShapePrimitiveAdaptMode"].Scale;
         super(settings);
-        this.shape = settings.shape instanceof Float32Array ? settings.shape : ShapeBuffer.EMPTY_BUFFER;
+        if (typeof settings.shape === 'undefined') {
+            console.warn('[Urpflanze:ShapeBuffer] ShapeBuffer require a buffer passed from `shape` property');
+            this.shape = ShapeBuffer.EMPTY_BUFFER;
+        }
+        else
+            this.shape = Float32Array.from(settings.shape);
         this.shape_buffer =
-            this.isAdapted() != _interfaces_shapes_Interfaces__WEBPACK_IMPORTED_MODULE_1__["ShapePrimitiveAdaptMode"].None
+            this.isAdapted() != _types_shape_base__WEBPACK_IMPORTED_MODULE_1__["EShapePrimitiveAdaptMode"].None
                 ? _ShapePrimitive__WEBPACK_IMPORTED_MODULE_0__["default"].adaptBuffer(this.shape, this.isAdapted())
                 : this.shape;
         this.bStatic = this.isStatic();
         this.bStaticIndexed = this.isStaticIndexed();
     }
+    /**
+     *  Unset buffer
+     *
+     * @param {boolean} [bClearIndexed=false]
+     * @param {boolean} [bPropagateToParents=false]
+     * @memberof ShapeLoop
+     */
     clearBuffer(bClearIndexed = false, bPropagateToParents = true) {
         super.clearBuffer(bClearIndexed, bPropagateToParents);
         this.shape_buffer =
-            this.isAdapted() != _interfaces_shapes_Interfaces__WEBPACK_IMPORTED_MODULE_1__["ShapePrimitiveAdaptMode"].None
+            this.isAdapted() != _types_shape_base__WEBPACK_IMPORTED_MODULE_1__["EShapePrimitiveAdaptMode"].None
                 ? _ShapePrimitive__WEBPACK_IMPORTED_MODULE_0__["default"].adaptBuffer(this.shape, this.isAdapted())
                 : this.shape;
     }
+    /**
+     * Return length of buffer
+     *
+     * @returns {number}
+     * @memberof ShapeBase
+     */
     getBufferLength() {
         if (this.buffer && this.buffer.length > 0)
             return this.buffer.length;
         return this.shape_buffer.length * this.getRepetitionCount();
     }
+    /**
+     * Return a buffer of children shape or loop generated buffer
+     *
+     * @protected
+     * @param {number} generate_id
+     * @param {ISceneChildPropArguments} prop_arguments
+     * @returns {Float32Array}
+     * @memberof ShapeBase
+     */
     generateBuffer(generate_id, prop_arguments) {
         this.bindSideLength(prop_arguments);
         if (this.vertexCallback) {
@@ -3771,6 +4560,12 @@ class ShapeBuffer extends _ShapePrimitive__WEBPACK_IMPORTED_MODULE_0__["default"
         }
         return this.shape_buffer;
     }
+    /**
+     * Set shape
+     *
+     * @param {(Float32Array)} [shape]
+     * @memberof ShapeBase
+     */
     setShape(shape) {
         this.shape = shape;
         this.clearBuffer(true);
@@ -3826,19 +4621,27 @@ class ShapeBuffer extends _ShapePrimitive__WEBPACK_IMPORTED_MODULE_0__["default"
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _types_ShapeBase__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../types/ShapeBase */ "./dist/core/types/ShapeBase.js");
-/* harmony import */ var _interfaces_shapes_Interfaces__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../interfaces/shapes/Interfaces */ "./dist/core/interfaces/shapes/Interfaces.js");
-/* harmony import */ var _ShapePrimitive__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ShapePrimitive */ "./dist/core/shapes/ShapePrimitive.js");
-/* harmony import */ var _ShapeBase__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ShapeBase */ "./dist/core/shapes/ShapeBase.js");
-/* harmony import */ var _math_Vec2__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../math/Vec2 */ "./dist/core/math/Vec2.js");
-/* harmony import */ var _Context__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Context */ "./dist/core/Context.js");
+/* harmony import */ var _ShapePrimitive__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ShapePrimitive */ "./dist/core/shapes/ShapePrimitive.js");
+/* harmony import */ var _ShapeBase__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ShapeBase */ "./dist/core/shapes/ShapeBase.js");
+/* harmony import */ var _math_Vec2__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../math/Vec2 */ "./dist/core/math/Vec2.js");
+/* harmony import */ var _Context__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Context */ "./dist/core/Context.js");
+/* harmony import */ var _types_scene_child__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../types/scene-child */ "./dist/core/types/scene-child.js");
+/* harmony import */ var _types_shape_base__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../types/shape-base */ "./dist/core/types/shape-base.js");
 
 
 
 
 
 
-class ShapeLoop extends _ShapePrimitive__WEBPACK_IMPORTED_MODULE_2__["default"] {
+/**
+ * Shape Loop
+ *
+ * @category Core.Shapes
+ * @public
+ * @class ShapeLoop
+ * @extends {ShapePrimitive}
+ */
+class ShapeLoop extends _ShapePrimitive__WEBPACK_IMPORTED_MODULE_0__["default"] {
     constructor(settings = {}, bPreventGeneration = false) {
         settings.type = settings.type || 'ShapeLoop';
         super(settings);
@@ -3849,14 +4652,21 @@ class ShapeLoop extends _ShapePrimitive__WEBPACK_IMPORTED_MODULE_2__["default"] 
                 start: 0,
                 end: ShapeLoop.PI2,
                 inc: ShapeLoop.PI2 / 30,
-                vertex: () => _math_Vec2__WEBPACK_IMPORTED_MODULE_4__["default"].ZERO,
+                vertex: () => _math_Vec2__WEBPACK_IMPORTED_MODULE_2__["default"].ZERO,
             };
             this.bStaticLoop = this.isStaticLoop();
             this.bStatic = this.isStatic();
             this.bStaticIndexed = this.isStaticIndexed();
         }
     }
+    /**
+     * Check if loop_buffer is static
+     *
+     * @returns {boolean}
+     * @memberof ShapeLoop
+     */
     isStaticLoop() {
+        // if (typeof this.vertexCallback === 'function') return false
         if (this.shapeLoopPropsDependencies.indexOf('vertexCallback') >= 0 && typeof this.vertexCallback === 'function')
             return false;
         if (this.shapeLoopPropsDependencies.indexOf('prop_arguments') >= 0)
@@ -3866,12 +4676,36 @@ class ShapeLoop extends _ShapePrimitive__WEBPACK_IMPORTED_MODULE_2__["default"] 
                 return false;
         return true;
     }
+    /**
+     * Check if shape is static
+     *
+     * @returns {boolean}
+     * @memberof Shape
+     */
     isStatic() {
         return this.bStaticLoop && super.isStatic();
     }
+    /**
+     * Check if shape has static indexed
+     *
+     * @returns {boolean}
+     * @memberof ShapeBase
+     */
     isStaticIndexed() {
+        // let start = this.props.loop?.start ?? this.loop.start
+        // let end = this.props.loop?.end ?? this.loop.end
+        // let inc = this.props.loop?.inc ?? this.loop.inc
+        // return typeof start !== 'function' && typeof end !== 'function' &&
+        //         typeof inc !== 'function' && super.isStaticIndexed()
         return this.bStaticLoop && super.isStaticIndexed();
     }
+    /**
+     *  Unset buffer
+     *
+     * @param {boolean} [bClearIndexed=false]
+     * @param {boolean} [bPropagateToParents=false]
+     * @memberof ShapeLoop
+     */
     clearBuffer(bClearIndexed = false, bPropagateToParents = true) {
         super.clearBuffer(bClearIndexed, bPropagateToParents);
         this.bStaticLoop = this.isStaticLoop();
@@ -3879,11 +4713,20 @@ class ShapeLoop extends _ShapePrimitive__WEBPACK_IMPORTED_MODULE_2__["default"] 
             this.loop_buffer = undefined;
         }
     }
+    /**
+     * Set single or multiple props
+     *
+     * @param {(keyof IShapeLoopProps | IShapeLoopProps)} key
+     * @param {*} [value]
+     * @param {boolean} [bClearIndexed=false]
+     * @memberof ShapeLoop
+     */
     setProp(key, value) {
         let bClearIndexed = false;
         key = typeof key === 'string' ? { [key]: value } : key;
         for (let i = this.shapeLoopPropsDependencies.length - 1; i >= 0; i--) {
             if (this.shapeLoopPropsDependencies[i] in key) {
+                // this.props.loop = undefined
                 bClearIndexed = true;
                 break;
             }
@@ -3894,9 +4737,25 @@ class ShapeLoop extends _ShapePrimitive__WEBPACK_IMPORTED_MODULE_2__["default"] 
         }
         super.setProp(key, value, bClearIndexed);
     }
+    /**
+     * Get prop
+     *
+     * @param {keyof IShapeLoopProps} key
+     * @param {ISceneChildPropArguments} [prop_arguments]
+     * @param {*} [default_value]
+     * @returns {*}
+     * @memberof ShapeLoop
+     */
     getProp(key, prop_arguments, default_value) {
         return super.getProp(key, prop_arguments, default_value);
     }
+    /**
+     * Return length of buffer
+     *
+     * @param {ISceneChildPropArguments} [prop_arguments]
+     * @returns {number}
+     * @memberof ShapeBase
+     */
     getBufferLength(prop_arguments) {
         if (this.bStatic && this.buffer && this.buffer.length > 0)
             return this.buffer.length;
@@ -3905,6 +4764,15 @@ class ShapeLoop extends _ShapePrimitive__WEBPACK_IMPORTED_MODULE_2__["default"] 
         const { repetition } = this.getLoop(prop_arguments);
         return this.getRepetitionCount() * repetition * 2;
     }
+    /**
+     * Return a buffer of children shape or loop generated buffer
+     *
+     * @protected
+     * @param {number} generate_id
+     * @param {ISceneChildPropArguments} prop_arguments
+     * @returns {Float32Array}
+     * @memberof ShapeBase
+     */
     generateBuffer(generate_id, prop_arguments) {
         this.bindSideLength(prop_arguments);
         if (!this.bStaticLoop)
@@ -3913,6 +4781,14 @@ class ShapeLoop extends _ShapePrimitive__WEBPACK_IMPORTED_MODULE_2__["default"] 
             this.loop_buffer = this.generateLoopBuffer(prop_arguments);
         return this.loop_buffer;
     }
+    /**
+     * Generate loop buffer
+     *
+     * @private
+     * @param {ISceneChildPropArguments} prop_arguments
+     * @returns {Float32Array}
+     * @memberof ShapeLoop
+     */
     generateLoopBuffer(prop_arguments) {
         const { start, end, inc, repetition } = this.getLoop(prop_arguments);
         const getVertex = (this.props.loop && this.props.loop.vertex ? this.props.loop.vertex : this.loop.vertex);
@@ -3924,7 +4800,8 @@ class ShapeLoop extends _ShapePrimitive__WEBPACK_IMPORTED_MODULE_2__["default"] 
             current_row: 1,
             current_col_offset: 0,
             current_row_offset: 0,
-            type: _types_ShapeBase__WEBPACK_IMPORTED_MODULE_0__["RepetitionType"].Loop,
+            type: _types_scene_child__WEBPACK_IMPORTED_MODULE_4__["ERepetitionType"].Loop,
+            // random_offset: [0, 0],
             count: repetition,
             count_col: 1,
             count_row: 1,
@@ -3937,39 +4814,74 @@ class ShapeLoop extends _ShapePrimitive__WEBPACK_IMPORTED_MODULE_2__["default"] 
             shape_loop.current_angle = angle >= end ? end : angle;
             shape_loop.current_index = i + 1;
             shape_loop.current_offset = shape_loop.current_index / shape_loop.count;
-            const vertex = Float32Array.from(getVertex.call(_Context__WEBPACK_IMPORTED_MODULE_5__["default"], shape_loop.current_angle, prop_arguments));
-            this.vertexCallback && this.vertexCallback.call(_Context__WEBPACK_IMPORTED_MODULE_5__["default"], vertex, prop_arguments, i, vertex_length);
+            const vertex = Float32Array.from(getVertex(shape_loop.current_angle, prop_arguments));
+            this.vertexCallback && this.vertexCallback(vertex, prop_arguments, i, vertex_length);
             buffer[j] = vertex[0];
             buffer[j + 1] = vertex[1];
         }
-        return this.bAdaptBuffer != _interfaces_shapes_Interfaces__WEBPACK_IMPORTED_MODULE_1__["ShapePrimitiveAdaptMode"].None
-            ? _ShapePrimitive__WEBPACK_IMPORTED_MODULE_2__["default"].adaptBuffer(buffer, this.bAdaptBuffer)
+        return this.bAdaptBuffer != _types_shape_base__WEBPACK_IMPORTED_MODULE_5__["EShapePrimitiveAdaptMode"].None
+            ? _ShapePrimitive__WEBPACK_IMPORTED_MODULE_0__["default"].adaptBuffer(buffer, this.bAdaptBuffer)
             : buffer;
     }
-    getLoop(prop_arguments = _ShapeBase__WEBPACK_IMPORTED_MODULE_3__["default"].EMPTY_PROP_ARGUMENTS) {
-        var _a, _b, _c, _d, _e, _f;
-        prop_arguments.time = this.scene ? this.scene.current_time : 1;
-        let start = (_b = (_a = this.props.loop) === null || _a === void 0 ? void 0 : _a.start) !== null && _b !== void 0 ? _b : this.loop.start;
-        let end = (_d = (_c = this.props.loop) === null || _c === void 0 ? void 0 : _c.end) !== null && _d !== void 0 ? _d : this.loop.end;
-        let inc = (_f = (_e = this.props.loop) === null || _e === void 0 ? void 0 : _e.inc) !== null && _f !== void 0 ? _f : this.loop.inc;
+    /**
+     * Return information about a client loop gnerator
+     *
+     * @public
+     * @param {ISceneChildPropArguments} prop_arguments
+     * @returns {ShapeLoopInformation}
+     * @memberof ShapeBase
+     */
+    getLoop(prop_arguments = _ShapeBase__WEBPACK_IMPORTED_MODULE_1__["default"].EMPTY_PROP_ARGUMENTS) {
+        var _a, _b, _c, _d, _e, _f, _g;
+        prop_arguments.time = ((_a = this.scene) === null || _a === void 0 ? void 0 : _a.current_time) || 0;
+        let start = (_c = (_b = this.props.loop) === null || _b === void 0 ? void 0 : _b.start) !== null && _c !== void 0 ? _c : this.loop.start;
+        let end = (_e = (_d = this.props.loop) === null || _d === void 0 ? void 0 : _d.end) !== null && _e !== void 0 ? _e : this.loop.end;
+        let inc = (_g = (_f = this.props.loop) === null || _f === void 0 ? void 0 : _f.inc) !== null && _g !== void 0 ? _g : this.loop.inc;
         start = (typeof start === 'function' ? start(prop_arguments) : start);
         end = (typeof end === 'function' ? end(prop_arguments) : end);
         inc = (typeof inc === 'function' ? inc(prop_arguments) : inc);
         const shape_loop_repetition = Math.ceil((end - start) / inc);
         return { start, end, inc, repetition: shape_loop_repetition < 0 ? 0 : shape_loop_repetition };
     }
+    /**
+     * Set shape
+     *
+     * @param {(IShapeLoopGenerator)} [shape]
+     * @memberof ShapeBase
+     */
     setShape(loop) {
         this.setProp('loop', loop);
     }
 }
+/**
+ * PI2
+ *
+ * @static
+ * @type {number}
+ * @memberof ShapeLoop
+ */
 ShapeLoop.PI2 = Math.PI * 2;
+/**
+ * PI div 2
+ *
+ * @static
+ * @type {number}
+ * @memberof ShapeLoop
+ */
 ShapeLoop.PId2 = Math.PI / 2;
+/**
+ * Empty Prop Arguments
+ *
+ * @static
+ * @type {ISceneChildPropArguments}
+ * @memberof ShapeBase
+ */
 ShapeLoop.EMPTY_PROP_ARGUMENTS = {
     time: 1,
-    context: _Context__WEBPACK_IMPORTED_MODULE_5__["default"],
-    repetition: _ShapeBase__WEBPACK_IMPORTED_MODULE_3__["default"].getEmptyRepetition(),
+    context: _Context__WEBPACK_IMPORTED_MODULE_3__["default"],
+    repetition: _ShapeBase__WEBPACK_IMPORTED_MODULE_1__["default"].getEmptyRepetition(),
     shape_loop: {
-        type: _types_ShapeBase__WEBPACK_IMPORTED_MODULE_0__["RepetitionType"].Loop,
+        type: _types_scene_child__WEBPACK_IMPORTED_MODULE_4__["ERepetitionType"].Loop,
         current_index: 0,
         current_offset: 0,
         current_angle: 0,
@@ -3997,54 +4909,118 @@ ShapeLoop.EMPTY_PROP_ARGUMENTS = {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ShapeBase__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ShapeBase */ "./dist/core/shapes/ShapeBase.js");
-/* harmony import */ var _interfaces_shapes_Interfaces__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../interfaces/shapes/Interfaces */ "./dist/core/interfaces/shapes/Interfaces.js");
-/* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Utilites */ "./dist/core/Utilites.js");
-/* harmony import */ var _math_Vec2__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../math/Vec2 */ "./dist/core/math/Vec2.js");
+/* harmony import */ var _math_Vec2__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../math/Vec2 */ "./dist/core/math/Vec2.js");
+/* harmony import */ var _types_shape_base__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../types/shape-base */ "./dist/core/types/shape-base.js");
 
 
 
-
+/**
+ * @category Core.Abstract
+ */
 class ShapePrimitive extends _ShapeBase__WEBPACK_IMPORTED_MODULE_0__["default"] {
     constructor(settings = {}) {
-        var _a, _b;
+        var _a, _b, _c;
         super(settings);
-        this.props.sideLength = Object(_Utilites__WEBPACK_IMPORTED_MODULE_2__["aOr"])(settings.sideLength, [50, 50]);
-        this.sideLength = _math_Vec2__WEBPACK_IMPORTED_MODULE_3__["default"].create(Object(_Utilites__WEBPACK_IMPORTED_MODULE_2__["aOr"])(settings.sideLength, [50, 50]));
+        this.props.sideLength = (_a = settings.sideLength) !== null && _a !== void 0 ? _a : [50, 50];
+        this.sideLength = _math_Vec2__WEBPACK_IMPORTED_MODULE_1__["default"].create(typeof settings.sideLength === 'number' || Array.isArray(settings.sideLength) ? settings.sideLength : [50, 50]);
         this.props.fillColor = settings.fillColor;
         this.props.lineWidth = settings.lineWidth;
         this.props.strokeColor = settings.strokeColor;
-        this.bAdaptBuffer = (_a = settings.bAdaptBuffer) !== null && _a !== void 0 ? _a : _interfaces_shapes_Interfaces__WEBPACK_IMPORTED_MODULE_1__["ShapePrimitiveAdaptMode"].None;
-        this.bCloseShape = (_b = settings.bCloseShape) !== null && _b !== void 0 ? _b : true;
+        this.bAdaptBuffer = (_b = settings.bAdaptBuffer) !== null && _b !== void 0 ? _b : _types_shape_base__WEBPACK_IMPORTED_MODULE_2__["EShapePrimitiveAdaptMode"].None;
+        this.bCloseShape = (_c = settings.bCloseShape) !== null && _c !== void 0 ? _c : true;
         this.vertexCallback = settings.vertexCallback;
     }
+    /**
+     * Check if shape is static
+     *
+     * @returns {boolean}
+     * @memberof ShapePrimitive
+     */
     isStatic() {
         return (typeof this.props.sideLength !==
-            'function' &&
+            'function' /* && typeof this.vertexCallback !== 'function' <- set bStatic to false if vertexCallback as dynamic */ &&
             super.isStatic());
     }
+    /**
+     * Get prop
+     *
+     * @param {keyof IShapePrimitiveProps} key
+     * @param {ISceneChildPropArguments} [prop_arguments]
+     * @param {*} [default_value]
+     * @returns {*}
+     * @memberof ShapePrimitive
+     */
     getProp(key, prop_arguments, default_value) {
-        return super.getProp(key, prop_arguments, default_value);
+        super.getProp(key, prop_arguments, default_value);
     }
+    /**
+     * set side length when generate a buffer into shape loop or shape buffer
+     *
+     * @protected
+     * @param {ISceneChildPropArguments} prop_arguments
+     * @memberof ShapePrimitive
+     */
     bindSideLength(prop_arguments) {
-        this.sideLength = _math_Vec2__WEBPACK_IMPORTED_MODULE_3__["default"].create(this.getProp('sideLength', prop_arguments, [50, 50]));
+        this.sideLength = _math_Vec2__WEBPACK_IMPORTED_MODULE_1__["default"].create(this.getProp('sideLength', prop_arguments, [50, 50]));
     }
+    /**
+     *
+     *
+     * @protected
+     * @param {TArray} vertex
+     * @memberof ShapePrimitive
+     */
     applyVertexTransform(vertex) {
         vertex[0] *= this.sideLength[0];
         vertex[1] *= this.sideLength[1];
     }
+    /**
+     * Return bCloseShape
+     *
+     * @returns {boolean}
+     * @memberof ShapePrimitive
+     */
     isClosed() {
         return this.bCloseShape;
     }
+    /**
+     * Set bCloseShape
+     *
+     * @param {boolean} bCloseShape
+     * @memberof ShapePrimitive
+     */
     setClosed(bCloseShape) {
         this.bCloseShape = bCloseShape;
     }
+    /**
+     * Return bAdaptBuffer
+     *
+     * @returns {EShapePrimitiveAdaptMode}
+     * @memberof ShapeBase
+     */
     isAdapted() {
         return this.bAdaptBuffer;
     }
+    /**
+     * Set bAdaptBuffer
+     *
+     * @param {EShapePrimitiveAdaptMode} bAdapted
+     * @memberof ShapeBase
+     */
     setAdapted(bAdapted) {
         this.bAdaptBuffer = bAdapted;
         this.clearBuffer(true);
     }
+    /**
+     *
+     *
+     * @protected
+     * @param {Array<ISceneChildStreamIndexing>} buffer
+     * @param {number} frame_length
+     * @param {Repetition} current_repetition
+     * @param {ISceneChildStreamIndexing} [parent]
+     * @memberof ShapePrimitive
+     */
     addIndex(buffer, frame_length, current_repetition, parent) {
         const current = {
             shape: this,
@@ -4054,6 +5030,14 @@ class ShapePrimitive extends _ShapeBase__WEBPACK_IMPORTED_MODULE_0__["default"] 
         };
         buffer.push(current);
     }
+    /**
+     * Get buffer bounding
+     *
+     * @static
+     * @param {Float32Array} buffer
+     * @returns {IShapeBounding}
+     * @memberof ShapePrimitive
+     */
     static getBounding(buffer) {
         let minX = Number.MAX_VALUE, minY = Number.MAX_VALUE, maxX = Number.MIN_VALUE, maxY = Number.MIN_VALUE;
         for (let i = 0, len = buffer.length; i < len; i += 2) {
@@ -4077,16 +5061,28 @@ class ShapePrimitive extends _ShapeBase__WEBPACK_IMPORTED_MODULE_0__["default"] 
             height: maxY - minY,
         };
     }
+    /**
+     * Return adapted buffer between [-1,-1] and [1,1]
+     *
+     * @public
+     * @static
+     * @param {Float32Array} input
+     * @param {EShapePrimitiveAdaptMode} mode
+     * @returns {Float32Array}
+     * @memberof ShapePrimitive
+     */
     static adaptBuffer(input, mode) {
-        if (mode == _interfaces_shapes_Interfaces__WEBPACK_IMPORTED_MODULE_1__["ShapePrimitiveAdaptMode"].None)
+        if (mode == _types_shape_base__WEBPACK_IMPORTED_MODULE_2__["EShapePrimitiveAdaptMode"].None)
             return input;
         const output = new Float32Array(input.length);
         const rect = ShapePrimitive.getBounding(input);
-        let scale = rect.width > 2 || rect.height > 2 || (mode >= _interfaces_shapes_Interfaces__WEBPACK_IMPORTED_MODULE_1__["ShapePrimitiveAdaptMode"].Fill && (rect.width < 2 || rect.height < 2))
+        let scale = rect.width > 2 ||
+            rect.height > 2 ||
+            (mode >= _types_shape_base__WEBPACK_IMPORTED_MODULE_2__["EShapePrimitiveAdaptMode"].Fill && (rect.width < 2 || rect.height < 2))
             ? 2 / Math.max(rect.width, rect.height)
             : 1;
-        let translateX = mode >= _interfaces_shapes_Interfaces__WEBPACK_IMPORTED_MODULE_1__["ShapePrimitiveAdaptMode"].Center ? rect.cx : 0;
-        let translateY = mode >= _interfaces_shapes_Interfaces__WEBPACK_IMPORTED_MODULE_1__["ShapePrimitiveAdaptMode"].Center ? rect.cy : 0;
+        let translateX = mode >= _types_shape_base__WEBPACK_IMPORTED_MODULE_2__["EShapePrimitiveAdaptMode"].Center ? rect.cx : 0;
+        let translateY = mode >= _types_shape_base__WEBPACK_IMPORTED_MODULE_2__["EShapePrimitiveAdaptMode"].Center ? rect.cy : 0;
         for (let i = 0, len = input.length; i < len; i += 2) {
             output[i] = (input[i] - translateX) * scale;
             output[i + 1] = (input[i + 1] - translateY) * scale;
@@ -4108,21 +5104,33 @@ class ShapePrimitive extends _ShapeBase__WEBPACK_IMPORTED_MODULE_0__["default"] 
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _interfaces_shapes_Interfaces__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../interfaces/shapes/Interfaces */ "./dist/core/interfaces/shapes/Interfaces.js");
-/* harmony import */ var _ShapeLoop__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../ShapeLoop */ "./dist/core/shapes/ShapeLoop.js");
+/* harmony import */ var _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../ShapeLoop */ "./dist/core/shapes/ShapeLoop.js");
+/* harmony import */ var _types_shape_base__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../types/shape-base */ "./dist/core/types/shape-base.js");
 
 
-class Circle extends _ShapeLoop__WEBPACK_IMPORTED_MODULE_1__["default"] {
+/**
+ *
+ * @category Core.Primitives
+ * @class Circle
+ * @extends {ShapeLoop}
+ */
+class Circle extends _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__["default"] {
+    /**
+     * Creates an instance of Circle.
+     *
+     * @param {ShapeLoopSettings} [settings={}]
+     * @memberof Circle
+     */
     constructor(settings = {}) {
         var _a;
         settings.type = 'Circle';
         settings.shapeLoopPropsDependencies = (settings.shapeLoopPropsDependencies || []).concat(['sideLength']);
-        settings.bAdaptBuffer = (_a = settings.bAdaptBuffer) !== null && _a !== void 0 ? _a : _interfaces_shapes_Interfaces__WEBPACK_IMPORTED_MODULE_0__["ShapePrimitiveAdaptMode"].Scale;
+        settings.bAdaptBuffer = (_a = settings.bAdaptBuffer) !== null && _a !== void 0 ? _a : _types_shape_base__WEBPACK_IMPORTED_MODULE_1__["EShapePrimitiveAdaptMode"].Scale;
         super(settings);
         this.loop = {
             start: 0,
-            end: _ShapeLoop__WEBPACK_IMPORTED_MODULE_1__["default"].PI2,
-            inc: () => (1 / Math.pow(this.sideLength[0] * this.sideLength[1], 0.25)) * _ShapeLoop__WEBPACK_IMPORTED_MODULE_1__["default"].PId2,
+            end: _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__["default"].PI2,
+            inc: () => (1 / Math.pow(this.sideLength[0] * this.sideLength[1], 0.25)) * _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__["default"].PId2,
             vertex: angle => [Math.cos(angle), Math.sin(angle)],
         };
     }
@@ -4141,15 +5149,27 @@ class Circle extends _ShapeLoop__WEBPACK_IMPORTED_MODULE_1__["default"] {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _interfaces_shapes_Interfaces__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../interfaces/shapes/Interfaces */ "./dist/core/interfaces/shapes/Interfaces.js");
+/* harmony import */ var _types_shape_base__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../types/shape-base */ "./dist/core/types/shape-base.js");
 /* harmony import */ var _ShapeBuffer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../ShapeBuffer */ "./dist/core/shapes/ShapeBuffer.js");
 
 
+/**
+ *
+ * @category Core.Primitives
+ * @class Line
+ * @extends {ShapeBuffer}
+ */
 class Line extends _ShapeBuffer__WEBPACK_IMPORTED_MODULE_1__["default"] {
+    /**
+     * Creates an instance of Line.
+     *
+     * @param {ShapeBaseSettings} [settings={}]
+     * @memberof Line
+     */
     constructor(settings = {}) {
         settings.type = 'Line';
-        settings.shape = Float32Array.from([-1, 0, 1, 0]);
-        settings.bAdaptBuffer = _interfaces_shapes_Interfaces__WEBPACK_IMPORTED_MODULE_0__["ShapePrimitiveAdaptMode"].None;
+        settings.shape = [-1, 0, 1, 0];
+        settings.bAdaptBuffer = _types_shape_base__WEBPACK_IMPORTED_MODULE_0__["EShapePrimitiveAdaptMode"].None;
         settings.bCloseShape = false;
         super(settings);
     }
@@ -4169,10 +5189,23 @@ class Line extends _ShapeBuffer__WEBPACK_IMPORTED_MODULE_1__["default"] {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../ShapeLoop */ "./dist/core/shapes/ShapeLoop.js");
-/* harmony import */ var _interfaces_shapes_Interfaces__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../interfaces/shapes/Interfaces */ "./dist/core/interfaces/shapes/Interfaces.js");
+/* harmony import */ var _types_shape_base__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../types/shape-base */ "./dist/core/types/shape-base.js");
 
 
+/**
+ * Lissajous shape
+ *
+ * @category Core.Primitives
+ * @class Lissajous
+ * @extends {ShapeLoop}
+ */
 class Lissajous extends _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__["default"] {
+    /**
+     * Creates an instance of Lissajous.
+     *
+     * @param {ILissajousSettings} [settings={}]
+     * @memberof Lissajous
+     */
     constructor(settings = {}) {
         var _a;
         settings.type = 'Lissajous';
@@ -4182,7 +5215,7 @@ class Lissajous extends _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__["default"] {
             'wz',
             'sideLength',
         ]);
-        settings.bAdaptBuffer = (_a = settings.bAdaptBuffer) !== null && _a !== void 0 ? _a : _interfaces_shapes_Interfaces__WEBPACK_IMPORTED_MODULE_1__["ShapePrimitiveAdaptMode"].Scale;
+        settings.bAdaptBuffer = (_a = settings.bAdaptBuffer) !== null && _a !== void 0 ? _a : _types_shape_base__WEBPACK_IMPORTED_MODULE_1__["EShapePrimitiveAdaptMode"].Scale;
         super(settings, true);
         this.props.wx = settings.wx || 1;
         this.props.wy = settings.wy || 2;
@@ -4207,9 +5240,25 @@ class Lissajous extends _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__["default"] {
         this.bStatic = this.isStatic();
         this.bStaticIndexed = this.isStaticIndexed();
     }
+    /**
+     * Get property value
+     *
+     * @param {keyof ILissajousProps} key
+     * @param {ISceneChildPropArguments} [prop_arguments]
+     * @param {*} [default_value]
+     * @returns {*}
+     * @memberof Lissajous
+     */
     getProp(key, prop_arguments, default_value) {
         return super.getProp(key, prop_arguments, default_value);
     }
+    /**
+     * Set single or multiple props
+     *
+     * @param {(keyof ILissajousProps | ILissajousProps)} key
+     * @param {*} [value]
+     * @memberof Lissajous
+     */
     setProp(key, value) {
         super.setProp(key, value);
     }
@@ -4228,15 +5277,27 @@ class Lissajous extends _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__["default"] {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _interfaces_shapes_Interfaces__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../interfaces/shapes/Interfaces */ "./dist/core/interfaces/shapes/Interfaces.js");
+/* harmony import */ var _types_shape_base__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../types/shape-base */ "./dist/core/types/shape-base.js");
 /* harmony import */ var _ShapeBuffer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../ShapeBuffer */ "./dist/core/shapes/ShapeBuffer.js");
 
 
+/**
+ *
+ * @category Core.Primitives
+ * @class Rect
+ * @extends {ShapeBuffer}
+ */
 class Rect extends _ShapeBuffer__WEBPACK_IMPORTED_MODULE_1__["default"] {
+    /**
+     * Creates an instance of Rect.
+     *
+     * @param {ShapeBaseSettings} [settings={}]
+     * @memberof Rect
+     */
     constructor(settings = {}) {
         settings.type = 'Rect';
-        settings.shape = Float32Array.from([-1, -1, 1, -1, 1, 1, -1, 1]);
-        settings.bAdaptBuffer = _interfaces_shapes_Interfaces__WEBPACK_IMPORTED_MODULE_0__["ShapePrimitiveAdaptMode"].None;
+        settings.shape = [-1, -1, 1, -1, 1, 1, -1, 1];
+        settings.bAdaptBuffer = _types_shape_base__WEBPACK_IMPORTED_MODULE_0__["EShapePrimitiveAdaptMode"].None;
         super(settings);
     }
 }
@@ -4255,15 +5316,22 @@ class Rect extends _ShapeBuffer__WEBPACK_IMPORTED_MODULE_1__["default"] {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../ShapeLoop */ "./dist/core/shapes/ShapeLoop.js");
-/* harmony import */ var _interfaces_shapes_Interfaces__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../interfaces/shapes/Interfaces */ "./dist/core/interfaces/shapes/Interfaces.js");
+/* harmony import */ var _types_shape_base__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../types/shape-base */ "./dist/core/types/shape-base.js");
 
 
+/**
+ * Polygon shape
+ *
+ * @category Core.Primitives
+ * @class RegularPolygon
+ * @extends {ShapeLoop}
+ */
 class RegularPolygon extends _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__["default"] {
     constructor(settings = {}) {
         var _a;
         settings.type = settings.type || 'RegularPolygon';
         settings.shapeLoopPropsDependencies = (settings.shapeLoopPropsDependencies || []).concat(['sideNumber']);
-        settings.bAdaptBuffer = (_a = settings.bAdaptBuffer) !== null && _a !== void 0 ? _a : _interfaces_shapes_Interfaces__WEBPACK_IMPORTED_MODULE_1__["ShapePrimitiveAdaptMode"].None;
+        settings.bAdaptBuffer = (_a = settings.bAdaptBuffer) !== null && _a !== void 0 ? _a : _types_shape_base__WEBPACK_IMPORTED_MODULE_1__["EShapePrimitiveAdaptMode"].None;
         super(settings, true);
         this.props.sideNumber = settings.sideNumber;
         this.loop = {
@@ -4278,9 +5346,25 @@ class RegularPolygon extends _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__["default"] 
         this.bStatic = this.isStatic();
         this.bStaticIndexed = this.isStaticIndexed();
     }
+    /**
+     * Get property value
+     *
+     * @param {keyof IRegularPolygonProps} key
+     * @param {ISceneChildPropArguments} [prop_arguments]
+     * @param {*} [default_value]
+     * @returns {*}
+     * @memberof IRegularPolygonProps
+     */
     getProp(key, prop_arguments, default_value) {
         return super.getProp(key, prop_arguments, default_value);
     }
+    /**
+     * Set single or multiple props
+     *
+     * @param {(keyof IRegularPolygonProps | RegularPolygonSettings)} key
+     * @param {*} [value]
+     * @memberof IRegularPolygonProps
+     */
     setProp(key, value) {
         super.setProp(key, value);
     }
@@ -4299,21 +5383,32 @@ class RegularPolygon extends _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__["default"] 
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Utilites */ "./dist/core/Utilites.js");
-/* harmony import */ var _ShapeLoop__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../ShapeLoop */ "./dist/core/shapes/ShapeLoop.js");
-/* harmony import */ var _interfaces_shapes_Interfaces__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../interfaces/shapes/Interfaces */ "./dist/core/interfaces/shapes/Interfaces.js");
+/* harmony import */ var _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../ShapeLoop */ "./dist/core/shapes/ShapeLoop.js");
+/* harmony import */ var _types_shape_base__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../types/shape-base */ "./dist/core/types/shape-base.js");
 
 
-
-class Rose extends _ShapeLoop__WEBPACK_IMPORTED_MODULE_1__["default"] {
+/**
+ * Rose shape
+ *
+ * @category Core.Primitives
+ * @class Rose
+ * @extends {ShapeLoop}
+ */
+class Rose extends _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__["default"] {
+    /**
+     * Creates an instance of Rose.
+     *
+     * @param {IRoseSettings} [settings={}]
+     * @memberof Rose
+     */
     constructor(settings = {}) {
-        var _a;
+        var _a, _b, _c;
         settings.type = 'Rose';
         settings.shapeLoopPropsDependencies = (settings.shapeLoopPropsDependencies || []).concat(['n', 'd', 'sideLength']);
-        settings.bAdaptBuffer = (_a = settings.bAdaptBuffer) !== null && _a !== void 0 ? _a : _interfaces_shapes_Interfaces__WEBPACK_IMPORTED_MODULE_2__["ShapePrimitiveAdaptMode"].Scale;
+        settings.bAdaptBuffer = (_a = settings.bAdaptBuffer) !== null && _a !== void 0 ? _a : _types_shape_base__WEBPACK_IMPORTED_MODULE_1__["EShapePrimitiveAdaptMode"].Scale;
         super(settings, true);
-        this.props.n = Object(_Utilites__WEBPACK_IMPORTED_MODULE_0__["aOr"])(settings.n, 1);
-        this.props.d = Object(_Utilites__WEBPACK_IMPORTED_MODULE_0__["aOr"])(settings.d, 2);
+        this.props.n = (_b = settings.n) !== null && _b !== void 0 ? _b : 1;
+        this.props.d = (_c = settings.d) !== null && _c !== void 0 ? _c : 2;
         this.loop = {
             start: 0,
             end: (prop_arguments) => Rose.getFinalAngleFromK(this.getProp('n', prop_arguments), this.getProp('d', prop_arguments)),
@@ -4322,7 +5417,7 @@ class Rose extends _ShapeLoop__WEBPACK_IMPORTED_MODULE_1__["default"] {
                 const d = this.getProp('d', prop_arguments);
                 const sides = Math.pow(this.sideLength[0] * this.sideLength[1], 0.45);
                 const k = d < n ? n / d : 1.5;
-                return _ShapeLoop__WEBPACK_IMPORTED_MODULE_1__["default"].PI2 / (sides * k);
+                return _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__["default"].PI2 / (sides * k);
             },
             vertex: (angle, prop_arguments) => {
                 const k = this.getProp('n', prop_arguments) / this.getProp('d', prop_arguments);
@@ -4334,15 +5429,40 @@ class Rose extends _ShapeLoop__WEBPACK_IMPORTED_MODULE_1__["default"] {
         this.bStatic = this.isStatic();
         this.bStaticIndexed = this.isStaticIndexed();
     }
+    /**
+     * Get property value
+     *
+     * @param {keyof RoseProps} key
+     * @param {ISceneChildPropArguments} [prop_arguments]
+     * @param {*} [default_value]
+     * @returns {*}
+     * @memberof Rose
+     */
     getProp(key, prop_arguments, default_value) {
         return super.getProp(key, prop_arguments, default_value);
     }
+    /**
+     * Set single or multiple props
+     *
+     * @param {(keyof IRoseProps | IRoseSettings)} key
+     * @param {*} [value]
+     * @memberof Rose
+     */
     setProp(key, value) {
         super.setProp(key, value);
     }
+    /**
+     * Return end angle of rose
+     *
+     * @static
+     * @param {number} n
+     * @param {number} d
+     * @returns {number}
+     * @memberof Rose
+     */
     static getFinalAngleFromK(n, d) {
         if (n == d)
-            return _ShapeLoop__WEBPACK_IMPORTED_MODULE_1__["default"].PI2;
+            return _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__["default"].PI2;
         const k = n / d;
         const p = n * d;
         if (!Number.isInteger(k) && k % 0.5 == 0)
@@ -4364,18 +5484,29 @@ class Rose extends _ShapeLoop__WEBPACK_IMPORTED_MODULE_1__["default"] {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Utilites */ "./dist/core/Utilites.js");
-/* harmony import */ var _ShapeLoop__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../ShapeLoop */ "./dist/core/shapes/ShapeLoop.js");
-/* harmony import */ var _interfaces_shapes_Interfaces__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../interfaces/shapes/Interfaces */ "./dist/core/interfaces/shapes/Interfaces.js");
+/* harmony import */ var _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../ShapeLoop */ "./dist/core/shapes/ShapeLoop.js");
+/* harmony import */ var _types_shape_base__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../types/shape-base */ "./dist/core/types/shape-base.js");
 
 
-
-class Spiral extends _ShapeLoop__WEBPACK_IMPORTED_MODULE_1__["default"] {
+/**
+ * Spiral shape
+ *
+ * @category Core.Primitives
+ * @class Spiral
+ * @extends {ShapeLoop}
+ */
+class Spiral extends _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__["default"] {
+    /**
+     * Creates an instance of Spiral.
+     *
+     * @param {SpiralSettings} [settings={}]
+     * @memberof Spiral
+     */
     constructor(settings = {}) {
-        var _a;
+        var _a, _b, _c, _d;
         settings.type = 'Spiral';
         settings.bCloseShape = false;
-        settings.bAdaptBuffer = (_a = settings.bAdaptBuffer) !== null && _a !== void 0 ? _a : _interfaces_shapes_Interfaces__WEBPACK_IMPORTED_MODULE_2__["ShapePrimitiveAdaptMode"].None;
+        settings.bAdaptBuffer = (_a = settings.bAdaptBuffer) !== null && _a !== void 0 ? _a : _types_shape_base__WEBPACK_IMPORTED_MODULE_1__["EShapePrimitiveAdaptMode"].None;
         settings.shapeLoopPropsDependencies = (settings.shapeLoopPropsDependencies || []).concat([
             'twists',
             'twists_start',
@@ -4383,20 +5514,24 @@ class Spiral extends _ShapeLoop__WEBPACK_IMPORTED_MODULE_1__["default"] {
             'sideLength',
         ]);
         super(settings, true);
-        this.props.spiral = Object(_Utilites__WEBPACK_IMPORTED_MODULE_0__["aOr"])(settings.spiral, Spiral.types.ARCHIMEDE);
-        this.props.twists = Object(_Utilites__WEBPACK_IMPORTED_MODULE_0__["aOr"])(settings.twists, 2);
-        this.props.twists_start = Object(_Utilites__WEBPACK_IMPORTED_MODULE_0__["aOr"])(settings.twists_start, 0);
+        this.props.spiral = (_b = settings.spiral) !== null && _b !== void 0 ? _b : Spiral.types.ARCHIMEDE;
+        this.props.twists = (_c = settings.twists) !== null && _c !== void 0 ? _c : 2;
+        this.props.twists_start = (_d = settings.twists_start) !== null && _d !== void 0 ? _d : 0;
         this.loop = {
-            start: (prop_arguments) => _ShapeLoop__WEBPACK_IMPORTED_MODULE_1__["default"].PI2 * this.getProp('twists_start', prop_arguments),
-            end: (prop_arguments) => _ShapeLoop__WEBPACK_IMPORTED_MODULE_1__["default"].PI2 * (this.getProp('twists_start', prop_arguments) + this.getProp('twists', prop_arguments)),
+            start: (prop_arguments) => _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__["default"].PI2 * this.getProp('twists_start', prop_arguments),
+            end: (prop_arguments) => _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__["default"].PI2 * (this.getProp('twists_start', prop_arguments) + this.getProp('twists', prop_arguments)),
             inc: (prop_arguments) => {
+                // const twists = this.getProp('twists', prop_arguments)
+                // const rep = ShapeLoop.PI2 * twists
+                // const radius = 2 * Math.sqrt(this.sideLength[0] * this.sideLength[1])
+                // return rep / (radius)
                 const twists = this.getProp('twists', prop_arguments);
-                const rep = _ShapeLoop__WEBPACK_IMPORTED_MODULE_1__["default"].PI2 * twists;
+                const rep = _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__["default"].PI2 * twists;
                 const radius = 4 + Math.sqrt(this.sideLength[0] * this.sideLength[1]);
                 return rep / (radius * twists);
             },
             vertex: (angle, prop_arguments) => {
-                const r = Spiral.getRFromSpiralType(this.getProp('spiral', prop_arguments), angle);
+                const r = Spiral.getRFromTSpiralType(this.getProp('spiral', prop_arguments), angle);
                 return [r * Math.cos(angle), r * Math.sin(angle)];
             },
         };
@@ -4404,9 +5539,25 @@ class Spiral extends _ShapeLoop__WEBPACK_IMPORTED_MODULE_1__["default"] {
         this.bStatic = this.isStatic();
         this.bStaticIndexed = this.isStaticIndexed();
     }
+    /**
+     * Get property value
+     *
+     * @param {keyof ISpiralProps} key
+     * @param {ISceneChildPropArguments} [prop_arguments]
+     * @param {*} [defaul_value]
+     * @returns {*}
+     * @memberof Spiral
+     */
     getProp(key, prop_arguments, defaul_value) {
         return super.getProp(key, prop_arguments, defaul_value);
     }
+    /**
+     * Set single or multiple props
+     *
+     * @param {(keyof ISpiralProps | ISpiralProps)} key
+     * @param {*} [value]
+     * @memberof Spiral
+     */
     setProp(key, value) {
         key = typeof key === 'string' ? { [key]: value } : key;
         if (('twists' in key || 'twists_start' in key) && this.props.loop) {
@@ -4415,7 +5566,16 @@ class Spiral extends _ShapeLoop__WEBPACK_IMPORTED_MODULE_1__["default"] {
         }
         super.setProp(key, value);
     }
-    static getRFromSpiralType(spiral, angle) {
+    /**
+     * Point position and scale factor for spiral types
+     *
+     * @static
+     * @param {TSpiralType} spiral
+     * @param {number} angle
+     * @returns {number}
+     * @memberof Spiral
+     */
+    static getRFromTSpiralType(spiral, angle) {
         switch (spiral) {
             case Spiral.types.ARCHIMEDE:
                 return angle / 10;
@@ -4431,6 +5591,13 @@ class Spiral extends _ShapeLoop__WEBPACK_IMPORTED_MODULE_1__["default"] {
         return 1;
     }
 }
+/**
+ * Spural types
+ *
+ * @static
+ * @type {{ [name in TSpiralType]: TSpiralType }}
+ * @memberof Spiral
+ */
 Spiral.types = {
     ARCHIMEDE: 'ARCHIMEDE',
     HYPERBOLIC: 'HYPERBOLIC',
@@ -4452,15 +5619,26 @@ Spiral.types = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _interfaces_shapes_Interfaces__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../interfaces/shapes/Interfaces */ "./dist/core/interfaces/shapes/Interfaces.js");
+/* harmony import */ var _types_shape_base__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../types/shape-base */ "./dist/core/types/shape-base.js");
 /* harmony import */ var _ShapeBuffer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../ShapeBuffer */ "./dist/core/shapes/ShapeBuffer.js");
 
 
+/**
+ * Triangle ShapeBuffer
+ *
+ * @category Core.Primitives
+ */
 class Triangle extends _ShapeBuffer__WEBPACK_IMPORTED_MODULE_1__["default"] {
+    /**
+     * Creates an instance of Triangleeee.
+     *
+     * @param {ShapeBaseSettings} [settings={}]
+     * @memberof Triangle
+     */
     constructor(settings = {}) {
         settings.type = 'Triangle';
-        settings.shape = Float32Array.from([-1, -1, 1, 0, -1, 1]);
-        settings.bAdaptBuffer = _interfaces_shapes_Interfaces__WEBPACK_IMPORTED_MODULE_0__["ShapePrimitiveAdaptMode"].None;
+        settings.shape = [-1, -1, 1, 0, -1, 1];
+        settings.bAdaptBuffer = _types_shape_base__WEBPACK_IMPORTED_MODULE_0__["EShapePrimitiveAdaptMode"].None;
         super(settings);
     }
 }
@@ -4469,24 +5647,89 @@ class Triangle extends _ShapeBuffer__WEBPACK_IMPORTED_MODULE_1__["default"] {
 
 /***/ }),
 
-/***/ "./dist/core/types/ShapeBase.js":
-/*!**************************************!*\
-  !*** ./dist/core/types/ShapeBase.js ***!
-  \**************************************/
-/*! exports provided: RepetitionType */
+/***/ "./dist/core/types/scene-child.js":
+/*!****************************************!*\
+  !*** ./dist/core/types/scene-child.js ***!
+  \****************************************/
+/*! exports provided: ERepetitionType */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RepetitionType", function() { return RepetitionType; });
-var RepetitionType;
-(function (RepetitionType) {
-    RepetitionType[RepetitionType["Ring"] = 1] = "Ring";
-    RepetitionType[RepetitionType["Matrix"] = 2] = "Matrix";
-    RepetitionType[RepetitionType["Loop"] = 3] = "Loop";
-})(RepetitionType || (RepetitionType = {}));
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ERepetitionType", function() { return ERepetitionType; });
+/**
+ * Repetition type enumerator.
+ *
+ * @category Core.Enums
+ * @export
+ * @enum {number}
+ */
+var ERepetitionType;
+(function (ERepetitionType) {
+    /**
+     * Defines the type of repetition of the shape, in a circular way starting from the center of the scene
+     */
+    ERepetitionType[ERepetitionType["Ring"] = 1] = "Ring";
+    /**
+     * Defines the type of repetition of the shape, on a nxm grid starting from the center of the scene
+     */
+    ERepetitionType[ERepetitionType["Matrix"] = 2] = "Matrix";
+    /**
+     * Defines the type of shape generation
+     */
+    ERepetitionType[ERepetitionType["Loop"] = 3] = "Loop";
+    // Random = 4
+})(ERepetitionType || (ERepetitionType = {}));
+//# sourceMappingURL=scene-child.js.map
 
-//# sourceMappingURL=ShapeBase.js.map
+/***/ }),
+
+/***/ "./dist/core/types/scene.js":
+/*!**********************************!*\
+  !*** ./dist/core/types/scene.js ***!
+  \**********************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+
+//# sourceMappingURL=scene.js.map
+
+/***/ }),
+
+/***/ "./dist/core/types/shape-base.js":
+/*!***************************************!*\
+  !*** ./dist/core/types/shape-base.js ***!
+  \***************************************/
+/*! exports provided: EShapePrimitiveAdaptMode */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EShapePrimitiveAdaptMode", function() { return EShapePrimitiveAdaptMode; });
+var EShapePrimitiveAdaptMode;
+(function (EShapePrimitiveAdaptMode) {
+    EShapePrimitiveAdaptMode[EShapePrimitiveAdaptMode["None"] = 0] = "None";
+    EShapePrimitiveAdaptMode[EShapePrimitiveAdaptMode["Scale"] = 2] = "Scale";
+    EShapePrimitiveAdaptMode[EShapePrimitiveAdaptMode["Center"] = 4] = "Center";
+    EShapePrimitiveAdaptMode[EShapePrimitiveAdaptMode["Fill"] = 8] = "Fill";
+})(EShapePrimitiveAdaptMode || (EShapePrimitiveAdaptMode = {}));
+//# sourceMappingURL=shape-base.js.map
+
+/***/ }),
+
+/***/ "./dist/core/types/shape-primitive.js":
+/*!********************************************!*\
+  !*** ./dist/core/types/shape-primitive.js ***!
+  \********************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+
+//# sourceMappingURL=shape-primitive.js.map
 
 /***/ }),
 
@@ -4494,7 +5737,7 @@ var RepetitionType;
 /*!*****************************!*\
   !*** ./dist/index-light.js ***!
   \*****************************/
-/*! exports provided: Scene, SceneChild, Group, Line, Triangle, Rect, RegularPolygon, Circle, Rose, Spiral, Lissajous, Shape, ShapePrimitive, ShapeLoop, ShapeBuffer, Vec2, toDegrees, toRadians, isDef, clamp, relativeClamp, Context, ShapePrimitiveAdaptMode, DrawerCanvas, Animation */
+/*! exports provided: Scene, SceneChild, Group, Line, Triangle, Rect, RegularPolygon, Circle, Rose, Spiral, Lissajous, Shape, ShapePrimitive, ShapeLoop, ShapeBuffer, Vec2, clamp, relativeClamp, toDegrees, toRadians, Context, DrawerCanvas, Animation */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4547,35 +5790,31 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _core_math_Vec2__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./core/math/Vec2 */ "./dist/core/math/Vec2.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Vec2", function() { return _core_math_Vec2__WEBPACK_IMPORTED_MODULE_15__["default"]; });
 
-/* harmony import */ var _core_Utilites__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./core/Utilites */ "./dist/core/Utilites.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "toDegrees", function() { return _core_Utilites__WEBPACK_IMPORTED_MODULE_16__["toDegrees"]; });
+/* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./Utilites */ "./dist/Utilites.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "clamp", function() { return _Utilites__WEBPACK_IMPORTED_MODULE_16__["clamp"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "toRadians", function() { return _core_Utilites__WEBPACK_IMPORTED_MODULE_16__["toRadians"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "relativeClamp", function() { return _Utilites__WEBPACK_IMPORTED_MODULE_16__["relativeClamp"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isDef", function() { return _core_Utilites__WEBPACK_IMPORTED_MODULE_16__["isDef"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "toDegrees", function() { return _Utilites__WEBPACK_IMPORTED_MODULE_16__["toDegrees"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "clamp", function() { return _core_Utilites__WEBPACK_IMPORTED_MODULE_16__["clamp"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "relativeClamp", function() { return _core_Utilites__WEBPACK_IMPORTED_MODULE_16__["relativeClamp"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "toRadians", function() { return _Utilites__WEBPACK_IMPORTED_MODULE_16__["toRadians"]; });
 
 /* harmony import */ var _core_Context__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./core/Context */ "./dist/core/Context.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Context", function() { return _core_Context__WEBPACK_IMPORTED_MODULE_17__["default"]; });
 
-/* harmony import */ var _core_interfaces_shapes_Interfaces__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./core/interfaces/shapes/Interfaces */ "./dist/core/interfaces/shapes/Interfaces.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ShapePrimitiveAdaptMode", function() { return _core_interfaces_shapes_Interfaces__WEBPACK_IMPORTED_MODULE_18__["ShapePrimitiveAdaptMode"]; });
+/* harmony import */ var _services_drawer_canvas_DrawerCanvas__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./services/drawer-canvas/DrawerCanvas */ "./dist/services/drawer-canvas/DrawerCanvas.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "DrawerCanvas", function() { return _services_drawer_canvas_DrawerCanvas__WEBPACK_IMPORTED_MODULE_18__["default"]; });
 
-/* harmony import */ var _services_drawer_canvas_DrawerCanvas__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./services/drawer-canvas/DrawerCanvas */ "./dist/services/drawer-canvas/DrawerCanvas.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "DrawerCanvas", function() { return _services_drawer_canvas_DrawerCanvas__WEBPACK_IMPORTED_MODULE_19__["default"]; });
+/* harmony import */ var _services_animation_Simple__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./services/animation/Simple */ "./dist/services/animation/Simple.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Animation", function() { return _services_animation_Simple__WEBPACK_IMPORTED_MODULE_19__["default"]; });
 
-/* harmony import */ var _services_animation_Simple__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./services/animation/Simple */ "./dist/services/animation/Simple.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Animation", function() { return _services_animation_Simple__WEBPACK_IMPORTED_MODULE_20__["default"]; });
-
-
-
+/**
+ * Core
+ */
 
 
 
-
+// Shapes
 
 
 
@@ -4584,11 +5823,18 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+// export * from '@core/shapes/primitives/Heart'
 
 
 
 
+// Utilities
 
+
+
+/**
+ * Services
+ */
 
 
 //# sourceMappingURL=index-light.js.map
@@ -4599,76 +5845,87 @@ __webpack_require__.r(__webpack_exports__);
 /*!***********************!*\
   !*** ./dist/index.js ***!
   \***********************/
-/*! exports provided: Scene, SceneChild, Group, Line, Triangle, Rect, RegularPolygon, Circle, Rose, Spiral, Lissajous, Shape, ShapePrimitive, ShapeLoop, ShapeBuffer, Vec2, toDegrees, toRadians, isDef, clamp, relativeClamp, Context, ShapePrimitiveAdaptMode, DrawerCanvas, Animation, SceneUtilities, Renderer, JSONImporter, JSONExporter, SVGExporter */
+/*! exports provided: ERepetitionType, EShapePrimitiveAdaptMode, Scene, SceneChild, Group, Line, Triangle, Rect, RegularPolygon, Circle, Rose, Spiral, Lissajous, Shape, ShapePrimitive, ShapeLoop, ShapeBuffer, Vec2, clamp, relativeClamp, toDegrees, toRadians, Context, DrawerCanvas, Animation, SceneUtilities, Renderer, JSONImporter, JSONExporter, SVGExporter */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _index_light__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./index-light */ "./dist/index-light.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Scene", function() { return _index_light__WEBPACK_IMPORTED_MODULE_0__["Scene"]; });
+/* harmony import */ var _core_types_scene__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./core/types/scene */ "./dist/core/types/scene.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _core_types_scene_child__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./core/types/scene-child */ "./dist/core/types/scene-child.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ERepetitionType", function() { return _core_types_scene_child__WEBPACK_IMPORTED_MODULE_1__["ERepetitionType"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "SceneChild", function() { return _index_light__WEBPACK_IMPORTED_MODULE_0__["SceneChild"]; });
+/* harmony import */ var _core_types_shape_base__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./core/types/shape-base */ "./dist/core/types/shape-base.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "EShapePrimitiveAdaptMode", function() { return _core_types_shape_base__WEBPACK_IMPORTED_MODULE_2__["EShapePrimitiveAdaptMode"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Group", function() { return _index_light__WEBPACK_IMPORTED_MODULE_0__["Group"]; });
+/* harmony import */ var _core_types_shape_primitive__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./core/types/shape-primitive */ "./dist/core/types/shape-primitive.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _index_light__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./index-light */ "./dist/index-light.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Scene", function() { return _index_light__WEBPACK_IMPORTED_MODULE_4__["Scene"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Line", function() { return _index_light__WEBPACK_IMPORTED_MODULE_0__["Line"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "SceneChild", function() { return _index_light__WEBPACK_IMPORTED_MODULE_4__["SceneChild"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Triangle", function() { return _index_light__WEBPACK_IMPORTED_MODULE_0__["Triangle"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Group", function() { return _index_light__WEBPACK_IMPORTED_MODULE_4__["Group"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Rect", function() { return _index_light__WEBPACK_IMPORTED_MODULE_0__["Rect"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Line", function() { return _index_light__WEBPACK_IMPORTED_MODULE_4__["Line"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "RegularPolygon", function() { return _index_light__WEBPACK_IMPORTED_MODULE_0__["RegularPolygon"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Triangle", function() { return _index_light__WEBPACK_IMPORTED_MODULE_4__["Triangle"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Circle", function() { return _index_light__WEBPACK_IMPORTED_MODULE_0__["Circle"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Rect", function() { return _index_light__WEBPACK_IMPORTED_MODULE_4__["Rect"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Rose", function() { return _index_light__WEBPACK_IMPORTED_MODULE_0__["Rose"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "RegularPolygon", function() { return _index_light__WEBPACK_IMPORTED_MODULE_4__["RegularPolygon"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Spiral", function() { return _index_light__WEBPACK_IMPORTED_MODULE_0__["Spiral"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Circle", function() { return _index_light__WEBPACK_IMPORTED_MODULE_4__["Circle"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Lissajous", function() { return _index_light__WEBPACK_IMPORTED_MODULE_0__["Lissajous"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Rose", function() { return _index_light__WEBPACK_IMPORTED_MODULE_4__["Rose"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Shape", function() { return _index_light__WEBPACK_IMPORTED_MODULE_0__["Shape"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Spiral", function() { return _index_light__WEBPACK_IMPORTED_MODULE_4__["Spiral"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ShapePrimitive", function() { return _index_light__WEBPACK_IMPORTED_MODULE_0__["ShapePrimitive"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Lissajous", function() { return _index_light__WEBPACK_IMPORTED_MODULE_4__["Lissajous"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ShapeLoop", function() { return _index_light__WEBPACK_IMPORTED_MODULE_0__["ShapeLoop"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Shape", function() { return _index_light__WEBPACK_IMPORTED_MODULE_4__["Shape"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ShapeBuffer", function() { return _index_light__WEBPACK_IMPORTED_MODULE_0__["ShapeBuffer"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ShapePrimitive", function() { return _index_light__WEBPACK_IMPORTED_MODULE_4__["ShapePrimitive"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Vec2", function() { return _index_light__WEBPACK_IMPORTED_MODULE_0__["Vec2"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ShapeLoop", function() { return _index_light__WEBPACK_IMPORTED_MODULE_4__["ShapeLoop"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "toDegrees", function() { return _index_light__WEBPACK_IMPORTED_MODULE_0__["toDegrees"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ShapeBuffer", function() { return _index_light__WEBPACK_IMPORTED_MODULE_4__["ShapeBuffer"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "toRadians", function() { return _index_light__WEBPACK_IMPORTED_MODULE_0__["toRadians"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Vec2", function() { return _index_light__WEBPACK_IMPORTED_MODULE_4__["Vec2"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isDef", function() { return _index_light__WEBPACK_IMPORTED_MODULE_0__["isDef"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "clamp", function() { return _index_light__WEBPACK_IMPORTED_MODULE_4__["clamp"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "clamp", function() { return _index_light__WEBPACK_IMPORTED_MODULE_0__["clamp"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "relativeClamp", function() { return _index_light__WEBPACK_IMPORTED_MODULE_4__["relativeClamp"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "relativeClamp", function() { return _index_light__WEBPACK_IMPORTED_MODULE_0__["relativeClamp"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "toDegrees", function() { return _index_light__WEBPACK_IMPORTED_MODULE_4__["toDegrees"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Context", function() { return _index_light__WEBPACK_IMPORTED_MODULE_0__["Context"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "toRadians", function() { return _index_light__WEBPACK_IMPORTED_MODULE_4__["toRadians"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ShapePrimitiveAdaptMode", function() { return _index_light__WEBPACK_IMPORTED_MODULE_0__["ShapePrimitiveAdaptMode"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Context", function() { return _index_light__WEBPACK_IMPORTED_MODULE_4__["Context"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "DrawerCanvas", function() { return _index_light__WEBPACK_IMPORTED_MODULE_0__["DrawerCanvas"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "DrawerCanvas", function() { return _index_light__WEBPACK_IMPORTED_MODULE_4__["DrawerCanvas"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Animation", function() { return _index_light__WEBPACK_IMPORTED_MODULE_0__["Animation"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Animation", function() { return _index_light__WEBPACK_IMPORTED_MODULE_4__["Animation"]; });
 
-/* harmony import */ var _services_scene_utilities_SceneUtilities__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./services/scene-utilities/SceneUtilities */ "./dist/services/scene-utilities/SceneUtilities.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "SceneUtilities", function() { return _services_scene_utilities_SceneUtilities__WEBPACK_IMPORTED_MODULE_1__["default"]; });
+/* harmony import */ var _services_scene_utilities_SceneUtilities__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./services/scene-utilities/SceneUtilities */ "./dist/services/scene-utilities/SceneUtilities.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "SceneUtilities", function() { return _services_scene_utilities_SceneUtilities__WEBPACK_IMPORTED_MODULE_5__["default"]; });
 
-/* harmony import */ var _services_renderer_Renderer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./services/renderer/Renderer */ "./dist/services/renderer/Renderer.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Renderer", function() { return _services_renderer_Renderer__WEBPACK_IMPORTED_MODULE_2__["default"]; });
+/* harmony import */ var _services_renderer_Renderer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./services/renderer/Renderer */ "./dist/services/renderer/Renderer.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Renderer", function() { return _services_renderer_Renderer__WEBPACK_IMPORTED_MODULE_6__["default"]; });
 
-/* harmony import */ var _services_importers_JSONImporter__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./services/importers/JSONImporter */ "./dist/services/importers/JSONImporter.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "JSONImporter", function() { return _services_importers_JSONImporter__WEBPACK_IMPORTED_MODULE_3__["default"]; });
+/* harmony import */ var _services_importers_JSONImporter__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./services/importers/JSONImporter */ "./dist/services/importers/JSONImporter.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "JSONImporter", function() { return _services_importers_JSONImporter__WEBPACK_IMPORTED_MODULE_7__["default"]; });
 
-/* harmony import */ var _services_exporters_JSONExporter__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./services/exporters/JSONExporter */ "./dist/services/exporters/JSONExporter.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "JSONExporter", function() { return _services_exporters_JSONExporter__WEBPACK_IMPORTED_MODULE_4__["default"]; });
+/* harmony import */ var _services_exporters_JSONExporter__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./services/exporters/JSONExporter */ "./dist/services/exporters/JSONExporter.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "JSONExporter", function() { return _services_exporters_JSONExporter__WEBPACK_IMPORTED_MODULE_8__["default"]; });
 
-/* harmony import */ var _services_exporters_SVGExporter__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./services/exporters/SVGExporter */ "./dist/services/exporters/SVGExporter.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "SVGExporter", function() { return _services_exporters_SVGExporter__WEBPACK_IMPORTED_MODULE_5__["default"]; });
+/* harmony import */ var _services_exporters_SVGExporter__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./services/exporters/SVGExporter */ "./dist/services/exporters/SVGExporter.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "SVGExporter", function() { return _services_exporters_SVGExporter__WEBPACK_IMPORTED_MODULE_9__["default"]; });
+
+/**
+ * Types & Intterface
+ */
+
+
+
 
 
 
@@ -4706,6 +5963,10 @@ const Animation = {
                 const rawValue = animation.value;
                 return eval(rawValue.raw);
             }
+            // case 'random': {
+            //     const randomValue = SetProp.getRandomFunctionForProp(prop_name)
+            //     return ({ shape }) => randomValue(shape.rand())
+            // }
         }
     },
 };
@@ -4724,15 +5985,43 @@ const Animation = {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 const Easings = {
+    /**
+     * @param {number} time current time
+     * @param {number} start start value
+     * @param {number} end end value
+     * @param {number} durate duration
+     * @returns {number}
+     */
     linear: (time, start, end, durate) => (end * time) / durate + start,
+    /**
+     * @param {number} time current time
+     * @param {number} start start value
+     * @param {number} end end value
+     * @param {number} duratte duration
+     * @returns {number}
+     */
     quadraticIn: (time, start, end, duratte) => {
         time /= duratte;
         return end * time * time + start;
     },
+    /**
+     * @param {number} time current time
+     * @param {number} start start value
+     * @param {number} end end value
+     * @param {number} durate duration
+     * @returns {number}
+     */
     quadraticOut: (time, start, end, durate) => {
         time /= durate;
         return -end * time * (time - 2) + start;
     },
+    /**
+     * @param {number} time current time
+     * @param {number} start start value
+     * @param {number} end end value
+     * @param {number} durate duration
+     * @returns {number}
+     */
     quadraticInOut: (time, start, end, durate) => {
         time /= durate / 2;
         if (time < 1)
@@ -4740,15 +6029,36 @@ const Easings = {
         time--;
         return (-end / 2) * (time * (time - 2) - 1) + start;
     },
+    /**
+     * @param {number} time current time
+     * @param {number} start start value
+     * @param {number} end end value
+     * @param {number} durate duration
+     * @returns {number}
+     */
     cubicIn: (time, start, end, durate) => {
         time /= durate;
         return end * time * time * time + start;
     },
+    /**
+     * @param {number} time current time
+     * @param {number} start start value
+     * @param {number} end end value
+     * @param {number} durate duration
+     * @returns {number}
+     */
     cubicOut: (time, start, end, durate) => {
         time /= durate;
         time--;
         return end * (time * time * time + 1) + start;
     },
+    /**
+     * @param {number} time current time
+     * @param {number} start start value
+     * @param {number} end end value
+     * @param {number} durate duration
+     * @returns {number}
+     */
     cubicInOut: (time, start, end, durate) => {
         time /= durate / 2;
         if (time < 1)
@@ -4756,15 +6066,36 @@ const Easings = {
         time -= 2;
         return (end / 2) * (time * time * time + 2) + start;
     },
+    /**
+     * @param {number} time current time
+     * @param {number} start start value
+     * @param {number} end end value
+     * @param {number} durate duration
+     * @returns {number}
+     */
     quarticIn: (time, start, end, durate) => {
         time /= durate;
         return end * time * time * time * time + start;
     },
+    /**
+     * @param {number} time current time
+     * @param {number} start start value
+     * @param {number} end end value
+     * @param {number} durate duration
+     * @returns {number}
+     */
     quarticOut: (time, start, end, durate) => {
         time /= durate;
         time--;
         return -end * (time * time * time * time - 1) + start;
     },
+    /**
+     * @param {number} time current time
+     * @param {number} start start value
+     * @param {number} end end value
+     * @param {number} durate duration
+     * @returns {number}
+     */
     quarticInOut: (time, start, end, durate) => {
         time /= durate / 2;
         if (time < 1)
@@ -4772,15 +6103,36 @@ const Easings = {
         time -= 2;
         return (-end / 2) * (time * time * time * time - 2) + start;
     },
+    /**
+     * @param {number} time current time
+     * @param {number} start start value
+     * @param {number} end end value
+     * @param {number} durate duration
+     * @returns {number}
+     */
     quinticIn: (time, start, end, durate) => {
         time /= durate;
         return end * time * time * time * time * time + start;
     },
+    /**
+     * @param {number} time current time
+     * @param {number} start start value
+     * @param {number} end end value
+     * @param {number} durate duration
+     * @returns {number}
+     */
     quinticOut: (time, start, end, durate) => {
         time /= durate;
         time--;
         return end * (time * time * time * time * time + 1) + start;
     },
+    /**
+     * @param {number} time current time
+     * @param {number} start start value
+     * @param {number} end end value
+     * @param {number} durate duration
+     * @returns {number}
+     */
     quinticInOut: (time, start, end, durate) => {
         time /= durate / 2;
         if (time < 1)
@@ -4788,21 +6140,63 @@ const Easings = {
         time -= 2;
         return (end / 2) * (time * time * time * time * time + 2) + start;
     },
+    /**
+     * @param {number} time current time
+     * @param {number} start start value
+     * @param {number} end end value
+     * @param {number} durate duration
+     * @returns {number}
+     */
     sinusoidalIn: (time, start, end, durate) => {
         return -end * Math.cos((time / durate) * (Math.PI / 2)) + end + start;
     },
+    /**
+     * @param {number} time current time
+     * @param {number} start start value
+     * @param {number} end end value
+     * @param {number} durate duration
+     * @returns {number}
+     */
     sinusoidalOut: (time, start, end, durate) => {
         return end * Math.sin((time / durate) * (Math.PI / 2)) + start;
     },
+    /**
+     * @param {number} time current time
+     * @param {number} start start value
+     * @param {number} end end value
+     * @param {number} durate duration
+     * @returns {number}
+     */
     sinusoidalInOut: (time, start, end, durate) => {
         return (-end / 2) * (Math.cos((Math.PI * time) / durate) - 1) + start;
     },
+    /**
+     * @param {number} time current time
+     * @param {number} start start value
+     * @param {number} end end value
+     * @param {number} durate duration
+     * @returns {number}
+     */
     exponentialIn: (time, start, end, durate) => {
         return end * Math.pow(2, 10 * (time / durate - 1)) + start;
     },
+    /**
+     * @param {number} time current time
+     * @param {number} start start value
+     * @param {number} end end value
+     * @param {number} durate duration
+     * @returns {number}
+     */
     exponentialOut: (time, start, end, durate) => {
         return end * (-Math.pow(2, (-10 * time) / durate) + 1) + start;
     },
+    /**
+     * @param {number} time current time
+     * @param {number} start start value
+     * @param {number} end end value
+     * @param {number} durate duration
+     * @returns {number}
+     */
     exponentialInOut: (time, start, end, durate) => {
         time /= durate / 2;
         if (time < 1)
@@ -4810,15 +6204,36 @@ const Easings = {
         time--;
         return (end / 2) * (-Math.pow(2, -10 * time) + 2) + start;
     },
+    /**
+     * @param {number} time current time
+     * @param {number} start start value
+     * @param {number} end end value
+     * @param {number} durate duration
+     * @returns {number}
+     */
     circularIn: (time, start, end, durate) => {
         time /= durate;
         return -end * (Math.sqrt(1 - time * time) - 1) + start;
     },
+    /**
+     * @param {number} time current time
+     * @param {number} start start value
+     * @param {number} end end value
+     * @param {number} durate duration
+     * @returns {number}
+     */
     circularOut: (time, start, end, durate) => {
         time /= durate;
         time--;
         return end * Math.sqrt(1 - time * time) + start;
     },
+    /**
+     * @param {number} time current time
+     * @param {number} start start value
+     * @param {number} end end value
+     * @param {number} durate duration
+     * @returns {number}
+     */
     circularInOut: (time, start, end, durate) => {
         time /= durate / 2;
         if (time < 1)
@@ -4826,6 +6241,15 @@ const Easings = {
         time -= 2;
         return (end / 2) * (Math.sqrt(1 - time * time) + 1) + start;
     },
+    /**
+     * @param {number} time current time
+     * @param {number} start start value
+     * @param {number} end end value
+     * @param {number} durate duration
+     * @param {number} a amplitude (optional)
+     * @param {number} p period (optional)
+     * @return {number}
+     */
     elasticIn: function (time, start, end, durate, a, p) {
         if (time == 0) {
             return start;
@@ -4845,6 +6269,15 @@ const Easings = {
         }
         return -(a * Math.pow(2, 10 * (time -= 1)) * Math.sin(((time * durate - s) * (2 * Math.PI)) / p)) + start;
     },
+    /**
+     * @param {number} time current time
+     * @param {number} start start value
+     * @param {number} end end value
+     * @param {number} durate duration
+     * @param {number} a amplitude (optional)
+     * @param {number} p period (optional)
+     * @return {number}
+     */
     elasticOut: function (time, start, end, durate, a, p) {
         if (time == 0) {
             return start;
@@ -4864,6 +6297,15 @@ const Easings = {
         }
         return a * Math.pow(2, -10 * time) * Math.sin(((time * durate - s) * (2 * Math.PI)) / p) + end + start;
     },
+    /**
+     * @param {number} time current time
+     * @param {number} start start value
+     * @param {number} end end value
+     * @param {number} durate duration
+     * @param {number} a amplitude (optional)
+     * @param {number} p period (optional)
+     * @return {number}
+     */
     elasticBoth: function (time, start, end, durate, a, p) {
         if (time == 0) {
             return start;
@@ -4886,18 +6328,42 @@ const Easings = {
         }
         return a * Math.pow(2, -10 * (time -= 1)) * Math.sin(((time * durate - s) * (2 * Math.PI)) / p) * 0.5 + end + start;
     },
+    /**
+     * @param {number} time current time
+     * @param {number} start start value
+     * @param {number} end end value
+     * @param {number} durate duration
+     * @param {number} s overshoot (optional)
+     * @return {number}
+     */
     backIn: function (time, start, end, durate, s) {
         if (typeof s == 'undefined') {
             s = 1.70158;
         }
         return end * (time /= durate) * time * ((s + 1) * time - s) + start;
     },
+    /**
+     * @param {number} time current time
+     * @param {number} start start value
+     * @param {number} end end value
+     * @param {number} durate duration
+     * @param {number} s overshoot (optional)
+     * @return {number}
+     */
     backOut: function (time, start, end, durate, s) {
         if (typeof s == 'undefined') {
             s = 1.70158;
         }
         return end * ((time = time / durate - 1) * time * ((s + 1) * time + s) + 1) + start;
     },
+    /**
+     * @param {number} time current time
+     * @param {number} start start value
+     * @param {number} end end value
+     * @param {number} durate duration
+     * @param {number} s overshoot (optional)
+     * @return {number}
+     */
     backBoth: function (time, start, end, durate, s) {
         if (typeof s == 'undefined') {
             s = 1.70158;
@@ -4907,9 +6373,23 @@ const Easings = {
         }
         return (end / 2) * ((time -= 2) * time * (((s *= 1.525) + 1) * time + s) + 2) + start;
     },
+    /**
+     * @param {number} t current time
+     * @param {number} b start value
+     * @param {number} c end value
+     * @param {number} d duration
+     * @return {number}
+     */
     bounceIn: function (time, start, end, durate) {
         return end - Easings.bounceOut(durate - time, 0, end, durate) + start;
     },
+    /**
+     * @param {number} t current time
+     * @param {number} b start value
+     * @param {number} c end value
+     * @param {number} d duration
+     * @return {number}
+     */
     bounceOut: function (time, start, end, durate) {
         if ((time /= durate) < 1 / 2.75) {
             return end * (7.5625 * time * time) + start;
@@ -4922,6 +6402,15 @@ const Easings = {
         }
         return end * (7.5625 * (time -= 2.625 / 2.75) * time + 0.984375) + start;
     },
+    /**
+     *
+     *
+     * @param {number} time
+     * @param {number} start
+     * @param {number} end
+     * @param {number} durate
+     * @returns
+     */
     bounceBoth: function (time, start, end, durate) {
         if (time < durate / 2) {
             return Easings.bounceIn(time * 2, 0, end, durate) * 0.5 + start;
@@ -4946,7 +6435,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pups_core_build_Models_Color_ColorManager__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @pups/core/build/Models/Color/ColorManager */ "./node_modules/@pups/core/build/Models/Color/ColorManager.js");
 /* harmony import */ var _pups_core_build_Models_Color_ColorManager__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_pups_core_build_Models_Color_ColorManager__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _Easings__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Easings */ "./dist/services/animation/Easings.js");
-/* harmony import */ var _core_Utilites__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../core/Utilites */ "./dist/core/Utilites.js");
+/* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Utilites */ "./dist/Utilites.js");
 
 
 
@@ -4957,8 +6446,8 @@ const Simple = {
     compose: (simpleAnimation) => {
         if (typeof simpleAnimation.from !== 'string' && typeof simpleAnimation.to !== 'string') {
             const bArray = Array.isArray(simpleAnimation.from) || Array.isArray(simpleAnimation.to);
-            const from = bArray ? Object(_core_Utilites__WEBPACK_IMPORTED_MODULE_2__["toArray"])(simpleAnimation.from) : simpleAnimation.from;
-            const to = bArray ? Object(_core_Utilites__WEBPACK_IMPORTED_MODULE_2__["toArray"])(simpleAnimation.to) : simpleAnimation.to;
+            const from = bArray ? Object(_Utilites__WEBPACK_IMPORTED_MODULE_2__["toArray"])(simpleAnimation.from) : simpleAnimation.from;
+            const to = bArray ? Object(_Utilites__WEBPACK_IMPORTED_MODULE_2__["toArray"])(simpleAnimation.to) : simpleAnimation.to;
             const vCallback = bArray
                 ? (current_index, v) => {
                     const a = (simpleAnimation.invertOdd && current_index % 2 == 1 ? to : from);
@@ -5009,7 +6498,7 @@ function createSimpleAnimationCallback(animation, value) {
                     const frequency = ((props.time || 0) * 2 * Math.PI) / durate;
                     return value(props, 0.5 + Math[mode_function](frequency) * 0.5);
                 };
-            }
+            } /* easing */
             else {
                 return function SimpleAnimation(props) {
                     const d2 = durate / 2;
@@ -5019,7 +6508,7 @@ function createSimpleAnimationCallback(animation, value) {
                         : _Easings__WEBPACK_IMPORTED_MODULE_1__["default"][mode_function](d2 - (t - d2), 0, 1, d2));
                 };
             }
-        }
+        } // uncontrolled-loop
         else {
             if (mode == 'sinusoidal') {
                 return function SimpleAnimation(props) {
@@ -5090,7 +6579,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _scene_utilities_SceneUtilities__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../scene-utilities/SceneUtilities */ "./dist/services/scene-utilities/SceneUtilities.js");
 /* harmony import */ var _FrameBuffer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./FrameBuffer */ "./dist/services/drawer-canvas/FrameBuffer.js");
 /* harmony import */ var _events_Emitter__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../events/Emitter */ "./dist/services/events/Emitter.js");
-/* harmony import */ var _core_Utilites__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../core/Utilites */ "./dist/core/Utilites.js");
+/* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../Utilites */ "./dist/Utilites.js");
 
 
 
@@ -5098,6 +6587,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/**
+ *
+ * @category Services
+ * @class DrawerCanvas
+ * @extends {Emitter<DrawerCanvasEvents>}
+ */
 class DrawerCanvas extends _events_Emitter__WEBPACK_IMPORTED_MODULE_5__["default"] {
     constructor(scene, canvasOrContainer, drawOptions = {}, ratio = undefined, resolution = 0, bBuffering = false) {
         var _a, _b, _c, _d, _e, _f, _g;
@@ -5152,12 +6647,18 @@ class DrawerCanvas extends _events_Emitter__WEBPACK_IMPORTED_MODULE_5__["default
     getBBuffering() {
         return this.bBuffering;
     }
+    /**
+     * Set scene
+     *
+     * @param {Scene} scene
+     * @memberof CanvasDrawer
+     */
     setScene(scene) {
         this.scene = scene;
         if (!this.resolution && this.scene.width)
             this.resolution = this.scene.width;
         if (this.canvas) {
-            this.setCanvas(this.canvas);
+            this.setCanvas(this.canvas); // and flush
         }
     }
     getScene() {
@@ -5166,6 +6667,12 @@ class DrawerCanvas extends _events_Emitter__WEBPACK_IMPORTED_MODULE_5__["default
     getTimeline() {
         return this.timeline;
     }
+    /**
+     * Set the canvas or append to container
+     *
+     * @param {(HTMLElement | HTMLCanvasElement | OffscreenCanvas)} canvasOrContainer
+     * @memberof CanvasDrawer
+     */
     setCanvas(canvasOrContainer) {
         let canvas;
         if (typeof HTMLElement !== 'undefined' && canvasOrContainer instanceof HTMLElement) {
@@ -5188,16 +6695,38 @@ class DrawerCanvas extends _events_Emitter__WEBPACK_IMPORTED_MODULE_5__["default
             desynchronized: false,
         });
         if (this.scene) {
-            this.resize(this.scene.width, this.scene.height);
+            this.resize(this.scene.width, this.scene.height); // and flush
         }
     }
+    /**
+     * Return canvas element
+     *
+     * @returns {(HTMLCanvasElement | OffscreenCanvas)}
+     * @memberof DrawerCanvas
+     */
     getCanvas() {
         return this.canvas;
     }
+    /**
+     * Return canvas context
+     *
+     * @returns {(CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D | null)}
+     * @memberof DrawerCanvas
+     */
     getContext() {
         return this.context;
     }
+    /**
+     * Resize scene and canvas
+     *
+     * @param {number} width
+     * @param {number} height
+     * @param {number} [ratio]
+     * @param {number} [resolution]
+     * @memberof DrawerCanvas
+     */
     resize(width, height, ratio, resolution) {
+        // const dpi = typeof devicePixelRatio !== 'undefined' ? devicePixelRatio : 1
         const dpi = 1;
         ratio = ratio || this.ratio || width / height;
         const size = Math.max(width, height);
@@ -5238,28 +6767,75 @@ class DrawerCanvas extends _events_Emitter__WEBPACK_IMPORTED_MODULE_5__["default
         }
         return [];
     }
+    /**
+     * Resize by ratio
+     *
+     * @param {number} ratio
+     * @memberof DrawerCanvas
+     */
     setRatio(ratio) {
         this.resize(this.scene.width, this.scene.height, ratio);
     }
+    /**
+     * Return drawer ratio
+     *
+     * @returns {number}
+     * @memberof DrawerCanvas
+     */
     getRatio() {
         return this.ratio;
     }
+    /**
+     * Get resolution
+     *
+     * @returns {number}
+     * @memberof DrawerCanvas
+     */
     getResolution() {
         return this.resolution;
     }
+    /**
+     * Get resolution of drawer
+     *
+     * @param {number} resolution
+     * @memberof DrawerCanvas
+     */
     setResolution(resolution) {
         this.resize(this.scene.width, this.scene.height, this.ratio, resolution);
     }
+    /**
+     * Get scene value scaled based on resolution
+     *
+     * @param {number} value
+     * @returns
+     * @memberof DrawerCanvas
+     */
     getValueFromResolution(value) {
         return (value * this.resolution) / 200;
     }
+    /**
+     * Get scene value scaled based on resolution
+     *
+     * @param {number} value
+     * @returns
+     * @memberof DrawerCanvas
+     */
     getValueFromResolutionScaled(value) {
         return (value * 200) / this.resolution;
     }
+    /**
+     * Set draw option
+     *
+     * @template K
+     * @param {(K | DrawOptions)} name
+     * @param {Required<DrawOptions>[K]} [value]
+     * @memberof CanvasDrawer
+     */
     setOption(name, value) {
         if (typeof name == 'object') {
             const keys = Object.keys(name);
             for (let i = 0, len = keys.length; i < len; i++) {
+                // @ts-ignore
                 this.drawOptions[keys[i]] = name[keys[i]];
             }
         }
@@ -5268,13 +6844,34 @@ class DrawerCanvas extends _events_Emitter__WEBPACK_IMPORTED_MODULE_5__["default
         }
         this.flushBuffer();
     }
+    /**
+     *
+     *
+     * @template K
+     * @param {K} name
+     * @param {DrawOptions[K]} default_value
+     * @returns {DrawOptions[K]}
+     * @memberof DrawerCanvas
+     */
     getOption(name, default_value) {
         var _a;
         return (_a = this.drawOptions[name]) !== null && _a !== void 0 ? _a : default_value;
     }
+    /**
+     *
+     *
+     * @returns {DrawOptions}
+     * @memberof DrawerCanvas
+     */
     getOptions() {
         return this.drawOptions;
     }
+    /**
+     * Internal tick animation
+     *
+     * @private
+     * @memberof CanvasDrawer
+     */
     animate(timestamp) {
         if (this.timeline.bSequenceStarted()) {
             this.animation_id = requestAnimationFrame(this.animate);
@@ -5282,25 +6879,103 @@ class DrawerCanvas extends _events_Emitter__WEBPACK_IMPORTED_MODULE_5__["default
                 this.draw();
         }
     }
+    /**
+     * Start animation drawing
+     *
+     * @memberof CanvasDrawer
+     */
     startAnimation() {
         this.stopAnimation();
         this.timeline.start();
         this.animation_id = requestAnimationFrame(this.animate);
     }
+    /**
+     * Stop animation drawing
+     *
+     * @memberof CanvasDrawer
+     */
     stopAnimation() {
         this.timeline.stop();
         if (this.animation_id)
             cancelAnimationFrame(this.animation_id);
     }
+    /**
+     * Pause animation drawing
+     *
+     * @memberof CanvasDrawer
+     */
     pauseAnimation() {
         this.timeline.pause();
         if (this.animation_id)
             cancelAnimationFrame(this.animation_id);
     }
+    /**
+     * Play animation drawing
+     *
+     * @memberof CanvasDrawer
+     */
     playAnimation() {
         this.timeline.start();
         requestAnimationFrame(this.animate);
     }
+    // public preload(): Promise<boolean> {
+    // 	if (this.bBuffering && this.scene) {
+    // 		return new Promise<boolean>((resolve, reject) => {
+    // 			this.flushBuffer()
+    // 			const sequence = this.timeline.getSequence()
+    // 			let canvas: HTMLCanvasElement | OffscreenCanvas
+    // 			if (typeof OffscreenCanvas !== 'undefined') canvas = new OffscreenCanvas(this.scene.width, this.scene.height)
+    // 			else {
+    // 				canvas = document.createElement('canvas')
+    // 				canvas.width = this.scene.width
+    // 				canvas.height = this.scene.height
+    // 			}
+    // 			const context: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D | null = canvas.getContext('2d', {
+    // 				alpha: true,
+    // 				desynchronized: false,
+    // 			})
+    // 			if (!context) reject('Create context error')
+    // 			const drawOptions = { ...this.drawOptions }
+    // 			const sequenceEndTime = this.timeline.getSequenceEndTime()
+    // 			for (let i = 0; i < sequence.frames; i++) {
+    // 				// requestAnimationFrame(() => {
+    // 				const time = this.timeline.getFrameTime(i)
+    // 				drawOptions.clearCanvas = this.drawOptions.clearCanvas || i === 0
+    // 				drawOptions.time = time
+    // 				DrawerCanvas.draw(this.scene, context, drawOptions, this.resolution)
+    // 				if (drawOptions.ghosts) {
+    // 					for (let gi = 1; gi <= drawOptions.ghosts; gi++) {
+    // 						const ghostTime =
+    // 							time -
+    // 							(drawOptions.ghost_skip_function
+    // 								? drawOptions.ghost_skip_function(gi)
+    // 								: gi * (drawOptions.ghost_skip_time ?? 30))
+    // 						drawOptions.clearCanvas = false
+    // 						drawOptions.ghost_index = gi
+    // 						drawOptions.time =
+    // 							ghostTime < 0
+    // 								? ghostTime + sequenceEndTime
+    // 								: ghostTime > sequenceEndTime
+    // 								? ghostTime % sequenceEndTime
+    // 								: ghostTime
+    // 						DrawerCanvas.draw(this.scene, context, drawOptions, this.resolution)
+    // 					}
+    // 				}
+    // 				this.buffer.push(i, context as CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D)
+    // 				// })
+    // 			}
+    // 			resolve(true)
+    // 		})
+    // 	} else {
+    // 		return Promise.reject()
+    // 	}
+    // }
+    /**
+     * Draw current scene
+     *
+     * @returns {number}
+     * @memberof DrawerCanvas
+     */
     draw() {
         var _a, _b;
         let draw_time = 0;
@@ -5326,6 +7001,7 @@ class DrawerCanvas extends _events_Emitter__WEBPACK_IMPORTED_MODULE_5__["default
                         (drawOptions.ghost_skip_function
                             ? drawOptions.ghost_skip_function(i)
                             : i * ((_b = drawOptions.ghost_skip_time) !== null && _b !== void 0 ? _b : 30));
+                    // drawOptions.clearCanvas = i == 1
                     drawOptions.clearCanvas = false;
                     drawOptions.ghost_index = i;
                     drawOptions.time =
@@ -5346,6 +7022,12 @@ class DrawerCanvas extends _events_Emitter__WEBPACK_IMPORTED_MODULE_5__["default
         }
         return draw_time;
     }
+    /**
+     * Redraw
+     *
+     * @returns {void}
+     * @memberof DrawerCanvas
+     */
     redraw() {
         if (!this.timeline.bSequenceStarted()) {
             this.draw_id && cancelAnimationFrame(this.draw_id);
@@ -5357,13 +7039,25 @@ class DrawerCanvas extends _events_Emitter__WEBPACK_IMPORTED_MODULE_5__["default
         else if (!this.drawOptions.clearCanvas &&
             (typeof this.drawOptions.ghosts == undefined || this.drawOptions.ghosts == 0)) {
             this.stopAnimation();
+            // this.redraw_id && clearTimeout(this.redraw_id)
+            // this.redraw_id = setTimeout(() => this.startAnimation(), 100)
             this.redraw_id && cancelAnimationFrame(this.redraw_id);
             this.redraw_id = requestAnimationFrame(this.startAnimation);
         }
     }
+    /**
+     * Static draw scene
+     *
+     * @static
+     * @param {Scene} scene
+     * @param {(CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D | null)} context
+     * @param {DrawOptions} options
+     * @returns {number}
+     * @memberof DrawerCanvas
+     */
     static draw(scene, context, options, resolution) {
         var _a, _b, _c, _d;
-        const start_time = Object(_core_Utilites__WEBPACK_IMPORTED_MODULE_6__["now"])();
+        const start_time = Object(_Utilites__WEBPACK_IMPORTED_MODULE_6__["now"])();
         if (context) {
             const scale = (_a = options.scale) !== null && _a !== void 0 ? _a : 1;
             const translate = (_b = options.translate) !== null && _b !== void 0 ? _b : [0, 0];
@@ -5425,7 +7119,7 @@ class DrawerCanvas extends _events_Emitter__WEBPACK_IMPORTED_MODULE_5__["default
                     context.stroke();
                 }
             }
-            scene.draw(({ lineWidth, strokeColor, fillColor, shape, buffer, buffer_length, current_buffer_index }) => {
+            scene.stream(({ lineWidth, strokeColor, fillColor, shape, buffer, buffer_length, current_buffer_index }) => {
                 if (shape.data && (shape.data.visible === false || (bGhost && shape.data.disableGhost === true)))
                     return;
                 context.beginPath();
@@ -5476,7 +7170,7 @@ class DrawerCanvas extends _events_Emitter__WEBPACK_IMPORTED_MODULE_5__["default
                 }
             });
         }
-        const end_time = Object(_core_Utilites__WEBPACK_IMPORTED_MODULE_6__["now"])();
+        const end_time = Object(_Utilites__WEBPACK_IMPORTED_MODULE_6__["now"])();
         return end_time - start_time;
     }
 }
@@ -5494,6 +7188,11 @@ class DrawerCanvas extends _events_Emitter__WEBPACK_IMPORTED_MODULE_5__["default
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/**
+ *
+ * @category Services.DrawerCavnas
+ * @class FrameBuffer
+ */
 class FrameBuffer {
     constructor() {
         this.frames = {};
@@ -5531,16 +7230,38 @@ class FrameBuffer {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/**
+ *
+ * @category Services
+ * @abstract
+ * @class Emitter
+ * @template EventTypes
+ */
 class Emitter {
     constructor() {
+        //@ts-ignore
         this.callbacks = {};
     }
+    /**
+     * Attach callback at event
+     *
+     * @param {keyof EventTypes} e
+     * @param {(value: EventTypes[keyof EventTypes]) => any} callback
+     * @memberof Emitter
+     */
     attach(e, callback) {
         if (!(e in this.callbacks)) {
             this.callbacks[e] = [];
         }
         this.callbacks[e].push(callback);
     }
+    /**
+     * Remove callbach listener at event
+     *
+     * @param {keyof EventTypes} e
+     * @param {(value: EventTypes[keyof EventTypes]) => void} callback
+     * @memberof Emitter
+     */
     detach(e, callback) {
         if (e in this.callbacks) {
             const index = this.callbacks[e].indexOf(callback);
@@ -5549,6 +7270,13 @@ class Emitter {
             }
         }
     }
+    /**
+     * Dispatch event
+     *
+     * @param {keyof EventTypes} e
+     * @param {EventTypes[keyof EventTypes]} [params]
+     * @memberof Emitter
+     */
     dispatch(e, params) {
         if (e in this.callbacks) {
             for (let i = 0, len = this.callbacks[e].length; i < len; i++)
@@ -5573,12 +7301,12 @@ class Emitter {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _core_Group__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../core/Group */ "./dist/core/Group.js");
 /* harmony import */ var _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../core/shapes/Shape */ "./dist/core/shapes/Shape.js");
-/* harmony import */ var _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../core/shapes/ShapeBuffer */ "./dist/core/shapes/ShapeBuffer.js");
-/* harmony import */ var _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../core/shapes/ShapePrimitive */ "./dist/core/shapes/ShapePrimitive.js");
-/* harmony import */ var _importers_JSONImporter__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../importers/JSONImporter */ "./dist/services/importers/JSONImporter.js");
-/* harmony import */ var _utilities_parseFunction__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utilities/parseFunction */ "./dist/services/utilities/parseFunction.js");
-/* harmony import */ var _scene_utilities_SceneUtilities__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../scene-utilities/SceneUtilities */ "./dist/services/scene-utilities/SceneUtilities.js");
-/* harmony import */ var _core_shapes_ShapeBase__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../core/shapes/ShapeBase */ "./dist/core/shapes/ShapeBase.js");
+/* harmony import */ var _core_shapes_ShapeBase__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../core/shapes/ShapeBase */ "./dist/core/shapes/ShapeBase.js");
+/* harmony import */ var _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../core/shapes/ShapeBuffer */ "./dist/core/shapes/ShapeBuffer.js");
+/* harmony import */ var _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../core/shapes/ShapePrimitive */ "./dist/core/shapes/ShapePrimitive.js");
+/* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../Utilites */ "./dist/Utilites.js");
+/* harmony import */ var _importers_JSONImporter__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../importers/JSONImporter */ "./dist/services/importers/JSONImporter.js");
+/* harmony import */ var _scene_utilities_SceneUtilities__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../scene-utilities/SceneUtilities */ "./dist/services/scene-utilities/SceneUtilities.js");
 
 
 
@@ -5587,6 +7315,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/**
+ *
+ * @category Services
+ * @class JSONExporter
+ */
 class JSONExporter {
     parse(drawer, name = 'EmptyProject') {
         return this.toString(this.parseAsProject(drawer, name));
@@ -5597,7 +7330,7 @@ class JSONExporter {
     parseAsProject(drawer, name = 'EmptyProject') {
         const scene = drawer.getScene();
         const timeline = drawer.getTimeline();
-        const project = Object(_importers_JSONImporter__WEBPACK_IMPORTED_MODULE_4__["createEmptyProject"])();
+        const project = _importers_JSONImporter__WEBPACK_IMPORTED_MODULE_6__["default"].createEmptyProject();
         project.name = name;
         project.width = scene.width;
         project.height = scene.height;
@@ -5606,7 +7339,7 @@ class JSONExporter {
         project.background = scene.background;
         project.clearCanvas = drawer.getOption('clearCanvas', true);
         project.ghosts = drawer.getOption('ghosts', 0);
-        project.ghost_skip_time = _utilities_parseFunction__WEBPACK_IMPORTED_MODULE_5__["default"].parse(drawer.getOption('ghost_skip_time', 30));
+        project.ghost_skip_time = _Utilites__WEBPACK_IMPORTED_MODULE_5__["parseFunction"].parse(drawer.getOption('ghost_skip_time', 30));
         project.ratio = drawer.getRatio();
         const { start, end, framerate } = timeline.getSequence();
         project.sequence = { start, end, framerate, durate: end - start };
@@ -5625,29 +7358,29 @@ class JSONExporter {
             order: sceneChild.order,
             data: Object.assign(Object.assign({}, sceneChild.data), { props: undefined }),
             depth,
-            bPrimitive: sceneChild instanceof _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_3__["default"],
+            bPrimitive: sceneChild instanceof _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_4__["default"],
             props: {},
             parent_id,
         };
         const props = sceneChild.getProps();
         const propsKeys = Object.keys(props);
         for (let i = 0, len = propsKeys.length; i < len; i++)
-            props[propsKeys[i]] = _utilities_parseFunction__WEBPACK_IMPORTED_MODULE_5__["default"].parse(props[propsKeys[i]]);
+            props[propsKeys[i]] = _Utilites__WEBPACK_IMPORTED_MODULE_5__["parseFunction"].parse(props[propsKeys[i]]);
         projectSceneChild.props = Object.assign(Object.assign({}, props), sceneChild.data.props);
-        if (sceneChild instanceof _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_2__["default"]) {
+        if (sceneChild instanceof _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_3__["default"]) {
             projectSceneChild.shape = sceneChild.shape;
         }
-        if (sceneChild instanceof _core_shapes_ShapeBase__WEBPACK_IMPORTED_MODULE_7__["default"]) {
+        if (sceneChild instanceof _core_shapes_ShapeBase__WEBPACK_IMPORTED_MODULE_2__["default"]) {
             projectSceneChild.bUseParent = sceneChild.bUseParent;
         }
-        if (sceneChild instanceof _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_3__["default"]) {
+        if (sceneChild instanceof _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_4__["default"]) {
             projectSceneChild.bAdaptBuffer = sceneChild.bAdaptBuffer;
             projectSceneChild.bCloseShape = sceneChild.bCloseShape;
-            projectSceneChild.vertexCallback = _utilities_parseFunction__WEBPACK_IMPORTED_MODULE_5__["default"].parse(sceneChild.vertexCallback);
+            projectSceneChild.vertexCallback = _Utilites__WEBPACK_IMPORTED_MODULE_5__["parseFunction"].parse(sceneChild.vertexCallback);
         }
         else if (sceneChild instanceof _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_1__["default"] || sceneChild instanceof _core_Group__WEBPACK_IMPORTED_MODULE_0__["default"]) {
             const children = [];
-            const shapeChildren = _scene_utilities_SceneUtilities__WEBPACK_IMPORTED_MODULE_6__["default"].getChildren(sceneChild);
+            const shapeChildren = _scene_utilities_SceneUtilities__WEBPACK_IMPORTED_MODULE_7__["default"].getChildren(sceneChild);
             for (let i = 0; i < shapeChildren.length; i++)
                 children.push(this.parseSceneChild(shapeChildren[i], sceneChild.id, depth + 1));
             projectSceneChild.children = children;
@@ -5675,6 +7408,11 @@ const DEFAULT_SETTINGS = {
     time: 0,
     noBackground: true,
 };
+/**
+ *
+ * @category Services
+ * @class SVGExporter
+ */
 class SVGExporter {
     parse(drawer, settings) {
         settings = Object.assign(Object.assign({}, DEFAULT_SETTINGS), settings);
@@ -5759,7 +7497,7 @@ class SVGExporter {
                 sceneChild.generate(time, true);
         });
         const Paths = [];
-        scene.draw(({ lineWidth, strokeColor, fillColor, shape, buffer, buffer_length, current_buffer_index }) => {
+        scene.stream(({ lineWidth, strokeColor, fillColor, shape, buffer, buffer_length, current_buffer_index }) => {
             var _a, _b;
             if (((_a = shape === null || shape === void 0 ? void 0 : shape.data) === null || _a === void 0 ? void 0 : _a.visible) == false || (bGhost && ((_b = shape === null || shape === void 0 ? void 0 : shape.data) === null || _b === void 0 ? void 0 : _b.disableGhost) == true))
                 return;
@@ -5812,15 +7550,14 @@ class SVGExporter {
 /*!*************************************************!*\
   !*** ./dist/services/importers/JSONImporter.js ***!
   \*************************************************/
-/*! exports provided: createEmptyProject, default */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createEmptyProject", function() { return createEmptyProject; });
 /* harmony import */ var _core_Scene__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../core/Scene */ "./dist/core/Scene.js");
 /* harmony import */ var _drawer_canvas_DrawerCanvas__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../drawer-canvas/DrawerCanvas */ "./dist/services/drawer-canvas/DrawerCanvas.js");
-/* harmony import */ var _utilities_parseFunction__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utilities/parseFunction */ "./dist/services/utilities/parseFunction.js");
+/* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Utilites */ "./dist/Utilites.js");
 /* harmony import */ var _scene_utilities_SceneUtilities__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../scene-utilities/SceneUtilities */ "./dist/services/scene-utilities/SceneUtilities.js");
 /* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/index.js");
 
@@ -5828,28 +7565,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const createEmptyProject = () => {
-    return {
-        id: Object(uuid__WEBPACK_IMPORTED_MODULE_4__["v1"])(),
-        name: '',
-        width: 600,
-        height: 600,
-        resolution: 600,
-        background: '#000',
-        mainColor: '#fff',
-        clearCanvas: true,
-        ghosts: 0,
-        ghost_skip_time: 30,
-        ratio: 1,
-        scene: {},
-        sequence: {
-            start: 0,
-            end: 6000,
-            durate: 6000,
-            framerate: 60,
-        },
-    };
-};
+/**
+ *
+ * @category Services
+ * @class JSONImporter
+ */
 class JSONImporter {
     parse(project_json) {
         var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
@@ -5858,7 +7578,7 @@ class JSONImporter {
         const parsed = project_json && project_json.length > 0 ? JSON.parse(project_json) : {};
         if (!('scene' in parsed))
             return null;
-        const emptyProject = createEmptyProject();
+        const emptyProject = JSONImporter.createEmptyProject();
         const project = {
             id: (_a = parsed.id) !== null && _a !== void 0 ? _a : emptyProject.id,
             name: (_b = parsed.name) !== null && _b !== void 0 ? _b : emptyProject.name,
@@ -5879,7 +7599,7 @@ class JSONImporter {
         const drawOptions = {
             clearCanvas: project.clearCanvas,
             ghosts: project.ghosts,
-            ghost_skip_time: _utilities_parseFunction__WEBPACK_IMPORTED_MODULE_2__["default"].unparse(project.ghost_skip_time),
+            ghost_skip_time: _Utilites__WEBPACK_IMPORTED_MODULE_2__["parseFunction"].unparse(project.ghost_skip_time),
         };
         const scene = new _core_Scene__WEBPACK_IMPORTED_MODULE_0__["default"]({
             mainColor: project.mainColor,
@@ -5909,7 +7629,7 @@ class JSONImporter {
             bUseParent: projectSceneChild.bUseParent,
             bAdaptBuffer: projectSceneChild.bAdaptBuffer,
             bCloseShape: projectSceneChild.bCloseShape,
-            vertexCallback: _utilities_parseFunction__WEBPACK_IMPORTED_MODULE_2__["default"].unparse(projectSceneChild.vertexCallback),
+            vertexCallback: _Utilites__WEBPACK_IMPORTED_MODULE_2__["parseFunction"].unparse(projectSceneChild.vertexCallback),
             shape: shape,
         };
         const props = Object.assign({}, projectSceneChild.props);
@@ -5917,7 +7637,7 @@ class JSONImporter {
         if (sceneChild) {
             ;
             Object.keys(props).forEach(propKey => {
-                _scene_utilities_SceneUtilities__WEBPACK_IMPORTED_MODULE_3__["default"].setProp(sceneChild, propKey, _utilities_parseFunction__WEBPACK_IMPORTED_MODULE_2__["default"].unparse(props[propKey]), drawer);
+                _scene_utilities_SceneUtilities__WEBPACK_IMPORTED_MODULE_3__["default"].setProp(sceneChild, propKey, _Utilites__WEBPACK_IMPORTED_MODULE_2__["parseFunction"].unparse(props[propKey]), drawer);
             });
             if (projectSceneChild.children && projectSceneChild.children.length > 0) {
                 for (let i = 0, len = projectSceneChild.children.length; i < len; i++) {
@@ -5931,6 +7651,28 @@ class JSONImporter {
         return null;
     }
 }
+JSONImporter.createEmptyProject = () => {
+    return {
+        id: Object(uuid__WEBPACK_IMPORTED_MODULE_4__["v1"])(),
+        name: '',
+        width: 600,
+        height: 600,
+        resolution: 600,
+        background: '#000',
+        mainColor: '#fff',
+        clearCanvas: true,
+        ghosts: 0,
+        ghost_skip_time: 30,
+        ratio: 1,
+        scene: {},
+        sequence: {
+            start: 0,
+            end: 6000,
+            durate: 6000,
+            framerate: 60,
+        },
+    };
+};
 /* harmony default export */ __webpack_exports__["default"] = (JSONImporter);
 //# sourceMappingURL=JSONImporter.js.map
 
@@ -5945,6 +7687,11 @@ class JSONImporter {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/**
+ *
+ * @category Services.Renderer
+ * @class Capturer
+ */
 class Capturer {
     constructor(settings = {}) {
         this.type = settings.type || 'image/jpeg';
@@ -6046,10 +7793,9 @@ class Capturer {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jszip__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jszip */ "./node_modules/jszip/dist/jszip.min.js");
 /* harmony import */ var jszip__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jszip__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _core_Utilites__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../core/Utilites */ "./dist/core/Utilites.js");
-/* harmony import */ var _utilities_cancelablePromise__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utilities/cancelablePromise */ "./dist/services/utilities/cancelablePromise.js");
-/* harmony import */ var _events_Emitter__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../events/Emitter */ "./dist/services/events/Emitter.js");
-/* harmony import */ var _Capturer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Capturer */ "./dist/services/renderer/Capturer.js");
+/* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Utilites */ "./dist/Utilites.js");
+/* harmony import */ var _events_Emitter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../events/Emitter */ "./dist/services/events/Emitter.js");
+/* harmony import */ var _Capturer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Capturer */ "./dist/services/renderer/Capturer.js");
 var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -6063,11 +7809,16 @@ var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _argume
 
 
 
-
-class Renderer extends _events_Emitter__WEBPACK_IMPORTED_MODULE_3__["default"] {
+/**
+ *
+ * @category Services.Renderer
+ * @class Renderer
+ * @extends {Emitter<IRenderEvents>}
+ */
+class Renderer extends _events_Emitter__WEBPACK_IMPORTED_MODULE_2__["default"] {
     constructor() {
         super();
-        this.capturer = new _Capturer__WEBPACK_IMPORTED_MODULE_4__["default"]();
+        this.capturer = new _Capturer__WEBPACK_IMPORTED_MODULE_3__["default"]();
     }
     renderImage(drawer, settings) {
         this.started = true;
@@ -6098,17 +7849,17 @@ class Renderer extends _events_Emitter__WEBPACK_IMPORTED_MODULE_3__["default"] {
             })
                 .catch(reject);
         });
-        this.renderPromise = Object(_utilities_cancelablePromise__WEBPACK_IMPORTED_MODULE_2__["cancelablePromise"])(promise);
+        this.renderPromise = Object(_Utilites__WEBPACK_IMPORTED_MODULE_1__["cancelablePromise"])(promise);
         return promise;
     }
     prepareRenderAnimation(drawer, settings) {
         return __awaiter(this, void 0, void 0, function* () {
-            const startTimeDrawTime = performance.now();
+            const startTimeDrawTime = Object(_Utilites__WEBPACK_IMPORTED_MODULE_1__["now"])();
             drawer.setOption('time', 0);
             drawer.draw();
-            const drawTime = performance.now() - startTimeDrawTime;
+            const drawTime = Object(_Utilites__WEBPACK_IMPORTED_MODULE_1__["now"])() - startTimeDrawTime;
             const sequence = drawer.getTimeline().getSequence();
-            const time = yield _Capturer__WEBPACK_IMPORTED_MODULE_4__["default"].getRenderTime(drawer.getCanvas(), settings.type, settings.quality);
+            const time = yield _Capturer__WEBPACK_IMPORTED_MODULE_3__["default"].getRenderTime(drawer.getCanvas(), settings.type, settings.quality);
             const renderTime = time + drawTime;
             const totalTime = renderTime * sequence.frames;
             const maxDuration = 60;
@@ -6134,6 +7885,9 @@ class Renderer extends _events_Emitter__WEBPACK_IMPORTED_MODULE_3__["default"] {
         const promise = new Promise((resolve, reject) => {
             this.prepareRenderAnimation(drawer, settings).then((startMeta) => __awaiter(this, void 0, void 0, function* () {
                 this.dispatch('renderer:start', startMeta);
+                /**
+                 * start rendering
+                 */
                 const zipParts = [];
                 for (let i = 0; i < startMeta.total_parts; i++) {
                     if (this.started) {
@@ -6156,7 +7910,7 @@ class Renderer extends _events_Emitter__WEBPACK_IMPORTED_MODULE_3__["default"] {
                 this.started = false;
             }));
         });
-        this.renderPromise = Object(_utilities_cancelablePromise__WEBPACK_IMPORTED_MODULE_2__["cancelablePromise"])(promise);
+        this.renderPromise = Object(_Utilites__WEBPACK_IMPORTED_MODULE_1__["cancelablePromise"])(promise);
         return promise;
     }
     renderAnimationPart(drawer, settings, frame_from, frame_count, part, total_frames, total_parts) {
@@ -6172,11 +7926,11 @@ class Renderer extends _events_Emitter__WEBPACK_IMPORTED_MODULE_3__["default"] {
                 if (!this.started)
                     return undefined;
                 const current_frame = i + frame_from;
-                const measure_start = Object(_core_Utilites__WEBPACK_IMPORTED_MODULE_1__["now"])();
+                const measure_start = Object(_Utilites__WEBPACK_IMPORTED_MODULE_1__["now"])();
                 timeline.setTime((sequence.start + current_frame * tick_time) % sequence.end);
                 drawer.draw();
                 yield this.capturer.capture(drawer.getCanvas(), i);
-                const measure_end = Object(_core_Utilites__WEBPACK_IMPORTED_MODULE_1__["now"])();
+                const measure_end = Object(_Utilites__WEBPACK_IMPORTED_MODULE_1__["now"])();
                 lastRenderTime = measure_end - measure_start;
                 this.dispatch('renderer:render-frame', {
                     frame: current_frame,
@@ -6224,22 +7978,22 @@ class Renderer extends _events_Emitter__WEBPACK_IMPORTED_MODULE_3__["default"] {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _core_interfaces_shapes_Interfaces__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../core/interfaces/shapes/Interfaces */ "./dist/core/interfaces/shapes/Interfaces.js");
-/* harmony import */ var _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../core/shapes/primitives/Spiral */ "./dist/core/shapes/primitives/Spiral.js");
+/* harmony import */ var _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../core/shapes/primitives/Spiral */ "./dist/core/shapes/primitives/Spiral.js");
+/* harmony import */ var _core_types_shape_base__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../core/types/shape-base */ "./dist/core/types/shape-base.js");
 
 
 const OptionShapePrimitiveAdaptMode = [
-    { key: 'None', value: _core_interfaces_shapes_Interfaces__WEBPACK_IMPORTED_MODULE_0__["ShapePrimitiveAdaptMode"].None },
-    { key: 'Scale', value: _core_interfaces_shapes_Interfaces__WEBPACK_IMPORTED_MODULE_0__["ShapePrimitiveAdaptMode"].Scale },
-    { key: 'Center', value: _core_interfaces_shapes_Interfaces__WEBPACK_IMPORTED_MODULE_0__["ShapePrimitiveAdaptMode"].Center },
-    { key: 'Fill', value: _core_interfaces_shapes_Interfaces__WEBPACK_IMPORTED_MODULE_0__["ShapePrimitiveAdaptMode"].Fill },
+    { key: 'None', value: _core_types_shape_base__WEBPACK_IMPORTED_MODULE_1__["EShapePrimitiveAdaptMode"].None },
+    { key: 'Scale', value: _core_types_shape_base__WEBPACK_IMPORTED_MODULE_1__["EShapePrimitiveAdaptMode"].Scale },
+    { key: 'Center', value: _core_types_shape_base__WEBPACK_IMPORTED_MODULE_1__["EShapePrimitiveAdaptMode"].Center },
+    { key: 'Fill', value: _core_types_shape_base__WEBPACK_IMPORTED_MODULE_1__["EShapePrimitiveAdaptMode"].Fill },
 ];
 const OptionSpiralType = [
-    { key: 'ARCHIMEDE', value: _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_1__["default"].types.ARCHIMEDE },
-    { key: 'FERMAT', value: _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_1__["default"].types.FERMAT },
-    { key: 'HYPERBOLIC', value: _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_1__["default"].types.HYPERBOLIC },
-    { key: 'LITUUS', value: _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_1__["default"].types.LITUUS },
-    { key: 'LOGARITHMIC', value: _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_1__["default"].types.LOGARITHMIC },
+    { key: 'ARCHIMEDE', value: _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_0__["default"].types.ARCHIMEDE },
+    { key: 'FERMAT', value: _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_0__["default"].types.FERMAT },
+    { key: 'HYPERBOLIC', value: _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_0__["default"].types.HYPERBOLIC },
+    { key: 'LITUUS', value: _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_0__["default"].types.LITUUS },
+    { key: 'LOGARITHMIC', value: _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_0__["default"].types.LOGARITHMIC },
 ];
 const SceneChildPropsData = {
     repetitions: {
@@ -6401,6 +8155,7 @@ const SceneChildPropsData = {
         default_animate: [-1, 1],
         transformation: 'none',
     },
+    // primitive
     fillColor: {
         animable: true,
         name: 'fillColor',
@@ -6471,6 +8226,7 @@ const SceneChildPropsData = {
         default_animate: 2,
         transformation: 'none',
     },
+    // rose
     n: {
         animable: true,
         name: 'n',
@@ -6495,6 +8251,7 @@ const SceneChildPropsData = {
         default_animate: 4,
         transformation: 'none',
     },
+    // lissajous
     wx: {
         animable: true,
         name: 'wx',
@@ -6531,6 +8288,7 @@ const SceneChildPropsData = {
         default_animate: 360,
         transformation: 'angle',
     },
+    // spiral
     twists: {
         animable: true,
         name: 'twists',
@@ -6560,9 +8318,10 @@ const SceneChildPropsData = {
         label: 'Spiral type',
         type: 'select',
         options: OptionSpiralType,
-        default: _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_1__["default"].types.ARCHIMEDE,
+        default: _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_0__["default"].types.ARCHIMEDE,
         transformation: 'none',
     },
+    // loop
     'loop.start': {
         name: 'loop.start',
         label: 'start',
@@ -6608,11 +8367,17 @@ const SceneChildPropsData = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _core_Utilites__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../core/Utilites */ "./dist/core/Utilites.js");
+/* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Utilites */ "./dist/Utilites.js");
 /* harmony import */ var _SceneChildPropsData__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SceneChildPropsData */ "./dist/services/scene-utilities/SceneChildPropsData.js");
 
 
+/**
+ *
+ * @category Services.Scene Utilities
+ * @class ScenePropUtilities
+ */
 class ScenePropUtilities {
+    //#region ShapeLoop
     static bValueLoop(value) {
         return (typeof value === 'object' &&
             'start' in value &&
@@ -6635,6 +8400,7 @@ class ScenePropUtilities {
         const vertex = loop.vertex.raw
             ? new Function('index', ScenePropUtilities.RAW_ARGUMENTS, `return ${loop.vertex.raw}`)
             : undefined;
+        //Todo: number -> resolve function
         return {
             start: loop.start,
             end: loop.end,
@@ -6642,11 +8408,31 @@ class ScenePropUtilities {
             vertex,
         };
     }
+    //#endregion
+    // static getRandomFunctionForProp(name): (rand: number) => any {
+    //     const prop: ISceneChildProp = UISceneChildUtilitiesStatic.sceneChildProps[name]
+    //     switch (prop.type)
+    //     {
+    //         case 'multiple-range': case 'range': case 'slider':
+    //             return (rand: number) => {
+    //                 const min = prop.min as number / 2
+    //                 const max = prop.max as number / 2
+    //                 const value = min + ((max - min) * rand)
+    //                 return prop.bAngle ? toRadians(value) : value
+    //             }
+    //         case 'color':
+    //             return (rand: number) => `hsl(${Math.floor(360 * rand)}, ${Math.floor(25 + 75 * rand)}%, ${Math.floor(25 + 75 * rand)}%)`
+    //         default:
+    //             return (rand: number) => undefined
+    //     }
+    // }
+    //#endregion
+    //#region Props relative to drawer
     static bValueAnimation(value) {
         return (value &&
             typeof value === 'object' &&
             value.type &&
-            (value.type === 'simple' || value.type === 'raw'));
+            (value.type === 'simple' || value.type === 'raw') /*|| value.type == 'random'*/);
     }
     static bValueDrawer(value) {
         return value && typeof value === 'object' && value.type && value.type === 'drawer-transformation';
@@ -6669,7 +8455,7 @@ class ScenePropUtilities {
             let transformedValueFunction;
             switch (sceneChildProp.transformation) {
                 case 'angle':
-                    transformedValueFunction = _core_Utilites__WEBPACK_IMPORTED_MODULE_0__["toRadians"];
+                    transformedValueFunction = _Utilites__WEBPACK_IMPORTED_MODULE_0__["toRadians"];
                     break;
                 case 'resolution-based':
                     transformedValueFunction = drawer.getValueFromResolution.bind(drawer);
@@ -6692,7 +8478,7 @@ class ScenePropUtilities {
             let transformedValueFunction;
             switch (sceneChildProp.transformation) {
                 case 'angle':
-                    transformedValueFunction = _core_Utilites__WEBPACK_IMPORTED_MODULE_0__["toDegrees"];
+                    transformedValueFunction = _Utilites__WEBPACK_IMPORTED_MODULE_0__["toDegrees"];
                     break;
                 case 'resolution-based':
                     transformedValueFunction = drawer.getValueFromResolutionScaled.bind(drawer);
@@ -6710,7 +8496,7 @@ class ScenePropUtilities {
     }
 }
 ScenePropUtilities.RAW_ARGUMENTS = '{ context, repetition, time, shape, shape_loop, data }';
-ScenePropUtilities.RAW_ARGUMENTS_WIT_PARENT = '{ context, repetition, parent, time, shape, shape_loop, data }';
+ScenePropUtilities.RAW_ARGUMENTS_WITH_PARENT = '{ context, repetition, parent, time, shape, shape_loop, data }';
 /* harmony default export */ __webpack_exports__["default"] = (ScenePropUtilities);
 //# sourceMappingURL=ScenePropUtilities.js.map
 
@@ -6747,6 +8533,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _animation_Animation__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ../animation/Animation */ "./dist/services/animation/Animation.js");
 
 
+// Shapes
 
 
 
@@ -6765,6 +8552,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/**
+ *
+ * @category Services.Scene Utilities
+ * @class SceneUtilities
+ */
 class SceneUtilities {
     constructor() {
         this.registeredSceneChilds = {};
@@ -6784,9 +8576,23 @@ class SceneUtilities {
             ShapeBuffer: _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_13__["default"],
         };
     }
+    //#region Register scene child
+    /**
+     * Return a list of name of registered sceneChild
+     *
+     * @returns {Array<string>}
+     * @memberof SceneUtilities
+     */
     getRegistered() {
         return Object.keys(this.registeredSceneChilds);
     }
+    /**
+     * Register scene child for fast creation
+     *
+     * @param {string} type
+     * @param {SceneChildInstance} ref
+     * @memberof SceneUtilities
+     */
     register(type, ref) {
         if (!(type in this.registeredSceneChilds)) {
             this.registeredSceneChilds[type] = ref;
@@ -6795,6 +8601,12 @@ class SceneUtilities {
             console.warn(`SceneUtilities: SceneChild "${type}" is already registered`);
         }
     }
+    /**
+     * unregister scene child
+     *
+     * @param {string} type
+     * @memberof SceneUtilities
+     */
     unregister(type) {
         if (type in this.registeredSceneChilds) {
             delete this.registeredSceneChilds[type];
@@ -6803,6 +8615,20 @@ class SceneUtilities {
             console.warn(`SceneUtilities: SceneChild "${type}" is not registered`);
         }
     }
+    //#endregion
+    //#region Scene manipulation
+    /**
+     * Logic creation of a SceneChild
+     * Since scene is not passed, name are set if they are present in args or type
+     *
+     *
+     * @param {(string | SceneChild)} item
+     * @param {TSceneChildProps} [props]
+     * @param {Scene} [scene]
+     * @param {DrawerCanvas} [drawer]
+     * @returns {(SceneChild | null)}
+     * @memberof SceneUtilities
+     */
     create(item, props, scene, drawer) {
         var _a;
         scene = scene ? scene : typeof item !== 'string' ? item.scene : undefined;
@@ -6842,6 +8668,14 @@ class SceneUtilities {
         console.warn(`SceneUtilities: Creation failed. SceneChild "${item}" is not registered`);
         return null;
     }
+    /**
+     * Return number of element from a type
+     *
+     * @param {Scene} scene
+     * @param {string} type
+     * @returns {number}
+     * @memberof SceneUtilities
+     */
     getCountSceneChildOfType(scene, type) {
         let count = 0;
         _core_Scene__WEBPACK_IMPORTED_MODULE_14__["default"].walk(sceneChild => {
@@ -6849,7 +8683,18 @@ class SceneUtilities {
         }, scene);
         return count;
     }
+    /**
+     * Return a copy of sceneChild
+     *
+     * @param {SceneChild} sceneChild
+     * @param {Scene} [scene]
+     * @param {DrawerCanvas} [drawer]
+     * @param {boolean} [strict]
+     * @returns {(SceneChild | null)}
+     * @memberof SceneUtilities
+     */
     copy(sceneChild, scene, drawer, strict = false) {
+        // copy only props, without name, id
         const props = sceneChild.getProps();
         if (sceneChild instanceof _core_shapes_ShapeBase__WEBPACK_IMPORTED_MODULE_16__["default"]) {
             props.bUseParent = sceneChild.bUseParent;
@@ -6895,6 +8740,17 @@ class SceneUtilities {
         console.warn(`SceneUtilities: Copy failed.`, sceneChild);
         return null;
     }
+    /**
+     * Add scene child to parent.
+     * Create a group if parent is Shape and has one element (not Group) inside.
+     *
+     * @param {(SceneChild | Scene)} parent
+     * @param {(string | SceneChild)} sceneChild
+     * @param {TSceneChildProps} [props]
+     * @param {Scene} [scene]
+     * @returns {(SceneChild | null)}
+     * @memberof SceneUtilities
+     */
     add(parent, sceneChild, props, scene) {
         let newSceneChild = null;
         if (parent instanceof _core_Group__WEBPACK_IMPORTED_MODULE_15__["default"] || parent instanceof _core_Scene__WEBPACK_IMPORTED_MODULE_14__["default"]) {
@@ -6923,8 +8779,16 @@ class SceneUtilities {
         }
         return newSceneChild;
     }
+    /**
+     * Remove scene child from
+     *
+     * @param {SceneChild} from
+     * @param {SceneChild} [item]
+     * @memberof SceneUtilities
+     */
     remove(from, item) {
         if (!item) {
+            // 'from' as item to remove
             if (from.scene) {
                 const parent = this.getParent(from);
                 !parent ? from.scene.removeFromId(from.id) : this.remove(parent, from);
@@ -6940,22 +8804,60 @@ class SceneUtilities {
                 from.setShape(undefined);
         }
     }
+    //#endregion
+    //#region Scene parent and children
+    /**
+     * Get Root parent
+     *
+     * @param {SceneChild} sceneChild
+     * @returns {(SceneChild | null)}
+     * @memberof SceneUtilities
+     */
     getRootParent(sceneChild) {
         const parents = this.getParents(sceneChild);
         return parents.length > 0 ? parents[0] : null;
     }
+    /**
+     * Get first level parent
+     *
+     * @param {SceneChild} sceneChild
+     * @returns {(SceneChild | null)}
+     * @memberof SceneUtilities
+     */
     getParent(sceneChild) {
         const parents = this.getParents(sceneChild);
         return parents.length > 0 ? parents[parents.length - 1] : null;
     }
+    /**
+     * Get all parents
+     *
+     * @param {SceneChild} sceneChild
+     * @returns {Array<SceneChild>}
+     * @memberof SceneUtilities
+     */
     getParents(sceneChild) {
         return sceneChild && sceneChild.scene ? sceneChild.scene.getParentsOfSceneChild(sceneChild) : [];
     }
+    /**
+     * Return children of a shape.
+     * Only Group has array of children, Shape has only one child.
+     *
+     * @param {SceneChild} sceneChild
+     * @returns {Array<SceneChild>}
+     * @memberof SceneUtilities
+     */
     getChildren(sceneChild) {
         if (sceneChild instanceof _core_Group__WEBPACK_IMPORTED_MODULE_15__["default"])
             return sceneChild.getChildren();
         return sceneChild instanceof _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_10__["default"] && sceneChild.shape ? [sceneChild.shape] : [];
     }
+    /**
+     * Return only primitive children
+     *
+     * @param {SceneChild} sceneChild
+     * @returns {Array<SceneChild>}
+     * @memberof SceneUtilities
+     */
     getChildrenPrimitives(sceneChild) {
         let result = [];
         const children = this.getChildren(sceneChild);
@@ -6967,6 +8869,13 @@ class SceneUtilities {
         }
         return result;
     }
+    /**
+     * Return a list of neighbors
+     *
+     * @param {SceneChild} sceneChild
+     * @returns {(Array<SceneChild>)}
+     * @memberof SceneUtilities
+     */
     getNeighbors(sceneChild) {
         if (sceneChild.scene) {
             const parent = this.getParent(sceneChild);
@@ -6974,6 +8883,14 @@ class SceneUtilities {
         }
         return [];
     }
+    /**
+     * Return a number of element type into a scene
+     *
+     * @param {Scene} scene
+     * @param {string} type
+     * @returns {number}
+     * @memberof SceneUtilities
+     */
     getCountOfSceneChildType(scene, type) {
         let count = 0;
         _core_Scene__WEBPACK_IMPORTED_MODULE_14__["default"].walk(sceneChild => {
@@ -6981,25 +8898,79 @@ class SceneUtilities {
         }, scene);
         return count;
     }
+    /**
+     * Walk through sceneChild
+     *
+     * @param {SceneChild} sceneChild
+     * @param {(child: SceneChild) => void} callback
+     * @memberof SceneUtilities
+     */
     walk(sceneChild, callback) {
         callback(sceneChild);
         this.getChildren(sceneChild).forEach(child => callback(child));
     }
+    //#endregion
+    //#region checker
+    /**
+     * Check sceneChild is Group
+     *
+     * @param {SceneChild} sceneChild
+     * @returns {boolean}
+     * @memberof SceneUtilities
+     */
     isGroup(sceneChild) {
         return sceneChild instanceof _core_Group__WEBPACK_IMPORTED_MODULE_15__["default"];
     }
+    /**
+     * Check sceneChild are Shape and has a child
+     *
+     * @param {SceneChild} sceneChild
+     * @returns {boolean}
+     * @memberof SceneUtilities
+     */
     hasShapeChild(sceneChild) {
         return sceneChild instanceof _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_10__["default"] ? sceneChild.shape !== undefined : false;
     }
+    /**
+     * Check sceneChild is a ShapeBuffer an are binded
+     *
+     * @param {SceneChild} sceneChild
+     * @returns {boolean}
+     * @memberof SceneUtilities
+     */
     hasShapeBuffer(sceneChild) {
         return sceneChild instanceof _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_13__["default"];
     }
+    /**
+     * Check scene child is a Primitive
+     *
+     * @param {SceneChild} sceneChild
+     * @returns {boolean}
+     * @memberof SceneUtilities
+     */
     isAPrimitive(sceneChild) {
         return sceneChild instanceof _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_11__["default"];
     }
+    /**
+     * Check scene child is a ShapeLoop
+     *
+     * @param {SceneChild} sceneChild
+     * @returns {boolean}
+     * @memberof SceneUtilities
+     */
     hasLoop(sceneChild) {
         return sceneChild instanceof _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_12__["default"];
     }
+    //#endregion
+    /**
+     * Set UISceneChild prop, convert animation on transformable props
+     *
+     * @static
+     * @param {SceneChild} sceneChild
+     * @param {*} value
+     * @param {DrawerCanvas} drawer
+     * @memberof SceneUtilities
+     */
     setProp(sceneChild, name, value, drawer) {
         if (_ScenePropUtilities__WEBPACK_IMPORTED_MODULE_18__["default"].bValueAnimation(value)) {
             sceneChild.data.props[name] = value;
@@ -7007,9 +8978,9 @@ class SceneUtilities {
             return;
         }
         if (name === 'loop') {
-            if (_ScenePropUtilities__WEBPACK_IMPORTED_MODULE_18__["default"].bValueLoop(value)) {
-                sceneChild.data.props[name] = value;
-                sceneChild.setProp(name, _ScenePropUtilities__WEBPACK_IMPORTED_MODULE_18__["default"].composeLoop(value));
+            if (sceneChild instanceof _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_12__["default"] && _ScenePropUtilities__WEBPACK_IMPORTED_MODULE_18__["default"].bValueLoop(value)) {
+                sceneChild.data.props.loop = value;
+                sceneChild.setProp('loop', _ScenePropUtilities__WEBPACK_IMPORTED_MODULE_18__["default"].composeLoop(value));
                 const dynamic = value.dynamyc;
                 const realDynamic = sceneChild.shapeLoopPropsDependencies.indexOf('prop_argumens') >= 0;
                 if (dynamic !== realDynamic) {
@@ -7026,7 +8997,7 @@ class SceneUtilities {
         }
         if (name === 'vertexCallback') {
             if (sceneChild instanceof _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_11__["default"] && _ScenePropUtilities__WEBPACK_IMPORTED_MODULE_18__["default"].bValueVertexCallback(value)) {
-                sceneChild.data.props[name] = value;
+                sceneChild.data.props.vertexCallback = value;
                 sceneChild.vertexCallback = _ScenePropUtilities__WEBPACK_IMPORTED_MODULE_18__["default"].composeVertexCallback(value);
                 sceneChild.bUseParent = true;
                 sceneChild.clearBuffer(true, true);
@@ -7059,6 +9030,7 @@ class SceneUtilities {
                 sceneChild.setAdapted(value);
                 break;
             default:
+                // loop
                 if (name.indexOf('.') > 0) {
                     const splitted = name.split('.');
                     sceneChild.setProp({ [splitted[0]]: { [splitted[1]]: value } });
@@ -7085,7 +9057,18 @@ class SceneUtilities {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _events_Emitter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../events/Emitter */ "./dist/services/events/Emitter.js");
 
+/**
+ *
+ * @category Services.Timeline
+ * @class Timeline
+ * @extends {Emitter<TimelineEvents>}
+ */
 class Timeline extends _events_Emitter__WEBPACK_IMPORTED_MODULE_0__["default"] {
+    /**
+     * Class used for time and rendering managment
+     *
+     * @memberof Timeline
+     */
     constructor() {
         super();
         this.sequence = {
@@ -7101,12 +9084,29 @@ class Timeline extends _events_Emitter__WEBPACK_IMPORTED_MODULE_0__["default"] {
         this.fps_samples_index = 0;
         this.b_sequence_started = false;
         this.current_frame = -1;
+        // this.paused_time = 0
         this.last_tick = 0;
+        this.accumulator = 0;
         this.calculateTickAndSequence();
     }
+    //#region sequence meta
+    /**
+     * Return the sequence
+     *
+     * @returns {Sequence}
+     * @memberof Timeline
+     */
     getSequence() {
         return Object.assign({}, this.sequence);
     }
+    /**
+     * Set sequence
+     *
+     * @param {number} start
+     * @param {number} end
+     * @param {number} framerate
+     * @memberof Timeline
+     */
     setSequence(start, end, framerate) {
         this.sequence.start = start;
         this.sequence.end = end;
@@ -7114,59 +9114,133 @@ class Timeline extends _events_Emitter__WEBPACK_IMPORTED_MODULE_0__["default"] {
         this.calculateTickAndSequence();
         this.dispatch('timeline:update_sequence', this.getSequence());
     }
+    /**
+     * Return framerate
+     *
+     * @returns {number}
+     * @memberof Timeline
+     */
     getFramerate() {
         return this.sequence.framerate;
     }
+    /**
+     * Set a framerate of animation
+     *
+     * @param {number} framerate
+     * @memberof Timeline
+     */
     setFramerate(framerate) {
         this.sequence.framerate = framerate;
         this.calculateTickAndSequence();
         this.dispatch('timeline:update_sequence', this.getSequence());
     }
+    /**
+     * Set the number of frames based on the sequence
+     *
+     * @private
+     * @memberof Timeline
+     */
     calculateTickAndSequence() {
         this.tick_time = 1000 / this.sequence.framerate;
         this.sequence.frames = Math.floor(((this.sequence.end - this.sequence.start) / 1000) * this.sequence.framerate);
         this.sequence.durate = this.sequence.end - this.sequence.start;
     }
+    /**
+     * Get animation start time
+     *
+     * @returns {number}
+     * @memberof Timeline
+     */
     getSequenceStartTime() {
         return this.sequence.start;
     }
+    /**
+     * Set animation start time
+     *
+     * @param {number} start_time
+     * @memberof Timeline
+     */
     setSequenceStartTime(start_time) {
         this.sequence.start = start_time;
         this.calculateTickAndSequence();
         this.dispatch('timeline:update_sequence', this.getSequence());
     }
+    /**
+     * Get a aniamtion end time
+     *
+     * @returns {number}
+     * @memberof Timeline
+     */
     getSequenceEndTime() {
         return this.sequence.end;
     }
+    /**
+     * Set animation end time
+     *
+     * @param {number} end_time
+     * @memberof Timeline
+     */
     setSequenceEndTime(end_time) {
         this.sequence.end = end_time;
         this.calculateTickAndSequence();
         this.dispatch('timeline:update_sequence', this.getSequence());
     }
+    /**
+     * Get animation durate
+     *
+     * @returns {number}
+     * @memberof Timeline
+     */
     getSequenceDuration() {
         return this.sequence.end - this.sequence.start;
     }
+    /**
+     * Get number of frames of animation
+     *
+     * @returns {number}
+     * @memberof Timeline
+     */
     getFramesCount() {
         return this.sequence.frames;
     }
+    //#endregion meta
+    //#region change status
+    /**
+     * Start the sequence
+     *
+     * @memberof Timeline
+     */
     start() {
         if (!this.b_sequence_started) {
             this.b_sequence_started = true;
+            // this.last_tick = now() - this.paused_time
             this.last_tick = 0;
+            this.accumulator = 0;
             this.dispatch('timeline:change_status', Timeline.START);
         }
     }
+    /**
+     * Pause the sequence
+     *
+     * @memberof Timeline
+     */
     pause() {
         if (this.b_sequence_started) {
+            // this.paused_time = now()
             this.b_sequence_started = false;
             this.dispatch('timeline:change_status', Timeline.PAUSE);
         }
     }
+    /**
+     * Stop the sequence and reset
+     *
+     * @memberof Timeline
+     */
     stop() {
         if (this.current_frame != 1 || this.b_sequence_started) {
             this.b_sequence_started = false;
             this.current_frame = -1;
-            this.last_tick = 0;
+            // this.paused_time = 0
             this.dispatch('timeline:progress', {
                 current_frame: this.current_frame,
                 current_time: 0,
@@ -7175,18 +9249,30 @@ class Timeline extends _events_Emitter__WEBPACK_IMPORTED_MODULE_0__["default"] {
             this.dispatch('timeline:change_status', Timeline.STOP);
         }
     }
+    /**
+     * Animation tick
+     *
+     * @param {number} timestamp current timestamp
+     * @returns {boolean}
+     * @memberof Timeline
+     */
     tick(timestamp) {
         if (this.b_sequence_started) {
             const currentTime = timestamp;
             const elapsed = currentTime - this.last_tick;
-            if (elapsed >= this.tick_time) {
+            this.accumulator += elapsed;
+            // if (elapsed >= this.tick_time) {
+            if (this.accumulator >= this.tick_time) {
                 const delta = (currentTime - this.last_tick) / 1000;
                 this.calculateFPS(1 / delta);
-                this.last_tick = currentTime - (elapsed % this.tick_time);
-                this.current_frame = (this.current_frame + 1) % this.sequence.frames;
+                // this.last_tick = currentTime - (elapsed % this.tick_time)
+                this.last_tick = currentTime;
+                this.current_frame = this.getFrameAtTime(this.last_tick);
+                // this.current_frame = (this.current_frame + 1) % this.sequence.frames
+                this.accumulator -= this.tick_time;
                 this.dispatch('timeline:progress', {
                     current_frame: this.current_frame,
-                    current_time: this.getTime(),
+                    current_time: this.last_tick,
                     fps: this.fps,
                 });
                 return true;
@@ -7194,6 +9280,13 @@ class Timeline extends _events_Emitter__WEBPACK_IMPORTED_MODULE_0__["default"] {
         }
         return false;
     }
+    /**
+     * Calculate fps
+     *
+     * @private
+     * @param {number} currentFPS
+     * @memberof Timeline
+     */
     calculateFPS(currentFPS) {
         const samples = this.fps_samples.length;
         if (samples > 0) {
@@ -7205,28 +9298,74 @@ class Timeline extends _events_Emitter__WEBPACK_IMPORTED_MODULE_0__["default"] {
         this.fps_samples[this.fps_samples_index] = Math.round(currentFPS);
         this.fps_samples_index = (this.fps_samples_index + 1) % this.fps_samples_size;
     }
+    //#endregion
+    //#region animation meta
     bSequenceStarted() {
         return this.b_sequence_started;
     }
+    /**
+     * Return current animation frame
+     *
+     * @returns {number}
+     * @memberof Timeline
+     */
     getCurrentFrame() {
         return this.current_frame;
     }
+    /**
+     * get the time at specific frame number
+     *
+     * @param {number} frame
+     * @returns {number}
+     * @memberof Timeline
+     */
     getFrameTime(frame) {
         frame = frame < 0 ? this.sequence.frames - (frame % this.sequence.frames) : frame % this.sequence.frames;
         return (this.sequence.start + frame * this.tick_time) % this.sequence.end;
     }
+    /**
+     * Return frame number at time
+     *
+     * @param {number} time
+     * @returns {number}
+     * @memberof Timeline
+     */
     getFrameAtTime(time) {
         return Math.round(((this.sequence.start + time) % this.sequence.end) / this.tick_time);
     }
+    /**
+     * set current frame
+     *
+     * @param {number} frame
+     * @memberof Timeline
+     */
     setFrame(frame) {
         this.current_frame = frame - 1;
     }
+    /**
+     * Return tick time (based on framerate)
+     *
+     * @returns {number}
+     * @memberof Timeline
+     */
     getTickTime() {
         return this.tick_time;
     }
+    /**
+     * Return the current time based on current frame
+     *
+     * @returns {number}
+     * @memberof Timeline
+     */
     getTime() {
         return ((this.sequence.start + (this.current_frame <= 0 ? 0 : this.current_frame) * this.tick_time) % this.sequence.end);
     }
+    /**
+     * Set animation at time
+     *
+     * @param {number} time
+     * @memberof Timeline
+     */
     setTime(time) {
         time = time <= this.sequence.start ? this.sequence.start : time >= this.sequence.end ? this.sequence.end : time;
         this.current_frame = Math.floor(time / this.tick_time) - 1;
@@ -7242,66 +9381,6 @@ Timeline.PAUSE = 'pause';
 Timeline.STOP = 'stop';
 /* harmony default export */ __webpack_exports__["default"] = (Timeline);
 //# sourceMappingURL=Timeline.js.map
-
-/***/ }),
-
-/***/ "./dist/services/utilities/cancelablePromise.js":
-/*!******************************************************!*\
-  !*** ./dist/services/utilities/cancelablePromise.js ***!
-  \******************************************************/
-/*! exports provided: cancelablePromise */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cancelablePromise", function() { return cancelablePromise; });
-function cancelablePromise(promise) {
-    let resolved = false;
-    let canceled = false;
-    const wrappedPromise = new Promise((resolve, reject) => {
-        promise
-            .then(val => {
-            resolved = true;
-            canceled ? reject('canceled') : resolve(val);
-        })
-            .catch(error => {
-            resolved = true;
-            canceled ? reject('canceled') : reject(error);
-        });
-    });
-    return {
-        promise: wrappedPromise,
-        resolved: () => resolved,
-        canceled: () => canceled,
-        cancel: () => { canceled = true; }
-    };
-}
-//# sourceMappingURL=cancelablePromise.js.map
-
-/***/ }),
-
-/***/ "./dist/services/utilities/parseFunction.js":
-/*!**************************************************!*\
-  !*** ./dist/services/utilities/parseFunction.js ***!
-  \**************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-const parseFunction = {
-    suffix: '$fn:',
-    parse: (data) => {
-        return typeof data === 'function' && data.name !== 'SimpleAnimation' ? parseFunction.suffix + data.toString() : data;
-    },
-    unparse: (data) => {
-        return typeof data === 'string' && data.indexOf(parseFunction.suffix) === 0
-            ? eval(data.substr(parseFunction.suffix.length))
-            : data;
-    },
-};
-/* harmony default export */ __webpack_exports__["default"] = (parseFunction);
-//# sourceMappingURL=parseFunction.js.map
 
 /***/ }),
 

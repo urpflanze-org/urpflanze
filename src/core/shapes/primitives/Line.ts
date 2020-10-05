@@ -3,6 +3,12 @@ import { IShapeBufferSettings } from '@core/types/shape-primitive'
 
 import ShapeBuffer from '@core/shapes/ShapeBuffer'
 
+/**
+ *
+ * @category Core.Primitives
+ * @class Line
+ * @extends {ShapeBuffer}
+ */
 class Line extends ShapeBuffer {
 	/**
 	 * Creates an instance of Line.

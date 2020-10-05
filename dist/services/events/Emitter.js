@@ -1,3 +1,10 @@
+/**
+ *
+ * @category Services
+ * @abstract
+ * @class Emitter
+ * @template EventTypes
+ */
 class Emitter {
     constructor() {
         //@ts-ignore

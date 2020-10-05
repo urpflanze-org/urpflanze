@@ -6,6 +6,7 @@ import { ISceneChildPropArguments } from '@core/types/scene-child'
 /**
  * Polygon shape
  *
+ * @category Core.Primitives
  * @class RegularPolygon
  * @extends {ShapeLoop}
  */

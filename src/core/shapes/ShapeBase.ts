@@ -13,11 +13,12 @@ import {
 import { TStreamCallback } from '@core/types/scene'
 
 import { IShapeBaseSettings } from '@core/types/shape-base'
-import ShapePrimitive from './ShapePrimitive'
+import ShapePrimitive from '@core/shapes/ShapePrimitive'
 
 /**
  * Shape Base
  *
+ * @category Core.Abstract
  * @abstract
  * @class ShapeBase
  * @extends {SceneChild}
@@ -165,7 +166,7 @@ abstract class ShapeBase extends SceneChild {
 			displace: settings.displace,
 			translate: settings.translate,
 			scale: settings.scale,
-			rotationOrigin: settings.rotationOrigin,
+			// rotationOrigin: settings.rotationOrigin,
 
 			// randomSeed: settings.randomSeed
 		}
@@ -194,8 +195,8 @@ abstract class ShapeBase extends SceneChild {
 			typeof props.squeezeX !== 'function' &&
 			typeof props.squeezeY !== 'function' &&
 			typeof props.translate !== 'function' &&
-			typeof props.scale !== 'function' &&
-			typeof props.rotationOrigin !== 'function'
+			typeof props.scale !== 'function'
+			// && typeof props.rotationOrigin !== 'function'
 		)
 	}
 
@@ -379,8 +380,8 @@ abstract class ShapeBase extends SceneChild {
 				const rotateX = this.getProp('rotateX', prop_arguments, 0)
 				const rotateY = this.getProp('rotateY', prop_arguments, 0)
 				const rotateZ = this.getProp('rotateZ', prop_arguments, 0)
-				const rotationOrigin = Vec2.create(this.getProp('rotationOrigin', prop_arguments, Vec2.ZERO))
-				// const rotationOrigin = Vec2.ZERO
+				// const rotationOrigin = Vec2.create(this.getProp('rotationOrigin', prop_arguments, Vec2.ZERO))
+				const rotationOrigin = Vec2.ZERO
 
 				const buffer: Float32Array = this.generateBuffer(generate_id, prop_arguments)
 
@@ -586,7 +587,12 @@ abstract class ShapeBase extends SceneChild {
 		if (shape_buffer) {
 			const repetitions: Array<number> | number = this.getProp(
 				'repetitions',
-				{ parent, time: 1, repetition: ShapeBase.getEmptyRepetition(), context: Context },
+				{
+					parent,
+					time: 1,
+					repetition: ShapeBase.getEmptyRepetition(),
+					context: Context,
+				},
 				1
 			)
 

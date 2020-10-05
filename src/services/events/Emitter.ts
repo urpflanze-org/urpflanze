@@ -1,3 +1,10 @@
+/**
+ *
+ * @category Services
+ * @abstract
+ * @class Emitter
+ * @template EventTypes
+ */
 abstract class Emitter<EventTypes> {
 	private callbacks: { [e in keyof EventTypes]: Array<(args: EventTypes[keyof EventTypes]) => any> }
 

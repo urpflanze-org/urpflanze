@@ -1,4 +1,4 @@
-import Utilities from 'src/Utilites'
+import { toRadians, toDegrees } from 'src/Utilites'
 
 import DrawerCanvas from '@services/drawer-canvas/DrawerCanvas'
 import SceneChildPropsData, {
@@ -9,6 +9,11 @@ import { IShapeLoop, TAnimation, TDrawerTransformation, TDrawerValue } from '@se
 import { IShapeLoopGenerator, TVertexCallback } from '@core/types/shape-primitive'
 import { ISceneChildPropArguments } from '@core/types/scene-child'
 
+/**
+ *
+ * @category Services.Scene Utilities
+ * @class ScenePropUtilities
+ */
 class ScenePropUtilities {
 	public static readonly RAW_ARGUMENTS: string = '{ context, repetition, time, shape, shape_loop, data }'
 	public static readonly RAW_ARGUMENTS_WITH_PARENT: string =
@@ -127,7 +132,7 @@ class ScenePropUtilities {
 
 			switch (sceneChildProp.transformation) {
 				case 'angle':
-					transformedValueFunction = Utilities.toRadians
+					transformedValueFunction = toRadians
 					break
 				case 'resolution-based':
 					transformedValueFunction = drawer.getValueFromResolution.bind(drawer)
@@ -159,7 +164,7 @@ class ScenePropUtilities {
 
 			switch (sceneChildProp.transformation) {
 				case 'angle':
-					transformedValueFunction = Utilities.toDegrees
+					transformedValueFunction = toDegrees
 					break
 				case 'resolution-based':
 					transformedValueFunction = drawer.getValueFromResolutionScaled.bind(drawer)

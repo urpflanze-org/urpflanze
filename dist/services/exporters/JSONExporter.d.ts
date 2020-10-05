@@ -1,6 +1,11 @@
-import SceneChild from '@core/SceneChild';
-import DrawerCanvas from '@services/drawer-canvas/DrawerCanvas';
-import { IProject, IProjectSceneChild } from '@services/types/project';
+import SceneChild from "../../core/SceneChild";
+import DrawerCanvas from "../drawer-canvas/DrawerCanvas";
+import { IProject, IProjectSceneChild } from "../types/project";
+/**
+ *
+ * @category Services
+ * @class JSONExporter
+ */
 declare class JSONExporter {
     parse(drawer: DrawerCanvas, name?: string): string;
     toString(project: IProject): string;

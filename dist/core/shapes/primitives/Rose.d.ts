@@ -1,9 +1,10 @@
-import ShapeLoop from '@core/shapes/ShapeLoop';
-import { IRoseProps, IRoseSettings } from '@core/types/shape-primitive';
-import { ISceneChildPropArguments } from '@core/types/scene-child';
+import ShapeLoop from "../ShapeLoop";
+import { IRoseProps, IRoseSettings } from "../../types/shape-primitive";
+import { ISceneChildPropArguments } from "../../types/scene-child";
 /**
  * Rose shape
  *
+ * @category Core.Primitives
  * @class Rose
  * @extends {ShapeLoop}
  */

@@ -4,10 +4,15 @@ import SceneChild from '@core/SceneChild'
 import DrawerCanvas from '@services/drawer-canvas/DrawerCanvas'
 
 import { IProject, IProjectSceneChild, IProjectSceneChildDataProps } from '@services/types/project'
-import Utilities from 'src/Utilites'
+import { parseFunction } from 'src/Utilites'
 import SceneUtilities from '@services/scene-utilities/SceneUtilities'
 import { v1 as uuidv1 } from 'uuid'
 
+/**
+ *
+ * @category Services
+ * @class JSONImporter
+ */
 class JSONImporter {
 	static createEmptyProject = (): IProject => {
 		return {
@@ -70,7 +75,7 @@ class JSONImporter {
 		const drawOptions = {
 			clearCanvas: project.clearCanvas,
 			ghosts: project.ghosts,
-			ghost_skip_time: Utilities.parseFunction.unparse(project.ghost_skip_time),
+			ghost_skip_time: parseFunction.unparse(project.ghost_skip_time),
 		}
 
 		const scene = new Scene({
@@ -108,7 +113,7 @@ class JSONImporter {
 			bUseParent: projectSceneChild.bUseParent,
 			bAdaptBuffer: projectSceneChild.bAdaptBuffer,
 			bCloseShape: projectSceneChild.bCloseShape,
-			vertexCallback: Utilities.parseFunction.unparse(projectSceneChild.vertexCallback),
+			vertexCallback: parseFunction.unparse(projectSceneChild.vertexCallback),
 			shape: shape,
 		}
 
@@ -118,7 +123,7 @@ class JSONImporter {
 
 		if (sceneChild) {
 			;(Object.keys(props) as Array<keyof IProjectSceneChildDataProps>).forEach(propKey => {
-				SceneUtilities.setProp(sceneChild, propKey as string, Utilities.parseFunction.unparse(props[propKey]), drawer)
+				SceneUtilities.setProp(sceneChild, propKey as string, parseFunction.unparse(props[propKey]), drawer)
 			})
 
 			if (projectSceneChild.children && projectSceneChild.children.length > 0) {

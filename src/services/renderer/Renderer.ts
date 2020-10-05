@@ -1,6 +1,6 @@
 import * as JSZip from 'jszip'
 
-import Utilities, { ICancelablePromise } from 'src/Utilites'
+import { cancelablePromise, now, ICancelablePromise } from 'src/Utilites'
 
 import Emitter from '@services/events/Emitter'
 
@@ -9,6 +9,12 @@ import { IRenderEvents, IRenderSettings, IRenderStart, TRenderImageType, TRender
 import Capturer from '@services/renderer/Capturer'
 import DrawerCanvas from '@services/drawer-canvas/DrawerCanvas'
 
+/**
+ *
+ * @category Services.Renderer
+ * @class Renderer
+ * @extends {Emitter<IRenderEvents>}
+ */
 class Renderer extends Emitter<IRenderEvents> {
 	capturer: Capturer
 	renderPromise: ICancelablePromise<Uint8Array> | ICancelablePromise<Array<Blob>>
@@ -53,16 +59,16 @@ class Renderer extends Emitter<IRenderEvents> {
 				.catch(reject)
 		})
 
-		this.renderPromise = Utilities.cancelablePromise(promise)
+		this.renderPromise = cancelablePromise(promise)
 
 		return promise
 	}
 
 	private async prepareRenderAnimation(drawer: DrawerCanvas, settings: IRenderSettings): Promise<IRenderStart> {
-		const startTimeDrawTime = Utilities.now()
+		const startTimeDrawTime = now()
 		drawer.setOption('time', 0)
 		drawer.draw()
-		const drawTime = Utilities.now() - startTimeDrawTime
+		const drawTime = now() - startTimeDrawTime
 
 		const sequence = drawer.getTimeline().getSequence()
 		const time = await Capturer.getRenderTime(drawer.getCanvas(), settings.type as TRenderImageType, settings.quality)
@@ -130,7 +136,7 @@ class Renderer extends Emitter<IRenderEvents> {
 			})
 		})
 
-		this.renderPromise = Utilities.cancelablePromise(promise)
+		this.renderPromise = cancelablePromise(promise)
 
 		return promise
 	}
@@ -158,11 +164,11 @@ class Renderer extends Emitter<IRenderEvents> {
 			if (!this.started) return undefined
 
 			const current_frame = i + frame_from
-			const measure_start = Utilities.now()
+			const measure_start = now()
 			timeline.setTime((sequence.start + current_frame * tick_time) % sequence.end)
 			drawer.draw()
 			await this.capturer.capture(drawer.getCanvas(), i)
-			const measure_end = Utilities.now()
+			const measure_end = now()
 			lastRenderTime = measure_end - measure_start
 
 			this.dispatch('renderer:render-frame', {

@@ -1,6 +1,6 @@
-import ShapePrimitive from './ShapePrimitive';
-import { ISceneChildPropArguments } from '@core/types/scene-child';
-import { IShapeLoopGenerator, IShapeLoopProps, IShapeLoopSettings } from '@core/types/shape-primitive';
+import ShapePrimitive from "./ShapePrimitive";
+import { ISceneChildPropArguments } from "../types/scene-child";
+import { IShapeLoopGenerator, IShapeLoopProps, IShapeLoopSettings } from "../types/shape-primitive";
 /**
  *
  *
@@ -18,6 +18,7 @@ export interface LoopMeta {
 /**
  * Shape Loop
  *
+ * @category Core.Shapes
  * @public
  * @class ShapeLoop
  * @extends {ShapePrimitive}

@@ -1,7 +1,12 @@
-import DrawerCanvas from '@services/drawer-canvas/DrawerCanvas';
-import { TSceneChildPropsDataKeys } from '@services/scene-utilities/SceneChildPropsData';
-import { IShapeLoop, TAnimation, TDrawerTransformation, TDrawerValue } from '@services/types/animation';
-import { IShapeLoopGenerator, TVertexCallback } from '@core/types/shape-primitive';
+import DrawerCanvas from "../drawer-canvas/DrawerCanvas";
+import { TSceneChildPropsDataKeys } from "./SceneChildPropsData";
+import { IShapeLoop, TAnimation, TDrawerTransformation, TDrawerValue } from "../types/animation";
+import { IShapeLoopGenerator, TVertexCallback } from "../../core/types/shape-primitive";
+/**
+ *
+ * @category Services.Scene Utilities
+ * @class ScenePropUtilities
+ */
 declare class ScenePropUtilities {
     static readonly RAW_ARGUMENTS: string;
     static readonly RAW_ARGUMENTS_WITH_PARENT: string;

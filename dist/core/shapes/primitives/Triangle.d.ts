@@ -1,7 +1,9 @@
-import { IShapeBufferSettings } from '@core/types/shape-primitive';
-import ShapeBuffer from '@core/shapes/ShapeBuffer';
+import { IShapeBufferSettings } from "../../types/shape-primitive";
+import ShapeBuffer from "../ShapeBuffer";
 /**
  * Triangle ShapeBuffer
+ *
+ * @category Core.Primitives
  */
 declare class Triangle extends ShapeBuffer {
     /**

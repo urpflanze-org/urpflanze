@@ -3,6 +3,9 @@ import { ISceneChildPropArguments } from '@core/types/scene-child'
 import { EShapePrimitiveAdaptMode } from '@core/types/shape-base'
 import { IShapeBufferSettings } from '@core/types/shape-primitive'
 
+/**
+ * @category Core.Shapes
+ */
 class ShapeBuffer extends ShapePrimitive {
 	/**
 	 * Custom vertex buffer or shape

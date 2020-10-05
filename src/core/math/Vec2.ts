@@ -1,7 +1,17 @@
-import Utilities from 'src/Utilites'
+import { clamp } from 'src/Utilites'
 
+/**
+ * Array type
+ *
+ * @ignore
+ */
 export type TArray = Array<number> | Float32Array
 
+/**
+ * Temporany matrix
+ *
+ * @internal
+ */
 const MATRIX: TArray = new Array(4)
 
 const create_matrix = () => {
@@ -35,7 +45,7 @@ const length = (vec: TArray): number => Math.hypot(vec[0], vec[1])
 
 const angle = (a: TArray, b: TArray): number => {
 	const m = length(a) * length(b)
-	return Math.acos(Utilities.clamp(-1, 1, m && dot(a, b) / m))
+	return Math.acos(clamp(-1, 1, m && dot(a, b) / m))
 }
 
 const skewX = (vec: TArray, m: number): void => {

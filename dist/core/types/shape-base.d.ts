@@ -1,6 +1,6 @@
-import { ISceneChildProps, ISceneChildSettings, TSceneChildProp } from '@core/types/scene-child';
-import SceneChild from '@core/SceneChild';
-import { TVertexCallback } from '@core/types/shape-primitive';
+import { ISceneChildProps, ISceneChildSettings, TSceneChildProp } from "./scene-child";
+import SceneChild from "../SceneChild";
+import { TVertexCallback } from "./shape-primitive";
 export interface IShapeBaseSettings extends ISceneChildSettings {
     bUseParent?: boolean;
 }

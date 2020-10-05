@@ -1,8 +1,13 @@
-import SceneChild from '@core/SceneChild';
-import Scene from '@core/Scene';
-import DrawerCanvas from '@services/drawer-canvas/DrawerCanvas';
-import { TSceneChildProps } from '@services/types/scene-utilities';
+import SceneChild from "../../core/SceneChild";
+import Scene from "../../core/Scene";
+import DrawerCanvas from "../drawer-canvas/DrawerCanvas";
+import { TSceneChildProps } from "../types/scene-utilities";
 export declare type SceneChildInstance = new (props: any) => SceneChild;
+/**
+ *
+ * @category Services.Scene Utilities
+ * @class SceneUtilities
+ */
 declare class SceneUtilities {
     private registeredSceneChilds;
     constructor();

@@ -1,8 +1,13 @@
-import Scene from '@core/Scene';
-import DrawerCanvas from '@services/drawer-canvas/DrawerCanvas';
-import Utilities from 'src/Utilites';
-import SceneUtilities from '@services/scene-utilities/SceneUtilities';
+import Scene from "../../core/Scene";
+import DrawerCanvas from "../drawer-canvas/DrawerCanvas";
+import { parseFunction } from "../../Utilites";
+import SceneUtilities from "../scene-utilities/SceneUtilities";
 import { v1 as uuidv1 } from 'uuid';
+/**
+ *
+ * @category Services
+ * @class JSONImporter
+ */
 class JSONImporter {
     parse(project_json) {
         var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
@@ -32,7 +37,7 @@ class JSONImporter {
         const drawOptions = {
             clearCanvas: project.clearCanvas,
             ghosts: project.ghosts,
-            ghost_skip_time: Utilities.parseFunction.unparse(project.ghost_skip_time),
+            ghost_skip_time: parseFunction.unparse(project.ghost_skip_time),
         };
         const scene = new Scene({
             mainColor: project.mainColor,
@@ -62,7 +67,7 @@ class JSONImporter {
             bUseParent: projectSceneChild.bUseParent,
             bAdaptBuffer: projectSceneChild.bAdaptBuffer,
             bCloseShape: projectSceneChild.bCloseShape,
-            vertexCallback: Utilities.parseFunction.unparse(projectSceneChild.vertexCallback),
+            vertexCallback: parseFunction.unparse(projectSceneChild.vertexCallback),
             shape: shape,
         };
         const props = Object.assign({}, projectSceneChild.props);
@@ -70,7 +75,7 @@ class JSONImporter {
         if (sceneChild) {
             ;
             Object.keys(props).forEach(propKey => {
-                SceneUtilities.setProp(sceneChild, propKey, Utilities.parseFunction.unparse(props[propKey]), drawer);
+                SceneUtilities.setProp(sceneChild, propKey, parseFunction.unparse(props[propKey]), drawer);
             });
             if (projectSceneChild.children && projectSceneChild.children.length > 0) {
                 for (let i = 0, len = projectSceneChild.children.length; i < len; i++) {

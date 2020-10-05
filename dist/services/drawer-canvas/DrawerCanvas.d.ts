@@ -1,8 +1,14 @@
-import Scene from '@core/Scene';
-import Timeline from '@services/timeline/Timeline';
-import FrameBuffer from '@services/drawer-canvas/FrameBuffer';
-import Emitter from '@services/events/Emitter';
-import { DrawerCanvasEvents, DrawOptions } from '@services/types/drawer-canvas';
+import Scene from "../../core/Scene";
+import Timeline from "../timeline/Timeline";
+import FrameBuffer from "./FrameBuffer";
+import Emitter from "../events/Emitter";
+import { DrawerCanvasEvents, DrawOptions } from "../types/drawer-canvas";
+/**
+ *
+ * @category Services
+ * @class DrawerCanvas
+ * @extends {Emitter<DrawerCanvasEvents>}
+ */
 declare class DrawerCanvas extends Emitter<DrawerCanvasEvents> {
     private scene;
     private canvas;

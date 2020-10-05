@@ -1,0 +1,80 @@
+@font-face {
+	font-family: 'JetBrains Mono';
+	font-weight: normal;
+	font-style: normal;
+	src: url(/assets/fonts/JetBrainsMono/JetBrainsMono-SemiLight.woff2) format('woff2');
+}
+@font-face {
+	font-family: 'JetBrains Mono';
+	font-weight: 600;
+	font-style: normal;
+	src: url(/assets/fonts/JetBrainsMono/JetBrainsMono-ExtraBold.woff2) format('woff2');
+}
+
+/***********************************
+  *  Layout
+  *************************/
+::-webkit-scrollbar {
+	width: 0.6182rem;
+	height: 0.618rem;
+	background-color: #1e2422;
+}
+
+::-webkit-scrollbar-thumb {
+	background: #2c3331;
+	border-radius: 6px;
+}
+
+html,
+input,
+textarea,
+button {
+	-webkit-font-feature-settings: 'liga' on, 'calt' on;
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
+	font-family: 'JetBrains Mono';
+}
+* {
+	box-sizing: border-box;
+}
+html,
+body {
+	margin: 0;
+	background: #111413;
+	color: rgba(255, 255, 255, 0.8);
+	line-height: 1.618;
+	font-size: 16px;
+}
+
+main {
+}
+
+header {
+	display: flex;
+	justify-content: space-between;
+}
+.first-section {
+	flex: 1;
+}
+.dynamic-container {
+	flex: 4.2;
+}
+.search-lang {
+	display: flex;
+}
+
+/***********************************
+  *  End layout
+  *************************/
+
+/***********************************
+  *  Make responsive
+  *************************/
+
+/***********************************
+  *  Page Content
+  *************************/
+
+/**
+ * Reference
+ */

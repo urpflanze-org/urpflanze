@@ -1,6 +1,6 @@
 import ColorManager from '@pups/core/build/Models/Color/ColorManager';
-import Easings from '@services/animation/Easings';
-import Utilities from 'src/Utilites';
+import Easings, { TEasing } from "./Easings";
+import { toArray } from "../../Utilites";
 const Simple = {
     loop: (props) => Simple.compose(Object.assign(Object.assign({ mode: 'sinusoidal', mode_function: 'cos' }, props), { type: 'loop', delay: undefined })),
     uncontrolledLoop: (props) => Simple.compose(Object.assign(Object.assign({ mode: 'easing', mode_function: 'linear' }, props), { type: 'uncontrolled-loop' })),
@@ -8,8 +8,8 @@ const Simple = {
     compose: (simpleAnimation) => {
         if (typeof simpleAnimation.from !== 'string' && typeof simpleAnimation.to !== 'string') {
             const bArray = Array.isArray(simpleAnimation.from) || Array.isArray(simpleAnimation.to);
-            const from = bArray ? Utilities.toArray(simpleAnimation.from) : simpleAnimation.from;
-            const to = bArray ? Utilities.toArray(simpleAnimation.to) : simpleAnimation.to;
+            const from = bArray ? toArray(simpleAnimation.from) : simpleAnimation.from;
+            const to = bArray ? toArray(simpleAnimation.to) : simpleAnimation.to;
             const vCallback = bArray
                 ? (current_index, v) => {
                     const a = (simpleAnimation.invertOdd && current_index % 2 == 1 ? to : from);

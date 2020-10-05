@@ -8,6 +8,7 @@ export const References = {}
 RawReferences.sort((a, b) => a.order - b.order).forEach(reference => {
 	References[reference.name] = reference
 
+	reference.category = reference.category || 'Other'
 	if (reference.category) {
 		const categories = reference.category.split('.')
 		let r = NavReferences

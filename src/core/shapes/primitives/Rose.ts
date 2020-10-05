@@ -6,6 +6,7 @@ import { ISceneChildPropArguments } from '@core/types/scene-child'
 /**
  * Rose shape
  *
+ * @category Core.Primitives
  * @class Rose
  * @extends {ShapeLoop}
  */

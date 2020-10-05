@@ -1,8 +1,9 @@
-import ShapeLoop from '@core/shapes/ShapeLoop';
-import { EShapePrimitiveAdaptMode } from '@core/types/shape-base';
+import ShapeLoop from "../ShapeLoop";
+import { EShapePrimitiveAdaptMode } from "../../types/shape-base";
 /**
  * Rose shape
  *
+ * @category Core.Primitives
  * @class Rose
  * @extends {ShapeLoop}
  */

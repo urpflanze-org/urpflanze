@@ -17,7 +17,7 @@ import Vec2, { TArray } from '@core/math/Vec2'
  */
 class Scene {
 	/**
-	 * Logical number, the render will take care
+	 * Logical number, the drawer will take care
 	 * of defining the unit of measure
 	 *
 	 * @type {number}
@@ -26,7 +26,7 @@ class Scene {
 	public width: number = 400
 
 	/**
-	 * Logical number, the render will take care
+	 * Logical number, the drawer will take care
 	 * of defining the unit of measure
 	 *
 	 * @type {number}

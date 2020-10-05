@@ -1,6 +1,6 @@
-import Scene from '@core/Scene';
-import SceneChild from '@core/SceneChild';
-import ShapeBase from '@core/shapes/ShapeBase';
+import Scene from "./Scene";
+import SceneChild from "./SceneChild";
+import ShapeBase from "./shapes/ShapeBase";
 /**
  * Group used for add multiple SceneChild with same props
  *

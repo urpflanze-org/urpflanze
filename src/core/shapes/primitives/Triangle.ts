@@ -4,6 +4,8 @@ import ShapeBuffer from '@core/shapes/ShapeBuffer'
 
 /**
  * Triangle ShapeBuffer
+ *
+ * @category Core.Primitives
  */
 class Triangle extends ShapeBuffer {
 	/**

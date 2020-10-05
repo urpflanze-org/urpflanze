@@ -1,11 +1,12 @@
-import SceneChild from '@core/SceneChild';
-import { TArray } from '@core/math/Vec2';
-import { IRepetition, ISceneChildPropArguments, ISceneChildProps, ISceneChildStreamIndexing } from '@core/types/scene-child';
-import { TStreamCallback } from '@core/types/scene';
-import { IShapeBaseSettings } from '@core/types/shape-base';
+import SceneChild from "../SceneChild";
+import { TArray } from "../math/Vec2";
+import { IRepetition, ISceneChildPropArguments, ISceneChildProps, ISceneChildStreamIndexing } from "../types/scene-child";
+import { TStreamCallback } from "../types/scene";
+import { IShapeBaseSettings } from "../types/shape-base";
 /**
  * Shape Base
  *
+ * @category Core.Abstract
  * @abstract
  * @class ShapeBase
  * @extends {SceneChild}

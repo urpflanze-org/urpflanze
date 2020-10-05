@@ -40,7 +40,6 @@ function resolveExtends(parentClass, result) {
 }
 
 export function resolveType(type) {
-	console.log('type', type)
 	if (type) {
 		if (typeof type === 'string') {
 			return type
@@ -128,7 +127,106 @@ export function resolveType(type) {
 		if (type.type === 'indexedAccess' && type.indexType && type.indexType.constraint) {
 			return `${resolveType(type.indexType.constraint.target)}[${type.indexType.name}]`
 		}
+		if (type.type === 'query' && type.queryType && type.queryType.type === 'reference') {
+			return resolveType(type.queryType)
+		}
 
 		console.warn('cant resolve type', type)
 	}
+}
+
+// prettier-ignore
+export function printVariables(variables) {
+    return `
+        <ul class="reference__list">
+        ${variables.map(variable => `
+            <li>
+                <div>${resolveMethodOrPropertyName(variable)}: <span class="reference__property__type">${resolveType(variable.type)}</span>${variable.defaultValue 
+					? `<span class="reference__property__default_value"> = ${variable.defaultValue}</span>` 
+					: ''
+				}</div>
+                <div class="reference__property__description">${printDescription(variable)}</div>
+            </li>
+        `).join('\n')}
+        </ul>
+    `
+}
+
+export function printFunctionExample(example) {
+	const reg = /```(.+)(\n[\s\S]+\n)```/gim
+	if (example.match(reg)) {
+		const [, lang, text] = reg.exec(example)
+
+		return `<div class="reference__method__example"><pre class="prettyprint"><code translate="no" class="language-${lang}">${text.replace(
+			/^\s+|\s+$/g,
+			''
+		)}</code></pre></div>`
+	}
+}
+
+export function resolveTypeParameter(variable) {
+	if (variable.typeParameter) {
+		return (
+			'&lt;' +
+			variable.typeParameter
+				.map(typeParameter => {
+					return `${typeParameter.name}${typeParameter.type ? `  extends ${resolveType(typeParameter.type)}` : ''}`
+				})
+				.join(', ') +
+			'&gt;'
+		)
+	}
+
+	return ''
+}
+
+// prettier-ignore
+export  function printFunctions(functions) {
+
+
+    return `
+        <ul class="reference__list">
+        ${functions.map(callable => {
+			const parameters = callable.parameters || []
+            return `<li>
+                <div>
+                    ${resolveMethodOrPropertyName(callable)}${resolveTypeParameter(callable)}(${parameters.map(parameter => 
+						`<span class="reference__method__property_name">${parameter.name}${parameter.bOptional ? '?' : ''}</span>: <span class="reference__method__property_type">${resolveType(parameter.type)}</span>${
+							parameter.defaultValue ? `<span class="reference__method__property_default_value"> = ${parameter.defaultValue}</span>` : ''
+						}`
+					).join(', ')}): ${resolveType(callable.return_type)}
+                </div>
+                <div class="reference__method__description">${printDescription(callable)}</div>
+                ${callable.examples ? callable.examples.map(printFunctionExample).join('') : ''}
+            </li>`
+        }).join('\n')}
+        </ul>
+    `
+}
+
+export function resolveMethodOrPropertyName(mp) {
+	let prefix
+
+	switch (true) {
+		case mp.bAbstrasct:
+			prefix = 'abstract '
+			break
+		case mp.bStatic && mp.bReadonly:
+			prefix = 'static readonly '
+			break
+		case mp.bStatic:
+			prefix = 'static '
+			break
+		default:
+			prefix = '.'
+	}
+	return `${prefix}<h4 class="reference__property__name">${mp.name}</h4>`
+}
+
+export function printDescription(property, bComment = false) {
+	return property.description
+		? bComment
+			? `\n\t// ${property.description.split('\n').join('\n\t// ')}\n\t`
+			: `${property.description.split('\n').join('<br />')}`
+		: ''
 }

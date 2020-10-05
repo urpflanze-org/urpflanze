@@ -1,11 +1,13 @@
 import SimplexNoise from 'simplex-noise';
-import { ERepetitionType } from '@core/types/scene-child';
-import Vec2 from '@core/math/Vec2';
+import { ERepetitionType, IRepetition } from "./types/scene-child";
+import Vec2, { TArray } from "./math/Vec2";
 const noises = {
     random: new SimplexNoise(Math.random),
 };
 /**
- * Test
+ * Utilities function passed to <a href="[base_url]/ISceneChildPropArguments">ISceneChildPropArguments</a>
+ *
+ * @category Core.Utilities
  */
 const Context = {
     /**
@@ -24,7 +26,8 @@ const Context = {
         return noises[seed].noise3D(x, y, z);
     },
     /**
-     * Return angle (atan) from offset(or center)
+     * Return angle (atan) from offset (or center).
+     * Offset is array between [-1, -1] and [1, 1]
      *
      * @param {IRepetition} repetition
      * @param {number | TArray} offsetFromCenter
@@ -44,7 +47,8 @@ const Context = {
         return (_a = repetition.current_angle) !== null && _a !== void 0 ? _a : 0;
     },
     /**
-     * Return angle (atan2, 4 quadrants) from offset(or center)
+     * Return angle (atan2, 4 quadrants) from offset (or center).
+     * Offset is array between [-1, -1] and [1, 1]
      *
      * @param {IRepetition} repetition
      * @param {number | TArray} offsetFromCenter

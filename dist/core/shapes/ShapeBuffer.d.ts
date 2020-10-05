@@ -1,6 +1,9 @@
-import ShapePrimitive from '@core/shapes/ShapePrimitive';
-import { ISceneChildPropArguments } from '@core/types/scene-child';
-import { IShapeBufferSettings } from '@core/types/shape-primitive';
+import ShapePrimitive from "./ShapePrimitive";
+import { ISceneChildPropArguments } from "../types/scene-child";
+import { IShapeBufferSettings } from "../types/shape-primitive";
+/**
+ * @category Core.Shapes
+ */
 declare class ShapeBuffer extends ShapePrimitive {
     /**
      * Custom vertex buffer or shape

@@ -24,6 +24,7 @@ export interface LoopMeta {
 /**
  * Shape Loop
  *
+ * @category Core.Shapes
  * @public
  * @class ShapeLoop
  * @extends {ShapePrimitive}

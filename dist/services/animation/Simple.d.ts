@@ -1,6 +1,6 @@
-import { ISimpleAnimation, TSimpleAnimationLoop, TSimpleAnimationUncontrolledLoop, TSimpleAnimationStatic } from '@services/types/animation';
-import { TArray } from '@core/math/Vec2';
-import { TSceneChildProp } from '@core/types/scene-child';
+import { ISimpleAnimation, TSimpleAnimationLoop, TSimpleAnimationUncontrolledLoop, TSimpleAnimationStatic } from "../types/animation";
+import { TArray } from "../../core/math/Vec2";
+import { TSceneChildProp } from "../../core/types/scene-child";
 declare const Simple: {
     loop: (props: TSimpleAnimationLoop) => TSceneChildProp<string | number | TArray>;
     uncontrolledLoop: (props: TSimpleAnimationUncontrolledLoop) => TSceneChildProp<string | number | TArray>;

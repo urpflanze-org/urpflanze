@@ -6,7 +6,7 @@ import ShapeBase from '@core/shapes/ShapeBase'
 import ShapeBuffer from '@core/shapes/ShapeBuffer'
 import ShapePrimitive from '@core/shapes/ShapePrimitive'
 
-import Utilities from 'src/Utilites'
+import { parseFunction } from 'src/Utilites'
 
 import DrawerCanvas from '@services/drawer-canvas/DrawerCanvas'
 import JSONImporter from '@services/importers/JSONImporter'
@@ -15,6 +15,11 @@ import { IProject, IProjectSceneChild } from '@services/types/project'
 import SceneUtilities from '@services/scene-utilities/SceneUtilities'
 import { ISceneChildProps } from '@core/types/scene-child'
 
+/**
+ *
+ * @category Services
+ * @class JSONExporter
+ */
 class JSONExporter {
 	parse(drawer: DrawerCanvas, name = 'EmptyProject'): string {
 		return this.toString(this.parseAsProject(drawer, name))
@@ -39,7 +44,7 @@ class JSONExporter {
 
 		project.clearCanvas = drawer.getOption('clearCanvas', true) as boolean
 		project.ghosts = drawer.getOption('ghosts', 0) as number
-		project.ghost_skip_time = Utilities.parseFunction.parse(drawer.getOption('ghost_skip_time', 30) as number | string)
+		project.ghost_skip_time = parseFunction.parse(drawer.getOption('ghost_skip_time', 30) as number | string)
 
 		project.ratio = drawer.getRatio()
 
@@ -73,8 +78,7 @@ class JSONExporter {
 		const props = sceneChild.getProps()
 		const propsKeys = Object.keys(props) as Array<keyof ISceneChildProps>
 
-		for (let i = 0, len = propsKeys.length; i < len; i++)
-			props[propsKeys[i]] = Utilities.parseFunction.parse(props[propsKeys[i]])
+		for (let i = 0, len = propsKeys.length; i < len; i++) props[propsKeys[i]] = parseFunction.parse(props[propsKeys[i]])
 
 		projectSceneChild.props = { ...props, ...sceneChild.data.props }
 
@@ -89,7 +93,7 @@ class JSONExporter {
 		if (sceneChild instanceof ShapePrimitive) {
 			projectSceneChild.bAdaptBuffer = sceneChild.bAdaptBuffer
 			projectSceneChild.bCloseShape = sceneChild.bCloseShape
-			projectSceneChild.vertexCallback = Utilities.parseFunction.parse(sceneChild.vertexCallback)
+			projectSceneChild.vertexCallback = parseFunction.parse(sceneChild.vertexCallback)
 		} else if (sceneChild instanceof Shape || sceneChild instanceof Group) {
 			const children: Array<IProjectSceneChild> = []
 			const shapeChildren = SceneUtilities.getChildren(sceneChild)

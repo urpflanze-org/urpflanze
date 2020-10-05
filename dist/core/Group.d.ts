@@ -1,6 +1,6 @@
-import { TStreamCallback } from '@core/types/scene';
-import { ISceneChildPropArguments, ISceneChildProps, ISceneChildSettings, ISceneChildStreamIndexing } from '@core/types/scene-child';
-import SceneChild from '@core/SceneChild';
+import { TStreamCallback } from "./types/scene";
+import { ISceneChildPropArguments, ISceneChildProps, ISceneChildSettings, ISceneChildStreamIndexing } from "./types/scene-child";
+import SceneChild from "./SceneChild";
 /**
  * Group used for add multiple SceneChild with same props
  *

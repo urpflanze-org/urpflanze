@@ -1,11 +1,16 @@
-import Group from '@core/Group';
-import Shape from '@core/shapes/Shape';
-import ShapeBase from '@core/shapes/ShapeBase';
-import ShapeBuffer from '@core/shapes/ShapeBuffer';
-import ShapePrimitive from '@core/shapes/ShapePrimitive';
-import Utilities from 'src/Utilites';
-import JSONImporter from '@services/importers/JSONImporter';
-import SceneUtilities from '@services/scene-utilities/SceneUtilities';
+import Group from "../../core/Group";
+import Shape from "../../core/shapes/Shape";
+import ShapeBase from "../../core/shapes/ShapeBase";
+import ShapeBuffer from "../../core/shapes/ShapeBuffer";
+import ShapePrimitive from "../../core/shapes/ShapePrimitive";
+import { parseFunction } from "../../Utilites";
+import JSONImporter from "../importers/JSONImporter";
+import SceneUtilities from "../scene-utilities/SceneUtilities";
+/**
+ *
+ * @category Services
+ * @class JSONExporter
+ */
 class JSONExporter {
     parse(drawer, name = 'EmptyProject') {
         return this.toString(this.parseAsProject(drawer, name));
@@ -25,7 +30,7 @@ class JSONExporter {
         project.background = scene.background;
         project.clearCanvas = drawer.getOption('clearCanvas', true);
         project.ghosts = drawer.getOption('ghosts', 0);
-        project.ghost_skip_time = Utilities.parseFunction.parse(drawer.getOption('ghost_skip_time', 30));
+        project.ghost_skip_time = parseFunction.parse(drawer.getOption('ghost_skip_time', 30));
         project.ratio = drawer.getRatio();
         const { start, end, framerate } = timeline.getSequence();
         project.sequence = { start, end, framerate, durate: end - start };
@@ -51,7 +56,7 @@ class JSONExporter {
         const props = sceneChild.getProps();
         const propsKeys = Object.keys(props);
         for (let i = 0, len = propsKeys.length; i < len; i++)
-            props[propsKeys[i]] = Utilities.parseFunction.parse(props[propsKeys[i]]);
+            props[propsKeys[i]] = parseFunction.parse(props[propsKeys[i]]);
         projectSceneChild.props = Object.assign(Object.assign({}, props), sceneChild.data.props);
         if (sceneChild instanceof ShapeBuffer) {
             projectSceneChild.shape = sceneChild.shape;
@@ -62,7 +67,7 @@ class JSONExporter {
         if (sceneChild instanceof ShapePrimitive) {
             projectSceneChild.bAdaptBuffer = sceneChild.bAdaptBuffer;
             projectSceneChild.bCloseShape = sceneChild.bCloseShape;
-            projectSceneChild.vertexCallback = Utilities.parseFunction.parse(sceneChild.vertexCallback);
+            projectSceneChild.vertexCallback = parseFunction.parse(sceneChild.vertexCallback);
         }
         else if (sceneChild instanceof Shape || sceneChild instanceof Group) {
             const children = [];

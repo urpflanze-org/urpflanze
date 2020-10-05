@@ -4,6 +4,9 @@ import { IShapeSettings } from '@core/types/shape-base'
 import Scene from '@core/Scene'
 import { IRepetition, ISceneChildPropArguments, ISceneChildStreamIndexing } from '@core/types/scene-child'
 
+/**
+ * @category Core.Shapes
+ */
 class Shape extends ShapeBase {
 	/**
 	 * child shape

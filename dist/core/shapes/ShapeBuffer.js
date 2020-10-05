@@ -1,5 +1,8 @@
-import ShapePrimitive from '@core/shapes/ShapePrimitive';
-import { EShapePrimitiveAdaptMode } from '@core/types/shape-base';
+import ShapePrimitive from "./ShapePrimitive";
+import { EShapePrimitiveAdaptMode } from "../types/shape-base";
+/**
+ * @category Core.Shapes
+ */
 class ShapeBuffer extends ShapePrimitive {
     constructor(settings = {}) {
         settings.type = settings.type || 'ShapeBuffer';

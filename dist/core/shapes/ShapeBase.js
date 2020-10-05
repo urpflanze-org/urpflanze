@@ -1,10 +1,11 @@
-import SceneChild from '@core/SceneChild';
-import Vec2 from '@core/math/Vec2';
-import Context from '@core/Context';
-import { ERepetitionType, } from '@core/types/scene-child';
+import SceneChild from "../SceneChild";
+import Vec2, { TArray } from "../math/Vec2";
+import Context from "../Context";
+import { ERepetitionType, IRepetition, ISceneChildPropArguments, ISceneChildProps, ISceneChildStreamArguments, ISceneChildStreamIndexing, } from "../types/scene-child";
 /**
  * Shape Base
  *
+ * @category Core.Abstract
  * @abstract
  * @class ShapeBase
  * @extends {SceneChild}
@@ -48,7 +49,6 @@ class ShapeBase extends SceneChild {
             displace: settings.displace,
             translate: settings.translate,
             scale: settings.scale,
-            rotationOrigin: settings.rotationOrigin,
         };
         this.bUseParent = !!settings.bUseParent;
     }
@@ -71,8 +71,9 @@ class ShapeBase extends SceneChild {
             typeof props.squeezeX !== 'function' &&
             typeof props.squeezeY !== 'function' &&
             typeof props.translate !== 'function' &&
-            typeof props.scale !== 'function' &&
-            typeof props.rotationOrigin !== 'function');
+            typeof props.scale !== 'function'
+        // && typeof props.rotationOrigin !== 'function'
+        );
     }
     /**
      * Check if shape has static indexed
@@ -220,8 +221,8 @@ class ShapeBase extends SceneChild {
                 const rotateX = this.getProp('rotateX', prop_arguments, 0);
                 const rotateY = this.getProp('rotateY', prop_arguments, 0);
                 const rotateZ = this.getProp('rotateZ', prop_arguments, 0);
-                const rotationOrigin = Vec2.create(this.getProp('rotationOrigin', prop_arguments, Vec2.ZERO));
-                // const rotationOrigin = Vec2.ZERO
+                // const rotationOrigin = Vec2.create(this.getProp('rotationOrigin', prop_arguments, Vec2.ZERO))
+                const rotationOrigin = Vec2.ZERO;
                 const buffer = this.generateBuffer(generate_id, prop_arguments);
                 const buffer_length = buffer.length;
                 buffers[current_index] = new Float32Array(buffer_length);
@@ -370,7 +371,12 @@ class ShapeBase extends SceneChild {
         var _a, _b;
         const shape_buffer = this.getBuffer();
         if (shape_buffer) {
-            const repetitions = this.getProp('repetitions', { parent, time: 1, repetition: ShapeBase.getEmptyRepetition(), context: Context }, 1);
+            const repetitions = this.getProp('repetitions', {
+                parent,
+                time: 1,
+                repetition: ShapeBase.getEmptyRepetition(),
+                context: Context,
+            }, 1);
             // const bRandomRepetitions: boolean = typeof this.props.randomSeed !== 'undefined'
             // this.rand_prng = bRandomRepetitions ? seedrandom(this.props.randomSeed as string) : undefined
             const repetition_type = Array.isArray(repetitions) ? ERepetitionType.Matrix : ERepetitionType.Ring;

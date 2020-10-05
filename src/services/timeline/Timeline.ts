@@ -1,6 +1,12 @@
 import Emitter from '@services/events/Emitter'
 import { SequenceMeta, TimelineEvents } from '@services/types/timeline'
 
+/**
+ *
+ * @category Services.Timeline
+ * @class Timeline
+ * @extends {Emitter<TimelineEvents>}
+ */
 class Timeline extends Emitter<TimelineEvents> {
 	static START: string = 'start'
 	static PAUSE: string = 'pause'

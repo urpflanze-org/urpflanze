@@ -1,5 +1,5 @@
-import { TArray } from '@core/math/Vec2';
-import { TEasing } from '@services/animation/Easings';
+import { TArray } from "../../core/math/Vec2";
+import { TEasing } from "../animation/Easings";
 /**
  *
  *

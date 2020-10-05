@@ -1,5 +1,11 @@
-import ShapeLoop from '@core/shapes/ShapeLoop';
-import { IShapeLoopSettings } from '@core/types/shape-primitive';
+import ShapeLoop from "../ShapeLoop";
+import { IShapeLoopSettings } from "../../types/shape-primitive";
+/**
+ *
+ * @category Core.Primitives
+ * @class Circle
+ * @extends {ShapeLoop}
+ */
 declare class Circle extends ShapeLoop {
     /**
      * Creates an instance of Circle.

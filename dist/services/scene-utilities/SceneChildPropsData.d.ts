@@ -1,5 +1,5 @@
-import { TDrawerTransformation } from '@services/types/animation';
-import { TSceneChildProps } from '@services/types/scene-utilities';
+import { TDrawerTransformation } from "../types/animation";
+import { TSceneChildProps } from "../types/scene-utilities";
 export declare type TPropInputType = 'range' | 'multiple-range' | 'color' | 'select' | 'checkbox' | 'radio' | 'slider';
 export interface ISceneChildPropData {
     label: string;

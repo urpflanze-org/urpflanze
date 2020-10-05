@@ -2,6 +2,12 @@ import ShapeLoop from '@core/shapes/ShapeLoop'
 import { EShapePrimitiveAdaptMode } from '@core/types/shape-base'
 import { IShapeLoopSettings } from '@core/types/shape-primitive'
 
+/**
+ *
+ * @category Core.Primitives
+ * @class Circle
+ * @extends {ShapeLoop}
+ */
 class Circle extends ShapeLoop {
 	/**
 	 * Creates an instance of Circle.

@@ -1,12 +1,13 @@
-import ShapePrimitive from './ShapePrimitive';
-import ShapeBase from './ShapeBase';
-import Vec2 from '@core/math/Vec2';
-import Context from '@core/Context';
-import { ERepetitionType } from '@core/types/scene-child';
-import { EShapePrimitiveAdaptMode } from '@core/types/shape-base';
+import ShapePrimitive from "./ShapePrimitive";
+import ShapeBase from "./ShapeBase";
+import Vec2 from "../math/Vec2";
+import Context from "../Context";
+import { ERepetitionType, IRepetition, ISceneChildPropArguments } from "../types/scene-child";
+import { EShapePrimitiveAdaptMode, IShapePrimitiveProps } from "../types/shape-base";
 /**
  * Shape Loop
  *
+ * @category Core.Shapes
  * @public
  * @class ShapeLoop
  * @extends {ShapePrimitive}

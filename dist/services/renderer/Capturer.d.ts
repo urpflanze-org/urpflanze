@@ -1,8 +1,13 @@
-import { TRenderImageType, TRenderType } from '@services/types/renedrer';
+import { TRenderImageType, TRenderType } from "../types/renedrer";
 interface ICapturerSettings {
     type?: TRenderType;
     quality?: number;
 }
+/**
+ *
+ * @category Services.Renderer
+ * @class Capturer
+ */
 declare class Capturer {
     encoder: 'jpeg' | 'png';
     type: TRenderType;

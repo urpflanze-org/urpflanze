@@ -1,9 +1,10 @@
-import ShapeLoop from '@core/shapes/ShapeLoop';
-import { ISceneChildPropArguments } from '@core/types/scene-child';
-import { ILissajousProps, ILissajousSettings } from '@core/types/shape-primitive';
+import ShapeLoop from "../ShapeLoop";
+import { ISceneChildPropArguments } from "../../types/scene-child";
+import { ILissajousProps, ILissajousSettings } from "../../types/shape-primitive";
 /**
  * Lissajous shape
  *
+ * @category Core.Primitives
  * @class Lissajous
  * @extends {ShapeLoop}
  */

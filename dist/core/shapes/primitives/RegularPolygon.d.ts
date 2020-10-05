@@ -1,9 +1,10 @@
-import { IRegularPolygonProps, IRegularPolygonSettings } from '@core/types/shape-primitive';
-import ShapeLoop from '@core/shapes/ShapeLoop';
-import { ISceneChildPropArguments } from '@core/types/scene-child';
+import { IRegularPolygonProps, IRegularPolygonSettings } from "../../types/shape-primitive";
+import ShapeLoop from "../ShapeLoop";
+import { ISceneChildPropArguments } from "../../types/scene-child";
 /**
  * Polygon shape
  *
+ * @category Core.Primitives
  * @class RegularPolygon
  * @extends {ShapeLoop}
  */

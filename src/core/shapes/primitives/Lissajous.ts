@@ -6,6 +6,7 @@ import { ILissajousProps, ILissajousSettings, IShapeLoopProps } from '@core/type
 /**
  * Lissajous shape
  *
+ * @category Core.Primitives
  * @class Lissajous
  * @extends {ShapeLoop}
  */

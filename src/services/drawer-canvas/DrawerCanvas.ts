@@ -7,8 +7,14 @@ import SceneUtilities from '@services/scene-utilities/SceneUtilities'
 import FrameBuffer from '@services/drawer-canvas/FrameBuffer'
 import Emitter from '@services/events/Emitter'
 import { DrawerCanvasEvents, DrawOptions } from '@services/types/drawer-canvas'
-import Utilities from 'src/Utilites'
+import { now } from 'src/Utilites'
 
+/**
+ *
+ * @category Services
+ * @class DrawerCanvas
+ * @extends {Emitter<DrawerCanvasEvents>}
+ */
 class DrawerCanvas extends Emitter<DrawerCanvasEvents> {
 	private scene: Scene
 	private canvas: HTMLCanvasElement | OffscreenCanvas
@@ -576,7 +582,7 @@ class DrawerCanvas extends Emitter<DrawerCanvasEvents> {
 		options: DrawOptions,
 		resolution?: number
 	): number {
-		const start_time = Utilities.now()
+		const start_time = now()
 
 		if (context) {
 			const scale: number = options.scale ?? 1
@@ -723,7 +729,7 @@ class DrawerCanvas extends Emitter<DrawerCanvasEvents> {
 			})
 		}
 
-		const end_time = Utilities.now()
+		const end_time = now()
 
 		return end_time - start_time
 	}

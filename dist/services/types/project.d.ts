@@ -1,6 +1,6 @@
-import { EShapePrimitiveAdaptMode } from '@core/types/shape-base';
-import { IShapeLoop, IVertexCallback, TAnimation, TCallableValue, TDrawerValue } from '@services/types/animation';
-import { TSceneChildProps } from './scene-utilities';
+import { EShapePrimitiveAdaptMode } from "../../core/types/shape-base";
+import { IShapeLoop, IVertexCallback, TAnimation, TCallableValue, TDrawerValue } from "./animation";
+import { TSceneChildProps } from "./scene-utilities";
 export interface IProjectSequence {
     start: number;
     end: number;

@@ -11,6 +11,11 @@ const DEFAULT_SETTINGS = {
 	noBackground: true,
 }
 
+/**
+ *
+ * @category Services
+ * @class SVGExporter
+ */
 class SVGExporter {
 	parse(drawer: DrawerCanvas, settings: IRenderSettings): string {
 		settings = { ...DEFAULT_SETTINGS, ...settings }

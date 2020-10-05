@@ -19,7 +19,7 @@ node generate-references.js
 Build sass file with
 
 ```console
-sass ./docs/src/scss:docs/public // ---watch --style compressed
+sass ./docs/src/scss:docs/public // --watch --style compressed
 ```
 
 Build js boundle with

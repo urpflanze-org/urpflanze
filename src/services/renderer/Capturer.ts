@@ -5,6 +5,11 @@ interface ICapturerSettings {
 	quality?: number
 }
 
+/**
+ *
+ * @category Services.Renderer
+ * @class Capturer
+ */
 class Capturer {
 	encoder: 'jpeg' | 'png'
 	type: TRenderType

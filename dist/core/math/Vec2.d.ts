@@ -1,3 +1,8 @@
+/**
+ * Array type
+ *
+ * @ignore
+ */
 export declare type TArray = Array<number> | Float32Array;
 declare const _default: {
     create: (x?: number | number[] | Float32Array, y?: number | undefined) => number[] | Float32Array;

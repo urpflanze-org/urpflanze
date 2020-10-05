@@ -1,7 +1,10 @@
-import ShapeBase from '@core/shapes/ShapeBase';
-import SceneChild from '@core/SceneChild';
-import { IShapeSettings } from '@core/types/shape-base';
-import { IRepetition, ISceneChildPropArguments, ISceneChildStreamIndexing } from '@core/types/scene-child';
+import ShapeBase from "./ShapeBase";
+import SceneChild from "../SceneChild";
+import { IShapeSettings } from "../types/shape-base";
+import { IRepetition, ISceneChildPropArguments, ISceneChildStreamIndexing } from "../types/scene-child";
+/**
+ * @category Core.Shapes
+ */
 declare class Shape extends ShapeBase {
     /**
      * child shape

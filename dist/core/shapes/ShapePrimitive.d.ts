@@ -1,8 +1,11 @@
-import ShapeBase from '@core/shapes/ShapeBase';
-import { TArray } from '@core/math/Vec2';
-import { EShapePrimitiveAdaptMode, IShapeBounding, IShapePrimitiveProps, IShapePrimitiveSettings } from '@core/types/shape-base';
-import { IRepetition, ISceneChildPropArguments, ISceneChildStreamIndexing } from '@core/types/scene-child';
-import { TVertexCallback } from '@core/types/shape-primitive';
+import ShapeBase from "./ShapeBase";
+import { TArray } from "../math/Vec2";
+import { EShapePrimitiveAdaptMode, IShapeBounding, IShapePrimitiveProps, IShapePrimitiveSettings } from "../types/shape-base";
+import { IRepetition, ISceneChildPropArguments, ISceneChildStreamIndexing } from "../types/scene-child";
+import { TVertexCallback } from "../types/shape-primitive";
+/**
+ * @category Core.Abstract
+ */
 declare abstract class ShapePrimitive extends ShapeBase {
     /**
      * Item props

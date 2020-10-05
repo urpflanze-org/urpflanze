@@ -1,5 +1,10 @@
-import Utilities from 'src/Utilites';
-import SceneChildPropsData from '@services/scene-utilities/SceneChildPropsData';
+import { toRadians, toDegrees } from "../../Utilites";
+import SceneChildPropsData, { ISceneChildPropData, TSceneChildPropsDataKeys, } from "./SceneChildPropsData";
+/**
+ *
+ * @category Services.Scene Utilities
+ * @class ScenePropUtilities
+ */
 class ScenePropUtilities {
     //#region ShapeLoop
     static bValueLoop(value) {
@@ -79,7 +84,7 @@ class ScenePropUtilities {
             let transformedValueFunction;
             switch (sceneChildProp.transformation) {
                 case 'angle':
-                    transformedValueFunction = Utilities.toRadians;
+                    transformedValueFunction = toRadians;
                     break;
                 case 'resolution-based':
                     transformedValueFunction = drawer.getValueFromResolution.bind(drawer);
@@ -102,7 +107,7 @@ class ScenePropUtilities {
             let transformedValueFunction;
             switch (sceneChildProp.transformation) {
                 case 'angle':
-                    transformedValueFunction = Utilities.toDegrees;
+                    transformedValueFunction = toDegrees;
                     break;
                 case 'resolution-based':
                     transformedValueFunction = drawer.getValueFromResolutionScaled.bind(drawer);

@@ -1,6 +1,9 @@
-import ShapeBase from '@core/shapes/ShapeBase';
-import SceneChild from '@core/SceneChild';
-import Scene from '@core/Scene';
+import ShapeBase from "./ShapeBase";
+import SceneChild from "../SceneChild";
+import Scene from "../Scene";
+/**
+ * @category Core.Shapes
+ */
 class Shape extends ShapeBase {
     /**
      * Creates an instance of Shape.

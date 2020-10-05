@@ -1,10 +1,16 @@
-import Vec2 from '@core/math/Vec2';
-import Scene from '@core/Scene';
-import Timeline from '@services/timeline/Timeline';
-import SceneUtilities from '@services/scene-utilities/SceneUtilities';
-import FrameBuffer from '@services/drawer-canvas/FrameBuffer';
-import Emitter from '@services/events/Emitter';
-import Utilities from 'src/Utilites';
+import Vec2 from "../../core/math/Vec2";
+import Scene from "../../core/Scene";
+import Timeline from "../timeline/Timeline";
+import SceneUtilities from "../scene-utilities/SceneUtilities";
+import FrameBuffer from "./FrameBuffer";
+import Emitter from "../events/Emitter";
+import { now } from "../../Utilites";
+/**
+ *
+ * @category Services
+ * @class DrawerCanvas
+ * @extends {Emitter<DrawerCanvasEvents>}
+ */
 class DrawerCanvas extends Emitter {
     constructor(scene, canvasOrContainer, drawOptions = {}, ratio = undefined, resolution = 0, bBuffering = false) {
         var _a, _b, _c, _d, _e, _f, _g;
@@ -469,7 +475,7 @@ class DrawerCanvas extends Emitter {
      */
     static draw(scene, context, options, resolution) {
         var _a, _b, _c, _d;
-        const start_time = Utilities.now();
+        const start_time = now();
         if (context) {
             const scale = (_a = options.scale) !== null && _a !== void 0 ? _a : 1;
             const translate = (_b = options.translate) !== null && _b !== void 0 ? _b : [0, 0];
@@ -582,7 +588,7 @@ class DrawerCanvas extends Emitter {
                 }
             });
         }
-        const end_time = Utilities.now();
+        const end_time = now();
         return end_time - start_time;
     }
 }

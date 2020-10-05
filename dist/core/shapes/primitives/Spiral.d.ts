@@ -1,9 +1,10 @@
-import ShapeLoop from '../ShapeLoop';
-import { ISpiralProps, ISpiralSettings, TSpiralType } from '@core/types/shape-primitive';
-import { ISceneChildPropArguments } from '@core/types/scene-child';
+import ShapeLoop from "../ShapeLoop";
+import { ISpiralProps, ISpiralSettings, TSpiralType } from "../../types/shape-primitive";
+import { ISceneChildPropArguments } from "../../types/scene-child";
 /**
  * Spiral shape
  *
+ * @category Core.Primitives
  * @class Spiral
  * @extends {ShapeLoop}
  */

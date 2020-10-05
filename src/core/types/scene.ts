@@ -5,18 +5,28 @@ export type TStreamCallback = (stream_arguments: ISceneChildStreamArguments) => 
 /**
  * The object to pass as the argument of a new scene
  *
+ * @category Core.Interfaces
  * @interface ISceneSettingsInterface
  */
 export interface ISceneSettingsInterface {
 	width?: number
 	height?: number
+
+	/**
+	 * Default becakground color
+	 */
 	background?: string
+
+	/**
+	 * Default stroke color of shapes
+	 */
 	mainColor?: string
 }
 
 /**
  * The minimum object to pass as the argument of a new SceneSchild implementation
  *
+ * @category Core.Interfaces
  * @interface ISceneChildInterface
  */
 export interface ISceneChildInterface {

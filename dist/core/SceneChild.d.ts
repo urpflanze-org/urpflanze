@@ -1,13 +1,13 @@
-import { TStreamCallback } from '@core/types/scene';
-import { ISceneChildPropArguments, ISceneChildProps, ISceneChildSettings, ISceneChildStreamIndexing } from '@core/types/scene-child';
-import Scene from '@core/Scene';
+import { TStreamCallback } from "./types/scene";
+import { ISceneChildPropArguments, ISceneChildProps, ISceneChildSettings, ISceneChildStreamIndexing } from "./types/scene-child";
+import Scene from "./Scene";
 /**
  * The element to be added into a scene.
  * Preserve settings (props), drawing order, generate and return buffers.
  * The only implementations of this class are <a href="[base_url]/Group">Group</a> and <a href="[base_url]/ShapeBase">ShapeBase</a>
  *
  * @abstract
- * @category Core.Scene
+ * @category Core.Abstract
  * @order 2
  * @class SceneChild
  */

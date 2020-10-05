@@ -1,23 +1,24 @@
-import { TArray } from '@core/math/Vec2'
-import SceneChild from '@core/SceneChild'
 import ShapeBase from '@core/shapes/ShapeBase'
 import ShapePrimitive from '@core/shapes/ShapePrimitive'
+import Context from '@core/Context'
 
 /**
  * Repetition type enumerator.
  *
- *
- * @export
+ * @category Core.Enums
+ * @internal
  * @enum {number}
  */
 export enum ERepetitionType {
 	/**
-	 * Defines the type of repetition of the shape, in a circular way starting from the center of the scene
+	 * Defines the type of repetition of the shape,
+	 * in a circular way starting from the center of the scene
 	 */
 	Ring = 1,
 
 	/**
-	 * Defines the type of repetition of the shape, on a nxm grid starting from the center of the scene
+	 * Defines the type of repetition of the shape,
+	 * on a nxm grid starting from the center of the scene
 	 */
 	Matrix = 2,
 
@@ -31,28 +32,41 @@ export enum ERepetitionType {
 // TODO: ShapeBasePropArgument repetition beacuse random_offset cannot calculate into index function (can't get distance for performance reason)
 
 /**
- * Information about current shape repetition
+ * Information about current shape repetition.
+ * The meaning values ​​change according to the <mark>type</mark> of repetition
  *
+ * @category Core.Interfaces
  * @type RepetitionLoop
  */
 export interface IRepetition {
-	count_row: number
-	count_col: number
-	count: number
+	/**
+	 * Define the type of repetition
+	 */
+	type: ERepetitionType
+
+	/**
+	 * Current angle
+	 */
+	current_angle: number
 	current_index: number
 	current_offset: number
-	type: ERepetitionType
+	count: number
+
 	current_col: number
 	current_col_offset: number
+	count_col: number
+
 	current_row: number
 	current_row_offset: number
-	current_angle: number
+	count_row: number
 	// random_offset: Array<number>
 }
 
 /**
  * Props interface.
  * Remember: any size refere to dimension of a scene.
+ *
+ * @category Core.Interfaces
  */
 export interface ISceneChildProps {
 	/**
@@ -157,20 +171,20 @@ export interface ISceneChildProps {
 	 */
 	translate?: TSceneChildProp<number | Array<number>>
 
-	/**
-	 * Origin transformation, between [-1, -1] and [1, 1]
-	 *
-	 * @type {(TSceneChildProp<number | Array<number>>)}
-	 * @memberof ISceneChildProps
-	 */
-	rotationOrigin?: TSceneChildProp<number | Array<number>>
+	// /**
+	//  * Origin transformation, between [-1, -1] and [1, 1]
+	//  *
+	//  * @type {(TSceneChildProp<number | Array<number>>)}
+	//  * @memberof ISceneChildProps
+	//  */
+	// rotationOrigin?: TSceneChildProp<number | Array<number>>
 	// randomSeed?: string
 }
 
 /**
  * Object
  *
- * @export
+ * @category Core.Interfaces
  * @interface ISceneChildSettings
  * @extends {ISceneChildProps}
  */
@@ -182,36 +196,35 @@ export interface ISceneChildSettings extends ISceneChildProps {
 	data?: any
 }
 
-/**
- *
- *
- * @export
- * @interface IContext
- */
-export interface IContext {
-	noise: (seed: string, x: number, y: number, z: number) => number
+// /**
+//  *
+//  * @category Core.Interfaces
+//  * @interface IContext
+//  */
+// export interface IContext {
+// 	noise: (seed: string, x: number, y: number, z: number) => number
 
-	angle: (repetition: IRepetition, offsetFromCenter: number | TArray) => number
+// 	angle: (repetition: IRepetition, offsetFromCenter: number | TArray) => number
 
-	angle2: (repetition: IRepetition, offsetFromCenter: number | TArray) => number
+// 	angle2: (repetition: IRepetition, offsetFromCenter: number | TArray) => number
 
-	distance: (repetition: IRepetition, offsetFromCenter: number | TArray) => number
+// 	distance: (repetition: IRepetition, offsetFromCenter: number | TArray) => number
 
-	percW: (percentage: number, shape: SceneChild) => number
+// 	percW: (percentage: number, shape: SceneChild) => number
 
-	percH: (percentage: number, shape: SceneChild) => number
-}
+// 	percH: (percentage: number, shape: SceneChild) => number
+// }
 
 /**
  * Object argument for sceneChild props
  *
- * @export
+ * @category Core.Interfaces
  * @interface ISceneChildPropArguments
  */
 export interface ISceneChildPropArguments {
 	repetition: IRepetition
 	shape_loop?: IRepetition
-	context: IContext
+	context: typeof Context
 	time: number
 	shape?: ShapeBase
 	data?: any
@@ -223,6 +236,7 @@ export type TSceneChildProp<T> = T | { (prop_arguments: ISceneChildPropArguments
 
 /**
  * Object for index the buffer
+ * @category Core.Interfaces
  */
 export interface ISceneChildStreamIndexing {
 	shape: ShapeBase

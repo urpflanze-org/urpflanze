@@ -4,6 +4,11 @@ const DEFAULT_SETTINGS = {
     time: 0,
     noBackground: true,
 };
+/**
+ *
+ * @category Services
+ * @class SVGExporter
+ */
 class SVGExporter {
     parse(drawer, settings) {
         settings = Object.assign(Object.assign({}, DEFAULT_SETTINGS), settings);

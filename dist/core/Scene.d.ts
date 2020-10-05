@@ -1,6 +1,6 @@
-import { TStreamCallback, ISceneSettingsInterface } from '@core/types/scene';
-import SceneChild from '@core/SceneChild';
-import { TArray } from '@core/math/Vec2';
+import { TStreamCallback, ISceneSettingsInterface } from "./types/scene";
+import SceneChild from "./SceneChild";
+import { TArray } from "./math/Vec2";
 /**
  * Container for all SceneChild.
  * The main purpose is to manage the drwaing order and update the buffers of the sceneChild present in it
@@ -12,7 +12,7 @@ import { TArray } from '@core/math/Vec2';
  */
 declare class Scene {
     /**
-     * Logical number, the render will take care
+     * Logical number, the drawer will take care
      * of defining the unit of measure
      *
      * @type {number}
@@ -20,7 +20,7 @@ declare class Scene {
      */
     width: number;
     /**
-     * Logical number, the render will take care
+     * Logical number, the drawer will take care
      * of defining the unit of measure
      *
      * @type {number}

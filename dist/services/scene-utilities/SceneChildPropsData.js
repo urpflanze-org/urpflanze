@@ -1,5 +1,5 @@
-import Spiral from '@core/shapes/primitives/Spiral';
-import { EShapePrimitiveAdaptMode } from '@core/types/shape-base';
+import Spiral from "../../core/shapes/primitives/Spiral";
+import { EShapePrimitiveAdaptMode } from "../../core/types/shape-base";
 const OptionShapePrimitiveAdaptMode = [
     { key: 'None', value: EShapePrimitiveAdaptMode.None },
     { key: 'Scale', value: EShapePrimitiveAdaptMode.Scale },
@@ -161,18 +161,18 @@ const SceneChildPropsData = {
         default_animate: 3,
         transformation: 'none',
     },
-    rotationOrigin: {
-        animable: true,
-        name: 'rotationOrigin',
-        label: 'Rotation Origin',
-        type: 'multiple-range',
-        min: -1,
-        max: 1,
-        step: 0.01,
-        default: [1, 1],
-        default_animate: [-1, 1],
-        transformation: 'none',
-    },
+    // rotationOrigin: {
+    // 	animable: true,
+    // 	name: 'rotationOrigin',
+    // 	label: 'Rotation Origin',
+    // 	type: 'multiple-range',
+    // 	min: -1,
+    // 	max: 1,
+    // 	step: 0.01,
+    // 	default: [1, 1],
+    // 	default_animate: [-1, 1],
+    // 	transformation: 'none',
+    // },
     // primitive
     fillColor: {
         animable: true,

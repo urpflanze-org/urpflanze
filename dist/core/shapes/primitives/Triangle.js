@@ -1,7 +1,9 @@
-import { EShapePrimitiveAdaptMode } from '@core/types/shape-base';
-import ShapeBuffer from '@core/shapes/ShapeBuffer';
+import { EShapePrimitiveAdaptMode } from "../../types/shape-base";
+import ShapeBuffer from "../ShapeBuffer";
 /**
  * Triangle ShapeBuffer
+ *
+ * @category Core.Primitives
  */
 class Triangle extends ShapeBuffer {
     /**
