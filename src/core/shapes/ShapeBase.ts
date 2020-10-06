@@ -1,6 +1,5 @@
-import SceneChild from '@core/SceneChild'
-import Vec2, { TArray } from '@core/math/Vec2'
-import Context from '@core/Context'
+import { TStreamCallback } from '@core/types/scene'
+import { IShapeBaseSettings } from '@core/types/shape-base'
 import {
 	ERepetitionType,
 	IRepetition,
@@ -10,17 +9,19 @@ import {
 	ISceneChildStreamIndexing,
 } from '@core/types/scene-child'
 
-import { TStreamCallback } from '@core/types/scene'
+import Vec2, { TArray } from '@core/math/Vec2'
 
-import { IShapeBaseSettings } from '@core/types/shape-base'
+import SceneChild from '@core/SceneChild'
 import ShapePrimitive from '@core/shapes/ShapePrimitive'
+import Context from '@core/Context'
 
 /**
- * Shape Base
+ * Main class for shape generation
  *
  * @category Core.Abstract
  * @abstract
  * @class ShapeBase
+ * @order 4
  * @extends {SceneChild}
  */
 abstract class ShapeBase extends SceneChild {
@@ -48,7 +49,6 @@ abstract class ShapeBase extends SceneChild {
 		current_col_offset: 1,
 		current_row_offset: 1,
 		type: ERepetitionType.Ring,
-		// random_offset: [0, 0],
 		count: 1,
 		count_col: 1,
 		count_row: 1,
@@ -71,16 +71,14 @@ abstract class ShapeBase extends SceneChild {
 	 * Shape generation id
 	 * used for prevent buffer calculation
 	 *
-	 * @protected
 	 * @type {number}
 	 * @memberof ShapeBase
 	 */
-	protected generate_id: number = -1
+	private generate_id: number = -1
 
 	/**
 	 * Buffer of shape vertices
 	 *
-	 * @protected
 	 * @type {Float32Array}
 	 * @memberof ShapeBase
 	 */
@@ -89,7 +87,6 @@ abstract class ShapeBase extends SceneChild {
 	/**
 	 * Determine if shape are static (one time generation, no props function, animation)
 	 *
-	 * @protected
 	 * @type {boolean}
 	 * @memberof ShapeBase
 	 */
@@ -98,19 +95,22 @@ abstract class ShapeBase extends SceneChild {
 	/**
 	 * Determine if shape have static indexed buffer
 	 *
-	 * @protected
 	 * @type {boolean}
 	 * @memberof ShapeBase
 	 */
 	protected bStaticIndexed: boolean
 
 	/**
-	 * use parent prop argument into prop function
-	 * if true, the shape are generated at each ripetition
+	 * With this parameter the shape will be created at each repetition,
+	 * useful if you want to encapsulate this shape in another and use its <mark>repetition</mark> object
 	 *
 	 * @public
 	 * @type {boolean}
 	 * @memberof ShapeBase
+	 * @example
+	 * ```javascript
+	 * const rect
+	 * ```
 	 */
 	public bUseParent: boolean
 
@@ -118,7 +118,6 @@ abstract class ShapeBase extends SceneChild {
 	 * Array used for index a vertex buffer
 	 * only for first level scene children
 	 *
-	 * @protected
 	 * @type {Array<ISceneChildStreamIndexing>}
 	 * @memberof ShapeBase
 	 */
@@ -128,20 +127,10 @@ abstract class ShapeBase extends SceneChild {
 	 * A ShapeLoop can be dynamic buffer lenght for eacch repetition.
 	 * This array contain a length of buffer for each repetition.
 	 *
-	 * @protected
 	 * @type {Uint16Array}
 	 * @memberof ShapeBase
 	 */
 	protected single_repetition_buffer_length: Uint16Array
-
-	/**
-	 * Random function
-	 *
-	 * @private
-	 * @type {(seedrandom.prng | undefined)}
-	 * @memberof ShapeBase
-	 */
-	// private rand_prng: seedrandom.prng | undefined
 
 	/**
 	 * Creates an instance of ShapeBase.
@@ -166,9 +155,6 @@ abstract class ShapeBase extends SceneChild {
 			displace: settings.displace,
 			translate: settings.translate,
 			scale: settings.scale,
-			// rotationOrigin: settings.rotationOrigin,
-
-			// randomSeed: settings.randomSeed
 		}
 
 		this.bUseParent = !!settings.bUseParent
@@ -226,8 +212,6 @@ abstract class ShapeBase extends SceneChild {
 			prop_arguments = prop_arguments || ShapeBase.EMPTY_PROP_ARGUMENTS
 
 			if (typeof prop_arguments.shape === 'undefined') prop_arguments.shape = this
-			if (typeof prop_arguments.context === 'undefined') prop_arguments.context = Context
-
 			prop_arguments.time = this.scene?.current_time || 0
 
 			attribute = attribute(prop_arguments)
@@ -281,22 +265,6 @@ abstract class ShapeBase extends SceneChild {
 	}
 
 	/**
-	 * Get random number
-	 *
-	 * @returns {number}
-	 * @memberof ShapeBase
-	 */
-	// public rand(): number
-	// {
-	//     if (!this.rand_prng)
-	//     {
-	//         this.rand_prng = seedrandom(this.props.randomSeed || this.id + '')
-	//     }
-
-	//     return this.rand_prng()
-	// }
-
-	/**
 	 * Generate shape buffer
 	 *
 	 * @param {number} generate_id generation id
@@ -315,14 +283,12 @@ abstract class ShapeBase extends SceneChild {
 
 		const repetition: IRepetition = ShapeBase.getEmptyRepetition()
 
-		// const bRandomRepetitions: boolean = typeof this.props.randomSeed !== 'undefined'
 		const repetitions: Array<number> | number = this.getProp(
 			'repetitions',
 			{ parent: parent_prop_arguments, repetition, time: 1, context: Context },
 			1
 		)
 
-		// const repetition_type = bRandomRepetitions ? RepetitionType.Random : Array.isArray(repetitions) ? RepetitionType.Matrix : RepetitionType.Ring
 		const repetition_type = Array.isArray(repetitions) ? ERepetitionType.Matrix : ERepetitionType.Ring
 		const repetition_count = Array.isArray(repetitions)
 			? repetitions[0] * (repetitions[1] ?? repetitions[0])
@@ -346,8 +312,6 @@ abstract class ShapeBase extends SceneChild {
 
 		this.single_repetition_buffer_length = new Uint16Array(repetition_count)
 		let total_buffer_length = 0
-
-		// this.rand_prng = bRandomRepetitions ? seedrandom(this.props.randomSeed as string) : undefined
 
 		const buffers = []
 		let current_index = 0
@@ -404,12 +368,6 @@ abstract class ShapeBase extends SceneChild {
 							distance[1] * (current_row_repetition - center_matrix[1])
 						)
 						break
-					// case RepetitionType.Random:
-					//     offset = Vec2.create(
-					//         (distance[0] * 2) * this.rand() - distance[1],
-					//         (distance[1] * 2) * this.rand() - distance[0]
-					//     )
-					//     break
 				}
 
 				for (let buffer_index = 0; buffer_index < buffer_length; buffer_index += 2) {
@@ -532,6 +490,29 @@ abstract class ShapeBase extends SceneChild {
 			for (let i = 0, j = 0, len = this.indexed_buffer.length; i < len; i++) {
 				const current_indexing: ISceneChildStreamIndexing = this.indexed_buffer[i]
 
+				const prop_arguments: ISceneChildPropArguments = {
+					shape: current_indexing.shape,
+					repetition: current_indexing.repetition,
+					context: Context,
+					time: 0,
+					parent: current_indexing.parent,
+					data: current_indexing.shape.data,
+				}
+
+				const fillColor = current_indexing.shape.getProp('fillColor' as keyof ISceneChildProps, prop_arguments)
+
+				const strokeColor = current_indexing.shape.getProp(
+					'strokeColor' as keyof ISceneChildProps,
+					prop_arguments,
+					typeof fillColor !== 'undefined' ? undefined : this.scene.mainColor
+				)
+
+				const lineWidth = current_indexing.shape.getProp(
+					'lineWidth' as keyof ISceneChildProps,
+					prop_arguments,
+					typeof fillColor !== 'undefined' && typeof strokeColor === 'undefined' ? undefined : 1
+				)
+
 				const streamArguments: ISceneChildStreamArguments = {
 					shape: current_indexing.shape as ShapePrimitive,
 					repetition: current_indexing.repetition,
@@ -540,9 +521,10 @@ abstract class ShapeBase extends SceneChild {
 					current_buffer_index: j,
 					current_shape_index: i,
 					total_shapes: len,
-					lineWidth: current_indexing.lineWidth,
-					strokeColor: current_indexing.strokeColor,
-					fillColor: current_indexing.fillColor,
+
+					lineWidth: lineWidth,
+					strokeColor: strokeColor,
+					fillColor: fillColor,
 				}
 
 				callback(streamArguments)
@@ -575,17 +557,12 @@ abstract class ShapeBase extends SceneChild {
 				1
 			)
 
-			// const bRandomRepetitions: boolean = typeof this.props.randomSeed !== 'undefined'
-			// this.rand_prng = bRandomRepetitions ? seedrandom(this.props.randomSeed as string) : undefined
-
 			const repetition_type = Array.isArray(repetitions) ? ERepetitionType.Matrix : ERepetitionType.Ring
 			const repetition_count = Array.isArray(repetitions)
 				? repetitions[0] * (repetitions[1] ?? repetitions[0])
 				: repetitions
 			const repetition_col_count = Array.isArray(repetitions) ? repetitions[0] : repetition_count
 			const repetition_row_count = Array.isArray(repetitions) ? repetitions[1] ?? repetitions[0] : 1
-
-			// const frame_buffer_length = shape_buffer.length / repetition_count
 
 			let current_index = 0
 
@@ -609,8 +586,12 @@ abstract class ShapeBase extends SceneChild {
 						current_row_offset: (current_row_repetition + 1) / repetition_row_count,
 						type: repetition_type,
 					}
-					// random_offset: bRandomRepetitions ? Vec2.create(this.rand(), this.rand()) : Vec2.create(0, 0)
 
+					console.log(
+						'this.single_repetition_buffer_length',
+						this.name,
+						this.single_repetition_buffer_length[current_index]
+					)
 					this.addIndex(buffer, this.single_repetition_buffer_length[current_index], repetition, parent)
 				}
 			}

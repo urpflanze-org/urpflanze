@@ -24,7 +24,6 @@ class Renderer extends Emitter {
     }
     renderImage(drawer, settings) {
         this.started = true;
-        console.log('settings', settings);
         this.capturer.setSettings(settings);
         this.capturer.stop();
         this.capturer.start(1);

@@ -18,7 +18,7 @@ class Circle extends ShapeLoop {
 	constructor(settings: IShapeLoopSettings = {}) {
 		settings.type = 'Circle'
 		settings.shapeLoopPropsDependencies = (settings.shapeLoopPropsDependencies || []).concat(['sideLength'])
-		settings.bAdaptBuffer = settings.bAdaptBuffer ?? EShapePrimitiveAdaptMode.Scale
+		settings.adaptMode = settings.adaptMode ?? EShapePrimitiveAdaptMode.Scale
 
 		super(settings)
 

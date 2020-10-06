@@ -1,24 +1,17 @@
-import SceneChild from "../SceneChild";
-import Vec2, { TArray } from "../math/Vec2";
-import Context from "../Context";
 import { ERepetitionType, IRepetition, ISceneChildPropArguments, ISceneChildProps, ISceneChildStreamArguments, ISceneChildStreamIndexing, } from "../types/scene-child";
+import Vec2, { TArray } from "../math/Vec2";
+import SceneChild from "../SceneChild";
+import Context from "../Context";
 /**
- * Shape Base
+ * Main class for shape generation
  *
  * @category Core.Abstract
  * @abstract
  * @class ShapeBase
+ * @order 4
  * @extends {SceneChild}
  */
 class ShapeBase extends SceneChild {
-    /**
-     * Random function
-     *
-     * @private
-     * @type {(seedrandom.prng | undefined)}
-     * @memberof ShapeBase
-     */
-    // private rand_prng: seedrandom.prng | undefined
     /**
      * Creates an instance of ShapeBase.
      *
@@ -31,7 +24,6 @@ class ShapeBase extends SceneChild {
          * Shape generation id
          * used for prevent buffer calculation
          *
-         * @protected
          * @type {number}
          * @memberof ShapeBase
          */
@@ -100,8 +92,6 @@ class ShapeBase extends SceneChild {
             prop_arguments = prop_arguments || ShapeBase.EMPTY_PROP_ARGUMENTS;
             if (typeof prop_arguments.shape === 'undefined')
                 prop_arguments.shape = this;
-            if (typeof prop_arguments.context === 'undefined')
-                prop_arguments.context = Context;
             prop_arguments.time = ((_a = this.scene) === null || _a === void 0 ? void 0 : _a.current_time) || 0;
             attribute = attribute(prop_arguments);
         }
@@ -146,20 +136,6 @@ class ShapeBase extends SceneChild {
         }
     }
     /**
-     * Get random number
-     *
-     * @returns {number}
-     * @memberof ShapeBase
-     */
-    // public rand(): number
-    // {
-    //     if (!this.rand_prng)
-    //     {
-    //         this.rand_prng = seedrandom(this.props.randomSeed || this.id + '')
-    //     }
-    //     return this.rand_prng()
-    // }
-    /**
      * Generate shape buffer
      *
      * @param {number} generate_id generation id
@@ -173,9 +149,7 @@ class ShapeBase extends SceneChild {
             return;
         this.generate_id = generate_id;
         const repetition = ShapeBase.getEmptyRepetition();
-        // const bRandomRepetitions: boolean = typeof this.props.randomSeed !== 'undefined'
         const repetitions = this.getProp('repetitions', { parent: parent_prop_arguments, repetition, time: 1, context: Context }, 1);
-        // const repetition_type = bRandomRepetitions ? RepetitionType.Random : Array.isArray(repetitions) ? RepetitionType.Matrix : RepetitionType.Ring
         const repetition_type = Array.isArray(repetitions) ? ERepetitionType.Matrix : ERepetitionType.Ring;
         const repetition_count = Array.isArray(repetitions)
             ? repetitions[0] * ((_a = repetitions[1]) !== null && _a !== void 0 ? _a : repetitions[0])
@@ -196,7 +170,6 @@ class ShapeBase extends SceneChild {
         };
         this.single_repetition_buffer_length = new Uint16Array(repetition_count);
         let total_buffer_length = 0;
-        // this.rand_prng = bRandomRepetitions ? seedrandom(this.props.randomSeed as string) : undefined
         const buffers = [];
         let current_index = 0;
         const center_matrix = Vec2.create((repetition_col_count - 1) / 2, (repetition_row_count - 1) / 2);
@@ -237,12 +210,6 @@ class ShapeBase extends SceneChild {
                     case ERepetitionType.Matrix:
                         offset = Vec2.create(distance[0] * (current_col_repetition - center_matrix[0]), distance[1] * (current_row_repetition - center_matrix[1]));
                         break;
-                    // case RepetitionType.Random:
-                    //     offset = Vec2.create(
-                    //         (distance[0] * 2) * this.rand() - distance[1],
-                    //         (distance[1] * 2) * this.rand() - distance[0]
-                    //     )
-                    //     break
                 }
                 for (let buffer_index = 0; buffer_index < buffer_length; buffer_index += 2) {
                     const vertex = Vec2.create(buffer[buffer_index], buffer[buffer_index + 1]);
@@ -331,6 +298,17 @@ class ShapeBase extends SceneChild {
         if (this.scene && this.buffer && this.indexed_buffer) {
             for (let i = 0, j = 0, len = this.indexed_buffer.length; i < len; i++) {
                 const current_indexing = this.indexed_buffer[i];
+                const prop_arguments = {
+                    shape: current_indexing.shape,
+                    repetition: current_indexing.repetition,
+                    context: Context,
+                    time: 0,
+                    parent: current_indexing.parent,
+                    data: current_indexing.shape.data,
+                };
+                const fillColor = current_indexing.shape.getProp('fillColor', prop_arguments);
+                const strokeColor = current_indexing.shape.getProp('strokeColor', prop_arguments, typeof fillColor !== 'undefined' ? undefined : this.scene.mainColor);
+                const lineWidth = current_indexing.shape.getProp('lineWidth', prop_arguments, typeof fillColor !== 'undefined' && typeof strokeColor === 'undefined' ? undefined : 1);
                 const streamArguments = {
                     shape: current_indexing.shape,
                     repetition: current_indexing.repetition,
@@ -339,9 +317,9 @@ class ShapeBase extends SceneChild {
                     current_buffer_index: j,
                     current_shape_index: i,
                     total_shapes: len,
-                    lineWidth: current_indexing.lineWidth,
-                    strokeColor: current_indexing.strokeColor,
-                    fillColor: current_indexing.fillColor,
+                    lineWidth: lineWidth,
+                    strokeColor: strokeColor,
+                    fillColor: fillColor,
                 };
                 callback(streamArguments);
                 j += current_indexing.buffer_length;
@@ -366,15 +344,12 @@ class ShapeBase extends SceneChild {
                 repetition: ShapeBase.getEmptyRepetition(),
                 context: Context,
             }, 1);
-            // const bRandomRepetitions: boolean = typeof this.props.randomSeed !== 'undefined'
-            // this.rand_prng = bRandomRepetitions ? seedrandom(this.props.randomSeed as string) : undefined
             const repetition_type = Array.isArray(repetitions) ? ERepetitionType.Matrix : ERepetitionType.Ring;
             const repetition_count = Array.isArray(repetitions)
                 ? repetitions[0] * ((_a = repetitions[1]) !== null && _a !== void 0 ? _a : repetitions[0])
                 : repetitions;
             const repetition_col_count = Array.isArray(repetitions) ? repetitions[0] : repetition_count;
             const repetition_row_count = Array.isArray(repetitions) ? (_b = repetitions[1]) !== null && _b !== void 0 ? _b : repetitions[0] : 1;
-            // const frame_buffer_length = shape_buffer.length / repetition_count
             let current_index = 0;
             for (let current_row_repetition = 0; current_row_repetition < repetition_row_count; current_row_repetition++) {
                 for (let current_col_repetition = 0; current_col_repetition < repetition_col_count; current_col_repetition++, current_index++) {
@@ -391,7 +366,7 @@ class ShapeBase extends SceneChild {
                         current_row_offset: (current_row_repetition + 1) / repetition_row_count,
                         type: repetition_type,
                     };
-                    // random_offset: bRandomRepetitions ? Vec2.create(this.rand(), this.rand()) : Vec2.create(0, 0)
+                    console.log('this.single_repetition_buffer_length', this.name, this.single_repetition_buffer_length[current_index]);
                     this.addIndex(buffer, this.single_repetition_buffer_length[current_index], repetition, parent);
                 }
             }
@@ -421,7 +396,6 @@ ShapeBase.getEmptyRepetition = () => ({
     current_col_offset: 1,
     current_row_offset: 1,
     type: ERepetitionType.Ring,
-    // random_offset: [0, 0],
     count: 1,
     count_col: 1,
     count_row: 1,

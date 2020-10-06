@@ -111,7 +111,7 @@ class JSONImporter {
 			order: projectSceneChild.order,
 			data: projectSceneChild.data,
 			bUseParent: projectSceneChild.bUseParent,
-			bAdaptBuffer: projectSceneChild.bAdaptBuffer,
+			adaptMode: projectSceneChild.adaptMode,
 			bCloseShape: projectSceneChild.bCloseShape,
 			vertexCallback: parseFunction.unparse(projectSceneChild.vertexCallback),
 			shape: shape,

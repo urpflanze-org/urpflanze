@@ -12,7 +12,7 @@ class RegularPolygon extends ShapeLoop {
         var _a;
         settings.type = settings.type || 'RegularPolygon';
         settings.shapeLoopPropsDependencies = (settings.shapeLoopPropsDependencies || []).concat(['sideNumber']);
-        settings.bAdaptBuffer = (_a = settings.bAdaptBuffer) !== null && _a !== void 0 ? _a : EShapePrimitiveAdaptMode.None;
+        settings.adaptMode = (_a = settings.adaptMode) !== null && _a !== void 0 ? _a : EShapePrimitiveAdaptMode.None;
         super(settings, true);
         this.props.sideNumber = settings.sideNumber;
         this.loop = {

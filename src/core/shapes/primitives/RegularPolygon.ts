@@ -16,7 +16,7 @@ class RegularPolygon extends ShapeLoop {
 	constructor(settings: IRegularPolygonSettings = {}) {
 		settings.type = settings.type || 'RegularPolygon'
 		settings.shapeLoopPropsDependencies = (settings.shapeLoopPropsDependencies || []).concat(['sideNumber'])
-		settings.bAdaptBuffer = settings.bAdaptBuffer ?? EShapePrimitiveAdaptMode.None
+		settings.adaptMode = settings.adaptMode ?? EShapePrimitiveAdaptMode.None
 
 		super(settings, true)
 

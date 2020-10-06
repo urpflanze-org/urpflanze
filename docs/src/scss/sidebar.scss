@@ -11,7 +11,7 @@ aside,
 	max-height: calc(100% - 4rem);
 }
 #nav h2:not(:first-child) {
-	border-top: 1px solid rgba(255, 255, 255, 0.2);
+	border-top: 1px solid lighten(#111413, 10%);
 	padding-top: 1.618rem;
 }
 
@@ -43,4 +43,20 @@ aside,
 	padding: 0;
 	margin: 0 0 1rem;
 	list-style: none;
+}
+
+.search-lang {
+	width: 100%;
+	display: flex;
+}
+.search-lang input {
+	height: 2rem;
+	flex: 1;
+	outline: none;
+	border: 1px solid lighten(#111413, 10%);
+	border-left-width: 0;
+	border-right-width: 0;
+	background: transparent;
+	padding: 1.309rem 0.618rem;
+	color: #1fcc9a;
 }

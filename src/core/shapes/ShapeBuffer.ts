@@ -28,7 +28,7 @@ class ShapeBuffer extends ShapePrimitive {
 
 	constructor(settings: IShapeBufferSettings = {}) {
 		settings.type = settings.type || 'ShapeBuffer'
-		settings.bAdaptBuffer = settings.bAdaptBuffer || EShapePrimitiveAdaptMode.Scale
+		settings.adaptMode = settings.adaptMode || EShapePrimitiveAdaptMode.Scale
 
 		super(settings)
 
@@ -38,8 +38,8 @@ class ShapeBuffer extends ShapePrimitive {
 		} else this.shape = Float32Array.from(settings.shape)
 
 		this.shape_buffer =
-			this.isAdapted() != EShapePrimitiveAdaptMode.None
-				? ShapePrimitive.adaptBuffer(this.shape, this.isAdapted())
+			this.getAdaptMode() != EShapePrimitiveAdaptMode.None
+				? ShapePrimitive.adaptBuffer(this.shape, this.getAdaptMode())
 				: this.shape
 
 		this.bStatic = this.isStatic()
@@ -57,8 +57,8 @@ class ShapeBuffer extends ShapePrimitive {
 		super.clearBuffer(bClearIndexed, bPropagateToParents)
 
 		this.shape_buffer =
-			this.isAdapted() != EShapePrimitiveAdaptMode.None
-				? ShapePrimitive.adaptBuffer(this.shape, this.isAdapted())
+			this.getAdaptMode() != EShapePrimitiveAdaptMode.None
+				? ShapePrimitive.adaptBuffer(this.shape, this.getAdaptMode())
 				: this.shape
 	}
 

@@ -21,7 +21,7 @@ declare abstract class ShapePrimitive extends ShapeBase {
      * @type {EShapePrimitiveAdaptMode}
      * @memberof ShapePrimitive
      */
-    bAdaptBuffer: EShapePrimitiveAdaptMode;
+    adaptMode: EShapePrimitiveAdaptMode;
     /**
      * Define shape is closed
      *
@@ -93,19 +93,19 @@ declare abstract class ShapePrimitive extends ShapeBase {
      */
     setClosed(bCloseShape: boolean): void;
     /**
-     * Return bAdaptBuffer
+     * Return adaptMode
      *
      * @returns {EShapePrimitiveAdaptMode}
      * @memberof ShapeBase
      */
-    isAdapted(): EShapePrimitiveAdaptMode;
+    getAdaptMode(): EShapePrimitiveAdaptMode;
     /**
-     * Set bAdaptBuffer
+     * Set adaptMode
      *
      * @param {EShapePrimitiveAdaptMode} bAdapted
      * @memberof ShapeBase
      */
-    setAdapted(bAdapted: EShapePrimitiveAdaptMode): void;
+    adapt(adaptMode: EShapePrimitiveAdaptMode): void;
     /**
      *
      *

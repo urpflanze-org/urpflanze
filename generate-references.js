@@ -33,7 +33,7 @@ function generate(typedocJSON) {
 		result = [].concat(result, ...parsed.filter(d => !!d))
 	}
 
-	return result
+	return result.sort((a, b) => a.order - b.order)
 }
 
 function parseModule(module) {
@@ -116,14 +116,14 @@ function findExamples(item) {
 
 	return examples.length === 0 ? undefined : examples
 }
-function findOrder(item) {
+function findOrder(item, def = 9999) {
 	if (item.comment && item.comment.tags) {
 		for (tag of item.comment.tags) {
 			if (tag.tag === 'order') return parseFloat(tag.text)
 		}
 	}
 
-	return 9999
+	return def
 }
 
 function parseFunction(item) {
@@ -138,11 +138,14 @@ function parseEnum(item) {
 		order: findOrder(item),
 		examples: findExamples(item),
 		description: parseDescription(item),
-		members: item.children.map(member => ({
-			name: member.name,
-			defaultValue: member.defaultValue,
-			description: parseDescription(member),
-		})),
+		members: item.children
+			.map((member, index) => ({
+				name: member.name,
+				defaultValue: member.defaultValue,
+				description: parseDescription(member),
+				order: findOrder(member, index),
+			}))
+			.sort((a, b) => a.order - b.order),
 	}
 
 	return result

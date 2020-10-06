@@ -315,6 +315,7 @@ class ShapeLoop extends ShapePrimitive {
 		}
 
 		const vertex_length = shape_loop.count
+		console.log('generateLoopBuffer', vertex_length)
 		prop_arguments.shape_loop = shape_loop
 
 		const buffer = new Float32Array(vertex_length * 2)
@@ -334,8 +335,8 @@ class ShapeLoop extends ShapePrimitive {
 			buffer[j + 1] = vertex[1]
 		}
 
-		return this.bAdaptBuffer != EShapePrimitiveAdaptMode.None
-			? ShapePrimitive.adaptBuffer(buffer, this.bAdaptBuffer as EShapePrimitiveAdaptMode)
+		return this.adaptMode != EShapePrimitiveAdaptMode.None
+			? ShapePrimitive.adaptBuffer(buffer, this.adaptMode as EShapePrimitiveAdaptMode)
 			: buffer
 	}
 

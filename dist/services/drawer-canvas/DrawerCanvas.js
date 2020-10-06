@@ -539,6 +539,8 @@ class DrawerCanvas extends Emitter {
                     context.stroke();
                 }
             }
+            let logFillColorWarn = false;
+            let logStrokeColorWarn = false;
             scene.stream(({ lineWidth, strokeColor, fillColor, shape, buffer, buffer_length, current_buffer_index }) => {
                 if (shape.data && (shape.data.visible === false || (bGhost && shape.data.disableGhost === true)))
                     return;
@@ -566,6 +568,11 @@ class DrawerCanvas extends Emitter {
                                     ? `rgba(${a},${b},${c},${ghostAlpha})`
                                     : `hsla(${a},${b},${c},${ghostAlpha})`;
                         }
+                        else if (!logFillColorWarn) {
+                            console.warn(`[Urpflanze:DrawerCanvas] Unable ghost fill color '${fillColor}', 
+							please enter a rgba or hsla color`);
+                            logFillColorWarn = true;
+                        }
                     }
                     context.fillStyle = fillColor;
                     context.fill();
@@ -581,6 +588,11 @@ class DrawerCanvas extends Emitter {
                                 strokeColor.indexOf('rgb') >= 0
                                     ? `rgba(${a},${b},${c},${ghostAlpha})`
                                     : `hsla(${a},${b},${c},${ghostAlpha})`;
+                        }
+                        else if (!logStrokeColorWarn) {
+                            console.warn(`[Urpflanze:DrawerCanvas] Unable ghost stroke color '${fillColor}', 
+							please enter a rgba or hsla color`);
+                            logStrokeColorWarn = true;
                         }
                         lineWidth *= ghostMultiplier;
                     }

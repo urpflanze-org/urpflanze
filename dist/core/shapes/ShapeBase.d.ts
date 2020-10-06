@@ -1,14 +1,15 @@
-import SceneChild from "../SceneChild";
-import { TArray } from "../math/Vec2";
-import { IRepetition, ISceneChildPropArguments, ISceneChildProps, ISceneChildStreamIndexing } from "../types/scene-child";
 import { TStreamCallback } from "../types/scene";
 import { IShapeBaseSettings } from "../types/shape-base";
+import { IRepetition, ISceneChildPropArguments, ISceneChildProps, ISceneChildStreamIndexing } from "../types/scene-child";
+import { TArray } from "../math/Vec2";
+import SceneChild from "../SceneChild";
 /**
- * Shape Base
+ * Main class for shape generation
  *
  * @category Core.Abstract
  * @abstract
  * @class ShapeBase
+ * @order 4
  * @extends {SceneChild}
  */
 declare abstract class ShapeBase extends SceneChild {
@@ -39,15 +40,13 @@ declare abstract class ShapeBase extends SceneChild {
      * Shape generation id
      * used for prevent buffer calculation
      *
-     * @protected
      * @type {number}
      * @memberof ShapeBase
      */
-    protected generate_id: number;
+    private generate_id;
     /**
      * Buffer of shape vertices
      *
-     * @protected
      * @type {Float32Array}
      * @memberof ShapeBase
      */
@@ -55,7 +54,6 @@ declare abstract class ShapeBase extends SceneChild {
     /**
      * Determine if shape are static (one time generation, no props function, animation)
      *
-     * @protected
      * @type {boolean}
      * @memberof ShapeBase
      */
@@ -63,25 +61,27 @@ declare abstract class ShapeBase extends SceneChild {
     /**
      * Determine if shape have static indexed buffer
      *
-     * @protected
      * @type {boolean}
      * @memberof ShapeBase
      */
     protected bStaticIndexed: boolean;
     /**
-     * use parent prop argument into prop function
-     * if true, the shape are generated at each ripetition
+     * With this parameter the shape will be created at each repetition,
+     * useful if you want to encapsulate this shape in another and use its <mark>repetition</mark> object
      *
      * @public
      * @type {boolean}
      * @memberof ShapeBase
+     * @example
+     * ```javascript
+     * const rect
+     * ```
      */
     bUseParent: boolean;
     /**
      * Array used for index a vertex buffer
      * only for first level scene children
      *
-     * @protected
      * @type {Array<ISceneChildStreamIndexing>}
      * @memberof ShapeBase
      */
@@ -90,18 +90,10 @@ declare abstract class ShapeBase extends SceneChild {
      * A ShapeLoop can be dynamic buffer lenght for eacch repetition.
      * This array contain a length of buffer for each repetition.
      *
-     * @protected
      * @type {Uint16Array}
      * @memberof ShapeBase
      */
     protected single_repetition_buffer_length: Uint16Array;
-    /**
-     * Random function
-     *
-     * @private
-     * @type {(seedrandom.prng | undefined)}
-     * @memberof ShapeBase
-     */
     /**
      * Creates an instance of ShapeBase.
      *
@@ -151,12 +143,6 @@ declare abstract class ShapeBase extends SceneChild {
      * @memberof ShapeBase
      */
     clearBuffer(bClearIndexed?: boolean, bPropagateToParents?: boolean): void;
-    /**
-     * Get random number
-     *
-     * @returns {number}
-     * @memberof ShapeBase
-     */
     /**
      * Generate shape buffer
      *

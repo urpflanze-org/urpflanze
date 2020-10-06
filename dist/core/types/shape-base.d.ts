@@ -14,13 +14,25 @@ export interface IShapePrimitiveProps extends ISceneChildProps {
     strokeColor?: TSceneChildProp<number | string>;
 }
 export declare enum EShapePrimitiveAdaptMode {
+    /**
+     * @order 1
+     */
     None = 0,
+    /**
+     * @order 2
+     */
     Scale = 2,
+    /**
+     * @order 3
+     */
     Center = 4,
+    /**
+     * @order 4
+     */
     Fill = 8
 }
 export interface IShapePrimitiveSettings extends IShapePrimitiveProps, IShapeBaseSettings {
-    bAdaptBuffer?: EShapePrimitiveAdaptMode;
+    adaptMode?: EShapePrimitiveAdaptMode;
     bCloseShape?: boolean;
     vertexCallback?: TVertexCallback;
     fillColor?: TSceneChildProp<number | string>;

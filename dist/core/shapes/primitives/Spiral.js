@@ -18,7 +18,7 @@ class Spiral extends ShapeLoop {
         var _a, _b, _c, _d;
         settings.type = 'Spiral';
         settings.bCloseShape = false;
-        settings.bAdaptBuffer = (_a = settings.bAdaptBuffer) !== null && _a !== void 0 ? _a : EShapePrimitiveAdaptMode.None;
+        settings.adaptMode = (_a = settings.adaptMode) !== null && _a !== void 0 ? _a : EShapePrimitiveAdaptMode.None;
         settings.shapeLoopPropsDependencies = (settings.shapeLoopPropsDependencies || []).concat([
             'twists',
             'twists_start',

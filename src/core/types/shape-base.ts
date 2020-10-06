@@ -19,14 +19,26 @@ export interface IShapePrimitiveProps extends ISceneChildProps {
 }
 
 export enum EShapePrimitiveAdaptMode {
+	/**
+	 * @order 1
+	 */
 	None,
+	/**
+	 * @order 2
+	 */
 	Scale = 1 << 1,
+	/**
+	 * @order 3
+	 */
 	Center = 1 << 2,
+	/**
+	 * @order 4
+	 */
 	Fill = 1 << 3,
 }
 
 export interface IShapePrimitiveSettings extends IShapePrimitiveProps, IShapeBaseSettings {
-	bAdaptBuffer?: EShapePrimitiveAdaptMode
+	adaptMode?: EShapePrimitiveAdaptMode
 	bCloseShape?: boolean
 
 	vertexCallback?: TVertexCallback

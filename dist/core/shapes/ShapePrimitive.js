@@ -1,7 +1,6 @@
 import ShapeBase from "./ShapeBase";
 import Vec2, { TArray } from "../math/Vec2";
 import { EShapePrimitiveAdaptMode, IShapeBounding, IShapePrimitiveProps, IShapePrimitiveSettings, } from "../types/shape-base";
-import Context from "../Context";
 /**
  * @category Core.Abstract
  */
@@ -14,7 +13,7 @@ class ShapePrimitive extends ShapeBase {
         this.props.fillColor = settings.fillColor;
         this.props.lineWidth = settings.lineWidth;
         this.props.strokeColor = settings.strokeColor;
-        this.bAdaptBuffer = (_b = settings.bAdaptBuffer) !== null && _b !== void 0 ? _b : EShapePrimitiveAdaptMode.None;
+        this.adaptMode = (_b = settings.adaptMode) !== null && _b !== void 0 ? _b : EShapePrimitiveAdaptMode.None;
         this.bCloseShape = (_c = settings.bCloseShape) !== null && _c !== void 0 ? _c : true;
         this.vertexCallback = settings.vertexCallback;
     }
@@ -39,13 +38,7 @@ class ShapePrimitive extends ShapeBase {
      * @memberof ShapePrimitive
      */
     getProp(key, prop_arguments, default_value) {
-        const value = super.getProp(key, prop_arguments, default_value);
-        // if (key === 'rotationOrigin') {
-        // 	const clone = Vec2.create(value)
-        // 	Vec2.scale(clone, this.sideLength)
-        // 	return clone
-        // }
-        return value;
+        return super.getProp(key, prop_arguments, default_value);
     }
     /**
      * set side length when generate a buffer into shape loop or shape buffer
@@ -87,22 +80,22 @@ class ShapePrimitive extends ShapeBase {
         this.bCloseShape = bCloseShape;
     }
     /**
-     * Return bAdaptBuffer
+     * Return adaptMode
      *
      * @returns {EShapePrimitiveAdaptMode}
      * @memberof ShapeBase
      */
-    isAdapted() {
-        return this.bAdaptBuffer;
+    getAdaptMode() {
+        return this.adaptMode;
     }
     /**
-     * Set bAdaptBuffer
+     * Set adaptMode
      *
      * @param {EShapePrimitiveAdaptMode} bAdapted
      * @memberof ShapeBase
      */
-    setAdapted(bAdapted) {
-        this.bAdaptBuffer = bAdapted;
+    adapt(adaptMode) {
+        this.adaptMode = adaptMode;
         this.clearBuffer(true);
     }
     /**
@@ -116,27 +109,13 @@ class ShapePrimitive extends ShapeBase {
      * @memberof ShapePrimitive
      */
     addIndex(buffer, frame_length, current_repetition, parent) {
-        var _a;
-        const prop_arguments = {
-            shape: this,
-            repetition: current_repetition,
-            context: Context,
-            time: 0,
-            parent: parent,
-            data: this.data,
-        };
-        const fillColor = this.getProp('fillColor', prop_arguments);
-        const lineWidth = this.getProp('lineWidth', prop_arguments, typeof fillColor === 'undefined' ? 1 : undefined);
-        const strokeColor = this.getProp('strokeColor', prop_arguments, fillColor && typeof lineWidth === 'undefined' ? undefined : (_a = this.scene) === null || _a === void 0 ? void 0 : _a.mainColor);
         const current = {
             shape: this,
             buffer_length: frame_length,
             parent,
             repetition: current_repetition,
-            lineWidth,
-            strokeColor,
-            fillColor,
         };
+        console.log('addiindex', this.name, frame_length);
         buffer.push(current);
     }
     /**

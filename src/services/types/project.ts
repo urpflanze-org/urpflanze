@@ -50,7 +50,7 @@ export interface IProjectSceneChildData {
 export type IProjectSceneChildDataProps = {
 	[k in keyof Omit<
 		TSceneChildProps,
-		'id' | 'name' | 'order' | 'data' | 'bAdaptBuffer' | 'bCloseShape' | 'shape' | 'loop' | 'vertexCallback'
+		'id' | 'name' | 'order' | 'data' | 'adaptMode' | 'bCloseShape' | 'shape' | 'loop' | 'vertexCallback'
 	>]: TAnimation | TCallableValue<number | Array<number> | string> | TDrawerValue
 } & {
 	loop?: IShapeLoop
@@ -63,7 +63,7 @@ export interface IProjectSceneChild {
 	name: string
 	order: number
 	data: IProjectSceneChildData
-	bAdaptBuffer?: EShapePrimitiveAdaptMode
+	adaptMode?: EShapePrimitiveAdaptMode
 	bCloseShape?: boolean
 	bUseParent?: boolean
 	vertexCallback?: string

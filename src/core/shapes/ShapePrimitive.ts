@@ -14,7 +14,6 @@ import {
 	ISceneChildStreamIndexing,
 } from '@core/types/scene-child'
 import { TVertexCallback } from '@core/types/shape-primitive'
-import Context from '@core/Context'
 
 /**
  * @category Core.Abstract
@@ -35,7 +34,7 @@ abstract class ShapePrimitive extends ShapeBase {
 	 * @type {EShapePrimitiveAdaptMode}
 	 * @memberof ShapePrimitive
 	 */
-	public bAdaptBuffer: EShapePrimitiveAdaptMode
+	public adaptMode: EShapePrimitiveAdaptMode
 
 	/**
 	 * Define shape is closed
@@ -75,7 +74,7 @@ abstract class ShapePrimitive extends ShapeBase {
 		this.props.lineWidth = settings.lineWidth
 		this.props.strokeColor = settings.strokeColor
 
-		this.bAdaptBuffer = settings.bAdaptBuffer ?? EShapePrimitiveAdaptMode.None
+		this.adaptMode = settings.adaptMode ?? EShapePrimitiveAdaptMode.None
 		this.bCloseShape = settings.bCloseShape ?? true
 
 		this.vertexCallback = settings.vertexCallback
@@ -105,15 +104,7 @@ abstract class ShapePrimitive extends ShapeBase {
 	 * @memberof ShapePrimitive
 	 */
 	getProp(key: keyof IShapePrimitiveProps, prop_arguments?: ISceneChildPropArguments, default_value?: any): any {
-		const value = super.getProp(key as keyof ISceneChildProps, prop_arguments, default_value)
-
-		// if (key === 'rotationOrigin') {
-		// 	const clone = Vec2.create(value)
-		// 	Vec2.scale(clone, this.sideLength)
-		// 	return clone
-		// }
-
-		return value
+		return super.getProp(key as keyof ISceneChildProps, prop_arguments, default_value)
 	}
 
 	/**
@@ -160,23 +151,23 @@ abstract class ShapePrimitive extends ShapeBase {
 	}
 
 	/**
-	 * Return bAdaptBuffer
+	 * Return adaptMode
 	 *
 	 * @returns {EShapePrimitiveAdaptMode}
 	 * @memberof ShapeBase
 	 */
-	public isAdapted(): EShapePrimitiveAdaptMode {
-		return this.bAdaptBuffer as EShapePrimitiveAdaptMode
+	public getAdaptMode(): EShapePrimitiveAdaptMode {
+		return this.adaptMode as EShapePrimitiveAdaptMode
 	}
 
 	/**
-	 * Set bAdaptBuffer
+	 * Set adaptMode
 	 *
 	 * @param {EShapePrimitiveAdaptMode} bAdapted
 	 * @memberof ShapeBase
 	 */
-	public setAdapted(bAdapted: EShapePrimitiveAdaptMode): void {
-		this.bAdaptBuffer = bAdapted
+	public adapt(adaptMode: EShapePrimitiveAdaptMode): void {
+		this.adaptMode = adaptMode
 
 		this.clearBuffer(true)
 	}
@@ -197,32 +188,14 @@ abstract class ShapePrimitive extends ShapeBase {
 		current_repetition: IRepetition,
 		parent?: ISceneChildStreamIndexing
 	): void {
-		const prop_arguments: ISceneChildPropArguments = {
-			shape: this,
-			repetition: current_repetition,
-			context: Context,
-			time: 0,
-			parent: parent,
-			data: this.data,
-		}
-
-		const fillColor = this.getProp('fillColor', prop_arguments)
-		const lineWidth = this.getProp('lineWidth', prop_arguments, typeof fillColor === 'undefined' ? 1 : undefined)
-		const strokeColor = this.getProp(
-			'strokeColor',
-			prop_arguments,
-			fillColor && typeof lineWidth === 'undefined' ? undefined : this.scene?.mainColor
-		)
-
 		const current: ISceneChildStreamIndexing = {
 			shape: this,
 			buffer_length: frame_length,
 			parent,
 			repetition: current_repetition,
-			lineWidth,
-			strokeColor,
-			fillColor,
 		}
+
+		console.log('addiindex', this.name, frame_length)
 
 		buffer.push(current)
 	}

@@ -28,7 +28,6 @@ class Renderer extends Emitter<IRenderEvents> {
 
 	public renderImage(drawer: DrawerCanvas, settings: IRenderSettings): Promise<Uint8Array> {
 		this.started = true
-		console.log('settings', settings)
 		this.capturer.setSettings(settings)
 		this.capturer.stop()
 		this.capturer.start(1)

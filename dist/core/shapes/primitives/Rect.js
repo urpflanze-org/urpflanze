@@ -16,7 +16,7 @@ class Rect extends ShapeBuffer {
     constructor(settings = {}) {
         settings.type = 'Rect';
         settings.shape = [-1, -1, 1, -1, 1, 1, -1, 1];
-        settings.bAdaptBuffer = EShapePrimitiveAdaptMode.None;
+        settings.adaptMode = EShapePrimitiveAdaptMode.None;
         super(settings);
     }
 }

@@ -153,6 +153,7 @@ class Shape extends ShapeBase {
 				repetition: current_repetition,
 			}
 
+			console.log('frame_length', frame_length)
 			this.shape.index(buffer, current)
 		}
 	}

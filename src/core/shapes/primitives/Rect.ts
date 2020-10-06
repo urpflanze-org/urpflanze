@@ -18,7 +18,7 @@ class Rect extends ShapeBuffer {
 	constructor(settings: IShapeBufferSettings = {}) {
 		settings.type = 'Rect'
 		settings.shape = [-1, -1, 1, -1, 1, 1, -1, 1]
-		settings.bAdaptBuffer = EShapePrimitiveAdaptMode.None
+		settings.adaptMode = EShapePrimitiveAdaptMode.None
 
 		super(settings)
 	}

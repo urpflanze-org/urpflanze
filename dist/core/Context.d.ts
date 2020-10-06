@@ -5,10 +5,16 @@ import { TArray } from "./math/Vec2";
  * Utilities function passed to <a href="[base_url]/ISceneChildPropArguments">ISceneChildPropArguments</a>
  *
  * @category Core.Utilities
+ * @example
+ * ```javascript
+ * const circle = new Urpflanze.Circle({
+ * 	distance: ({ context, repetition }) => context.noise('seed', repetition.current_index) * 200
+ * })
+ * ```
  */
 declare const Context: {
     /**
-     * SimplexNoise <a href="https://www.npmjs.com/package/simplex-noise">url</a>
+     * <a href="https://github.com/jwagner/simplex-noise.js" target="_blank">SimplexNoise</a>
      * Return value between -1 and 1
      *
      * @param {string} [seed='random']
@@ -53,12 +59,6 @@ declare const Context: {
      * @param {number} percentage
      * @param {SceneChild} sceneChild
      * @returns {number}
-     * @example
-     * ```javascript
-     * const rect = new Urpflanze.Rect({
-     * 	sideLength: ({ shape, context }) => context.percW(50, shape)
-     * })
-     * ```
      */
     percW: (percentage: number, sceneChild: SceneChild) => number;
     /**
@@ -67,12 +67,6 @@ declare const Context: {
      * @param {number} percentage
      * @param {SceneChild} sceneChild
      * @returns {number}
-     * @example
-     * ```javascript
-     * const rect = new Urpflanze.Rect({
-     * 	sideLength: ({ shape, context }) => [context.percW(50, shape), context.percH(50, shape)]
-     * })
-     * ```
      */
     percH: (percentage: number, sceneChild: SceneChild) => number;
 };

@@ -37,7 +37,7 @@ class Spiral extends ShapeLoop {
 	constructor(settings: ISpiralSettings = {}) {
 		settings.type = 'Spiral'
 		settings.bCloseShape = false
-		settings.bAdaptBuffer = settings.bAdaptBuffer ?? EShapePrimitiveAdaptMode.None
+		settings.adaptMode = settings.adaptMode ?? EShapePrimitiveAdaptMode.None
 
 		settings.shapeLoopPropsDependencies = (settings.shapeLoopPropsDependencies || []).concat([
 			'twists',

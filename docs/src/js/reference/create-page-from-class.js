@@ -7,8 +7,10 @@ import {
 } from './create-page-utility'
 
 export default function createPageFromClass(ref) {
-	const properties = ref.properties ? ref.properties.filter(p => !p.bPrivate) : []
-	const methods = ref.methods ? ref.methods.filter(p => !p.bPrivate) : []
+	// const properties = ref.properties ? ref.properties.filter(p => !p.bPrivate) : []
+	// const methods = ref.methods ? ref.methods.filter(p => !p.bPrivate) : []
+	const properties = ref.properties ? ref.properties.filter(p => p.bPublic) : []
+	const methods = ref.methods ? ref.methods.filter(p => p.bPublic) : []
 
 	function getContructorTemplate() {
 		if (ref.constructor_ref) {
@@ -31,6 +33,7 @@ export default function createPageFromClass(ref) {
 
 	// prettier-ignore
 	function getPropertiesTemplate() {
+		
         return properties.length === 0 ? '' : `
             <h2>Properties</h2>
             ${printVariables(properties)}

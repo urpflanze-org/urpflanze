@@ -1,11 +1,9 @@
 import { TStreamCallback, ISceneSettingsInterface } from "./types/scene";
-import SceneChild from "./SceneChild";
 import { TArray } from "./math/Vec2";
+import SceneChild from "./SceneChild";
 /**
  * Container for all SceneChild.
- * The main purpose is to manage the drawing order and update the buffers of
- * the sceneChild present in it
- *
+ * The main purpose is to manage the drawing order and update the child buffers
  *
  * @order 1
  * @category Core.Scene

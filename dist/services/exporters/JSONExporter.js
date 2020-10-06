@@ -65,7 +65,7 @@ class JSONExporter {
             projectSceneChild.bUseParent = sceneChild.bUseParent;
         }
         if (sceneChild instanceof ShapePrimitive) {
-            projectSceneChild.bAdaptBuffer = sceneChild.bAdaptBuffer;
+            projectSceneChild.adaptMode = sceneChild.adaptMode;
             projectSceneChild.bCloseShape = sceneChild.bCloseShape;
             projectSceneChild.vertexCallback = parseFunction.parse(sceneChild.vertexCallback);
         }

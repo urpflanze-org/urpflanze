@@ -23,7 +23,7 @@ class Lissajous extends ShapeLoop {
             'wz',
             'sideLength',
         ]);
-        settings.bAdaptBuffer = (_a = settings.bAdaptBuffer) !== null && _a !== void 0 ? _a : EShapePrimitiveAdaptMode.Scale;
+        settings.adaptMode = (_a = settings.adaptMode) !== null && _a !== void 0 ? _a : EShapePrimitiveAdaptMode.Scale;
         super(settings, true);
         this.props.wx = settings.wx || 1;
         this.props.wy = settings.wy || 2;

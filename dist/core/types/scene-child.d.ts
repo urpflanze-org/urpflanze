@@ -12,15 +12,18 @@ export declare enum ERepetitionType {
     /**
      * Defines the type of repetition of the shape,
      * in a circular way starting from the center of the scene
+     * @order 1
      */
     Ring = 1,
     /**
      * Defines the type of repetition of the shape,
      * on a nxm grid starting from the center of the scene
+     * @order 2
      */
     Matrix = 2,
     /**
      * Defines the type of shape generation
+     * @order 3
      */
     Loop = 3
 }
@@ -186,12 +189,9 @@ export declare type TSceneChildProp<T> = T | {
  */
 export interface ISceneChildStreamIndexing {
     shape: ShapeBase;
-    parent?: Partial<ISceneChildStreamIndexing>;
+    parent?: ISceneChildStreamIndexing;
     buffer_length: number;
     repetition: IRepetition;
-    fillColor: string;
-    strokeColor: string;
-    lineWidth: number;
 }
 export interface ISceneChildStreamArguments {
     shape: ShapePrimitive;

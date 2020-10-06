@@ -13,23 +13,23 @@ export enum ERepetitionType {
 	/**
 	 * Defines the type of repetition of the shape,
 	 * in a circular way starting from the center of the scene
+	 * @order 1
 	 */
 	Ring = 1,
 
 	/**
 	 * Defines the type of repetition of the shape,
 	 * on a nxm grid starting from the center of the scene
+	 * @order 2
 	 */
 	Matrix = 2,
 
 	/**
 	 * Defines the type of shape generation
+	 * @order 3
 	 */
 	Loop = 3,
-	// Random = 4
 }
-
-// TODO: ShapeBasePropArgument repetition beacuse random_offset cannot calculate into index function (can't get distance for performance reason)
 
 /**
  * Information about current shape repetition.
@@ -59,7 +59,6 @@ export interface IRepetition {
 	current_row: number
 	current_row_offset: number
 	count_row: number
-	// random_offset: Array<number>
 }
 
 /**
@@ -170,15 +169,6 @@ export interface ISceneChildProps {
 	 * @memberof ISceneChildProps
 	 */
 	translate?: TSceneChildProp<number | Array<number>>
-
-	// /**
-	//  * Origin transformation, between [-1, -1] and [1, 1]
-	//  *
-	//  * @type {(TSceneChildProp<number | Array<number>>)}
-	//  * @memberof ISceneChildProps
-	//  */
-	// rotationOrigin?: TSceneChildProp<number | Array<number>>
-	// randomSeed?: string
 }
 
 /**
@@ -240,12 +230,9 @@ export type TSceneChildProp<T> = T | { (prop_arguments: ISceneChildPropArguments
  */
 export interface ISceneChildStreamIndexing {
 	shape: ShapeBase
-	parent?: Partial<ISceneChildStreamIndexing>
+	parent?: ISceneChildStreamIndexing
 	buffer_length: number
 	repetition: IRepetition
-	fillColor: string
-	strokeColor: string
-	lineWidth: number
 }
 
 export interface ISceneChildStreamArguments {

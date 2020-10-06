@@ -37,7 +37,8 @@ function loadReference(refName) {
 			case 'Object':
 				content.innerHTML = `
                     <h1 class="reference__name">${createPageName(ref)}</h1>
-                    <div class="first-content-line">${printDescription(ref)}</div>
+					<div class="first-content-line">${printDescription(ref)}</div>
+					${ref.examples ? ref.examples.map(printFunctionExample).join('') : ''}
                     ${ref.variables ? printVariables(ref.variables) : ''}
                     ${ref.functions ? `<h2>Functions</h2>${printFunctions(ref.functions)}` : ''}
                 `

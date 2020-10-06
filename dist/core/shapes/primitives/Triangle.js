@@ -15,7 +15,7 @@ class Triangle extends ShapeBuffer {
     constructor(settings = {}) {
         settings.type = 'Triangle';
         settings.shape = [-1, -1, 1, 0, -1, 1];
-        settings.bAdaptBuffer = EShapePrimitiveAdaptMode.None;
+        settings.adaptMode = EShapePrimitiveAdaptMode.None;
         super(settings);
     }
 }

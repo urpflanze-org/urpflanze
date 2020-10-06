@@ -250,8 +250,8 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 		transformation: 'none',
 	},
 
-	bAdaptBuffer: {
-		name: 'bAdaptBuffer',
+	adaptMode: {
+		name: 'adaptMode',
 		label: 'Adapt',
 		type: 'radio',
 		options: OptionShapePrimitiveAdaptMode,

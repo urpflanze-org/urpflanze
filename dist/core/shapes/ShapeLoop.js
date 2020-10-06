@@ -178,6 +178,7 @@ class ShapeLoop extends ShapePrimitive {
             count_row: 1,
         };
         const vertex_length = shape_loop.count;
+        console.log('generateLoopBuffer', vertex_length);
         prop_arguments.shape_loop = shape_loop;
         const buffer = new Float32Array(vertex_length * 2);
         for (let i = 0, j = 0; i < vertex_length; i++, j += 2) {
@@ -190,8 +191,8 @@ class ShapeLoop extends ShapePrimitive {
             buffer[j] = vertex[0];
             buffer[j + 1] = vertex[1];
         }
-        return this.bAdaptBuffer != EShapePrimitiveAdaptMode.None
-            ? ShapePrimitive.adaptBuffer(buffer, this.bAdaptBuffer)
+        return this.adaptMode != EShapePrimitiveAdaptMode.None
+            ? ShapePrimitive.adaptBuffer(buffer, this.adaptMode)
             : buffer;
     }
     /**

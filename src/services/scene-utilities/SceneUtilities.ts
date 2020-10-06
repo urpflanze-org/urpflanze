@@ -203,7 +203,7 @@ class SceneUtilities {
 
 		if (sceneChild instanceof ShapePrimitive) {
 			props.bCloseShape = sceneChild.bCloseShape
-			props.bAdaptBuffer = sceneChild.bAdaptBuffer
+			props.adaptMode = sceneChild.adaptMode
 			props.vertexCallback = sceneChild.vertexCallback
 		}
 
@@ -564,7 +564,7 @@ class SceneUtilities {
 				;(sceneChild as ShapePrimitive).setClosed(value)
 				break
 			case 'bAdaptBuffer':
-				;(sceneChild as ShapePrimitive).setAdapted(value)
+				;(sceneChild as ShapePrimitive).adapt(value)
 				break
 			default:
 				// loop

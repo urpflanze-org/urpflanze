@@ -16,7 +16,7 @@ class Line extends ShapeBuffer {
     constructor(settings = {}) {
         settings.type = 'Line';
         settings.shape = [-1, 0, 1, 0];
-        settings.bAdaptBuffer = EShapePrimitiveAdaptMode.None;
+        settings.adaptMode = EShapePrimitiveAdaptMode.None;
         settings.bCloseShape = false;
         super(settings);
     }
