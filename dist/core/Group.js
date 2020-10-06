@@ -2,11 +2,21 @@ import Scene from "./Scene";
 import SceneChild from "./SceneChild";
 import ShapeBase from "./shapes/ShapeBase";
 /**
- * Group used for add multiple SceneChild with same props
+ * A SceneChild container, propagates properties to children
  *
  * @order 3
  * @category Core.Scene
  * @extends {SceneChild}
+ * @example
+ * ```javascript
+ * const group = new Urpflanze.Group({
+ * 	repetitions: 3,
+ * 	distance: 200
+ * })
+ *
+ * group.add(new Urpflanze.Rect())
+ * group.add(new Urpflanze.Triangle())
+ * ```
  * @class Group
  */
 class Group extends SceneChild {
@@ -20,7 +30,7 @@ class Group extends SceneChild {
         settings.type = 'Group';
         super(settings);
         this.children = [];
-        ['id', 'name', 'order', 'type'].forEach((prop) => {
+        ['id', 'name', 'data', 'order', 'type'].forEach((prop) => {
             if (prop in settings)
                 delete settings[prop];
         });

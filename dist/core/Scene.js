@@ -4,7 +4,8 @@ import Shape from "./shapes/Shape";
 import Vec2, { TArray } from "./math/Vec2";
 /**
  * Container for all SceneChild.
- * The main purpose is to manage the drwaing order and update the buffers of the sceneChild present in it
+ * The main purpose is to manage the drawing order and update the buffers of
+ * the sceneChild present in it
  *
  *
  * @order 1
@@ -302,7 +303,7 @@ class Scene {
     static propagateToChilden(sceneChild, scene) {
         sceneChild.scene = scene;
         if (sceneChild instanceof Group) {
-            sceneChild.children.forEach((item) => {
+            sceneChild.getChildren().forEach((item) => {
                 Scene.propagateToChilden(item, scene);
             });
         }

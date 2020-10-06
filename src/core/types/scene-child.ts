@@ -240,9 +240,12 @@ export type TSceneChildProp<T> = T | { (prop_arguments: ISceneChildPropArguments
  */
 export interface ISceneChildStreamIndexing {
 	shape: ShapeBase
-	parent?: ISceneChildStreamIndexing
+	parent?: Partial<ISceneChildStreamIndexing>
 	buffer_length: number
 	repetition: IRepetition
+	fillColor: string
+	strokeColor: string
+	lineWidth: number
 }
 
 export interface ISceneChildStreamArguments {

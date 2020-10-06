@@ -2,11 +2,21 @@ import { TStreamCallback } from "./types/scene";
 import { ISceneChildPropArguments, ISceneChildProps, ISceneChildSettings, ISceneChildStreamIndexing } from "./types/scene-child";
 import SceneChild from "./SceneChild";
 /**
- * Group used for add multiple SceneChild with same props
+ * A SceneChild container, propagates properties to children
  *
  * @order 3
  * @category Core.Scene
  * @extends {SceneChild}
+ * @example
+ * ```javascript
+ * const group = new Urpflanze.Group({
+ * 	repetitions: 3,
+ * 	distance: 200
+ * })
+ *
+ * group.add(new Urpflanze.Rect())
+ * group.add(new Urpflanze.Triangle())
+ * ```
  * @class Group
  */
 declare class Group extends SceneChild {
@@ -16,7 +26,7 @@ declare class Group extends SceneChild {
      * @type {Array<SceneChild>}
      * @memberof Group
      */
-    children: Array<SceneChild>;
+    private children;
     /**
      * Creates an instance of Group
      *

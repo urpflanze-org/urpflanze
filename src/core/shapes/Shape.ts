@@ -3,6 +3,8 @@ import SceneChild from '@core/SceneChild'
 import { IShapeSettings } from '@core/types/shape-base'
 import Scene from '@core/Scene'
 import { IRepetition, ISceneChildPropArguments, ISceneChildStreamIndexing } from '@core/types/scene-child'
+import ShapePrimitive from './ShapePrimitive'
+import Context from '@core/Context'
 
 /**
  * @category Core.Shapes
@@ -144,7 +146,7 @@ class Shape extends ShapeBase {
 		parent?: ISceneChildStreamIndexing
 	): void {
 		if (this.shape) {
-			const current: ISceneChildStreamIndexing = {
+			const current: Partial<ISceneChildStreamIndexing> = {
 				shape: this,
 				buffer_length: frame_length,
 				parent,

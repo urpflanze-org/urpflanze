@@ -1,4 +1,10 @@
-import { createPageName, printFunctions, printVariables, resolveType } from './create-page-utility'
+import {
+	createPageName,
+	printFunctionExample,
+	printFunctions,
+	printVariables,
+	resolveType,
+} from './create-page-utility'
 
 export default function createPageFromClass(ref) {
 	const properties = ref.properties ? ref.properties.filter(p => !p.bPrivate) : []
@@ -41,7 +47,8 @@ export default function createPageFromClass(ref) {
 
 	return `
         <h1 class="reference__name">${createPageName(ref)}</h1>
-        <div class="first-content-line">${ref.description || ''}</div>
+		<div class="first-content-line">${ref.description || ''}</div>
+		${ref.examples ? ref.examples.map(printFunctionExample).join('') : ''}
         ${getContructorTemplate()}
         ${getPropertiesTemplate()}
         ${getMethodsTemplate()}

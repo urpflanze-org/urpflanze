@@ -954,11 +954,15 @@
 						"isExported": true
 					},
 					"comment": {
-						"shortText": "Group used for add multiple SceneChild with same props",
+						"shortText": "A SceneChild container, propagates properties to children",
 						"tags": [
 							{
 								"tag": "order",
 								"text": "3"
+							},
+							{
+								"tag": "example",
+								"text": "\n```javascript\nconst group = new Urpflanze.Group({\n\trepetitions: 3,\n\tdistance: 200,\n})\n\ngroup.add(new Urpflanze.Rect())\ngroup.add(new Urpflanze.Triangle())\n```"
 							}
 						]
 					},
@@ -1026,8 +1030,8 @@
 							"sources": [
 								{
 									"fileName": "src/core/Group.ts",
-									"line": 28,
-									"character": 35
+									"line": 38,
+									"character": 36
 								}
 							],
 							"overwrites": {
@@ -1042,7 +1046,7 @@
 							"kind": 1024,
 							"kindString": "Property",
 							"flags": {
-								"isPublic": true,
+								"isPrivate": true,
 								"isExported": true
 							},
 							"comment": {
@@ -1057,8 +1061,8 @@
 							"sources": [
 								{
 									"fileName": "src/core/Group.ts",
-									"line": 28,
-									"character": 16
+									"line": 38,
+									"character": 17
 								}
 							],
 							"type": {
@@ -1369,7 +1373,7 @@
 							"sources": [
 								{
 									"fileName": "src/core/Group.ts",
-									"line": 76,
+									"line": 86,
 									"character": 11
 								}
 							]
@@ -1439,7 +1443,7 @@
 							"sources": [
 								{
 									"fileName": "src/core/Group.ts",
-									"line": 214,
+									"line": 224,
 									"character": 19
 								}
 							],
@@ -1521,7 +1525,7 @@
 							"sources": [
 								{
 									"fileName": "src/core/Group.ts",
-									"line": 133,
+									"line": 143,
 									"character": 12
 								}
 							],
@@ -1610,7 +1614,7 @@
 							"sources": [
 								{
 									"fileName": "src/core/Group.ts",
-									"line": 199,
+									"line": 209,
 									"character": 16
 								}
 							],
@@ -1678,7 +1682,7 @@
 							"sources": [
 								{
 									"fileName": "src/core/Group.ts",
-									"line": 154,
+									"line": 164,
 									"character": 11
 								}
 							]
@@ -1731,7 +1735,7 @@
 							"sources": [
 								{
 									"fileName": "src/core/Group.ts",
-									"line": 268,
+									"line": 278,
 									"character": 17
 								}
 							],
@@ -1797,7 +1801,7 @@
 							"sources": [
 								{
 									"fileName": "src/core/Group.ts",
-									"line": 258,
+									"line": 268,
 									"character": 23
 								}
 							],
@@ -1848,7 +1852,7 @@
 							"sources": [
 								{
 									"fileName": "src/core/Group.ts",
-									"line": 122,
+									"line": 132,
 									"character": 19
 								}
 							]
@@ -1908,7 +1912,7 @@
 							"sources": [
 								{
 									"fileName": "src/core/Group.ts",
-									"line": 296,
+									"line": 306,
 									"character": 24
 								}
 							],
@@ -2139,7 +2143,7 @@
 							"sources": [
 								{
 									"fileName": "src/core/Group.ts",
-									"line": 322,
+									"line": 332,
 									"character": 13
 								}
 							],
@@ -2188,7 +2192,7 @@
 							"sources": [
 								{
 									"fileName": "src/core/Group.ts",
-									"line": 56,
+									"line": 66,
 									"character": 16
 								}
 							],
@@ -2237,7 +2241,7 @@
 							"sources": [
 								{
 									"fileName": "src/core/Group.ts",
-									"line": 69,
+									"line": 79,
 									"character": 23
 								}
 							],
@@ -2311,7 +2315,7 @@
 							"sources": [
 								{
 									"fileName": "src/core/Group.ts",
-									"line": 165,
+									"line": 175,
 									"character": 14
 								}
 							]
@@ -2373,7 +2377,7 @@
 							"sources": [
 								{
 									"fileName": "src/core/Group.ts",
-									"line": 181,
+									"line": 191,
 									"character": 20
 								}
 							]
@@ -2463,7 +2467,7 @@
 							"sources": [
 								{
 									"fileName": "src/core/Group.ts",
-									"line": 241,
+									"line": 251,
 									"character": 15
 								}
 							],
@@ -2598,7 +2602,7 @@
 							"sources": [
 								{
 									"fileName": "src/core/Group.ts",
-									"line": 105,
+									"line": 115,
 									"character": 20
 								}
 							]
@@ -2657,7 +2661,7 @@
 							"sources": [
 								{
 									"fileName": "src/core/Group.ts",
-									"line": 310,
+									"line": 320,
 									"character": 14
 								}
 							],
@@ -2720,7 +2724,7 @@
 					"sources": [
 						{
 							"fileName": "src/core/Group.ts",
-							"line": 21,
+							"line": 31,
 							"character": 11
 						}
 					],
@@ -2777,7 +2781,7 @@
 						"isExported": true
 					},
 					"comment": {
-						"shortText": "Container for all SceneChild.\nThe main purpose is to manage the drwaing order and update the buffers of the sceneChild present in it",
+						"shortText": "Container for all SceneChild.\nThe main purpose is to manage the drawing order and update the buffers of\nthe sceneChild present in it",
 						"tags": [
 							{
 								"tag": "order",
@@ -2844,7 +2848,7 @@
 							"sources": [
 								{
 									"fileName": "src/core/Scene.ts",
-									"line": 76,
+									"line": 77,
 									"character": 36
 								}
 							]
@@ -2870,7 +2874,7 @@
 							"sources": [
 								{
 									"fileName": "src/core/Scene.ts",
-									"line": 51,
+									"line": 52,
 									"character": 18
 								}
 							],
@@ -2901,7 +2905,7 @@
 							"sources": [
 								{
 									"fileName": "src/core/Scene.ts",
-									"line": 43,
+									"line": 44,
 									"character": 14
 								}
 							],
@@ -2931,7 +2935,7 @@
 							"sources": [
 								{
 									"fileName": "src/core/Scene.ts",
-									"line": 76,
+									"line": 77,
 									"character": 17
 								}
 							],
@@ -2968,7 +2972,7 @@
 							"sources": [
 								{
 									"fileName": "src/core/Scene.ts",
-									"line": 67,
+									"line": 68,
 									"character": 20
 								}
 							],
@@ -2999,7 +3003,7 @@
 							"sources": [
 								{
 									"fileName": "src/core/Scene.ts",
-									"line": 35,
+									"line": 36,
 									"character": 14
 								}
 							],
@@ -3030,7 +3034,7 @@
 							"sources": [
 								{
 									"fileName": "src/core/Scene.ts",
-									"line": 59,
+									"line": 60,
 									"character": 17
 								}
 							],
@@ -3061,7 +3065,7 @@
 							"sources": [
 								{
 									"fileName": "src/core/Scene.ts",
-									"line": 26,
+									"line": 27,
 									"character": 13
 								}
 							],
@@ -3142,7 +3146,7 @@
 							"sources": [
 								{
 									"fileName": "src/core/Scene.ts",
-									"line": 156,
+									"line": 157,
 									"character": 11
 								}
 							]
@@ -3214,7 +3218,7 @@
 							"sources": [
 								{
 									"fileName": "src/core/Scene.ts",
-									"line": 197,
+									"line": 198,
 									"character": 12
 								}
 							]
@@ -3277,7 +3281,7 @@
 							"sources": [
 								{
 									"fileName": "src/core/Scene.ts",
-									"line": 216,
+									"line": 217,
 									"character": 11
 								}
 							]
@@ -3323,7 +3327,7 @@
 							"sources": [
 								{
 									"fileName": "src/core/Scene.ts",
-									"line": 145,
+									"line": 146,
 									"character": 19
 								}
 							]
@@ -3384,7 +3388,7 @@
 							"sources": [
 								{
 									"fileName": "src/core/Scene.ts",
-									"line": 275,
+									"line": 276,
 									"character": 30
 								}
 							]
@@ -3438,7 +3442,7 @@
 							"sources": [
 								{
 									"fileName": "src/core/Scene.ts",
-									"line": 260,
+									"line": 261,
 									"character": 25
 								}
 							]
@@ -3491,7 +3495,7 @@
 							"sources": [
 								{
 									"fileName": "src/core/Scene.ts",
-									"line": 226,
+									"line": 227,
 									"character": 14
 								}
 							]
@@ -3530,7 +3534,7 @@
 							"sources": [
 								{
 									"fileName": "src/core/Scene.ts",
-									"line": 235,
+									"line": 236,
 									"character": 22
 								}
 							]
@@ -3592,7 +3596,7 @@
 							"sources": [
 								{
 									"fileName": "src/core/Scene.ts",
-									"line": 245,
+									"line": 246,
 									"character": 20
 								}
 							]
@@ -3657,7 +3661,7 @@
 							"sources": [
 								{
 									"fileName": "src/core/Scene.ts",
-									"line": 104,
+									"line": 105,
 									"character": 14
 								}
 							]
@@ -3696,7 +3700,7 @@
 							"sources": [
 								{
 									"fileName": "src/core/Scene.ts",
-									"line": 182,
+									"line": 183,
 									"character": 20
 								}
 							]
@@ -3750,7 +3754,7 @@
 							"sources": [
 								{
 									"fileName": "src/core/Scene.ts",
-									"line": 129,
+									"line": 130,
 									"character": 14
 								}
 							]
@@ -3802,7 +3806,7 @@
 							"sources": [
 								{
 									"fileName": "src/core/Scene.ts",
-									"line": 118,
+									"line": 119,
 									"character": 14
 								}
 							]
@@ -3938,7 +3942,7 @@
 							"sources": [
 								{
 									"fileName": "src/core/Scene.ts",
-									"line": 296,
+									"line": 297,
 									"character": 30
 								}
 							]
@@ -4009,7 +4013,7 @@
 							"sources": [
 								{
 									"fileName": "src/core/Scene.ts",
-									"line": 364,
+									"line": 365,
 									"character": 26
 								}
 							]
@@ -4099,7 +4103,7 @@
 													"sources": [
 														{
 															"fileName": "src/core/Scene.ts",
-															"line": 338,
+															"line": 339,
 															"character": 22
 														}
 													]
@@ -4148,7 +4152,7 @@
 							"sources": [
 								{
 									"fileName": "src/core/Scene.ts",
-									"line": 338,
+									"line": 339,
 									"character": 12
 								}
 							]
@@ -4201,7 +4205,7 @@
 					"sources": [
 						{
 							"fileName": "src/core/Scene.ts",
-							"line": 18,
+							"line": 19,
 							"character": 11
 						}
 					]

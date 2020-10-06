@@ -1,6 +1,7 @@
 import ShapeBase from "./ShapeBase";
 import Vec2, { TArray } from "../math/Vec2";
 import { EShapePrimitiveAdaptMode, IShapeBounding, IShapePrimitiveProps, IShapePrimitiveSettings, } from "../types/shape-base";
+import Context from "../Context";
 /**
  * @category Core.Abstract
  */
@@ -115,11 +116,26 @@ class ShapePrimitive extends ShapeBase {
      * @memberof ShapePrimitive
      */
     addIndex(buffer, frame_length, current_repetition, parent) {
+        var _a;
+        const prop_arguments = {
+            shape: this,
+            repetition: current_repetition,
+            context: Context,
+            time: 0,
+            parent: parent,
+            data: this.data,
+        };
+        const fillColor = this.getProp('fillColor', prop_arguments);
+        const lineWidth = this.getProp('lineWidth', prop_arguments);
+        const strokeColor = this.getProp('strokeColor', prop_arguments, fillColor && typeof lineWidth === 'undefined' ? undefined : (_a = this.scene) === null || _a === void 0 ? void 0 : _a.mainColor);
         const current = {
             shape: this,
             buffer_length: frame_length,
             parent,
             repetition: current_repetition,
+            lineWidth,
+            strokeColor,
+            fillColor,
         };
         buffer.push(current);
     }

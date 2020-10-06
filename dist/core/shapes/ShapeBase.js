@@ -331,17 +331,6 @@ class ShapeBase extends SceneChild {
         if (this.scene && this.buffer && this.indexed_buffer) {
             for (let i = 0, j = 0, len = this.indexed_buffer.length; i < len; i++) {
                 const current_indexing = this.indexed_buffer[i];
-                const prop_arguments = {
-                    shape: current_indexing.shape,
-                    repetition: current_indexing.repetition,
-                    context: Context,
-                    time: 0,
-                    parent: current_indexing.parent,
-                    data: current_indexing.shape.data,
-                };
-                const fillColor = current_indexing.shape.getProp('fillColor', prop_arguments);
-                const lineWidth = current_indexing.shape.getProp('lineWidth', prop_arguments, fillColor ? undefined : 1);
-                const strokeColor = current_indexing.shape.getProp('strokeColor', prop_arguments, fillColor ? undefined : this.scene.mainColor);
                 const streamArguments = {
                     shape: current_indexing.shape,
                     repetition: current_indexing.repetition,
@@ -350,9 +339,9 @@ class ShapeBase extends SceneChild {
                     current_buffer_index: j,
                     current_shape_index: i,
                     total_shapes: len,
-                    lineWidth,
-                    strokeColor,
-                    fillColor,
+                    lineWidth: current_indexing.lineWidth,
+                    strokeColor: current_indexing.strokeColor,
+                    fillColor: current_indexing.fillColor,
                 };
                 callback(streamArguments);
                 j += current_indexing.buffer_length;

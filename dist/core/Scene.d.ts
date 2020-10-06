@@ -3,7 +3,8 @@ import SceneChild from "./SceneChild";
 import { TArray } from "./math/Vec2";
 /**
  * Container for all SceneChild.
- * The main purpose is to manage the drwaing order and update the buffers of the sceneChild present in it
+ * The main purpose is to manage the drawing order and update the buffers of
+ * the sceneChild present in it
  *
  *
  * @order 1

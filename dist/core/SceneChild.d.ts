@@ -3,7 +3,7 @@ import { ISceneChildPropArguments, ISceneChildProps, ISceneChildSettings, IScene
 import Scene from "./Scene";
 /**
  * The element to be added into a scene.
- * Preserve settings (props), drawing order, generate and return buffers.
+ * Preserve props, drawing order, generate and return buffers.
  * The only implementations of this class are <a href="[base_url]/Group">Group</a> and <a href="[base_url]/ShapeBase">ShapeBase</a>
  *
  * @abstract
@@ -188,10 +188,10 @@ declare abstract class SceneChild {
      *
      * @abstract
      * @param {Array<ISceneChildStreamIndexing>} buffer
-     * @param {ISceneChildStreamIndexing} [parent]
+     * @param {Partial<ISceneChildStreamIndexing>} [parent]
      * @memberof SceneChild
      */
-    abstract index(buffer: Array<ISceneChildStreamIndexing>, parent?: ISceneChildStreamIndexing): void;
+    abstract index(buffer: Array<ISceneChildStreamIndexing>, parent?: Partial<ISceneChildStreamIndexing>): void;
 }
 export default SceneChild;
 //# sourceMappingURL=SceneChild.d.ts.map

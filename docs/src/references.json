@@ -346,7 +346,10 @@
 		"extends": [
 			"SceneChild"
 		],
-		"description": "Group used for add multiple SceneChild with same props",
+		"description": "A SceneChild container, propagates properties to children",
+		"examples": [
+			"\n```javascript\nconst group = new Urpflanze.Group({\n\trepetitions: 3,\n\tdistance: 200,\n})\n\ngroup.add(new Urpflanze.Rect())\ngroup.add(new Urpflanze.Triangle())\n```"
+		],
 		"constructor_ref": {
 			"parameters": [
 				{
@@ -376,7 +379,7 @@
 					],
 					"name": "Array"
 				},
-				"bPublic": true
+				"bPrivate": true
 			}
 		],
 		"methods": [
@@ -798,7 +801,7 @@
 		"type": "Class",
 		"order": 1,
 		"source": "src/core/Scene.ts",
-		"description": "Container for all SceneChild.\nThe main purpose is to manage the drwaing order and update the buffers of the sceneChild present in it",
+		"description": "Container for all SceneChild.\nThe main purpose is to manage the drawing order and update the buffers of\nthe sceneChild present in it",
 		"constructor_ref": {
 			"parameters": [
 				{
@@ -1350,7 +1353,7 @@
 								"sources": [
 									{
 										"fileName": "src/core/Scene.ts",
-										"line": 338,
+										"line": 339,
 										"character": 22
 									}
 								]

@@ -14,6 +14,7 @@ import {
 	ISceneChildStreamIndexing,
 } from '@core/types/scene-child'
 import { TVertexCallback } from '@core/types/shape-primitive'
+import Context from '@core/Context'
 
 /**
  * @category Core.Abstract
@@ -196,12 +197,33 @@ abstract class ShapePrimitive extends ShapeBase {
 		current_repetition: IRepetition,
 		parent?: ISceneChildStreamIndexing
 	): void {
+		const prop_arguments: ISceneChildPropArguments = {
+			shape: this,
+			repetition: current_repetition,
+			context: Context,
+			time: 0,
+			parent: parent,
+			data: this.data,
+		}
+
+		const fillColor = this.getProp('fillColor', prop_arguments)
+		const lineWidth = this.getProp('lineWidth', prop_arguments)
+		const strokeColor = this.getProp(
+			'strokeColor',
+			prop_arguments,
+			fillColor && typeof lineWidth === 'undefined' ? undefined : this.scene?.mainColor
+		)
+
 		const current: ISceneChildStreamIndexing = {
 			shape: this,
 			buffer_length: frame_length,
 			parent,
 			repetition: current_repetition,
+			lineWidth,
+			strokeColor,
+			fillColor,
 		}
+
 		buffer.push(current)
 	}
 

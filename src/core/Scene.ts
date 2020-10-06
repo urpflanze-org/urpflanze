@@ -8,7 +8,8 @@ import Vec2, { TArray } from '@core/math/Vec2'
 
 /**
  * Container for all SceneChild.
- * The main purpose is to manage the drwaing order and update the buffers of the sceneChild present in it
+ * The main purpose is to manage the drawing order and update the buffers of
+ * the sceneChild present in it
  *
  *
  * @order 1
@@ -365,7 +366,7 @@ class Scene {
 		sceneChild.scene = scene
 
 		if (sceneChild instanceof Group) {
-			sceneChild.children.forEach((item: SceneChild) => {
+			sceneChild.getChildren().forEach((item: SceneChild) => {
 				Scene.propagateToChilden(item, scene)
 			})
 		} else if (sceneChild instanceof Shape && sceneChild.shape) {
