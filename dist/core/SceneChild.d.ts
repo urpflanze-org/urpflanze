@@ -133,7 +133,7 @@ declare abstract class SceneChild {
     setPropUnsafe(key: keyof ISceneChildProps | ISceneChildProps, value?: any): void;
     /**
      * Generate shape.
-     * Best explained in ShapeBase
+     * Best explained in <a href="[base_url]/ShapeBase">ShapeBase</a>
      *
      * @abstract
      * @param {number} generate_id

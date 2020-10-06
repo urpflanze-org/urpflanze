@@ -190,7 +190,7 @@ abstract class SceneChild {
 
 	/**
 	 * Generate shape.
-	 * Best explained in ShapeBase
+	 * Best explained in <a href="[base_url]/ShapeBase">ShapeBase</a>
 	 *
 	 * @abstract
 	 * @param {number} generate_id

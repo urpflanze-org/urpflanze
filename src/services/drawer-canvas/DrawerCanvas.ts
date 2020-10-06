@@ -490,6 +490,7 @@ class DrawerCanvas extends Emitter<DrawerCanvasEvents> {
 		const drawOptions = { ...this.drawOptions }
 
 		drawOptions.ghost_index = undefined
+		const clearCanvas = this.drawOptions.clearCanvas || this.timeline.getCurrentFrame() <= 0
 		drawOptions.clearCanvas = this.drawOptions.clearCanvas || this.timeline.getCurrentFrame() <= 0
 		drawOptions.time = this.timeline.getTime()
 		const current_frame = this.timeline.getFrameAtTime(drawOptions.time)
@@ -502,32 +503,35 @@ class DrawerCanvas extends Emitter<DrawerCanvasEvents> {
 		if (this.bBuffering && this.buffer.exist(current_frame)) {
 			this.context?.putImageData(this.buffer.get(current_frame) as ImageData, 0, 0)
 		} else {
-			draw_time += DrawerCanvas.draw(this.scene, this.context, drawOptions, this.resolution)
-
 			if (drawOptions.ghosts) {
+				const ghostDrawOptions = { ...drawOptions }
 				const time = this.timeline.getTime()
 				const sequenceEndTime = this.timeline.getSequenceEndTime()
 
-				for (let i = 1; i <= drawOptions.ghosts; i++) {
+				for (let i = 1; i <= (ghostDrawOptions.ghosts as number); i++) {
 					const ghostTime =
 						time -
 						(drawOptions.ghost_skip_function
 							? drawOptions.ghost_skip_function(i)
 							: i * (drawOptions.ghost_skip_time ?? 30))
 
-					// drawOptions.clearCanvas = i == 1
-					drawOptions.clearCanvas = false
-					drawOptions.ghost_index = i
-					drawOptions.time =
+					ghostDrawOptions.clearCanvas = clearCanvas && i === 1
+
+					ghostDrawOptions.ghost_index = i
+					ghostDrawOptions.time =
 						ghostTime < 0
 							? ghostTime + sequenceEndTime
 							: ghostTime > sequenceEndTime
 							? ghostTime % sequenceEndTime
 							: ghostTime
 
-					draw_time += DrawerCanvas.draw(this.scene, this.context, drawOptions, this.resolution)
+					draw_time += DrawerCanvas.draw(this.scene, this.context, ghostDrawOptions, this.resolution)
 				}
+
+				drawOptions.clearCanvas = false
 			}
+
+			draw_time += DrawerCanvas.draw(this.scene, this.context, drawOptions, this.resolution)
 
 			if (this.bBuffering && this.context) {
 				this.buffer.push(current_frame, this.context)

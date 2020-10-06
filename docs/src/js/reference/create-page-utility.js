@@ -184,6 +184,7 @@ export function resolveTypeParameter(variable) {
 export  function printFunctions(functions) {
 
 
+
     return `
         <ul class="reference__list">
         ${functions.map(callable => {

@@ -126,7 +126,7 @@ class ShapePrimitive extends ShapeBase {
             data: this.data,
         };
         const fillColor = this.getProp('fillColor', prop_arguments);
-        const lineWidth = this.getProp('lineWidth', prop_arguments);
+        const lineWidth = this.getProp('lineWidth', prop_arguments, typeof fillColor === 'undefined' ? 1 : undefined);
         const strokeColor = this.getProp('strokeColor', prop_arguments, fillColor && typeof lineWidth === 'undefined' ? undefined : (_a = this.scene) === null || _a === void 0 ? void 0 : _a.mainColor);
         const current = {
             shape: this,

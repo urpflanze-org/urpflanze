@@ -399,6 +399,7 @@ class DrawerCanvas extends Emitter {
         let draw_time = 0;
         const drawOptions = Object.assign({}, this.drawOptions);
         drawOptions.ghost_index = undefined;
+        const clearCanvas = this.drawOptions.clearCanvas || this.timeline.getCurrentFrame() <= 0;
         drawOptions.clearCanvas = this.drawOptions.clearCanvas || this.timeline.getCurrentFrame() <= 0;
         drawOptions.time = this.timeline.getTime();
         const current_frame = this.timeline.getFrameAtTime(drawOptions.time);
@@ -410,27 +411,28 @@ class DrawerCanvas extends Emitter {
             (_a = this.context) === null || _a === void 0 ? void 0 : _a.putImageData(this.buffer.get(current_frame), 0, 0);
         }
         else {
-            draw_time += DrawerCanvas.draw(this.scene, this.context, drawOptions, this.resolution);
             if (drawOptions.ghosts) {
+                const ghostDrawOptions = Object.assign({}, drawOptions);
                 const time = this.timeline.getTime();
                 const sequenceEndTime = this.timeline.getSequenceEndTime();
-                for (let i = 1; i <= drawOptions.ghosts; i++) {
+                for (let i = 1; i <= ghostDrawOptions.ghosts; i++) {
                     const ghostTime = time -
                         (drawOptions.ghost_skip_function
                             ? drawOptions.ghost_skip_function(i)
                             : i * ((_b = drawOptions.ghost_skip_time) !== null && _b !== void 0 ? _b : 30));
-                    // drawOptions.clearCanvas = i == 1
-                    drawOptions.clearCanvas = false;
-                    drawOptions.ghost_index = i;
-                    drawOptions.time =
+                    ghostDrawOptions.clearCanvas = clearCanvas && i === 1;
+                    ghostDrawOptions.ghost_index = i;
+                    ghostDrawOptions.time =
                         ghostTime < 0
                             ? ghostTime + sequenceEndTime
                             : ghostTime > sequenceEndTime
                                 ? ghostTime % sequenceEndTime
                                 : ghostTime;
-                    draw_time += DrawerCanvas.draw(this.scene, this.context, drawOptions, this.resolution);
+                    draw_time += DrawerCanvas.draw(this.scene, this.context, ghostDrawOptions, this.resolution);
                 }
+                drawOptions.clearCanvas = false;
             }
+            draw_time += DrawerCanvas.draw(this.scene, this.context, drawOptions, this.resolution);
             if (this.bBuffering && this.context) {
                 this.buffer.push(current_frame, this.context);
                 if (this.buffer.count() >= this.timeline.getFramesCount()) {

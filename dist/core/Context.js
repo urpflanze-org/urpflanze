@@ -12,6 +12,7 @@ const noises = {
 const Context = {
     /**
      * SimplexNoise <a href="https://www.npmjs.com/package/simplex-noise">url</a>
+     * Return value between -1 and 1
      *
      * @param {string} [seed='random']
      * @param {number} [x=0]
@@ -26,8 +27,9 @@ const Context = {
         return noises[seed].noise3D(x, y, z);
     },
     /**
-     * Return angle (atan) from offset (or center).
-     * Offset is array between [-1, -1] and [1, 1]
+     * Return angle (atan) from offset (or center) for matrix repetition.
+     * Offset is array between [-1, -1] and [1, 1].
+     * The return value is bettween -Math.PI / 2 and Math.PI / 2
      *
      * @param {IRepetition} repetition
      * @param {number | TArray} offsetFromCenter
@@ -47,8 +49,9 @@ const Context = {
         return (_a = repetition.current_angle) !== null && _a !== void 0 ? _a : 0;
     },
     /**
-     * Return angle (atan2, 4 quadrants) from offset (or center).
-     * Offset is array between [-1, -1] and [1, 1]
+     * Return angle (atan2, 4 quadrants) from offset (or center) for matrix repetition.
+     * Offset is array between [-1, -1] and [1, 1].
+     * The return value is bettween -Math.PI an Math.PI
      *
      * @param {IRepetition} repetition
      * @param {number | TArray} offsetFromCenter
@@ -68,7 +71,8 @@ const Context = {
         return (_a = repetition.current_angle) !== null && _a !== void 0 ? _a : 0;
     },
     /**
-     * Return distance from offset (or center)
+     * Return distance from offset (or center) for matrix repetition.
+     * The return value is between 0 and 1
      *
      * @param {IRepetition} repetition
      * @param {number | TArray} offsetFromCenter offset relative to distance prop
@@ -77,30 +81,42 @@ const Context = {
     distance: (repetition, offsetFromCenter = [0, 0]) => {
         if (repetition.type == ERepetitionType.Matrix) {
             const matrixOffset = Vec2.create(offsetFromCenter);
-            const center_matrix = Vec2.create((repetition.count_col - 1) / 2, (repetition.count_row - 1) / 2);
+            const center_matrix = Vec2.create(0.5, 0.5);
             center_matrix[0] += center_matrix[0] * matrixOffset[0];
             center_matrix[1] += center_matrix[1] * matrixOffset[1];
-            const current = Vec2.create(repetition.current_col - 1, repetition.current_row - 1);
+            const current = Vec2.create(repetition.current_col_offset - 0.5 / repetition.count_col, repetition.current_row_offset - 0.5 / repetition.count_row);
             return Vec2.distance(current, center_matrix);
         }
         return 1;
     },
     /**
-     * Get value percentage of scene width
+     * Get value percentage of scene width.
      *
      * @param {number} percentage
      * @param {SceneChild} sceneChild
      * @returns {number}
+     * @example
+     * ```javascript
+     * const rect = new Urpflanze.Rect({
+     * 	sideLength: ({ shape, context }) => context.percW(50, shape)
+     * })
+     * ```
      */
     percW: (percentage, sceneChild) => {
         return sceneChild && sceneChild.scene ? (sceneChild.scene.width * percentage) / 100 : percentage;
     },
     /**
-     * Get value percentage of scene height
+     * Get value percentage of scene height.
      *
      * @param {number} percentage
      * @param {SceneChild} sceneChild
      * @returns {number}
+     * @example
+     * ```javascript
+     * const rect = new Urpflanze.Rect({
+     * 	sideLength: ({ shape, context }) => [context.percW(50, shape), context.percH(50, shape)]
+     * })
+     * ```
      */
     percH: (percentage, sceneChild) => {
         return sceneChild && sceneChild.scene ? (sceneChild.scene.height * percentage) / 100 : percentage;

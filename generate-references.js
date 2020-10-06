@@ -108,8 +108,7 @@ function findExamples(item) {
 		for (tag of item.comment.tags) {
 			if (tag.tag === 'example') examples.push(tag.text)
 		}
-	}
-	if (item.signatures && item.signatures[0] && item.signatures[0].comment && item.signatures[0].comment.tags) {
+	} else if (item.signatures && item.signatures[0] && item.signatures[0].comment && item.signatures[0].comment.tags) {
 		for (tag of item.signatures[0].comment.tags) {
 			if (tag.tag === 'example') examples.push(tag.text)
 		}

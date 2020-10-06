@@ -207,7 +207,7 @@ abstract class ShapePrimitive extends ShapeBase {
 		}
 
 		const fillColor = this.getProp('fillColor', prop_arguments)
-		const lineWidth = this.getProp('lineWidth', prop_arguments)
+		const lineWidth = this.getProp('lineWidth', prop_arguments, typeof fillColor === 'undefined' ? 1 : undefined)
 		const strokeColor = this.getProp(
 			'strokeColor',
 			prop_arguments,
