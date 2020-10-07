@@ -110,9 +110,6 @@ export function toArray(t) {
  * @example
  * ```javascript
  * Urpflanze.clamp(0, 1, 1.2) // 1
- * ```
- * @example
- * ```javascript
  * Urpflanze.clamp(0, 1, -2) // 0
  * ```
  * @param {number} min

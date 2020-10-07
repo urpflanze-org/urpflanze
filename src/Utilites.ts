@@ -135,9 +135,6 @@ export function toArray(t: number | Array<number>): Array<number> {
  * @example
  * ```javascript
  * Urpflanze.clamp(0, 1, 1.2) // 1
- * ```
- * @example
- * ```javascript
  * Urpflanze.clamp(0, 1, -2) // 0
  * ```
  * @param {number} min

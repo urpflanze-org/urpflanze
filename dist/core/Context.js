@@ -46,17 +46,16 @@ const Context = {
      * @returns {number}
      */
     angle: (repetition, offsetFromCenter = [0, 0]) => {
-        var _a;
         if (repetition.type == ERepetitionType.Matrix) {
             const matrixOffset = Vec2.create(offsetFromCenter);
-            const center_matrix = Vec2.create((repetition.count_col - 1) / 2, (repetition.count_row - 1) / 2);
+            const center_matrix = Vec2.create((repetition.col.count - 1) / 2, (repetition.row.count - 1) / 2);
             center_matrix[0] += center_matrix[0] * matrixOffset[0];
             center_matrix[1] += center_matrix[1] * matrixOffset[1];
-            const x = repetition.current_col - 1 - center_matrix[0];
-            const y = repetition.current_row - 1 - center_matrix[1];
+            const x = repetition.col.index - 1 - center_matrix[0];
+            const y = repetition.row.index - 1 - center_matrix[1];
             return x === 0 ? 0 : Math.atan(y / x);
         }
-        return (_a = repetition.current_angle) !== null && _a !== void 0 ? _a : 0;
+        return repetition.angle;
     },
     /**
      * Return angle (atan2, 4 quadrants) from offset (or center) for matrix repetition.
@@ -68,17 +67,16 @@ const Context = {
      * @returns {number}
      */
     angle2: (repetition, offsetFromCenter = [0, 0]) => {
-        var _a;
         if (repetition.type == ERepetitionType.Matrix) {
             const matrixOffset = Vec2.create(offsetFromCenter);
-            const center_matrix = Vec2.create((repetition.count_col - 1) / 2, (repetition.count_row - 1) / 2);
+            const center_matrix = Vec2.create((repetition.col.count - 1) / 2, (repetition.row.count - 1) / 2);
             center_matrix[0] += center_matrix[0] * matrixOffset[0];
             center_matrix[1] += center_matrix[1] * matrixOffset[1];
-            const x = repetition.current_col - 1 - center_matrix[0];
-            const y = repetition.current_row - 1 - center_matrix[1];
+            const x = repetition.col.index - 1 - center_matrix[0];
+            const y = repetition.col.index - 1 - center_matrix[1];
             return x === 0 ? 0 : Math.atan2(y, x);
         }
-        return (_a = repetition.current_angle) !== null && _a !== void 0 ? _a : 0;
+        return repetition.angle;
     },
     /**
      * Return distance from offset (or center) for matrix repetition.
@@ -94,7 +92,7 @@ const Context = {
             const center_matrix = Vec2.create(0.5, 0.5);
             center_matrix[0] += center_matrix[0] * matrixOffset[0];
             center_matrix[1] += center_matrix[1] * matrixOffset[1];
-            const current = Vec2.create(repetition.current_col_offset - 0.5 / repetition.count_col, repetition.current_row_offset - 0.5 / repetition.count_row);
+            const current = Vec2.create(repetition.col.offset - 0.5 / repetition.col.count, repetition.row.offset - 0.5 / repetition.row.count);
             return Vec2.distance(current, center_matrix);
         }
         return 1;

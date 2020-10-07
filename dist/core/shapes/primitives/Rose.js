@@ -32,10 +32,10 @@ class Rose extends ShapeLoop {
                 const k = d < n ? n / d : 1.5;
                 return ShapeLoop.PI2 / (sides * k);
             },
-            vertex: (angle, prop_arguments) => {
+            vertex: (shape_loop_repetition, prop_arguments) => {
                 const k = this.getProp('n', prop_arguments) / this.getProp('d', prop_arguments);
-                const f = Math.cos(k * angle);
-                return [f * Math.cos(angle), f * Math.sin(angle)];
+                const f = Math.cos(k * shape_loop_repetition.angle);
+                return [f * Math.cos(shape_loop_repetition.angle), f * Math.sin(shape_loop_repetition.angle)];
             },
         };
         this.bStaticLoop = this.isStaticLoop();

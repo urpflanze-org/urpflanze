@@ -6,6 +6,8 @@ import { IRepetition, ISceneChildPropArguments } from '@core/types/scene-child'
 import { IBufferIndex } from '@core/types/shape-base'
 
 /**
+ * Container of ShapeBase or Group, it applies transformations on each repetition
+ *
  * @category Core.Shapes
  */
 class Shape extends ShapeBase {
@@ -116,7 +118,23 @@ class Shape extends ShapeBase {
 			const parent = {
 				shape: this,
 				frame_length,
-				repetition: { ...repetition },
+				repetition: {
+					type: repetition.type,
+					angle: repetition.angle,
+					index: repetition.index,
+					count: repetition.count,
+					offset: repetition.offset,
+					row: {
+						index: repetition.row.index,
+						count: repetition.row.count,
+						offset: repetition.row.offset,
+					},
+					col: {
+						index: repetition.col.index,
+						count: repetition.col.count,
+						offset: repetition.col.offset,
+					},
+				},
 			}
 
 			for (let i = 0, len = child_indexed_buffer.length; i < len; i++) {

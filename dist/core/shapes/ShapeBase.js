@@ -1,4 +1,4 @@
-import { ERepetitionType, IRepetition, ISceneChildPropArguments, ISceneChildProps, ISceneChildStreamArguments, } from "../types/scene-child";
+import { ERepetitionType, IRepetition, IBaseRepetition, ISceneChildPropArguments, ISceneChildProps, ISceneChildStreamArguments, } from "../types/scene-child";
 import Vec2, { TArray } from "../math/Vec2";
 import SceneChild from "../SceneChild";
 import Context from "../Context";
@@ -23,6 +23,7 @@ class ShapeBase extends SceneChild {
         /**
          * Shape generation id
          * used for prevent buffer calculation
+         *
          * @internal
          * @ignore
          */
@@ -169,9 +170,13 @@ class ShapeBase extends SceneChild {
             : repetitions;
         const repetition_col_count = Array.isArray(repetitions) ? repetitions[0] : repetition_count;
         const repetition_row_count = Array.isArray(repetitions) ? (_b = repetitions[1]) !== null && _b !== void 0 ? _b : repetitions[0] : 1;
+        const col_repetition = repetition.col;
+        col_repetition.count = repetition_col_count;
+        const row_repetition = repetition.row;
+        row_repetition.count = repetition_row_count;
         repetition.count = repetition_count;
-        repetition.count_col = repetition_col_count;
-        repetition.count_row = repetition_row_count;
+        repetition.col.count = repetition_col_count;
+        repetition.row.count = repetition_row_count;
         repetition.type = repetition_type;
         const prop_arguments = {
             repetition,
@@ -187,14 +192,14 @@ class ShapeBase extends SceneChild {
         const center_matrix = Vec2.create((repetition_col_count - 1) / 2, (repetition_row_count - 1) / 2);
         for (let current_row_repetition = 0; current_row_repetition < repetition_row_count; current_row_repetition++) {
             for (let current_col_repetition = 0; current_col_repetition < repetition_col_count; current_col_repetition++, current_index++) {
-                repetition.current_index = current_index + 1;
-                repetition.current_offset = repetition.current_index / repetition.count;
-                repetition.current_angle =
+                repetition.index = current_index + 1;
+                repetition.offset = repetition.index / repetition.count;
+                repetition.angle =
                     repetition_type === ERepetitionType.Ring ? ((Math.PI * 2) / repetition_count) * current_index : 0;
-                repetition.current_col = current_col_repetition + 1;
-                repetition.current_col_offset = repetition.current_col / repetition.count_col;
-                repetition.current_row = current_row_repetition + 1;
-                repetition.current_row_offset = repetition.current_row / repetition.count_row;
+                col_repetition.index = current_col_repetition + 1;
+                col_repetition.offset = col_repetition.index / col_repetition.count;
+                row_repetition.index = current_row_repetition + 1;
+                row_repetition.offset = row_repetition.index / row_repetition.count;
                 // Generate primitives buffer recursively
                 const buffer = this.generateBuffer(generate_id, prop_arguments);
                 const buffer_length = buffer.length;
@@ -217,7 +222,7 @@ class ShapeBase extends SceneChild {
                     switch (repetition_type) {
                         case ERepetitionType.Ring:
                             offset = Vec2.create(distance[0], 0);
-                            Vec2.rotateZ(offset, Vec2.ZERO, repetition.current_angle + displace);
+                            Vec2.rotateZ(offset, Vec2.ZERO, repetition.angle + displace);
                             break;
                         case ERepetitionType.Matrix:
                             offset = Vec2.create(distance[0] * (current_col_repetition - center_matrix[0]), distance[1] * (current_row_repetition - center_matrix[1]));
@@ -232,14 +237,20 @@ class ShapeBase extends SceneChild {
                         rotateZ !== 0 && Vec2.rotateZ(vertex, rotationOrigin, rotateZ);
                         skewX !== 0 && Vec2.skewX(vertex, skewX);
                         skewY !== 0 && Vec2.skewY(vertex, skewY);
-                        (scale[0] != 1 || scale[1] != 1) && Vec2.scale(vertex, scale);
-                        (translate[0] != 0 || translate[1] != 0) && Vec2.translate(vertex, translate);
-                        if (repetition_type === ERepetitionType.Ring) {
-                            Vec2.rotateZ(vertex, Vec2.ZERO, repetition.current_angle + displace);
-                        }
+                        (scale[0] !== 1 || scale[1] !== 1) && Vec2.scale(vertex, scale);
                         this.applyVertexTransform(vertex);
+                        (translate[0] !== 0 || translate[1] !== 0) && Vec2.translate(vertex, translate);
+                        if (repetition_type === ERepetitionType.Ring) {
+                            Vec2.rotateZ(vertex, Vec2.ZERO, repetition.angle + displace);
+                        }
                         if (this.vertexCallback) {
-                            this.vertexCallback(vertex, prop_arguments, buffer_index, buffer_length);
+                            const index = buffer_index / 2 + 1;
+                            const count = buffer_length / 2;
+                            this.vertexCallback(vertex, prop_arguments, {
+                                index,
+                                count,
+                                offset: index / count,
+                            });
                         }
                         Vec2.translate(vertex, offset);
                         if (bDirectSceneChild) {
@@ -345,24 +356,23 @@ class ShapeBase extends SceneChild {
  */
 ShapeBase.EMPTY_BUFFER = new Float32Array(0);
 /**
+ * Empty BaseRepetition
+ *
+ * @internal
+ * @ignore
+ */
+ShapeBase.getEmptySimpleRepetition = () => ({
+    index: 1,
+    offset: 1,
+    count: 1,
+});
+/**
  * Empty Repetition
  *
  * @internal
  * @ignore
  */
-ShapeBase.getEmptyRepetition = () => ({
-    current_index: 1,
-    current_offset: 1,
-    current_angle: 0,
-    current_col: 1,
-    current_row: 1,
-    current_col_offset: 1,
-    current_row_offset: 1,
-    type: ERepetitionType.Ring,
-    count: 1,
-    count_col: 1,
-    count_row: 1,
-});
+ShapeBase.getEmptyRepetition = () => (Object.assign(Object.assign({ type: ERepetitionType.Ring, angle: 0 }, ShapeBase.getEmptySimpleRepetition()), { row: ShapeBase.getEmptySimpleRepetition(), col: ShapeBase.getEmptySimpleRepetition() }));
 /**
  * Empty Prop Arguments
  *

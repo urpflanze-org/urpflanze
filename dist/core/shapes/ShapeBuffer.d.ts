@@ -55,7 +55,22 @@ declare class ShapeBuffer extends ShapePrimitive {
      * @memberof ShapeBase
      */
     setShape(shape: Float32Array): void;
+    /**
+     * Subdivide buffer n times
+     *
+     * @param {number} [level=1]
+     * @memberof ShapeBuffer
+     */
     subdivide(level?: number): void;
+    /**
+     * Subdivide buffer
+     *
+     * @static
+     * @param {Float32Array} shape
+     * @param {boolean} [bClosed=true]
+     * @returns {(Float32Array | undefined)}
+     * @memberof ShapeBuffer
+     */
     static subdivide(shape: Float32Array, bClosed?: boolean): Float32Array | undefined;
 }
 export default ShapeBuffer;

@@ -2,8 +2,13 @@ import ShapePrimitive from './ShapePrimitive'
 import ShapeBase from './ShapeBase'
 import Vec2 from '@core/math/Vec2'
 import Context from '@core/Context'
-import { ERepetitionType, IRepetition, ISceneChildPropArguments } from '@core/types/scene-child'
-import { IShapeLoopGenerator, IShapeLoopProps, IShapeLoopSettings } from '@core/types/shape-primitive'
+import { ERepetitionType, IShapeLoopRepetition, ISceneChildPropArguments } from '@core/types/scene-child'
+import {
+	IShapeLoopGenerator,
+	IShapeLoopProps,
+	IShapeLoopSettings,
+	TShapeLoopGeneratorFormula,
+} from '@core/types/shape-primitive'
 import { EShapePrimitiveAdaptMode, IShapePrimitiveProps } from '@core/types/shape-base'
 
 /**
@@ -12,9 +17,9 @@ import { EShapePrimitiveAdaptMode, IShapePrimitiveProps } from '@core/types/shap
  * @export
  * @internal
  * @ignore
- * @interface LoopMeta
+ * @interface ILoopMeta
  */
-export interface LoopMeta {
+export interface ILoopMeta {
 	start: number
 	end: number
 	inc: number
@@ -30,50 +35,9 @@ export interface LoopMeta {
  * @extends {ShapePrimitive}
  */
 class ShapeLoop extends ShapePrimitive {
-	/**
-	 * PI2
-	 *
-	 * @static
-	 * @type {number}
-	 * @memberof ShapeLoop
-	 */
 	public static readonly PI2: number = Math.PI * 2
 
-	/**
-	 * PI div 2
-	 *
-	 * @static
-	 * @type {number}
-	 * @memberof ShapeLoop
-	 */
 	public static readonly PId2: number = Math.PI / 2
-
-	/**
-	 * Empty Prop Arguments
-	 *
-	 * @static
-	 * @type {ISceneChildPropArguments}
-	 * @memberof ShapeBase
-	 */
-	public static readonly EMPTY_PROP_ARGUMENTS: ISceneChildPropArguments = {
-		time: 1,
-		context: Context,
-		repetition: ShapeBase.getEmptyRepetition(),
-		shape_loop: {
-			type: ERepetitionType.Loop,
-			current_index: 0,
-			current_offset: 0,
-			current_angle: 0,
-			current_row: 0,
-			current_col: 0,
-			current_col_offset: 0,
-			current_row_offset: 0,
-			count: 0,
-			count_col: 0,
-			count_row: 0,
-			// random_offset: [0, 0]
-		},
-	}
 
 	/**
 	 * Shape loop props
@@ -277,11 +241,8 @@ class ShapeLoop extends ShapePrimitive {
 	protected generateBuffer(generate_id: number, prop_arguments: ISceneChildPropArguments): Float32Array {
 		this.bindSideLength(prop_arguments)
 
-		if (!this.bStaticLoop) {
-			this.loop_buffer = this.generateLoopBuffer(prop_arguments)
-		} else if (typeof this.loop_buffer === 'undefined') {
-			this.loop_buffer = this.generateLoopBuffer(prop_arguments)
-		}
+		if (!this.bStaticLoop) this.loop_buffer = this.generateLoopBuffer(prop_arguments)
+		else if (typeof this.loop_buffer === 'undefined') this.loop_buffer = this.generateLoopBuffer(prop_arguments)
 
 		return this.loop_buffer
 	}
@@ -297,39 +258,30 @@ class ShapeLoop extends ShapePrimitive {
 	private generateLoopBuffer(prop_arguments: ISceneChildPropArguments): Float32Array {
 		const { start, end, inc, repetition } = this.getLoop(prop_arguments)
 
-		const getVertex = (this.props.loop && this.props.loop.vertex ? this.props.loop.vertex : this.loop.vertex) as (
-			current_angle: number,
-			prop_arguments?: ISceneChildPropArguments
-		) => Array<number> | Float32Array
+		const getVertex = (this.props.loop && this.props.loop.vertex
+			? this.props.loop.vertex
+			: this.loop.vertex) as TShapeLoopGeneratorFormula
 
-		const shape_loop: IRepetition = {
-			current_index: 1,
-			current_offset: 0,
-			current_angle: 0,
-			current_col: 1,
-			current_row: 1,
-			current_col_offset: 0,
-			current_row_offset: 0,
-			type: ERepetitionType.Loop,
+		const shape_loop: IShapeLoopRepetition = {
+			index: 0,
+			offset: 0,
+			angle: 0,
 			count: repetition,
-			count_col: 1,
-			count_row: 1,
 		}
 
 		const vertex_length = shape_loop.count
-
-		prop_arguments.shape_loop = shape_loop
 
 		const buffer = new Float32Array(vertex_length * 2)
 
 		for (let i = 0, j = 0; i < vertex_length; i++, j += 2) {
 			const angle = start + inc * i
 
-			shape_loop.current_angle = angle >= end ? end : angle
-			shape_loop.current_index = i + 1
-			shape_loop.current_offset = shape_loop.current_index / shape_loop.count
+			shape_loop.angle = angle >= end ? end : angle
+			shape_loop.index = i + 1
+			shape_loop.offset = shape_loop.index / shape_loop.count
 
-			const vertex = Float32Array.from(getVertex(shape_loop.current_angle, prop_arguments))
+			const vertex = Float32Array.from(getVertex(shape_loop, prop_arguments))
+			// this.vertexCallback && this.vertexCallback(vertex, prop_arguments, i, vertex_length)
 
 			buffer[j] = vertex[0]
 			buffer[j + 1] = vertex[1]
@@ -348,7 +300,7 @@ class ShapeLoop extends ShapePrimitive {
 	 * @returns {ShapeLoopInformation}
 	 * @memberof ShapeBase
 	 */
-	public getLoop(prop_arguments: ISceneChildPropArguments = ShapeBase.EMPTY_PROP_ARGUMENTS): LoopMeta {
+	public getLoop(prop_arguments: ISceneChildPropArguments = ShapeBase.EMPTY_PROP_ARGUMENTS): ILoopMeta {
 		prop_arguments.time = this.scene?.current_time || 0
 
 		let start = this.props.loop?.start ?? this.loop.start
@@ -365,7 +317,7 @@ class ShapeLoop extends ShapePrimitive {
 	}
 
 	/**
-	 * Set shape
+	 * Set shape from loop generator
 	 *
 	 * @param {(IShapeLoopGenerator)} [shape]
 	 * @memberof ShapeBase

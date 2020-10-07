@@ -15,7 +15,7 @@ declare abstract class ShapePrimitive extends ShapeBase {
      */
     protected props: IShapePrimitiveProps;
     /**
-     * Adapt buffer mode
+     * Adapt buffer mode, see <a href="[base_url]/EShapePrimitiveAdaptMode">EShapePrimitiveAdaptMode</a> for more details
      *
      * @type {EShapePrimitiveAdaptMode}
      * @memberof ShapePrimitive
@@ -63,13 +63,21 @@ declare abstract class ShapePrimitive extends ShapeBase {
      */
     protected bindSideLength(prop_arguments: ISceneChildPropArguments): void;
     /**
-     *
+     * Apply side length to buffer
      *
      * @protected
      * @param {TArray} vertex
      * @memberof ShapePrimitive
      */
     protected applyVertexTransform(vertex: TArray): void;
+    /**
+     * Add this to indexed_buffer
+     *
+     * @protected
+     * @param {number} frame_length
+     * @param {IRepetition} repetition
+     * @memberof ShapePrimitive
+     */
     protected addIndex(frame_length: number, repetition: IRepetition): void;
     /**
      * Return bCloseShape

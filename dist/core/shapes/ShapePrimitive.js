@@ -48,7 +48,7 @@ class ShapePrimitive extends ShapeBase {
         this.sideLength = Vec2.create(this.getProp('sideLength', prop_arguments, [50, 50]));
     }
     /**
-     *
+     * Apply side length to buffer
      *
      * @protected
      * @param {TArray} vertex
@@ -58,12 +58,36 @@ class ShapePrimitive extends ShapeBase {
         vertex[0] *= this.sideLength[0];
         vertex[1] *= this.sideLength[1];
     }
+    /**
+     * Add this to indexed_buffer
+     *
+     * @protected
+     * @param {number} frame_length
+     * @param {IRepetition} repetition
+     * @memberof ShapePrimitive
+     */
     addIndex(frame_length, repetition) {
         const indexed_buffer = this.indexed_buffer;
         indexed_buffer.push({
             shape: this,
             frame_length,
-            repetition: Object.assign({}, repetition),
+            repetition: {
+                type: repetition.type,
+                angle: repetition.angle,
+                index: repetition.index,
+                count: repetition.count,
+                offset: repetition.offset,
+                row: {
+                    index: repetition.row.index,
+                    count: repetition.row.count,
+                    offset: repetition.row.offset,
+                },
+                col: {
+                    index: repetition.col.index,
+                    count: repetition.col.count,
+                    offset: repetition.col.offset,
+                },
+            },
         });
     }
     /**

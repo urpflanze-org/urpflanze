@@ -1,8 +1,6 @@
 import ShapePrimitive from "./ShapePrimitive";
 import ShapeBase from "./ShapeBase";
 import Vec2 from "../math/Vec2";
-import Context from "../Context";
-import { ERepetitionType, IRepetition, ISceneChildPropArguments } from "../types/scene-child";
 import { EShapePrimitiveAdaptMode, IShapePrimitiveProps } from "../types/shape-base";
 /**
  * Shape Loop
@@ -146,12 +144,10 @@ class ShapeLoop extends ShapePrimitive {
      */
     generateBuffer(generate_id, prop_arguments) {
         this.bindSideLength(prop_arguments);
-        if (!this.bStaticLoop) {
+        if (!this.bStaticLoop)
             this.loop_buffer = this.generateLoopBuffer(prop_arguments);
-        }
-        else if (typeof this.loop_buffer === 'undefined') {
+        else if (typeof this.loop_buffer === 'undefined')
             this.loop_buffer = this.generateLoopBuffer(prop_arguments);
-        }
         return this.loop_buffer;
     }
     /**
@@ -164,29 +160,24 @@ class ShapeLoop extends ShapePrimitive {
      */
     generateLoopBuffer(prop_arguments) {
         const { start, end, inc, repetition } = this.getLoop(prop_arguments);
-        const getVertex = (this.props.loop && this.props.loop.vertex ? this.props.loop.vertex : this.loop.vertex);
+        const getVertex = (this.props.loop && this.props.loop.vertex
+            ? this.props.loop.vertex
+            : this.loop.vertex);
         const shape_loop = {
-            current_index: 1,
-            current_offset: 0,
-            current_angle: 0,
-            current_col: 1,
-            current_row: 1,
-            current_col_offset: 0,
-            current_row_offset: 0,
-            type: ERepetitionType.Loop,
+            index: 0,
+            offset: 0,
+            angle: 0,
             count: repetition,
-            count_col: 1,
-            count_row: 1,
         };
         const vertex_length = shape_loop.count;
-        prop_arguments.shape_loop = shape_loop;
         const buffer = new Float32Array(vertex_length * 2);
         for (let i = 0, j = 0; i < vertex_length; i++, j += 2) {
             const angle = start + inc * i;
-            shape_loop.current_angle = angle >= end ? end : angle;
-            shape_loop.current_index = i + 1;
-            shape_loop.current_offset = shape_loop.current_index / shape_loop.count;
-            const vertex = Float32Array.from(getVertex(shape_loop.current_angle, prop_arguments));
+            shape_loop.angle = angle >= end ? end : angle;
+            shape_loop.index = i + 1;
+            shape_loop.offset = shape_loop.index / shape_loop.count;
+            const vertex = Float32Array.from(getVertex(shape_loop, prop_arguments));
+            // this.vertexCallback && this.vertexCallback(vertex, prop_arguments, i, vertex_length)
             buffer[j] = vertex[0];
             buffer[j + 1] = vertex[1];
         }
@@ -215,7 +206,7 @@ class ShapeLoop extends ShapePrimitive {
         return { start, end, inc, repetition: shape_loop_repetition < 0 ? 0 : shape_loop_repetition };
     }
     /**
-     * Set shape
+     * Set shape from loop generator
      *
      * @param {(IShapeLoopGenerator)} [shape]
      * @memberof ShapeBase
@@ -224,46 +215,7 @@ class ShapeLoop extends ShapePrimitive {
         this.setProp('loop', loop);
     }
 }
-/**
- * PI2
- *
- * @static
- * @type {number}
- * @memberof ShapeLoop
- */
 ShapeLoop.PI2 = Math.PI * 2;
-/**
- * PI div 2
- *
- * @static
- * @type {number}
- * @memberof ShapeLoop
- */
 ShapeLoop.PId2 = Math.PI / 2;
-/**
- * Empty Prop Arguments
- *
- * @static
- * @type {ISceneChildPropArguments}
- * @memberof ShapeBase
- */
-ShapeLoop.EMPTY_PROP_ARGUMENTS = {
-    time: 1,
-    context: Context,
-    repetition: ShapeBase.getEmptyRepetition(),
-    shape_loop: {
-        type: ERepetitionType.Loop,
-        current_index: 0,
-        current_offset: 0,
-        current_angle: 0,
-        current_row: 0,
-        current_col: 0,
-        current_col_offset: 0,
-        current_row_offset: 0,
-        count: 0,
-        count_col: 0,
-        count_row: 0,
-    },
-};
 export default ShapeLoop;
 //# sourceMappingURL=ShapeLoop.js.map

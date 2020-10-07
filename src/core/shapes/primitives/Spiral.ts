@@ -1,6 +1,6 @@
 import ShapeLoop from '../ShapeLoop'
 import { IShapeLoopProps, ISpiralProps, ISpiralSettings, TSpiralType } from '@core/types/shape-primitive'
-import { ISceneChildPropArguments } from '@core/types/scene-child'
+import { ISceneChildPropArguments, IShapeLoopRepetition } from '@core/types/scene-child'
 import { EShapePrimitiveAdaptMode } from '@core/types/shape-base'
 
 /**
@@ -69,9 +69,12 @@ class Spiral extends ShapeLoop {
 
 				return rep / (radius * twists)
 			},
-			vertex: (angle: number, prop_arguments?: ISceneChildPropArguments): Array<number> => {
-				const r = Spiral.getRFromTSpiralType(this.getProp('spiral', prop_arguments), angle)
-				return [r * Math.cos(angle), r * Math.sin(angle)]
+			vertex: (
+				shape_loop_repetition: IShapeLoopRepetition,
+				prop_arguments?: ISceneChildPropArguments
+			): Array<number> => {
+				const r = Spiral.getRFromTSpiralType(this.getProp('spiral', prop_arguments), shape_loop_repetition.angle)
+				return [r * Math.cos(shape_loop_repetition.angle), r * Math.sin(shape_loop_repetition.angle)]
 			},
 		}
 

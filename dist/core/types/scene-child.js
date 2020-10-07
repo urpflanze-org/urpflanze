@@ -3,7 +3,6 @@
  *
  * @category Core.Enums
  * @internal
- * @enum {number}
  */
 export var ERepetitionType;
 (function (ERepetitionType) {
@@ -19,10 +18,5 @@ export var ERepetitionType;
      * @order 2
      */
     ERepetitionType[ERepetitionType["Matrix"] = 2] = "Matrix";
-    /**
-     * Defines the type of shape generation
-     * @order 3
-     */
-    ERepetitionType[ERepetitionType["Loop"] = 3] = "Loop";
 })(ERepetitionType || (ERepetitionType = {}));
 //# sourceMappingURL=scene-child.js.map

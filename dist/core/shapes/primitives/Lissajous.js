@@ -37,11 +37,13 @@ class Lissajous extends ShapeLoop {
                 const ratio = wx == wy ? ShapeLoop.PId2 : 0.5 - Math.min(49, wx + wy) * 0.01;
                 return (1 / Math.pow(this.sideLength[0] * this.sideLength[1], 0.25)) * ratio;
             },
-            vertex: (angle, prop_arguments) => {
+            vertex: (shape_loop_repetition, prop_arguments) => {
                 const wx = this.getProp('wx', prop_arguments);
                 const wy = this.getProp('wy', prop_arguments);
                 const wz = this.getProp('wz', prop_arguments, 0);
-                return wx == wy ? [Math.cos(angle + wz), Math.sin(angle)] : [Math.cos(wx * angle + wz), Math.sin(wy * angle)];
+                return wx == wy
+                    ? [Math.cos(shape_loop_repetition.angle + wz), Math.sin(shape_loop_repetition.angle)]
+                    : [Math.cos(wx * shape_loop_repetition.angle + wz), Math.sin(wy * shape_loop_repetition.angle)];
             },
         };
         this.bStaticLoop = this.isStaticLoop();

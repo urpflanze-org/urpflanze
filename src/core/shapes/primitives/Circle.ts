@@ -26,7 +26,7 @@ class Circle extends ShapeLoop {
 			start: 0,
 			end: ShapeLoop.PI2,
 			inc: () => (1 / Math.pow(this.sideLength[0] * this.sideLength[1], 0.25)) * ShapeLoop.PId2,
-			vertex: angle => [Math.cos(angle), Math.sin(angle)],
+			vertex: shape_loop_repetition => [Math.cos(shape_loop_repetition.angle), Math.sin(shape_loop_repetition.angle)],
 		}
 	}
 }

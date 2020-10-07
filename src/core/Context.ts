@@ -58,20 +58,20 @@ const Context = {
 		if (repetition.type == ERepetitionType.Matrix) {
 			const matrixOffset = Vec2.create(offsetFromCenter)
 			const center_matrix = Vec2.create(
-				((repetition.count_col as number) - 1) / 2,
-				((repetition.count_row as number) - 1) / 2
+				((repetition.col.count as number) - 1) / 2,
+				((repetition.row.count as number) - 1) / 2
 			)
 
 			center_matrix[0] += center_matrix[0] * matrixOffset[0]
 			center_matrix[1] += center_matrix[1] * matrixOffset[1]
 
-			const x = (repetition.current_col as number) - 1 - center_matrix[0]
-			const y = (repetition.current_row as number) - 1 - center_matrix[1]
+			const x = (repetition.col.index as number) - 1 - center_matrix[0]
+			const y = (repetition.row.index as number) - 1 - center_matrix[1]
 
 			return x === 0 ? 0 : Math.atan(y / x)
 		}
 
-		return repetition.current_angle ?? 0
+		return repetition.angle
 	},
 
 	/**
@@ -87,20 +87,20 @@ const Context = {
 		if (repetition.type == ERepetitionType.Matrix) {
 			const matrixOffset = Vec2.create(offsetFromCenter)
 			const center_matrix = Vec2.create(
-				((repetition.count_col as number) - 1) / 2,
-				((repetition.count_row as number) - 1) / 2
+				((repetition.col.count as number) - 1) / 2,
+				((repetition.row.count as number) - 1) / 2
 			)
 
 			center_matrix[0] += center_matrix[0] * matrixOffset[0]
 			center_matrix[1] += center_matrix[1] * matrixOffset[1]
 
-			const x = (repetition.current_col as number) - 1 - center_matrix[0]
-			const y = (repetition.current_row as number) - 1 - center_matrix[1]
+			const x = (repetition.col.index as number) - 1 - center_matrix[0]
+			const y = (repetition.col.index as number) - 1 - center_matrix[1]
 
 			return x === 0 ? 0 : Math.atan2(y, x)
 		}
 
-		return repetition.current_angle ?? 0
+		return repetition.angle
 	},
 
 	/**
@@ -121,8 +121,8 @@ const Context = {
 			center_matrix[1] += center_matrix[1] * matrixOffset[1]
 
 			const current = Vec2.create(
-				repetition.current_col_offset - 0.5 / repetition.count_col,
-				repetition.current_row_offset - 0.5 / repetition.count_row
+				repetition.col.offset - 0.5 / repetition.col.count,
+				repetition.row.offset - 0.5 / repetition.row.count
 			)
 
 			return Vec2.distance(current, center_matrix)

@@ -1,6 +1,6 @@
 import { TStreamCallback } from "../types/scene";
 import { IShapeBaseSettings, TVertexCallback } from "../types/shape-base";
-import { IRepetition, ISceneChildPropArguments, ISceneChildProps } from "../types/scene-child";
+import { IRepetition, IBaseRepetition, ISceneChildPropArguments, ISceneChildProps } from "../types/scene-child";
 import { IBufferIndex } from "../types/shape-base";
 import { TArray } from "../math/Vec2";
 import SceneChild from "../SceneChild";
@@ -22,6 +22,13 @@ declare abstract class ShapeBase extends SceneChild {
      */
     static readonly EMPTY_BUFFER: Float32Array;
     /**
+     * Empty BaseRepetition
+     *
+     * @internal
+     * @ignore
+     */
+    static getEmptySimpleRepetition: () => IBaseRepetition;
+    /**
      * Empty Repetition
      *
      * @internal
@@ -38,6 +45,7 @@ declare abstract class ShapeBase extends SceneChild {
     /**
      * Shape generation id
      * used for prevent buffer calculation
+     *
      * @internal
      * @ignore
      */
@@ -80,6 +88,8 @@ declare abstract class ShapeBase extends SceneChild {
      * @memberof ShapeBase
      * @example
      * ```javascript
+     * // Use parent repetition for generate different types of roses
+     *
      * const rose = new Urpflanze.Rose({
      * 	repetitions: 3,
      * 	n: ({ parent }) => parent.repetition.current_index, // <- use parent
@@ -94,8 +104,6 @@ declare abstract class ShapeBase extends SceneChild {
      * 	repetitions: 4,
      * 	distance: 100
      * })
-     *
-     * scene.add(shape)
      * ```
      */
     bUseParent: boolean;
@@ -108,10 +116,26 @@ declare abstract class ShapeBase extends SceneChild {
      */
     protected indexed_buffer?: Array<IBufferIndex>;
     /**
-     * Transform any vertex
+     * Callback to apply transform at any vertex
      *
-     * @public
-     * @memberof ShapeBase
+     * @example
+     * ```javascript
+     * // vertexCallback example
+     * // Generate lines with noise
+     *
+     * const line = new Urpflanze.Line({
+     * 	repetitions: [1, 50],
+     * 	distance: [0, 4],
+     * 	sideLength: ({ context, shape }) => context.percW(40, shape), // <- make the shape non-static
+     * 	vertexCallback: (vertex, { repetition, context, time }, vertex_repetition) => {
+     * 		const noise = context.noise('seed', vertex_repetition.offset * 2, repetition.row.offset * 2, time / 1000)
+     * 		vertex[0] += noise * 10
+     * 		vertex[1] += noise * 10
+     * 	},
+     * })
+     *
+     * line.subdivide(5)
+     * ```
      */
     vertexCallback?: TVertexCallback;
     /**

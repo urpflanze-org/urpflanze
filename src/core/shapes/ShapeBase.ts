@@ -3,6 +3,7 @@ import { IShapeBaseSettings, TVertexCallback } from '@core/types/shape-base'
 import {
 	ERepetitionType,
 	IRepetition,
+	IBaseRepetition,
 	ISceneChildPropArguments,
 	ISceneChildProps,
 	ISceneChildStreamArguments,
@@ -34,23 +35,28 @@ abstract class ShapeBase extends SceneChild {
 	public static readonly EMPTY_BUFFER: Float32Array = new Float32Array(0)
 
 	/**
+	 * Empty BaseRepetition
+	 *
+	 * @internal
+	 * @ignore
+	 */
+	public static getEmptySimpleRepetition: () => IBaseRepetition = () => ({
+		index: 1,
+		offset: 1,
+		count: 1,
+	})
+	/**
 	 * Empty Repetition
 	 *
 	 * @internal
 	 * @ignore
 	 */
 	public static getEmptyRepetition: () => IRepetition = () => ({
-		current_index: 1,
-		current_offset: 1,
-		current_angle: 0,
-		current_col: 1,
-		current_row: 1,
-		current_col_offset: 1,
-		current_row_offset: 1,
 		type: ERepetitionType.Ring,
-		count: 1,
-		count_col: 1,
-		count_row: 1,
+		angle: 0,
+		...ShapeBase.getEmptySimpleRepetition(),
+		row: ShapeBase.getEmptySimpleRepetition(),
+		col: ShapeBase.getEmptySimpleRepetition(),
 	})
 
 	/**
@@ -68,6 +74,7 @@ abstract class ShapeBase extends SceneChild {
 	/**
 	 * Shape generation id
 	 * used for prevent buffer calculation
+	 *
 	 * @internal
 	 * @ignore
 	 */
@@ -115,6 +122,8 @@ abstract class ShapeBase extends SceneChild {
 	 * @memberof ShapeBase
 	 * @example
 	 * ```javascript
+	 * // Use parent repetition for generate different types of roses
+	 *
 	 * const rose = new Urpflanze.Rose({
 	 * 	repetitions: 3,
 	 * 	n: ({ parent }) => parent.repetition.current_index, // <- use parent
@@ -129,8 +138,6 @@ abstract class ShapeBase extends SceneChild {
 	 * 	repetitions: 4,
 	 * 	distance: 100
 	 * })
-	 *
-	 * scene.add(shape)
 	 * ```
 	 */
 	public bUseParent: boolean
@@ -145,10 +152,26 @@ abstract class ShapeBase extends SceneChild {
 	protected indexed_buffer?: Array<IBufferIndex>
 
 	/**
-	 * Transform any vertex
+	 * Callback to apply transform at any vertex
 	 *
-	 * @public
-	 * @memberof ShapeBase
+	 * @example
+	 * ```javascript
+	 * // vertexCallback example
+	 * // Generate lines with noise
+	 *
+	 * const line = new Urpflanze.Line({
+	 * 	repetitions: [1, 50],
+	 * 	distance: [0, 4],
+	 * 	sideLength: ({ context, shape }) => context.percW(40, shape), // <- make the shape non-static
+	 * 	vertexCallback: (vertex, { repetition, context, time }, vertex_repetition) => {
+	 * 		const noise = context.noise('seed', vertex_repetition.offset * 2, repetition.row.offset * 2, time / 1000)
+	 * 		vertex[0] += noise * 10
+	 * 		vertex[1] += noise * 10
+	 * 	},
+	 * })
+	 *
+	 * line.subdivide(5)
+	 * ```
 	 */
 	public vertexCallback?: TVertexCallback
 
@@ -326,9 +349,14 @@ abstract class ShapeBase extends SceneChild {
 		const repetition_col_count = Array.isArray(repetitions) ? repetitions[0] : repetition_count
 		const repetition_row_count = Array.isArray(repetitions) ? repetitions[1] ?? repetitions[0] : 1
 
+		const col_repetition = repetition.col
+		col_repetition.count = repetition_col_count
+		const row_repetition = repetition.row
+		row_repetition.count = repetition_row_count
+
 		repetition.count = repetition_count
-		repetition.count_col = repetition_col_count
-		repetition.count_row = repetition_row_count
+		repetition.col.count = repetition_col_count
+		repetition.row.count = repetition_row_count
 		repetition.type = repetition_type
 
 		const prop_arguments: ISceneChildPropArguments = {
@@ -352,15 +380,15 @@ abstract class ShapeBase extends SceneChild {
 				current_col_repetition < repetition_col_count;
 				current_col_repetition++, current_index++
 			) {
-				repetition.current_index = current_index + 1
-				repetition.current_offset = repetition.current_index / repetition.count
+				repetition.index = current_index + 1
+				repetition.offset = repetition.index / repetition.count
 
-				repetition.current_angle =
+				repetition.angle =
 					repetition_type === ERepetitionType.Ring ? ((Math.PI * 2) / repetition_count) * current_index : 0
-				repetition.current_col = current_col_repetition + 1
-				repetition.current_col_offset = repetition.current_col / repetition.count_col
-				repetition.current_row = current_row_repetition + 1
-				repetition.current_row_offset = repetition.current_row / repetition.count_row
+				col_repetition.index = current_col_repetition + 1
+				col_repetition.offset = col_repetition.index / col_repetition.count
+				row_repetition.index = current_row_repetition + 1
+				row_repetition.offset = row_repetition.index / row_repetition.count
 
 				// Generate primitives buffer recursively
 				const buffer: Float32Array = this.generateBuffer(generate_id, prop_arguments)
@@ -388,7 +416,7 @@ abstract class ShapeBase extends SceneChild {
 					switch (repetition_type) {
 						case ERepetitionType.Ring:
 							offset = Vec2.create(distance[0], 0)
-							Vec2.rotateZ(offset, Vec2.ZERO, repetition.current_angle + displace)
+							Vec2.rotateZ(offset, Vec2.ZERO, repetition.angle + displace)
 							break
 						case ERepetitionType.Matrix:
 							offset = Vec2.create(
@@ -409,17 +437,23 @@ abstract class ShapeBase extends SceneChild {
 						rotateZ !== 0 && Vec2.rotateZ(vertex, rotationOrigin, rotateZ)
 						skewX !== 0 && Vec2.skewX(vertex, skewX)
 						skewY !== 0 && Vec2.skewY(vertex, skewY)
-						;(scale[0] != 1 || scale[1] != 1) && Vec2.scale(vertex, scale)
-						;(translate[0] != 0 || translate[1] != 0) && Vec2.translate(vertex, translate)
-
-						if (repetition_type === ERepetitionType.Ring) {
-							Vec2.rotateZ(vertex, Vec2.ZERO, repetition.current_angle + displace)
-						}
+						;(scale[0] !== 1 || scale[1] !== 1) && Vec2.scale(vertex, scale)
 
 						this.applyVertexTransform(vertex)
+						;(translate[0] !== 0 || translate[1] !== 0) && Vec2.translate(vertex, translate)
+
+						if (repetition_type === ERepetitionType.Ring) {
+							Vec2.rotateZ(vertex, Vec2.ZERO, repetition.angle + displace)
+						}
 
 						if (this.vertexCallback) {
-							this.vertexCallback(vertex, prop_arguments, buffer_index, buffer_length)
+							const index = buffer_index / 2 + 1
+							const count = buffer_length / 2
+							this.vertexCallback(vertex, prop_arguments, {
+								index,
+								count,
+								offset: index / count,
+							})
 						}
 
 						Vec2.translate(vertex, offset)

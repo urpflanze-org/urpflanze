@@ -10,8 +10,11 @@ import SceneChild from "./SceneChild";
  * @extends {SceneChild}
  * @example
  * ```javascript
+ * // Group example
  *
- * const rect = new Urpflanze.Rect()
+ * const rect = new Urpflanze.Rect({
+ * 	distance: 100 // <- if a property is set the group will not overwrite it
+ * })
  * const group = new Urpflanze.Group({
  * 	repetitions: 3,
  * 	distance: 200

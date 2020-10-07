@@ -15,7 +15,7 @@ class ShapeBuffer extends ShapePrimitive {
         else
             this.shape = Float32Array.from(settings.shape);
         this.shape_buffer =
-            this.getAdaptMode() != EShapePrimitiveAdaptMode.None
+            this.getAdaptMode() !== EShapePrimitiveAdaptMode.None
                 ? ShapePrimitive.adaptBuffer(this.shape, this.getAdaptMode())
                 : this.shape;
         this.bStatic = this.isStatic();
@@ -57,20 +57,7 @@ class ShapeBuffer extends ShapePrimitive {
      */
     generateBuffer(generate_id, prop_arguments) {
         this.bindSideLength(prop_arguments);
-        let result = this.shape_buffer;
-        const buffer_length = this.shape_buffer.length;
-        // if (this.vertexCallback) {
-        // 	const points_length = buffer_length / 2
-        // 	const buffer = Float32Array.from(this.shape_buffer)
-        // 	for (let i = 0, j = 0; i < buffer_length; i += 2, j++) {
-        // 		const vertex = [buffer[i], buffer[i + 1]]
-        // 		this.vertexCallback(vertex, prop_arguments, j, points_length)
-        // 		buffer[i] = vertex[0]
-        // 		buffer[i + 1] = vertex[1]
-        // 	}
-        // 	result = buffer
-        // }
-        return result;
+        return this.shape_buffer;
     }
     /**
      * Set shape
@@ -82,6 +69,12 @@ class ShapeBuffer extends ShapePrimitive {
         this.shape = shape;
         this.clearBuffer(true);
     }
+    /**
+     * Subdivide buffer n times
+     *
+     * @param {number} [level=1]
+     * @memberof ShapeBuffer
+     */
     subdivide(level = 1) {
         let subdivided = this.shape;
         if (subdivided)
@@ -89,6 +82,15 @@ class ShapeBuffer extends ShapePrimitive {
                 subdivided = ShapeBuffer.subdivide(subdivided, this.bCloseShape);
         subdivided && this.setShape(subdivided);
     }
+    /**
+     * Subdivide buffer
+     *
+     * @static
+     * @param {Float32Array} shape
+     * @param {boolean} [bClosed=true]
+     * @returns {(Float32Array | undefined)}
+     * @memberof ShapeBuffer
+     */
     static subdivide(shape, bClosed = true) {
         if (shape && shape.length) {
             const shape_len = shape.length;

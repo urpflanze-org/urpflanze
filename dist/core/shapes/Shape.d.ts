@@ -3,6 +3,8 @@ import SceneChild from "../SceneChild";
 import { IShapeSettings } from "../types/shape-base";
 import { IRepetition, ISceneChildPropArguments } from "../types/scene-child";
 /**
+ * Container of ShapeBase or Group, it applies transformations on each repetition
+ *
  * @category Core.Shapes
  */
 declare class Shape extends ShapeBase {

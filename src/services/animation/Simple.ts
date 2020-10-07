@@ -45,7 +45,7 @@ const Simple = {
 				  }
 
 			return createSimpleAnimationCallback<number | TArray>(simpleAnimation, (props, v) =>
-				vCallback(props.repetition.current_index, v)
+				vCallback(props.repetition.index, v)
 			)
 		} else {
 			const from = new ColorManager(simpleAnimation.from as string)
@@ -54,8 +54,8 @@ const Simple = {
 			const vCallback = simpleAnimation.colorTransitionMode == 'hue' ? interpolateColorHSL : interpolateColorRGB
 
 			return createSimpleAnimationCallback<string>(simpleAnimation, (props, v) => {
-				const a = simpleAnimation.invertOdd && props.repetition.current_index % 2 == 1 ? to : from
-				const b = simpleAnimation.invertOdd && props.repetition.current_index % 2 == 1 ? from : to
+				const a = simpleAnimation.invertOdd && props.repetition.index % 2 == 1 ? to : from
+				const b = simpleAnimation.invertOdd && props.repetition.index % 2 == 1 ? from : to
 
 				return vCallback(a, b, v)
 			})

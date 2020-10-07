@@ -1,7 +1,7 @@
 import ShapeLoop from '@core/shapes/ShapeLoop'
 import { IRoseProps, IRoseSettings, IShapeLoopProps } from '@core/types/shape-primitive'
 import { EShapePrimitiveAdaptMode } from '@core/types/shape-base'
-import { ISceneChildPropArguments } from '@core/types/scene-child'
+import { ISceneChildPropArguments, IShapeLoopRepetition } from '@core/types/scene-child'
 
 /**
  * Rose shape
@@ -43,11 +43,14 @@ class Rose extends ShapeLoop {
 				return ShapeLoop.PI2 / (sides * k)
 			},
 
-			vertex: (angle: number, prop_arguments?: ISceneChildPropArguments): Array<number> => {
+			vertex: (
+				shape_loop_repetition: IShapeLoopRepetition,
+				prop_arguments?: ISceneChildPropArguments
+			): Array<number> => {
 				const k = this.getProp('n', prop_arguments) / this.getProp('d', prop_arguments)
-				const f = Math.cos(k * angle)
+				const f = Math.cos(k * shape_loop_repetition.angle)
 
-				return [f * Math.cos(angle), f * Math.sin(angle)]
+				return [f * Math.cos(shape_loop_repetition.angle), f * Math.sin(shape_loop_repetition.angle)]
 			},
 		}
 

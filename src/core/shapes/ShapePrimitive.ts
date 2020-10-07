@@ -24,7 +24,7 @@ abstract class ShapePrimitive extends ShapeBase {
 	protected props: IShapePrimitiveProps
 
 	/**
-	 * Adapt buffer mode
+	 * Adapt buffer mode, see <a href="[base_url]/EShapePrimitiveAdaptMode">EShapePrimitiveAdaptMode</a> for more details
 	 *
 	 * @type {EShapePrimitiveAdaptMode}
 	 * @memberof ShapePrimitive
@@ -100,7 +100,7 @@ abstract class ShapePrimitive extends ShapeBase {
 	}
 
 	/**
-	 *
+	 * Apply side length to buffer
 	 *
 	 * @protected
 	 * @param {TArray} vertex
@@ -111,12 +111,36 @@ abstract class ShapePrimitive extends ShapeBase {
 		vertex[1] *= this.sideLength[1]
 	}
 
+	/**
+	 * Add this to indexed_buffer
+	 *
+	 * @protected
+	 * @param {number} frame_length
+	 * @param {IRepetition} repetition
+	 * @memberof ShapePrimitive
+	 */
 	protected addIndex(frame_length: number, repetition: IRepetition) {
 		const indexed_buffer = this.indexed_buffer as Array<IBufferIndex>
 		indexed_buffer.push({
 			shape: this,
 			frame_length,
-			repetition: { ...repetition },
+			repetition: {
+				type: repetition.type,
+				angle: repetition.angle,
+				index: repetition.index,
+				count: repetition.count,
+				offset: repetition.offset,
+				row: {
+					index: repetition.row.index,
+					count: repetition.row.count,
+					offset: repetition.row.offset,
+				},
+				col: {
+					index: repetition.col.index,
+					count: repetition.col.count,
+					offset: repetition.col.offset,
+				},
+			},
 		})
 	}
 

@@ -23,15 +23,15 @@ const Simple = {
                     const b = (simpleAnimation.invertOdd && current_index % 2 == 1 ? from : to);
                     return simpleAnimation.type_value === 'int' ? Math.round(a + v * (b - a)) : a + v * (b - a);
                 };
-            return createSimpleAnimationCallback(simpleAnimation, (props, v) => vCallback(props.repetition.current_index, v));
+            return createSimpleAnimationCallback(simpleAnimation, (props, v) => vCallback(props.repetition.index, v));
         }
         else {
             const from = new ColorManager(simpleAnimation.from);
             const to = new ColorManager(simpleAnimation.to);
             const vCallback = simpleAnimation.colorTransitionMode == 'hue' ? interpolateColorHSL : interpolateColorRGB;
             return createSimpleAnimationCallback(simpleAnimation, (props, v) => {
-                const a = simpleAnimation.invertOdd && props.repetition.current_index % 2 == 1 ? to : from;
-                const b = simpleAnimation.invertOdd && props.repetition.current_index % 2 == 1 ? from : to;
+                const a = simpleAnimation.invertOdd && props.repetition.index % 2 == 1 ? to : from;
+                const b = simpleAnimation.invertOdd && props.repetition.index % 2 == 1 ? from : to;
                 return vCallback(a, b, v);
             });
         }

@@ -7,7 +7,6 @@ import { IBufferIndex } from "./shape-base";
  *
  * @category Core.Enums
  * @internal
- * @enum {number}
  */
 export declare enum ERepetitionType {
     /**
@@ -21,38 +20,38 @@ export declare enum ERepetitionType {
      * on a nxm grid starting from the center of the scene
      * @order 2
      */
-    Matrix = 2,
-    /**
-     * Defines the type of shape generation
-     * @order 3
-     */
-    Loop = 3
+    Matrix = 2
 }
 /**
- * Information about current shape repetition.
- * The meaning values ​​change according to the <mark>type</mark> of repetition
+ * Information about prop_arguments repetition
  *
  * @category Core.Interfaces
- * @type RepetitionLoop
  */
-export interface IRepetition {
+export interface IRepetition extends IShapeLoopRepetition {
     /**
      * Define the type of repetition
      */
     type: ERepetitionType;
-    /**
-     * Current angle
-     */
-    current_angle: number;
-    current_index: number;
-    current_offset: number;
+    row: IBaseRepetition;
+    col: IBaseRepetition;
+}
+/**
+ * Base repetition
+ *
+ * @category Core.Interfaces
+ */
+export interface IBaseRepetition {
+    index: number;
+    offset: number;
     count: number;
-    current_col: number;
-    current_col_offset: number;
-    count_col: number;
-    current_row: number;
-    current_row_offset: number;
-    count_row: number;
+}
+/**
+ *
+ *
+ * @category Core.Interfaces
+ */
+export interface IShapeLoopRepetition extends IBaseRepetition {
+    angle: number;
 }
 /**
  * Props interface.
@@ -160,11 +159,8 @@ export interface ISceneChildProps {
     translate?: TSceneChildProp<number | Array<number>>;
 }
 /**
- * Object
  *
  * @category Core.Interfaces
- * @interface ISceneChildSettings
- * @extends {ISceneChildProps}
  */
 export interface ISceneChildSettings extends ISceneChildProps {
     id?: string | number;
@@ -177,20 +173,28 @@ export interface ISceneChildSettings extends ISceneChildProps {
  * Object argument for sceneChild props
  *
  * @category Core.Interfaces
- * @interface ISceneChildPropArguments
  */
 export interface ISceneChildPropArguments {
     repetition: IRepetition;
-    shape_loop?: IRepetition;
     context: typeof Context;
     time: number;
     shape?: ShapeBase;
     data?: any;
     parent?: Partial<ISceneChildPropArguments>;
 }
+/**
+ * Value or callable
+ *
+ * @category Core.Types
+ */
 export declare type TSceneChildProp<T> = T | {
     (prop_arguments: ISceneChildPropArguments): T;
 };
+/**
+ *
+ *
+ * @category Core.Interfaces
+ */
 export interface ISceneChildStreamArguments {
     shape: ShapePrimitive;
     parent?: IBufferIndex;

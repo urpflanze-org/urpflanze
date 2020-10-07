@@ -1,5 +1,5 @@
 import ShapeLoop from '@core/shapes/ShapeLoop'
-import { ISceneChildPropArguments } from '@core/types/scene-child'
+import { ISceneChildPropArguments, IShapeLoopRepetition } from '@core/types/scene-child'
 import { EShapePrimitiveAdaptMode } from '@core/types/shape-base'
 import { ILissajousProps, ILissajousSettings, IShapeLoopProps } from '@core/types/shape-primitive'
 
@@ -46,12 +46,17 @@ class Lissajous extends ShapeLoop {
 
 				return (1 / Math.pow(this.sideLength[0] * this.sideLength[1], 0.25)) * ratio
 			},
-			vertex: (angle: number, prop_arguments?: ISceneChildPropArguments): Array<number> => {
+			vertex: (
+				shape_loop_repetition: IShapeLoopRepetition,
+				prop_arguments?: ISceneChildPropArguments
+			): Array<number> => {
 				const wx = this.getProp('wx', prop_arguments)
 				const wy = this.getProp('wy', prop_arguments)
 				const wz = this.getProp('wz', prop_arguments, 0)
 
-				return wx == wy ? [Math.cos(angle + wz), Math.sin(angle)] : [Math.cos(wx * angle + wz), Math.sin(wy * angle)]
+				return wx == wy
+					? [Math.cos(shape_loop_repetition.angle + wz), Math.sin(shape_loop_repetition.angle)]
+					: [Math.cos(wx * shape_loop_repetition.angle + wz), Math.sin(wy * shape_loop_repetition.angle)]
 			},
 		}
 

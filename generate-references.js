@@ -57,22 +57,25 @@ function findModuleChildrenById(module, children_id) {
 }
 
 function applyModuleCategories(module, parsedChildren) {
-	if (parsedChildren.length > 0 && module.groups && module.groups[0].categories) {
-		const categories = module.groups[0].categories
+	if (parsedChildren.length > 0 && module.groups) {
+		module.groups.forEach(group => {
+			const categories = group.categories
 
-		categories.forEach(category => {
-			const categoryName = category.title
-			for (item_to_apply of category.children) {
-				const finded = findModuleChildrenById(module, item_to_apply)
-				if (finded) {
-					for (parsed of parsedChildren) {
-						if (parsed.name === finded.name) {
-							parsed.category = categoryName
-							break
+			categories &&
+				categories.forEach(category => {
+					const categoryName = category.title
+					for (item_to_apply of category.children) {
+						const finded = findModuleChildrenById(module, item_to_apply)
+						if (finded) {
+							for (parsed of parsedChildren) {
+								if (parsed.name === finded.name) {
+									parsed.category = categoryName
+									break
+								}
+							}
 						}
 					}
-				}
-			}
+				})
 		})
 	}
 }
@@ -116,10 +119,17 @@ function findExamples(item) {
 
 	return examples.length === 0 ? undefined : examples
 }
+
+function parseDescription(item) {
+	return item.comment ? replacer(item.comment.text || item.comment.shortText) : undefined
+}
+
 function findOrder(item, def = 9999) {
 	if (item.comment && item.comment.tags) {
 		for (tag of item.comment.tags) {
-			if (tag.tag === 'order') return parseFloat(tag.text)
+			if (tag.tag === 'order') {
+				return parseFloat(tag.text)
+			}
 		}
 	}
 
@@ -174,7 +184,9 @@ function parseInterface(item) {
 		source: item.sources[0].fileName,
 		extends: item && item.extendedTypes ? item.extendedTypes.map(extend => extend.name) : undefined,
 		description: parseDescription(item),
-		properties: item.children ? item.children.filter(c => !c.inheritedFrom).map(parseProperty) : [],
+		properties: (item.children ? item.children.filter(c => !c.inheritedFrom).map(parseProperty) : []).sort(
+			(a, b) => a.order - b.order
+		),
 		typeParameters: item.typeParameter,
 	}
 	return result
@@ -259,6 +271,7 @@ function parseProperty(property) {
 		typeArguments: property.typeArguments,
 		operator: property.operator,
 		examples: findExamples(property),
+		order: findOrder(item),
 		target: property.target ? parseProperty(property.target) : undefined,
 	}
 
@@ -276,10 +289,6 @@ function parseProperty(property) {
 		result.bReadonly = property.flags.isReadonly
 
 	return result
-}
-
-function parseDescription(item) {
-	return item.comment ? replacer(item.comment.text || item.comment.shortText) : undefined
 }
 
 function parseMethod(method) {

@@ -42,9 +42,9 @@ class Spiral extends ShapeLoop {
                 const radius = 4 + Math.sqrt(this.sideLength[0] * this.sideLength[1]);
                 return rep / (radius * twists);
             },
-            vertex: (angle, prop_arguments) => {
-                const r = Spiral.getRFromTSpiralType(this.getProp('spiral', prop_arguments), angle);
-                return [r * Math.cos(angle), r * Math.sin(angle)];
+            vertex: (shape_loop_repetition, prop_arguments) => {
+                const r = Spiral.getRFromTSpiralType(this.getProp('spiral', prop_arguments), shape_loop_repetition.angle);
+                return [r * Math.cos(shape_loop_repetition.angle), r * Math.sin(shape_loop_repetition.angle)];
             },
         };
         this.bStaticLoop = this.isStaticLoop();

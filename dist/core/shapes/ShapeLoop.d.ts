@@ -7,9 +7,9 @@ import { IShapeLoopGenerator, IShapeLoopProps, IShapeLoopSettings } from "../typ
  * @export
  * @internal
  * @ignore
- * @interface LoopMeta
+ * @interface ILoopMeta
  */
-export interface LoopMeta {
+export interface ILoopMeta {
     start: number;
     end: number;
     inc: number;
@@ -24,30 +24,8 @@ export interface LoopMeta {
  * @extends {ShapePrimitive}
  */
 declare class ShapeLoop extends ShapePrimitive {
-    /**
-     * PI2
-     *
-     * @static
-     * @type {number}
-     * @memberof ShapeLoop
-     */
     static readonly PI2: number;
-    /**
-     * PI div 2
-     *
-     * @static
-     * @type {number}
-     * @memberof ShapeLoop
-     */
     static readonly PId2: number;
-    /**
-     * Empty Prop Arguments
-     *
-     * @static
-     * @type {ISceneChildPropArguments}
-     * @memberof ShapeBase
-     */
-    static readonly EMPTY_PROP_ARGUMENTS: ISceneChildPropArguments;
     /**
      * Shape loop props
      *
@@ -173,9 +151,9 @@ declare class ShapeLoop extends ShapePrimitive {
      * @returns {ShapeLoopInformation}
      * @memberof ShapeBase
      */
-    getLoop(prop_arguments?: ISceneChildPropArguments): LoopMeta;
+    getLoop(prop_arguments?: ISceneChildPropArguments): ILoopMeta;
     /**
-     * Set shape
+     * Set shape from loop generator
      *
      * @param {(IShapeLoopGenerator)} [shape]
      * @memberof ShapeBase

@@ -6,7 +6,7 @@ import SceneChildPropsData, {
 	TSceneChildPropsDataKeys,
 } from '@services/scene-utilities/SceneChildPropsData'
 import { IShapeLoop, TAnimation, TDrawerTransformation, TDrawerValue } from '@services/types/animation'
-import { IShapeLoopGenerator } from '@core/types/shape-primitive'
+import { IShapeLoopGenerator, TShapeLoopGeneratorFormula } from '@core/types/shape-primitive'
 import { ISceneChildPropArguments } from '@core/types/scene-child'
 import { TVertexCallback } from '@core/types/shape-base'
 
@@ -54,10 +54,11 @@ class ScenePropUtilities {
 
 	static composeLoop(loop: IShapeLoop): IShapeLoopGenerator {
 		const vertex = loop.vertex.raw
-			? (new Function('index', ScenePropUtilities.RAW_ARGUMENTS, `return ${loop.vertex.raw}`) as (
-					current_angle: number,
-					prop_arguments: ISceneChildPropArguments
-			  ) => Array<number> | Float32Array)
+			? (new Function(
+					'index',
+					ScenePropUtilities.RAW_ARGUMENTS,
+					`return ${loop.vertex.raw}`
+			  ) as TShapeLoopGeneratorFormula)
 			: undefined
 
 		//Todo: number -> resolve function
