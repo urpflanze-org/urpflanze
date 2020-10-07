@@ -1,7 +1,7 @@
 import ShapeBase from "./ShapeBase";
 import SceneChild from "../SceneChild";
 import { IShapeSettings } from "../types/shape-base";
-import { IRepetition, ISceneChildPropArguments, ISceneChildStreamIndexing } from "../types/scene-child";
+import { IRepetition, ISceneChildPropArguments } from "../types/scene-child";
 /**
  * @category Core.Shapes
  */
@@ -60,6 +60,7 @@ declare class Shape extends ShapeBase {
      * @memberof ShapeBase
      */
     protected generateBuffer(generate_id: number, prop_arguments: ISceneChildPropArguments): Float32Array;
+    protected addIndex(frame_length: number, repetition: IRepetition): void;
     /**
      * Set shape
      *
@@ -67,17 +68,6 @@ declare class Shape extends ShapeBase {
      * @memberof ShapeBase
      */
     setShape(shape: SceneChild | undefined): void;
-    /**
-     *
-     *
-     * @protected
-     * @param {Array<ISceneChildStreamIndexing>} buffer
-     * @param {number} frame_length
-     * @param {Repetition} current_repetition
-     * @param {ISceneChildStreamIndexing} [parent]
-     * @memberof ShapePrimitive
-     */
-    protected addIndex(buffer: Array<ISceneChildStreamIndexing>, frame_length: number, current_repetition: IRepetition, parent?: ISceneChildStreamIndexing): void;
 }
 export default Shape;
 //# sourceMappingURL=Shape.d.ts.map

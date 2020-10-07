@@ -125,14 +125,14 @@ class SVGExporter {
 
 		const Paths: Array<string> = []
 
-		scene.stream(({ lineWidth, strokeColor, fillColor, shape, buffer, buffer_length, current_buffer_index }) => {
+		scene.stream(({ lineWidth, strokeColor, fillColor, shape, buffer, frame_length, frame_buffer_index }) => {
 			if (shape?.data?.visible == false || (bGhost && shape?.data?.disableGhost == true)) return
 
 			const temp: Array<string> = []
 
-			for (let i = 0; i < buffer_length; i += 2) {
-				const x = (buffer[current_buffer_index + i] - width / 2) * final_scale[0] + final_translate[0]
-				const y = (buffer[current_buffer_index + i + 1] - height / 2) * final_scale[1] + final_translate[1]
+			for (let i = 0; i < frame_length; i += 2) {
+				const x = (buffer[frame_buffer_index + i] - width / 2) * final_scale[0] + final_translate[0]
+				const y = (buffer[frame_buffer_index + i + 1] - height / 2) * final_scale[1] + final_translate[1]
 				temp.push(x.toFixed(decimals) + ' ' + y.toFixed(decimals))
 			}
 

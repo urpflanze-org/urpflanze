@@ -672,20 +672,20 @@ class DrawerCanvas extends Emitter<DrawerCanvasEvents> {
 			let logFillColorWarn = false
 			let logStrokeColorWarn = false
 
-			scene.stream(({ lineWidth, strokeColor, fillColor, shape, buffer, buffer_length, current_buffer_index }) => {
+			scene.stream(({ lineWidth, strokeColor, fillColor, shape, buffer, frame_length, frame_buffer_index }) => {
 				if (shape.data && (shape.data.visible === false || (bGhost && shape.data.disableGhost === true))) return
 
 				context.beginPath()
 
 				context.moveTo(
-					(buffer[current_buffer_index] - width / 2) * final_scale[0] + final_translate[0],
-					(buffer[current_buffer_index + 1] - height / 2) * final_scale[1] + final_translate[1]
+					(buffer[frame_buffer_index] - width / 2) * final_scale[0] + final_translate[0],
+					(buffer[frame_buffer_index + 1] - height / 2) * final_scale[1] + final_translate[1]
 				)
 
-				for (let i = 2; i < buffer_length; i += 2) {
+				for (let i = 2; i < frame_length; i += 2) {
 					context.lineTo(
-						(buffer[current_buffer_index + i] - width / 2) * final_scale[0] + final_translate[0],
-						(buffer[current_buffer_index + i + 1] - height / 2) * final_scale[1] + final_translate[1]
+						(buffer[frame_buffer_index + i] - width / 2) * final_scale[0] + final_translate[0],
+						(buffer[frame_buffer_index + i + 1] - height / 2) * final_scale[1] + final_translate[1]
 					)
 				}
 

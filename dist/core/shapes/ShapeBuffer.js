@@ -57,8 +57,9 @@ class ShapeBuffer extends ShapePrimitive {
      */
     generateBuffer(generate_id, prop_arguments) {
         this.bindSideLength(prop_arguments);
+        let result = this.shape_buffer;
+        const buffer_length = this.shape_buffer.length;
         if (this.vertexCallback) {
-            const buffer_length = this.shape_buffer.length;
             const points_length = buffer_length / 2;
             const buffer = Float32Array.from(this.shape_buffer);
             for (let i = 0, j = 0; i < buffer_length; i += 2, j++) {
@@ -67,9 +68,9 @@ class ShapeBuffer extends ShapePrimitive {
                 buffer[i] = vertex[0];
                 buffer[i + 1] = vertex[1];
             }
-            return buffer;
+            result = buffer;
         }
-        return this.shape_buffer;
+        return result;
     }
     /**
      * Set shape

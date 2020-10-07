@@ -1,10 +1,6 @@
 import { TStreamCallback } from '@core/types/scene'
-import {
-	ISceneChildPropArguments,
-	ISceneChildProps,
-	ISceneChildSettings,
-	ISceneChildStreamIndexing,
-} from '@core/types/scene-child'
+import { ISceneChildPropArguments, ISceneChildProps, ISceneChildSettings } from '@core/types/scene-child'
+import { IBufferIndex } from '@core/types/shape-base'
 
 import Scene from '@core/Scene'
 import SceneChild from '@core/SceneChild'
@@ -18,12 +14,14 @@ import ShapeBase from '@core/shapes/ShapeBase'
  * @extends {SceneChild}
  * @example
  * ```javascript
+ *
+ * const rect = new Urpflanze.Rect()
  * const group = new Urpflanze.Group({
  * 	repetitions: 3,
  * 	distance: 200
  * })
  *
- * group.add(new Urpflanze.Rect())
+ * group.add(rect)
  * group.add(new Urpflanze.Triangle())
  * ```
  * @class Group
@@ -83,6 +81,12 @@ class Group extends SceneChild {
 		return true
 	}
 
+	/**
+	 * Add iitem to Group
+	 *
+	 * @param {SceneChild} item
+	 * @memberof Group
+	 */
 	public add(item: SceneChild): void {
 		const rawItemProps = item.getProps()
 
@@ -210,7 +214,7 @@ class Group extends SceneChild {
 		indexing_id: number,
 		bDirectSceneChild: boolean = false,
 		parent_prop_arguments?: ISceneChildPropArguments
-	) {
+	): void {
 		this.children.forEach(item => item.generate(indexing_id, bDirectSceneChild, parent_prop_arguments))
 	}
 
@@ -300,15 +304,15 @@ class Group extends SceneChild {
 	/**
 	 * return a single buffer binded from children
 	 *
-	 * @returns {(Array<ISceneChildStreamIndexing> | undefined)}
+	 * @returns {(Array<IBufferIndex> | undefined)}
 	 * @memberof Group
 	 */
-	public getIndexedBuffer(): Array<ISceneChildStreamIndexing> | undefined {
+	public getIndexedBuffer(): Array<IBufferIndex> | undefined {
 		const indexed = this.children.map(item => item.getIndexedBuffer()).filter(b => b !== undefined) as Array<
-			Array<ISceneChildStreamIndexing>
+			Array<IBufferIndex>
 		>
 
-		return ([] as Array<ISceneChildStreamIndexing>).concat.apply(null, indexed)
+		return ([] as Array<IBufferIndex>).concat.apply([], indexed)
 	}
 
 	/**
@@ -319,18 +323,6 @@ class Group extends SceneChild {
 	 */
 	public stream(callback: TStreamCallback): void {
 		this.children.forEach(item => item.stream(callback))
-	}
-
-	/**
-	 * Index vertex buffer
-	 *
-	 * @private
-	 * @param {Array<ISceneChildStreamIndexing>} buffer
-	 * @param {ISceneChildStreamIndexing} [parent]
-	 * @memberof Group
-	 */
-	public index(buffer: Array<ISceneChildStreamIndexing>, parent?: ISceneChildStreamIndexing): void {
-		for (let i = 0, len = this.children.length; i < len; i++) this.children[i].index(buffer, parent)
 	}
 
 	// /**

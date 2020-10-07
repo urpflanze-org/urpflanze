@@ -6,15 +6,15 @@ import { EShapePrimitiveAdaptMode, IShapeBounding, IShapePrimitiveProps, IShapeP
  */
 class ShapePrimitive extends ShapeBase {
     constructor(settings = {}) {
-        var _a, _b, _c;
+        var _a, _b;
         super(settings);
-        this.props.sideLength = (_a = settings.sideLength) !== null && _a !== void 0 ? _a : [50, 50];
         this.sideLength = Vec2.create(typeof settings.sideLength === 'number' || Array.isArray(settings.sideLength) ? settings.sideLength : [50, 50]);
+        this.props.sideLength = settings.sideLength;
         this.props.fillColor = settings.fillColor;
         this.props.lineWidth = settings.lineWidth;
         this.props.strokeColor = settings.strokeColor;
-        this.adaptMode = (_b = settings.adaptMode) !== null && _b !== void 0 ? _b : EShapePrimitiveAdaptMode.None;
-        this.bCloseShape = (_c = settings.bCloseShape) !== null && _c !== void 0 ? _c : true;
+        this.adaptMode = (_a = settings.adaptMode) !== null && _a !== void 0 ? _a : EShapePrimitiveAdaptMode.None;
+        this.bCloseShape = (_b = settings.bCloseShape) !== null && _b !== void 0 ? _b : true;
         this.vertexCallback = settings.vertexCallback;
     }
     /**
@@ -61,6 +61,14 @@ class ShapePrimitive extends ShapeBase {
         vertex[0] *= this.sideLength[0];
         vertex[1] *= this.sideLength[1];
     }
+    addIndex(frame_length, repetition) {
+        const indexed_buffer = this.indexed_buffer;
+        indexed_buffer.push({
+            shape: this,
+            frame_length,
+            repetition: Object.assign({}, repetition),
+        });
+    }
     /**
      * Return bCloseShape
      *
@@ -97,26 +105,6 @@ class ShapePrimitive extends ShapeBase {
     adapt(adaptMode) {
         this.adaptMode = adaptMode;
         this.clearBuffer(true);
-    }
-    /**
-     *
-     *
-     * @protected
-     * @param {Array<ISceneChildStreamIndexing>} buffer
-     * @param {number} frame_length
-     * @param {Repetition} current_repetition
-     * @param {ISceneChildStreamIndexing} [parent]
-     * @memberof ShapePrimitive
-     */
-    addIndex(buffer, frame_length, current_repetition, parent) {
-        const current = {
-            shape: this,
-            buffer_length: frame_length,
-            parent,
-            repetition: current_repetition,
-        };
-        console.log('addiindex', this.name, frame_length);
-        buffer.push(current);
     }
     /**
      * Get buffer bounding

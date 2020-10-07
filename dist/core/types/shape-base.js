@@ -1,3 +1,4 @@
+// Primitive
 export var EShapePrimitiveAdaptMode;
 (function (EShapePrimitiveAdaptMode) {
     /**

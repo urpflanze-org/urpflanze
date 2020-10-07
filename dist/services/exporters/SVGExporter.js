@@ -93,14 +93,14 @@ class SVGExporter {
                 sceneChild.generate(time, true);
         });
         const Paths = [];
-        scene.stream(({ lineWidth, strokeColor, fillColor, shape, buffer, buffer_length, current_buffer_index }) => {
+        scene.stream(({ lineWidth, strokeColor, fillColor, shape, buffer, frame_length, frame_buffer_index }) => {
             var _a, _b;
             if (((_a = shape === null || shape === void 0 ? void 0 : shape.data) === null || _a === void 0 ? void 0 : _a.visible) == false || (bGhost && ((_b = shape === null || shape === void 0 ? void 0 : shape.data) === null || _b === void 0 ? void 0 : _b.disableGhost) == true))
                 return;
             const temp = [];
-            for (let i = 0; i < buffer_length; i += 2) {
-                const x = (buffer[current_buffer_index + i] - width / 2) * final_scale[0] + final_translate[0];
-                const y = (buffer[current_buffer_index + i + 1] - height / 2) * final_scale[1] + final_translate[1];
+            for (let i = 0; i < frame_length; i += 2) {
+                const x = (buffer[frame_buffer_index + i] - width / 2) * final_scale[0] + final_translate[0];
+                const y = (buffer[frame_buffer_index + i + 1] - height / 2) * final_scale[1] + final_translate[1];
                 temp.push(x.toFixed(decimals) + ' ' + y.toFixed(decimals));
             }
             if (fillColor) {

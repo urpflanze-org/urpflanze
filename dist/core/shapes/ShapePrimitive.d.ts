@@ -1,7 +1,7 @@
 import ShapeBase from "./ShapeBase";
 import { TArray } from "../math/Vec2";
 import { EShapePrimitiveAdaptMode, IShapeBounding, IShapePrimitiveProps, IShapePrimitiveSettings } from "../types/shape-base";
-import { IRepetition, ISceneChildPropArguments, ISceneChildStreamIndexing } from "../types/scene-child";
+import { IRepetition, ISceneChildPropArguments } from "../types/scene-child";
 import { TVertexCallback } from "../types/shape-primitive";
 /**
  * @category Core.Abstract
@@ -78,6 +78,7 @@ declare abstract class ShapePrimitive extends ShapeBase {
      * @memberof ShapePrimitive
      */
     protected applyVertexTransform(vertex: TArray): void;
+    protected addIndex(frame_length: number, repetition: IRepetition): void;
     /**
      * Return bCloseShape
      *
@@ -106,17 +107,6 @@ declare abstract class ShapePrimitive extends ShapeBase {
      * @memberof ShapeBase
      */
     adapt(adaptMode: EShapePrimitiveAdaptMode): void;
-    /**
-     *
-     *
-     * @protected
-     * @param {Array<ISceneChildStreamIndexing>} buffer
-     * @param {number} frame_length
-     * @param {Repetition} current_repetition
-     * @param {ISceneChildStreamIndexing} [parent]
-     * @memberof ShapePrimitive
-     */
-    protected addIndex(buffer: Array<ISceneChildStreamIndexing>, frame_length: number, current_repetition: IRepetition, parent?: ISceneChildStreamIndexing): void;
     /**
      * Get buffer bounding
      *

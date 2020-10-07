@@ -9,12 +9,14 @@ import ShapeBase from "./shapes/ShapeBase";
  * @extends {SceneChild}
  * @example
  * ```javascript
+ *
+ * const rect = new Urpflanze.Rect()
  * const group = new Urpflanze.Group({
  * 	repetitions: 3,
  * 	distance: 200
  * })
  *
- * group.add(new Urpflanze.Rect())
+ * group.add(rect)
  * group.add(new Urpflanze.Triangle())
  * ```
  * @class Group
@@ -62,6 +64,12 @@ class Group extends SceneChild {
                 return false;
         return true;
     }
+    /**
+     * Add iitem to Group
+     *
+     * @param {SceneChild} item
+     * @memberof Group
+     */
     add(item) {
         const rawItemProps = item.getProps();
         Object.keys(this.props).forEach((propKey) => {
@@ -241,12 +249,12 @@ class Group extends SceneChild {
     /**
      * return a single buffer binded from children
      *
-     * @returns {(Array<ISceneChildStreamIndexing> | undefined)}
+     * @returns {(Array<IBufferIndex> | undefined)}
      * @memberof Group
      */
     getIndexedBuffer() {
         const indexed = this.children.map(item => item.getIndexedBuffer()).filter(b => b !== undefined);
-        return [].concat.apply(null, indexed);
+        return [].concat.apply([], indexed);
     }
     /**
      * Call strem on children
@@ -256,18 +264,6 @@ class Group extends SceneChild {
      */
     stream(callback) {
         this.children.forEach(item => item.stream(callback));
-    }
-    /**
-     * Index vertex buffer
-     *
-     * @private
-     * @param {Array<ISceneChildStreamIndexing>} buffer
-     * @param {ISceneChildStreamIndexing} [parent]
-     * @memberof Group
-     */
-    index(buffer, parent) {
-        for (let i = 0, len = this.children.length; i < len; i++)
-            this.children[i].index(buffer, parent);
     }
 }
 export default Group;

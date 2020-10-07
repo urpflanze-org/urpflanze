@@ -1,5 +1,6 @@
 import { TStreamCallback } from "./types/scene";
-import { ISceneChildPropArguments, ISceneChildProps, ISceneChildSettings, ISceneChildStreamIndexing } from "./types/scene-child";
+import { ISceneChildPropArguments, ISceneChildProps, ISceneChildSettings } from "./types/scene-child";
+import { IBufferIndex } from "./types/shape-base";
 import SceneChild from "./SceneChild";
 /**
  * A SceneChild container, propagates properties to children
@@ -9,12 +10,14 @@ import SceneChild from "./SceneChild";
  * @extends {SceneChild}
  * @example
  * ```javascript
+ *
+ * const rect = new Urpflanze.Rect()
  * const group = new Urpflanze.Group({
  * 	repetitions: 3,
  * 	distance: 200
  * })
  *
- * group.add(new Urpflanze.Rect())
+ * group.add(rect)
  * group.add(new Urpflanze.Triangle())
  * ```
  * @class Group
@@ -48,6 +51,12 @@ declare class Group extends SceneChild {
      * @memberof Group
      */
     isStaticIndexed(): boolean;
+    /**
+     * Add iitem to Group
+     *
+     * @param {SceneChild} item
+     * @memberof Group
+     */
     add(item: SceneChild): void;
     /**
      * Sort children
@@ -137,10 +146,10 @@ declare class Group extends SceneChild {
     /**
      * return a single buffer binded from children
      *
-     * @returns {(Array<ISceneChildStreamIndexing> | undefined)}
+     * @returns {(Array<IBufferIndex> | undefined)}
      * @memberof Group
      */
-    getIndexedBuffer(): Array<ISceneChildStreamIndexing> | undefined;
+    getIndexedBuffer(): Array<IBufferIndex> | undefined;
     /**
      * Call strem on children
      *
@@ -148,15 +157,6 @@ declare class Group extends SceneChild {
      * @memberof Group
      */
     stream(callback: TStreamCallback): void;
-    /**
-     * Index vertex buffer
-     *
-     * @private
-     * @param {Array<ISceneChildStreamIndexing>} buffer
-     * @param {ISceneChildStreamIndexing} [parent]
-     * @memberof Group
-     */
-    index(buffer: Array<ISceneChildStreamIndexing>, parent?: ISceneChildStreamIndexing): void;
 }
 export default Group;
 //# sourceMappingURL=Group.d.ts.map

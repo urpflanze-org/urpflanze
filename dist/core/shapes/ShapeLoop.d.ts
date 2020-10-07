@@ -88,7 +88,7 @@ declare class ShapeLoop extends ShapePrimitive {
      * @type {Array<string>}
      * @memberof ShapeLoop
      */
-    shapeLoopPropsDependencies: Array<string>;
+    shapeLoopPropsDependencies: Array<'vertexCallback' | 'prop_arguments' | string>;
     constructor(settings?: IShapeLoopSettings, bPreventGeneration?: boolean);
     /**
      * Check if loop_buffer is static

@@ -86,8 +86,10 @@ class ShapeBuffer extends ShapePrimitive {
 	protected generateBuffer(generate_id: number, prop_arguments: ISceneChildPropArguments): Float32Array {
 		this.bindSideLength(prop_arguments)
 
+		let result = this.shape_buffer
+		const buffer_length = this.shape_buffer.length
+
 		if (this.vertexCallback) {
-			const buffer_length = this.shape_buffer.length
 			const points_length = buffer_length / 2
 
 			const buffer = Float32Array.from(this.shape_buffer)
@@ -100,10 +102,10 @@ class ShapeBuffer extends ShapePrimitive {
 				buffer[i + 1] = vertex[1]
 			}
 
-			return buffer
+			result = buffer
 		}
 
-		return this.shape_buffer
+		return result
 	}
 
 	/**

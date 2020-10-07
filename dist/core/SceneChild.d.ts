@@ -1,5 +1,6 @@
 import { TStreamCallback } from "./types/scene";
-import { ISceneChildPropArguments, ISceneChildProps, ISceneChildSettings, ISceneChildStreamIndexing } from "./types/scene-child";
+import { ISceneChildPropArguments, ISceneChildProps, ISceneChildSettings } from "./types/scene-child";
+import { IBufferIndex } from "./types/shape-base";
 import Scene from "./Scene";
 /**
  * The element to be added into a scene.
@@ -137,11 +138,13 @@ declare abstract class SceneChild {
      *
      * @abstract
      * @param {number} generate_id
-     * @param {boolean} [bDirectSceneChild]
-     * @param {ISceneChildPropArguments} [parent_prop_arguments]
+     * @param {boolean} bDirectSceneChild
+     * @param {ISceneChildPropArguments} parent_prop_arguments
+     * @param {Array<IBufferIndex>} indexed_buffer
+     * @param {IBufferIndex} [parent]
      * @memberof SceneChild
      */
-    abstract generate(generate_id: number, bDirectSceneChild?: boolean, parent_prop_arguments?: ISceneChildPropArguments): void;
+    abstract generate(generate_id: number, bDirectSceneChild: boolean, parent_prop_arguments?: ISceneChildPropArguments): void;
     /**
      * Stream shape
      * Best explained in ShapeBase
@@ -161,10 +164,10 @@ declare abstract class SceneChild {
     /**
      * Return indexed buffer
      *
-     * @returns {(Array<ISceneChildStreamIndexing> | undefined)}
+     * @returns {(Array<IBufferIndex> | undefined)}
      * @memberof ShapeBase
      */
-    abstract getIndexedBuffer(): Array<ISceneChildStreamIndexing> | undefined;
+    abstract getIndexedBuffer(): Array<IBufferIndex> | undefined;
     /**
      * Get length of buffer
      *
@@ -183,15 +186,6 @@ declare abstract class SceneChild {
      * @memberof SceneChild
      */
     abstract clearBuffer(bClearIndexed: boolean, bPropagateToParents: boolean): void;
-    /**
-     * Index buffer
-     *
-     * @abstract
-     * @param {Array<ISceneChildStreamIndexing>} buffer
-     * @param {Partial<ISceneChildStreamIndexing>} [parent]
-     * @memberof SceneChild
-     */
-    abstract index(buffer: Array<ISceneChildStreamIndexing>, parent?: Partial<ISceneChildStreamIndexing>): void;
 }
 export default SceneChild;
 //# sourceMappingURL=SceneChild.d.ts.map

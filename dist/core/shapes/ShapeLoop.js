@@ -38,9 +38,9 @@ class ShapeLoop extends ShapePrimitive {
      */
     isStaticLoop() {
         // if (typeof this.vertexCallback === 'function') return false
-        if (this.shapeLoopPropsDependencies.indexOf('vertexCallback') >= 0 && typeof this.vertexCallback === 'function')
+        if (this.shapeLoopPropsDependencies.includes('vertexCallback') && typeof this.vertexCallback === 'function')
             return false;
-        if (this.shapeLoopPropsDependencies.indexOf('prop_arguments') >= 0)
+        if (this.shapeLoopPropsDependencies.includes('prop_arguments'))
             return false;
         for (let i = 0, len = this.shapeLoopPropsDependencies.length; i < len; i++)
             if (typeof this.props[this.shapeLoopPropsDependencies[i]] === 'function')
@@ -146,10 +146,12 @@ class ShapeLoop extends ShapePrimitive {
      */
     generateBuffer(generate_id, prop_arguments) {
         this.bindSideLength(prop_arguments);
-        if (!this.bStaticLoop)
-            return this.generateLoopBuffer(prop_arguments);
-        if (typeof this.loop_buffer === 'undefined')
+        if (!this.bStaticLoop) {
             this.loop_buffer = this.generateLoopBuffer(prop_arguments);
+        }
+        else if (typeof this.loop_buffer === 'undefined') {
+            this.loop_buffer = this.generateLoopBuffer(prop_arguments);
+        }
         return this.loop_buffer;
     }
     /**
@@ -178,7 +180,6 @@ class ShapeLoop extends ShapePrimitive {
             count_row: 1,
         };
         const vertex_length = shape_loop.count;
-        console.log('generateLoopBuffer', vertex_length);
         prop_arguments.shape_loop = shape_loop;
         const buffer = new Float32Array(vertex_length * 2);
         for (let i = 0, j = 0; i < vertex_length; i++, j += 2) {
@@ -191,7 +192,7 @@ class ShapeLoop extends ShapePrimitive {
             buffer[j] = vertex[0];
             buffer[j + 1] = vertex[1];
         }
-        return this.adaptMode != EShapePrimitiveAdaptMode.None
+        return this.adaptMode !== EShapePrimitiveAdaptMode.None
             ? ShapePrimitive.adaptBuffer(buffer, this.adaptMode)
             : buffer;
     }

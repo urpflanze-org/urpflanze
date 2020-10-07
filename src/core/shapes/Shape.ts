@@ -2,9 +2,8 @@ import ShapeBase from '@core/shapes/ShapeBase'
 import SceneChild from '@core/SceneChild'
 import { IShapeSettings } from '@core/types/shape-base'
 import Scene from '@core/Scene'
-import { IRepetition, ISceneChildPropArguments, ISceneChildStreamIndexing } from '@core/types/scene-child'
-import ShapePrimitive from './ShapePrimitive'
-import Context from '@core/Context'
+import { IRepetition, ISceneChildPropArguments } from '@core/types/scene-child'
+import { IBufferIndex } from '@core/types/shape-base'
 
 /**
  * @category Core.Shapes
@@ -110,6 +109,25 @@ class Shape extends ShapeBase {
 		return Shape.EMPTY_BUFFER
 	}
 
+	protected addIndex(frame_length: number, repetition: IRepetition) {
+		if (this.shape) {
+			const indexed_buffer = this.indexed_buffer as Array<IBufferIndex>
+			const child_indexed_buffer = this.shape.getIndexedBuffer() || []
+			const parent = {
+				shape: this,
+				frame_length,
+				repetition: { ...repetition },
+			}
+
+			for (let i = 0, len = child_indexed_buffer.length; i < len; i++) {
+				const current_indexed = child_indexed_buffer[i]
+				current_indexed.parent = parent
+
+				indexed_buffer.push(current_indexed)
+			}
+		}
+	}
+
 	/**
 	 * Set shape
 	 *
@@ -129,34 +147,32 @@ class Shape extends ShapeBase {
 		}
 	}
 
-	/**
-	 *
-	 *
-	 * @protected
-	 * @param {Array<ISceneChildStreamIndexing>} buffer
-	 * @param {number} frame_length
-	 * @param {Repetition} current_repetition
-	 * @param {ISceneChildStreamIndexing} [parent]
-	 * @memberof ShapePrimitive
-	 */
-	protected addIndex(
-		buffer: Array<ISceneChildStreamIndexing>,
-		frame_length: number,
-		current_repetition: IRepetition,
-		parent?: ISceneChildStreamIndexing
-	): void {
-		if (this.shape) {
-			const current: Partial<ISceneChildStreamIndexing> = {
-				shape: this,
-				buffer_length: frame_length,
-				parent,
-				repetition: current_repetition,
-			}
+	// /**
+	//  *
+	//  *
+	//  * @param {Array<IBufferIndex>} buffer
+	//  * @param {number} frame_length
+	//  * @param {Repetition} current_repetition
+	//  * @param {IBufferIndex} [parent]
+	//  * @memberof ShapePrimitive
+	//  */
+	// public addIndex(
+	// 	buffer: Array<IBufferIndex>,
+	// 	frame_length: number,
+	// 	current_repetition: IRepetition,
+	// 	parent?: IBufferIndex
+	// ): void {
+	// 	if (this.shape) {
+	// 		const current: IBufferIndex = {
+	// 			shape: this,
+	// 			buffer_length: frame_length,
+	// 			parent,
+	// 			repetition: current_repetition,
+	// 		}
 
-			console.log('frame_length', frame_length)
-			this.shape.index(buffer, current)
-		}
-	}
+	// 		this.shape.addIndex(buffer, frame_length, current_repetition, current)
+	// 	}
+	// }
 }
 
 export default Shape

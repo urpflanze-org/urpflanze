@@ -84,6 +84,22 @@ class Shape extends ShapeBase {
         }
         return Shape.EMPTY_BUFFER;
     }
+    addIndex(frame_length, repetition) {
+        if (this.shape) {
+            const indexed_buffer = this.indexed_buffer;
+            const child_indexed_buffer = this.shape.getIndexedBuffer() || [];
+            const parent = {
+                shape: this,
+                frame_length,
+                repetition: Object.assign({}, repetition),
+            };
+            for (let i = 0, len = child_indexed_buffer.length; i < len; i++) {
+                const current_indexed = child_indexed_buffer[i];
+                current_indexed.parent = parent;
+                indexed_buffer.push(current_indexed);
+            }
+        }
+    }
     /**
      * Set shape
      *
@@ -99,28 +115,6 @@ class Shape extends ShapeBase {
             this.scene && Scene.propagateToChilden(shape, this.scene);
             this.shape = shape;
             this.shape.clearBuffer(true, true);
-        }
-    }
-    /**
-     *
-     *
-     * @protected
-     * @param {Array<ISceneChildStreamIndexing>} buffer
-     * @param {number} frame_length
-     * @param {Repetition} current_repetition
-     * @param {ISceneChildStreamIndexing} [parent]
-     * @memberof ShapePrimitive
-     */
-    addIndex(buffer, frame_length, current_repetition, parent) {
-        if (this.shape) {
-            const current = {
-                shape: this,
-                buffer_length: frame_length,
-                parent,
-                repetition: current_repetition,
-            };
-            console.log('frame_length', frame_length);
-            this.shape.index(buffer, current);
         }
     }
 }

@@ -1,6 +1,7 @@
 import ShapeBase from '@core/shapes/ShapeBase'
 import ShapePrimitive from '@core/shapes/ShapePrimitive'
 import Context from '@core/Context'
+import { IBufferIndex } from '@core/types/shape-base'
 
 /**
  * Repetition type enumerator.
@@ -224,20 +225,9 @@ export interface ISceneChildPropArguments {
 
 export type TSceneChildProp<T> = T | { (prop_arguments: ISceneChildPropArguments): T }
 
-/**
- * Object for index the buffer
- * @category Core.Interfaces
- */
-export interface ISceneChildStreamIndexing {
-	shape: ShapeBase
-	parent?: ISceneChildStreamIndexing
-	buffer_length: number
-	repetition: IRepetition
-}
-
 export interface ISceneChildStreamArguments {
 	shape: ShapePrimitive
-	parent?: ISceneChildStreamIndexing
+	parent?: IBufferIndex
 
 	data?: any
 
@@ -246,8 +236,8 @@ export interface ISceneChildStreamArguments {
 	strokeColor: string
 
 	buffer: Float32Array
-	buffer_length: number
-	current_buffer_index: number
+	frame_buffer_index: number
+	frame_length: number
 
 	current_shape_index: number
 	total_shapes: number

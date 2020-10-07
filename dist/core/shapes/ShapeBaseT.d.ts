@@ -1,7 +1,6 @@
 import { TStreamCallback } from "../types/scene";
 import { IShapeBaseSettings } from "../types/shape-base";
-import { IRepetition, ISceneChildPropArguments, ISceneChildProps } from "../types/scene-child";
-import { IBufferIndex } from "../types/shape-base";
+import { IRepetition, ISceneChildPropArguments, ISceneChildProps, ISceneChildStreamIndexing } from "../types/scene-child";
 import { TArray } from "../math/Vec2";
 import SceneChild from "../SceneChild";
 /**
@@ -66,7 +65,6 @@ declare abstract class ShapeBase extends SceneChild {
      * @memberof ShapeBase
      */
     protected bStaticIndexed: boolean;
-    protected bIndexed: boolean;
     /**
      * With this parameter the shape will be created at each repetition,
      * useful if you want to encapsulate this shape in another and use its <mark>repetition</mark> object
@@ -84,10 +82,18 @@ declare abstract class ShapeBase extends SceneChild {
      * Array used for index a vertex buffer
      * only for first level scene children
      *
-     * @type {Array<IBufferIndex>}
+     * @type {Array<ISceneChildStreamIndexing>}
      * @memberof ShapeBase
      */
-    protected indexed_buffer?: Array<IBufferIndex>;
+    protected indexed_buffer?: Array<ISceneChildStreamIndexing>;
+    /**
+     * A ShapeLoop can be dynamic buffer lenght for eacch repetition.
+     * This array contain a length of buffer for each repetition.
+     *
+     * @type {Uint16Array}
+     * @memberof ShapeBase
+     */
+    protected single_repetition_buffer_length: Uint16Array;
     /**
      * Creates an instance of ShapeBase.
      *
@@ -154,7 +160,6 @@ declare abstract class ShapeBase extends SceneChild {
      * @memberof ShapeBase
      */
     protected applyVertexTransform(vertex: TArray): void;
-    protected abstract addIndex(frame_length: number, current_repetition: IRepetition): void;
     /**
      * Get number of repetitions
      *
@@ -188,10 +193,17 @@ declare abstract class ShapeBase extends SceneChild {
     /**
      * Return indexed buffer
      *
-     * @returns {(Array<IBufferIndex> | undefined)}
+     * @returns {(Array<ISceneChildStreamIndexing> | undefined)}
      * @memberof ShapeBase
      */
-    getIndexedBuffer(): Array<IBufferIndex> | undefined;
+    getIndexedBuffer(): Array<ISceneChildStreamIndexing> | undefined;
+    /**
+     * Return Array of single repetition buffer length
+     *
+     * @returns {Uint16Array}
+     * @memberof ShapeBase
+     */
+    getSingleRepetitionBufferLength(): Uint16Array;
     /**
      * Stream buffer
      *
@@ -199,6 +211,27 @@ declare abstract class ShapeBase extends SceneChild {
      * @memberof ShapeBase
      */
     stream(callback: TStreamCallback): void;
+    /**
+     * Index vertex buffer
+     *
+     * @public
+     * @param {Array<ISceneChildStreamIndexing>} buffer
+     * @param {ISceneChildStreamIndexing} [parent]
+     * @memberof Shape
+     */
+    index(buffer: Array<ISceneChildStreamIndexing>, parent?: ISceneChildStreamIndexing): void;
+    /**
+     * Add index to buffer
+     *
+     * @protected
+     * @abstract
+     * @param {Array<ISceneChildStreamIndexing>} buffer
+     * @param {number} frame_length
+     * @param {Repetition} current_repetition
+     * @param {ISceneChildStreamIndexing} [parent]
+     * @memberof ShapeBase
+     */
+    protected abstract addIndex(buffer: Array<ISceneChildStreamIndexing>, frame_length: number, current_repetition: IRepetition, parent?: ISceneChildStreamIndexing): void;
 }
 export default ShapeBase;
-//# sourceMappingURL=ShapeBase.d.ts.map
+//# sourceMappingURL=ShapeBaseT.d.ts.map

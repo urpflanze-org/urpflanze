@@ -7,12 +7,8 @@ import {
 	IShapePrimitiveProps,
 	IShapePrimitiveSettings,
 } from '@core/types/shape-base'
-import {
-	IRepetition,
-	ISceneChildPropArguments,
-	ISceneChildProps,
-	ISceneChildStreamIndexing,
-} from '@core/types/scene-child'
+import { IRepetition, ISceneChildPropArguments, ISceneChildProps } from '@core/types/scene-child'
+import { IBufferIndex } from '@core/types/shape-base'
 import { TVertexCallback } from '@core/types/shape-primitive'
 
 /**
@@ -64,11 +60,11 @@ abstract class ShapePrimitive extends ShapeBase {
 	constructor(settings: IShapePrimitiveSettings = {}) {
 		super(settings)
 
-		this.props.sideLength = settings.sideLength ?? [50, 50]
-
 		this.sideLength = Vec2.create(
 			typeof settings.sideLength === 'number' || Array.isArray(settings.sideLength) ? settings.sideLength : [50, 50]
 		)
+
+		this.props.sideLength = settings.sideLength
 
 		this.props.fillColor = settings.fillColor
 		this.props.lineWidth = settings.lineWidth
@@ -130,6 +126,15 @@ abstract class ShapePrimitive extends ShapeBase {
 		vertex[1] *= this.sideLength[1]
 	}
 
+	protected addIndex(frame_length: number, repetition: IRepetition) {
+		const indexed_buffer = this.indexed_buffer as Array<IBufferIndex>
+		indexed_buffer.push({
+			shape: this,
+			frame_length,
+			repetition: { ...repetition },
+		})
+	}
+
 	/**
 	 * Return bCloseShape
 	 *
@@ -170,34 +175,6 @@ abstract class ShapePrimitive extends ShapeBase {
 		this.adaptMode = adaptMode
 
 		this.clearBuffer(true)
-	}
-
-	/**
-	 *
-	 *
-	 * @protected
-	 * @param {Array<ISceneChildStreamIndexing>} buffer
-	 * @param {number} frame_length
-	 * @param {Repetition} current_repetition
-	 * @param {ISceneChildStreamIndexing} [parent]
-	 * @memberof ShapePrimitive
-	 */
-	protected addIndex(
-		buffer: Array<ISceneChildStreamIndexing>,
-		frame_length: number,
-		current_repetition: IRepetition,
-		parent?: ISceneChildStreamIndexing
-	): void {
-		const current: ISceneChildStreamIndexing = {
-			shape: this,
-			buffer_length: frame_length,
-			parent,
-			repetition: current_repetition,
-		}
-
-		console.log('addiindex', this.name, frame_length)
-
-		buffer.push(current)
 	}
 
 	/**
