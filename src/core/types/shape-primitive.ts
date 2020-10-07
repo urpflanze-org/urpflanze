@@ -1,13 +1,6 @@
 import { ISceneChildPropArguments, TSceneChildProp } from '@core/types/scene-child'
 import { IShapePrimitiveProps, IShapePrimitiveSettings } from './shape-base'
 
-export type TVertexCallback = (
-	vertex: Array<number> | Float32Array,
-	prop_argumens: ISceneChildPropArguments,
-	vertex_index: number,
-	vertex_length: number
-) => void
-
 export interface IShapeBufferProps extends IShapePrimitiveProps {}
 
 export interface IShapeBufferSettings extends IShapeBufferProps, IShapePrimitiveSettings {

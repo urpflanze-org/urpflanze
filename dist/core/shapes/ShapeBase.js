@@ -12,16 +12,8 @@ import Context from "../Context";
  * @extends {SceneChild}
  */
 class ShapeBase extends SceneChild {
-    // /**
-    //  * A ShapeLoop can be dynamic buffer lenght for eacch repetition.
-    //  * This array contain a length of buffer for each repetition.
-    //  *
-    //  * @type {Uint16Array}
-    //  * @memberof ShapeBase
-    //  */
-    // protected single_repetition_buffer_length: Uint16Array
     /**
-     * Creates an instance of ShapeBase.
+     * Creates an instance of ShapeBase
      *
      * @param {ISceneChildSettings} [settings={}]
      * @memberof ShapeBase
@@ -31,11 +23,16 @@ class ShapeBase extends SceneChild {
         /**
          * Shape generation id
          * used for prevent buffer calculation
-         *
-         * @type {number}
-         * @memberof ShapeBase
+         * @internal
+         * @ignore
          */
         this.generate_id = -1;
+        /**
+         * Flag used to determine if indexed_buffer has been generated
+         *
+         * @internal
+         * @ignore
+         */
         this.bIndexed = false;
         this.props = {
             distance: settings.distance,
@@ -50,11 +47,13 @@ class ShapeBase extends SceneChild {
             displace: settings.displace,
             translate: settings.translate,
             scale: settings.scale,
+            rotationOrigin: settings.rotationOrigin,
         };
         this.bUseParent = !!settings.bUseParent;
+        this.vertexCallback = settings.vertexCallback;
     }
     /**
-     * Check if shape is static
+     * Check if the shape should be generated every time
      *
      * @returns {boolean}
      * @memberof ShapeBase
@@ -72,12 +71,12 @@ class ShapeBase extends SceneChild {
             typeof props.squeezeX !== 'function' &&
             typeof props.squeezeY !== 'function' &&
             typeof props.translate !== 'function' &&
-            typeof props.scale !== 'function'
-        // && typeof props.rotationOrigin !== 'function'
-        );
+            typeof props.scale !== 'function' &&
+            typeof props.rotationOrigin !== 'function');
     }
     /**
-     * Check if shape has static indexed
+     * Check if the indexed_buffer array needs to be recreated every time,
+     * this can happen when a shape generates an array of vertices different in length at each repetition
      *
      * @returns {boolean}
      * @memberof ShapeBase
@@ -145,7 +144,7 @@ class ShapeBase extends SceneChild {
         }
     }
     /**
-     * Generate shape buffer
+     * Update the vertex array if the shape is not static and update the indexed_buffer if it is also not static
      *
      * @param {number} generate_id generation id
      * @param {boolean} [bDirectSceneChild=false] adjust shape of center of scene
@@ -196,12 +195,12 @@ class ShapeBase extends SceneChild {
                 repetition.current_col_offset = repetition.current_col / repetition.count_col;
                 repetition.current_row = current_row_repetition + 1;
                 repetition.current_row_offset = repetition.current_row / repetition.count_row;
+                // Generate primitives buffer recursively
                 const buffer = this.generateBuffer(generate_id, prop_arguments);
                 const buffer_length = buffer.length;
+                buffers[current_index] = new Float32Array(buffer_length);
+                total_buffer_length += buffer_length;
                 {
-                    buffers[current_index] = new Float32Array(buffer_length);
-                    // this.single_repetition_buffer_length[current_index] = buffer_length
-                    total_buffer_length += buffer_length;
                     const distance = Vec2.create(this.getProp('distance', prop_arguments, Vec2.ZERO));
                     const displace = this.getProp('displace', prop_arguments, 0);
                     const scale = Vec2.create(this.getProp('scale', prop_arguments, Vec2.ONE));
@@ -213,7 +212,7 @@ class ShapeBase extends SceneChild {
                     const rotateX = this.getProp('rotateX', prop_arguments, 0);
                     const rotateY = this.getProp('rotateY', prop_arguments, 0);
                     const rotateZ = this.getProp('rotateZ', prop_arguments, 0);
-                    const rotationOrigin = Vec2.ZERO;
+                    const rotationOrigin = this.getProp('rotationOrigin', prop_arguments, Vec2.ZERO);
                     let offset;
                     switch (repetition_type) {
                         case ERepetitionType.Ring:
@@ -226,7 +225,6 @@ class ShapeBase extends SceneChild {
                     }
                     for (let buffer_index = 0; buffer_index < buffer_length; buffer_index += 2) {
                         const vertex = Vec2.create(buffer[buffer_index], buffer[buffer_index + 1]);
-                        this.applyVertexTransform(vertex);
                         squeezeX !== 0 && Vec2.squeezeX(vertex, squeezeX);
                         squeezeY !== 0 && Vec2.squeezeY(vertex, squeezeY);
                         rotateX !== 0 && Vec2.rotateX(vertex, rotationOrigin, rotateX);
@@ -239,6 +237,10 @@ class ShapeBase extends SceneChild {
                         if (repetition_type === ERepetitionType.Ring) {
                             Vec2.rotateZ(vertex, Vec2.ZERO, repetition.current_angle + displace);
                         }
+                        this.applyVertexTransform(vertex);
+                        if (this.vertexCallback) {
+                            this.vertexCallback(vertex, prop_arguments, buffer_index, buffer_length);
+                        }
                         Vec2.translate(vertex, offset);
                         if (bDirectSceneChild) {
                             vertex[0] += this.scene.center[0];
@@ -247,8 +249,8 @@ class ShapeBase extends SceneChild {
                         buffers[current_index][buffer_index] = vertex[0];
                         buffers[current_index][buffer_index + 1] = vertex[1];
                     }
-                    // this.addIndex(indexed_buffer, this.single_repetition_buffer_length[current_index], repetition)
                 }
+                // After buffer creation, add a frame into indexed_buffer if not static
                 if (!this.bStaticIndexed || !this.bIndexed) {
                     this.addIndex(buffer_length, repetition);
                 }
@@ -260,7 +262,7 @@ class ShapeBase extends SceneChild {
         this.bIndexed = true;
     }
     /**
-     *
+     * Apply vertex transformation
      *
      * @protected
      * @param {TArray} vertex
@@ -338,16 +340,15 @@ class ShapeBase extends SceneChild {
 /**
  * Empty buffer
  *
- * @static
- * @type {Float32Array}
- * @memberof ShapeBase
+ * @internal
+ * @ignore
  */
 ShapeBase.EMPTY_BUFFER = new Float32Array(0);
 /**
  * Empty Repetition
  *
- * @static
- * @memberof ShapeLoop
+ * @internal
+ * @ignore
  */
 ShapeBase.getEmptyRepetition = () => ({
     current_index: 1,
@@ -365,9 +366,8 @@ ShapeBase.getEmptyRepetition = () => ({
 /**
  * Empty Prop Arguments
  *
- * @static
- * @type {ISceneChildPropArguments}
- * @memberof ShapeBase
+ * @internal
+ * @ignore
  */
 ShapeBase.EMPTY_PROP_ARGUMENTS = {
     time: 0,

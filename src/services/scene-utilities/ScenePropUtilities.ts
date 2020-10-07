@@ -6,8 +6,9 @@ import SceneChildPropsData, {
 	TSceneChildPropsDataKeys,
 } from '@services/scene-utilities/SceneChildPropsData'
 import { IShapeLoop, TAnimation, TDrawerTransformation, TDrawerValue } from '@services/types/animation'
-import { IShapeLoopGenerator, TVertexCallback } from '@core/types/shape-primitive'
+import { IShapeLoopGenerator } from '@core/types/shape-primitive'
 import { ISceneChildPropArguments } from '@core/types/scene-child'
+import { TVertexCallback } from '@core/types/shape-base'
 
 /**
  *

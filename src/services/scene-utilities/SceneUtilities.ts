@@ -531,7 +531,7 @@ class SceneUtilities {
 		}
 
 		if (name === 'vertexCallback') {
-			if (sceneChild instanceof ShapePrimitive && ScenePropUtilities.bValueVertexCallback(value)) {
+			if (sceneChild instanceof ShapeBase && ScenePropUtilities.bValueVertexCallback(value)) {
 				sceneChild.data.props.vertexCallback = value
 				sceneChild.vertexCallback = ScenePropUtilities.composeVertexCallback(value)
 				sceneChild.bUseParent = true

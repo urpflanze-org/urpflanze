@@ -26,8 +26,8 @@ declare class Group extends SceneChild {
     /**
      * a list of shapes or groups
      *
-     * @type {Array<SceneChild>}
-     * @memberof Group
+     * @internal
+     * @ignore
      */
     private children;
     /**
@@ -128,6 +128,14 @@ declare class Group extends SceneChild {
      * @memberof SceneChild
      */
     setProp(key: keyof ISceneChildProps | ISceneChildProps, value?: any): void;
+    /**
+     * Set a single or multiple props
+     *
+     * @param {(keyof ISceneChildProps | ISceneChildProps)} key
+     * @param {*} [value]
+     * @memberof ShapeBase
+     */
+    setPropUnsafe(key: keyof ISceneChildProps | ISceneChildProps, value?: any): void;
     /**
      * Return length of buffer
      *

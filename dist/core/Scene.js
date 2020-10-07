@@ -14,46 +14,28 @@ class Scene {
     /**
      * Creates an instance of Scene.
      * You can see the default values ​​in the property definitions
-     *
-     * @param {ISceneSettingsInterface} [settings={}]
-     * @memberof Scene
      */
     constructor(settings = {}) {
         /**
          * Logical number, the drawer will take care
          * of defining the unit of measure
-         *
-         * @type {number}
-         * @memberof Scene
          */
         this.width = 400;
         /**
          * Logical number, the drawer will take care
          * of defining the unit of measure
-         *
-         * @type {number}
-         * @memberof Scene
          */
         this.height = 400;
         /**
          * Default background color (black)
-         *
-         * @type {string}
-         * @memberof Scene
          */
         this.background = 'hsla(0, 0%, 0%, 1)';
         /**
          * Default ScenePrimitive stroke color (white)
-         *
-         * @type {string}
-         * @memberof Scene
          */
         this.mainColor = 'hsla(0, 0%, 100%, 1)';
         /**
          * Current time
-         *
-         * @type {number}
-         * @memberof Scene
          */
         this.current_time = 0;
         if (typeof settings.width !== 'undefined')
@@ -68,7 +50,7 @@ class Scene {
         this.center = Vec2.create(this.width / 2, this.height / 2);
     }
     /**
-     * Resize the scene dimension
+     * Resize the scene size
      *
      * @param {number} width
      * @param {number} [height=width]

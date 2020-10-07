@@ -30,8 +30,8 @@ class Group extends SceneChild {
 	/**
 	 * a list of shapes or groups
 	 *
-	 * @type {Array<SceneChild>}
-	 * @memberof Group
+	 * @internal
+	 * @ignore
 	 */
 	private children: Array<SceneChild>
 
@@ -260,6 +260,19 @@ class Group extends SceneChild {
 		else this.props[key] = value
 
 		this.children.forEach(item => item.setProp(key, value))
+	}
+
+	/**
+	 * Set a single or multiple props
+	 *
+	 * @param {(keyof ISceneChildProps | ISceneChildProps)} key
+	 * @param {*} [value]
+	 * @memberof ShapeBase
+	 */
+	public setPropUnsafe(key: keyof ISceneChildProps | ISceneChildProps, value?: any): void {
+		super.setPropUnsafe(key, value)
+
+		this.children.forEach(item => item.setPropUnsafe(key, value))
 	}
 
 	/**

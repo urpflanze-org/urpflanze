@@ -1,5 +1,5 @@
 import { TStreamCallback } from '@core/types/scene'
-import { IShapeBaseSettings } from '@core/types/shape-base'
+import { IShapeBaseSettings, TVertexCallback } from '@core/types/shape-base'
 import {
 	ERepetitionType,
 	IRepetition,
@@ -28,17 +28,16 @@ abstract class ShapeBase extends SceneChild {
 	/**
 	 * Empty buffer
 	 *
-	 * @static
-	 * @type {Float32Array}
-	 * @memberof ShapeBase
+	 * @internal
+	 * @ignore
 	 */
 	public static readonly EMPTY_BUFFER: Float32Array = new Float32Array(0)
 
 	/**
 	 * Empty Repetition
 	 *
-	 * @static
-	 * @memberof ShapeLoop
+	 * @internal
+	 * @ignore
 	 */
 	public static getEmptyRepetition: () => IRepetition = () => ({
 		current_index: 1,
@@ -57,9 +56,8 @@ abstract class ShapeBase extends SceneChild {
 	/**
 	 * Empty Prop Arguments
 	 *
-	 * @static
-	 * @type {ISceneChildPropArguments}
-	 * @memberof ShapeBase
+	 * @internal
+	 * @ignore
 	 */
 	public static readonly EMPTY_PROP_ARGUMENTS: ISceneChildPropArguments = {
 		time: 0,
@@ -70,48 +68,69 @@ abstract class ShapeBase extends SceneChild {
 	/**
 	 * Shape generation id
 	 * used for prevent buffer calculation
-	 *
-	 * @type {number}
-	 * @memberof ShapeBase
+	 * @internal
+	 * @ignore
 	 */
 	private generate_id: number = -1
 
 	/**
-	 * Buffer of shape vertices
+	 * A final array of vertices to draw
 	 *
-	 * @type {Float32Array}
-	 * @memberof ShapeBase
+	 * @internal
+	 * @ignore
 	 */
 	protected buffer?: Float32Array
 
 	/**
-	 * Determine if shape are static (one time generation, no props function, animation)
+	 * Determine if shape are static and doon't need generate at eachtime
 	 *
-	 * @type {boolean}
-	 * @memberof ShapeBase
+	 * @internal
+	 * @ignore
 	 */
 	protected bStatic: boolean
 
 	/**
 	 * Determine if shape have static indexed buffer
 	 *
-	 * @type {boolean}
-	 * @memberof ShapeBase
+	 * @internal
+	 * @ignore
 	 */
 	protected bStaticIndexed: boolean
 
+	/**
+	 * Flag used to determine if indexed_buffer has been generated
+	 *
+	 * @internal
+	 * @ignore
+	 */
 	protected bIndexed: boolean = false
 
 	/**
 	 * With this parameter the shape will be created at each repetition,
-	 * useful if you want to encapsulate this shape in another and use its <mark>repetition</mark> object
+	 * useful if you want to encapsulate this shape in another and use its <mark>repetition</mark> object.
+	 * fillColor, strokeColor and lineWidth don't need to as they are generated during the buffer stream.
 	 *
 	 * @public
 	 * @type {boolean}
 	 * @memberof ShapeBase
 	 * @example
 	 * ```javascript
-	 * const rect
+	 * const rose = new Urpflanze.Rose({
+	 * 	repetitions: 3,
+	 * 	n: ({ parent }) => parent.repetition.current_index, // <- use parent
+	 * 	d: ({ repetition }) => repetition.current_index,
+	 * 	sideLength: 20,
+	 * 	distance: 30,
+	 * 	bUseParent: true // <- add this for use `parent` as prop_argument of `n` property
+	 * })
+	 *
+	 * const shape = new Urpflanze.Shape({
+	 * 	shape: rose,
+	 * 	repetitions: 4,
+	 * 	distance: 100
+	 * })
+	 *
+	 * scene.add(shape)
 	 * ```
 	 */
 	public bUseParent: boolean
@@ -120,22 +139,21 @@ abstract class ShapeBase extends SceneChild {
 	 * Array used for index a vertex buffer
 	 * only for first level scene children
 	 *
-	 * @type {Array<IBufferIndex>}
-	 * @memberof ShapeBase
+	 * @internal
+	 * @ignore
 	 */
 	protected indexed_buffer?: Array<IBufferIndex>
 
-	// /**
-	//  * A ShapeLoop can be dynamic buffer lenght for eacch repetition.
-	//  * This array contain a length of buffer for each repetition.
-	//  *
-	//  * @type {Uint16Array}
-	//  * @memberof ShapeBase
-	//  */
-	// protected single_repetition_buffer_length: Uint16Array
+	/**
+	 * Transform any vertex
+	 *
+	 * @public
+	 * @memberof ShapeBase
+	 */
+	public vertexCallback?: TVertexCallback
 
 	/**
-	 * Creates an instance of ShapeBase.
+	 * Creates an instance of ShapeBase
 	 *
 	 * @param {ISceneChildSettings} [settings={}]
 	 * @memberof ShapeBase
@@ -157,13 +175,16 @@ abstract class ShapeBase extends SceneChild {
 			displace: settings.displace,
 			translate: settings.translate,
 			scale: settings.scale,
+			rotationOrigin: settings.rotationOrigin,
 		}
 
 		this.bUseParent = !!settings.bUseParent
+
+		this.vertexCallback = settings.vertexCallback
 	}
 
 	/**
-	 * Check if shape is static
+	 * Check if the shape should be generated every time
 	 *
 	 * @returns {boolean}
 	 * @memberof ShapeBase
@@ -183,13 +204,14 @@ abstract class ShapeBase extends SceneChild {
 			typeof props.squeezeX !== 'function' &&
 			typeof props.squeezeY !== 'function' &&
 			typeof props.translate !== 'function' &&
-			typeof props.scale !== 'function'
-			// && typeof props.rotationOrigin !== 'function'
+			typeof props.scale !== 'function' &&
+			typeof props.rotationOrigin !== 'function'
 		)
 	}
 
 	/**
-	 * Check if shape has static indexed
+	 * Check if the indexed_buffer array needs to be recreated every time,
+	 * this can happen when a shape generates an array of vertices different in length at each repetition
 	 *
 	 * @returns {boolean}
 	 * @memberof ShapeBase
@@ -267,7 +289,7 @@ abstract class ShapeBase extends SceneChild {
 	}
 
 	/**
-	 * Generate shape buffer
+	 * Update the vertex array if the shape is not static and update the indexed_buffer if it is also not static
 	 *
 	 * @param {number} generate_id generation id
 	 * @param {boolean} [bDirectSceneChild=false] adjust shape of center of scene
@@ -340,14 +362,14 @@ abstract class ShapeBase extends SceneChild {
 				repetition.current_row = current_row_repetition + 1
 				repetition.current_row_offset = repetition.current_row / repetition.count_row
 
+				// Generate primitives buffer recursively
 				const buffer: Float32Array = this.generateBuffer(generate_id, prop_arguments)
 				const buffer_length = buffer.length
 
-				{
-					buffers[current_index] = new Float32Array(buffer_length)
-					// this.single_repetition_buffer_length[current_index] = buffer_length
-					total_buffer_length += buffer_length
+				buffers[current_index] = new Float32Array(buffer_length)
+				total_buffer_length += buffer_length
 
+				{
 					const distance = Vec2.create(this.getProp('distance', prop_arguments, Vec2.ZERO))
 					const displace = this.getProp('displace', prop_arguments, 0)
 					const scale = Vec2.create(this.getProp('scale', prop_arguments, Vec2.ONE))
@@ -359,7 +381,7 @@ abstract class ShapeBase extends SceneChild {
 					const rotateX = this.getProp('rotateX', prop_arguments, 0)
 					const rotateY = this.getProp('rotateY', prop_arguments, 0)
 					const rotateZ = this.getProp('rotateZ', prop_arguments, 0)
-					const rotationOrigin = Vec2.ZERO
+					const rotationOrigin = this.getProp('rotationOrigin', prop_arguments, Vec2.ZERO)
 
 					let offset: TArray
 
@@ -379,8 +401,6 @@ abstract class ShapeBase extends SceneChild {
 					for (let buffer_index = 0; buffer_index < buffer_length; buffer_index += 2) {
 						const vertex = Vec2.create(buffer[buffer_index], buffer[buffer_index + 1])
 
-						this.applyVertexTransform(vertex)
-
 						squeezeX !== 0 && Vec2.squeezeX(vertex, squeezeX)
 						squeezeY !== 0 && Vec2.squeezeY(vertex, squeezeY)
 
@@ -396,6 +416,12 @@ abstract class ShapeBase extends SceneChild {
 							Vec2.rotateZ(vertex, Vec2.ZERO, repetition.current_angle + displace)
 						}
 
+						this.applyVertexTransform(vertex)
+
+						if (this.vertexCallback) {
+							this.vertexCallback(vertex, prop_arguments, buffer_index, buffer_length)
+						}
+
 						Vec2.translate(vertex, offset)
 
 						if (bDirectSceneChild) {
@@ -406,10 +432,9 @@ abstract class ShapeBase extends SceneChild {
 						buffers[current_index][buffer_index] = vertex[0]
 						buffers[current_index][buffer_index + 1] = vertex[1]
 					}
-
-					// this.addIndex(indexed_buffer, this.single_repetition_buffer_length[current_index], repetition)
 				}
 
+				// After buffer creation, add a frame into indexed_buffer if not static
 				if (!this.bStaticIndexed || !this.bIndexed) {
 					this.addIndex(buffer_length, repetition)
 				}
@@ -424,7 +449,7 @@ abstract class ShapeBase extends SceneChild {
 	}
 
 	/**
-	 *
+	 * Apply vertex transformation
 	 *
 	 * @protected
 	 * @param {TArray} vertex
@@ -432,6 +457,15 @@ abstract class ShapeBase extends SceneChild {
 	 */
 	protected applyVertexTransform(vertex: TArray): void {}
 
+	/**
+	 * Add into indexed_buffer
+	 *
+	 * @protected
+	 * @abstract
+	 * @param {number} frame_length
+	 * @param {IRepetition} current_repetition
+	 * @memberof ShapeBase
+	 */
 	protected abstract addIndex(frame_length: number, current_repetition: IRepetition): void
 
 	/**

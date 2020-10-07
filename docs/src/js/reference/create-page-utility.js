@@ -145,7 +145,8 @@ export function printVariables(variables) {
 					? `<span class="reference__property__default_value"> = ${variable.defaultValue}</span>` 
 					: ''
 				}</div>
-                <div class="reference__property__description">${printDescription(variable)}</div>
+				<div class="reference__property__description">${printDescription(variable)}</div>
+				${variable.examples ? variable.examples.map(printFunctionExample).join('') : ''}
             </li>
         `).join('\n')}
         </ul>

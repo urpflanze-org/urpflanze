@@ -18,68 +18,45 @@ class Scene {
 	/**
 	 * Logical number, the drawer will take care
 	 * of defining the unit of measure
-	 *
-	 * @type {number}
-	 * @memberof Scene
 	 */
 	public width: number = 400
 
 	/**
 	 * Logical number, the drawer will take care
 	 * of defining the unit of measure
-	 *
-	 * @type {number}
-	 * @memberof Scene
 	 */
 	public height: number = 400
 
 	/**
 	 * Refers to the central point of the scene
-	 *
-	 * @type {TArray}
-	 * @memberof Scene
 	 */
 	public center: TArray
 
 	/**
 	 * Default background color (black)
-	 *
-	 * @type {string}
-	 * @memberof Scene
 	 */
 	public background: string = 'hsla(0, 0%, 0%, 1)'
 
 	/**
 	 * Default ScenePrimitive stroke color (white)
-	 *
-	 * @type {string}
-	 * @memberof Scene
 	 */
 	public mainColor: string = 'hsla(0, 0%, 100%, 1)'
 
 	/**
 	 * Current time
-	 *
-	 * @type {number}
-	 * @memberof Scene
 	 */
 	public current_time: number = 0
 
 	/**
 	 * A list of children added to scene
 	 *
-	 * @private
-	 * @type {Array<SceneChild>}
-	 * @memberof Scene
+	 * @ignore
 	 */
 	private children: Array<SceneChild>
 
 	/**
 	 * Creates an instance of Scene.
 	 * You can see the default values ​​in the property definitions
-	 *
-	 * @param {ISceneSettingsInterface} [settings={}]
-	 * @memberof Scene
 	 */
 	constructor(settings: ISceneSettingsInterface = {}) {
 		if (typeof settings.width !== 'undefined') this.width = settings.width
@@ -94,7 +71,7 @@ class Scene {
 	}
 
 	/**
-	 * Resize the scene dimension
+	 * Resize the scene size
 	 *
 	 * @param {number} width
 	 * @param {number} [height=width]

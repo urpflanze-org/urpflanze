@@ -1,6 +1,5 @@
-import { IRepetition, ISceneChildProps, ISceneChildSettings, TSceneChildProp } from "./scene-child";
+import { IRepetition, ISceneChildPropArguments, ISceneChildProps, ISceneChildSettings, TSceneChildProp } from "./scene-child";
 import SceneChild from "../SceneChild";
-import { TVertexCallback } from "./shape-primitive";
 import ShapeBase from "../shapes/ShapeBase";
 /**
  * Object for index the buffer
@@ -12,8 +11,10 @@ export interface IBufferIndex {
     frame_length: number;
     repetition: IRepetition;
 }
+export declare type TVertexCallback = (vertex: Array<number> | Float32Array, prop_argumens: ISceneChildPropArguments, vertex_index: number, vertex_length: number) => void;
 export interface IShapeBaseSettings extends ISceneChildSettings {
     bUseParent?: boolean;
+    vertexCallback?: TVertexCallback;
 }
 export interface IShapeSettings extends IShapeBaseSettings {
     shape?: SceneChild;
@@ -45,7 +46,6 @@ export interface IShapePrimitiveProps extends ISceneChildProps {
 export interface IShapePrimitiveSettings extends IShapePrimitiveProps, IShapeBaseSettings {
     adaptMode?: EShapePrimitiveAdaptMode;
     bCloseShape?: boolean;
-    vertexCallback?: TVertexCallback;
 }
 export interface IShapeBounding {
     x: number;

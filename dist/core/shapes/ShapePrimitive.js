@@ -15,7 +15,6 @@ class ShapePrimitive extends ShapeBase {
         this.props.strokeColor = settings.strokeColor;
         this.adaptMode = (_a = settings.adaptMode) !== null && _a !== void 0 ? _a : EShapePrimitiveAdaptMode.None;
         this.bCloseShape = (_b = settings.bCloseShape) !== null && _b !== void 0 ? _b : true;
-        this.vertexCallback = settings.vertexCallback;
     }
     /**
      * Check if shape is static
@@ -24,9 +23,7 @@ class ShapePrimitive extends ShapeBase {
      * @memberof ShapePrimitive
      */
     isStatic() {
-        return (typeof this.props.sideLength !==
-            'function' /* && typeof this.vertexCallback !== 'function' <- set bStatic to false if vertexCallback as dynamic */ &&
-            super.isStatic());
+        return typeof this.props.sideLength !== 'function' && super.isStatic();
     }
     /**
      * Get prop

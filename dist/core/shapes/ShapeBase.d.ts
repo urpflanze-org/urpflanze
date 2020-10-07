@@ -1,5 +1,5 @@
 import { TStreamCallback } from "../types/scene";
-import { IShapeBaseSettings } from "../types/shape-base";
+import { IShapeBaseSettings, TVertexCallback } from "../types/shape-base";
 import { IRepetition, ISceneChildPropArguments, ISceneChildProps } from "../types/scene-child";
 import { IBufferIndex } from "../types/shape-base";
 import { TArray } from "../math/Vec2";
@@ -17,66 +17,85 @@ declare abstract class ShapeBase extends SceneChild {
     /**
      * Empty buffer
      *
-     * @static
-     * @type {Float32Array}
-     * @memberof ShapeBase
+     * @internal
+     * @ignore
      */
     static readonly EMPTY_BUFFER: Float32Array;
     /**
      * Empty Repetition
      *
-     * @static
-     * @memberof ShapeLoop
+     * @internal
+     * @ignore
      */
     static getEmptyRepetition: () => IRepetition;
     /**
      * Empty Prop Arguments
      *
-     * @static
-     * @type {ISceneChildPropArguments}
-     * @memberof ShapeBase
+     * @internal
+     * @ignore
      */
     static readonly EMPTY_PROP_ARGUMENTS: ISceneChildPropArguments;
     /**
      * Shape generation id
      * used for prevent buffer calculation
-     *
-     * @type {number}
-     * @memberof ShapeBase
+     * @internal
+     * @ignore
      */
     private generate_id;
     /**
-     * Buffer of shape vertices
+     * A final array of vertices to draw
      *
-     * @type {Float32Array}
-     * @memberof ShapeBase
+     * @internal
+     * @ignore
      */
     protected buffer?: Float32Array;
     /**
-     * Determine if shape are static (one time generation, no props function, animation)
+     * Determine if shape are static and doon't need generate at eachtime
      *
-     * @type {boolean}
-     * @memberof ShapeBase
+     * @internal
+     * @ignore
      */
     protected bStatic: boolean;
     /**
      * Determine if shape have static indexed buffer
      *
-     * @type {boolean}
-     * @memberof ShapeBase
+     * @internal
+     * @ignore
      */
     protected bStaticIndexed: boolean;
+    /**
+     * Flag used to determine if indexed_buffer has been generated
+     *
+     * @internal
+     * @ignore
+     */
     protected bIndexed: boolean;
     /**
      * With this parameter the shape will be created at each repetition,
-     * useful if you want to encapsulate this shape in another and use its <mark>repetition</mark> object
+     * useful if you want to encapsulate this shape in another and use its <mark>repetition</mark> object.
+     * fillColor, strokeColor and lineWidth don't need to as they are generated during the buffer stream.
      *
      * @public
      * @type {boolean}
      * @memberof ShapeBase
      * @example
      * ```javascript
-     * const rect
+     * const rose = new Urpflanze.Rose({
+     * 	repetitions: 3,
+     * 	n: ({ parent }) => parent.repetition.current_index, // <- use parent
+     * 	d: ({ repetition }) => repetition.current_index,
+     * 	sideLength: 20,
+     * 	distance: 30,
+     * 	bUseParent: true // <- add this for use `parent` as prop_argument of `n` property
+     * })
+     *
+     * const shape = new Urpflanze.Shape({
+     * 	shape: rose,
+     * 	repetitions: 4,
+     * 	distance: 100
+     * })
+     *
+     * scene.add(shape)
      * ```
      */
     bUseParent: boolean;
@@ -84,26 +103,34 @@ declare abstract class ShapeBase extends SceneChild {
      * Array used for index a vertex buffer
      * only for first level scene children
      *
-     * @type {Array<IBufferIndex>}
-     * @memberof ShapeBase
+     * @internal
+     * @ignore
      */
     protected indexed_buffer?: Array<IBufferIndex>;
     /**
-     * Creates an instance of ShapeBase.
+     * Transform any vertex
+     *
+     * @public
+     * @memberof ShapeBase
+     */
+    vertexCallback?: TVertexCallback;
+    /**
+     * Creates an instance of ShapeBase
      *
      * @param {ISceneChildSettings} [settings={}]
      * @memberof ShapeBase
      */
     constructor(settings?: IShapeBaseSettings);
     /**
-     * Check if shape is static
+     * Check if the shape should be generated every time
      *
      * @returns {boolean}
      * @memberof ShapeBase
      */
     isStatic(): boolean;
     /**
-     * Check if shape has static indexed
+     * Check if the indexed_buffer array needs to be recreated every time,
+     * this can happen when a shape generates an array of vertices different in length at each repetition
      *
      * @returns {boolean}
      * @memberof ShapeBase
@@ -138,7 +165,7 @@ declare abstract class ShapeBase extends SceneChild {
      */
     clearBuffer(bClearIndexed?: boolean, bPropagateToParents?: boolean): void;
     /**
-     * Generate shape buffer
+     * Update the vertex array if the shape is not static and update the indexed_buffer if it is also not static
      *
      * @param {number} generate_id generation id
      * @param {boolean} [bDirectSceneChild=false] adjust shape of center of scene
@@ -147,13 +174,22 @@ declare abstract class ShapeBase extends SceneChild {
      */
     generate(generate_id: number, bDirectSceneChild?: boolean, parent_prop_arguments?: ISceneChildPropArguments): void;
     /**
-     *
+     * Apply vertex transformation
      *
      * @protected
      * @param {TArray} vertex
      * @memberof ShapeBase
      */
     protected applyVertexTransform(vertex: TArray): void;
+    /**
+     * Add into indexed_buffer
+     *
+     * @protected
+     * @abstract
+     * @param {number} frame_length
+     * @param {IRepetition} current_repetition
+     * @memberof ShapeBase
+     */
     protected abstract addIndex(frame_length: number, current_repetition: IRepetition): void;
     /**
      * Get number of repetitions

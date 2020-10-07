@@ -215,6 +215,17 @@ class Group extends SceneChild {
         this.children.forEach(item => item.setProp(key, value));
     }
     /**
+     * Set a single or multiple props
+     *
+     * @param {(keyof ISceneChildProps | ISceneChildProps)} key
+     * @param {*} [value]
+     * @memberof ShapeBase
+     */
+    setPropUnsafe(key, value) {
+        super.setPropUnsafe(key, value);
+        this.children.forEach(item => item.setPropUnsafe(key, value));
+    }
+    /**
      * Return length of buffer
      *
      * @param {ISceneChildPropArguments} prop_arguments

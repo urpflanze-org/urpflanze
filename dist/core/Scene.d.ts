@@ -13,65 +13,42 @@ declare class Scene {
     /**
      * Logical number, the drawer will take care
      * of defining the unit of measure
-     *
-     * @type {number}
-     * @memberof Scene
      */
     width: number;
     /**
      * Logical number, the drawer will take care
      * of defining the unit of measure
-     *
-     * @type {number}
-     * @memberof Scene
      */
     height: number;
     /**
      * Refers to the central point of the scene
-     *
-     * @type {TArray}
-     * @memberof Scene
      */
     center: TArray;
     /**
      * Default background color (black)
-     *
-     * @type {string}
-     * @memberof Scene
      */
     background: string;
     /**
      * Default ScenePrimitive stroke color (white)
-     *
-     * @type {string}
-     * @memberof Scene
      */
     mainColor: string;
     /**
      * Current time
-     *
-     * @type {number}
-     * @memberof Scene
      */
     current_time: number;
     /**
      * A list of children added to scene
      *
-     * @private
-     * @type {Array<SceneChild>}
-     * @memberof Scene
+     * @ignore
      */
     private children;
     /**
      * Creates an instance of Scene.
      * You can see the default values ​​in the property definitions
-     *
-     * @param {ISceneSettingsInterface} [settings={}]
-     * @memberof Scene
      */
     constructor(settings?: ISceneSettingsInterface);
     /**
-     * Resize the scene dimension
+     * Resize the scene size
      *
      * @param {number} width
      * @param {number} [height=width]

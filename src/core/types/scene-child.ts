@@ -156,6 +156,14 @@ export interface ISceneChildProps {
 	rotateZ?: TSceneChildProp<number>
 
 	/**
+	 * Origin of rotation
+	 *
+	 * @type {TSceneChildProp<number>}
+	 * @memberof ISceneChildProps
+	 */
+	rotationOrigin?: TSceneChildProp<number>
+
+	/**
 	 * scale transformation
 	 *
 	 * @type {(TSceneChildProp<number | Array<number>>)}
@@ -186,25 +194,6 @@ export interface ISceneChildSettings extends ISceneChildProps {
 	type?: string
 	data?: any
 }
-
-// /**
-//  *
-//  * @category Core.Interfaces
-//  * @interface IContext
-//  */
-// export interface IContext {
-// 	noise: (seed: string, x: number, y: number, z: number) => number
-
-// 	angle: (repetition: IRepetition, offsetFromCenter: number | TArray) => number
-
-// 	angle2: (repetition: IRepetition, offsetFromCenter: number | TArray) => number
-
-// 	distance: (repetition: IRepetition, offsetFromCenter: number | TArray) => number
-
-// 	percW: (percentage: number, shape: SceneChild) => number
-
-// 	percH: (percentage: number, shape: SceneChild) => number
-// }
 
 /**
  * Object argument for sceneChild props

@@ -2,7 +2,6 @@ import ShapeBase from "./ShapeBase";
 import { TArray } from "../math/Vec2";
 import { EShapePrimitiveAdaptMode, IShapeBounding, IShapePrimitiveProps, IShapePrimitiveSettings } from "../types/shape-base";
 import { IRepetition, ISceneChildPropArguments } from "../types/scene-child";
-import { TVertexCallback } from "../types/shape-primitive";
 /**
  * @category Core.Abstract
  */
@@ -37,13 +36,6 @@ declare abstract class ShapePrimitive extends ShapeBase {
      * @memberof ShapePrimitive
      */
     sideLength: TArray;
-    /**
-     * Transform any vertex
-     *
-     * @public
-     * @memberof ShapeBase
-     */
-    vertexCallback?: TVertexCallback;
     constructor(settings?: IShapePrimitiveSettings);
     /**
      * Check if shape is static

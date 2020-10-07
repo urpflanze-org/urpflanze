@@ -258,6 +258,7 @@ function parseProperty(property) {
 		declaration: property.declaration ? parseMethod(property.declaration) : undefined,
 		typeArguments: property.typeArguments,
 		operator: property.operator,
+		examples: findExamples(property),
 		target: property.target ? parseProperty(property.target) : undefined,
 	}
 

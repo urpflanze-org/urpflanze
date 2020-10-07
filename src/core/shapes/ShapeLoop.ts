@@ -311,7 +311,6 @@ class ShapeLoop extends ShapePrimitive {
 			current_col_offset: 0,
 			current_row_offset: 0,
 			type: ERepetitionType.Loop,
-			// random_offset: [0, 0],
 			count: repetition,
 			count_col: 1,
 			count_row: 1,
@@ -331,8 +330,6 @@ class ShapeLoop extends ShapePrimitive {
 			shape_loop.current_offset = shape_loop.current_index / shape_loop.count
 
 			const vertex = Float32Array.from(getVertex(shape_loop.current_angle, prop_arguments))
-
-			this.vertexCallback && this.vertexCallback(vertex, prop_arguments, i, vertex_length)
 
 			buffer[j] = vertex[0]
 			buffer[j + 1] = vertex[1]

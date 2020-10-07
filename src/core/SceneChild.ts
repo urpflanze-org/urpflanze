@@ -213,7 +213,7 @@ abstract class SceneChild {
 	abstract stream(callback: TStreamCallback): void
 
 	/**
-	 * Return buffer
+	 * Return buffer of vertext if is generated
 	 *
 	 * @returns {(Float32Array | undefined)}
 	 * @memberof ShapeBase

@@ -138,6 +138,13 @@ export interface ISceneChildProps {
      */
     rotateZ?: TSceneChildProp<number>;
     /**
+     * Origin of rotation
+     *
+     * @type {TSceneChildProp<number>}
+     * @memberof ISceneChildProps
+     */
+    rotationOrigin?: TSceneChildProp<number>;
+    /**
      * scale transformation
      *
      * @type {(TSceneChildProp<number | Array<number>>)}

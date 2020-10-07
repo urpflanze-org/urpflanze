@@ -9,7 +9,6 @@ import {
 } from '@core/types/shape-base'
 import { IRepetition, ISceneChildPropArguments, ISceneChildProps } from '@core/types/scene-child'
 import { IBufferIndex } from '@core/types/shape-base'
-import { TVertexCallback } from '@core/types/shape-primitive'
 
 /**
  * @category Core.Abstract
@@ -49,14 +48,6 @@ abstract class ShapePrimitive extends ShapeBase {
 	 */
 	public sideLength: TArray
 
-	/**
-	 * Transform any vertex
-	 *
-	 * @public
-	 * @memberof ShapeBase
-	 */
-	public vertexCallback?: TVertexCallback
-
 	constructor(settings: IShapePrimitiveSettings = {}) {
 		super(settings)
 
@@ -72,8 +63,6 @@ abstract class ShapePrimitive extends ShapeBase {
 
 		this.adaptMode = settings.adaptMode ?? EShapePrimitiveAdaptMode.None
 		this.bCloseShape = settings.bCloseShape ?? true
-
-		this.vertexCallback = settings.vertexCallback
 	}
 
 	/**
@@ -83,11 +72,7 @@ abstract class ShapePrimitive extends ShapeBase {
 	 * @memberof ShapePrimitive
 	 */
 	public isStatic(): boolean {
-		return (
-			typeof this.props.sideLength !==
-				'function' /* && typeof this.vertexCallback !== 'function' <- set bStatic to false if vertexCallback as dynamic */ &&
-			super.isStatic()
-		)
+		return typeof this.props.sideLength !== 'function' && super.isStatic()
 	}
 
 	/**

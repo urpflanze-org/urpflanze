@@ -1,7 +1,8 @@
 import DrawerCanvas from "../drawer-canvas/DrawerCanvas";
 import { TSceneChildPropsDataKeys } from "./SceneChildPropsData";
 import { IShapeLoop, TAnimation, TDrawerTransformation, TDrawerValue } from "../types/animation";
-import { IShapeLoopGenerator, TVertexCallback } from "../../core/types/shape-primitive";
+import { IShapeLoopGenerator } from "../../core/types/shape-primitive";
+import { TVertexCallback } from "../../core/types/shape-base";
 /**
  *
  * @category Services.Scene Utilities

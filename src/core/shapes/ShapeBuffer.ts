@@ -89,21 +89,21 @@ class ShapeBuffer extends ShapePrimitive {
 		let result = this.shape_buffer
 		const buffer_length = this.shape_buffer.length
 
-		if (this.vertexCallback) {
-			const points_length = buffer_length / 2
+		// if (this.vertexCallback) {
+		// 	const points_length = buffer_length / 2
 
-			const buffer = Float32Array.from(this.shape_buffer)
+		// 	const buffer = Float32Array.from(this.shape_buffer)
 
-			for (let i = 0, j = 0; i < buffer_length; i += 2, j++) {
-				const vertex = [buffer[i], buffer[i + 1]]
-				this.vertexCallback(vertex, prop_arguments, j, points_length)
+		// 	for (let i = 0, j = 0; i < buffer_length; i += 2, j++) {
+		// 		const vertex = [buffer[i], buffer[i + 1]]
+		// 		this.vertexCallback(vertex, prop_arguments, j, points_length)
 
-				buffer[i] = vertex[0]
-				buffer[i + 1] = vertex[1]
-			}
+		// 		buffer[i] = vertex[0]
+		// 		buffer[i + 1] = vertex[1]
+		// 	}
 
-			result = buffer
-		}
+		// 	result = buffer
+		// }
 
 		return result
 	}
