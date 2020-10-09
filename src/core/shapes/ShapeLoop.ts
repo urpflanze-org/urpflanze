@@ -226,7 +226,7 @@ class ShapeLoop extends ShapePrimitive {
 
 		const { repetition } = this.getLoop(prop_arguments)
 
-		return this.getRepetitionCount() * repetition * 2
+		return this.getRepetitionCount() * repetition * 2 // vec3
 	}
 
 	/**
@@ -271,9 +271,9 @@ class ShapeLoop extends ShapePrimitive {
 
 		const vertex_length = shape_loop.count
 
-		const buffer = new Float32Array(vertex_length * 2)
+		const buffer = new Float32Array(vertex_length * 3)
 
-		for (let i = 0, j = 0; i < vertex_length; i++, j += 2) {
+		for (let i = 0, j = 0; i < vertex_length; i++, j += 3) {
 			const angle = start + inc * i
 
 			shape_loop.angle = angle >= end ? end : angle
@@ -285,6 +285,7 @@ class ShapeLoop extends ShapePrimitive {
 
 			buffer[j] = vertex[0]
 			buffer[j + 1] = vertex[1]
+			buffer[j + 2] = 0
 		}
 
 		return this.adaptMode !== EShapePrimitiveAdaptMode.None

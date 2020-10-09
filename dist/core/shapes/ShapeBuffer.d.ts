@@ -23,6 +23,7 @@ declare class ShapeBuffer extends ShapePrimitive {
      */
     private shape_buffer;
     constructor(settings?: IShapeBufferSettings);
+    static buffer2Dto3D(buffer: Float32Array): Float32Array;
     /**
      *  Unset buffer
      *
@@ -68,10 +69,10 @@ declare class ShapeBuffer extends ShapePrimitive {
      * @static
      * @param {Float32Array} shape
      * @param {boolean} [bClosed=true]
-     * @returns {(Float32Array | undefined)}
+     * @returns {(Float32Array)}
      * @memberof ShapeBuffer
      */
-    static subdivide(shape: Float32Array, bClosed?: boolean): Float32Array | undefined;
+    static subdivide(shape: Float32Array, bClosed?: boolean): Float32Array;
 }
 export default ShapeBuffer;
 //# sourceMappingURL=ShapeBuffer.d.ts.map

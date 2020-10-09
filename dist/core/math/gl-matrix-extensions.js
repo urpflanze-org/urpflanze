@@ -27,4 +27,18 @@ export const squeezeX = (vec, m) => {
 export const squeezeY = (vec, m) => {
     vec[0] += vec[0] * (vec[1] * m);
 };
+export function perspectiveMatrix(out, fov, near, far) {
+    var f = 1.0 / Math.tan(fov / 2);
+    var rangeInv = 1 / (near - far);
+    out[0] = f;
+    out[1] = out[2] = out[3] = out[4] = 0;
+    out[6] = out[7] = out[8] = out[9] = 0;
+    out[12] = out[13] = 0;
+    out[15] = 0;
+    out[5] = f;
+    out[10] = (near + far) * rangeInv;
+    out[11] = -1;
+    out[14] = near * far * rangeInv * 2;
+    return out;
+}
 //# sourceMappingURL=gl-matrix-extensions.js.map

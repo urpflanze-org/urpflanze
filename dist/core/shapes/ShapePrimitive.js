@@ -175,7 +175,7 @@ class ShapePrimitive extends ShapeBase {
      * @returns {Float32Array}
      * @memberof ShapePrimitive
      */
-    static adaptBuffer(input, mode) {
+    static adaptBuffer(input, mode, vertex = 2) {
         if (mode == EShapePrimitiveAdaptMode.None)
             return input;
         const output = new Float32Array(input.length);
@@ -187,7 +187,7 @@ class ShapePrimitive extends ShapeBase {
             : 1;
         let translateX = mode >= EShapePrimitiveAdaptMode.Center ? rect.cx : 0;
         let translateY = mode >= EShapePrimitiveAdaptMode.Center ? rect.cy : 0;
-        for (let i = 0, len = input.length; i < len; i += 2) {
+        for (let i = 0, len = input.length; i < len; i += vertex) {
             output[i] = (input[i] - translateX) * scale;
             output[i + 1] = (input[i + 1] - translateY) * scale;
         }

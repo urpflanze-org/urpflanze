@@ -130,7 +130,7 @@ class ShapeLoop extends ShapePrimitive {
         if (this.bStaticLoop && this.loop_buffer && this.loop_buffer.length > 0)
             return this.loop_buffer.length * this.getRepetitionCount();
         const { repetition } = this.getLoop(prop_arguments);
-        return this.getRepetitionCount() * repetition * 2;
+        return this.getRepetitionCount() * repetition * 2; // vec3
     }
     /**
      * Return a buffer of children shape or loop generated buffer
@@ -169,8 +169,8 @@ class ShapeLoop extends ShapePrimitive {
             count: repetition,
         };
         const vertex_length = shape_loop.count;
-        const buffer = new Float32Array(vertex_length * 2);
-        for (let i = 0, j = 0; i < vertex_length; i++, j += 2) {
+        const buffer = new Float32Array(vertex_length * 3);
+        for (let i = 0, j = 0; i < vertex_length; i++, j += 3) {
             const angle = start + inc * i;
             shape_loop.angle = angle >= end ? end : angle;
             shape_loop.index = i + 1;
@@ -179,6 +179,7 @@ class ShapeLoop extends ShapePrimitive {
             // this.vertexCallback && this.vertexCallback(vertex, prop_arguments, i, vertex_length)
             buffer[j] = vertex[0];
             buffer[j + 1] = vertex[1];
+            buffer[j + 2] = 0;
         }
         return this.adaptMode !== EShapePrimitiveAdaptMode.None
             ? ShapePrimitive.adaptBuffer(buffer, this.adaptMode)

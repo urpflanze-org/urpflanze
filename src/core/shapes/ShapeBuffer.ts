@@ -37,13 +37,28 @@ class ShapeBuffer extends ShapePrimitive {
 			this.shape = ShapeBuffer.EMPTY_BUFFER
 		} else this.shape = Float32Array.from(settings.shape)
 
-		this.shape_buffer =
+		const shape =
 			this.getAdaptMode() !== EShapePrimitiveAdaptMode.None
 				? ShapePrimitive.adaptBuffer(this.shape, this.getAdaptMode())
 				: this.shape
 
+		this.shape_buffer = ShapeBuffer.buffer2Dto3D(shape)
+
 		this.bStatic = this.isStatic()
 		this.bStaticIndexed = this.isStaticIndexed()
+	}
+
+	static buffer2Dto3D(buffer: Float32Array): Float32Array {
+		const buffer_length = buffer.length
+		const vertex_len = buffer_length / 2
+		const result = new Float32Array(vertex_len * 3)
+		for (let i = 0, j = 0; i < buffer_length; i += 2, j += 3) {
+			result[j] = buffer[i]
+			result[j + 1] = buffer[i + 1]
+			result[j + 2] = 0
+		}
+
+		return result
 	}
 
 	/**
@@ -60,6 +75,8 @@ class ShapeBuffer extends ShapePrimitive {
 			this.getAdaptMode() != EShapePrimitiveAdaptMode.None
 				? ShapePrimitive.adaptBuffer(this.shape, this.getAdaptMode())
 				: this.shape
+
+		this.shape_buffer = ShapeBuffer.buffer2Dto3D(this.shape_buffer)
 	}
 
 	/**
@@ -110,10 +127,11 @@ class ShapeBuffer extends ShapePrimitive {
 	public subdivide(level: number = 1) {
 		let subdivided: Float32Array | undefined = this.shape
 
-		if (subdivided)
-			for (let i = 0; i < level; i++) subdivided = ShapeBuffer.subdivide(subdivided as Float32Array, this.bCloseShape)
+		if (subdivided && subdivided.length > 0) {
+			for (let i = 0; i < level; i++) subdivided = ShapeBuffer.subdivide(subdivided, this.bCloseShape)
 
-		subdivided && this.setShape(subdivided)
+			this.setShape(subdivided)
+		}
 	}
 
 	/**
@@ -122,43 +140,41 @@ class ShapeBuffer extends ShapePrimitive {
 	 * @static
 	 * @param {Float32Array} shape
 	 * @param {boolean} [bClosed=true]
-	 * @returns {(Float32Array | undefined)}
+	 * @returns {(Float32Array)}
 	 * @memberof ShapeBuffer
 	 */
-	public static subdivide(shape: Float32Array, bClosed = true): Float32Array | undefined {
-		if (shape && shape.length) {
-			const shape_len = shape.length
-			const subdivided = new Float32Array(shape_len * 2 - (bClosed ? 0 : 2))
+	public static subdivide(shape: Float32Array, bClosed = true): Float32Array {
+		const shape_len = shape.length
+		const subdivided = new Float32Array(shape_len * 2 - (bClosed ? 0 : 2))
 
-			for (let i = 0; i < shape_len; i += 2) {
-				if (i === 0) {
-					subdivided[0] = shape[0]
-					subdivided[1] = shape[1]
-				} else {
-					const px = shape[i - 2]
-					const py = shape[i - 1]
+		for (let i = 0; i < shape_len; i += 2) {
+			if (i === 0) {
+				subdivided[0] = shape[0]
+				subdivided[1] = shape[1]
+			} else {
+				const px = shape[i - 2]
+				const py = shape[i - 1]
 
-					const x = shape[i]
-					const y = shape[i + 1]
+				const x = shape[i]
+				const y = shape[i + 1]
 
-					const nx = (x + px) / 2
-					const ny = (y + py) / 2
+				const nx = (x + px) / 2
+				const ny = (y + py) / 2
 
-					subdivided[(i - 1) * 2] = nx
-					subdivided[(i - 1) * 2 + 1] = ny
+				subdivided[(i - 1) * 2] = nx
+				subdivided[(i - 1) * 2 + 1] = ny
 
-					subdivided[i * 2] = x
-					subdivided[i * 2 + 1] = y
-				}
+				subdivided[i * 2] = x
+				subdivided[i * 2 + 1] = y
 			}
-
-			if (bClosed) {
-				subdivided[(shape_len - 1) * 2] = (shape[0] + shape[shape_len - 2]) / 2
-				subdivided[(shape_len - 1) * 2 + 1] = (shape[1] + shape[shape_len - 1]) / 2
-			}
-
-			return subdivided
 		}
+
+		if (bClosed) {
+			subdivided[(shape_len - 1) * 2] = (shape[0] + shape[shape_len - 2]) / 2
+			subdivided[(shape_len - 1) * 2 + 1] = (shape[1] + shape[shape_len - 1]) / 2
+		}
+
+		return subdivided
 	}
 }
 

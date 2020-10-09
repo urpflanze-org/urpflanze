@@ -682,7 +682,7 @@ class DrawerCanvas extends Emitter<DrawerCanvasEvents> {
 					(buffer[frame_buffer_index + 1] - height / 2) * final_scale[1] + final_translate[1]
 				)
 
-				for (let i = 2; i < frame_length; i += 2) {
+				for (let i = 3; i < frame_length; i += 3) {
 					context.lineTo(
 						(buffer[frame_buffer_index + i] - width / 2) * final_scale[0] + final_translate[0],
 						(buffer[frame_buffer_index + i + 1] - height / 2) * final_scale[1] + final_translate[1]

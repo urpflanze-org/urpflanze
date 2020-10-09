@@ -126,7 +126,7 @@ declare abstract class ShapePrimitive extends ShapeBase {
      * @returns {Float32Array}
      * @memberof ShapePrimitive
      */
-    static adaptBuffer(input: Float32Array, mode: EShapePrimitiveAdaptMode): Float32Array;
+    static adaptBuffer(input: Float32Array, mode: EShapePrimitiveAdaptMode, vertex?: 2 | 3): Float32Array;
 }
 export default ShapePrimitive;
 //# sourceMappingURL=ShapePrimitive.d.ts.map

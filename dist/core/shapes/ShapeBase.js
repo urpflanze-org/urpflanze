@@ -1,9 +1,9 @@
 import { ERepetitionType, IRepetition, IBaseRepetition, ISceneChildPropArguments, ISceneChildProps, ISceneChildStreamArguments, } from "../types/scene-child";
 import SceneChild from "../SceneChild";
 import Context from "../Context";
-import { mat4, vec2 } from 'gl-matrix';
+import { mat4, vec2, vec3 } from 'gl-matrix';
 import { toArray } from "../../Utilites";
-import { fromRadians } from "../math/gl-matrix-extensions";
+import * as glme from "../math/gl-matrix-extensions";
 const TEMP_PROJECTION_MATRIX = mat4.create();
 const TEMP_MATRIX = mat4.create();
 const TEMP_QUAT = [0, 0, 0, 0];
@@ -235,36 +235,35 @@ class ShapeBase extends SceneChild {
                             offset = vec2.fromValues(distance[0] * (current_col_repetition - center_matrix[0]), distance[1] * (current_row_repetition - center_matrix[1]));
                             break;
                     }
-                    for (let buffer_index = 0; buffer_index < buffer_length; buffer_index += 2) {
-                        const vertex = vec2.fromValues(buffer[buffer_index], buffer[buffer_index + 1]);
-                        // squeezeX !== 0 && Vec2.squeezeX(vertex, squeezeX)
-                        // squeezeY !== 0 && Vec2.squeezeY(vertex, squeezeY)
-                        // rotateX !== 0 && Vec2.rotateX(vertex, rotationOrigin, rotateX)
-                        // rotateY !== 0 && Vec2.rotateY(vertex, rotationOrigin, rotateY)
-                        // rotateZ !== 0 && Vec2.rotateZ(vertex, rotationOrigin, rotateZ)
-                        // skewX !== 0 && Vec2.skewX(vertex, skewX)
-                        // skewY !== 0 && Vec2.skewY(vertex, skewY)
-                        // ;(scale[0] !== 1 || scale[1] !== 1) && Vec2.scale(vertex, scale)
-                        fromRadians(TEMP_QUAT, rotateX, rotateY, rotateZ);
-                        mat4.fromRotationTranslationScaleOrigin(TEMP_MATRIX, TEMP_QUAT, [0, 0, 0], [scale[0], scale[1], 1], [rotationOrigin[0], rotationOrigin[1], 0]);
-                        mat4.perspective(TEMP_PROJECTION_MATRIX, Math.PI / 2, 1, 0, 1);
-                        vec2.transformMat4(vertex, vertex, TEMP_MATRIX);
-                        vec2.transformMat4(vertex, vertex, TEMP_PROJECTION_MATRIX);
-                        this.applyVertexTransform(vertex);
-                        // ;(translate[0] !== 0 || translate[1] !== 0) && Vec2.translate(vertex, translate)
-                        if (repetition_type === ERepetitionType.Ring) {
-                            vec2.rotate(vertex, vertex, [0, 0], repetition.angle + displace);
+                    for (let buffer_index = 0; buffer_index < buffer_length; buffer_index += 3) {
+                        const vertex = vec3.fromValues(buffer[buffer_index], buffer[buffer_index + 1], buffer[buffer_index + 2]);
+                        {
+                            // Apply transformation
+                            squeezeX !== 0 && glme.squeezeX(vertex, squeezeX);
+                            squeezeY !== 0 && glme.squeezeY(vertex, squeezeY);
+                            skewX !== 0 && glme.skewX(vertex, skewX);
+                            skewY !== 0 && glme.skewY(vertex, skewY);
+                            glme.fromRadians(TEMP_QUAT, rotateX, rotateY, rotateZ);
+                            mat4.fromRotationTranslationScaleOrigin(TEMP_MATRIX, TEMP_QUAT, [0, 0, 0], [scale[0], scale[1], 1], [rotationOrigin[0], rotationOrigin[1], 0]);
+                            //http://learnwebgl.brown37.net/08_projections/projections_perspective.html
+                            // mat4.perspective(TEMP_PROJECTION_MATRIX, Math.PI / 2, 1, 0, 1)
+                            vec3.transformMat4(vertex, vertex, TEMP_MATRIX);
+                            // vec3.transformMat4(vertex, vertex, TEMP_PROJECTION_MATRIX)
+                            this.applyVertexTransform(vertex);
+                            (translate[0] !== 0 || translate[1] !== 0) && vec3.add(vertex, vertex, [translate[0], translate[1], 0]);
                         }
+                        if (repetition_type === ERepetitionType.Ring)
+                            vec3.rotateZ(vertex, vertex, [0, 0, 0], repetition.angle + displace);
+                        vec3.add(vertex, vertex, [offset[0], offset[1], 0]);
                         if (this.vertexCallback) {
-                            const index = buffer_index / 2 + 1;
-                            const count = buffer_length / 2;
+                            const index = buffer_index / 3 + 1;
+                            const count = buffer_length / 3;
                             this.vertexCallback(vertex, prop_arguments, {
                                 index,
                                 count,
                                 offset: index / count,
                             });
                         }
-                        vec2.add(vertex, vertex, offset);
                         if (bDirectSceneChild) {
                             vertex[0] += this.scene.center[0];
                             vertex[1] += this.scene.center[1];
