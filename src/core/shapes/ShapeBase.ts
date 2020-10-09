@@ -10,11 +10,16 @@ import {
 } from '@core/types/scene-child'
 import { IBufferIndex } from '@core/types/shape-base'
 
-import Vec2, { TArray } from '@core/math/Vec2'
-
 import SceneChild from '@core/SceneChild'
 import ShapePrimitive from '@core/shapes/ShapePrimitive'
 import Context from '@core/Context'
+import { mat4, quat, vec2 } from 'gl-matrix'
+import { toArray } from 'src/Utilites'
+import { fromRadians } from '@core/math/gl-matrix-extensions'
+
+const TEMP_PROJECTION_MATRIX: mat4 = mat4.create()
+const TEMP_MATRIX: mat4 = mat4.create()
+const TEMP_QUAT: quat = [0, 0, 0, 0]
 
 /**
  * Main class for shape generation
@@ -374,7 +379,7 @@ abstract class ShapeBase extends SceneChild {
 
 		const buffers = []
 		let current_index = 0
-		const center_matrix = Vec2.create((repetition_col_count - 1) / 2, (repetition_row_count - 1) / 2)
+		const center_matrix = vec2.fromValues((repetition_col_count - 1) / 2, (repetition_row_count - 1) / 2)
 
 		for (let current_row_repetition = 0; current_row_repetition < repetition_row_count; current_row_repetition++) {
 			for (
@@ -400,10 +405,11 @@ abstract class ShapeBase extends SceneChild {
 				total_buffer_length += buffer_length
 
 				{
-					const distance = Vec2.create(this.getProp('distance', prop_arguments, Vec2.ZERO))
+					let temp = toArray(this.getProp('distance', prop_arguments, [0, 0]))
+					const distance = vec2.fromValues(temp[0], temp[1])
 					const displace = this.getProp('displace', prop_arguments, 0)
-					const scale = Vec2.create(this.getProp('scale', prop_arguments, Vec2.ONE))
-					const translate = Vec2.create(this.getProp('translate', prop_arguments, Vec2.ZERO))
+					const scale = vec2.fromValues.apply(vec2, this.getProp('scale', prop_arguments, [1, 1]))
+					const translate = vec2.fromValues.apply(vec2, this.getProp('translate', prop_arguments, [0, 0]))
 					const skewX = this.getProp('skewX', prop_arguments, 0)
 					const skewY = this.getProp('skewY', prop_arguments, 0)
 					const squeezeX = this.getProp('squeezeX', prop_arguments, 0)
@@ -411,17 +417,17 @@ abstract class ShapeBase extends SceneChild {
 					const rotateX = this.getProp('rotateX', prop_arguments, 0)
 					const rotateY = this.getProp('rotateY', prop_arguments, 0)
 					const rotateZ = this.getProp('rotateZ', prop_arguments, 0)
-					const rotationOrigin = this.getProp('rotationOrigin', prop_arguments, Vec2.ZERO)
+					const rotationOrigin = this.getProp('rotationOrigin', prop_arguments, [0, 0])
 
-					let offset: TArray
+					let offset: vec2
 
 					switch (repetition_type) {
 						case ERepetitionType.Ring:
-							offset = Vec2.create(distance[0], 0)
-							Vec2.rotateZ(offset, Vec2.ZERO, repetition.angle + displace)
+							offset = vec2.fromValues(distance[0], 0)
+							vec2.rotate(offset, offset, [0, 0], repetition.angle + displace)
 							break
 						case ERepetitionType.Matrix:
-							offset = Vec2.create(
+							offset = vec2.fromValues(
 								distance[0] * (current_col_repetition - center_matrix[0]),
 								distance[1] * (current_row_repetition - center_matrix[1])
 							)
@@ -429,23 +435,35 @@ abstract class ShapeBase extends SceneChild {
 					}
 
 					for (let buffer_index = 0; buffer_index < buffer_length; buffer_index += 2) {
-						const vertex = Vec2.create(buffer[buffer_index], buffer[buffer_index + 1])
+						const vertex = vec2.fromValues(buffer[buffer_index], buffer[buffer_index + 1])
 
-						squeezeX !== 0 && Vec2.squeezeX(vertex, squeezeX)
-						squeezeY !== 0 && Vec2.squeezeY(vertex, squeezeY)
+						// squeezeX !== 0 && Vec2.squeezeX(vertex, squeezeX)
+						// squeezeY !== 0 && Vec2.squeezeY(vertex, squeezeY)
 
-						rotateX !== 0 && Vec2.rotateX(vertex, rotationOrigin, rotateX)
-						rotateY !== 0 && Vec2.rotateY(vertex, rotationOrigin, rotateY)
-						rotateZ !== 0 && Vec2.rotateZ(vertex, rotationOrigin, rotateZ)
-						skewX !== 0 && Vec2.skewX(vertex, skewX)
-						skewY !== 0 && Vec2.skewY(vertex, skewY)
-						;(scale[0] !== 1 || scale[1] !== 1) && Vec2.scale(vertex, scale)
+						// rotateX !== 0 && Vec2.rotateX(vertex, rotationOrigin, rotateX)
+						// rotateY !== 0 && Vec2.rotateY(vertex, rotationOrigin, rotateY)
+						// rotateZ !== 0 && Vec2.rotateZ(vertex, rotationOrigin, rotateZ)
+						// skewX !== 0 && Vec2.skewX(vertex, skewX)
+						// skewY !== 0 && Vec2.skewY(vertex, skewY)
+						// ;(scale[0] !== 1 || scale[1] !== 1) && Vec2.scale(vertex, scale)
+
+						fromRadians(TEMP_QUAT, rotateX, rotateY, rotateZ)
+						mat4.fromRotationTranslationScaleOrigin(
+							TEMP_MATRIX,
+							TEMP_QUAT,
+							[0, 0, 0],
+							[scale[0], scale[1], 1],
+							[rotationOrigin[0], rotationOrigin[1], 0]
+						)
+						mat4.perspective(TEMP_PROJECTION_MATRIX, Math.PI / 2, 1, 0, 1)
+						vec2.transformMat4(vertex, vertex, TEMP_MATRIX)
+						vec2.transformMat4(vertex, vertex, TEMP_PROJECTION_MATRIX)
 
 						this.applyVertexTransform(vertex)
-						;(translate[0] !== 0 || translate[1] !== 0) && Vec2.translate(vertex, translate)
+						// ;(translate[0] !== 0 || translate[1] !== 0) && Vec2.translate(vertex, translate)
 
 						if (repetition_type === ERepetitionType.Ring) {
-							Vec2.rotateZ(vertex, Vec2.ZERO, repetition.angle + displace)
+							vec2.rotate(vertex, vertex, [0, 0], repetition.angle + displace)
 						}
 
 						if (this.vertexCallback) {
@@ -458,7 +476,7 @@ abstract class ShapeBase extends SceneChild {
 							})
 						}
 
-						Vec2.translate(vertex, offset)
+						vec2.add(vertex, vertex, offset)
 
 						if (bDirectSceneChild) {
 							vertex[0] += this.scene.center[0]
@@ -488,10 +506,10 @@ abstract class ShapeBase extends SceneChild {
 	 * Apply vertex transformation
 	 *
 	 * @protected
-	 * @param {TArray} vertex
+	 * @param {vec2} vertex
 	 * @memberof ShapeBase
 	 */
-	protected applyVertexTransform(vertex: TArray): void {}
+	protected applyVertexTransform(vertex: vec2): void {}
 
 	/**
 	 * Add into indexed_buffer

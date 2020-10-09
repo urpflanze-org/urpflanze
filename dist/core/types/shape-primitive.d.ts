@@ -1,4 +1,5 @@
 import { ISceneChildPropArguments, IShapeLoopRepetition, TSceneChildProp } from "./scene-child";
+import { vec2 } from 'gl-matrix';
 import { IShapePrimitiveProps, IShapePrimitiveSettings } from "./shape-base";
 /**
  *
@@ -17,7 +18,7 @@ export interface IShapeBufferSettings extends IShapeBufferProps, IShapePrimitive
  *
  * @category Core.Types
  */
-export declare type TShapeLoopGeneratorFormula = (shape_loop_repetition: IShapeLoopRepetition, prop_arguments: ISceneChildPropArguments) => Array<number> | Float32Array;
+export declare type TShapeLoopGeneratorFormula = (shape_loop_repetition: IShapeLoopRepetition, prop_arguments: ISceneChildPropArguments) => vec2;
 /**
  *
  * @category Core.Interfaces

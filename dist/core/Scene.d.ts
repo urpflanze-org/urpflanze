@@ -1,5 +1,4 @@
 import { TStreamCallback, ISceneSettingsInterface } from "./types/scene";
-import { TArray } from "./math/Vec2";
 import SceneChild from "./SceneChild";
 /**
  * Container for all SceneChild.
@@ -23,7 +22,7 @@ declare class Scene {
     /**
      * Refers to the central point of the scene
      */
-    center: TArray;
+    center: [number, number];
     /**
      * Default background color (black)
      */

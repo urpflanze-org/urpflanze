@@ -46,6 +46,7 @@
 	"dependencies": {
 		"@pups/core": "0.0.0-b23",
 		"@types/uuid": "^8.3.0",
+		"gl-matrix": "^3.3.0",
 		"jszip": "^3.5.0",
 		"simplex-noise": "^2.4.0",
 		"uuid": "^8.3.0"

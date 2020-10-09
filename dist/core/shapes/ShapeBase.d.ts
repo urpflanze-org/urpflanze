@@ -2,8 +2,8 @@ import { TStreamCallback } from "../types/scene";
 import { IShapeBaseSettings, TVertexCallback } from "../types/shape-base";
 import { IRepetition, IBaseRepetition, ISceneChildPropArguments, ISceneChildProps } from "../types/scene-child";
 import { IBufferIndex } from "../types/shape-base";
-import { TArray } from "../math/Vec2";
 import SceneChild from "../SceneChild";
+import { vec2 } from 'gl-matrix';
 /**
  * Main class for shape generation
  *
@@ -201,10 +201,10 @@ declare abstract class ShapeBase extends SceneChild {
      * Apply vertex transformation
      *
      * @protected
-     * @param {TArray} vertex
+     * @param {vec2} vertex
      * @memberof ShapeBase
      */
-    protected applyVertexTransform(vertex: TArray): void;
+    protected applyVertexTransform(vertex: vec2): void;
     /**
      * Add into indexed_buffer
      *

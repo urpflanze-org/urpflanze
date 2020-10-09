@@ -8,20 +8,21 @@ import {
 } from '@services/types/animation'
 import Easings, { TEasing } from '@services/animation/Easings'
 import { toArray } from 'src/Utilites'
-import { TArray } from '@core/math/Vec2'
 import { ISceneChildPropArguments, TSceneChildProp } from '@core/types/scene-child'
 
 const Simple = {
-	loop: (props: TSimpleAnimationLoop): TSceneChildProp<string | number | TArray> =>
+	loop: (props: TSimpleAnimationLoop): TSceneChildProp<string | number | Array<number> | Float32Array> =>
 		Simple.compose({ mode: 'sinusoidal', mode_function: 'cos', ...props, type: 'loop', delay: undefined }),
 
-	uncontrolledLoop: (props: TSimpleAnimationUncontrolledLoop): TSceneChildProp<string | number | TArray> =>
+	uncontrolledLoop: (
+		props: TSimpleAnimationUncontrolledLoop
+	): TSceneChildProp<string | number | Array<number> | Float32Array> =>
 		Simple.compose({ mode: 'easing', mode_function: 'linear', ...props, type: 'uncontrolled-loop' }),
 
-	static: (props: TSimpleAnimationStatic): TSceneChildProp<string | number | TArray> =>
+	static: (props: TSimpleAnimationStatic): TSceneChildProp<string | number | Array<number> | Float32Array> =>
 		Simple.compose({ mode: 'easing', mode_function: 'linear', ...props, type: 'static' }),
 
-	compose: (simpleAnimation: ISimpleAnimation): TSceneChildProp<string | number | TArray> => {
+	compose: (simpleAnimation: ISimpleAnimation): TSceneChildProp<string | number | Array<number> | Float32Array> => {
 		if (typeof simpleAnimation.from !== 'string' && typeof simpleAnimation.to !== 'string') {
 			const bArray = Array.isArray(simpleAnimation.from) || Array.isArray(simpleAnimation.to)
 
@@ -30,8 +31,8 @@ const Simple = {
 
 			const vCallback = bArray
 				? (current_index: number, v: number) => {
-						const a = (simpleAnimation.invertOdd && current_index % 2 == 1 ? to : from) as TArray
-						const b = (simpleAnimation.invertOdd && current_index % 2 == 1 ? from : to) as TArray
+						const a = (simpleAnimation.invertOdd && current_index % 2 == 1 ? to : from) as Array<number> | Float32Array
+						const b = (simpleAnimation.invertOdd && current_index % 2 == 1 ? from : to) as Array<number> | Float32Array
 
 						return simpleAnimation.type_value === 'int'
 							? [Math.round(a[0] + v * (b[0] - a[0])), Math.round(a[1] + v * (b[1] - a[1]))]
@@ -44,7 +45,7 @@ const Simple = {
 						return simpleAnimation.type_value === 'int' ? Math.round(a + v * (b - a)) : a + v * (b - a)
 				  }
 
-			return createSimpleAnimationCallback<number | TArray>(simpleAnimation, (props, v) =>
+			return createSimpleAnimationCallback<number | Array<number> | Float32Array>(simpleAnimation, (props, v) =>
 				vCallback(props.repetition.index, v)
 			)
 		} else {

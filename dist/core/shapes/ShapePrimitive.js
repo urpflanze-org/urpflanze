@@ -1,6 +1,7 @@
 import ShapeBase from "./ShapeBase";
-import Vec2, { TArray } from "../math/Vec2";
 import { EShapePrimitiveAdaptMode, IShapeBounding, IShapePrimitiveProps, IShapePrimitiveSettings, } from "../types/shape-base";
+import { vec2 } from 'gl-matrix';
+import { toArray } from "../../Utilites";
 /**
  * @category Core.Abstract
  */
@@ -8,7 +9,12 @@ class ShapePrimitive extends ShapeBase {
     constructor(settings = {}) {
         var _a, _b;
         super(settings);
-        this.sideLength = Vec2.create(typeof settings.sideLength === 'number' || Array.isArray(settings.sideLength) ? settings.sideLength : [50, 50]);
+        const sideLength = typeof settings.sideLength === 'number'
+            ? [settings.sideLength, settings.sideLength]
+            : Array.isArray(settings.sideLength)
+                ? settings.sideLength
+                : [50, 50];
+        this.sideLength = vec2.fromValues(sideLength[0], sideLength[1]);
         this.props.sideLength = settings.sideLength;
         this.props.fillColor = settings.fillColor;
         this.props.lineWidth = settings.lineWidth;
@@ -45,13 +51,14 @@ class ShapePrimitive extends ShapeBase {
      * @memberof ShapePrimitive
      */
     bindSideLength(prop_arguments) {
-        this.sideLength = Vec2.create(this.getProp('sideLength', prop_arguments, [50, 50]));
+        const sideLength = toArray(this.getProp('sideLength', prop_arguments, [50, 50]));
+        this.sideLength = vec2.fromValues(sideLength[0], sideLength[1]);
     }
     /**
      * Apply side length to buffer
      *
      * @protected
-     * @param {TArray} vertex
+     * @param {vec2} vertex
      * @memberof ShapePrimitive
      */
     applyVertexTransform(vertex) {

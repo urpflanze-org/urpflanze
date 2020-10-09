@@ -1,8 +1,6 @@
 import ShapePrimitive from './ShapePrimitive'
 import ShapeBase from './ShapeBase'
-import Vec2 from '@core/math/Vec2'
-import Context from '@core/Context'
-import { ERepetitionType, IShapeLoopRepetition, ISceneChildPropArguments } from '@core/types/scene-child'
+import { IShapeLoopRepetition, ISceneChildPropArguments } from '@core/types/scene-child'
 import {
 	IShapeLoopGenerator,
 	IShapeLoopProps,
@@ -10,6 +8,7 @@ import {
 	TShapeLoopGeneratorFormula,
 } from '@core/types/shape-primitive'
 import { EShapePrimitiveAdaptMode, IShapePrimitiveProps } from '@core/types/shape-base'
+import { vec2 } from 'gl-matrix'
 
 /**
  *
@@ -98,7 +97,7 @@ class ShapeLoop extends ShapePrimitive {
 				start: 0,
 				end: ShapeLoop.PI2,
 				inc: ShapeLoop.PI2 / 10,
-				vertex: () => Vec2.ZERO,
+				vertex: () => [0, 0],
 			}
 
 			this.bStaticLoop = this.isStaticLoop()

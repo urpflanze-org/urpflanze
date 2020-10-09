@@ -16,7 +16,6 @@ export { default as Shape } from "./core/shapes/Shape";
 export { default as ShapePrimitive } from "./core/shapes/ShapePrimitive";
 export { default as ShapeLoop } from "./core/shapes/ShapeLoop";
 export { default as ShapeBuffer } from "./core/shapes/ShapeBuffer";
-export { default as Vec2 } from "./core/math/Vec2";
 export { clamp, relativeClamp, toDegrees, toRadians } from "./Utilites";
 export { default as Context } from "./core/Context";
 /**

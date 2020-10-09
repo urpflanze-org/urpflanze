@@ -1,3 +1,7 @@
+import { glMatrix } from 'gl-matrix'
+
+glMatrix.setMatrixArrayType(Array)
+
 /**
  * Core
  */
@@ -25,7 +29,6 @@ export { default as ShapeLoop } from '@core/shapes/ShapeLoop'
 export { default as ShapeBuffer } from '@core/shapes/ShapeBuffer'
 
 // Utilities
-export { default as Vec2 } from '@core/math/Vec2'
 export { clamp, relativeClamp, toDegrees, toRadians } from 'src/Utilites'
 
 export { default as Context } from '@core/Context'

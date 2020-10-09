@@ -1,6 +1,5 @@
 import ShapePrimitive from "./ShapePrimitive";
 import ShapeBase from "./ShapeBase";
-import Vec2 from "../math/Vec2";
 import { EShapePrimitiveAdaptMode, IShapePrimitiveProps } from "../types/shape-base";
 /**
  * Shape Loop
@@ -20,8 +19,8 @@ class ShapeLoop extends ShapePrimitive {
             this.loop = {
                 start: 0,
                 end: ShapeLoop.PI2,
-                inc: ShapeLoop.PI2 / 30,
-                vertex: () => Vec2.ZERO,
+                inc: ShapeLoop.PI2 / 10,
+                vertex: () => [0, 0],
             };
             this.bStaticLoop = this.isStaticLoop();
             this.bStatic = this.isStatic();
@@ -61,12 +60,12 @@ class ShapeLoop extends ShapePrimitive {
      * @memberof ShapeBase
      */
     isStaticIndexed() {
-        // let start = this.props.loop?.start ?? this.loop.start
-        // let end = this.props.loop?.end ?? this.loop.end
-        // let inc = this.props.loop?.inc ?? this.loop.inc
-        // return typeof start !== 'function' && typeof end !== 'function' &&
-        //         typeof inc !== 'function' && super.isStaticIndexed()
-        return this.bStaticLoop && super.isStaticIndexed();
+        var _a, _b, _c, _d, _e, _f;
+        let start = (_b = (_a = this.props.loop) === null || _a === void 0 ? void 0 : _a.start) !== null && _b !== void 0 ? _b : this.loop.start;
+        let end = (_d = (_c = this.props.loop) === null || _c === void 0 ? void 0 : _c.end) !== null && _d !== void 0 ? _d : this.loop.end;
+        let inc = (_f = (_e = this.props.loop) === null || _e === void 0 ? void 0 : _e.inc) !== null && _f !== void 0 ? _f : this.loop.inc;
+        return (typeof start !== 'function' && typeof end !== 'function' && typeof inc !== 'function' && super.isStaticIndexed());
+        // return this.bStaticLoop && super.isStaticIndexed()
     }
     /**
      *  Unset buffer

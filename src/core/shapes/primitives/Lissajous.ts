@@ -2,6 +2,7 @@ import ShapeLoop from '@core/shapes/ShapeLoop'
 import { ISceneChildPropArguments, IShapeLoopRepetition } from '@core/types/scene-child'
 import { EShapePrimitiveAdaptMode } from '@core/types/shape-base'
 import { ILissajousProps, ILissajousSettings, IShapeLoopProps } from '@core/types/shape-primitive'
+import { vec2 } from 'gl-matrix'
 
 /**
  * Lissajous shape
@@ -46,10 +47,7 @@ class Lissajous extends ShapeLoop {
 
 				return (1 / Math.pow(this.sideLength[0] * this.sideLength[1], 0.25)) * ratio
 			},
-			vertex: (
-				shape_loop_repetition: IShapeLoopRepetition,
-				prop_arguments?: ISceneChildPropArguments
-			): Array<number> => {
+			vertex: (shape_loop_repetition: IShapeLoopRepetition, prop_arguments?: ISceneChildPropArguments): vec2 => {
 				const wx = this.getProp('wx', prop_arguments)
 				const wy = this.getProp('wy', prop_arguments)
 				const wz = this.getProp('wz', prop_arguments, 0)

@@ -1,7 +1,7 @@
 import ShapeBase from "./ShapeBase";
-import { TArray } from "../math/Vec2";
 import { EShapePrimitiveAdaptMode, IShapeBounding, IShapePrimitiveProps, IShapePrimitiveSettings } from "../types/shape-base";
 import { IRepetition, ISceneChildPropArguments } from "../types/scene-child";
+import { vec2 } from 'gl-matrix';
 /**
  * @category Core.Abstract
  */
@@ -35,7 +35,7 @@ declare abstract class ShapePrimitive extends ShapeBase {
      * @type {Array<number>}
      * @memberof ShapePrimitive
      */
-    sideLength: TArray;
+    sideLength: vec2;
     constructor(settings?: IShapePrimitiveSettings);
     /**
      * Check if shape is static
@@ -66,10 +66,10 @@ declare abstract class ShapePrimitive extends ShapeBase {
      * Apply side length to buffer
      *
      * @protected
-     * @param {TArray} vertex
+     * @param {vec2} vertex
      * @memberof ShapePrimitive
      */
-    protected applyVertexTransform(vertex: TArray): void;
+    protected applyVertexTransform(vertex: vec2): void;
     /**
      * Add this to indexed_buffer
      *
