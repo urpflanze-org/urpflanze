@@ -28,7 +28,7 @@ class ShapeBuffer extends ShapePrimitive {
         for (let i = 0, j = 0; i < buffer_length; i += 2, j += 3) {
             result[j] = buffer[i];
             result[j + 1] = buffer[i + 1];
-            result[j + 2] = 0;
+            result[j + 2] = 2;
         }
         return result;
     }

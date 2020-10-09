@@ -244,11 +244,26 @@ class ShapeBase extends SceneChild {
                             skewX !== 0 && glme.skewX(vertex, skewX);
                             skewY !== 0 && glme.skewY(vertex, skewY);
                             glme.fromRadians(TEMP_QUAT, rotateX, rotateY, rotateZ);
-                            mat4.fromRotationTranslationScaleOrigin(TEMP_MATRIX, TEMP_QUAT, [0, 0, 0], [scale[0], scale[1], 1], [rotationOrigin[0], rotationOrigin[1], 0]);
-                            //http://learnwebgl.brown37.net/08_projections/projections_perspective.html
-                            // mat4.perspective(TEMP_PROJECTION_MATRIX, Math.PI / 2, 1, 0, 1)
+                            mat4.fromRotationTranslationScaleOrigin(TEMP_MATRIX, TEMP_QUAT, [0, 0, 0], [scale[0], scale[1], 1], 
+                            // [rotationOrigin[0], rotationOrigin[1], 2]
+                            [0, 0, 2]);
                             vec3.transformMat4(vertex, vertex, TEMP_MATRIX);
+                            //http://learnwebgl.brown37.net/08_projections/projections_perspective.html
+                            // mat4.ortho(TEMP_PROJECTION_MATRIX, -10, 10, -10, 10, 0, 10)
+                            // mat4.perspective(TEMP_PROJECTION_MATRIX, 3, 1, 0.1, 0)
                             // vec3.transformMat4(vertex, vertex, TEMP_PROJECTION_MATRIX)
+                            {
+                                //https://stackoverflow.com/questions/20162947/perspective-transform-with-perspective-origin-in-opengl-glkit
+                                // const perspectiveOrigin = vec3.fromValues(-0.9, -0.9, 0)
+                                const perspectiveOrigin = vec3.fromValues(0, 0, 0);
+                                const perspectiveMatrix = mat4.create();
+                                mat4.identity(perspectiveMatrix);
+                                mat4.translate(perspectiveMatrix, perspectiveMatrix, perspectiveOrigin);
+                                mat4.perspective(TEMP_PROJECTION_MATRIX, Math.PI / 4, 1, 0, 100);
+                                mat4.mul(TEMP_PROJECTION_MATRIX, TEMP_PROJECTION_MATRIX, perspectiveMatrix);
+                                mat4.translate(perspectiveMatrix, perspectiveMatrix, vec3.scale(perspectiveOrigin, perspectiveOrigin, -1));
+                                vec3.transformMat4(vertex, vertex, TEMP_PROJECTION_MATRIX);
+                            }
                             this.applyVertexTransform(vertex);
                             (translate[0] !== 0 || translate[1] !== 0) && vec3.add(vertex, vertex, [translate[0], translate[1], 0]);
                         }
