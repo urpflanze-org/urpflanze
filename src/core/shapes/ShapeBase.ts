@@ -300,7 +300,9 @@ abstract class ShapeBase extends SceneChild {
 	public clearBuffer(bClearIndexed: boolean = false, bPropagateToParents: boolean = true) {
 		this.buffer = undefined
 
-		if (bClearIndexed) this.indexed_buffer = undefined
+		if (bClearIndexed) {
+			this.bIndexed = false
+		}
 
 		this.bStatic = this.isStatic()
 		this.bStaticIndexed = this.isStaticIndexed()

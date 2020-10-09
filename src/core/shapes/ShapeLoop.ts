@@ -97,7 +97,7 @@ class ShapeLoop extends ShapePrimitive {
 			this.loop = {
 				start: 0,
 				end: ShapeLoop.PI2,
-				inc: ShapeLoop.PI2 / 30,
+				inc: ShapeLoop.PI2 / 10,
 				vertex: () => Vec2.ZERO,
 			}
 
@@ -143,14 +143,15 @@ class ShapeLoop extends ShapePrimitive {
 	 * @memberof ShapeBase
 	 */
 	public isStaticIndexed(): boolean {
-		// let start = this.props.loop?.start ?? this.loop.start
-		// let end = this.props.loop?.end ?? this.loop.end
-		// let inc = this.props.loop?.inc ?? this.loop.inc
+		let start = this.props.loop?.start ?? this.loop.start
+		let end = this.props.loop?.end ?? this.loop.end
+		let inc = this.props.loop?.inc ?? this.loop.inc
 
-		// return typeof start !== 'function' && typeof end !== 'function' &&
-		//         typeof inc !== 'function' && super.isStaticIndexed()
+		return (
+			typeof start !== 'function' && typeof end !== 'function' && typeof inc !== 'function' && super.isStaticIndexed()
+		)
 
-		return this.bStaticLoop && super.isStaticIndexed()
+		// return this.bStaticLoop && super.isStaticIndexed()
 	}
 
 	/**

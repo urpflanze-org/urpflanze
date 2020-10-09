@@ -150,11 +150,11 @@ class ShapeBuffer extends ShapePrimitive {
 					subdivided[i * 2] = x
 					subdivided[i * 2 + 1] = y
 				}
+			}
 
-				if (bClosed) {
-					subdivided[(shape_len - 1) * 2] = (shape[0] + shape[shape_len - 2]) / 2
-					subdivided[(shape_len - 1) * 2 + 1] = (shape[1] + shape[shape_len - 1]) / 2
-				}
+			if (bClosed) {
+				subdivided[(shape_len - 1) * 2] = (shape[0] + shape[shape_len - 2]) / 2
+				subdivided[(shape_len - 1) * 2 + 1] = (shape[1] + shape[shape_len - 1]) / 2
 			}
 
 			return subdivided
