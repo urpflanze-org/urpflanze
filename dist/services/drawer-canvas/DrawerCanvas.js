@@ -546,7 +546,7 @@ class DrawerCanvas extends Emitter {
                     return;
                 context.beginPath();
                 context.moveTo((buffer[frame_buffer_index] - width / 2) * final_scale[0] + final_translate[0], (buffer[frame_buffer_index + 1] - height / 2) * final_scale[1] + final_translate[1]);
-                for (let i = 3; i < frame_length; i += 3) {
+                for (let i = 2; i < frame_length; i += 2) {
                     context.lineTo((buffer[frame_buffer_index + i] - width / 2) * final_scale[0] + final_translate[0], (buffer[frame_buffer_index + i + 1] - height / 2) * final_scale[1] + final_translate[1]);
                 }
                 shape && shape.isClosed() && context.closePath();

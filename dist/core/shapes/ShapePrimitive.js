@@ -1,7 +1,6 @@
 import ShapeBase from "./ShapeBase";
 import { EShapePrimitiveAdaptMode, IShapeBounding, IShapePrimitiveProps, IShapePrimitiveSettings, } from "../types/shape-base";
-import { vec2 } from 'gl-matrix';
-import { toArray } from "../../Utilites";
+import { toVec2 } from "../math/gl-matrix-extensions";
 /**
  * @category Core.Abstract
  */
@@ -14,7 +13,7 @@ class ShapePrimitive extends ShapeBase {
             : Array.isArray(settings.sideLength)
                 ? settings.sideLength
                 : [50, 50];
-        this.sideLength = vec2.fromValues(sideLength[0], sideLength[1]);
+        this.sideLength = sideLength;
         this.props.sideLength = settings.sideLength;
         this.props.fillColor = settings.fillColor;
         this.props.lineWidth = settings.lineWidth;
@@ -51,8 +50,7 @@ class ShapePrimitive extends ShapeBase {
      * @memberof ShapePrimitive
      */
     bindSideLength(prop_arguments) {
-        const sideLength = toArray(this.getProp('sideLength', prop_arguments, [50, 50]));
-        this.sideLength = vec2.fromValues(sideLength[0], sideLength[1]);
+        this.sideLength = toVec2(this.getProp('sideLength', prop_arguments, [50, 50]));
     }
     /**
      * Apply side length to buffer

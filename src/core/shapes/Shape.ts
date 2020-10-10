@@ -1,6 +1,6 @@
 import ShapeBase from '@core/shapes/ShapeBase'
 import SceneChild from '@core/SceneChild'
-import { IShapeSettings } from '@core/types/shape-base'
+import { IShapeBounding, IShapeSettings } from '@core/types/shape-base'
 import Scene from '@core/Scene'
 import { IRepetition, ISceneChildPropArguments } from '@core/types/scene-child'
 import { IBufferIndex } from '@core/types/shape-base'
@@ -162,6 +162,24 @@ class Shape extends ShapeBase {
 			this.shape = shape
 
 			this.shape.clearBuffer(true, true)
+		}
+	}
+
+	protected getBounding(): IShapeBounding {
+		// console.log('getBounding 1')
+		if (this.shape) {
+			//@ts-ignore
+			// console.log('getBounding 2', this.shape.getBounding())
+			//@ts-ignore
+			return this.shape.getBounding() as IShapeBounding
+		}
+		return {
+			cx: 0,
+			cy: 0,
+			x: -1,
+			y: -1,
+			width: 2,
+			height: 2,
 		}
 	}
 

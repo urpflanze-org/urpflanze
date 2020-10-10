@@ -23,7 +23,6 @@ declare class ShapeBuffer extends ShapePrimitive {
      */
     private shape_buffer;
     constructor(settings?: IShapeBufferSettings);
-    static buffer2Dto3D(buffer: Float32Array): Float32Array;
     /**
      *  Unset buffer
      *

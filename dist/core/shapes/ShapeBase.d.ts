@@ -1,5 +1,5 @@
 import { TStreamCallback } from "../types/scene";
-import { IShapeBaseSettings, TVertexCallback } from "../types/shape-base";
+import { IShapeBaseSettings, IShapeBounding, TVertexCallback } from "../types/shape-base";
 import { IRepetition, IBaseRepetition, ISceneChildPropArguments, ISceneChildProps } from "../types/scene-child";
 import { IBufferIndex } from "../types/shape-base";
 import SceneChild from "../SceneChild";
@@ -138,6 +138,7 @@ declare abstract class ShapeBase extends SceneChild {
      * ```
      */
     vertexCallback?: TVertexCallback;
+    bounding: IShapeBounding;
     /**
      * Creates an instance of ShapeBase
      *
@@ -197,6 +198,7 @@ declare abstract class ShapeBase extends SceneChild {
      * @memberof ShapeBase
      */
     generate(generate_id: number, bDirectSceneChild?: boolean, parent_prop_arguments?: ISceneChildPropArguments): void;
+    protected getBounding(): IShapeBounding;
     /**
      * Apply vertex transformation
      *

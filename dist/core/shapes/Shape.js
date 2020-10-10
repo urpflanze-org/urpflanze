@@ -135,6 +135,23 @@ class Shape extends ShapeBase {
             this.shape.clearBuffer(true, true);
         }
     }
+    getBounding() {
+        // console.log('getBounding 1')
+        if (this.shape) {
+            //@ts-ignore
+            // console.log('getBounding 2', this.shape.getBounding())
+            //@ts-ignore
+            return this.shape.getBounding();
+        }
+        return {
+            cx: 0,
+            cy: 0,
+            x: -1,
+            y: -1,
+            width: 2,
+            height: 2,
+        };
+    }
 }
 export default Shape;
 //# sourceMappingURL=Shape.js.map

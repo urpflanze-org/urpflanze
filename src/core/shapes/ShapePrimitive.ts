@@ -9,7 +9,7 @@ import {
 import { IRepetition, ISceneChildPropArguments, ISceneChildProps } from '@core/types/scene-child'
 import { IBufferIndex } from '@core/types/shape-base'
 import { vec2 } from 'gl-matrix'
-import { toArray } from 'src/Utilites'
+import { toVec2 } from '@core/math/gl-matrix-extensions'
 
 /**
  * @category Core.Abstract
@@ -59,8 +59,7 @@ abstract class ShapePrimitive extends ShapeBase {
 				? settings.sideLength
 				: [50, 50]
 
-		this.sideLength = vec2.fromValues(sideLength[0], sideLength[1])
-
+		this.sideLength = sideLength as vec2
 		this.props.sideLength = settings.sideLength
 
 		this.props.fillColor = settings.fillColor
@@ -102,8 +101,7 @@ abstract class ShapePrimitive extends ShapeBase {
 	 * @memberof ShapePrimitive
 	 */
 	protected bindSideLength(prop_arguments: ISceneChildPropArguments): void {
-		const sideLength = toArray(this.getProp('sideLength', prop_arguments, [50, 50]))
-		this.sideLength = vec2.fromValues(sideLength[0], sideLength[1])
+		this.sideLength = toVec2(this.getProp('sideLength', prop_arguments, [50, 50]))
 	}
 
 	/**

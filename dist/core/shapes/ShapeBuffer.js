@@ -14,24 +14,25 @@ class ShapeBuffer extends ShapePrimitive {
         }
         else
             this.shape = Float32Array.from(settings.shape);
-        const shape = this.getAdaptMode() !== EShapePrimitiveAdaptMode.None
-            ? ShapePrimitive.adaptBuffer(this.shape, this.getAdaptMode())
-            : this.shape;
-        this.shape_buffer = ShapeBuffer.buffer2Dto3D(shape);
+        this.shape_buffer =
+            this.getAdaptMode() !== EShapePrimitiveAdaptMode.None
+                ? ShapePrimitive.adaptBuffer(this.shape, this.getAdaptMode())
+                : this.shape;
+        // this.shape_buffer = ShapeBuffer.buffer2Dto3D(this.shape_buffer)
         this.bStatic = this.isStatic();
         this.bStaticIndexed = this.isStaticIndexed();
     }
-    static buffer2Dto3D(buffer) {
-        const buffer_length = buffer.length;
-        const vertex_len = buffer_length / 2;
-        const result = new Float32Array(vertex_len * 3);
-        for (let i = 0, j = 0; i < buffer_length; i += 2, j += 3) {
-            result[j] = buffer[i];
-            result[j + 1] = buffer[i + 1];
-            result[j + 2] = 2;
-        }
-        return result;
-    }
+    // static buffer2Dto3D(buffer: Float32Array): Float32Array {
+    // 	const buffer_length = buffer.length
+    // 	const vertex_len = buffer_length / 2
+    // 	const result = new Float32Array(vertex_len * 3)
+    // 	for (let i = 0, j = 0; i < buffer_length; i += 2, j += 3) {
+    // 		result[j] = buffer[i]
+    // 		result[j + 1] = buffer[i + 1]
+    // 		result[j + 2] = 2
+    // 	}
+    // 	return result
+    // }
     /**
      *  Unset buffer
      *
@@ -45,7 +46,7 @@ class ShapeBuffer extends ShapePrimitive {
             this.getAdaptMode() != EShapePrimitiveAdaptMode.None
                 ? ShapePrimitive.adaptBuffer(this.shape, this.getAdaptMode())
                 : this.shape;
-        this.shape_buffer = ShapeBuffer.buffer2Dto3D(this.shape_buffer);
+        // this.shape_buffer = ShapeBuffer.buffer2Dto3D(this.shape_buffer)
     }
     /**
      * Return length of buffer

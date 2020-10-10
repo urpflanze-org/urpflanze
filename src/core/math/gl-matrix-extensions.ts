@@ -1,6 +1,19 @@
 import { mat4, quat, vec2, vec3 } from 'gl-matrix'
 
-export function fromRadians(out: quat, x: number, y: number, z: number) {
+export const VEC3_ZERO: vec3 = [0, 0, 0]
+export const VEC2_ZERO: vec2 = [0, 0]
+export const VEC2_ONE: vec2 = [1, 1]
+
+export function toVec2(x: number | Array<number>): vec2 {
+	if (Array.isArray(x)) return vec2.fromValues(x[0], x[1])
+	return vec2.fromValues(x, x)
+}
+export function toVec3(x: number | Array<number>, defaultZValue: number = 0): vec3 {
+	if (Array.isArray(x)) return vec3.fromValues(x[0], x[1], x[2] ?? defaultZValue)
+	return vec3.fromValues(x, x, x)
+}
+
+export function fromRadians(out: quat, x: number, y: number, z: number): quat {
 	let halfToRad = 0.5
 	x *= halfToRad
 	y *= halfToRad

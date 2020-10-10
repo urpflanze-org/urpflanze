@@ -1,3 +1,18 @@
+import { vec2, vec3 } from 'gl-matrix';
+export const VEC3_ZERO = [0, 0, 0];
+export const VEC2_ZERO = [0, 0];
+export const VEC2_ONE = [1, 1];
+export function toVec2(x) {
+    if (Array.isArray(x))
+        return vec2.fromValues(x[0], x[1]);
+    return vec2.fromValues(x, x);
+}
+export function toVec3(x, defaultZValue = 0) {
+    var _a;
+    if (Array.isArray(x))
+        return vec3.fromValues(x[0], x[1], (_a = x[2]) !== null && _a !== void 0 ? _a : defaultZValue);
+    return vec3.fromValues(x, x, x);
+}
 export function fromRadians(out, x, y, z) {
     let halfToRad = 0.5;
     x *= halfToRad;

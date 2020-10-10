@@ -2,7 +2,6 @@ import { ERepetitionType, IRepetition, IBaseRepetition, ISceneChildPropArguments
 import SceneChild from "../SceneChild";
 import Context from "../Context";
 import { mat4, vec2, vec3 } from 'gl-matrix';
-import { toArray } from "../../Utilites";
 import * as glme from "../math/gl-matrix-extensions";
 const TEMP_PROJECTION_MATRIX = mat4.create();
 const TEMP_MATRIX = mat4.create();
@@ -40,6 +39,14 @@ class ShapeBase extends SceneChild {
          * @ignore
          */
         this.bIndexed = false;
+        this.bounding = {
+            cx: 0,
+            cy: 0,
+            x: -1,
+            y: -1,
+            width: 2,
+            height: 2,
+        };
         this.props = {
             distance: settings.distance,
             repetitions: settings.repetitions,
@@ -53,7 +60,9 @@ class ShapeBase extends SceneChild {
             displace: settings.displace,
             translate: settings.translate,
             scale: settings.scale,
-            rotationOrigin: settings.rotationOrigin,
+            transformOrigin: settings.transformOrigin,
+            perspective: settings.perspective,
+            perspectiveOrigin: settings.perspectiveOrigin,
         };
         this.bUseParent = !!settings.bUseParent;
         this.vertexCallback = settings.vertexCallback;
@@ -78,7 +87,7 @@ class ShapeBase extends SceneChild {
             typeof props.squeezeY !== 'function' &&
             typeof props.translate !== 'function' &&
             typeof props.scale !== 'function' &&
-            typeof props.rotationOrigin !== 'function');
+            typeof props.transformOrigin !== 'function');
     }
     /**
      * Check if the indexed_buffer array needs to be recreated every time,
@@ -163,8 +172,7 @@ class ShapeBase extends SceneChild {
         if (!this.scene || (this.buffer && (this.bStatic || (generate_id === this.generate_id && !this.bUseParent)))) {
             return;
         }
-        if (!this.scene)
-            return;
+        let minX = Number.MAX_VALUE, minY = Number.MAX_VALUE, maxX = Number.MIN_VALUE, maxY = Number.MIN_VALUE;
         this.generate_id = generate_id;
         if (!this.bStaticIndexed || !this.bIndexed)
             this.indexed_buffer = [];
@@ -209,14 +217,14 @@ class ShapeBase extends SceneChild {
                 // Generate primitives buffer recursively
                 const buffer = this.generateBuffer(generate_id, prop_arguments);
                 const buffer_length = buffer.length;
+                const bounding = this.getBounding(); // TODO: change
                 buffers[current_index] = new Float32Array(buffer_length);
                 total_buffer_length += buffer_length;
                 {
-                    let temp = toArray(this.getProp('distance', prop_arguments, [0, 0]));
-                    const distance = vec2.fromValues(temp[0], temp[1]);
+                    const distance = glme.toVec2(this.getProp('distance', prop_arguments, glme.VEC2_ONE));
                     const displace = this.getProp('displace', prop_arguments, 0);
-                    const scale = vec2.fromValues.apply(vec2, this.getProp('scale', prop_arguments, [1, 1]));
-                    const translate = vec2.fromValues.apply(vec2, this.getProp('translate', prop_arguments, [0, 0]));
+                    const scale = glme.toVec3(this.getProp('scale', prop_arguments, glme.VEC2_ONE), 1);
+                    const translate = glme.toVec3(this.getProp('translate', prop_arguments, glme.VEC2_ZERO), 0);
                     const skewX = this.getProp('skewX', prop_arguments, 0);
                     const skewY = this.getProp('skewY', prop_arguments, 0);
                     const squeezeX = this.getProp('squeezeX', prop_arguments, 0);
@@ -224,19 +232,26 @@ class ShapeBase extends SceneChild {
                     const rotateX = this.getProp('rotateX', prop_arguments, 0);
                     const rotateY = this.getProp('rotateY', prop_arguments, 0);
                     const rotateZ = this.getProp('rotateZ', prop_arguments, 0);
-                    const rotationOrigin = this.getProp('rotationOrigin', prop_arguments, [0, 0]);
+                    const perspective_props = this.getProp('perspective', prop_arguments, 0);
+                    // const perspective = perspective_props
+                    // const perspective = perspective_props > 0 ? clamp(1, 100, 100 - perspective_props) : 1
+                    const perspective = perspective_props;
+                    const perspectiveOrigin = glme.toVec3(this.getProp('perspectiveOrigin', prop_arguments, glme.VEC2_ZERO), 0);
+                    const transformOrigin = glme.toVec3(this.getProp('transformOrigin', prop_arguments, glme.VEC2_ZERO), perspective);
+                    transformOrigin[0] *= bounding.width / 2;
+                    transformOrigin[1] *= bounding.height / 2;
                     let offset;
                     switch (repetition_type) {
                         case ERepetitionType.Ring:
-                            offset = vec2.fromValues(distance[0], 0);
-                            vec2.rotate(offset, offset, [0, 0], repetition.angle + displace);
+                            offset = vec3.fromValues(distance[0], 0, 0);
+                            vec3.rotateZ(offset, offset, glme.VEC3_ZERO, repetition.angle + displace);
                             break;
                         case ERepetitionType.Matrix:
-                            offset = vec2.fromValues(distance[0] * (current_col_repetition - center_matrix[0]), distance[1] * (current_row_repetition - center_matrix[1]));
+                            offset = vec3.fromValues(distance[0] * (current_col_repetition - center_matrix[0]), distance[1] * (current_row_repetition - center_matrix[1]), 0);
                             break;
                     }
-                    for (let buffer_index = 0; buffer_index < buffer_length; buffer_index += 3) {
-                        const vertex = vec3.fromValues(buffer[buffer_index], buffer[buffer_index + 1], buffer[buffer_index + 2]);
+                    for (let buffer_index = 0; buffer_index < buffer_length; buffer_index += 2) {
+                        const vertex = vec3.fromValues(buffer[buffer_index], buffer[buffer_index + 1], perspective);
                         {
                             // Apply transformation
                             squeezeX !== 0 && glme.squeezeX(vertex, squeezeX);
@@ -244,47 +259,55 @@ class ShapeBase extends SceneChild {
                             skewX !== 0 && glme.skewX(vertex, skewX);
                             skewY !== 0 && glme.skewY(vertex, skewY);
                             glme.fromRadians(TEMP_QUAT, rotateX, rotateY, rotateZ);
-                            mat4.fromRotationTranslationScaleOrigin(TEMP_MATRIX, TEMP_QUAT, [0, 0, 0], [scale[0], scale[1], 1], 
-                            // [rotationOrigin[0], rotationOrigin[1], 2]
-                            [0, 0, 2]);
+                            mat4.fromRotationTranslationScaleOrigin(TEMP_MATRIX, TEMP_QUAT, glme.VEC3_ZERO, scale, transformOrigin);
                             vec3.transformMat4(vertex, vertex, TEMP_MATRIX);
                             //http://learnwebgl.brown37.net/08_projections/projections_perspective.html
-                            // mat4.ortho(TEMP_PROJECTION_MATRIX, -10, 10, -10, 10, 0, 10)
-                            // mat4.perspective(TEMP_PROJECTION_MATRIX, 3, 1, 0.1, 0)
-                            // vec3.transformMat4(vertex, vertex, TEMP_PROJECTION_MATRIX)
-                            {
+                            if (perspective_props > 0) {
                                 //https://stackoverflow.com/questions/20162947/perspective-transform-with-perspective-origin-in-opengl-glkit
-                                // const perspectiveOrigin = vec3.fromValues(-0.9, -0.9, 0)
-                                const perspectiveOrigin = vec3.fromValues(0, 0, 0);
-                                const perspectiveMatrix = mat4.create();
-                                mat4.identity(perspectiveMatrix);
-                                mat4.translate(perspectiveMatrix, perspectiveMatrix, perspectiveOrigin);
-                                mat4.perspective(TEMP_PROJECTION_MATRIX, Math.PI / 4, 1, 0, 100);
-                                mat4.mul(TEMP_PROJECTION_MATRIX, TEMP_PROJECTION_MATRIX, perspectiveMatrix);
-                                mat4.translate(perspectiveMatrix, perspectiveMatrix, vec3.scale(perspectiveOrigin, perspectiveOrigin, -1));
+                                // https://stackoverflow.com/questions/33946961/what-is-the-relation-between-perspective-translatez-rotate3d-and-no-of-faces
+                                if (perspectiveOrigin[0] !== 0 || perspectiveOrigin[1] !== 0) {
+                                    const perspectiveMatrix = mat4.create();
+                                    mat4.identity(perspectiveMatrix);
+                                    mat4.translate(perspectiveMatrix, perspectiveMatrix, perspectiveOrigin);
+                                    mat4.perspective(TEMP_PROJECTION_MATRIX, Math.PI / 2, 1, 0, Infinity);
+                                    mat4.mul(TEMP_PROJECTION_MATRIX, TEMP_PROJECTION_MATRIX, perspectiveMatrix);
+                                    mat4.translate(perspectiveMatrix, perspectiveMatrix, vec3.scale(perspectiveOrigin, perspectiveOrigin, -1));
+                                }
+                                else {
+                                    mat4.perspective(TEMP_PROJECTION_MATRIX, Math.PI / 2, 1, 0, Infinity);
+                                }
                                 vec3.transformMat4(vertex, vertex, TEMP_PROJECTION_MATRIX);
+                                vec3.scale(vertex, vertex, perspective);
                             }
                             this.applyVertexTransform(vertex);
-                            (translate[0] !== 0 || translate[1] !== 0) && vec3.add(vertex, vertex, [translate[0], translate[1], 0]);
-                        }
-                        if (repetition_type === ERepetitionType.Ring)
-                            vec3.rotateZ(vertex, vertex, [0, 0, 0], repetition.angle + displace);
-                        vec3.add(vertex, vertex, [offset[0], offset[1], 0]);
-                        if (this.vertexCallback) {
-                            const index = buffer_index / 3 + 1;
-                            const count = buffer_length / 3;
-                            this.vertexCallback(vertex, prop_arguments, {
-                                index,
-                                count,
-                                offset: index / count,
-                            });
-                        }
-                        if (bDirectSceneChild) {
-                            vertex[0] += this.scene.center[0];
-                            vertex[1] += this.scene.center[1];
+                            (translate[0] !== 0 || translate[1] !== 0) && vec3.add(vertex, vertex, translate);
+                            if (repetition_type === ERepetitionType.Ring)
+                                vec3.rotateZ(vertex, vertex, glme.VEC3_ZERO, repetition.angle + displace);
+                            vec3.add(vertex, vertex, offset);
+                            if (this.vertexCallback) {
+                                const index = buffer_index / 2 + 1;
+                                const count = buffer_length / 2;
+                                this.vertexCallback(vertex, prop_arguments, {
+                                    index,
+                                    count,
+                                    offset: index / count,
+                                });
+                            }
+                            if (bDirectSceneChild) {
+                                vertex[0] += this.scene.center[0];
+                                vertex[1] += this.scene.center[1];
+                            }
                         }
                         buffers[current_index][buffer_index] = vertex[0];
                         buffers[current_index][buffer_index + 1] = vertex[1];
+                        if (vertex[0] >= maxX)
+                            maxX = vertex[0];
+                        else if (vertex[0] <= minX)
+                            minX = vertex[0];
+                        if (vertex[1] >= maxY)
+                            maxY = vertex[1];
+                        else if (vertex[1] <= minY)
+                            minY = vertex[1];
                     }
                 }
                 // After buffer creation, add a frame into indexed_buffer if not static
@@ -293,10 +316,29 @@ class ShapeBase extends SceneChild {
                 }
             }
         }
+        this.bounding = {
+            x: minX,
+            y: minY,
+            cx: (minX + maxX) / 2,
+            cy: (minY + maxY) / 2,
+            width: maxX - minX,
+            height: maxY - minY,
+        };
         this.buffer = new Float32Array(total_buffer_length);
         for (let i = 0, offset = 0, len = buffers.length; i < len; offset += buffers[i].length, i++)
             this.buffer.set(buffers[i], offset);
         this.bIndexed = true;
+    }
+    getBounding() {
+        // return this.bounding
+        return {
+            cx: 0,
+            cy: 0,
+            x: -1,
+            y: -1,
+            width: 2,
+            height: 2,
+        };
     }
     /**
      * Apply vertex transformation
