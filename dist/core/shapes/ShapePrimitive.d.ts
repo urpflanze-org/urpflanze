@@ -36,6 +36,7 @@ declare abstract class ShapePrimitive extends ShapeBase {
      * @memberof ShapePrimitive
      */
     sideLength: vec2;
+    single_bounding: IShapeBounding;
     constructor(settings?: IShapePrimitiveSettings);
     /**
      * Check if shape is static
@@ -62,6 +63,7 @@ declare abstract class ShapePrimitive extends ShapeBase {
      * @memberof ShapePrimitive
      */
     protected bindSideLength(prop_arguments: ISceneChildPropArguments): boolean;
+    getBounding(): IShapeBounding;
     /**
      * Apply side length to buffer
      *

@@ -137,6 +137,13 @@ class Shape extends ShapeBase {
             this.shape.clearBuffer(true, true);
         }
     }
+    getBounding() {
+        if (this.shape) {
+            //@ts-ignore
+            this.shape.bounding;
+        }
+        return this.bounding;
+    }
 }
 export default Shape;
 //# sourceMappingURL=Shape.js.map

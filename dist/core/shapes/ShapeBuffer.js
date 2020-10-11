@@ -47,7 +47,7 @@ class ShapeBuffer extends ShapePrimitive {
             else if (shape_buffer[i + 1] <= minY)
                 minY = shape_buffer[i + 1];
         }
-        this.bounding = {
+        this.single_bounding = {
             x: minX,
             y: minY,
             cx: (minX + maxX) / 2,

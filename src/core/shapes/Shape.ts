@@ -168,50 +168,15 @@ class Shape extends ShapeBase {
 	}
 
 	
-	// protected getBounding(b: boolean): IShapeBounding {
-	// 	// console.log('getBounding 1')
-	// 	if (this.shape) {
-	// 		//@ts-ignore
-	// 		// console.log('getBounding 2', this.shape.getBounding())
-	// 		//@ts-ignore
-	// 		return this.shape.getBounding(true) as IShapeBounding
-	// 	}
-	// 	return {
-	// 		cx: 0,
-	// 		cy: 0,
-	// 		x: -1,
-	// 		y: -1,
-	// 		width: 2,
-	// 		height: 2,
-	// 	}
-	// }
+	protected getBounding(): IShapeBounding {
+		if (this.shape) {
+			//@ts-ignore
+			this.shape.bounding
+		}
 
-	// /**
-	//  *
-	//  *
-	//  * @param {Array<IBufferIndex>} buffer
-	//  * @param {number} frame_length
-	//  * @param {Repetition} current_repetition
-	//  * @param {IBufferIndex} [parent]
-	//  * @memberof ShapePrimitive
-	//  */
-	// public addIndex(
-	// 	buffer: Array<IBufferIndex>,
-	// 	frame_length: number,
-	// 	current_repetition: IRepetition,
-	// 	parent?: IBufferIndex
-	// ): void {
-	// 	if (this.shape) {
-	// 		const current: IBufferIndex = {
-	// 			shape: this,
-	// 			buffer_length: frame_length,
-	// 			parent,
-	// 			repetition: current_repetition,
-	// 		}
+		return this.bounding
+	}
 
-	// 		this.shape.addIndex(buffer, frame_length, current_repetition, current)
-	// 	}
-	// }
 }
 
 export default Shape

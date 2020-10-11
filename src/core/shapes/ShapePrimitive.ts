@@ -49,6 +49,8 @@ abstract class ShapePrimitive extends ShapeBase {
 	 */
 	public sideLength: vec2
 
+	public single_bounding: IShapeBounding
+
 	constructor(settings: IShapePrimitiveSettings = {}) {
 		super(settings)
 
@@ -109,6 +111,10 @@ abstract class ShapePrimitive extends ShapeBase {
 		}
 
 		return false
+	}
+
+	public getBounding() {
+		return this.single_bounding
 	}
 
 	/**

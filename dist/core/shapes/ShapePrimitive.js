@@ -57,6 +57,9 @@ class ShapePrimitive extends ShapeBase {
         }
         return false;
     }
+    getBounding() {
+        return this.single_bounding;
+    }
     /**
      * Apply side length to buffer
      *
