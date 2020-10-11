@@ -283,8 +283,8 @@ class ShapeLoop extends ShapePrimitive {
 			const vertex = Float32Array.from(getVertex(shape_loop, prop_arguments))
 			// this.vertexCallback && this.vertexCallback(vertex, prop_arguments, i, vertex_length)
 
-			buffer[j] = vertex[0]
-			buffer[j + 1] = vertex[1]
+			buffer[j] = vertex[0] * this.sideLength[0]
+			buffer[j + 1] = vertex[1] * this.sideLength[1]
 		}
 
 		return this.adaptMode !== EShapePrimitiveAdaptMode.None

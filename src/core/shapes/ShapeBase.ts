@@ -15,6 +15,7 @@ import Context from '@core/Context'
 import { mat4, quat, vec2, vec3 } from 'gl-matrix'
 import * as glme from '@core/math/gl-matrix-extensions'
 import ShapePrimitive from './ShapePrimitive'
+import { clamp } from 'src/Utilites'
 
 const TEMP_PROJECTION_MATRIX: mat4 = mat4.create()
 const TEMP_MATRIX: mat4 = mat4.create()
@@ -345,11 +346,6 @@ abstract class ShapeBase extends SceneChild {
 			return
 		}
 
-		let minX = Number.MAX_VALUE,
-			minY = Number.MAX_VALUE,
-			maxX = Number.MIN_VALUE,
-			maxY = Number.MIN_VALUE
-
 		this.generate_id = generate_id
 
 		if (!this.bStaticIndexed || !this.bIndexed) this.indexed_buffer = []
@@ -416,6 +412,7 @@ abstract class ShapeBase extends SceneChild {
 
 				const bounding = this.getBounding() // TODO: change
 
+				
 				buffers[current_index] = new Float32Array(buffer_length)
 				total_buffer_length += buffer_length
 
@@ -434,8 +431,8 @@ abstract class ShapeBase extends SceneChild {
 
 					const perspective_props = this.getProp('perspective', prop_arguments, 0)
 					// const perspective = perspective_props
-					// const perspective = perspective_props > 0 ? clamp(1, 100, 100 - perspective_props) : 1
-					const perspective = perspective_props
+					const perspective = perspective_props > 0 ? clamp(1, 100, 100 - perspective_props) : 1
+					// const perspective = perspective_props 
 
 					const perspectiveOrigin = glme.toVec3(this.getProp('perspectiveOrigin', prop_arguments, glme.VEC2_ZERO), 0)
 					const transformOrigin = glme.toVec3(
@@ -475,7 +472,7 @@ abstract class ShapeBase extends SceneChild {
 							glme.fromRadians(TEMP_QUAT, rotateX, rotateY, rotateZ)
 							mat4.fromRotationTranslationScaleOrigin(TEMP_MATRIX, TEMP_QUAT, glme.VEC3_ZERO, scale, transformOrigin)
 							vec3.transformMat4(vertex, vertex, TEMP_MATRIX)
-
+							
 							//http://learnwebgl.brown37.net/08_projections/projections_perspective.html
 							if (perspective_props > 0) {
 								//https://stackoverflow.com/questions/20162947/perspective-transform-with-perspective-origin-in-opengl-glkit
@@ -501,7 +498,7 @@ abstract class ShapeBase extends SceneChild {
 								vec3.scale(vertex, vertex, perspective)
 							}
 
-							this.applyVertexTransform(vertex as vec2)
+							// this.applyVertexTransform(vertex as vec2)
 							;(translate[0] !== 0 || translate[1] !== 0) && vec3.add(vertex, vertex, translate)
 
 							if (repetition_type === ERepetitionType.Ring)
@@ -526,12 +523,6 @@ abstract class ShapeBase extends SceneChild {
 						}
 						buffers[current_index][buffer_index] = vertex[0]
 						buffers[current_index][buffer_index + 1] = vertex[1]
-
-						if (vertex[0] >= maxX) maxX = vertex[0]
-						else if (vertex[0] <= minX) minX = vertex[0]
-
-						if (vertex[1] >= maxY) maxY = vertex[1]
-						else if (vertex[1] <= minY) minY = vertex[1]
 					}
 				}
 
@@ -542,15 +533,6 @@ abstract class ShapeBase extends SceneChild {
 			}
 		}
 
-		this.bounding = {
-			x: minX,
-			y: minY,
-			cx: (minX + maxX) / 2,
-			cy: (minY + maxY) / 2,
-			width: maxX - minX,
-			height: maxY - minY,
-		}
-
 		this.buffer = new Float32Array(total_buffer_length)
 		for (let i = 0, offset = 0, len = buffers.length; i < len; offset += buffers[i].length, i++)
 			this.buffer.set(buffers[i], offset)
@@ -559,15 +541,7 @@ abstract class ShapeBase extends SceneChild {
 	}
 
 	protected getBounding(): IShapeBounding {
-		// return this.bounding
-		return {
-			cx: 0,
-			cy: 0,
-			x: -1,
-			y: -1,
-			width: 2,
-			height: 2,
-		}
+		return this.bounding
 	}
 
 	/**

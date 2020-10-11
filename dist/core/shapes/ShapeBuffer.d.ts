@@ -31,6 +31,7 @@ declare class ShapeBuffer extends ShapePrimitive {
      * @memberof ShapeLoop
      */
     clearBuffer(bClearIndexed?: boolean, bPropagateToParents?: boolean): void;
+    private bindBuffer;
     /**
      * Return length of buffer
      *

@@ -100,8 +100,15 @@ abstract class ShapePrimitive extends ShapeBase {
 	 * @param {ISceneChildPropArguments} prop_arguments
 	 * @memberof ShapePrimitive
 	 */
-	protected bindSideLength(prop_arguments: ISceneChildPropArguments): void {
-		this.sideLength = toVec2(this.getProp('sideLength', prop_arguments, [50, 50]))
+	protected bindSideLength(prop_arguments: ISceneChildPropArguments): boolean {
+		const sideLength = toVec2(this.getProp('sideLength', prop_arguments, [50, 50]))
+
+		if (this.sideLength[0] !== sideLength[0] && this.sideLength[1] !== sideLength[1]) {
+			this.sideLength = sideLength
+			return true
+		}
+
+		return false
 	}
 
 	/**

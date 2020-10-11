@@ -37,29 +37,11 @@ class ShapeBuffer extends ShapePrimitive {
 			this.shape = ShapeBuffer.EMPTY_BUFFER
 		} else this.shape = Float32Array.from(settings.shape)
 
-		this.shape_buffer =
-			this.getAdaptMode() !== EShapePrimitiveAdaptMode.None
-				? ShapePrimitive.adaptBuffer(this.shape, this.getAdaptMode())
-				: this.shape
-
-		// this.shape_buffer = ShapeBuffer.buffer2Dto3D(this.shape_buffer)
+		this.bindBuffer()
 
 		this.bStatic = this.isStatic()
 		this.bStaticIndexed = this.isStaticIndexed()
 	}
-
-	// static buffer2Dto3D(buffer: Float32Array): Float32Array {
-	// 	const buffer_length = buffer.length
-	// 	const vertex_len = buffer_length / 2
-	// 	const result = new Float32Array(vertex_len * 3)
-	// 	for (let i = 0, j = 0; i < buffer_length; i += 2, j += 3) {
-	// 		result[j] = buffer[i]
-	// 		result[j + 1] = buffer[i + 1]
-	// 		result[j + 2] = 2
-	// 	}
-
-	// 	return result
-	// }
 
 	/**
 	 *  Unset buffer
@@ -71,14 +53,44 @@ class ShapeBuffer extends ShapePrimitive {
 	public clearBuffer(bClearIndexed: boolean = false, bPropagateToParents: boolean = true) {
 		super.clearBuffer(bClearIndexed, bPropagateToParents)
 
-		this.shape_buffer =
-			this.getAdaptMode() != EShapePrimitiveAdaptMode.None
-				? ShapePrimitive.adaptBuffer(this.shape, this.getAdaptMode())
-				: this.shape
-
+		this.bindBuffer()
 		// this.shape_buffer = ShapeBuffer.buffer2Dto3D(this.shape_buffer)
 	}
 
+	private bindBuffer() {
+		const shape_buffer =
+			this.getAdaptMode() !== EShapePrimitiveAdaptMode.None
+				? ShapePrimitive.adaptBuffer(this.shape, this.getAdaptMode())
+				: this.shape
+
+				
+		let minX = Number.MAX_VALUE,
+		minY = Number.MAX_VALUE,
+		maxX = Number.MIN_VALUE,
+		maxY = Number.MIN_VALUE
+
+		for (let i = 0, len = shape_buffer.length; i < len; i += 2) {
+			shape_buffer[i] *= this.sideLength[0]
+			shape_buffer[i + 1] *= this.sideLength[1]
+
+			if (shape_buffer[i] >= maxX) maxX = shape_buffer[i]
+			else if (shape_buffer[i] <= minX) minX = shape_buffer[i]
+
+			if (shape_buffer[i + 1] >= maxY) maxY = shape_buffer[i + 1]
+			else if (shape_buffer[i + 1] <= minY) minY = shape_buffer[i + 1]
+		}
+		
+		this.bounding = {
+			x: minX,
+			y: minY,
+			cx: (minX + maxX) / 2,
+			cy: (minY + maxY) / 2,
+			width: maxX - minX,
+			height: maxY - minY,
+		}
+		
+		this.shape_buffer = shape_buffer
+	}
 	/**
 	 * Return length of buffer
 	 *
@@ -101,7 +113,9 @@ class ShapeBuffer extends ShapePrimitive {
 	 * @memberof ShapeBase
 	 */
 	protected generateBuffer(generate_id: number, prop_arguments: ISceneChildPropArguments): Float32Array {
-		this.bindSideLength(prop_arguments)
+		if (this.bindSideLength(prop_arguments)) {
+			this.bindBuffer()
+		}
 
 		return this.shape_buffer
 	}

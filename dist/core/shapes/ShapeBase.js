@@ -3,6 +3,7 @@ import SceneChild from "../SceneChild";
 import Context from "../Context";
 import { mat4, vec2, vec3 } from 'gl-matrix';
 import * as glme from "../math/gl-matrix-extensions";
+import { clamp } from "../../Utilites";
 const TEMP_PROJECTION_MATRIX = mat4.create();
 const TEMP_MATRIX = mat4.create();
 const TEMP_QUAT = [0, 0, 0, 0];
@@ -172,7 +173,6 @@ class ShapeBase extends SceneChild {
         if (!this.scene || (this.buffer && (this.bStatic || (generate_id === this.generate_id && !this.bUseParent)))) {
             return;
         }
-        let minX = Number.MAX_VALUE, minY = Number.MAX_VALUE, maxX = Number.MIN_VALUE, maxY = Number.MIN_VALUE;
         this.generate_id = generate_id;
         if (!this.bStaticIndexed || !this.bIndexed)
             this.indexed_buffer = [];
@@ -234,8 +234,8 @@ class ShapeBase extends SceneChild {
                     const rotateZ = this.getProp('rotateZ', prop_arguments, 0);
                     const perspective_props = this.getProp('perspective', prop_arguments, 0);
                     // const perspective = perspective_props
-                    // const perspective = perspective_props > 0 ? clamp(1, 100, 100 - perspective_props) : 1
-                    const perspective = perspective_props;
+                    const perspective = perspective_props > 0 ? clamp(1, 100, 100 - perspective_props) : 1;
+                    // const perspective = perspective_props 
                     const perspectiveOrigin = glme.toVec3(this.getProp('perspectiveOrigin', prop_arguments, glme.VEC2_ZERO), 0);
                     const transformOrigin = glme.toVec3(this.getProp('transformOrigin', prop_arguments, glme.VEC2_ZERO), perspective);
                     transformOrigin[0] *= bounding.width / 2;
@@ -279,7 +279,8 @@ class ShapeBase extends SceneChild {
                                 vec3.transformMat4(vertex, vertex, TEMP_PROJECTION_MATRIX);
                                 vec3.scale(vertex, vertex, perspective);
                             }
-                            this.applyVertexTransform(vertex);
+                            // this.applyVertexTransform(vertex as vec2)
+                            ;
                             (translate[0] !== 0 || translate[1] !== 0) && vec3.add(vertex, vertex, translate);
                             if (repetition_type === ERepetitionType.Ring)
                                 vec3.rotateZ(vertex, vertex, glme.VEC3_ZERO, repetition.angle + displace);
@@ -300,14 +301,6 @@ class ShapeBase extends SceneChild {
                         }
                         buffers[current_index][buffer_index] = vertex[0];
                         buffers[current_index][buffer_index + 1] = vertex[1];
-                        if (vertex[0] >= maxX)
-                            maxX = vertex[0];
-                        else if (vertex[0] <= minX)
-                            minX = vertex[0];
-                        if (vertex[1] >= maxY)
-                            maxY = vertex[1];
-                        else if (vertex[1] <= minY)
-                            minY = vertex[1];
                     }
                 }
                 // After buffer creation, add a frame into indexed_buffer if not static
@@ -316,29 +309,13 @@ class ShapeBase extends SceneChild {
                 }
             }
         }
-        this.bounding = {
-            x: minX,
-            y: minY,
-            cx: (minX + maxX) / 2,
-            cy: (minY + maxY) / 2,
-            width: maxX - minX,
-            height: maxY - minY,
-        };
         this.buffer = new Float32Array(total_buffer_length);
         for (let i = 0, offset = 0, len = buffers.length; i < len; offset += buffers[i].length, i++)
             this.buffer.set(buffers[i], offset);
         this.bIndexed = true;
     }
     getBounding() {
-        // return this.bounding
-        return {
-            cx: 0,
-            cy: 0,
-            x: -1,
-            y: -1,
-            width: 2,
-            height: 2,
-        };
+        return this.bounding;
     }
     /**
      * Apply vertex transformation

@@ -61,7 +61,7 @@ declare abstract class ShapePrimitive extends ShapeBase {
      * @param {ISceneChildPropArguments} prop_arguments
      * @memberof ShapePrimitive
      */
-    protected bindSideLength(prop_arguments: ISceneChildPropArguments): void;
+    protected bindSideLength(prop_arguments: ISceneChildPropArguments): boolean;
     /**
      * Apply side length to buffer
      *

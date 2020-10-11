@@ -56,4 +56,27 @@ export function perspectiveMatrix(out, fov, near, far) {
     out[14] = near * far * rangeInv * 2;
     return out;
 }
+export function mat3rotateX(angle) {
+    return [1, 0, 0, 0, Math.cos(angle), -Math.sin(angle), 0, Math.sin(angle), Math.cos(angle)];
+}
+export function mat3rotateY(angle) {
+    return [Math.cos(angle), 0, Math.sin(angle), 0, 1, 0, -Math.sin(angle), 0, Math.cos(angle)];
+}
+export function mat3rotateZ(angle) {
+    return [Math.cos(angle), -Math.sin(angle), 0, Math.sin(angle), Math.cos(angle), 0, 0, 0, 1];
+}
+export function mul3x2_3x3(out, a, b) {
+    out[0] = a[0] * b[0] + a[1] * b[3] + a[2] * b[6];
+    out[1] = a[0] * b[1] + a[1] * b[4] + a[2] * b[7];
+    out[3] = a[3] * b[0] + a[4] * b[3] + a[5] * b[6];
+    out[2] = a[0] * b[2] + a[1] * b[5] + a[2] * b[8];
+    out[3] = a[3] * b[1] + a[4] * b[4] + a[5] * b[7];
+    out[3] = a[3] * b[2] + a[4] * b[5] + a[5] * b[8];
+    return out;
+}
+export function vec3transformMat3x2(out, a, b) {
+    out[0] = b[0] * a[0] + b[1] * a[1] + b[2] * a[2];
+    out[1] = b[3] * a[0] + b[4] * a[1] + b[5] * a[2];
+    return out;
+}
 //# sourceMappingURL=gl-matrix-extensions.js.map

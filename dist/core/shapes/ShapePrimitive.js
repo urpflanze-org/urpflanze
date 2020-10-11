@@ -50,7 +50,12 @@ class ShapePrimitive extends ShapeBase {
      * @memberof ShapePrimitive
      */
     bindSideLength(prop_arguments) {
-        this.sideLength = toVec2(this.getProp('sideLength', prop_arguments, [50, 50]));
+        const sideLength = toVec2(this.getProp('sideLength', prop_arguments, [50, 50]));
+        if (this.sideLength[0] !== sideLength[0] && this.sideLength[1] !== sideLength[1]) {
+            this.sideLength = sideLength;
+            return true;
+        }
+        return false;
     }
     /**
      * Apply side length to buffer
