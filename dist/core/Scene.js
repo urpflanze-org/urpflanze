@@ -1,4 +1,3 @@
-import Vec2, { TArray } from "./math/Vec2";
 import SceneChild from "./SceneChild";
 import Group from "./Group";
 import Shape from "./shapes/Shape";
@@ -47,7 +46,7 @@ class Scene {
         if (typeof settings.mainColor !== 'undefined')
             this.mainColor = settings.mainColor;
         this.children = [];
-        this.center = Vec2.create(this.width / 2, this.height / 2);
+        this.center = [this.width / 2, this.height / 2];
     }
     /**
      * Resize the scene size
@@ -59,7 +58,7 @@ class Scene {
     resize(width, height = width) {
         this.width = width;
         this.height = height;
-        this.center = Vec2.create(this.width / 2, this.height / 2);
+        this.center = [this.width / 2, this.height / 2];
         this.children.forEach(sceneChild => sceneChild.clearBuffer(true, false));
     }
     /**

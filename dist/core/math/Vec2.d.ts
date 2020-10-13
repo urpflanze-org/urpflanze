@@ -18,7 +18,7 @@ declare const _default: {
     rotateY: (vec: number[] | Float32Array, pointToRotate: number[] | Float32Array, rad: number) => void;
     rotateZ: (vec: number[] | Float32Array, pointToRotate: number[] | Float32Array, rad: number) => void;
     translate: (vec: number[] | Float32Array, to: number[] | Float32Array) => void;
-    scale: (vec: number[] | Float32Array, to: number[] | Float32Array) => void;
+    scale: (vec: number[] | Float32Array, to: number[] | Float32Array, origin?: number[] | Float32Array) => void;
     divide: (vec: number[] | Float32Array, to: number[] | Float32Array) => void;
     toString: (vec: number[] | Float32Array) => string;
     ZERO: number[];

@@ -1,6 +1,5 @@
 import ShapeBase from '@core/shapes/ShapeBase'
 
-import Vec2, { TArray } from '@core/math/Vec2'
 import {
 	EShapePrimitiveAdaptMode,
 	IShapeBounding,
@@ -9,6 +8,9 @@ import {
 } from '@core/types/shape-base'
 import { IRepetition, ISceneChildPropArguments, ISceneChildProps } from '@core/types/scene-child'
 import { IBufferIndex } from '@core/types/shape-base'
+import { vec2 } from 'gl-matrix'
+import { toVec2 } from '@core/math/gl-matrix-extensions'
+import Circle from './primitives/Circle'
 
 /**
  * @category Core.Abstract
@@ -40,21 +42,43 @@ abstract class ShapePrimitive extends ShapeBase {
 	public bCloseShape: boolean
 
 	/**
+	 * Empty buffer bounding
+	 *
+	 * @static
+	 * @type {IShapeBounding}
+	 * @memberof ShapePrimitive
+	 */
+	static readonly EMPTY_BOUNDING: IShapeBounding = {
+		cx: 0,
+		cy: 0,
+		x: -1,
+		y: -1,
+		width: 2,
+		height: 2,
+	}
+
+	/**
 	 * Scale buffer
 	 *
 	 * @public
 	 * @type {Array<number>}
 	 * @memberof ShapePrimitive
 	 */
-	public sideLength: TArray
+	public sideLength: vec2
+
+	public single_bounding: IShapeBounding = { ...ShapePrimitive.EMPTY_BOUNDING }
 
 	constructor(settings: IShapePrimitiveSettings = {}) {
 		super(settings)
 
-		this.sideLength = Vec2.create(
-			typeof settings.sideLength === 'number' || Array.isArray(settings.sideLength) ? settings.sideLength : [50, 50]
-		)
+		const sideLength: Array<number> =
+			typeof settings.sideLength === 'number'
+				? [settings.sideLength, settings.sideLength]
+				: Array.isArray(settings.sideLength)
+				? settings.sideLength
+				: [50, 50]
 
+		this.sideLength = sideLength as vec2
 		this.props.sideLength = settings.sideLength
 
 		this.props.fillColor = settings.fillColor
@@ -95,20 +119,19 @@ abstract class ShapePrimitive extends ShapeBase {
 	 * @param {ISceneChildPropArguments} prop_arguments
 	 * @memberof ShapePrimitive
 	 */
-	protected bindSideLength(prop_arguments: ISceneChildPropArguments): void {
-		this.sideLength = Vec2.create(this.getProp('sideLength', prop_arguments, [50, 50]))
+	protected bindSideLength(prop_arguments: ISceneChildPropArguments): boolean {
+		const sideLength = toVec2(this.getProp('sideLength', prop_arguments, [50, 50]))
+
+		if (this.sideLength[0] !== sideLength[0] && this.sideLength[1] !== sideLength[1]) {
+			this.sideLength = sideLength
+			return true
+		}
+
+		return false
 	}
 
-	/**
-	 * Apply side length to buffer
-	 *
-	 * @protected
-	 * @param {TArray} vertex
-	 * @memberof ShapePrimitive
-	 */
-	protected applyVertexTransform(vertex: TArray): void {
-		vertex[0] *= this.sideLength[0]
-		vertex[1] *= this.sideLength[1]
+	public getBounding() {
+		return this.single_bounding
 	}
 
 	/**
@@ -194,7 +217,9 @@ abstract class ShapePrimitive extends ShapeBase {
 	 * @returns {IShapeBounding}
 	 * @memberof ShapePrimitive
 	 */
-	public static getBounding(buffer: Float32Array): IShapeBounding {
+	public static getBounding(buffer: Float32Array, bounding?: IShapeBounding): IShapeBounding {
+		if (typeof bounding === 'undefined') bounding = { ...ShapePrimitive.EMPTY_BOUNDING }
+
 		let minX = Number.MAX_VALUE,
 			minY = Number.MAX_VALUE,
 			maxX = Number.MIN_VALUE,
@@ -211,14 +236,14 @@ abstract class ShapePrimitive extends ShapeBase {
 			else if (y < minY) minY = y
 		}
 
-		return {
-			x: minX,
-			y: minY,
-			cx: (minX + maxX) / 2,
-			cy: (minY + maxY) / 2,
-			width: maxX - minX,
-			height: maxY - minY,
-		}
+		bounding.x = minX
+		bounding.y = minY
+		bounding.cx = minX + maxX / 2
+		bounding.cy = minY + maxY / 2
+		bounding.width = maxX - minX
+		bounding.height = maxY - minY
+
+		return bounding
 	}
 
 	/**
@@ -231,15 +256,18 @@ abstract class ShapePrimitive extends ShapeBase {
 	 * @returns {Float32Array}
 	 * @memberof ShapePrimitive
 	 */
-	public static adaptBuffer(input: Float32Array, mode: EShapePrimitiveAdaptMode): Float32Array {
-		if (mode == EShapePrimitiveAdaptMode.None) return input
+	public static adaptBuffer(input: Float32Array, mode: EShapePrimitiveAdaptMode, rect?: IShapeBounding): Float32Array {
+		if (mode === EShapePrimitiveAdaptMode.None) return Float32Array.from(input)
 
 		const output: Float32Array = new Float32Array(input.length)
-		const rect: IShapeBounding = ShapePrimitive.getBounding(input)
+
+		if (!rect) {
+			rect = ShapePrimitive.getBounding(input)
+		}
 
 		let scale =
-			rect.width > 2 ||
-			rect.height > 2 ||
+			rect.width >= 2 ||
+			rect.height >= 2 ||
 			(mode >= EShapePrimitiveAdaptMode.Fill && (rect.width < 2 || rect.height < 2))
 				? 2 / Math.max(rect.width, rect.height)
 				: 1

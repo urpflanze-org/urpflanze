@@ -116,6 +116,20 @@ export interface ISceneChildProps {
      */
     squeezeY?: TSceneChildProp<number>;
     /**
+     * scale transformation
+     *
+     * @type {(TSceneChildProp<number | Array<number>>)}
+     * @memberof ISceneChildProps
+     */
+    scale?: TSceneChildProp<number | Array<number>>;
+    /**
+     * tranlsate transformation
+     *
+     * @type {(TSceneChildProp<number | Array<number>>)}
+     * @memberof ISceneChildProps
+     */
+    translate?: TSceneChildProp<number | Array<number>>;
+    /**
      * rotateX transformation
      *
      * @type {TSceneChildProp<number>}
@@ -142,21 +156,9 @@ export interface ISceneChildProps {
      * @type {TSceneChildProp<number>}
      * @memberof ISceneChildProps
      */
-    rotationOrigin?: TSceneChildProp<number>;
-    /**
-     * scale transformation
-     *
-     * @type {(TSceneChildProp<number | Array<number>>)}
-     * @memberof ISceneChildProps
-     */
-    scale?: TSceneChildProp<number | Array<number>>;
-    /**
-     * tranlsate transformation
-     *
-     * @type {(TSceneChildProp<number | Array<number>>)}
-     * @memberof ISceneChildProps
-     */
-    translate?: TSceneChildProp<number | Array<number>>;
+    transformOrigin?: TSceneChildProp<number>;
+    perspective?: TSceneChildProp<number>;
+    perspectiveOrigin?: TSceneChildProp<number | Array<number>>;
 }
 /**
  *

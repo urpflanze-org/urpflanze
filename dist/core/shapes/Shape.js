@@ -82,6 +82,7 @@ class Shape extends ShapeBase {
     generateBuffer(generate_id, prop_arguments) {
         if (this.shape) {
             this.shape.generate(generate_id, false, prop_arguments);
+            // this.bounding = this.shape.getBounding()
             return this.shape.getBuffer() || Shape.EMPTY_BUFFER;
         }
         return Shape.EMPTY_BUFFER;
@@ -134,6 +135,12 @@ class Shape extends ShapeBase {
             this.shape = shape;
             this.shape.clearBuffer(true, true);
         }
+    }
+    getBounding() {
+        if (this.shape) {
+            return this.shape.getBounding();
+        }
+        return this.bounding;
     }
 }
 export default Shape;

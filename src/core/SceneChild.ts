@@ -1,6 +1,6 @@
 import { TStreamCallback } from '@core/types/scene'
 import { ISceneChildPropArguments, ISceneChildProps, ISceneChildSettings } from '@core/types/scene-child'
-import { IBufferIndex } from '@core/types/shape-base'
+import { IBufferIndex, IShapeBounding } from '@core/types/shape-base'
 
 import Scene from '@core/Scene'
 
@@ -201,6 +201,15 @@ abstract class SceneChild {
 		bDirectSceneChild: boolean,
 		parent_prop_arguments?: ISceneChildPropArguments
 	): void
+
+	/**
+	 * Get a informatiion about sceneChild bounding
+	 *
+	 * @abstract
+	 * @returns {IShapeBounding}
+	 * @memberof SceneChild
+	 */
+	abstract getBounding(): IShapeBounding
 
 	/**
 	 * Stream shape

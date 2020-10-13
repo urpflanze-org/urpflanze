@@ -1,4 +1,3 @@
-import Vec2 from '@core/math/Vec2'
 import Scene from '@core/Scene'
 
 import Timeline from '@services/timeline/Timeline'
@@ -8,6 +7,7 @@ import FrameBuffer from '@services/drawer-canvas/FrameBuffer'
 import Emitter from '@services/events/Emitter'
 import { DrawerCanvasEvents, DrawOptions } from '@services/types/drawer-canvas'
 import { now } from 'src/Utilites'
+import { vec2 } from 'gl-matrix'
 
 /**
  *
@@ -643,15 +643,15 @@ class DrawerCanvas extends Emitter<DrawerCanvasEvents> {
 			if (simmetricLine > 0) {
 				const offset = Math.PI / simmetricLine
 				const size = Math.max(width, height) / 2
-				const center = [size / 2, size / 2]
+				const center = vec2.fromValues(size / 2, size / 2)
 
 				for (let i = 0; i < simmetricLine; i++) {
-					const a = Float32Array.from([-size, -size])
-					const b = Float32Array.from([size * 2, size * 2])
+					const a = vec2.fromValues(-size, -size)
+					const b = vec2.fromValues(size * 2, size * 2)
 					const rotate = i * offset + Math.PI / 4
 
-					Vec2.rotateZ(a, center, rotate)
-					Vec2.rotateZ(b, center, rotate)
+					vec2.rotate(a, a, center, rotate)
+					vec2.rotate(b, b, center, rotate)
 
 					context.beginPath()
 					context.strokeStyle = scene.mainColor

@@ -1,6 +1,6 @@
 import ShapeBase from "./ShapeBase";
 import SceneChild from "../SceneChild";
-import { IShapeSettings } from "../types/shape-base";
+import { IShapeBounding, IShapeSettings } from "../types/shape-base";
 import { IRepetition, ISceneChildPropArguments } from "../types/scene-child";
 /**
  * Container of ShapeBase or Group, it applies transformations on each repetition
@@ -70,6 +70,7 @@ declare class Shape extends ShapeBase {
      * @memberof ShapeBase
      */
     setShape(shape: SceneChild | undefined): void;
+    getBounding(): IShapeBounding;
 }
 export default Shape;
 //# sourceMappingURL=Shape.d.ts.map

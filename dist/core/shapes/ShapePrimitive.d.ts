@@ -1,7 +1,7 @@
 import ShapeBase from "./ShapeBase";
-import { TArray } from "../math/Vec2";
 import { EShapePrimitiveAdaptMode, IShapeBounding, IShapePrimitiveProps, IShapePrimitiveSettings } from "../types/shape-base";
 import { IRepetition, ISceneChildPropArguments } from "../types/scene-child";
+import { vec2 } from 'gl-matrix';
 /**
  * @category Core.Abstract
  */
@@ -29,13 +29,22 @@ declare abstract class ShapePrimitive extends ShapeBase {
      */
     bCloseShape: boolean;
     /**
+     * Empty buffer bounding
+     *
+     * @static
+     * @type {IShapeBounding}
+     * @memberof ShapePrimitive
+     */
+    static readonly EMPTY_BOUNDING: IShapeBounding;
+    /**
      * Scale buffer
      *
      * @public
      * @type {Array<number>}
      * @memberof ShapePrimitive
      */
-    sideLength: TArray;
+    sideLength: vec2;
+    single_bounding: IShapeBounding;
     constructor(settings?: IShapePrimitiveSettings);
     /**
      * Check if shape is static
@@ -61,15 +70,8 @@ declare abstract class ShapePrimitive extends ShapeBase {
      * @param {ISceneChildPropArguments} prop_arguments
      * @memberof ShapePrimitive
      */
-    protected bindSideLength(prop_arguments: ISceneChildPropArguments): void;
-    /**
-     * Apply side length to buffer
-     *
-     * @protected
-     * @param {TArray} vertex
-     * @memberof ShapePrimitive
-     */
-    protected applyVertexTransform(vertex: TArray): void;
+    protected bindSideLength(prop_arguments: ISceneChildPropArguments): boolean;
+    getBounding(): IShapeBounding;
     /**
      * Add this to indexed_buffer
      *
@@ -115,7 +117,7 @@ declare abstract class ShapePrimitive extends ShapeBase {
      * @returns {IShapeBounding}
      * @memberof ShapePrimitive
      */
-    static getBounding(buffer: Float32Array): IShapeBounding;
+    static getBounding(buffer: Float32Array, bounding?: IShapeBounding): IShapeBounding;
     /**
      * Return adapted buffer between [-1,-1] and [1,1]
      *
@@ -126,7 +128,7 @@ declare abstract class ShapePrimitive extends ShapeBase {
      * @returns {Float32Array}
      * @memberof ShapePrimitive
      */
-    static adaptBuffer(input: Float32Array, mode: EShapePrimitiveAdaptMode): Float32Array;
+    static adaptBuffer(input: Float32Array, mode: EShapePrimitiveAdaptMode, rect?: IShapeBounding): Float32Array;
 }
 export default ShapePrimitive;
 //# sourceMappingURL=ShapePrimitive.d.ts.map
