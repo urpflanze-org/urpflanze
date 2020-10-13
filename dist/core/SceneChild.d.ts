@@ -146,13 +146,14 @@ declare abstract class SceneChild {
      */
     abstract generate(generate_id: number, bDirectSceneChild: boolean, parent_prop_arguments?: ISceneChildPropArguments): void;
     /**
-     * Get a informatiion about sceneChild bounding
+     * Get buffer bounding
      *
      * @abstract
+     * @param {boolean} bDirectSceneChild
      * @returns {IShapeBounding}
      * @memberof SceneChild
      */
-    abstract getBounding(): IShapeBounding;
+    abstract getBounding(bDirectSceneChild: boolean): IShapeBounding;
     /**
      * Stream shape
      * Best explained in ShapeBase

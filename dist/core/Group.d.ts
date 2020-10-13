@@ -114,7 +114,7 @@ declare class Group extends SceneChild {
      * @memberof Group
      */
     generate(indexing_id: number, bDirectSceneChild?: boolean, parent_prop_arguments?: ISceneChildPropArguments): void;
-    getBounding(): IShapeBounding;
+    getBounding(bDirectSceneChild: boolean): IShapeBounding;
     /**
      * Chear children buffer
      *

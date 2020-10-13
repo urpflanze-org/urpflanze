@@ -36,7 +36,7 @@ export declare type TVertexCallback = (vertex: Array<number> | Float32Array, pro
 /**
  * ShapeBaseSettings
  *
- * @category Core.Types
+ * @category Core.Props and Settings Interfaces
  */
 export interface IShapeBaseSettings extends ISceneChildSettings {
     bUseParent?: boolean;
@@ -45,9 +45,12 @@ export interface IShapeBaseSettings extends ISceneChildSettings {
 /**
  * Shape settings
  *
- * @category Core.Interfaces
+ * @category Core.Props and Settings Interfaces
  */
 export interface IShapeSettings extends IShapeBaseSettings {
+    /**
+     * shape to apply repetitions and transformation
+     */
     shape?: SceneChild;
 }
 /**
@@ -79,32 +82,74 @@ export declare enum EShapePrimitiveAdaptMode {
 }
 /**
  *
- * @category Core.Interfaces
+ * @category Core.Props and Settings Interfaces
  */
 export interface IShapePrimitiveProps extends ISceneChildProps {
+    /**
+     * scalar that multiplies the buffer or loop
+     * @order -20
+     */
     sideLength?: TSceneChildProp<number | Array<number>>;
+    /**
+     * fill color of the shape, hsl or rgb is preferred
+     * @order -19
+     */
     fillColor?: TSceneChildProp<number | string>;
-    lineWidth?: TSceneChildProp<number>;
+    /**
+     * stroke color oh the shape, hsl or rgb is preferred
+     * @order -18
+     */
     strokeColor?: TSceneChildProp<number | string>;
+    /**
+     * stroke dimension
+     * @order -17
+     */
+    lineWidth?: TSceneChildProp<number>;
 }
 /**
  *
- * @category Core.Interfaces
+ * @category Core.Props and Settings Interfaces
  */
 export interface IShapePrimitiveSettings extends IShapePrimitiveProps, IShapeBaseSettings {
+    /**
+     * Adapt buffer mode, see <a href="[base_url]/EShapePrimitiveAdaptMode">EShapePrimitiveAdaptMode</a> for more details
+     */
     adaptMode?: EShapePrimitiveAdaptMode;
+    /**
+     * Callback to apply transform at any vertex
+     */
     bCloseShape?: boolean;
 }
 /**
+ * Size of a buffer and its position relative to the scene.
+ * cx|y is the center
  *
  * @category Core.Interfaces
  */
 export interface IShapeBounding {
+    /**
+     * @order 1
+     */
     x: number;
+    /**
+     * @order 2
+     */
     y: number;
+    /**
+     * @order 3
+     */
     cx: number;
+    /**
+     * @order 4
+     */
     cy: number;
+    /**
+     * @order 5
+     */
     width: number;
+    /**
+     * @order 5
+     */
     height: number;
 }
 //# sourceMappingURL=shape-base.d.ts.map

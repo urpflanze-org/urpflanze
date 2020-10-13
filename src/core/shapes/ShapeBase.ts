@@ -1,3 +1,5 @@
+import { glMatrix, mat4, vec2, vec3 } from 'gl-matrix'
+
 import { TStreamCallback } from '@core/types/scene'
 import { IShapeBaseSettings, IShapeBounding, TVertexCallback } from '@core/types/shape-base'
 import {
@@ -12,15 +14,16 @@ import { IBufferIndex } from '@core/types/shape-base'
 
 import SceneChild from '@core/SceneChild'
 import Context from '@core/Context'
-import { mat3, mat4, quat, vec2, vec3 } from 'gl-matrix'
 import * as glme from '@core/math/gl-matrix-extensions'
 import ShapePrimitive from './ShapePrimitive'
 import { clamp } from 'src/Utilites'
 
-export const tmp_matrix = mat4.create()
-export const transform_matrix = mat4.create()
-export const perspective_matrix = mat4.create()
-export const repetition_matrix = mat4.create()
+glMatrix.setMatrixArrayType(Array)
+
+const tmp_matrix = mat4.create()
+const transform_matrix = mat4.create()
+const perspective_matrix = mat4.create()
+const repetition_matrix = mat4.create()
 
 /**
  * Main class for shape generation
@@ -417,7 +420,7 @@ abstract class ShapeBase extends SceneChild {
 				const buffer: Float32Array = this.generateBuffer(generate_id, prop_arguments)
 				const buffer_length = buffer.length
 
-				const bounding = this.getBounding() // TODO: change
+				const bounding = this.getBounding(bDirectSceneChild)
 
 				buffers[current_index] = new Float32Array(buffer_length)
 				total_buffer_length += buffer_length
@@ -434,13 +437,9 @@ abstract class ShapeBase extends SceneChild {
 					const rotateX = this.getProp('rotateX', prop_arguments, 0)
 					const rotateY = this.getProp('rotateY', prop_arguments, 0)
 					const rotateZ = this.getProp('rotateZ', prop_arguments, 0)
-
 					const perspectiveProp = clamp(0, 1, this.getProp('perspective', prop_arguments, 0))
 					const perspectiveOrigin = glme.toVec3(this.getProp('perspectiveOrigin', prop_arguments, glme.VEC2_ZERO), 0)
 					const transformOrigin = glme.toVec3(this.getProp('transformOrigin', prop_arguments, glme.VEC2_ZERO), 0)
-
-					const perspectiveSize = perspectiveProp > 0 ? Math.max(bounding.width, bounding.height) / 2 : 1
-					const perspective = perspectiveProp > 0 ? perspectiveSize + (1 - perspectiveProp) * (perspectiveSize * 10) : 0
 
 					let offset: vec3
 
@@ -458,6 +457,8 @@ abstract class ShapeBase extends SceneChild {
 							break
 					}
 
+					const perspectiveSize = perspectiveProp > 0 ? Math.max(bounding.width, bounding.height) / 2 : 1
+					const perspective = perspectiveProp > 0 ? perspectiveSize + (1 - perspectiveProp) * (perspectiveSize * 10) : 0
 					const bTransformOrigin = perspective !== 0 || transformOrigin[0] !== 0 || transformOrigin[1] !== 0
 					const bPerspectiveOrigin = perspectiveOrigin[0] !== 0 || perspectiveOrigin[1] !== 0
 
@@ -470,53 +471,53 @@ abstract class ShapeBase extends SceneChild {
 					/**
 					 * Create Transformation matrix
 					 */
+					{
+						mat4.identity(transform_matrix)
 
-					mat4.identity(transform_matrix)
-
-					// transform origin
-					bTransformOrigin && mat4.translate(transform_matrix, transform_matrix, transformOrigin)
-					// scale
-					if (scale[0] !== 1 || scale[1] !== 1) mat4.scale(transform_matrix, transform_matrix, scale)
-					// skew
-					if (skewX !== 0 || skewY !== 0) {
-						glme.fromSkew(tmp_matrix, [skewX, skewY])
-						mat4.multiply(transform_matrix, transform_matrix, tmp_matrix)
-					}
-					// rotateX
-					rotateX !== 0 && mat4.rotateX(transform_matrix, transform_matrix, rotateX)
-					//rotateY
-					rotateY !== 0 && mat4.rotateY(transform_matrix, transform_matrix, rotateY)
-					//rotateZ
-					rotateZ !== 0 && mat4.rotateZ(transform_matrix, transform_matrix, rotateZ)
-					// reset origin
-					bTransformOrigin &&
-						mat4.translate(transform_matrix, transform_matrix, vec3.scale(transformOrigin, transformOrigin, -1))
-					// translation
-					if (translate[0] !== 0 || translate[1] !== 0) mat4.translate(transform_matrix, transform_matrix, translate)
-
-					/**
-					 * Create Repetition matrix
-					 */
-					mat4.identity(repetition_matrix)
-					mat4.translate(repetition_matrix, repetition_matrix, offset)
-					if (bDirectSceneChild) {
-						mat4.translate(repetition_matrix, repetition_matrix, sceneCenter)
-					}
-					if (repetition_type === ERepetitionType.Ring)
-						mat4.rotateZ(repetition_matrix, repetition_matrix, repetition.angle + displace)
-
-					/**
-					 * Create Perspective matrix
-					 */
-					if (perspective > 0) {
-						if (bPerspectiveOrigin) {
-							perspectiveOrigin[0] *= bounding.width / 2
-							perspectiveOrigin[1] *= bounding.height / 2
-							perspectiveOrigin[2] = 0
+						// transform origin
+						bTransformOrigin && mat4.translate(transform_matrix, transform_matrix, transformOrigin)
+						// scale
+						if (scale[0] !== 1 || scale[1] !== 1) mat4.scale(transform_matrix, transform_matrix, scale)
+						// skew
+						if (skewX !== 0 || skewY !== 0) {
+							glme.fromSkew(tmp_matrix, [skewX, skewY])
+							mat4.multiply(transform_matrix, transform_matrix, tmp_matrix)
 						}
-						mat4.perspective(perspective_matrix, -Math.PI / 2, 1, 0, Infinity)
-					}
+						// rotateX
+						rotateX !== 0 && mat4.rotateX(transform_matrix, transform_matrix, rotateX)
+						//rotateY
+						rotateY !== 0 && mat4.rotateY(transform_matrix, transform_matrix, rotateY)
+						//rotateZ
+						rotateZ !== 0 && mat4.rotateZ(transform_matrix, transform_matrix, rotateZ)
+						// reset origin
+						bTransformOrigin &&
+							mat4.translate(transform_matrix, transform_matrix, vec3.scale(transformOrigin, transformOrigin, -1))
+						// translation
+						if (translate[0] !== 0 || translate[1] !== 0) mat4.translate(transform_matrix, transform_matrix, translate)
 
+						/**
+						 * Create Repetition matrix
+						 */
+						mat4.identity(repetition_matrix)
+						mat4.translate(repetition_matrix, repetition_matrix, offset)
+						if (bDirectSceneChild) {
+							mat4.translate(repetition_matrix, repetition_matrix, sceneCenter)
+						}
+						if (repetition_type === ERepetitionType.Ring)
+							mat4.rotateZ(repetition_matrix, repetition_matrix, repetition.angle + displace)
+
+						/**
+						 * Create Perspective matrix
+						 */
+						if (perspective > 0) {
+							if (bPerspectiveOrigin) {
+								perspectiveOrigin[0] *= bounding.width / 2
+								perspectiveOrigin[1] *= bounding.height / 2
+								perspectiveOrigin[2] = 0
+							}
+							mat4.perspective(perspective_matrix, -Math.PI / 2, 1, 0, Infinity)
+						}
+					}
 					// Apply matrices on vertex
 					for (let buffer_index = 0; buffer_index < buffer_length; buffer_index += 2) {
 						const vertex: vec3 = [buffer[buffer_index], buffer[buffer_index + 1], perspective]

@@ -26,27 +26,27 @@ export enum ERepetitionType {
 }
 
 /**
- * Information about prop_arguments repetition
- *
- * @category Core.Interfaces
- */
-export interface IRepetition extends IShapeLoopRepetition {
-	/**
-	 * Define the type of repetition
-	 */
-	type: ERepetitionType
-	row: IBaseRepetition
-	col: IBaseRepetition
-}
-
-/**
  * Base repetition
  *
  * @category Core.Interfaces
  */
 export interface IBaseRepetition {
+	/**
+	 * Index of repetition, from 1 to count
+	 * @order 1
+	 */
 	index: number
+
+	/**
+	 * Current repetition offset from 0 (first repetition) to 1 (last repetition)
+	 * @order 2
+	 */
 	offset: number
+
+	/**
+	 * Number of repetitions
+	 * @order 3
+	 */
 	count: number
 }
 
@@ -56,14 +56,44 @@ export interface IBaseRepetition {
  * @category Core.Interfaces
  */
 export interface IShapeLoopRepetition extends IBaseRepetition {
+	/**
+	 * angle of current repetition = repetition.offset * Math.PI * 2
+	 *
+	 * @order 4
+	 */
 	angle: number
+}
+
+/**
+ * Information about prop_arguments repetition
+ *
+ * @category Core.Interfaces
+ */
+export interface IRepetition extends IShapeLoopRepetition {
+	/**
+	 * Define the type of repetition
+	 * @order 5
+	 */
+	type: ERepetitionType
+
+	/**
+	 * Information about rows of matrix repetition
+	 * @order 6
+	 */
+	row: IBaseRepetition
+
+	/**
+	 * Information about columns of matrix repetition
+	 * @order 7
+	 */
+	col: IBaseRepetition
 }
 
 /**
  * Props interface.
  * Remember: any size refere to dimension of a scene.
  *
- * @category Core.Interfaces
+ * @category Core.Props and Settings Interfaces
  */
 export interface ISceneChildProps {
 	/**
@@ -74,6 +104,7 @@ export interface ISceneChildProps {
 	 *
 	 * @type {(TSceneChildProp<number | Array<number>>)}
 	 * @memberof ISceneChildProps
+	 * @order 1
 	 */
 	repetitions?: TSceneChildProp<number | Array<number>> // number of shape repetitions
 
@@ -85,6 +116,7 @@ export interface ISceneChildProps {
 	 *
 	 * @type {(TSceneChildProp<number | Array<number>>)}
 	 * @memberof ISceneChildProps
+	 * @order 2
 	 */
 	distance?: TSceneChildProp<number | Array<number>>
 
@@ -93,6 +125,7 @@ export interface ISceneChildProps {
 	 *
 	 * @type {TSceneChildProp<number>}
 	 * @memberof ISceneChildProps
+	 * @order 3
 	 */
 	displace?: TSceneChildProp<number>
 
@@ -101,6 +134,7 @@ export interface ISceneChildProps {
 	 *
 	 * @type {TSceneChildProp<number>}
 	 * @memberof ISceneChildProps
+	 * @order 4
 	 */
 	skewX?: TSceneChildProp<number>
 
@@ -109,6 +143,7 @@ export interface ISceneChildProps {
 	 *
 	 * @type {TSceneChildProp<number>}
 	 * @memberof ISceneChildProps
+	 * @order 5
 	 */
 	skewY?: TSceneChildProp<number>
 
@@ -117,6 +152,7 @@ export interface ISceneChildProps {
 	 *
 	 * @type {TSceneChildProp<number>}
 	 * @memberof ISceneChildProps
+	 * @order 6
 	 */
 	squeezeX?: TSceneChildProp<number>
 
@@ -125,6 +161,7 @@ export interface ISceneChildProps {
 	 *
 	 * @type {TSceneChildProp<number>}
 	 * @memberof ISceneChildProps
+	 * @order 7
 	 */
 	squeezeY?: TSceneChildProp<number>
 
@@ -133,6 +170,7 @@ export interface ISceneChildProps {
 	 *
 	 * @type {(TSceneChildProp<number | Array<number>>)}
 	 * @memberof ISceneChildProps
+	 * @order 8
 	 */
 	scale?: TSceneChildProp<number | Array<number>>
 
@@ -141,54 +179,98 @@ export interface ISceneChildProps {
 	 *
 	 * @type {(TSceneChildProp<number | Array<number>>)}
 	 * @memberof ISceneChildProps
+	 * @order 9
 	 */
 	translate?: TSceneChildProp<number | Array<number>>
 
 	/**
-	 * rotateX transformation
+	 * rotateX transformation in degeress
 	 *
 	 * @type {TSceneChildProp<number>}
 	 * @memberof ISceneChildProps
+	 * @order 10
 	 */
 	rotateX?: TSceneChildProp<number>
 
 	/**
-	 * rotateY transformation
+	 * rotateY transformation in degeress
 	 *
 	 * @type {TSceneChildProp<number>}
 	 * @memberof ISceneChildProps
+	 * @order 11
 	 */
 	rotateY?: TSceneChildProp<number>
 
 	/**
-	 * rotateZ transformation
+	 * rotateZ transformation in degeress
 	 *
 	 * @type {TSceneChildProp<number>}
 	 * @memberof ISceneChildProps
+	 * @order 12
 	 */
 	rotateZ?: TSceneChildProp<number>
 
 	/**
-	 * Origin of rotation
+	 * Origin of transformation
 	 *
 	 * @type {TSceneChildProp<number>}
 	 * @memberof ISceneChildProps
+	 * @order 13
 	 */
 	transformOrigin?: TSceneChildProp<number>
 
+	/**
+	 * perspective of rotation between 0 and 1
+	 *
+	 * @type {TSceneChildProp<number>}
+	 * @memberof ISceneChildProps
+	 * @order 14
+	 */
 	perspective?: TSceneChildProp<number>
+
+	/**
+	 * perspective origin between [-1, -1] and [1, 1]
+	 *
+	 * @type {(TSceneChildProp<number | Array<number>>)}
+	 * @memberof ISceneChildProps
+	 * @order 15
+	 */
 	perspectiveOrigin?: TSceneChildProp<number | Array<number>>
 }
 
 /**
  *
- * @category Core.Interfaces
+ * @category Core.Props and Settings Interfaces
  */
 export interface ISceneChildSettings extends ISceneChildProps {
+	/**
+	 * id of element
+	 * @order -5
+	 */
 	id?: string | number
+
+	/**
+	 * human readablle name
+	 * @order -4
+	 */
 	name?: string
+
+	/**
+	 * order for drawing priority
+	 * @order -3
+	 */
 	order?: number
+
+	/**
+	 * human readable type of element
+	 * @order -2
+	 */
 	type?: string
+
+	/**
+	 * custom client data
+	 * @order -1
+	 */
 	data?: any
 }
 

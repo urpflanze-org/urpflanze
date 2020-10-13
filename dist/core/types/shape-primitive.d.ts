@@ -3,13 +3,13 @@ import { vec2 } from 'gl-matrix';
 import { IShapePrimitiveProps, IShapePrimitiveSettings } from "./shape-base";
 /**
  *
- * @category Core.Interfaces
+ * @category Core.Props and Settings Interfaces
  */
 export interface IShapeBufferProps extends IShapePrimitiveProps {
 }
 /**
  *
- * @category Core.Interfaces
+ * @category Core.Props and Settings Interfaces
  */
 export interface IShapeBufferSettings extends IShapeBufferProps, IShapePrimitiveSettings {
     shape?: Float32Array | Array<number>;
@@ -31,14 +31,18 @@ export interface IShapeLoopGenerator {
 }
 /**
  *
- * @category Core.Interfaces
+ * @category Core.Props and Settings Interfaces
  */
 export interface IShapeLoopProps extends IShapePrimitiveProps {
+    /**
+     *  <a href="[base_url]/IShapeLoopGenerator">IShapeLoopGenerator</a> for more details
+     * @order -21
+     */
     loop?: IShapeLoopGenerator;
 }
 /**
  *
- * @category Core.Interfaces
+ * @category Core.Props and Settings Interfaces
  */
 export interface IShapeLoopSettings extends IShapeLoopProps, IShapePrimitiveSettings {
     shapeLoopPropsDependencies?: Array<string>;

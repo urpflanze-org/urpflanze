@@ -203,13 +203,14 @@ abstract class SceneChild {
 	): void
 
 	/**
-	 * Get a informatiion about sceneChild bounding
+	 * Get buffer bounding
 	 *
 	 * @abstract
+	 * @param {boolean} bDirectSceneChild
 	 * @returns {IShapeBounding}
 	 * @memberof SceneChild
 	 */
-	abstract getBounding(): IShapeBounding
+	abstract getBounding(bDirectSceneChild: boolean): IShapeBounding
 
 	/**
 	 * Stream shape

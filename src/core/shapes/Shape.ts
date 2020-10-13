@@ -167,9 +167,9 @@ class Shape extends ShapeBase {
 		}
 	}
 
-	public getBounding(): IShapeBounding {
+	public getBounding(bDirectSceneChild: boolean): IShapeBounding {
 		if (this.shape) {
-			return this.shape.getBounding()
+			return this.shape.getBounding(false)
 		}
 		return this.bounding
 	}

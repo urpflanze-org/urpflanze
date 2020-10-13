@@ -1,7 +1,4 @@
-import { glMatrix } from 'gl-matrix'
-glMatrix.setMatrixArrayType(Array)
-
-import { mat4, quat, vec2, vec3 } from 'gl-matrix'
+import { mat4, vec2, vec3 } from 'gl-matrix'
 
 export const VEC3_ZERO: vec3 = [0, 0, 0]
 export const VEC3_ONE: vec3 = [1, 1, 1]
@@ -36,24 +33,6 @@ export function toVec2(x: number | Array<number>): vec2 {
 export function toVec3(x: number | Array<number>, defaultZValue: number = 0): vec3 {
 	if (Array.isArray(x)) return [x[0], x[1], defaultZValue]
 	return [x, x, defaultZValue]
-}
-
-export function quatFromRadians(out: quat, x: number, y: number, z: number): quat {
-	let halfToRad = 0.5
-	x *= halfToRad
-	y *= halfToRad
-	z *= halfToRad
-	let sx = Math.sin(x)
-	let cx = Math.cos(x)
-	let sy = Math.sin(y)
-	let cy = Math.cos(y)
-	let sz = Math.sin(z)
-	let cz = Math.cos(z)
-	out[0] = sx * cy * cz - cx * sy * sz
-	out[1] = cx * sy * cz + sx * cy * sz
-	out[2] = cx * cy * sz - sx * sy * cz
-	out[3] = cx * cy * cz + sx * sy * sz
-	return out
 }
 
 export const squeezeX = (vec: vec2 | vec3, m: number): void => {

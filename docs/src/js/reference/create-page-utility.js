@@ -225,10 +225,10 @@ export function resolveMethodOrPropertyName(mp) {
 	return `${prefix}<h4 class="reference__property__name">${mp.name}</h4>`
 }
 
-export function printDescription(property, bComment = false) {
+export function printDescription(property, bComment = false, bFirst = false) {
 	return property.description
 		? bComment
-			? `\n\t// ${property.description.split('\n').join('\n\t// ')}\n\t`
+			? `${!bFirst ? '\n\t' : ''}// ${property.description.split('\n').join('\n\t// ')}\n\t`
 			: `${property.description.split('\n').join('<br />')}`
 		: ''
 }

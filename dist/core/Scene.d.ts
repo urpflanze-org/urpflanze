@@ -1,4 +1,4 @@
-import { TStreamCallback, ISceneSettingsInterface } from "./types/scene";
+import { TStreamCallback, ISceneSettings } from "./types/scene";
 import SceneChild from "./SceneChild";
 /**
  * Container for all SceneChild.
@@ -45,7 +45,7 @@ declare class Scene {
      * Creates an instance of Scene.
      * You can see the default values ​​in the property definitions
      */
-    constructor(settings?: ISceneSettingsInterface);
+    constructor(settings?: ISceneSettings);
     /**
      * Resize the scene size
      *

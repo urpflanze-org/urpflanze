@@ -17,7 +17,7 @@ exec(`npx typedoc --json ${filename}`, (error, stdout, stderr) => {
 
 	const data = generate(JSON.parse(fs.readFileSync(filename)))
 
-	// fs.unlinkSync(filename)
+	fs.unlinkSync(filename)
 
 	const references = `${JSON.stringify(data, null, '\t')}`
 	fs.writeFileSync(dest_name, references)
@@ -42,7 +42,13 @@ function parseModule(module) {
 	if (module.flags && module.flags.isExported) {
 		if (module.children) {
 			for (item of module.children) {
-				item.flags && item.flags.isExported && result.push(parse(item))
+				if (item.flags && item.flags.isExported) {
+					const r = parse(item)
+					if (r) {
+						r.source = item.sources[0]
+						result.push(r)
+					}
+				}
 			}
 		}
 	}
@@ -184,9 +190,10 @@ function parseInterface(item) {
 		source: item.sources[0].fileName,
 		extends: item && item.extendedTypes ? item.extendedTypes.map(extend => extend.name) : undefined,
 		description: parseDescription(item),
-		properties: (item.children ? item.children.filter(c => !c.inheritedFrom).map(parseProperty) : []).sort(
-			(a, b) => a.order - b.order
-		),
+		// properties: (item.children ? item.children.filter(c => !c.inheritedFrom).map(parseProperty) : []).sort(
+		// 	(a, b) => a.order - b.order
+		// ),
+		properties: (item.children ? item.children.map(parseProperty) : []).sort((a, b) => a.order - b.order),
 		typeParameters: item.typeParameter,
 	}
 	return result
@@ -271,7 +278,7 @@ function parseProperty(property) {
 		typeArguments: property.typeArguments,
 		operator: property.operator,
 		examples: findExamples(property),
-		order: findOrder(item),
+		order: findOrder(property),
 		target: property.target ? parseProperty(property.target) : undefined,
 	}
 

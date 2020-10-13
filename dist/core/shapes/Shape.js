@@ -136,9 +136,9 @@ class Shape extends ShapeBase {
             this.shape.clearBuffer(true, true);
         }
     }
-    getBounding() {
+    getBounding(bDirectSceneChild) {
         if (this.shape) {
-            return this.shape.getBounding();
+            return this.shape.getBounding(false);
         }
         return this.bounding;
     }

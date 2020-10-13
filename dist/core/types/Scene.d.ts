@@ -8,7 +8,7 @@ export declare type TStreamCallback = (stream_arguments: ISceneChildStreamArgume
  *
  * @category Core.Interfaces
  */
-export interface ISceneSettingsInterface {
+export interface ISceneSettings {
     /**
      * Scene width
      * @order 1
@@ -29,17 +29,5 @@ export interface ISceneSettingsInterface {
      * @order 4
      */
     mainColor?: string;
-}
-/**
- * The minimum object to pass as the argument of a new SceneSchild implementation
- *
- * @category Core.Interfaces
- */
-export interface ISceneChildInterface {
-    id?: number | string;
-    name?: string;
-    type?: string;
-    order?: number;
-    data?: any;
 }
 //# sourceMappingURL=scene.d.ts.map

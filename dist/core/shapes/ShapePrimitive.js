@@ -58,8 +58,15 @@ class ShapePrimitive extends ShapeBase {
         }
         return false;
     }
-    getBounding() {
-        return this.single_bounding;
+    /**
+     * Return a bounding of generated buffer if is direct scene child
+     *
+     * @param {boolean} bDirectSceneChild
+     * @returns {IShapeBounding}
+     * @memberof ShapePrimitive
+     */
+    getBounding(bDirectSceneChild) {
+        return bDirectSceneChild ? this.single_bounding : this.bounding;
     }
     /**
      * Add this to indexed_buffer
@@ -156,10 +163,10 @@ class ShapePrimitive extends ShapeBase {
         }
         bounding.x = minX;
         bounding.y = minY;
-        bounding.cx = minX + maxX / 2;
-        bounding.cy = minY + maxY / 2;
         bounding.width = maxX - minX;
         bounding.height = maxY - minY;
+        bounding.cx = bounding.x - bounding.width / 2;
+        bounding.cy = bounding.y - bounding.height / 2;
         return bounding;
     }
     /**

@@ -1,4 +1,4 @@
-import { TStreamCallback, ISceneSettingsInterface } from '@core/types/scene'
+import { TStreamCallback, ISceneSettings } from '@core/types/scene'
 
 import SceneChild from '@core/SceneChild'
 import Group from '@core/Group'
@@ -57,7 +57,7 @@ class Scene {
 	 * Creates an instance of Scene.
 	 * You can see the default values ​​in the property definitions
 	 */
-	constructor(settings: ISceneSettingsInterface = {}) {
+	constructor(settings: ISceneSettings = {}) {
 		if (typeof settings.width !== 'undefined') this.width = settings.width
 		if (typeof settings.height !== 'undefined') this.height = settings.height
 

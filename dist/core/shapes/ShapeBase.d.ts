@@ -3,11 +3,6 @@ import { IShapeBaseSettings, IShapeBounding, TVertexCallback } from "../types/sh
 import { IRepetition, IBaseRepetition, ISceneChildPropArguments, ISceneChildProps } from "../types/scene-child";
 import { IBufferIndex } from "../types/shape-base";
 import SceneChild from "../SceneChild";
-import { mat4 } from 'gl-matrix';
-export declare const tmp_matrix: mat4;
-export declare const transform_matrix: mat4;
-export declare const perspective_matrix: mat4;
-export declare const repetition_matrix: mat4;
 /**
  * Main class for shape generation
  *

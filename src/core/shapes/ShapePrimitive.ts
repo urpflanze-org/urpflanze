@@ -10,7 +10,6 @@ import { IRepetition, ISceneChildPropArguments, ISceneChildProps } from '@core/t
 import { IBufferIndex } from '@core/types/shape-base'
 import { vec2 } from 'gl-matrix'
 import { toVec2 } from '@core/math/gl-matrix-extensions'
-import Circle from './primitives/Circle'
 
 /**
  * @category Core.Abstract
@@ -130,8 +129,15 @@ abstract class ShapePrimitive extends ShapeBase {
 		return false
 	}
 
-	public getBounding() {
-		return this.single_bounding
+	/**
+	 * Return a bounding of generated buffer if is direct scene child
+	 *
+	 * @param {boolean} bDirectSceneChild
+	 * @returns {IShapeBounding}
+	 * @memberof ShapePrimitive
+	 */
+	public getBounding(bDirectSceneChild: boolean): IShapeBounding {
+		return bDirectSceneChild ? this.single_bounding : this.bounding
 	}
 
 	/**
@@ -238,10 +244,10 @@ abstract class ShapePrimitive extends ShapeBase {
 
 		bounding.x = minX
 		bounding.y = minY
-		bounding.cx = minX + maxX / 2
-		bounding.cy = minY + maxY / 2
 		bounding.width = maxX - minX
 		bounding.height = maxY - minY
+		bounding.cx = bounding.x - bounding.width / 2
+		bounding.cy = bounding.y - bounding.height / 2
 
 		return bounding
 	}

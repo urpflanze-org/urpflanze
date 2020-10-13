@@ -222,15 +222,14 @@ class Group extends SceneChild {
 		this.children.forEach(item => item.generate(indexing_id, bDirectSceneChild, parent_prop_arguments))
 	}
 
-	public getBounding(): IShapeBounding {
+	public getBounding(bDirectSceneChild: boolean): IShapeBounding {
 		const boundings: Array<IShapeBounding> = []
+		const bounding: IShapeBounding = { ...ShapePrimitive.EMPTY_BOUNDING }
 
 		if (this.children.length > 0) {
-			this.children.forEach(item => boundings.push(item.getBounding()))
+			this.children.forEach(item => boundings.push(item.getBounding(bDirectSceneChild)))
 
-			const bounding: IShapeBounding = { ...boundings[0] }
-
-			for (let i = 1, len = this.children.length; i < len; i++) {
+			for (let i = 0, len = this.children.length; i < len; i++) {
 				bounding.x = bounding.x > boundings[i].x ? boundings[i].x : bounding.x
 				bounding.y = bounding.y > boundings[i].y ? boundings[i].y : bounding.y
 				bounding.width = bounding.width < boundings[i].width ? boundings[i].width : bounding.width
@@ -239,12 +238,9 @@ class Group extends SceneChild {
 
 			bounding.cx = bounding.x + bounding.width / 2
 			bounding.cy = bounding.y + bounding.height / 2
-
-			// console.log('bounding', bounding, boundings)
-			return bounding
 		}
 
-		return { ...ShapePrimitive.EMPTY_BOUNDING }
+		return bounding
 	}
 
 	/**

@@ -25,10 +25,10 @@ function loadReference(refName) {
 				<div class="first-content-line">${printDescription(ref)}</div>
 				<pre class="prettyprint"><code translate="no" class="language-typescript">{\n${ref.properties
 					.map(
-						property =>
-							`\t${printDescription(property, true)}${property.name}${property.bOptional ? '?' : ''}: ${resolveType(
-								property.type
-							)}`
+						(property, index) =>
+							`\t${printDescription(property, true, index === 0)}${property.name}${
+								property.bOptional ? '?' : ''
+							}: ${resolveType(property.type)}`
 					)
 					.join('\n')}\r}</code></pre>
 				`
@@ -57,7 +57,7 @@ function loadReference(refName) {
                     <h1 class="reference__name">${createPageName(ref)}</h1>
 					<div class="first-content-line">${printDescription(ref)}</div>
 					<pre class="prettyprint"><code translate="no" class="language-typescript">{\n${ref.members
-						.map(member => `\t${printDescription(member, true)}${member.name}: ${member.defaultValue}`)
+						.map((member, i) => `\t${printDescription(member, true, i === 0)}${member.name}: ${member.defaultValue}`)
 						.join('\n')}\r}</code></pre>
 				`
 				// ${ref.members.map(member => `<div>${member.name}: ${member.defaultValue}</div>`).join('')}
@@ -87,6 +87,9 @@ function loadReference(refName) {
 				content.innerHTML = ``
 				break
 		}
+
+		const sourcelink = `https://github.com/genbs/urpflanze/blob/dev/${ref.source.fileName}#L${ref.source.line}`
+		content.innerHTML += `<h2>Source</h2><div class="reference__source_url"><a target="_blank" href="${sourcelink}">${ref.source.fileName}</a></div>`
 	}
 }
 
