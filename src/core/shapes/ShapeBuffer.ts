@@ -63,11 +63,10 @@ class ShapeBuffer extends ShapePrimitive {
 				? ShapePrimitive.adaptBuffer(this.shape, this.getAdaptMode())
 				: this.shape
 
-				
 		let minX = Number.MAX_VALUE,
-		minY = Number.MAX_VALUE,
-		maxX = Number.MIN_VALUE,
-		maxY = Number.MIN_VALUE
+			minY = Number.MAX_VALUE,
+			maxX = Number.MIN_VALUE,
+			maxY = Number.MIN_VALUE
 
 		for (let i = 0, len = shape_buffer.length; i < len; i += 2) {
 			shape_buffer[i] *= this.sideLength[0]
@@ -79,7 +78,7 @@ class ShapeBuffer extends ShapePrimitive {
 			if (shape_buffer[i + 1] >= maxY) maxY = shape_buffer[i + 1]
 			else if (shape_buffer[i + 1] <= minY) minY = shape_buffer[i + 1]
 		}
-		
+
 		this.single_bounding = {
 			x: minX,
 			y: minY,
@@ -88,7 +87,7 @@ class ShapeBuffer extends ShapePrimitive {
 			width: maxX - minX,
 			height: maxY - minY,
 		}
-		
+
 		this.shape_buffer = shape_buffer
 	}
 	/**

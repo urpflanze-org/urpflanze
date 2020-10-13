@@ -28,7 +28,7 @@ class Lissajous extends ShapeLoop {
 			'wz',
 			'sideLength',
 		])
-		settings.adaptMode = settings.adaptMode ?? EShapePrimitiveAdaptMode.Scale
+		settings.adaptMode = settings.adaptMode ?? EShapePrimitiveAdaptMode.None
 
 		super(settings, true)
 

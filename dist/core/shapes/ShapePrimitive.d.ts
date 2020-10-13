@@ -28,6 +28,7 @@ declare abstract class ShapePrimitive extends ShapeBase {
      * @memberof ShapePrimitive
      */
     bCloseShape: boolean;
+    static readonly EMPTY_BOUNDING: IShapeBounding;
     /**
      * Scale buffer
      *
@@ -64,14 +65,6 @@ declare abstract class ShapePrimitive extends ShapeBase {
      */
     protected bindSideLength(prop_arguments: ISceneChildPropArguments): boolean;
     getBounding(): IShapeBounding;
-    /**
-     * Apply side length to buffer
-     *
-     * @protected
-     * @param {vec2} vertex
-     * @memberof ShapePrimitive
-     */
-    protected applyVertexTransform(vertex: vec2): void;
     /**
      * Add this to indexed_buffer
      *
@@ -128,7 +121,7 @@ declare abstract class ShapePrimitive extends ShapeBase {
      * @returns {Float32Array}
      * @memberof ShapePrimitive
      */
-    static adaptBuffer(input: Float32Array, mode: EShapePrimitiveAdaptMode, vertex?: 2 | 3): Float32Array;
+    static adaptBuffer(input: Float32Array, mode: EShapePrimitiveAdaptMode, rect?: IShapeBounding): Float32Array;
 }
 export default ShapePrimitive;
 //# sourceMappingURL=ShapePrimitive.d.ts.map

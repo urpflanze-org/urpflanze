@@ -40,6 +40,15 @@ abstract class ShapePrimitive extends ShapeBase {
 	 */
 	public bCloseShape: boolean
 
+	static readonly EMPTY_BOUNDING: IShapeBounding = {
+		cx: 0,
+		cy: 0,
+		x: -1,
+		y: -1,
+		width: 2,
+		height: 2,
+	}
+
 	/**
 	 * Scale buffer
 	 *
@@ -114,19 +123,11 @@ abstract class ShapePrimitive extends ShapeBase {
 	}
 
 	public getBounding() {
-		return this.single_bounding
-	}
+		if (this.adaptMode >= EShapePrimitiveAdaptMode.Fill) {
+			return ShapePrimitive.EMPTY_BOUNDING
+		}
 
-	/**
-	 * Apply side length to buffer
-	 *
-	 * @protected
-	 * @param {vec2} vertex
-	 * @memberof ShapePrimitive
-	 */
-	protected applyVertexTransform(vertex: vec2): void {
-		vertex[0] *= this.sideLength[0]
-		vertex[1] *= this.sideLength[1]
+		return this.single_bounding
 	}
 
 	/**
@@ -249,11 +250,14 @@ abstract class ShapePrimitive extends ShapeBase {
 	 * @returns {Float32Array}
 	 * @memberof ShapePrimitive
 	 */
-	public static adaptBuffer(input: Float32Array, mode: EShapePrimitiveAdaptMode, vertex: 2 | 3 = 2): Float32Array {
+	public static adaptBuffer(input: Float32Array, mode: EShapePrimitiveAdaptMode, rect?: IShapeBounding): Float32Array {
 		if (mode == EShapePrimitiveAdaptMode.None) return input
 
 		const output: Float32Array = new Float32Array(input.length)
-		const rect: IShapeBounding = ShapePrimitive.getBounding(input)
+
+		if (!rect) {
+			rect = ShapePrimitive.getBounding(input)
+		}
 
 		let scale =
 			rect.width > 2 ||
@@ -265,7 +269,7 @@ abstract class ShapePrimitive extends ShapeBase {
 		let translateX = mode >= EShapePrimitiveAdaptMode.Center ? rect.cx : 0
 		let translateY = mode >= EShapePrimitiveAdaptMode.Center ? rect.cy : 0
 
-		for (let i = 0, len = input.length; i < len; i += vertex) {
+		for (let i = 0, len = input.length; i < len; i += 2) {
 			output[i] = (input[i] - translateX) * scale
 			output[i + 1] = (input[i + 1] - translateY) * scale
 		}

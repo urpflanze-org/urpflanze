@@ -142,15 +142,15 @@ class ShapeLoop extends ShapePrimitive {
 	 * @memberof ShapeBase
 	 */
 	public isStaticIndexed(): boolean {
-		let start = this.props.loop?.start ?? this.loop.start
-		let end = this.props.loop?.end ?? this.loop.end
-		let inc = this.props.loop?.inc ?? this.loop.inc
+		// let start = this.props.loop?.start ?? this.loop.start
+		// let end = this.props.loop?.end ?? this.loop.end
+		// let inc = this.props.loop?.inc ?? this.loop.inc
 
-		return (
-			typeof start !== 'function' && typeof end !== 'function' && typeof inc !== 'function' && super.isStaticIndexed()
-		)
+		// return (
+		// 	typeof start !== 'function' && typeof end !== 'function' && typeof inc !== 'function' && super.isStaticIndexed()
+		// )
 
-		// return this.bStaticLoop && super.isStaticIndexed()
+		return this.bStaticLoop && super.isStaticIndexed()
 	}
 
 	/**
@@ -241,7 +241,7 @@ class ShapeLoop extends ShapePrimitive {
 	protected generateBuffer(generate_id: number, prop_arguments: ISceneChildPropArguments): Float32Array {
 		this.bindSideLength(prop_arguments)
 
-		if (!this.bStaticLoop) this.loop_buffer = this.generateLoopBuffer(prop_arguments)
+		if (!this.bStaticLoop) return this.generateLoopBuffer(prop_arguments)
 		else if (typeof this.loop_buffer === 'undefined') this.loop_buffer = this.generateLoopBuffer(prop_arguments)
 
 		return this.loop_buffer
@@ -273,6 +273,11 @@ class ShapeLoop extends ShapePrimitive {
 
 		const buffer = new Float32Array(vertex_length * 2)
 
+		let minX = Number.MAX_VALUE,
+			minY = Number.MAX_VALUE,
+			maxX = Number.MIN_VALUE,
+			maxY = Number.MIN_VALUE
+
 		for (let i = 0, j = 0; i < vertex_length; i++, j += 2) {
 			const angle = start + inc * i
 
@@ -281,15 +286,58 @@ class ShapeLoop extends ShapePrimitive {
 			shape_loop.offset = shape_loop.index / shape_loop.count
 
 			const vertex = Float32Array.from(getVertex(shape_loop, prop_arguments))
-			// this.vertexCallback && this.vertexCallback(vertex, prop_arguments, i, vertex_length)
 
 			buffer[j] = vertex[0] * this.sideLength[0]
 			buffer[j + 1] = vertex[1] * this.sideLength[1]
+
+			if (buffer[j] >= maxX) maxX = buffer[j]
+			else if (buffer[j] <= minX) minX = buffer[j]
+
+			if (buffer[j + 1] >= maxY) maxY = buffer[j + 1]
+			else if (buffer[j + 1] <= minY) minY = buffer[j + 1]
 		}
 
-		return this.adaptMode !== EShapePrimitiveAdaptMode.None
-			? ShapePrimitive.adaptBuffer(buffer, this.adaptMode as EShapePrimitiveAdaptMode)
-			: buffer
+		this.single_bounding = {
+			x: minX,
+			y: minY,
+			cx: (minX + maxX) / 2,
+			cy: (minY + maxY) / 2,
+			width: maxX - minX,
+			height: maxY - minY,
+		}
+
+		if (this.adaptMode !== EShapePrimitiveAdaptMode.None) {
+			const final_buffer = ShapePrimitive.adaptBuffer(
+				buffer,
+				this.adaptMode as EShapePrimitiveAdaptMode,
+				this.single_bounding
+			)
+
+			minX = Number.MAX_VALUE
+			minY = Number.MAX_VALUE
+			maxX = Number.MIN_VALUE
+			maxY = Number.MIN_VALUE
+
+			for (let i = 0; i < vertex_length; i += 2) {
+				buffer[i] = final_buffer[i] * this.sideLength[0]
+				buffer[i + 1] = final_buffer[i + 1] * this.sideLength[1]
+				if (buffer[i] >= maxX) maxX = buffer[i]
+				else if (buffer[i] <= minX) minX = buffer[i]
+				if (buffer[i + 1] >= maxY) maxY = buffer[i + 1]
+				else if (buffer[i + 1] <= minY) minY = buffer[i + 1]
+			}
+
+			this.single_bounding = {
+				x: minX,
+				y: minY,
+				cx: (minX + maxX) / 2,
+				cy: (minY + maxY) / 2,
+				width: maxX - minX,
+				height: maxY - minY,
+			}
+		}
+
+		return buffer
 	}
 
 	/**

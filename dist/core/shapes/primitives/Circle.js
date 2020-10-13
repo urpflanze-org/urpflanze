@@ -17,7 +17,7 @@ class Circle extends ShapeLoop {
         var _a;
         settings.type = 'Circle';
         settings.shapeLoopPropsDependencies = (settings.shapeLoopPropsDependencies || []).concat(['sideLength']);
-        settings.adaptMode = (_a = settings.adaptMode) !== null && _a !== void 0 ? _a : EShapePrimitiveAdaptMode.Scale;
+        settings.adaptMode = (_a = settings.adaptMode) !== null && _a !== void 0 ? _a : EShapePrimitiveAdaptMode.None;
         super(settings);
         this.loop = {
             start: 0,

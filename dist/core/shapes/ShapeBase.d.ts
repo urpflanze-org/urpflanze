@@ -3,7 +3,6 @@ import { IShapeBaseSettings, IShapeBounding, TVertexCallback } from "../types/sh
 import { IRepetition, IBaseRepetition, ISceneChildPropArguments, ISceneChildProps } from "../types/scene-child";
 import { IBufferIndex } from "../types/shape-base";
 import SceneChild from "../SceneChild";
-import { vec2 } from 'gl-matrix';
 /**
  * Main class for shape generation
  *
@@ -199,14 +198,6 @@ declare abstract class ShapeBase extends SceneChild {
      */
     generate(generate_id: number, bDirectSceneChild?: boolean, parent_prop_arguments?: ISceneChildPropArguments): void;
     protected getBounding(): IShapeBounding;
-    /**
-     * Apply vertex transformation
-     *
-     * @protected
-     * @param {vec2} vertex
-     * @memberof ShapeBase
-     */
-    protected applyVertexTransform(vertex: vec2): void;
     /**
      * Add into indexed_buffer
      *

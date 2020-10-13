@@ -12,7 +12,7 @@ import { IBufferIndex } from '@core/types/shape-base'
 
 import SceneChild from '@core/SceneChild'
 import Context from '@core/Context'
-import { mat4, quat, vec2, vec3 } from 'gl-matrix'
+import { mat3, mat4, quat, vec2, vec3 } from 'gl-matrix'
 import * as glme from '@core/math/gl-matrix-extensions'
 import ShapePrimitive from './ShapePrimitive'
 import { clamp } from 'src/Utilites'
@@ -351,10 +351,9 @@ abstract class ShapeBase extends SceneChild {
 		if (!this.bStaticIndexed || !this.bIndexed) this.indexed_buffer = []
 
 		let minX = Number.MAX_VALUE,
-		minY = Number.MAX_VALUE,
-		maxX = Number.MIN_VALUE,
-		maxY = Number.MIN_VALUE
-
+			minY = Number.MAX_VALUE,
+			maxX = Number.MIN_VALUE,
+			maxY = Number.MIN_VALUE
 
 		const repetition: IRepetition = ShapeBase.getEmptyRepetition()
 
@@ -418,7 +417,6 @@ abstract class ShapeBase extends SceneChild {
 
 				const bounding = this.getBounding() // TODO: change
 
-				
 				buffers[current_index] = new Float32Array(buffer_length)
 				total_buffer_length += buffer_length
 
@@ -437,16 +435,10 @@ abstract class ShapeBase extends SceneChild {
 
 					const perspective_props = this.getProp('perspective', prop_arguments, 0)
 					// const perspective = perspective_props > 0 ? clamp(1, 100, 100 - perspective_props) : 1
-					const perspective = perspective_props 
-					
-					const perspectiveOrigin = glme.toVec3(this.getProp('perspectiveOrigin', prop_arguments, glme.VEC2_ZERO), 0)
-					const transformOrigin = glme.toVec3(
-						this.getProp('transformOrigin', prop_arguments, glme.VEC2_ZERO),
-						perspective
-					)
+					const perspective = perspective_props
 
-					transformOrigin[0] *= bounding.width / 2
-					transformOrigin[1] *= bounding.height / 2
+					const perspectiveOrigin = glme.toVec3(this.getProp('perspectiveOrigin', prop_arguments, glme.VEC2_ZERO), 0)
+					const transformOrigin = glme.toVec3(this.getProp('transformOrigin', prop_arguments, glme.VEC2_ZERO), 0)
 
 					let offset: vec3
 
@@ -464,48 +456,70 @@ abstract class ShapeBase extends SceneChild {
 							break
 					}
 
+					const originZ = perspective
+
+					transformOrigin[0] *= bounding.width / 2
+					transformOrigin[1] *= bounding.height / 2
+					transformOrigin[2] = originZ
+
+					perspectiveOrigin[2] = originZ
+
+					const nTransformOrigin: vec3 = vec3.create()
+					vec3.scale(nTransformOrigin, transformOrigin, -1)
+
+					const nPerspectiveOrigin: vec3 = vec3.create()
+					vec3.scale(nPerspectiveOrigin, perspectiveOrigin, -1)
+
+					const tempMatrix = mat4.create()
+					const finalMatrix = mat4.create()
+					mat4.identity(finalMatrix)
+
+					// transform origin
+					mat4.translate(finalMatrix, finalMatrix, transformOrigin)
+
+					// scale
+					mat4.scale(finalMatrix, finalMatrix, scale)
+
+					// skew
+					glme.fromSkew(tempMatrix, [skewX, skewY])
+					mat4.multiply(finalMatrix, finalMatrix, tempMatrix)
+
+					// rotateX
+					mat4.rotateX(finalMatrix, finalMatrix, rotateX)
+					//rotateY
+					mat4.rotateY(finalMatrix, finalMatrix, rotateY)
+					//rotateZ
+					mat4.rotateZ(finalMatrix, finalMatrix, rotateZ)
+
+					// reset origin
+					mat4.translate(finalMatrix, finalMatrix, nTransformOrigin)
+
+					// perspective
+					if (perspective > 0) {
+						perspectiveOrigin[0] *= bounding.width / 2
+						perspectiveOrigin[1] *= bounding.height / 2
+						perspectiveOrigin[2] = 0
+						mat4.perspective(tempMatrix, Math.PI / 2, 1, 0, Infinity)
+					}
+
+					// translation
+					mat4.translate(finalMatrix, finalMatrix, translate)
+
 					for (let buffer_index = 0; buffer_index < buffer_length; buffer_index += 2) {
-						const vertex = vec3.fromValues(buffer[buffer_index], buffer[buffer_index + 1], perspective)
+						const vertex: vec3 = [buffer[buffer_index], buffer[buffer_index + 1], originZ]
 
 						{
 							// Apply transformation
 							squeezeX !== 0 && glme.squeezeX(vertex, squeezeX)
 							squeezeY !== 0 && glme.squeezeY(vertex, squeezeY)
-							skewX !== 0 && glme.skewX(vertex, skewX)
-							skewY !== 0 && glme.skewY(vertex, skewY)
 
-							glme.fromRadians(TEMP_QUAT, rotateX, rotateY, rotateZ)
-							mat4.fromRotationTranslationScaleOrigin(TEMP_MATRIX, TEMP_QUAT, glme.VEC3_ZERO, scale, transformOrigin)
-							vec3.transformMat4(vertex, vertex, TEMP_MATRIX)
-							
-							//http://learnwebgl.brown37.net/08_projections/projections_perspective.html
-							if (perspective_props > 0) {
-								//https://stackoverflow.com/questions/20162947/perspective-transform-with-perspective-origin-in-opengl-glkit
-								// https://stackoverflow.com/questions/33946961/what-is-the-relation-between-perspective-translatez-rotate3d-and-no-of-faces
-								if (perspectiveOrigin[0] !== 0 || perspectiveOrigin[1] !== 0) {
-									const perspectiveMatrix = mat4.create()
-									mat4.identity(perspectiveMatrix)
-									mat4.translate(perspectiveMatrix, perspectiveMatrix, perspectiveOrigin)
-									mat4.perspective(TEMP_PROJECTION_MATRIX, Math.PI / 2, 1, 0, Infinity)
-									mat4.mul(TEMP_PROJECTION_MATRIX, TEMP_PROJECTION_MATRIX, perspectiveMatrix)
-
-									mat4.translate(
-										perspectiveMatrix,
-										perspectiveMatrix,
-										vec3.scale(perspectiveOrigin, perspectiveOrigin, -1)
-									)
-								} else {
-									mat4.perspective(TEMP_PROJECTION_MATRIX, -Math.PI / 2, 1, 0, Infinity)
-								}
-
-								vec3.transformMat4(vertex, vertex, TEMP_PROJECTION_MATRIX)
-
+							vec3.transformMat4(vertex, vertex, finalMatrix)
+							if (perspective > 0) {
+								vec3.add(vertex, vertex, perspectiveOrigin)
+								vec3.transformMat4(vertex, vertex, tempMatrix)
 								vec3.scale(vertex, vertex, perspective)
+								vec3.add(vertex, vertex, perspectiveOrigin)
 							}
-
-							// this.applyVertexTransform(vertex as vec2)
-							;(translate[0] !== 0 || translate[1] !== 0) && vec3.add(vertex, vertex, translate)
-
 							if (repetition_type === ERepetitionType.Ring)
 								vec3.rotateZ(vertex, vertex, glme.VEC3_ZERO, repetition.angle + displace)
 
@@ -530,11 +544,10 @@ abstract class ShapeBase extends SceneChild {
 						buffers[current_index][buffer_index + 1] = vertex[1]
 
 						if (vertex[0] >= maxX) maxX = vertex[0]
-					else if (vertex[0] <= minX) minX = vertex[0]
+						else if (vertex[0] <= minX) minX = vertex[0]
 
-					if (vertex[1] >= maxY) maxY = vertex[1]
-					else if (vertex[1] <= minY) minY = vertex[1]
-				
+						if (vertex[1] >= maxY) maxY = vertex[1]
+						else if (vertex[1] <= minY) minY = vertex[1]
 					}
 				}
 
@@ -553,7 +566,6 @@ abstract class ShapeBase extends SceneChild {
 			width: maxX - minX,
 			height: maxY - minY,
 		}
-		
 
 		this.buffer = new Float32Array(total_buffer_length)
 		for (let i = 0, offset = 0, len = buffers.length; i < len; offset += buffers[i].length, i++)
@@ -565,15 +577,6 @@ abstract class ShapeBase extends SceneChild {
 	protected getBounding(): IShapeBounding {
 		return this.bounding
 	}
-
-	/**
-	 * Apply vertex transformation
-	 *
-	 * @protected
-	 * @param {vec2} vertex
-	 * @memberof ShapeBase
-	 */
-	protected applyVertexTransform(vertex: vec2): void {}
 
 	/**
 	 * Add into indexed_buffer

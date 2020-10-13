@@ -58,18 +58,10 @@ class ShapePrimitive extends ShapeBase {
         return false;
     }
     getBounding() {
+        if (this.adaptMode >= EShapePrimitiveAdaptMode.Fill) {
+            return ShapePrimitive.EMPTY_BOUNDING;
+        }
         return this.single_bounding;
-    }
-    /**
-     * Apply side length to buffer
-     *
-     * @protected
-     * @param {vec2} vertex
-     * @memberof ShapePrimitive
-     */
-    applyVertexTransform(vertex) {
-        vertex[0] *= this.sideLength[0];
-        vertex[1] *= this.sideLength[1];
     }
     /**
      * Add this to indexed_buffer
@@ -181,11 +173,13 @@ class ShapePrimitive extends ShapeBase {
      * @returns {Float32Array}
      * @memberof ShapePrimitive
      */
-    static adaptBuffer(input, mode, vertex = 2) {
+    static adaptBuffer(input, mode, rect) {
         if (mode == EShapePrimitiveAdaptMode.None)
             return input;
         const output = new Float32Array(input.length);
-        const rect = ShapePrimitive.getBounding(input);
+        if (!rect) {
+            rect = ShapePrimitive.getBounding(input);
+        }
         let scale = rect.width > 2 ||
             rect.height > 2 ||
             (mode >= EShapePrimitiveAdaptMode.Fill && (rect.width < 2 || rect.height < 2))
@@ -193,12 +187,20 @@ class ShapePrimitive extends ShapeBase {
             : 1;
         let translateX = mode >= EShapePrimitiveAdaptMode.Center ? rect.cx : 0;
         let translateY = mode >= EShapePrimitiveAdaptMode.Center ? rect.cy : 0;
-        for (let i = 0, len = input.length; i < len; i += vertex) {
+        for (let i = 0, len = input.length; i < len; i += 2) {
             output[i] = (input[i] - translateX) * scale;
             output[i + 1] = (input[i + 1] - translateY) * scale;
         }
         return output;
     }
 }
+ShapePrimitive.EMPTY_BOUNDING = {
+    cx: 0,
+    cy: 0,
+    x: -1,
+    y: -1,
+    width: 2,
+    height: 2,
+};
 export default ShapePrimitive;
 //# sourceMappingURL=ShapePrimitive.js.map

@@ -1,7 +1,29 @@
+import { glMatrix } from 'gl-matrix';
+glMatrix.setMatrixArrayType(Array);
 import { vec2, vec3 } from 'gl-matrix';
 export const VEC3_ZERO = [0, 0, 0];
+export const VEC3_ONE = [1, 1, 1];
 export const VEC2_ZERO = [0, 0];
 export const VEC2_ONE = [1, 1];
+export function fromSkew(out, skew) {
+    out[0] = 1;
+    out[1] = Math.tan(skew[1]);
+    out[2] = 0;
+    out[3] = 0;
+    out[4] = Math.tan(skew[0]);
+    out[5] = 1;
+    out[6] = 0;
+    out[7] = 0;
+    out[8] = 0;
+    out[9] = 0;
+    out[10] = 1;
+    out[11] = 0;
+    out[12] = 0;
+    out[13] = 0;
+    out[14] = 0;
+    out[15] = 1;
+    return out;
+}
 export function toVec2(x) {
     if (Array.isArray(x))
         return vec2.fromValues(x[0], x[1]);
@@ -30,12 +52,6 @@ export function fromRadians(out, x, y, z) {
     out[3] = cx * cy * cz + sx * sy * sz;
     return out;
 }
-export function skewX(vec, m) {
-    vec[0] += Math.tan(m) * vec[1];
-}
-export const skewY = (vec, m) => {
-    vec[1] += Math.tan(m) * vec[0];
-};
 export const squeezeX = (vec, m) => {
     vec[1] += vec[1] * (vec[0] * -m);
 };
