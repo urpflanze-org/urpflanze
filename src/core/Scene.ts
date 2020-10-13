@@ -1,10 +1,9 @@
 import { TStreamCallback, ISceneSettingsInterface } from '@core/types/scene'
 
-import Vec2, { TArray } from '@core/math/Vec2'
-
 import SceneChild from '@core/SceneChild'
 import Group from '@core/Group'
 import Shape from '@core/shapes/Shape'
+import { vec2 } from 'gl-matrix'
 
 /**
  * Container for all SceneChild.
@@ -30,7 +29,7 @@ class Scene {
 	/**
 	 * Refers to the central point of the scene
 	 */
-	public center: TArray
+	public center: [number, number]
 
 	/**
 	 * Default background color (black)
@@ -67,7 +66,7 @@ class Scene {
 
 		this.children = []
 
-		this.center = Vec2.create(this.width / 2, this.height / 2)
+		this.center = [this.width / 2, this.height / 2]
 	}
 
 	/**
@@ -80,7 +79,7 @@ class Scene {
 	public resize(width: number, height: number = width): void {
 		this.width = width
 		this.height = height
-		this.center = Vec2.create(this.width / 2, this.height / 2)
+		this.center = [this.width / 2, this.height / 2]
 
 		this.children.forEach(sceneChild => sceneChild.clearBuffer(true, false))
 	}

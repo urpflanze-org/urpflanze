@@ -110,9 +110,9 @@ const translate = (vec, to) => {
  * @param {TArray} vec
  * @param {TArray} to
  */
-const scale = (vec, to) => {
-    vec[0] *= to[0];
-    vec[1] *= to[1];
+const scale = (vec, to, origin = ZERO) => {
+    vec[0] = vec[0] * to[0] + origin[0] * to[0];
+    vec[1] = vec[1] * to[1] + origin[1] * to[1];
 };
 /**
  * Scale vertex

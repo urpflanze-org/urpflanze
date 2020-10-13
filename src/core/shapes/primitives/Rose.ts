@@ -2,6 +2,7 @@ import ShapeLoop from '@core/shapes/ShapeLoop'
 import { IRoseProps, IRoseSettings, IShapeLoopProps } from '@core/types/shape-primitive'
 import { EShapePrimitiveAdaptMode } from '@core/types/shape-base'
 import { ISceneChildPropArguments, IShapeLoopRepetition } from '@core/types/scene-child'
+import { vec2 } from 'gl-matrix'
 
 /**
  * Rose shape
@@ -43,10 +44,7 @@ class Rose extends ShapeLoop {
 				return ShapeLoop.PI2 / (sides * k)
 			},
 
-			vertex: (
-				shape_loop_repetition: IShapeLoopRepetition,
-				prop_arguments?: ISceneChildPropArguments
-			): Array<number> => {
+			vertex: (shape_loop_repetition: IShapeLoopRepetition, prop_arguments?: ISceneChildPropArguments): vec2 => {
 				const k = this.getProp('n', prop_arguments) / this.getProp('d', prop_arguments)
 				const f = Math.cos(k * shape_loop_repetition.angle)
 

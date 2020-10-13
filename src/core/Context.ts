@@ -3,7 +3,7 @@ import SimplexNoise from 'simplex-noise'
 import { ERepetitionType, IRepetition } from '@core/types/scene-child'
 
 import SceneChild from '@core/SceneChild'
-import Vec2, { TArray } from '@core/math/Vec2'
+import { vec2 } from 'gl-matrix'
 
 /**
  * @internal
@@ -51,19 +51,18 @@ const Context = {
 	 * The return value is bettween -Math.PI / 2 and Math.PI / 2
 	 *
 	 * @param {IRepetition} repetition
-	 * @param {number | TArray} offsetFromCenter
+	 * @param {vec2} offsetFromCenter
 	 * @returns {number}
 	 */
-	angle: (repetition: IRepetition, offsetFromCenter: number | TArray = [0, 0]): number => {
+	angle: (repetition: IRepetition, offsetFromCenter: vec2 = [0, 0]): number => {
 		if (repetition.type == ERepetitionType.Matrix) {
-			const matrixOffset = Vec2.create(offsetFromCenter)
-			const center_matrix = Vec2.create(
+			const center_matrix = vec2.fromValues(
 				((repetition.col.count as number) - 1) / 2,
 				((repetition.row.count as number) - 1) / 2
 			)
 
-			center_matrix[0] += center_matrix[0] * matrixOffset[0]
-			center_matrix[1] += center_matrix[1] * matrixOffset[1]
+			center_matrix[0] += center_matrix[0] * offsetFromCenter[0]
+			center_matrix[1] += center_matrix[1] * offsetFromCenter[1]
 
 			const x = (repetition.col.index as number) - 1 - center_matrix[0]
 			const y = (repetition.row.index as number) - 1 - center_matrix[1]
@@ -80,19 +79,18 @@ const Context = {
 	 * The return value is bettween -Math.PI an Math.PI
 	 *
 	 * @param {IRepetition} repetition
-	 * @param {number | TArray} offsetFromCenter
+	 * @param {vec2} offsetFromCenter
 	 * @returns {number}
 	 */
-	angle2: (repetition: IRepetition, offsetFromCenter: number | TArray = [0, 0]): number => {
+	angle2: (repetition: IRepetition, offsetFromCenter: vec2 = [0, 0]): number => {
 		if (repetition.type == ERepetitionType.Matrix) {
-			const matrixOffset = Vec2.create(offsetFromCenter)
-			const center_matrix = Vec2.create(
+			const center_matrix = vec2.fromValues(
 				((repetition.col.count as number) - 1) / 2,
 				((repetition.row.count as number) - 1) / 2
 			)
 
-			center_matrix[0] += center_matrix[0] * matrixOffset[0]
-			center_matrix[1] += center_matrix[1] * matrixOffset[1]
+			center_matrix[0] += center_matrix[0] * offsetFromCenter[0]
+			center_matrix[1] += center_matrix[1] * offsetFromCenter[1]
 
 			const x = (repetition.col.index as number) - 1 - center_matrix[0]
 			const y = (repetition.col.index as number) - 1 - center_matrix[1]
@@ -108,24 +106,22 @@ const Context = {
 	 * The return value is between 0 and 1
 	 *
 	 * @param {IRepetition} repetition
-	 * @param {number | TArray} offsetFromCenter offset relative to distance prop
+	 * @param {vec2} offsetFromCenter offset relative to distance prop
 	 * @returns {number}
 	 */
-	distance: (repetition: IRepetition, offsetFromCenter: number | TArray = [0, 0]): number => {
+	distance: (repetition: IRepetition, offsetFromCenter: vec2 = [0, 0]): number => {
 		if (repetition.type == ERepetitionType.Matrix) {
-			const matrixOffset = Vec2.create(offsetFromCenter)
+			const center_matrix = vec2.fromValues(0.5, 0.5)
 
-			const center_matrix = Vec2.create(0.5, 0.5)
+			center_matrix[0] += center_matrix[0] * offsetFromCenter[0]
+			center_matrix[1] += center_matrix[1] * offsetFromCenter[1]
 
-			center_matrix[0] += center_matrix[0] * matrixOffset[0]
-			center_matrix[1] += center_matrix[1] * matrixOffset[1]
-
-			const current = Vec2.create(
+			const current = vec2.fromValues(
 				repetition.col.offset - 0.5 / repetition.col.count,
 				repetition.row.offset - 0.5 / repetition.row.count
 			)
 
-			return Vec2.distance(current, center_matrix)
+			return vec2.distance(current, center_matrix)
 		}
 
 		return 1

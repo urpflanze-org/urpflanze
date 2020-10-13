@@ -1,4 +1,3 @@
-import { TArray } from '@core/math/Vec2'
 import { TEasing } from '@services/animation/Easings'
 
 /**
@@ -35,13 +34,13 @@ export interface IShapeLoop {
 	start: TCallableValue<number>
 	end: TCallableValue<number>
 	inc: TCallableValue<number>
-	vertex: ICallableValue<TArray>
+	vertex: ICallableValue<Array<number> | Float32Array>
 	dynamyc: boolean // add 'prop_arguments' in shapeLoopPropsDependencies
 }
 
 //////////////////////////
 
-export interface IVertexCallback extends ICallableValue<TArray> {
+export interface IVertexCallback extends ICallableValue<Array<number> | Float32Array> {
 	dynamic: boolean // set bUseParent at true
 }
 
@@ -81,4 +80,4 @@ export type TSimpleAnimationLoop = Omit<ISimpleAnimation, 'delay' | 'type'>
 export type TSimpleAnimationUncontrolledLoop = Omit<ISimpleAnimation, 'type'>
 export type TSimpleAnimationStatic = Omit<ISimpleAnimation, 'type'>
 
-export interface IRawState extends ICallableValue<number | TArray | string> {}
+export interface IRawState extends ICallableValue<number | Array<number> | Float32Array | string> {}

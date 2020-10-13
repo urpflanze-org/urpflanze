@@ -31,6 +31,7 @@ declare class ShapeBuffer extends ShapePrimitive {
      * @memberof ShapeLoop
      */
     clearBuffer(bClearIndexed?: boolean, bPropagateToParents?: boolean): void;
+    private bindBuffer;
     /**
      * Return length of buffer
      *
@@ -68,10 +69,10 @@ declare class ShapeBuffer extends ShapePrimitive {
      * @static
      * @param {Float32Array} shape
      * @param {boolean} [bClosed=true]
-     * @returns {(Float32Array | undefined)}
+     * @returns {(Float32Array)}
      * @memberof ShapeBuffer
      */
-    static subdivide(shape: Float32Array, bClosed?: boolean): Float32Array | undefined;
+    static subdivide(shape: Float32Array, bClosed?: boolean): Float32Array;
 }
 export default ShapeBuffer;
 //# sourceMappingURL=ShapeBuffer.d.ts.map

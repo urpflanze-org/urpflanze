@@ -1,6 +1,7 @@
 import Scene from "./Scene";
 import SceneChild from "./SceneChild";
 import ShapeBase from "./shapes/ShapeBase";
+import ShapePrimitive from "./shapes/ShapePrimitive";
 /**
  * A SceneChild container, propagates properties to children
  *
@@ -178,6 +179,24 @@ class Group extends SceneChild {
      */
     generate(indexing_id, bDirectSceneChild = false, parent_prop_arguments) {
         this.children.forEach(item => item.generate(indexing_id, bDirectSceneChild, parent_prop_arguments));
+    }
+    getBounding() {
+        const boundings = [];
+        if (this.children.length > 0) {
+            this.children.forEach(item => boundings.push(item.getBounding()));
+            const bounding = Object.assign({}, boundings[0]);
+            for (let i = 1, len = this.children.length; i < len; i++) {
+                bounding.x = bounding.x > boundings[i].x ? boundings[i].x : bounding.x;
+                bounding.y = bounding.y > boundings[i].y ? boundings[i].y : bounding.y;
+                bounding.width = bounding.width < boundings[i].width ? boundings[i].width : bounding.width;
+                bounding.height = bounding.height < boundings[i].height ? boundings[i].height : bounding.height;
+            }
+            bounding.cx = bounding.x + bounding.width / 2;
+            bounding.cy = bounding.y + bounding.height / 2;
+            // console.log('bounding', bounding, boundings)
+            return bounding;
+        }
+        return Object.assign({}, ShapePrimitive.EMPTY_BOUNDING);
     }
     /**
      * Chear children buffer

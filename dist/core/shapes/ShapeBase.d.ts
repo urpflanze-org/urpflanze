@@ -1,9 +1,13 @@
 import { TStreamCallback } from "../types/scene";
-import { IShapeBaseSettings, TVertexCallback } from "../types/shape-base";
+import { IShapeBaseSettings, IShapeBounding, TVertexCallback } from "../types/shape-base";
 import { IRepetition, IBaseRepetition, ISceneChildPropArguments, ISceneChildProps } from "../types/scene-child";
 import { IBufferIndex } from "../types/shape-base";
-import { TArray } from "../math/Vec2";
 import SceneChild from "../SceneChild";
+import { mat4 } from 'gl-matrix';
+export declare const tmp_matrix: mat4;
+export declare const transform_matrix: mat4;
+export declare const perspective_matrix: mat4;
+export declare const repetition_matrix: mat4;
 /**
  * Main class for shape generation
  *
@@ -138,6 +142,7 @@ declare abstract class ShapeBase extends SceneChild {
      * ```
      */
     vertexCallback?: TVertexCallback;
+    bounding: IShapeBounding;
     /**
      * Creates an instance of ShapeBase
      *
@@ -197,14 +202,6 @@ declare abstract class ShapeBase extends SceneChild {
      * @memberof ShapeBase
      */
     generate(generate_id: number, bDirectSceneChild?: boolean, parent_prop_arguments?: ISceneChildPropArguments): void;
-    /**
-     * Apply vertex transformation
-     *
-     * @protected
-     * @param {TArray} vertex
-     * @memberof ShapeBase
-     */
-    protected applyVertexTransform(vertex: TArray): void;
     /**
      * Add into indexed_buffer
      *

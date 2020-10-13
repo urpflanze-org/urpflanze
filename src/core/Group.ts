@@ -1,10 +1,11 @@
 import { TStreamCallback } from '@core/types/scene'
 import { ISceneChildPropArguments, ISceneChildProps, ISceneChildSettings } from '@core/types/scene-child'
-import { IBufferIndex } from '@core/types/shape-base'
+import { IBufferIndex, IShapeBounding } from '@core/types/shape-base'
 
 import Scene from '@core/Scene'
 import SceneChild from '@core/SceneChild'
 import ShapeBase from '@core/shapes/ShapeBase'
+import ShapePrimitive from './shapes/ShapePrimitive'
 
 /**
  * A SceneChild container, propagates properties to children
@@ -219,6 +220,31 @@ class Group extends SceneChild {
 		parent_prop_arguments?: ISceneChildPropArguments
 	): void {
 		this.children.forEach(item => item.generate(indexing_id, bDirectSceneChild, parent_prop_arguments))
+	}
+
+	public getBounding(): IShapeBounding {
+		const boundings: Array<IShapeBounding> = []
+
+		if (this.children.length > 0) {
+			this.children.forEach(item => boundings.push(item.getBounding()))
+
+			const bounding: IShapeBounding = { ...boundings[0] }
+
+			for (let i = 1, len = this.children.length; i < len; i++) {
+				bounding.x = bounding.x > boundings[i].x ? boundings[i].x : bounding.x
+				bounding.y = bounding.y > boundings[i].y ? boundings[i].y : bounding.y
+				bounding.width = bounding.width < boundings[i].width ? boundings[i].width : bounding.width
+				bounding.height = bounding.height < boundings[i].height ? boundings[i].height : bounding.height
+			}
+
+			bounding.cx = bounding.x + bounding.width / 2
+			bounding.cy = bounding.y + bounding.height / 2
+
+			// console.log('bounding', bounding, boundings)
+			return bounding
+		}
+
+		return { ...ShapePrimitive.EMPTY_BOUNDING }
 	}
 
 	/**

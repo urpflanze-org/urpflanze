@@ -28,7 +28,7 @@ class ShapeBuffer extends ShapePrimitive {
 
 	constructor(settings: IShapeBufferSettings = {}) {
 		settings.type = settings.type || 'ShapeBuffer'
-		settings.adaptMode = settings.adaptMode || EShapePrimitiveAdaptMode.Scale
+		settings.adaptMode = settings.adaptMode ?? EShapePrimitiveAdaptMode.Scale
 
 		super(settings)
 
@@ -37,10 +37,7 @@ class ShapeBuffer extends ShapePrimitive {
 			this.shape = ShapeBuffer.EMPTY_BUFFER
 		} else this.shape = Float32Array.from(settings.shape)
 
-		this.shape_buffer =
-			this.getAdaptMode() !== EShapePrimitiveAdaptMode.None
-				? ShapePrimitive.adaptBuffer(this.shape, this.getAdaptMode())
-				: this.shape
+		this.bindBuffer()
 
 		this.bStatic = this.isStatic()
 		this.bStaticIndexed = this.isStaticIndexed()
@@ -56,12 +53,41 @@ class ShapeBuffer extends ShapePrimitive {
 	public clearBuffer(bClearIndexed: boolean = false, bPropagateToParents: boolean = true) {
 		super.clearBuffer(bClearIndexed, bPropagateToParents)
 
-		this.shape_buffer =
-			this.getAdaptMode() != EShapePrimitiveAdaptMode.None
-				? ShapePrimitive.adaptBuffer(this.shape, this.getAdaptMode())
-				: this.shape
+		this.bindBuffer()
+		// this.shape_buffer = ShapeBuffer.buffer2Dto3D(this.shape_buffer)
 	}
 
+	private bindBuffer() {
+		const shape_buffer =
+			this.adaptMode !== EShapePrimitiveAdaptMode.None
+				? ShapePrimitive.adaptBuffer(this.shape, this.adaptMode)
+				: Float32Array.from(this.shape)
+
+		let minX = Number.MAX_VALUE,
+			minY = Number.MAX_VALUE,
+			maxX = Number.MIN_VALUE,
+			maxY = Number.MIN_VALUE
+
+		for (let i = 0, len = shape_buffer.length; i < len; i += 2) {
+			shape_buffer[i] *= this.sideLength[0]
+			shape_buffer[i + 1] *= this.sideLength[1]
+
+			if (shape_buffer[i] >= maxX) maxX = shape_buffer[i]
+			else if (shape_buffer[i] <= minX) minX = shape_buffer[i]
+
+			if (shape_buffer[i + 1] >= maxY) maxY = shape_buffer[i + 1]
+			else if (shape_buffer[i + 1] <= minY) minY = shape_buffer[i + 1]
+		}
+
+		this.single_bounding.x = minX
+		this.single_bounding.y = minY
+		this.single_bounding.width = maxX - minX
+		this.single_bounding.height = maxY - minY
+		this.single_bounding.cx = this.single_bounding.x + this.single_bounding.width / 2
+		this.single_bounding.cy = this.single_bounding.y + this.single_bounding.height / 2
+
+		this.shape_buffer = shape_buffer
+	}
 	/**
 	 * Return length of buffer
 	 *
@@ -84,7 +110,9 @@ class ShapeBuffer extends ShapePrimitive {
 	 * @memberof ShapeBase
 	 */
 	protected generateBuffer(generate_id: number, prop_arguments: ISceneChildPropArguments): Float32Array {
-		this.bindSideLength(prop_arguments)
+		if (this.bindSideLength(prop_arguments)) {
+			this.bindBuffer()
+		}
 
 		return this.shape_buffer
 	}
@@ -110,10 +138,11 @@ class ShapeBuffer extends ShapePrimitive {
 	public subdivide(level: number = 1) {
 		let subdivided: Float32Array | undefined = this.shape
 
-		if (subdivided)
-			for (let i = 0; i < level; i++) subdivided = ShapeBuffer.subdivide(subdivided as Float32Array, this.bCloseShape)
+		if (subdivided && subdivided.length > 0) {
+			for (let i = 0; i < level; i++) subdivided = ShapeBuffer.subdivide(subdivided, this.bCloseShape)
 
-		subdivided && this.setShape(subdivided)
+			this.setShape(subdivided)
+		}
 	}
 
 	/**
@@ -122,43 +151,41 @@ class ShapeBuffer extends ShapePrimitive {
 	 * @static
 	 * @param {Float32Array} shape
 	 * @param {boolean} [bClosed=true]
-	 * @returns {(Float32Array | undefined)}
+	 * @returns {(Float32Array)}
 	 * @memberof ShapeBuffer
 	 */
-	public static subdivide(shape: Float32Array, bClosed = true): Float32Array | undefined {
-		if (shape && shape.length) {
-			const shape_len = shape.length
-			const subdivided = new Float32Array(shape_len * 2 - (bClosed ? 0 : 2))
+	public static subdivide(shape: Float32Array, bClosed = true): Float32Array {
+		const shape_len = shape.length
+		const subdivided = new Float32Array(shape_len * 2 - (bClosed ? 0 : 2))
 
-			for (let i = 0; i < shape_len; i += 2) {
-				if (i === 0) {
-					subdivided[0] = shape[0]
-					subdivided[1] = shape[1]
-				} else {
-					const px = shape[i - 2]
-					const py = shape[i - 1]
+		for (let i = 0; i < shape_len; i += 2) {
+			if (i === 0) {
+				subdivided[0] = shape[0]
+				subdivided[1] = shape[1]
+			} else {
+				const px = shape[i - 2]
+				const py = shape[i - 1]
 
-					const x = shape[i]
-					const y = shape[i + 1]
+				const x = shape[i]
+				const y = shape[i + 1]
 
-					const nx = (x + px) / 2
-					const ny = (y + py) / 2
+				const nx = (x + px) / 2
+				const ny = (y + py) / 2
 
-					subdivided[(i - 1) * 2] = nx
-					subdivided[(i - 1) * 2 + 1] = ny
+				subdivided[(i - 1) * 2] = nx
+				subdivided[(i - 1) * 2 + 1] = ny
 
-					subdivided[i * 2] = x
-					subdivided[i * 2 + 1] = y
-				}
+				subdivided[i * 2] = x
+				subdivided[i * 2 + 1] = y
 			}
-
-			if (bClosed) {
-				subdivided[(shape_len - 1) * 2] = (shape[0] + shape[shape_len - 2]) / 2
-				subdivided[(shape_len - 1) * 2 + 1] = (shape[1] + shape[shape_len - 1]) / 2
-			}
-
-			return subdivided
 		}
+
+		if (bClosed) {
+			subdivided[(shape_len - 1) * 2] = (shape[0] + shape[shape_len - 2]) / 2
+			subdivided[(shape_len - 1) * 2 + 1] = (shape[1] + shape[shape_len - 1]) / 2
+		}
+
+		return subdivided
 	}
 }
 

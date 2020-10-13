@@ -1,6 +1,5 @@
 import ShapePrimitive from "./ShapePrimitive";
 import ShapeBase from "./ShapeBase";
-import Vec2 from "../math/Vec2";
 import { EShapePrimitiveAdaptMode, IShapePrimitiveProps } from "../types/shape-base";
 /**
  * Shape Loop
@@ -20,8 +19,8 @@ class ShapeLoop extends ShapePrimitive {
             this.loop = {
                 start: 0,
                 end: ShapeLoop.PI2,
-                inc: ShapeLoop.PI2 / 30,
-                vertex: () => Vec2.ZERO,
+                inc: ShapeLoop.PI2 / 10,
+                vertex: () => [0, 0],
             };
             this.bStaticLoop = this.isStaticLoop();
             this.bStatic = this.isStatic();
@@ -64,8 +63,9 @@ class ShapeLoop extends ShapePrimitive {
         // let start = this.props.loop?.start ?? this.loop.start
         // let end = this.props.loop?.end ?? this.loop.end
         // let inc = this.props.loop?.inc ?? this.loop.inc
-        // return typeof start !== 'function' && typeof end !== 'function' &&
-        //         typeof inc !== 'function' && super.isStaticIndexed()
+        // return (
+        // 	typeof start !== 'function' && typeof end !== 'function' && typeof inc !== 'function' && super.isStaticIndexed()
+        // )
         return this.bStaticLoop && super.isStaticIndexed();
     }
     /**
@@ -131,7 +131,7 @@ class ShapeLoop extends ShapePrimitive {
         if (this.bStaticLoop && this.loop_buffer && this.loop_buffer.length > 0)
             return this.loop_buffer.length * this.getRepetitionCount();
         const { repetition } = this.getLoop(prop_arguments);
-        return this.getRepetitionCount() * repetition * 2;
+        return this.getRepetitionCount() * repetition * 2; // vec3
     }
     /**
      * Return a buffer of children shape or loop generated buffer
@@ -145,7 +145,7 @@ class ShapeLoop extends ShapePrimitive {
     generateBuffer(generate_id, prop_arguments) {
         this.bindSideLength(prop_arguments);
         if (!this.bStaticLoop)
-            this.loop_buffer = this.generateLoopBuffer(prop_arguments);
+            return this.generateLoopBuffer(prop_arguments);
         else if (typeof this.loop_buffer === 'undefined')
             this.loop_buffer = this.generateLoopBuffer(prop_arguments);
         return this.loop_buffer;
@@ -170,20 +170,65 @@ class ShapeLoop extends ShapePrimitive {
             count: repetition,
         };
         const vertex_length = shape_loop.count;
-        const buffer = new Float32Array(vertex_length * 2);
+        const buffer_length = vertex_length * 2;
+        const loop_buffer = new Float32Array(buffer_length);
+        const bNoAdapt = this.adaptMode === EShapePrimitiveAdaptMode.None;
+        let minX = Number.MAX_VALUE, minY = Number.MAX_VALUE, maxX = Number.MIN_VALUE, maxY = Number.MIN_VALUE;
         for (let i = 0, j = 0; i < vertex_length; i++, j += 2) {
             const angle = start + inc * i;
             shape_loop.angle = angle >= end ? end : angle;
             shape_loop.index = i + 1;
             shape_loop.offset = shape_loop.index / shape_loop.count;
             const vertex = Float32Array.from(getVertex(shape_loop, prop_arguments));
-            // this.vertexCallback && this.vertexCallback(vertex, prop_arguments, i, vertex_length)
-            buffer[j] = vertex[0];
-            buffer[j + 1] = vertex[1];
+            loop_buffer[j] = vertex[0];
+            loop_buffer[j + 1] = vertex[1];
+            if (bNoAdapt) {
+                loop_buffer[j] *= this.sideLength[0];
+                loop_buffer[j + 1] *= this.sideLength[1];
+            }
+            if (loop_buffer[j] >= maxX)
+                maxX = loop_buffer[j];
+            else if (loop_buffer[j] <= minX)
+                minX = loop_buffer[j];
+            if (loop_buffer[j + 1] >= maxY)
+                maxY = loop_buffer[j + 1];
+            else if (loop_buffer[j + 1] <= minY)
+                minY = loop_buffer[j + 1];
         }
-        return this.adaptMode !== EShapePrimitiveAdaptMode.None
-            ? ShapePrimitive.adaptBuffer(buffer, this.adaptMode)
-            : buffer;
+        this.single_bounding.x = minX;
+        this.single_bounding.y = minY;
+        this.single_bounding.width = maxX - minX;
+        this.single_bounding.height = maxY - minY;
+        this.single_bounding.cx = this.single_bounding.x + this.single_bounding.width / 2;
+        this.single_bounding.cy = this.single_bounding.y + this.single_bounding.height / 2;
+        if (!bNoAdapt) {
+            /**
+             * Adapt and apply side length
+             */
+            const buffer = ShapePrimitive.adaptBuffer(loop_buffer, this.adaptMode);
+            minX = minY = Number.MAX_VALUE;
+            maxX = maxY = Number.MIN_VALUE;
+            for (let i = 0; i < buffer_length; i += 2) {
+                buffer[i] = buffer[i] * this.sideLength[0];
+                buffer[i + 1] = buffer[i + 1] * this.sideLength[1];
+                if (buffer[i] >= maxX)
+                    maxX = buffer[i];
+                else if (buffer[i] <= minX)
+                    minX = buffer[i];
+                if (buffer[i + 1] >= maxY)
+                    maxY = buffer[i + 1];
+                else if (buffer[i + 1] <= minY)
+                    minY = buffer[i + 1];
+            }
+            this.single_bounding.x = minX;
+            this.single_bounding.y = minY;
+            this.single_bounding.width = maxX - minX;
+            this.single_bounding.height = maxY - minY;
+            this.single_bounding.cx = this.single_bounding.x + this.single_bounding.width / 2;
+            this.single_bounding.cy = this.single_bounding.y + this.single_bounding.height / 2;
+            return buffer;
+        }
+        return loop_buffer;
     }
     /**
      * Return information about a client loop gnerator

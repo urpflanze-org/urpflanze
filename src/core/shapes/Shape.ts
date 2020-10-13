@@ -1,6 +1,6 @@
 import ShapeBase from '@core/shapes/ShapeBase'
 import SceneChild from '@core/SceneChild'
-import { IShapeSettings } from '@core/types/shape-base'
+import { IShapeBounding, IShapeSettings } from '@core/types/shape-base'
 import Scene from '@core/Scene'
 import { IRepetition, ISceneChildPropArguments } from '@core/types/scene-child'
 import { IBufferIndex } from '@core/types/shape-base'
@@ -105,6 +105,8 @@ class Shape extends ShapeBase {
 		if (this.shape) {
 			this.shape.generate(generate_id, false, prop_arguments)
 
+			// this.bounding = this.shape.getBounding()
+
 			return this.shape.getBuffer() || Shape.EMPTY_BUFFER
 		}
 
@@ -165,32 +167,12 @@ class Shape extends ShapeBase {
 		}
 	}
 
-	// /**
-	//  *
-	//  *
-	//  * @param {Array<IBufferIndex>} buffer
-	//  * @param {number} frame_length
-	//  * @param {Repetition} current_repetition
-	//  * @param {IBufferIndex} [parent]
-	//  * @memberof ShapePrimitive
-	//  */
-	// public addIndex(
-	// 	buffer: Array<IBufferIndex>,
-	// 	frame_length: number,
-	// 	current_repetition: IRepetition,
-	// 	parent?: IBufferIndex
-	// ): void {
-	// 	if (this.shape) {
-	// 		const current: IBufferIndex = {
-	// 			shape: this,
-	// 			buffer_length: frame_length,
-	// 			parent,
-	// 			repetition: current_repetition,
-	// 		}
-
-	// 		this.shape.addIndex(buffer, frame_length, current_repetition, current)
-	// 	}
-	// }
+	public getBounding(): IShapeBounding {
+		if (this.shape) {
+			return this.shape.getBounding()
+		}
+		return this.bounding
+	}
 }
 
 export default Shape

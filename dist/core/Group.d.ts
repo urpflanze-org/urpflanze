@@ -1,6 +1,6 @@
 import { TStreamCallback } from "./types/scene";
 import { ISceneChildPropArguments, ISceneChildProps, ISceneChildSettings } from "./types/scene-child";
-import { IBufferIndex } from "./types/shape-base";
+import { IBufferIndex, IShapeBounding } from "./types/shape-base";
 import SceneChild from "./SceneChild";
 /**
  * A SceneChild container, propagates properties to children
@@ -114,6 +114,7 @@ declare class Group extends SceneChild {
      * @memberof Group
      */
     generate(indexing_id: number, bDirectSceneChild?: boolean, parent_prop_arguments?: ISceneChildPropArguments): void;
+    getBounding(): IShapeBounding;
     /**
      * Chear children buffer
      *

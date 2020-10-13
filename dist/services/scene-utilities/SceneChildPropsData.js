@@ -13,6 +13,7 @@ const OptionSpiralType = [
     { key: 'LITUUS', value: Spiral.types.LITUUS },
     { key: 'LOGARITHMIC', value: Spiral.types.LOGARITHMIC },
 ];
+// @ts-ignore
 const SceneChildPropsData = {
     repetitions: {
         animable: true,
@@ -161,18 +162,18 @@ const SceneChildPropsData = {
         default_animate: 3,
         transformation: 'none',
     },
-    rotationOrigin: {
-        animable: true,
-        name: 'rotationOrigin',
-        label: 'Rotation Origin',
-        type: 'multiple-range',
-        min: -1,
-        max: 1,
-        step: 0.01,
-        default: [1, 1],
-        default_animate: [-1, 1],
-        transformation: 'none',
-    },
+    // rotationOrigin: {
+    // 	animable: true,
+    // 	name: 'rotationOrigin',
+    // 	label: 'Rotation Origin',
+    // 	type: 'multiple-range',
+    // 	min: -1,
+    // 	max: 1,
+    // 	step: 0.01,
+    // 	default: [1, 1],
+    // 	default_animate: [-1, 1],
+    // 	transformation: 'none',
+    // },
     // primitive
     fillColor: {
         animable: true,

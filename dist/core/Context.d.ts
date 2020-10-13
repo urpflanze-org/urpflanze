@@ -1,6 +1,6 @@
 import { IRepetition } from "./types/scene-child";
 import SceneChild from "./SceneChild";
-import { TArray } from "./math/Vec2";
+import { vec2 } from 'gl-matrix';
 /**
  * Utilities function passed to <a href="[base_url]/ISceneChildPropArguments">ISceneChildPropArguments</a>
  *
@@ -30,29 +30,29 @@ declare const Context: {
      * The return value is bettween -Math.PI / 2 and Math.PI / 2
      *
      * @param {IRepetition} repetition
-     * @param {number | TArray} offsetFromCenter
+     * @param {vec2} offsetFromCenter
      * @returns {number}
      */
-    angle: (repetition: IRepetition, offsetFromCenter?: number | TArray) => number;
+    angle: (repetition: IRepetition, offsetFromCenter?: vec2) => number;
     /**
      * Return angle (atan2, 4 quadrants) from offset (or center) for matrix repetition.
      * Offset is array between [-1, -1] and [1, 1].
      * The return value is bettween -Math.PI an Math.PI
      *
      * @param {IRepetition} repetition
-     * @param {number | TArray} offsetFromCenter
+     * @param {vec2} offsetFromCenter
      * @returns {number}
      */
-    angle2: (repetition: IRepetition, offsetFromCenter?: number | TArray) => number;
+    angle2: (repetition: IRepetition, offsetFromCenter?: vec2) => number;
     /**
      * Return distance from offset (or center) for matrix repetition.
      * The return value is between 0 and 1
      *
      * @param {IRepetition} repetition
-     * @param {number | TArray} offsetFromCenter offset relative to distance prop
+     * @param {vec2} offsetFromCenter offset relative to distance prop
      * @returns {number}
      */
-    distance: (repetition: IRepetition, offsetFromCenter?: number | TArray) => number;
+    distance: (repetition: IRepetition, offsetFromCenter?: vec2) => number;
     /**
      * Get value percentage of scene width.
      *
