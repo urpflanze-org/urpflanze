@@ -135,8 +135,9 @@ class ShapeBase extends SceneChild {
      */
     clearBuffer(bClearIndexed = false, bPropagateToParents = true) {
         this.buffer = undefined;
-        if (bClearIndexed)
-            this.indexed_buffer = undefined;
+        if (bClearIndexed) {
+            this.bIndexed = false;
+        }
         this.bStatic = this.isStatic();
         this.bStaticIndexed = this.isStaticIndexed();
         if (bPropagateToParents && this.scene && !this.scene.isFirstLevelChild(this)) {
