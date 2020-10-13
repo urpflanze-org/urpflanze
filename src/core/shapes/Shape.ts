@@ -105,8 +105,8 @@ class Shape extends ShapeBase {
 		if (this.shape) {
 			this.shape.generate(generate_id, false, prop_arguments)
 
-			//@ts-ignore
-			this.bounding = this.shape.bounding
+			// this.bounding = this.shape.getBounding()
+
 			return this.shape.getBuffer() || Shape.EMPTY_BUFFER
 		}
 
@@ -167,16 +167,12 @@ class Shape extends ShapeBase {
 		}
 	}
 
-	
-	protected getBounding(): IShapeBounding {
+	public getBounding(): IShapeBounding {
 		if (this.shape) {
-			//@ts-ignore
-			this.shape.bounding
+			return this.shape.getBounding()
 		}
-
 		return this.bounding
 	}
-
 }
 
 export default Shape

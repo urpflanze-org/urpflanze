@@ -10,6 +10,7 @@ import { IRepetition, ISceneChildPropArguments, ISceneChildProps } from '@core/t
 import { IBufferIndex } from '@core/types/shape-base'
 import { vec2 } from 'gl-matrix'
 import { toVec2 } from '@core/math/gl-matrix-extensions'
+import Circle from './primitives/Circle'
 
 /**
  * @category Core.Abstract
@@ -40,6 +41,13 @@ abstract class ShapePrimitive extends ShapeBase {
 	 */
 	public bCloseShape: boolean
 
+	/**
+	 * Empty buffer bounding
+	 *
+	 * @static
+	 * @type {IShapeBounding}
+	 * @memberof ShapePrimitive
+	 */
 	static readonly EMPTY_BOUNDING: IShapeBounding = {
 		cx: 0,
 		cy: 0,
@@ -58,7 +66,7 @@ abstract class ShapePrimitive extends ShapeBase {
 	 */
 	public sideLength: vec2
 
-	public single_bounding: IShapeBounding
+	public single_bounding: IShapeBounding = { ...ShapePrimitive.EMPTY_BOUNDING }
 
 	constructor(settings: IShapePrimitiveSettings = {}) {
 		super(settings)
@@ -123,10 +131,6 @@ abstract class ShapePrimitive extends ShapeBase {
 	}
 
 	public getBounding() {
-		if (this.adaptMode >= EShapePrimitiveAdaptMode.Fill) {
-			return ShapePrimitive.EMPTY_BOUNDING
-		}
-
 		return this.single_bounding
 	}
 
@@ -213,7 +217,9 @@ abstract class ShapePrimitive extends ShapeBase {
 	 * @returns {IShapeBounding}
 	 * @memberof ShapePrimitive
 	 */
-	public static getBounding(buffer: Float32Array): IShapeBounding {
+	public static getBounding(buffer: Float32Array, bounding?: IShapeBounding): IShapeBounding {
+		if (typeof bounding === 'undefined') bounding = { ...ShapePrimitive.EMPTY_BOUNDING }
+
 		let minX = Number.MAX_VALUE,
 			minY = Number.MAX_VALUE,
 			maxX = Number.MIN_VALUE,
@@ -230,14 +236,14 @@ abstract class ShapePrimitive extends ShapeBase {
 			else if (y < minY) minY = y
 		}
 
-		return {
-			x: minX,
-			y: minY,
-			cx: (minX + maxX) / 2,
-			cy: (minY + maxY) / 2,
-			width: maxX - minX,
-			height: maxY - minY,
-		}
+		bounding.x = minX
+		bounding.y = minY
+		bounding.cx = minX + maxX / 2
+		bounding.cy = minY + maxY / 2
+		bounding.width = maxX - minX
+		bounding.height = maxY - minY
+
+		return bounding
 	}
 
 	/**
@@ -251,7 +257,7 @@ abstract class ShapePrimitive extends ShapeBase {
 	 * @memberof ShapePrimitive
 	 */
 	public static adaptBuffer(input: Float32Array, mode: EShapePrimitiveAdaptMode, rect?: IShapeBounding): Float32Array {
-		if (mode == EShapePrimitiveAdaptMode.None) return input
+		if (mode === EShapePrimitiveAdaptMode.None) return Float32Array.from(input)
 
 		const output: Float32Array = new Float32Array(input.length)
 
@@ -260,8 +266,8 @@ abstract class ShapePrimitive extends ShapeBase {
 		}
 
 		let scale =
-			rect.width > 2 ||
-			rect.height > 2 ||
+			rect.width >= 2 ||
+			rect.height >= 2 ||
 			(mode >= EShapePrimitiveAdaptMode.Fill && (rect.width < 2 || rect.height < 2))
 				? 2 / Math.max(rect.width, rect.height)
 				: 1

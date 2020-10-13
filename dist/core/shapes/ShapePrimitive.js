@@ -8,6 +8,7 @@ class ShapePrimitive extends ShapeBase {
     constructor(settings = {}) {
         var _a, _b;
         super(settings);
+        this.single_bounding = Object.assign({}, ShapePrimitive.EMPTY_BOUNDING);
         const sideLength = typeof settings.sideLength === 'number'
             ? [settings.sideLength, settings.sideLength]
             : Array.isArray(settings.sideLength)
@@ -58,9 +59,6 @@ class ShapePrimitive extends ShapeBase {
         return false;
     }
     getBounding() {
-        if (this.adaptMode >= EShapePrimitiveAdaptMode.Fill) {
-            return ShapePrimitive.EMPTY_BOUNDING;
-        }
         return this.single_bounding;
     }
     /**
@@ -140,7 +138,9 @@ class ShapePrimitive extends ShapeBase {
      * @returns {IShapeBounding}
      * @memberof ShapePrimitive
      */
-    static getBounding(buffer) {
+    static getBounding(buffer, bounding) {
+        if (typeof bounding === 'undefined')
+            bounding = Object.assign({}, ShapePrimitive.EMPTY_BOUNDING);
         let minX = Number.MAX_VALUE, minY = Number.MAX_VALUE, maxX = Number.MIN_VALUE, maxY = Number.MIN_VALUE;
         for (let i = 0, len = buffer.length; i < len; i += 2) {
             const x = buffer[i];
@@ -154,14 +154,13 @@ class ShapePrimitive extends ShapeBase {
             else if (y < minY)
                 minY = y;
         }
-        return {
-            x: minX,
-            y: minY,
-            cx: (minX + maxX) / 2,
-            cy: (minY + maxY) / 2,
-            width: maxX - minX,
-            height: maxY - minY,
-        };
+        bounding.x = minX;
+        bounding.y = minY;
+        bounding.cx = minX + maxX / 2;
+        bounding.cy = minY + maxY / 2;
+        bounding.width = maxX - minX;
+        bounding.height = maxY - minY;
+        return bounding;
     }
     /**
      * Return adapted buffer between [-1,-1] and [1,1]
@@ -174,14 +173,14 @@ class ShapePrimitive extends ShapeBase {
      * @memberof ShapePrimitive
      */
     static adaptBuffer(input, mode, rect) {
-        if (mode == EShapePrimitiveAdaptMode.None)
-            return input;
+        if (mode === EShapePrimitiveAdaptMode.None)
+            return Float32Array.from(input);
         const output = new Float32Array(input.length);
         if (!rect) {
             rect = ShapePrimitive.getBounding(input);
         }
-        let scale = rect.width > 2 ||
-            rect.height > 2 ||
+        let scale = rect.width >= 2 ||
+            rect.height >= 2 ||
             (mode >= EShapePrimitiveAdaptMode.Fill && (rect.width < 2 || rect.height < 2))
             ? 2 / Math.max(rect.width, rect.height)
             : 1;
@@ -194,6 +193,13 @@ class ShapePrimitive extends ShapeBase {
         return output;
     }
 }
+/**
+ * Empty buffer bounding
+ *
+ * @static
+ * @type {IShapeBounding}
+ * @memberof ShapePrimitive
+ */
 ShapePrimitive.EMPTY_BOUNDING = {
     cx: 0,
     cy: 0,

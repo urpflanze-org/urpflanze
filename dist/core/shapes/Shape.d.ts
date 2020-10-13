@@ -70,7 +70,7 @@ declare class Shape extends ShapeBase {
      * @memberof ShapeBase
      */
     setShape(shape: SceneChild | undefined): void;
-    protected getBounding(): IShapeBounding;
+    getBounding(): IShapeBounding;
 }
 export default Shape;
 //# sourceMappingURL=Shape.d.ts.map

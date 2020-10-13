@@ -5,8 +5,9 @@ import { EShapePrimitiveAdaptMode } from "../types/shape-base";
  */
 class ShapeBuffer extends ShapePrimitive {
     constructor(settings = {}) {
+        var _a;
         settings.type = settings.type || 'ShapeBuffer';
-        settings.adaptMode = settings.adaptMode || EShapePrimitiveAdaptMode.Scale;
+        settings.adaptMode = (_a = settings.adaptMode) !== null && _a !== void 0 ? _a : EShapePrimitiveAdaptMode.Scale;
         super(settings);
         if (typeof settings.shape === 'undefined') {
             console.warn('[Urpflanze:ShapeBuffer] ShapeBuffer require a buffer passed from `shape` property');
@@ -31,9 +32,9 @@ class ShapeBuffer extends ShapePrimitive {
         // this.shape_buffer = ShapeBuffer.buffer2Dto3D(this.shape_buffer)
     }
     bindBuffer() {
-        const shape_buffer = this.getAdaptMode() !== EShapePrimitiveAdaptMode.None
-            ? ShapePrimitive.adaptBuffer(this.shape, this.getAdaptMode())
-            : this.shape;
+        const shape_buffer = this.adaptMode !== EShapePrimitiveAdaptMode.None
+            ? ShapePrimitive.adaptBuffer(this.shape, this.adaptMode)
+            : Float32Array.from(this.shape);
         let minX = Number.MAX_VALUE, minY = Number.MAX_VALUE, maxX = Number.MIN_VALUE, maxY = Number.MIN_VALUE;
         for (let i = 0, len = shape_buffer.length; i < len; i += 2) {
             shape_buffer[i] *= this.sideLength[0];
@@ -47,14 +48,12 @@ class ShapeBuffer extends ShapePrimitive {
             else if (shape_buffer[i + 1] <= minY)
                 minY = shape_buffer[i + 1];
         }
-        this.single_bounding = {
-            x: minX,
-            y: minY,
-            cx: (minX + maxX) / 2,
-            cy: (minY + maxY) / 2,
-            width: maxX - minX,
-            height: maxY - minY,
-        };
+        this.single_bounding.x = minX;
+        this.single_bounding.y = minY;
+        this.single_bounding.width = maxX - minX;
+        this.single_bounding.height = maxY - minY;
+        this.single_bounding.cx = this.single_bounding.x + this.single_bounding.width / 2;
+        this.single_bounding.cy = this.single_bounding.y + this.single_bounding.height / 2;
         this.shape_buffer = shape_buffer;
     }
     /**

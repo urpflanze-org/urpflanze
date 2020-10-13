@@ -28,6 +28,13 @@ declare abstract class ShapePrimitive extends ShapeBase {
      * @memberof ShapePrimitive
      */
     bCloseShape: boolean;
+    /**
+     * Empty buffer bounding
+     *
+     * @static
+     * @type {IShapeBounding}
+     * @memberof ShapePrimitive
+     */
     static readonly EMPTY_BOUNDING: IShapeBounding;
     /**
      * Scale buffer
@@ -110,7 +117,7 @@ declare abstract class ShapePrimitive extends ShapeBase {
      * @returns {IShapeBounding}
      * @memberof ShapePrimitive
      */
-    static getBounding(buffer: Float32Array): IShapeBounding;
+    static getBounding(buffer: Float32Array, bounding?: IShapeBounding): IShapeBounding;
     /**
      * Return adapted buffer between [-1,-1] and [1,1]
      *

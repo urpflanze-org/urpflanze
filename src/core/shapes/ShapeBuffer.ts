@@ -28,7 +28,7 @@ class ShapeBuffer extends ShapePrimitive {
 
 	constructor(settings: IShapeBufferSettings = {}) {
 		settings.type = settings.type || 'ShapeBuffer'
-		settings.adaptMode = settings.adaptMode || EShapePrimitiveAdaptMode.Scale
+		settings.adaptMode = settings.adaptMode ?? EShapePrimitiveAdaptMode.Scale
 
 		super(settings)
 
@@ -59,9 +59,9 @@ class ShapeBuffer extends ShapePrimitive {
 
 	private bindBuffer() {
 		const shape_buffer =
-			this.getAdaptMode() !== EShapePrimitiveAdaptMode.None
-				? ShapePrimitive.adaptBuffer(this.shape, this.getAdaptMode())
-				: this.shape
+			this.adaptMode !== EShapePrimitiveAdaptMode.None
+				? ShapePrimitive.adaptBuffer(this.shape, this.adaptMode)
+				: Float32Array.from(this.shape)
 
 		let minX = Number.MAX_VALUE,
 			minY = Number.MAX_VALUE,
@@ -79,14 +79,12 @@ class ShapeBuffer extends ShapePrimitive {
 			else if (shape_buffer[i + 1] <= minY) minY = shape_buffer[i + 1]
 		}
 
-		this.single_bounding = {
-			x: minX,
-			y: minY,
-			cx: (minX + maxX) / 2,
-			cy: (minY + maxY) / 2,
-			width: maxX - minX,
-			height: maxY - minY,
-		}
+		this.single_bounding.x = minX
+		this.single_bounding.y = minY
+		this.single_bounding.width = maxX - minX
+		this.single_bounding.height = maxY - minY
+		this.single_bounding.cx = this.single_bounding.x + this.single_bounding.width / 2
+		this.single_bounding.cy = this.single_bounding.y + this.single_bounding.height / 2
 
 		this.shape_buffer = shape_buffer
 	}

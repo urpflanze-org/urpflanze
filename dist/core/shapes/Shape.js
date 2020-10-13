@@ -82,8 +82,7 @@ class Shape extends ShapeBase {
     generateBuffer(generate_id, prop_arguments) {
         if (this.shape) {
             this.shape.generate(generate_id, false, prop_arguments);
-            //@ts-ignore
-            this.bounding = this.shape.bounding;
+            // this.bounding = this.shape.getBounding()
             return this.shape.getBuffer() || Shape.EMPTY_BUFFER;
         }
         return Shape.EMPTY_BUFFER;
@@ -139,8 +138,7 @@ class Shape extends ShapeBase {
     }
     getBounding() {
         if (this.shape) {
-            //@ts-ignore
-            this.shape.bounding;
+            return this.shape.getBounding();
         }
         return this.bounding;
     }

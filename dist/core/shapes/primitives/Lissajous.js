@@ -15,7 +15,6 @@ class Lissajous extends ShapeLoop {
      * @memberof Lissajous
      */
     constructor(settings = {}) {
-        var _a;
         settings.type = 'Lissajous';
         settings.shapeLoopPropsDependencies = (settings.shapeLoopPropsDependencies || []).concat([
             'wx',
@@ -23,7 +22,7 @@ class Lissajous extends ShapeLoop {
             'wz',
             'sideLength',
         ]);
-        settings.adaptMode = (_a = settings.adaptMode) !== null && _a !== void 0 ? _a : EShapePrimitiveAdaptMode.None;
+        settings.adaptMode = EShapePrimitiveAdaptMode.None;
         super(settings, true);
         this.props.wx = settings.wx || 1;
         this.props.wy = settings.wy || 2;
