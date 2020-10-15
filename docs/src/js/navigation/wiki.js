@@ -2,12 +2,12 @@ const wiki = {
 	it: {
 		Wiki: {
 			Introduzione: {
-				"Cos'è Urpflanze?": 'it/introduzione',
+				"Cos'è Urpflanze?": 'it/Introduzione',
 			},
 
 			'Primi passi': {
-				Installazione: 'it/installazione',
-				'Crea una scena': 'it/crea-una-scena',
+				Installazione: 'it/Installazione',
+				'Crea una scena': 'it/Crea-Una-Scena',
 				'DrawerCanvas e gestione del tempo': '',
 				'Timeline e creazione di un loop': '',
 			},
