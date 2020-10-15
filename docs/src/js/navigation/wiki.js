@@ -7,7 +7,7 @@ const wiki = {
 
 			'Primi passi': {
 				Installazione: 'it/Installazione',
-				'Crea una scena': 'it/Crea-Una-Scena',
+				'Crea una scena': 'it/Crea-una-Scena',
 				'DrawerCanvas e gestione del tempo': '',
 				'Timeline e creazione di un loop': '',
 			},
