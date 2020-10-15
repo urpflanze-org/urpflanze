@@ -110,9 +110,9 @@ const translate = (vec, to) => {
  * @param {TArray} vec
  * @param {TArray} to
  */
-const scale = (vec, to, origin = ZERO) => {
-    vec[0] = vec[0] * to[0] + origin[0] * to[0];
-    vec[1] = vec[1] * to[1] + origin[1] * to[1];
+const scale = (vec, to) => {
+    vec[0] *= to[0];
+    vec[1] *= to[1];
 };
 /**
  * Scale vertex
@@ -123,25 +123,6 @@ const scale = (vec, to, origin = ZERO) => {
 const divide = (vec, to) => {
     vec[0] /= to[0];
     vec[1] /= to[1];
-};
-const applyTransformation = (vec, rotateX, rotateY, rotateZ, translate, scale) => {
-    const matrix = create_matrix();
-    if (rotateX !== 0) {
-        const s = Math.sin(rotateX);
-        const c = Math.cos(rotateX);
-        matrix[5] = c;
-        matrix[6] = -s;
-        matrix[9] = s;
-        matrix[10] = c;
-    }
-    if (rotateY !== 0) {
-        const s = Math.sin(rotateY);
-        const c = Math.cos(rotateY);
-        matrix[0] = c;
-        matrix[2] = s;
-        matrix[8] = -s;
-        matrix[10] = matrix[10] + c;
-    }
 };
 /**
  * Vec to string

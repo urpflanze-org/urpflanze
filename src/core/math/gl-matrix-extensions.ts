@@ -34,11 +34,3 @@ export function toVec3(x: number | Array<number>, defaultZValue: number = 0): ve
 	if (Array.isArray(x)) return [x[0], x[1], defaultZValue]
 	return [x, x, defaultZValue]
 }
-
-export const squeezeX = (vec: vec2 | vec3, m: number): void => {
-	vec[1] += vec[1] * (vec[0] * -m)
-}
-
-export const squeezeY = (vec: vec2 | vec3, m: number): void => {
-	vec[0] += vec[0] * (vec[1] * m)
-}

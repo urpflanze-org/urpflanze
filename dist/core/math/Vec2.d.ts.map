@@ -1,1 +1,1 @@
-{"version":3,"file":"Vec2.d.ts","sourceRoot":"","sources":["../../../src/core/math/Vec2.ts"],"names":[],"mappings":"AAEA;;;;GAIG;AACH,oBAAY,MAAM,GAAG,KAAK,CAAC,MAAM,CAAC,GAAG,YAAY,CAAA;;;;;;;;;;;;;;;;;;;;;AAoMjD,wBAmBC"}
+{"version":3,"file":"Vec2.d.ts","sourceRoot":"","sources":["../../../src/core/math/Vec2.ts"],"names":[],"mappings":"AAEA;;;;GAIG;AACH,oBAAY,MAAM,GAAG,KAAK,CAAC,MAAM,CAAC,GAAG,YAAY,CAAA;;;;;;;;;;;;;;;;;;;;;AAsKjD,wBAmBC"}

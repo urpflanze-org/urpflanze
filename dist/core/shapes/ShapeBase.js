@@ -311,9 +311,9 @@ class ShapeBase extends SceneChild {
                     for (let buffer_index = 0; buffer_index < buffer_length; buffer_index += 2) {
                         const vertex = [buffer[buffer_index], buffer[buffer_index + 1], perspective];
                         {
+                            vec3.transformMat4(vertex, vertex, transform_matrix);
                             squeezeX !== 0 && glme.squeezeX(vertex, squeezeX);
                             squeezeY !== 0 && glme.squeezeY(vertex, squeezeY);
-                            vec3.transformMat4(vertex, vertex, transform_matrix);
                             if (perspective > 0) {
                                 bPerspectiveOrigin && vec3.add(vertex, vertex, perspectiveOrigin);
                                 vec3.transformMat4(vertex, vertex, perspective_matrix);

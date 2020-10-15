@@ -31,10 +31,4 @@ export function toVec3(x, defaultZValue = 0) {
         return [x[0], x[1], defaultZValue];
     return [x, x, defaultZValue];
 }
-export const squeezeX = (vec, m) => {
-    vec[1] += vec[1] * (vec[0] * -m);
-};
-export const squeezeY = (vec, m) => {
-    vec[0] += vec[0] * (vec[1] * m);
-};
 //# sourceMappingURL=gl-matrix-extensions.js.map

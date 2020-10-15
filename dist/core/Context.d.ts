@@ -15,6 +15,7 @@ import { vec2 } from 'gl-matrix';
 declare const Context: {
     /**
      * <a href="https://github.com/jwagner/simplex-noise.js" target="_blank">SimplexNoise</a>
+     * Use 'random' as seed property for random seed.
      * Return value between -1 and 1
      *
      * @param {string} [seed='random']

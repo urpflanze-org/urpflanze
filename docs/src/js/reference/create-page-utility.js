@@ -131,6 +131,10 @@ export function resolveType(type) {
 			return resolveType(type.queryType)
 		}
 
+		if (type.type === 'tuple' && type.elements) {
+			return `[${type.elements.map(resolveType).join(', ')}]`
+		}
+
 		console.warn('cant resolve type', type)
 	}
 }
