@@ -531,7 +531,7 @@ abstract class ShapeBase extends SceneChild {
 								bPerspectiveOrigin && vec3.add(vertex, vertex, perspectiveOrigin)
 								vec3.transformMat4(vertex, vertex, perspective_matrix)
 								vec3.scale(vertex, vertex, perspective)
-								bPerspectiveOrigin && vec3.add(vertex, vertex, perspectiveOrigin)
+								bPerspectiveOrigin && vec3.sub(vertex, vertex, perspectiveOrigin)
 							}
 							vec3.transformMat4(vertex, vertex, repetition_matrix)
 

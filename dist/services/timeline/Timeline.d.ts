@@ -16,6 +16,8 @@ declare class Timeline extends Emitter<TimelineEvents> {
     private fps;
     private current_frame;
     private last_tick;
+    private paused_time;
+    private start_time;
     private tick_time;
     private accumulator;
     private b_sequence_started;

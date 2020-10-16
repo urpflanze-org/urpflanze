@@ -378,7 +378,6 @@ class DrawerCanvas extends Emitter<DrawerCanvasEvents> {
 		this.stopAnimation()
 
 		this.timeline.start()
-
 		this.animation_id = requestAnimationFrame(this.animate)
 	}
 
@@ -491,7 +490,7 @@ class DrawerCanvas extends Emitter<DrawerCanvasEvents> {
 
 		drawOptions.ghost_index = undefined
 		const clearCanvas = this.drawOptions.clearCanvas || this.timeline.getCurrentFrame() <= 0
-		drawOptions.clearCanvas = this.drawOptions.clearCanvas || this.timeline.getCurrentFrame() <= 0
+		drawOptions.clearCanvas = clearCanvas
 		drawOptions.time = this.timeline.getTime()
 		const current_frame = this.timeline.getFrameAtTime(drawOptions.time)
 

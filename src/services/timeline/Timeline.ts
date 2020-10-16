@@ -1,5 +1,6 @@
 import Emitter from '@services/events/Emitter'
 import { SequenceMeta, TimelineEvents } from '@services/types/timeline'
+import { now } from 'src/Utilites'
 
 /**
  *
@@ -19,7 +20,8 @@ class Timeline extends Emitter<TimelineEvents> {
 
 	private current_frame: number
 	private last_tick: number
-	// private paused_time: number
+	private paused_time: number
+	private start_time: number
 	private tick_time: number
 	private accumulator: number
 
@@ -53,6 +55,7 @@ class Timeline extends Emitter<TimelineEvents> {
 		this.current_frame = -1
 		// this.paused_time = 0
 
+		this.start_time = 0
 		this.last_tick = 0
 		this.accumulator = 0
 
@@ -202,6 +205,7 @@ class Timeline extends Emitter<TimelineEvents> {
 		if (!this.b_sequence_started) {
 			this.b_sequence_started = true
 			// this.last_tick = now() - this.paused_time
+			this.start_time = this.paused_time
 			this.last_tick = 0
 			this.accumulator = 0
 
@@ -216,7 +220,7 @@ class Timeline extends Emitter<TimelineEvents> {
 	 */
 	public pause(): void {
 		if (this.b_sequence_started) {
-			// this.paused_time = now()
+			this.paused_time = now()
 			this.b_sequence_started = false
 
 			this.dispatch('timeline:change_status', Timeline.PAUSE)
@@ -232,7 +236,8 @@ class Timeline extends Emitter<TimelineEvents> {
 		if (this.current_frame != 1 || this.b_sequence_started) {
 			this.b_sequence_started = false
 			this.current_frame = -1
-			// this.paused_time = 0
+			this.start_time = 0
+			this.paused_time = 0
 
 			this.dispatch('timeline:progress', {
 				current_frame: this.current_frame,
@@ -253,7 +258,12 @@ class Timeline extends Emitter<TimelineEvents> {
 	 */
 	public tick(timestamp: number): boolean {
 		if (this.b_sequence_started) {
-			const currentTime = timestamp
+			if (!this.start_time) {
+				this.start_time = timestamp
+				this.accumulator = this.tick_time
+			}
+
+			const currentTime = timestamp - this.start_time
 
 			const elapsed = currentTime - this.last_tick
 			this.accumulator += elapsed

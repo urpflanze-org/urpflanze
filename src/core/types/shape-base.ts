@@ -41,7 +41,7 @@ export interface IBufferIndex {
  * @category Core.Types
  */
 export type TVertexCallback = (
-	vertex: Array<number> | Float32Array,
+	vertex: [number, number, number],
 	prop_arguments: ISceneChildPropArguments,
 	vertex_repetition: IBaseRepetition
 ) => void

@@ -1,4 +1,5 @@
 import Emitter from "../events/Emitter";
+import { now } from "../../Utilites";
 /**
  *
  * @category Services.Timeline
@@ -27,6 +28,7 @@ class Timeline extends Emitter {
         this.b_sequence_started = false;
         this.current_frame = -1;
         // this.paused_time = 0
+        this.start_time = 0;
         this.last_tick = 0;
         this.accumulator = 0;
         this.calculateTickAndSequence();
@@ -156,6 +158,7 @@ class Timeline extends Emitter {
         if (!this.b_sequence_started) {
             this.b_sequence_started = true;
             // this.last_tick = now() - this.paused_time
+            this.start_time = this.paused_time;
             this.last_tick = 0;
             this.accumulator = 0;
             this.dispatch('timeline:change_status', Timeline.START);
@@ -168,7 +171,7 @@ class Timeline extends Emitter {
      */
     pause() {
         if (this.b_sequence_started) {
-            // this.paused_time = now()
+            this.paused_time = now();
             this.b_sequence_started = false;
             this.dispatch('timeline:change_status', Timeline.PAUSE);
         }
@@ -182,7 +185,8 @@ class Timeline extends Emitter {
         if (this.current_frame != 1 || this.b_sequence_started) {
             this.b_sequence_started = false;
             this.current_frame = -1;
-            // this.paused_time = 0
+            this.start_time = 0;
+            this.paused_time = 0;
             this.dispatch('timeline:progress', {
                 current_frame: this.current_frame,
                 current_time: 0,
@@ -200,7 +204,11 @@ class Timeline extends Emitter {
      */
     tick(timestamp) {
         if (this.b_sequence_started) {
-            const currentTime = timestamp;
+            if (!this.start_time) {
+                this.start_time = timestamp;
+                this.accumulator = this.tick_time;
+            }
+            const currentTime = timestamp - this.start_time;
             const elapsed = currentTime - this.last_tick;
             this.accumulator += elapsed;
             // if (elapsed >= this.tick_time) {

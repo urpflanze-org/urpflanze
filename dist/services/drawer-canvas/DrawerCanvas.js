@@ -400,7 +400,7 @@ class DrawerCanvas extends Emitter {
         const drawOptions = Object.assign({}, this.drawOptions);
         drawOptions.ghost_index = undefined;
         const clearCanvas = this.drawOptions.clearCanvas || this.timeline.getCurrentFrame() <= 0;
-        drawOptions.clearCanvas = this.drawOptions.clearCanvas || this.timeline.getCurrentFrame() <= 0;
+        drawOptions.clearCanvas = clearCanvas;
         drawOptions.time = this.timeline.getTime();
         const current_frame = this.timeline.getFrameAtTime(drawOptions.time);
         this.dispatch('drawer-canvas:before_draw', {
