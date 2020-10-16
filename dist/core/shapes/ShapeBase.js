@@ -226,7 +226,7 @@ class ShapeBase extends SceneChild {
                 buffers[current_index] = new Float32Array(buffer_length);
                 total_buffer_length += buffer_length;
                 {
-                    const distance = glme.toVec2(this.getProp('distance', prop_arguments, glme.VEC2_ONE));
+                    const distance = glme.toVec2(this.getProp('distance', prop_arguments, glme.VEC2_ZERO));
                     const displace = this.getProp('displace', prop_arguments, 0);
                     const scale = glme.toVec3(this.getProp('scale', prop_arguments, glme.VEC2_ONE), 1);
                     const translate = glme.toVec3(this.getProp('translate', prop_arguments, glme.VEC2_ZERO), 0);
