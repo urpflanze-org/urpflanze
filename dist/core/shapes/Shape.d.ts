@@ -70,6 +70,13 @@ declare class Shape extends ShapeBase {
      * @memberof ShapeBase
      */
     setShape(shape: SceneChild | undefined): void;
+    /**
+     * Return bounding
+     *
+     * @param {boolean} bDirectSceneChild
+     * @returns {IShapeBounding}
+     * @memberof Shape
+     */
     getBounding(bDirectSceneChild: boolean): IShapeBounding;
 }
 export default Shape;

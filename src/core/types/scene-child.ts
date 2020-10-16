@@ -297,26 +297,62 @@ export interface ISceneChildPropArguments {
 export type TSceneChildProp<T> = T | { (prop_arguments: ISceneChildPropArguments): T }
 
 /**
- *
+ * Object passed to the drawer where it is possible to draw the current frame
+ * starting from frame_buffer_index up to frame_buffer_index + frame_length,
+ * the fill or strtoke color of the frame is also present
  *
  * @category Core.Interfaces
  */
 export interface ISceneChildStreamArguments {
+	/**
+	 * @order 1
+	 */
 	shape: ShapePrimitive
+	/**
+	 * @order 2
+	 */
 	parent?: IBufferIndex
-
+	/**
+	 * @order 3
+	 */
 	data?: any
-
+	/**
+	 * @order 4
+	 */
 	lineWidth: number
+	/**
+	 * @order 5
+	 */
 	fillColor: string
+	/**
+	 * @order 6
+	 */
 	strokeColor: string
-
+	/**
+	 * @order 7
+	 */
 	buffer: Float32Array
+	/**
+	 * @order 8
+	 */
 	frame_buffer_index: number
+	/**
+	 * @order 9
+	 */
 	frame_length: number
-
+	/**
+	 * @order 10
+	 */
 	current_shape_index: number
+	/**
+	 * total primitives
+	 * @order 11
+	 */
 	total_shapes: number
 
+	/**
+	 * repetition of current generated shape
+	 * @order 12
+	 */
 	repetition: IRepetition
 }

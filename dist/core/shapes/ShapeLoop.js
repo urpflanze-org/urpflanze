@@ -10,6 +10,13 @@ import { EShapePrimitiveAdaptMode, IShapePrimitiveProps } from "../types/shape-b
  * @extends {ShapePrimitive}
  */
 class ShapeLoop extends ShapePrimitive {
+    /**
+     * Creates an instance of ShapeLoop.
+     *
+     * @param {IShapeLoopSettings} [settings={}]
+     * @param {boolean} [bPreventGeneration=false]
+     * @memberof ShapeLoop
+     */
     constructor(settings = {}, bPreventGeneration = false) {
         settings.type = settings.type || 'ShapeLoop';
         super(settings);

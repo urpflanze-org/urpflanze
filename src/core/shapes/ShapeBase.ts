@@ -17,6 +17,7 @@ import Context from '@core/Context'
 import * as glme from '@core/math/gl-matrix-extensions'
 import ShapePrimitive from './ShapePrimitive'
 import { clamp } from 'src/Utilites'
+import Vec2 from '@core/math/Vec2'
 
 glMatrix.setMatrixArrayType(Array)
 
@@ -124,7 +125,7 @@ abstract class ShapeBase extends SceneChild {
 	/**
 	 * With this parameter the shape will be created at each repetition,
 	 * useful if you want to encapsulate this shape in another and use its <mark>repetition</mark> object.
-	 * fillColor, strokeColor and lineWidth don't need to as they are generated during the buffer stream.
+	 * In the case of ShapePrimitive fillColor, strokeColor and lineWidth don't need to as they are generated during the buffer stream.
 	 *
 	 * @public
 	 * @type {boolean}
@@ -524,8 +525,8 @@ abstract class ShapeBase extends SceneChild {
 
 						{
 							vec3.transformMat4(vertex, vertex, transform_matrix)
-							squeezeX !== 0 && glme.squeezeX(vertex, squeezeX)
-							squeezeY !== 0 && glme.squeezeY(vertex, squeezeY)
+							squeezeX !== 0 && Vec2.squeezeX(vertex, squeezeX)
+							squeezeY !== 0 && Vec2.squeezeY(vertex, squeezeY)
 							if (perspective > 0) {
 								bPerspectiveOrigin && vec3.add(vertex, vertex, perspectiveOrigin)
 								vec3.transformMat4(vertex, vertex, perspective_matrix)

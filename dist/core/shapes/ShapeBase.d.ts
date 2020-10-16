@@ -80,7 +80,7 @@ declare abstract class ShapeBase extends SceneChild {
     /**
      * With this parameter the shape will be created at each repetition,
      * useful if you want to encapsulate this shape in another and use its <mark>repetition</mark> object.
-     * fillColor, strokeColor and lineWidth don't need to as they are generated during the buffer stream.
+     * In the case of ShapePrimitive fillColor, strokeColor and lineWidth don't need to as they are generated during the buffer stream.
      *
      * @public
      * @type {boolean}

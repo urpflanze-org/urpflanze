@@ -4,6 +4,12 @@ import { EShapePrimitiveAdaptMode } from "../types/shape-base";
  * @category Core.Shapes
  */
 class ShapeBuffer extends ShapePrimitive {
+    /**
+     * Creates an instance of ShapeBuffer.
+     *
+     * @param {IShapeBufferSettings} [settings={}]
+     * @memberof ShapeBuffer
+     */
     constructor(settings = {}) {
         var _a;
         settings.type = settings.type || 'ShapeBuffer';
@@ -31,6 +37,12 @@ class ShapeBuffer extends ShapePrimitive {
         this.bindBuffer();
         // this.shape_buffer = ShapeBuffer.buffer2Dto3D(this.shape_buffer)
     }
+    /**
+     * Apply sideLength on <mark>.shape</mark> buffer and calculate bounding
+     *
+     * @private
+     * @memberof ShapeBuffer
+     */
     bindBuffer() {
         const shape_buffer = this.adaptMode !== EShapePrimitiveAdaptMode.None
             ? ShapePrimitive.adaptBuffer(this.shape, this.adaptMode)

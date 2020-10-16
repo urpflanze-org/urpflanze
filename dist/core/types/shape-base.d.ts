@@ -39,7 +39,18 @@ export declare type TVertexCallback = (vertex: Array<number> | Float32Array, pro
  * @category Core.Props and Settings Interfaces
  */
 export interface IShapeBaseSettings extends ISceneChildSettings {
+    /**
+     * With this parameter the shape will be created at each repetition,
+     * useful if you want to encapsulate this shape in another and use its <mark>repetition</mark> object.
+     * fillColor, strokeColor and lineWidth don't need to as they are generated during the buffer stream.
+     * @order -14
+     */
     bUseParent?: boolean;
+    /**
+     * Callback to apply transform at any vertex
+     *
+     * @order -13
+     */
     vertexCallback?: TVertexCallback;
 }
 /**
@@ -50,6 +61,7 @@ export interface IShapeBaseSettings extends ISceneChildSettings {
 export interface IShapeSettings extends IShapeBaseSettings {
     /**
      * shape to apply repetitions and transformation
+     * @order -20
      */
     shape?: SceneChild;
 }
@@ -113,10 +125,12 @@ export interface IShapePrimitiveProps extends ISceneChildProps {
 export interface IShapePrimitiveSettings extends IShapePrimitiveProps, IShapeBaseSettings {
     /**
      * Adapt buffer mode, see <a href="[base_url]/EShapePrimitiveAdaptMode">EShapePrimitiveAdaptMode</a> for more details
+     * @order -16
      */
     adaptMode?: EShapePrimitiveAdaptMode;
     /**
      * Callback to apply transform at any vertex
+     * @order -15
      */
     bCloseShape?: boolean;
 }

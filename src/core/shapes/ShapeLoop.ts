@@ -83,6 +83,13 @@ class ShapeLoop extends ShapePrimitive {
 	 */
 	public shapeLoopPropsDependencies: Array<'vertexCallback' | 'prop_arguments' | string>
 
+	/**
+	 * Creates an instance of ShapeLoop.
+	 *
+	 * @param {IShapeLoopSettings} [settings={}]
+	 * @param {boolean} [bPreventGeneration=false]
+	 * @memberof ShapeLoop
+	 */
 	constructor(settings: IShapeLoopSettings = {}, bPreventGeneration: boolean = false) {
 		settings.type = settings.type || 'ShapeLoop'
 		super(settings)

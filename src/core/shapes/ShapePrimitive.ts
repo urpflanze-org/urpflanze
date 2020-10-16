@@ -65,8 +65,20 @@ abstract class ShapePrimitive extends ShapeBase {
 	 */
 	public sideLength: vec2
 
+	/**
+	 * Shape bounding
+	 *
+	 * @type {IShapeBounding}
+	 * @memberof ShapePrimitive
+	 */
 	public single_bounding: IShapeBounding = { ...ShapePrimitive.EMPTY_BOUNDING }
 
+	/**
+	 * Creates an instance of ShapePrimitive.
+	 *
+	 * @param {IShapePrimitiveSettings} [settings={}]
+	 * @memberof ShapePrimitive
+	 */
 	constructor(settings: IShapePrimitiveSettings = {}) {
 		super(settings)
 
@@ -107,7 +119,7 @@ abstract class ShapePrimitive extends ShapeBase {
 	 * @returns {*}
 	 * @memberof ShapePrimitive
 	 */
-	getProp(key: keyof IShapePrimitiveProps, prop_arguments?: ISceneChildPropArguments, default_value?: any): any {
+	public getProp(key: keyof IShapePrimitiveProps, prop_arguments?: ISceneChildPropArguments, default_value?: any): any {
 		return super.getProp(key as keyof ISceneChildProps, prop_arguments, default_value)
 	}
 

@@ -22,7 +22,6 @@
 	"files": [
 		"build",
 		"dist",
-		"src",
 		"package.json",
 		"README.md",
 		"LICENSE"
@@ -32,23 +31,32 @@
 		"build-library": "webpack --mode development",
 		"build-library-min": "webpack --mode production",
 		"prepublishOnly": "ttsc & npm run build-library & npm run build-library-min",
-		"watch": "ttsc --watch"
+		"watch": "ttsc --watch",
+		"generate-docs-references": "node generate-docs-references.js",
+		"watch-docs": "webpack --config webpack.config.docs.js --watch",
+		"build-docs": "npm run generate-docs-references & npx webpack --config webpack.config.docs.js --mode production"
 	},
 	"publishConfig": {
 		"registry": "https://npm.pkg.github.com/"
 	},
 	"devDependencies": {
+		"@types/uuid": "^8.3.0",
+		"css-loader": "^5.0.0",
+		"sass": "^1.27.0",
+		"sass-loader": "^10.0.3",
+		"style-loader": "^2.0.0",
 		"ttypescript": "^1.5.12",
 		"typedoc": "^0.19.2",
 		"typescript": "^4.0.3",
-		"typescript-transform-paths": "^1.1.15"
+		"typescript-transform-paths": "^1.1.15",
+		"webpack": "^5.1.0",
+		"webpack-cli": "^4.0.0"
 	},
 	"dependencies": {
 		"@pups/core": "0.0.0-b23",
-		"@types/uuid": "^8.3.0",
 		"gl-matrix": "^3.3.0",
 		"jszip": "^3.5.0",
 		"simplex-noise": "^2.4.0",
-		"uuid": "^8.3.0"
+		"uuid": "^8.3.1"
 	}
 }

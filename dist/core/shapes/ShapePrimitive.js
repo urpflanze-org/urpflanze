@@ -5,9 +5,21 @@ import { toVec2 } from "../math/gl-matrix-extensions";
  * @category Core.Abstract
  */
 class ShapePrimitive extends ShapeBase {
+    /**
+     * Creates an instance of ShapePrimitive.
+     *
+     * @param {IShapePrimitiveSettings} [settings={}]
+     * @memberof ShapePrimitive
+     */
     constructor(settings = {}) {
         var _a, _b;
         super(settings);
+        /**
+         * Shape bounding
+         *
+         * @type {IShapeBounding}
+         * @memberof ShapePrimitive
+         */
         this.single_bounding = Object.assign({}, ShapePrimitive.EMPTY_BOUNDING);
         const sideLength = typeof settings.sideLength === 'number'
             ? [settings.sideLength, settings.sideLength]

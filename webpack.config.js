@@ -12,6 +12,11 @@ module.exports = (env, argv) => ({
 		globalObject: 'window',
 		// libraryExport: 'default',
 	},
+	resolve: {
+		fallback: {
+			stream: false,
+		},
+	},
 	devtool: 'source-map',
 	mode: argv.mode,
 	watch: argv.watch,

@@ -44,7 +44,19 @@ declare abstract class ShapePrimitive extends ShapeBase {
      * @memberof ShapePrimitive
      */
     sideLength: vec2;
+    /**
+     * Shape bounding
+     *
+     * @type {IShapeBounding}
+     * @memberof ShapePrimitive
+     */
     single_bounding: IShapeBounding;
+    /**
+     * Creates an instance of ShapePrimitive.
+     *
+     * @param {IShapePrimitiveSettings} [settings={}]
+     * @memberof ShapePrimitive
+     */
     constructor(settings?: IShapePrimitiveSettings);
     /**
      * Check if shape is static

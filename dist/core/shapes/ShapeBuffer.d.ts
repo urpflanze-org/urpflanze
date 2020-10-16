@@ -22,6 +22,12 @@ declare class ShapeBuffer extends ShapePrimitive {
      * @memberof ShapeBuffer
      */
     private shape_buffer;
+    /**
+     * Creates an instance of ShapeBuffer.
+     *
+     * @param {IShapeBufferSettings} [settings={}]
+     * @memberof ShapeBuffer
+     */
     constructor(settings?: IShapeBufferSettings);
     /**
      *  Unset buffer
@@ -31,6 +37,12 @@ declare class ShapeBuffer extends ShapePrimitive {
      * @memberof ShapeLoop
      */
     clearBuffer(bClearIndexed?: boolean, bPropagateToParents?: boolean): void;
+    /**
+     * Apply sideLength on <mark>.shape</mark> buffer and calculate bounding
+     *
+     * @private
+     * @memberof ShapeBuffer
+     */
     private bindBuffer;
     /**
      * Return length of buffer

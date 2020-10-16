@@ -14,16 +14,13 @@ export type TArray = Array<number> | Float32Array
  */
 const MATRIX: TArray = new Array(4)
 
-const create_matrix = () => {
-	return [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
-}
-
 /**
  * Create new vertex
  *
  * @param {TArray | number} [x=0]
  * @param {number} [y]
  * @returns {TArray}
+ * @internal
  */
 const create = (x: TArray | number = 0, y?: number): TArray => {
 	const out = new Array(2)
@@ -37,33 +34,99 @@ const create = (x: TArray | number = 0, y?: number): TArray => {
 	return out
 }
 
+/**
+ * Distance between two points
+ *
+ * @param {TArray} a
+ * @param {TArray} b
+ * @returns {number}
+ * @internal
+ */
 const distance = (a: TArray, b: TArray): number => Math.hypot(b[0] - a[0], b[1] - a[1])
 
+/**
+ * dot product
+ *
+ * @param {TArray} a
+ * @param {TArray} b
+ * @returns {number}
+ * @internal
+ */
 const dot = (a: TArray, b: TArray): number => a[0] * b[0] + a[1] * b[1]
 
+/**
+ * length of point
+ *
+ * @param {TArray} vec
+ * @returns {number}
+ * @internal
+ */
 const length = (vec: TArray): number => Math.hypot(vec[0], vec[1])
 
+/**
+ * angle between two point
+ *
+ * @param {TArray} a
+ * @param {TArray} b
+ * @returns {number}
+ * @internal
+ */
 const angle = (a: TArray, b: TArray): number => {
 	const m = length(a) * length(b)
 	return Math.acos(clamp(-1, 1, m && dot(a, b) / m))
 }
 
+/**
+ * skewX point
+ *
+ * @param {TArray} vec
+ * @param {number} m
+ * @internal
+ */
 const skewX = (vec: TArray, m: number): void => {
 	vec[0] += Math.tan(m) * vec[1]
 }
 
+/**
+ * skewY point
+ *
+ * @param {TArray} vec
+ * @param {number} m
+ * @internal
+ */
 const skewY = (vec: TArray, m: number): void => {
 	vec[1] += Math.tan(m) * vec[0]
 }
 
+/**
+ * squeezeX point
+ *
+ * @param {TArray} vec
+ * @param {number} m
+ * @internal
+ */
 const squeezeX = (vec: TArray, m: number): void => {
 	vec[1] += vec[1] * (vec[0] * -m)
 }
 
+/**
+ * squeezeY point
+ *
+ * @param {TArray} vec
+ * @param {number} m
+ */
 const squeezeY = (vec: TArray, m: number): void => {
 	vec[0] += vec[0] * (vec[1] * m)
 }
 
+/**
+ * Rotate point
+ *
+ * @param {TArray} vec
+ * @param {TArray} MATRIX
+ * @param {TArray} pointToRotate
+ * @internal
+ */
 const rotate = (vec: TArray, MATRIX: TArray, pointToRotate: TArray): void => {
 	const p0 = vec[0] - pointToRotate[0]
 	const p1 = vec[1] - pointToRotate[1]
@@ -73,11 +136,12 @@ const rotate = (vec: TArray, MATRIX: TArray, pointToRotate: TArray): void => {
 }
 
 /**
- * RotateX vertex
+ * RotateX point
  *
  * @param {TArray} vec
  * @param {TArray} pointToRotate
  * @param {number} rad
+ * @internal
  */
 const rotateX = (vec: TArray, pointToRotate: TArray, rad: number): void => {
 	MATRIX[0] = 1
@@ -89,11 +153,12 @@ const rotateX = (vec: TArray, pointToRotate: TArray, rad: number): void => {
 }
 
 /**
- * RotateY vertex
+ * RotateY point
  *
  * @param {TArray} vec
  * @param {TArray} pointToRotate
  * @param {number} rad
+ * @internal
  */
 const rotateY = (vec: TArray, pointToRotate: TArray, rad: number): void => {
 	MATRIX[0] = Math.cos(rad)
@@ -105,11 +170,12 @@ const rotateY = (vec: TArray, pointToRotate: TArray, rad: number): void => {
 }
 
 /**
- * RotateZ vertex
+ * RotateZ point
  *
  * @param {TArray} vec
  * @param {TArray} pointToRotate
  * @param {number} rad
+ * @internal
  */
 const rotateZ = (vec: TArray, pointToRotate: TArray, rad: number): void => {
 	MATRIX[0] = Math.cos(rad)
@@ -125,6 +191,7 @@ const rotateZ = (vec: TArray, pointToRotate: TArray, rad: number): void => {
  *
  * @param {TArray} vec
  * @param {TArray} to
+ * @internal
  */
 const translate = (vec: TArray, to: TArray): void => {
 	vec[0] += to[0]
@@ -136,6 +203,7 @@ const translate = (vec: TArray, to: TArray): void => {
  *
  * @param {TArray} vec
  * @param {TArray} to
+ * @internal
  */
 const scale = (vec: TArray, to: TArray): void => {
 	vec[0] *= to[0]
@@ -147,6 +215,7 @@ const scale = (vec: TArray, to: TArray): void => {
  *
  * @param {TArray} vec
  * @param {TArray} to
+ * @internal
  */
 const divide = (vec: TArray, to: TArray): void => {
 	vec[0] /= to[0]
@@ -158,16 +227,19 @@ const divide = (vec: TArray, to: TArray): void => {
  *
  * @param {TArray} vec
  * @return {string}
+ * @internal
  */
 const toString = (vec: TArray): string => `x: ${vec[0]}, y: ${vec[1]}`
 
-/*
+/**
  * Vertex [0, 0]
+ * @internal
  */
 const ZERO = Array.from([0, 0])
 
-/*
+/**
  * Vertex [1, 1]
+ * @internal
  */
 const ONE = Array.from([1, 1])
 

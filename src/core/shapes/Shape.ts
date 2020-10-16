@@ -167,6 +167,13 @@ class Shape extends ShapeBase {
 		}
 	}
 
+	/**
+	 * Return bounding
+	 *
+	 * @param {boolean} bDirectSceneChild
+	 * @returns {IShapeBounding}
+	 * @memberof Shape
+	 */
 	public getBounding(bDirectSceneChild: boolean): IShapeBounding {
 		if (this.shape) {
 			return this.shape.getBounding(false)

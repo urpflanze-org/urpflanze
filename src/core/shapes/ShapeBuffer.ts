@@ -26,6 +26,12 @@ class ShapeBuffer extends ShapePrimitive {
 	 */
 	private shape_buffer: Float32Array
 
+	/**
+	 * Creates an instance of ShapeBuffer.
+	 *
+	 * @param {IShapeBufferSettings} [settings={}]
+	 * @memberof ShapeBuffer
+	 */
 	constructor(settings: IShapeBufferSettings = {}) {
 		settings.type = settings.type || 'ShapeBuffer'
 		settings.adaptMode = settings.adaptMode ?? EShapePrimitiveAdaptMode.Scale
@@ -57,6 +63,12 @@ class ShapeBuffer extends ShapePrimitive {
 		// this.shape_buffer = ShapeBuffer.buffer2Dto3D(this.shape_buffer)
 	}
 
+	/**
+	 * Apply sideLength on <mark>.shape</mark> buffer and calculate bounding
+	 *
+	 * @private
+	 * @memberof ShapeBuffer
+	 */
 	private bindBuffer() {
 		const shape_buffer =
 			this.adaptMode !== EShapePrimitiveAdaptMode.None
@@ -88,6 +100,7 @@ class ShapeBuffer extends ShapePrimitive {
 
 		this.shape_buffer = shape_buffer
 	}
+
 	/**
 	 * Return length of buffer
 	 *

@@ -8,111 +8,38 @@
 	else
 		root["Urpflanze"] = factory();
 })(window, function() {
-return /******/ (function(modules) { // webpackBootstrap
-/******/ 	// The module cache
-/******/ 	var installedModules = {};
-/******/
-/******/ 	// The require function
-/******/ 	function __webpack_require__(moduleId) {
-/******/
-/******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId]) {
-/******/ 			return installedModules[moduleId].exports;
-/******/ 		}
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = installedModules[moduleId] = {
-/******/ 			i: moduleId,
-/******/ 			l: false,
-/******/ 			exports: {}
-/******/ 		};
-/******/
-/******/ 		// Execute the module function
-/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-/******/
-/******/ 		// Flag the module as loaded
-/******/ 		module.l = true;
-/******/
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
-/******/ 	}
-/******/
-/******/
-/******/ 	// expose the modules object (__webpack_modules__)
-/******/ 	__webpack_require__.m = modules;
-/******/
-/******/ 	// expose the module cache
-/******/ 	__webpack_require__.c = installedModules;
-/******/
-/******/ 	// define getter function for harmony exports
-/******/ 	__webpack_require__.d = function(exports, name, getter) {
-/******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
-/******/ 		}
-/******/ 	};
-/******/
-/******/ 	// define __esModule on exports
-/******/ 	__webpack_require__.r = function(exports) {
-/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 		}
-/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 	};
-/******/
-/******/ 	// create a fake namespace object
-/******/ 	// mode & 1: value is a module id, require it
-/******/ 	// mode & 2: merge all properties of value into the ns
-/******/ 	// mode & 4: return value when already ns object
-/******/ 	// mode & 8|1: behave like require
-/******/ 	__webpack_require__.t = function(value, mode) {
-/******/ 		if(mode & 1) value = __webpack_require__(value);
-/******/ 		if(mode & 8) return value;
-/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
-/******/ 		var ns = Object.create(null);
-/******/ 		__webpack_require__.r(ns);
-/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
-/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
-/******/ 		return ns;
-/******/ 	};
-/******/
-/******/ 	// getDefaultExport function for compatibility with non-harmony modules
-/******/ 	__webpack_require__.n = function(module) {
-/******/ 		var getter = module && module.__esModule ?
-/******/ 			function getDefault() { return module['default']; } :
-/******/ 			function getModuleExports() { return module; };
-/******/ 		__webpack_require__.d(getter, 'a', getter);
-/******/ 		return getter;
-/******/ 	};
-/******/
-/******/ 	// Object.prototype.hasOwnProperty.call
-/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
-/******/
-/******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
-/******/
-/******/
-/******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./dist/index-light.js");
-/******/ })
-/************************************************************************/
-/******/ ({
+return /******/ (() => { // webpackBootstrap
+/******/ 	var __webpack_modules__ = ({
 
 /***/ "./dist/Utilites.js":
 /*!**************************!*\
   !*** ./dist/Utilites.js ***!
   \**************************/
-/*! exports provided: parseFunction, cancelablePromise, now, toDegrees, toRadians, toArray, clamp, relativeClamp */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! namespace exports */
+/*! export cancelablePromise [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export clamp [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export now [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export parseFunction [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export relativeClamp [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export toArray [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export toDegrees [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export toRadians [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__.r, __webpack_exports__, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parseFunction", function() { return parseFunction; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cancelablePromise", function() { return cancelablePromise; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "now", function() { return now; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toDegrees", function() { return toDegrees; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toRadians", function() { return toRadians; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toArray", function() { return toArray; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "clamp", function() { return clamp; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "relativeClamp", function() { return relativeClamp; });
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "parseFunction": () => /* binding */ parseFunction,
+/* harmony export */   "cancelablePromise": () => /* binding */ cancelablePromise,
+/* harmony export */   "now": () => /* binding */ now,
+/* harmony export */   "toDegrees": () => /* binding */ toDegrees,
+/* harmony export */   "toRadians": () => /* binding */ toRadians,
+/* harmony export */   "toArray": () => /* binding */ toArray,
+/* harmony export */   "clamp": () => /* binding */ clamp,
+/* harmony export */   "relativeClamp": () => /* binding */ relativeClamp
+/* harmony export */ });
 /**
  * @ignore
  */
@@ -263,15 +190,21 @@ function relativeClamp(refMin, refMax, value, toMin, toMax) {
 /*!******************************!*\
   !*** ./dist/core/Context.js ***!
   \******************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! namespace exports */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_require__.n, __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
 /* harmony import */ var simplex_noise__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! simplex-noise */ "./node_modules/simplex-noise/simplex-noise.js");
 /* harmony import */ var simplex_noise__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(simplex_noise__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _types_scene_child__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./types/scene-child */ "./dist/core/types/scene-child.js");
-/* harmony import */ var gl_matrix__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! gl-matrix */ "./node_modules/gl-matrix/esm/index.js");
+/* harmony import */ var gl_matrix__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! gl-matrix */ "./node_modules/gl-matrix/esm/vec2.js");
 
 
 
@@ -280,7 +213,7 @@ __webpack_require__.r(__webpack_exports__);
  * @ignore
  */
 const noises = {
-    random: new simplex_noise__WEBPACK_IMPORTED_MODULE_0___default.a(Math.random),
+    random: new (simplex_noise__WEBPACK_IMPORTED_MODULE_0___default())(Math.random),
 };
 /**
  * Utilities function passed to <a href="[base_url]/ISceneChildPropArguments">ISceneChildPropArguments</a>
@@ -296,6 +229,7 @@ const noises = {
 const Context = {
     /**
      * <a href="https://github.com/jwagner/simplex-noise.js" target="_blank">SimplexNoise</a>
+     * Use 'random' as seed property for random seed.
      * Return value between -1 and 1
      *
      * @param {string} [seed='random']
@@ -306,7 +240,7 @@ const Context = {
      */
     noise: (seed = 'random', x = 0, y = 0, z = 0) => {
         if (!noises[seed]) {
-            noises[seed] = new simplex_noise__WEBPACK_IMPORTED_MODULE_0___default.a(seed);
+            noises[seed] = new (simplex_noise__WEBPACK_IMPORTED_MODULE_0___default())(seed);
         }
         return noises[seed].noise3D(x, y, z);
     },
@@ -320,8 +254,8 @@ const Context = {
      * @returns {number}
      */
     angle: (repetition, offsetFromCenter = [0, 0]) => {
-        if (repetition.type == _types_scene_child__WEBPACK_IMPORTED_MODULE_1__["ERepetitionType"].Matrix) {
-            const center_matrix = gl_matrix__WEBPACK_IMPORTED_MODULE_2__["vec2"].fromValues((repetition.col.count - 1) / 2, (repetition.row.count - 1) / 2);
+        if (repetition.type == _types_scene_child__WEBPACK_IMPORTED_MODULE_1__.ERepetitionType.Matrix) {
+            const center_matrix = gl_matrix__WEBPACK_IMPORTED_MODULE_2__.fromValues((repetition.col.count - 1) / 2, (repetition.row.count - 1) / 2);
             center_matrix[0] += center_matrix[0] * offsetFromCenter[0];
             center_matrix[1] += center_matrix[1] * offsetFromCenter[1];
             const x = repetition.col.index - 1 - center_matrix[0];
@@ -340,8 +274,8 @@ const Context = {
      * @returns {number}
      */
     angle2: (repetition, offsetFromCenter = [0, 0]) => {
-        if (repetition.type == _types_scene_child__WEBPACK_IMPORTED_MODULE_1__["ERepetitionType"].Matrix) {
-            const center_matrix = gl_matrix__WEBPACK_IMPORTED_MODULE_2__["vec2"].fromValues((repetition.col.count - 1) / 2, (repetition.row.count - 1) / 2);
+        if (repetition.type == _types_scene_child__WEBPACK_IMPORTED_MODULE_1__.ERepetitionType.Matrix) {
+            const center_matrix = gl_matrix__WEBPACK_IMPORTED_MODULE_2__.fromValues((repetition.col.count - 1) / 2, (repetition.row.count - 1) / 2);
             center_matrix[0] += center_matrix[0] * offsetFromCenter[0];
             center_matrix[1] += center_matrix[1] * offsetFromCenter[1];
             const x = repetition.col.index - 1 - center_matrix[0];
@@ -359,12 +293,12 @@ const Context = {
      * @returns {number}
      */
     distance: (repetition, offsetFromCenter = [0, 0]) => {
-        if (repetition.type == _types_scene_child__WEBPACK_IMPORTED_MODULE_1__["ERepetitionType"].Matrix) {
-            const center_matrix = gl_matrix__WEBPACK_IMPORTED_MODULE_2__["vec2"].fromValues(0.5, 0.5);
+        if (repetition.type == _types_scene_child__WEBPACK_IMPORTED_MODULE_1__.ERepetitionType.Matrix) {
+            const center_matrix = gl_matrix__WEBPACK_IMPORTED_MODULE_2__.fromValues(0.5, 0.5);
             center_matrix[0] += center_matrix[0] * offsetFromCenter[0];
             center_matrix[1] += center_matrix[1] * offsetFromCenter[1];
-            const current = gl_matrix__WEBPACK_IMPORTED_MODULE_2__["vec2"].fromValues(repetition.col.offset - 0.5 / repetition.col.count, repetition.row.offset - 0.5 / repetition.row.count);
-            return gl_matrix__WEBPACK_IMPORTED_MODULE_2__["vec2"].distance(current, center_matrix);
+            const current = gl_matrix__WEBPACK_IMPORTED_MODULE_2__.fromValues(repetition.col.offset - 0.5 / repetition.col.count, repetition.row.offset - 0.5 / repetition.row.count);
+            return gl_matrix__WEBPACK_IMPORTED_MODULE_2__.distance(current, center_matrix);
         }
         return 1;
     },
@@ -389,7 +323,7 @@ const Context = {
         return sceneChild && sceneChild.scene ? (sceneChild.scene.height * percentage) / 100 : percentage;
     },
 };
-/* harmony default export */ __webpack_exports__["default"] = (Context);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Context);
 //# sourceMappingURL=Context.js.map
 
 /***/ }),
@@ -398,15 +332,21 @@ const Context = {
 /*!****************************!*\
   !*** ./dist/core/Group.js ***!
   \****************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! namespace exports */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
 /* harmony import */ var _Scene__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Scene */ "./dist/core/Scene.js");
-/* harmony import */ var _SceneChild__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SceneChild */ "./dist/core/SceneChild.js");
-/* harmony import */ var _shapes_ShapeBase__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./shapes/ShapeBase */ "./dist/core/shapes/ShapeBase.js");
-/* harmony import */ var _shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./shapes/ShapePrimitive */ "./dist/core/shapes/ShapePrimitive.js");
+/* harmony import */ var _SceneChild__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SceneChild */ "./dist/core/SceneChild.js");
+/* harmony import */ var _shapes_ShapeBase__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./shapes/ShapeBase */ "./dist/core/shapes/ShapeBase.js");
+/* harmony import */ var _shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./shapes/ShapePrimitive */ "./dist/core/shapes/ShapePrimitive.js");
 
 
 
@@ -434,7 +374,7 @@ __webpack_require__.r(__webpack_exports__);
  * ```
  * @class Group
  */
-class Group extends _SceneChild__WEBPACK_IMPORTED_MODULE_1__["default"] {
+class Group extends _SceneChild__WEBPACK_IMPORTED_MODULE_3__.default {
     /**
      * Creates an instance of Group
      *
@@ -495,7 +435,7 @@ class Group extends _SceneChild__WEBPACK_IMPORTED_MODULE_1__["default"] {
                 : this.children.length > 0
                     ? Math.max.apply(this, this.children.map(e => e.order || 0)) + 1
                     : 0;
-        this.scene && _Scene__WEBPACK_IMPORTED_MODULE_0__["default"].propagateToChilden(item, this.scene);
+        this.scene && _Scene__WEBPACK_IMPORTED_MODULE_0__.default.propagateToChilden(item, this.scene);
         this.children.push(item);
         this.sortChildren();
     }
@@ -591,7 +531,7 @@ class Group extends _SceneChild__WEBPACK_IMPORTED_MODULE_1__["default"] {
     }
     getBounding(bDirectSceneChild) {
         const boundings = [];
-        const bounding = Object.assign({}, _shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_3__["default"].EMPTY_BOUNDING);
+        const bounding = Object.assign({}, _shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_2__.default.EMPTY_BOUNDING);
         if (this.children.length > 0) {
             this.children.forEach(item => boundings.push(item.getBounding(bDirectSceneChild)));
             for (let i = 0, len = this.children.length; i < len; i++) {
@@ -684,7 +624,7 @@ class Group extends _SceneChild__WEBPACK_IMPORTED_MODULE_1__["default"] {
             }
             return result;
         }
-        return _shapes_ShapeBase__WEBPACK_IMPORTED_MODULE_2__["default"].EMPTY_BUFFER;
+        return _shapes_ShapeBase__WEBPACK_IMPORTED_MODULE_1__.default.EMPTY_BUFFER;
     }
     /**
      * return a single buffer binded from children
@@ -706,7 +646,7 @@ class Group extends _SceneChild__WEBPACK_IMPORTED_MODULE_1__["default"] {
         this.children.forEach(item => item.stream(callback));
     }
 }
-/* harmony default export */ __webpack_exports__["default"] = (Group);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Group);
 //# sourceMappingURL=Group.js.map
 
 /***/ }),
@@ -715,14 +655,20 @@ class Group extends _SceneChild__WEBPACK_IMPORTED_MODULE_1__["default"] {
 /*!****************************!*\
   !*** ./dist/core/Scene.js ***!
   \****************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! namespace exports */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _SceneChild__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SceneChild */ "./dist/core/SceneChild.js");
-/* harmony import */ var _Group__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Group */ "./dist/core/Group.js");
-/* harmony import */ var _shapes_Shape__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./shapes/Shape */ "./dist/core/shapes/Shape.js");
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony import */ var _SceneChild__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SceneChild */ "./dist/core/SceneChild.js");
+/* harmony import */ var _Group__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Group */ "./dist/core/Group.js");
+/* harmony import */ var _shapes_Shape__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./shapes/Shape */ "./dist/core/shapes/Shape.js");
 
 
 
@@ -920,7 +866,7 @@ class Scene {
             if (this.children[i].id == sceneChild.id)
                 return true;
         const parents = this.getParentsOfSceneChild(sceneChild);
-        return parents.length == 1 && parents[0] instanceof _Group__WEBPACK_IMPORTED_MODULE_1__["default"];
+        return parents.length == 1 && parents[0] instanceof _Group__WEBPACK_IMPORTED_MODULE_0__.default;
     }
     /**
      * Returns the list of sceneChild hierarchy starting from the scene
@@ -949,17 +895,17 @@ class Scene {
      */
     static getParentsOfSceneChild(current, sceneChild, parents = []) {
         let result;
-        if (current instanceof _SceneChild__WEBPACK_IMPORTED_MODULE_0__["default"]) {
+        if (current instanceof _SceneChild__WEBPACK_IMPORTED_MODULE_2__.default) {
             if (current.id == sceneChild.id)
                 return parents;
-            if (current instanceof _shapes_Shape__WEBPACK_IMPORTED_MODULE_2__["default"] && current.shape) {
+            if (current instanceof _shapes_Shape__WEBPACK_IMPORTED_MODULE_1__.default && current.shape) {
                 const tmp_parents = parents.slice();
                 tmp_parents.push(current);
                 if ((result = Scene.getParentsOfSceneChild(current.shape, sceneChild, tmp_parents)))
                     return result;
             }
         }
-        if (current instanceof Scene || current instanceof _Group__WEBPACK_IMPORTED_MODULE_1__["default"]) {
+        if (current instanceof Scene || current instanceof _Group__WEBPACK_IMPORTED_MODULE_0__.default) {
             const children = current.getChildren();
             parents.push(current);
             for (let i = 0, len = children.length; i < len; i++) {
@@ -980,14 +926,14 @@ class Scene {
      * @memberof Scene
      */
     static walk(callback, current) {
-        if (current instanceof _SceneChild__WEBPACK_IMPORTED_MODULE_0__["default"]) {
+        if (current instanceof _SceneChild__WEBPACK_IMPORTED_MODULE_2__.default) {
             if (callback(current) === false)
                 return false;
-            if (current instanceof _shapes_Shape__WEBPACK_IMPORTED_MODULE_2__["default"] && current.shape)
+            if (current instanceof _shapes_Shape__WEBPACK_IMPORTED_MODULE_1__.default && current.shape)
                 if (Scene.walk(callback, current.shape) === false)
                     return false;
         }
-        if (current instanceof Scene || current instanceof _Group__WEBPACK_IMPORTED_MODULE_1__["default"]) {
+        if (current instanceof Scene || current instanceof _Group__WEBPACK_IMPORTED_MODULE_0__.default) {
             const children = current.getChildren();
             for (let i = 0, len = children.length; i < len; i++) {
                 const child = children[i];
@@ -1006,18 +952,18 @@ class Scene {
      */
     static propagateToChilden(sceneChild, scene) {
         sceneChild.scene = scene;
-        if (sceneChild instanceof _Group__WEBPACK_IMPORTED_MODULE_1__["default"]) {
+        if (sceneChild instanceof _Group__WEBPACK_IMPORTED_MODULE_0__.default) {
             sceneChild.getChildren().forEach((item) => {
                 Scene.propagateToChilden(item, scene);
             });
         }
-        else if (sceneChild instanceof _shapes_Shape__WEBPACK_IMPORTED_MODULE_2__["default"] && sceneChild.shape) {
+        else if (sceneChild instanceof _shapes_Shape__WEBPACK_IMPORTED_MODULE_1__.default && sceneChild.shape) {
             sceneChild.shape.scene = scene;
             Scene.propagateToChilden(sceneChild.shape, scene);
         }
     }
 }
-/* harmony default export */ __webpack_exports__["default"] = (Scene);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Scene);
 //# sourceMappingURL=Scene.js.map
 
 /***/ }),
@@ -1026,11 +972,17 @@ class Scene {
 /*!*********************************!*\
   !*** ./dist/core/SceneChild.js ***!
   \*********************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! namespace exports */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
 /**
  * Autoincrement sceneChild default id
  *
@@ -1113,8 +1065,189 @@ class SceneChild {
             Object.keys(key).forEach((k) => (this.props[k] = key[k]));
     }
 }
-/* harmony default export */ __webpack_exports__["default"] = (SceneChild);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SceneChild);
 //# sourceMappingURL=SceneChild.js.map
+
+/***/ }),
+
+/***/ "./dist/core/math/Vec2.js":
+/*!********************************!*\
+  !*** ./dist/core/math/Vec2.js ***!
+  \********************************/
+/*! namespace exports */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Utilites */ "./dist/Utilites.js");
+
+/**
+ * Temporany matrix
+ *
+ * @internal
+ */
+const MATRIX = new Array(4);
+const create_matrix = () => {
+    return [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1];
+};
+/**
+ * Create new vertex
+ *
+ * @param {TArray | number} [x=0]
+ * @param {number} [y]
+ * @returns {TArray}
+ */
+const create = (x = 0, y) => {
+    const out = new Array(2);
+    if (typeof x === 'number') {
+        out[0] = x;
+        out[1] = y !== null && y !== void 0 ? y : x;
+    }
+    else {
+        out[0] = x[0];
+        out[1] = x[1];
+    }
+    return out;
+};
+const distance = (a, b) => Math.hypot(b[0] - a[0], b[1] - a[1]);
+const dot = (a, b) => a[0] * b[0] + a[1] * b[1];
+const length = (vec) => Math.hypot(vec[0], vec[1]);
+const angle = (a, b) => {
+    const m = length(a) * length(b);
+    return Math.acos((0,_Utilites__WEBPACK_IMPORTED_MODULE_0__.clamp)(-1, 1, m && dot(a, b) / m));
+};
+const skewX = (vec, m) => {
+    vec[0] += Math.tan(m) * vec[1];
+};
+const skewY = (vec, m) => {
+    vec[1] += Math.tan(m) * vec[0];
+};
+const squeezeX = (vec, m) => {
+    vec[1] += vec[1] * (vec[0] * -m);
+};
+const squeezeY = (vec, m) => {
+    vec[0] += vec[0] * (vec[1] * m);
+};
+const rotate = (vec, MATRIX, pointToRotate) => {
+    const p0 = vec[0] - pointToRotate[0];
+    const p1 = vec[1] - pointToRotate[1];
+    vec[0] = p0 * MATRIX[0] + p1 * MATRIX[1] + pointToRotate[0];
+    vec[1] = p0 * MATRIX[2] + p1 * MATRIX[3] + pointToRotate[1];
+};
+/**
+ * RotateX vertex
+ *
+ * @param {TArray} vec
+ * @param {TArray} pointToRotate
+ * @param {number} rad
+ */
+const rotateX = (vec, pointToRotate, rad) => {
+    MATRIX[0] = 1;
+    MATRIX[1] = 0;
+    MATRIX[2] = 0;
+    MATRIX[3] = Math.cos(rad);
+    rotate(vec, MATRIX, pointToRotate);
+};
+/**
+ * RotateY vertex
+ *
+ * @param {TArray} vec
+ * @param {TArray} pointToRotate
+ * @param {number} rad
+ */
+const rotateY = (vec, pointToRotate, rad) => {
+    MATRIX[0] = Math.cos(rad);
+    MATRIX[1] = 0;
+    MATRIX[2] = 0;
+    MATRIX[3] = 1;
+    rotate(vec, MATRIX, pointToRotate);
+};
+/**
+ * RotateZ vertex
+ *
+ * @param {TArray} vec
+ * @param {TArray} pointToRotate
+ * @param {number} rad
+ */
+const rotateZ = (vec, pointToRotate, rad) => {
+    MATRIX[0] = Math.cos(rad);
+    MATRIX[1] = -Math.sin(rad);
+    MATRIX[2] = Math.sin(rad);
+    MATRIX[3] = Math.cos(rad);
+    rotate(vec, MATRIX, pointToRotate);
+};
+/**
+ * Translate vertex
+ *
+ * @param {TArray} vec
+ * @param {TArray} to
+ */
+const translate = (vec, to) => {
+    vec[0] += to[0];
+    vec[1] += to[1];
+};
+/**
+ * Scale vertex
+ *
+ * @param {TArray} vec
+ * @param {TArray} to
+ */
+const scale = (vec, to) => {
+    vec[0] *= to[0];
+    vec[1] *= to[1];
+};
+/**
+ * Scale vertex
+ *
+ * @param {TArray} vec
+ * @param {TArray} to
+ */
+const divide = (vec, to) => {
+    vec[0] /= to[0];
+    vec[1] /= to[1];
+};
+/**
+ * Vec to string
+ *
+ * @param {TArray} vec
+ * @return {string}
+ */
+const toString = (vec) => `x: ${vec[0]}, y: ${vec[1]}`;
+/*
+ * Vertex [0, 0]
+ */
+const ZERO = Array.from([0, 0]);
+/*
+ * Vertex [1, 1]
+ */
+const ONE = Array.from([1, 1]);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+    create,
+    distance,
+    dot,
+    length,
+    angle,
+    squeezeX,
+    squeezeY,
+    skewX,
+    skewY,
+    rotateX,
+    rotateY,
+    rotateZ,
+    translate,
+    scale,
+    divide,
+    toString,
+    ZERO,
+    ONE,
+});
+//# sourceMappingURL=Vec2.js.map
 
 /***/ }),
 
@@ -1122,20 +1255,29 @@ class SceneChild {
 /*!************************************************!*\
   !*** ./dist/core/math/gl-matrix-extensions.js ***!
   \************************************************/
-/*! exports provided: VEC3_ZERO, VEC3_ONE, VEC2_ZERO, VEC2_ONE, fromSkew, toVec2, toVec3, squeezeX, squeezeY */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! namespace exports */
+/*! export VEC2_ONE [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export VEC2_ZERO [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export VEC3_ONE [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export VEC3_ZERO [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export fromSkew [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export toVec2 [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export toVec3 [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__.r, __webpack_exports__, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VEC3_ZERO", function() { return VEC3_ZERO; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VEC3_ONE", function() { return VEC3_ONE; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VEC2_ZERO", function() { return VEC2_ZERO; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VEC2_ONE", function() { return VEC2_ONE; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fromSkew", function() { return fromSkew; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toVec2", function() { return toVec2; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toVec3", function() { return toVec3; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "squeezeX", function() { return squeezeX; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "squeezeY", function() { return squeezeY; });
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "VEC3_ZERO": () => /* binding */ VEC3_ZERO,
+/* harmony export */   "VEC3_ONE": () => /* binding */ VEC3_ONE,
+/* harmony export */   "VEC2_ZERO": () => /* binding */ VEC2_ZERO,
+/* harmony export */   "VEC2_ONE": () => /* binding */ VEC2_ONE,
+/* harmony export */   "fromSkew": () => /* binding */ fromSkew,
+/* harmony export */   "toVec2": () => /* binding */ toVec2,
+/* harmony export */   "toVec3": () => /* binding */ toVec3
+/* harmony export */ });
 const VEC3_ZERO = [0, 0, 0];
 const VEC3_ONE = [1, 1, 1];
 const VEC2_ZERO = [0, 0];
@@ -1169,12 +1311,6 @@ function toVec3(x, defaultZValue = 0) {
         return [x[0], x[1], defaultZValue];
     return [x, x, defaultZValue];
 }
-const squeezeX = (vec, m) => {
-    vec[1] += vec[1] * (vec[0] * -m);
-};
-const squeezeY = (vec, m) => {
-    vec[0] += vec[0] * (vec[1] * m);
-};
 //# sourceMappingURL=gl-matrix-extensions.js.map
 
 /***/ }),
@@ -1183,14 +1319,20 @@ const squeezeY = (vec, m) => {
 /*!***********************************!*\
   !*** ./dist/core/shapes/Shape.js ***!
   \***********************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! namespace exports */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
 /* harmony import */ var _ShapeBase__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ShapeBase */ "./dist/core/shapes/ShapeBase.js");
-/* harmony import */ var _SceneChild__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../SceneChild */ "./dist/core/SceneChild.js");
-/* harmony import */ var _Scene__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Scene */ "./dist/core/Scene.js");
+/* harmony import */ var _SceneChild__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../SceneChild */ "./dist/core/SceneChild.js");
+/* harmony import */ var _Scene__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Scene */ "./dist/core/Scene.js");
 
 
 
@@ -1199,7 +1341,7 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @category Core.Shapes
  */
-class Shape extends _ShapeBase__WEBPACK_IMPORTED_MODULE_0__["default"] {
+class Shape extends _ShapeBase__WEBPACK_IMPORTED_MODULE_0__.default {
     /**
      * Creates an instance of Shape.
      *
@@ -1209,7 +1351,7 @@ class Shape extends _ShapeBase__WEBPACK_IMPORTED_MODULE_0__["default"] {
     constructor(settings = {}) {
         settings.type = settings.type || 'Shape';
         super(settings);
-        if (settings.shape instanceof _SceneChild__WEBPACK_IMPORTED_MODULE_1__["default"]) {
+        if (settings.shape instanceof _SceneChild__WEBPACK_IMPORTED_MODULE_2__.default) {
             this.shape = settings.shape;
         }
         else {
@@ -1324,7 +1466,7 @@ class Shape extends _ShapeBase__WEBPACK_IMPORTED_MODULE_0__["default"] {
             this.clearBuffer(true, true);
         }
         else {
-            this.scene && _Scene__WEBPACK_IMPORTED_MODULE_2__["default"].propagateToChilden(shape, this.scene);
+            this.scene && _Scene__WEBPACK_IMPORTED_MODULE_1__.default.propagateToChilden(shape, this.scene);
             this.shape = shape;
             this.shape.clearBuffer(true, true);
         }
@@ -1336,7 +1478,7 @@ class Shape extends _ShapeBase__WEBPACK_IMPORTED_MODULE_0__["default"] {
         return this.bounding;
     }
 }
-/* harmony default export */ __webpack_exports__["default"] = (Shape);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Shape);
 //# sourceMappingURL=Shape.js.map
 
 /***/ }),
@@ -1345,28 +1487,39 @@ class Shape extends _ShapeBase__WEBPACK_IMPORTED_MODULE_0__["default"] {
 /*!***************************************!*\
   !*** ./dist/core/shapes/ShapeBase.js ***!
   \***************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! namespace exports */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var gl_matrix__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! gl-matrix */ "./node_modules/gl-matrix/esm/index.js");
-/* harmony import */ var _types_scene_child__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../types/scene-child */ "./dist/core/types/scene-child.js");
-/* harmony import */ var _SceneChild__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../SceneChild */ "./dist/core/SceneChild.js");
-/* harmony import */ var _Context__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Context */ "./dist/core/Context.js");
-/* harmony import */ var _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../math/gl-matrix-extensions */ "./dist/core/math/gl-matrix-extensions.js");
-/* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../Utilites */ "./dist/Utilites.js");
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony import */ var gl_matrix__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! gl-matrix */ "./node_modules/gl-matrix/esm/common.js");
+/* harmony import */ var gl_matrix__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! gl-matrix */ "./node_modules/gl-matrix/esm/mat4.js");
+/* harmony import */ var gl_matrix__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! gl-matrix */ "./node_modules/gl-matrix/esm/vec2.js");
+/* harmony import */ var gl_matrix__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! gl-matrix */ "./node_modules/gl-matrix/esm/vec3.js");
+/* harmony import */ var _types_scene_child__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../types/scene-child */ "./dist/core/types/scene-child.js");
+/* harmony import */ var _SceneChild__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../SceneChild */ "./dist/core/SceneChild.js");
+/* harmony import */ var _Context__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Context */ "./dist/core/Context.js");
+/* harmony import */ var _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../math/gl-matrix-extensions */ "./dist/core/math/gl-matrix-extensions.js");
+/* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Utilites */ "./dist/Utilites.js");
+/* harmony import */ var _math_Vec2__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../math/Vec2 */ "./dist/core/math/Vec2.js");
 
 
 
 
 
 
-gl_matrix__WEBPACK_IMPORTED_MODULE_0__["glMatrix"].setMatrixArrayType(Array);
-const tmp_matrix = gl_matrix__WEBPACK_IMPORTED_MODULE_0__["mat4"].create();
-const transform_matrix = gl_matrix__WEBPACK_IMPORTED_MODULE_0__["mat4"].create();
-const perspective_matrix = gl_matrix__WEBPACK_IMPORTED_MODULE_0__["mat4"].create();
-const repetition_matrix = gl_matrix__WEBPACK_IMPORTED_MODULE_0__["mat4"].create();
+
+gl_matrix__WEBPACK_IMPORTED_MODULE_4__.setMatrixArrayType(Array);
+const tmp_matrix = gl_matrix__WEBPACK_IMPORTED_MODULE_5__.create();
+const transform_matrix = gl_matrix__WEBPACK_IMPORTED_MODULE_5__.create();
+const perspective_matrix = gl_matrix__WEBPACK_IMPORTED_MODULE_5__.create();
+const repetition_matrix = gl_matrix__WEBPACK_IMPORTED_MODULE_5__.create();
 /**
  * Main class for shape generation
  *
@@ -1376,7 +1529,7 @@ const repetition_matrix = gl_matrix__WEBPACK_IMPORTED_MODULE_0__["mat4"].create(
  * @order 4
  * @extends {SceneChild}
  */
-class ShapeBase extends _SceneChild__WEBPACK_IMPORTED_MODULE_2__["default"] {
+class ShapeBase extends _SceneChild__WEBPACK_IMPORTED_MODULE_6__.default {
     /**
      * Creates an instance of ShapeBase
      *
@@ -1538,8 +1691,8 @@ class ShapeBase extends _SceneChild__WEBPACK_IMPORTED_MODULE_2__["default"] {
             this.indexed_buffer = [];
         let minX = Number.MAX_VALUE, minY = Number.MAX_VALUE, maxX = Number.MIN_VALUE, maxY = Number.MIN_VALUE;
         const repetition = ShapeBase.getEmptyRepetition();
-        const repetitions = this.getProp('repetitions', { parent: parent_prop_arguments, repetition, time: 1, context: _Context__WEBPACK_IMPORTED_MODULE_3__["default"] }, 1);
-        const repetition_type = Array.isArray(repetitions) ? _types_scene_child__WEBPACK_IMPORTED_MODULE_1__["ERepetitionType"].Matrix : _types_scene_child__WEBPACK_IMPORTED_MODULE_1__["ERepetitionType"].Ring;
+        const repetitions = this.getProp('repetitions', { parent: parent_prop_arguments, repetition, time: 1, context: _Context__WEBPACK_IMPORTED_MODULE_1__.default }, 1);
+        const repetition_type = Array.isArray(repetitions) ? _types_scene_child__WEBPACK_IMPORTED_MODULE_0__.ERepetitionType.Matrix : _types_scene_child__WEBPACK_IMPORTED_MODULE_0__.ERepetitionType.Ring;
         const repetition_count = Array.isArray(repetitions)
             ? repetitions[0] * ((_a = repetitions[1]) !== null && _a !== void 0 ? _a : repetitions[0])
             : repetitions;
@@ -1555,7 +1708,7 @@ class ShapeBase extends _SceneChild__WEBPACK_IMPORTED_MODULE_2__["default"] {
         repetition.type = repetition_type;
         const prop_arguments = {
             repetition,
-            context: _Context__WEBPACK_IMPORTED_MODULE_3__["default"],
+            context: _Context__WEBPACK_IMPORTED_MODULE_1__.default,
             time: ((_c = this.scene) === null || _c === void 0 ? void 0 : _c.current_time) || 0,
             shape: this,
             data: this.data,
@@ -1564,14 +1717,14 @@ class ShapeBase extends _SceneChild__WEBPACK_IMPORTED_MODULE_2__["default"] {
         let total_buffer_length = 0;
         const buffers = [];
         let current_index = 0;
-        const center_matrix = gl_matrix__WEBPACK_IMPORTED_MODULE_0__["vec2"].fromValues((repetition_col_count - 1) / 2, (repetition_row_count - 1) / 2);
+        const center_matrix = gl_matrix__WEBPACK_IMPORTED_MODULE_7__.fromValues((repetition_col_count - 1) / 2, (repetition_row_count - 1) / 2);
         const sceneCenter = [this.scene.center[0], this.scene.center[1], 0];
         for (let current_row_repetition = 0; current_row_repetition < repetition_row_count; current_row_repetition++) {
             for (let current_col_repetition = 0; current_col_repetition < repetition_col_count; current_col_repetition++, current_index++) {
                 repetition.index = current_index + 1;
                 repetition.offset = repetition.index / repetition.count;
                 repetition.angle =
-                    repetition_type === _types_scene_child__WEBPACK_IMPORTED_MODULE_1__["ERepetitionType"].Ring ? ((Math.PI * 2) / repetition_count) * current_index : 0;
+                    repetition_type === _types_scene_child__WEBPACK_IMPORTED_MODULE_0__.ERepetitionType.Ring ? ((Math.PI * 2) / repetition_count) * current_index : 0;
                 col_repetition.index = current_col_repetition + 1;
                 col_repetition.offset = col_repetition.index / col_repetition.count;
                 row_repetition.index = current_row_repetition + 1;
@@ -1583,10 +1736,10 @@ class ShapeBase extends _SceneChild__WEBPACK_IMPORTED_MODULE_2__["default"] {
                 buffers[current_index] = new Float32Array(buffer_length);
                 total_buffer_length += buffer_length;
                 {
-                    const distance = _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_4__["toVec2"](this.getProp('distance', prop_arguments, _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_4__["VEC2_ONE"]));
+                    const distance = _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_8__.toVec2(this.getProp('distance', prop_arguments, _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_8__.VEC2_ONE));
                     const displace = this.getProp('displace', prop_arguments, 0);
-                    const scale = _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_4__["toVec3"](this.getProp('scale', prop_arguments, _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_4__["VEC2_ONE"]), 1);
-                    const translate = _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_4__["toVec3"](this.getProp('translate', prop_arguments, _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_4__["VEC2_ZERO"]), 0);
+                    const scale = _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_8__.toVec3(this.getProp('scale', prop_arguments, _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_8__.VEC2_ONE), 1);
+                    const translate = _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_8__.toVec3(this.getProp('translate', prop_arguments, _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_8__.VEC2_ZERO), 0);
                     const skewX = this.getProp('skewX', prop_arguments, 0);
                     const skewY = this.getProp('skewY', prop_arguments, 0);
                     const squeezeX = this.getProp('squeezeX', prop_arguments, 0);
@@ -1594,17 +1747,17 @@ class ShapeBase extends _SceneChild__WEBPACK_IMPORTED_MODULE_2__["default"] {
                     const rotateX = this.getProp('rotateX', prop_arguments, 0);
                     const rotateY = this.getProp('rotateY', prop_arguments, 0);
                     const rotateZ = this.getProp('rotateZ', prop_arguments, 0);
-                    const perspectiveProp = Object(_Utilites__WEBPACK_IMPORTED_MODULE_5__["clamp"])(0, 1, this.getProp('perspective', prop_arguments, 0));
-                    const perspectiveOrigin = _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_4__["toVec3"](this.getProp('perspectiveOrigin', prop_arguments, _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_4__["VEC2_ZERO"]), 0);
-                    const transformOrigin = _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_4__["toVec3"](this.getProp('transformOrigin', prop_arguments, _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_4__["VEC2_ZERO"]), 0);
+                    const perspectiveProp = (0,_Utilites__WEBPACK_IMPORTED_MODULE_2__.clamp)(0, 1, this.getProp('perspective', prop_arguments, 0));
+                    const perspectiveOrigin = _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_8__.toVec3(this.getProp('perspectiveOrigin', prop_arguments, _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_8__.VEC2_ZERO), 0);
+                    const transformOrigin = _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_8__.toVec3(this.getProp('transformOrigin', prop_arguments, _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_8__.VEC2_ZERO), 0);
                     let offset;
                     switch (repetition_type) {
-                        case _types_scene_child__WEBPACK_IMPORTED_MODULE_1__["ERepetitionType"].Ring:
-                            offset = gl_matrix__WEBPACK_IMPORTED_MODULE_0__["vec3"].fromValues(distance[0], 0, 0);
-                            gl_matrix__WEBPACK_IMPORTED_MODULE_0__["vec3"].rotateZ(offset, offset, _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_4__["VEC3_ZERO"], repetition.angle + displace);
+                        case _types_scene_child__WEBPACK_IMPORTED_MODULE_0__.ERepetitionType.Ring:
+                            offset = gl_matrix__WEBPACK_IMPORTED_MODULE_9__.fromValues(distance[0], 0, 0);
+                            gl_matrix__WEBPACK_IMPORTED_MODULE_9__.rotateZ(offset, offset, _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_8__.VEC3_ZERO, repetition.angle + displace);
                             break;
-                        case _types_scene_child__WEBPACK_IMPORTED_MODULE_1__["ERepetitionType"].Matrix:
-                            offset = gl_matrix__WEBPACK_IMPORTED_MODULE_0__["vec3"].fromValues(distance[0] * (current_col_repetition - center_matrix[0]), distance[1] * (current_row_repetition - center_matrix[1]), 0);
+                        case _types_scene_child__WEBPACK_IMPORTED_MODULE_0__.ERepetitionType.Matrix:
+                            offset = gl_matrix__WEBPACK_IMPORTED_MODULE_9__.fromValues(distance[0] * (current_col_repetition - center_matrix[0]), distance[1] * (current_row_repetition - center_matrix[1]), 0);
                             break;
                     }
                     const perspectiveSize = perspectiveProp > 0 ? Math.max(bounding.width, bounding.height) / 2 : 1;
@@ -1620,39 +1773,39 @@ class ShapeBase extends _SceneChild__WEBPACK_IMPORTED_MODULE_2__["default"] {
                      * Create Transformation matrix
                      */
                     {
-                        gl_matrix__WEBPACK_IMPORTED_MODULE_0__["mat4"].identity(transform_matrix);
+                        gl_matrix__WEBPACK_IMPORTED_MODULE_5__.identity(transform_matrix);
                         // transform origin
-                        bTransformOrigin && gl_matrix__WEBPACK_IMPORTED_MODULE_0__["mat4"].translate(transform_matrix, transform_matrix, transformOrigin);
+                        bTransformOrigin && gl_matrix__WEBPACK_IMPORTED_MODULE_5__.translate(transform_matrix, transform_matrix, transformOrigin);
                         // scale
                         if (scale[0] !== 1 || scale[1] !== 1)
-                            gl_matrix__WEBPACK_IMPORTED_MODULE_0__["mat4"].scale(transform_matrix, transform_matrix, scale);
+                            gl_matrix__WEBPACK_IMPORTED_MODULE_5__.scale(transform_matrix, transform_matrix, scale);
                         // skew
                         if (skewX !== 0 || skewY !== 0) {
-                            _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_4__["fromSkew"](tmp_matrix, [skewX, skewY]);
-                            gl_matrix__WEBPACK_IMPORTED_MODULE_0__["mat4"].multiply(transform_matrix, transform_matrix, tmp_matrix);
+                            _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_8__.fromSkew(tmp_matrix, [skewX, skewY]);
+                            gl_matrix__WEBPACK_IMPORTED_MODULE_5__.multiply(transform_matrix, transform_matrix, tmp_matrix);
                         }
                         // rotateX
-                        rotateX !== 0 && gl_matrix__WEBPACK_IMPORTED_MODULE_0__["mat4"].rotateX(transform_matrix, transform_matrix, rotateX);
+                        rotateX !== 0 && gl_matrix__WEBPACK_IMPORTED_MODULE_5__.rotateX(transform_matrix, transform_matrix, rotateX);
                         //rotateY
-                        rotateY !== 0 && gl_matrix__WEBPACK_IMPORTED_MODULE_0__["mat4"].rotateY(transform_matrix, transform_matrix, rotateY);
+                        rotateY !== 0 && gl_matrix__WEBPACK_IMPORTED_MODULE_5__.rotateY(transform_matrix, transform_matrix, rotateY);
                         //rotateZ
-                        rotateZ !== 0 && gl_matrix__WEBPACK_IMPORTED_MODULE_0__["mat4"].rotateZ(transform_matrix, transform_matrix, rotateZ);
+                        rotateZ !== 0 && gl_matrix__WEBPACK_IMPORTED_MODULE_5__.rotateZ(transform_matrix, transform_matrix, rotateZ);
                         // reset origin
                         bTransformOrigin &&
-                            gl_matrix__WEBPACK_IMPORTED_MODULE_0__["mat4"].translate(transform_matrix, transform_matrix, gl_matrix__WEBPACK_IMPORTED_MODULE_0__["vec3"].scale(transformOrigin, transformOrigin, -1));
+                            gl_matrix__WEBPACK_IMPORTED_MODULE_5__.translate(transform_matrix, transform_matrix, gl_matrix__WEBPACK_IMPORTED_MODULE_9__.scale(transformOrigin, transformOrigin, -1));
                         // translation
                         if (translate[0] !== 0 || translate[1] !== 0)
-                            gl_matrix__WEBPACK_IMPORTED_MODULE_0__["mat4"].translate(transform_matrix, transform_matrix, translate);
+                            gl_matrix__WEBPACK_IMPORTED_MODULE_5__.translate(transform_matrix, transform_matrix, translate);
                         /**
                          * Create Repetition matrix
                          */
-                        gl_matrix__WEBPACK_IMPORTED_MODULE_0__["mat4"].identity(repetition_matrix);
-                        gl_matrix__WEBPACK_IMPORTED_MODULE_0__["mat4"].translate(repetition_matrix, repetition_matrix, offset);
+                        gl_matrix__WEBPACK_IMPORTED_MODULE_5__.identity(repetition_matrix);
+                        gl_matrix__WEBPACK_IMPORTED_MODULE_5__.translate(repetition_matrix, repetition_matrix, offset);
                         if (bDirectSceneChild) {
-                            gl_matrix__WEBPACK_IMPORTED_MODULE_0__["mat4"].translate(repetition_matrix, repetition_matrix, sceneCenter);
+                            gl_matrix__WEBPACK_IMPORTED_MODULE_5__.translate(repetition_matrix, repetition_matrix, sceneCenter);
                         }
-                        if (repetition_type === _types_scene_child__WEBPACK_IMPORTED_MODULE_1__["ERepetitionType"].Ring)
-                            gl_matrix__WEBPACK_IMPORTED_MODULE_0__["mat4"].rotateZ(repetition_matrix, repetition_matrix, repetition.angle + displace);
+                        if (repetition_type === _types_scene_child__WEBPACK_IMPORTED_MODULE_0__.ERepetitionType.Ring)
+                            gl_matrix__WEBPACK_IMPORTED_MODULE_5__.rotateZ(repetition_matrix, repetition_matrix, repetition.angle + displace);
                         /**
                          * Create Perspective matrix
                          */
@@ -1662,23 +1815,23 @@ class ShapeBase extends _SceneChild__WEBPACK_IMPORTED_MODULE_2__["default"] {
                                 perspectiveOrigin[1] *= bounding.height / 2;
                                 perspectiveOrigin[2] = 0;
                             }
-                            gl_matrix__WEBPACK_IMPORTED_MODULE_0__["mat4"].perspective(perspective_matrix, -Math.PI / 2, 1, 0, Infinity);
+                            gl_matrix__WEBPACK_IMPORTED_MODULE_5__.perspective(perspective_matrix, -Math.PI / 2, 1, 0, Infinity);
                         }
                     }
                     // Apply matrices on vertex
                     for (let buffer_index = 0; buffer_index < buffer_length; buffer_index += 2) {
                         const vertex = [buffer[buffer_index], buffer[buffer_index + 1], perspective];
                         {
-                            squeezeX !== 0 && _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_4__["squeezeX"](vertex, squeezeX);
-                            squeezeY !== 0 && _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_4__["squeezeY"](vertex, squeezeY);
-                            gl_matrix__WEBPACK_IMPORTED_MODULE_0__["vec3"].transformMat4(vertex, vertex, transform_matrix);
+                            gl_matrix__WEBPACK_IMPORTED_MODULE_9__.transformMat4(vertex, vertex, transform_matrix);
+                            squeezeX !== 0 && _math_Vec2__WEBPACK_IMPORTED_MODULE_3__.default.squeezeX(vertex, squeezeX);
+                            squeezeY !== 0 && _math_Vec2__WEBPACK_IMPORTED_MODULE_3__.default.squeezeY(vertex, squeezeY);
                             if (perspective > 0) {
-                                bPerspectiveOrigin && gl_matrix__WEBPACK_IMPORTED_MODULE_0__["vec3"].add(vertex, vertex, perspectiveOrigin);
-                                gl_matrix__WEBPACK_IMPORTED_MODULE_0__["vec3"].transformMat4(vertex, vertex, perspective_matrix);
-                                gl_matrix__WEBPACK_IMPORTED_MODULE_0__["vec3"].scale(vertex, vertex, perspective);
-                                bPerspectiveOrigin && gl_matrix__WEBPACK_IMPORTED_MODULE_0__["vec3"].add(vertex, vertex, perspectiveOrigin);
+                                bPerspectiveOrigin && gl_matrix__WEBPACK_IMPORTED_MODULE_9__.add(vertex, vertex, perspectiveOrigin);
+                                gl_matrix__WEBPACK_IMPORTED_MODULE_9__.transformMat4(vertex, vertex, perspective_matrix);
+                                gl_matrix__WEBPACK_IMPORTED_MODULE_9__.scale(vertex, vertex, perspective);
+                                bPerspectiveOrigin && gl_matrix__WEBPACK_IMPORTED_MODULE_9__.add(vertex, vertex, perspectiveOrigin);
                             }
-                            gl_matrix__WEBPACK_IMPORTED_MODULE_0__["vec3"].transformMat4(vertex, vertex, repetition_matrix);
+                            gl_matrix__WEBPACK_IMPORTED_MODULE_9__.transformMat4(vertex, vertex, repetition_matrix);
                             if (this.vertexCallback) {
                                 const index = buffer_index / 2 + 1;
                                 const count = buffer_length / 2;
@@ -1760,7 +1913,7 @@ class ShapeBase extends _SceneChild__WEBPACK_IMPORTED_MODULE_2__["default"] {
                 const prop_arguments = {
                     shape: current_indexing.shape,
                     repetition: current_indexing.repetition,
-                    context: _Context__WEBPACK_IMPORTED_MODULE_3__["default"],
+                    context: _Context__WEBPACK_IMPORTED_MODULE_1__.default,
                     time: 0,
                     parent: current_indexing.parent,
                     data: current_indexing.shape.data,
@@ -1810,7 +1963,7 @@ ShapeBase.getEmptySimpleRepetition = () => ({
  * @internal
  * @ignore
  */
-ShapeBase.getEmptyRepetition = () => (Object.assign(Object.assign({ type: _types_scene_child__WEBPACK_IMPORTED_MODULE_1__["ERepetitionType"].Ring, angle: 0 }, ShapeBase.getEmptySimpleRepetition()), { row: ShapeBase.getEmptySimpleRepetition(), col: ShapeBase.getEmptySimpleRepetition() }));
+ShapeBase.getEmptyRepetition = () => (Object.assign(Object.assign({ type: _types_scene_child__WEBPACK_IMPORTED_MODULE_0__.ERepetitionType.Ring, angle: 0 }, ShapeBase.getEmptySimpleRepetition()), { row: ShapeBase.getEmptySimpleRepetition(), col: ShapeBase.getEmptySimpleRepetition() }));
 /**
  * Empty Prop Arguments
  *
@@ -1819,10 +1972,10 @@ ShapeBase.getEmptyRepetition = () => (Object.assign(Object.assign({ type: _types
  */
 ShapeBase.EMPTY_PROP_ARGUMENTS = {
     time: 0,
-    context: _Context__WEBPACK_IMPORTED_MODULE_3__["default"],
+    context: _Context__WEBPACK_IMPORTED_MODULE_1__.default,
     repetition: ShapeBase.getEmptyRepetition(),
 };
-/* harmony default export */ __webpack_exports__["default"] = (ShapeBase);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ShapeBase);
 //# sourceMappingURL=ShapeBase.js.map
 
 /***/ }),
@@ -1831,11 +1984,17 @@ ShapeBase.EMPTY_PROP_ARGUMENTS = {
 /*!*****************************************!*\
   !*** ./dist/core/shapes/ShapeBuffer.js ***!
   \*****************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! namespace exports */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
 /* harmony import */ var _ShapePrimitive__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ShapePrimitive */ "./dist/core/shapes/ShapePrimitive.js");
 /* harmony import */ var _types_shape_base__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../types/shape-base */ "./dist/core/types/shape-base.js");
 
@@ -1843,11 +2002,11 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * @category Core.Shapes
  */
-class ShapeBuffer extends _ShapePrimitive__WEBPACK_IMPORTED_MODULE_0__["default"] {
+class ShapeBuffer extends _ShapePrimitive__WEBPACK_IMPORTED_MODULE_0__.default {
     constructor(settings = {}) {
         var _a;
         settings.type = settings.type || 'ShapeBuffer';
-        settings.adaptMode = (_a = settings.adaptMode) !== null && _a !== void 0 ? _a : _types_shape_base__WEBPACK_IMPORTED_MODULE_1__["EShapePrimitiveAdaptMode"].Scale;
+        settings.adaptMode = (_a = settings.adaptMode) !== null && _a !== void 0 ? _a : _types_shape_base__WEBPACK_IMPORTED_MODULE_1__.EShapePrimitiveAdaptMode.Scale;
         super(settings);
         if (typeof settings.shape === 'undefined') {
             console.warn('[Urpflanze:ShapeBuffer] ShapeBuffer require a buffer passed from `shape` property');
@@ -1872,8 +2031,8 @@ class ShapeBuffer extends _ShapePrimitive__WEBPACK_IMPORTED_MODULE_0__["default"
         // this.shape_buffer = ShapeBuffer.buffer2Dto3D(this.shape_buffer)
     }
     bindBuffer() {
-        const shape_buffer = this.adaptMode !== _types_shape_base__WEBPACK_IMPORTED_MODULE_1__["EShapePrimitiveAdaptMode"].None
-            ? _ShapePrimitive__WEBPACK_IMPORTED_MODULE_0__["default"].adaptBuffer(this.shape, this.adaptMode)
+        const shape_buffer = this.adaptMode !== _types_shape_base__WEBPACK_IMPORTED_MODULE_1__.EShapePrimitiveAdaptMode.None
+            ? _ShapePrimitive__WEBPACK_IMPORTED_MODULE_0__.default.adaptBuffer(this.shape, this.adaptMode)
             : Float32Array.from(this.shape);
         let minX = Number.MAX_VALUE, minY = Number.MAX_VALUE, maxX = Number.MIN_VALUE, maxY = Number.MIN_VALUE;
         for (let i = 0, len = shape_buffer.length; i < len; i += 2) {
@@ -1983,7 +2142,7 @@ class ShapeBuffer extends _ShapePrimitive__WEBPACK_IMPORTED_MODULE_0__["default"
         return subdivided;
     }
 }
-/* harmony default export */ __webpack_exports__["default"] = (ShapeBuffer);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ShapeBuffer);
 //# sourceMappingURL=ShapeBuffer.js.map
 
 /***/ }),
@@ -1992,11 +2151,17 @@ class ShapeBuffer extends _ShapePrimitive__WEBPACK_IMPORTED_MODULE_0__["default"
 /*!***************************************!*\
   !*** ./dist/core/shapes/ShapeLoop.js ***!
   \***************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! namespace exports */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
 /* harmony import */ var _ShapePrimitive__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ShapePrimitive */ "./dist/core/shapes/ShapePrimitive.js");
 /* harmony import */ var _ShapeBase__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ShapeBase */ "./dist/core/shapes/ShapeBase.js");
 /* harmony import */ var _types_shape_base__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../types/shape-base */ "./dist/core/types/shape-base.js");
@@ -2011,7 +2176,7 @@ __webpack_require__.r(__webpack_exports__);
  * @class ShapeLoop
  * @extends {ShapePrimitive}
  */
-class ShapeLoop extends _ShapePrimitive__WEBPACK_IMPORTED_MODULE_0__["default"] {
+class ShapeLoop extends _ShapePrimitive__WEBPACK_IMPORTED_MODULE_0__.default {
     constructor(settings = {}, bPreventGeneration = false) {
         settings.type = settings.type || 'ShapeLoop';
         super(settings);
@@ -2174,7 +2339,7 @@ class ShapeLoop extends _ShapePrimitive__WEBPACK_IMPORTED_MODULE_0__["default"] 
         const vertex_length = shape_loop.count;
         const buffer_length = vertex_length * 2;
         const loop_buffer = new Float32Array(buffer_length);
-        const bNoAdapt = this.adaptMode === _types_shape_base__WEBPACK_IMPORTED_MODULE_2__["EShapePrimitiveAdaptMode"].None;
+        const bNoAdapt = this.adaptMode === _types_shape_base__WEBPACK_IMPORTED_MODULE_2__.EShapePrimitiveAdaptMode.None;
         let minX = Number.MAX_VALUE, minY = Number.MAX_VALUE, maxX = Number.MIN_VALUE, maxY = Number.MIN_VALUE;
         for (let i = 0, j = 0; i < vertex_length; i++, j += 2) {
             const angle = start + inc * i;
@@ -2207,7 +2372,7 @@ class ShapeLoop extends _ShapePrimitive__WEBPACK_IMPORTED_MODULE_0__["default"] 
             /**
              * Adapt and apply side length
              */
-            const buffer = _ShapePrimitive__WEBPACK_IMPORTED_MODULE_0__["default"].adaptBuffer(loop_buffer, this.adaptMode);
+            const buffer = _ShapePrimitive__WEBPACK_IMPORTED_MODULE_0__.default.adaptBuffer(loop_buffer, this.adaptMode);
             minX = minY = Number.MAX_VALUE;
             maxX = maxY = Number.MIN_VALUE;
             for (let i = 0; i < buffer_length; i += 2) {
@@ -2240,7 +2405,7 @@ class ShapeLoop extends _ShapePrimitive__WEBPACK_IMPORTED_MODULE_0__["default"] 
      * @returns {ShapeLoopInformation}
      * @memberof ShapeBase
      */
-    getLoop(prop_arguments = _ShapeBase__WEBPACK_IMPORTED_MODULE_1__["default"].EMPTY_PROP_ARGUMENTS) {
+    getLoop(prop_arguments = _ShapeBase__WEBPACK_IMPORTED_MODULE_1__.default.EMPTY_PROP_ARGUMENTS) {
         var _a, _b, _c, _d, _e, _f, _g;
         prop_arguments.time = ((_a = this.scene) === null || _a === void 0 ? void 0 : _a.current_time) || 0;
         let start = (_c = (_b = this.props.loop) === null || _b === void 0 ? void 0 : _b.start) !== null && _c !== void 0 ? _c : this.loop.start;
@@ -2264,7 +2429,7 @@ class ShapeLoop extends _ShapePrimitive__WEBPACK_IMPORTED_MODULE_0__["default"] 
 }
 ShapeLoop.PI2 = Math.PI * 2;
 ShapeLoop.PId2 = Math.PI / 2;
-/* harmony default export */ __webpack_exports__["default"] = (ShapeLoop);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ShapeLoop);
 //# sourceMappingURL=ShapeLoop.js.map
 
 /***/ }),
@@ -2273,11 +2438,17 @@ ShapeLoop.PId2 = Math.PI / 2;
 /*!********************************************!*\
   !*** ./dist/core/shapes/ShapePrimitive.js ***!
   \********************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! namespace exports */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
 /* harmony import */ var _ShapeBase__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ShapeBase */ "./dist/core/shapes/ShapeBase.js");
 /* harmony import */ var _types_shape_base__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../types/shape-base */ "./dist/core/types/shape-base.js");
 /* harmony import */ var _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../math/gl-matrix-extensions */ "./dist/core/math/gl-matrix-extensions.js");
@@ -2287,7 +2458,7 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * @category Core.Abstract
  */
-class ShapePrimitive extends _ShapeBase__WEBPACK_IMPORTED_MODULE_0__["default"] {
+class ShapePrimitive extends _ShapeBase__WEBPACK_IMPORTED_MODULE_0__.default {
     constructor(settings = {}) {
         var _a, _b;
         super(settings);
@@ -2302,7 +2473,7 @@ class ShapePrimitive extends _ShapeBase__WEBPACK_IMPORTED_MODULE_0__["default"] 
         this.props.fillColor = settings.fillColor;
         this.props.lineWidth = settings.lineWidth;
         this.props.strokeColor = settings.strokeColor;
-        this.adaptMode = (_a = settings.adaptMode) !== null && _a !== void 0 ? _a : _types_shape_base__WEBPACK_IMPORTED_MODULE_1__["EShapePrimitiveAdaptMode"].None;
+        this.adaptMode = (_a = settings.adaptMode) !== null && _a !== void 0 ? _a : _types_shape_base__WEBPACK_IMPORTED_MODULE_1__.EShapePrimitiveAdaptMode.None;
         this.bCloseShape = (_b = settings.bCloseShape) !== null && _b !== void 0 ? _b : true;
     }
     /**
@@ -2334,7 +2505,7 @@ class ShapePrimitive extends _ShapeBase__WEBPACK_IMPORTED_MODULE_0__["default"] 
      * @memberof ShapePrimitive
      */
     bindSideLength(prop_arguments) {
-        const sideLength = Object(_math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_2__["toVec2"])(this.getProp('sideLength', prop_arguments, [50, 50]));
+        const sideLength = (0,_math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_2__.toVec2)(this.getProp('sideLength', prop_arguments, [50, 50]));
         if (this.sideLength[0] !== sideLength[0] && this.sideLength[1] !== sideLength[1]) {
             this.sideLength = sideLength;
             return true;
@@ -2463,7 +2634,7 @@ class ShapePrimitive extends _ShapeBase__WEBPACK_IMPORTED_MODULE_0__["default"] 
      * @memberof ShapePrimitive
      */
     static adaptBuffer(input, mode, rect) {
-        if (mode === _types_shape_base__WEBPACK_IMPORTED_MODULE_1__["EShapePrimitiveAdaptMode"].None)
+        if (mode === _types_shape_base__WEBPACK_IMPORTED_MODULE_1__.EShapePrimitiveAdaptMode.None)
             return Float32Array.from(input);
         const output = new Float32Array(input.length);
         if (!rect) {
@@ -2471,11 +2642,11 @@ class ShapePrimitive extends _ShapeBase__WEBPACK_IMPORTED_MODULE_0__["default"] 
         }
         let scale = rect.width >= 2 ||
             rect.height >= 2 ||
-            (mode >= _types_shape_base__WEBPACK_IMPORTED_MODULE_1__["EShapePrimitiveAdaptMode"].Fill && (rect.width < 2 || rect.height < 2))
+            (mode >= _types_shape_base__WEBPACK_IMPORTED_MODULE_1__.EShapePrimitiveAdaptMode.Fill && (rect.width < 2 || rect.height < 2))
             ? 2 / Math.max(rect.width, rect.height)
             : 1;
-        let translateX = mode >= _types_shape_base__WEBPACK_IMPORTED_MODULE_1__["EShapePrimitiveAdaptMode"].Center ? rect.cx : 0;
-        let translateY = mode >= _types_shape_base__WEBPACK_IMPORTED_MODULE_1__["EShapePrimitiveAdaptMode"].Center ? rect.cy : 0;
+        let translateX = mode >= _types_shape_base__WEBPACK_IMPORTED_MODULE_1__.EShapePrimitiveAdaptMode.Center ? rect.cx : 0;
+        let translateY = mode >= _types_shape_base__WEBPACK_IMPORTED_MODULE_1__.EShapePrimitiveAdaptMode.Center ? rect.cy : 0;
         for (let i = 0, len = input.length; i < len; i += 2) {
             output[i] = (input[i] - translateX) * scale;
             output[i + 1] = (input[i + 1] - translateY) * scale;
@@ -2498,7 +2669,7 @@ ShapePrimitive.EMPTY_BOUNDING = {
     width: 2,
     height: 2,
 };
-/* harmony default export */ __webpack_exports__["default"] = (ShapePrimitive);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ShapePrimitive);
 //# sourceMappingURL=ShapePrimitive.js.map
 
 /***/ }),
@@ -2507,11 +2678,17 @@ ShapePrimitive.EMPTY_BOUNDING = {
 /*!***********************************************!*\
   !*** ./dist/core/shapes/primitives/Circle.js ***!
   \***********************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! namespace exports */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
 /* harmony import */ var _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../ShapeLoop */ "./dist/core/shapes/ShapeLoop.js");
 /* harmony import */ var _types_shape_base__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../types/shape-base */ "./dist/core/types/shape-base.js");
 
@@ -2522,7 +2699,7 @@ __webpack_require__.r(__webpack_exports__);
  * @class Circle
  * @extends {ShapeLoop}
  */
-class Circle extends _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__["default"] {
+class Circle extends _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__.default {
     /**
      * Creates an instance of Circle.
      *
@@ -2532,17 +2709,17 @@ class Circle extends _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__["default"] {
     constructor(settings = {}) {
         settings.type = 'Circle';
         settings.shapeLoopPropsDependencies = (settings.shapeLoopPropsDependencies || []).concat(['sideLength']);
-        settings.adaptMode = _types_shape_base__WEBPACK_IMPORTED_MODULE_1__["EShapePrimitiveAdaptMode"].None;
+        settings.adaptMode = _types_shape_base__WEBPACK_IMPORTED_MODULE_1__.EShapePrimitiveAdaptMode.None;
         super(settings);
         this.loop = {
             start: 0,
-            end: _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__["default"].PI2,
-            inc: () => (1 / Math.pow(this.sideLength[0] * this.sideLength[1], 0.25)) * _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__["default"].PId2,
+            end: _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__.default.PI2,
+            inc: () => (1 / Math.pow(this.sideLength[0] * this.sideLength[1], 0.25)) * _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__.default.PId2,
             vertex: shape_loop_repetition => [Math.cos(shape_loop_repetition.angle), Math.sin(shape_loop_repetition.angle)],
         };
     }
 }
-/* harmony default export */ __webpack_exports__["default"] = (Circle);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Circle);
 //# sourceMappingURL=Circle.js.map
 
 /***/ }),
@@ -2551,11 +2728,17 @@ class Circle extends _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__["default"] {
 /*!*********************************************!*\
   !*** ./dist/core/shapes/primitives/Line.js ***!
   \*********************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! namespace exports */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
 /* harmony import */ var _types_shape_base__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../types/shape-base */ "./dist/core/types/shape-base.js");
 /* harmony import */ var _ShapeBuffer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../ShapeBuffer */ "./dist/core/shapes/ShapeBuffer.js");
 
@@ -2566,7 +2749,7 @@ __webpack_require__.r(__webpack_exports__);
  * @class Line
  * @extends {ShapeBuffer}
  */
-class Line extends _ShapeBuffer__WEBPACK_IMPORTED_MODULE_1__["default"] {
+class Line extends _ShapeBuffer__WEBPACK_IMPORTED_MODULE_1__.default {
     /**
      * Creates an instance of Line.
      *
@@ -2576,12 +2759,12 @@ class Line extends _ShapeBuffer__WEBPACK_IMPORTED_MODULE_1__["default"] {
     constructor(settings = {}) {
         settings.type = 'Line';
         settings.shape = [-1, 0, 1, 0];
-        settings.adaptMode = _types_shape_base__WEBPACK_IMPORTED_MODULE_0__["EShapePrimitiveAdaptMode"].None;
+        settings.adaptMode = _types_shape_base__WEBPACK_IMPORTED_MODULE_0__.EShapePrimitiveAdaptMode.None;
         settings.bCloseShape = false;
         super(settings);
     }
 }
-/* harmony default export */ __webpack_exports__["default"] = (Line);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Line);
 //# sourceMappingURL=Line.js.map
 
 /***/ }),
@@ -2590,11 +2773,17 @@ class Line extends _ShapeBuffer__WEBPACK_IMPORTED_MODULE_1__["default"] {
 /*!**************************************************!*\
   !*** ./dist/core/shapes/primitives/Lissajous.js ***!
   \**************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! namespace exports */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
 /* harmony import */ var _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../ShapeLoop */ "./dist/core/shapes/ShapeLoop.js");
 /* harmony import */ var _types_shape_base__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../types/shape-base */ "./dist/core/types/shape-base.js");
 
@@ -2606,7 +2795,7 @@ __webpack_require__.r(__webpack_exports__);
  * @class Lissajous
  * @extends {ShapeLoop}
  */
-class Lissajous extends _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__["default"] {
+class Lissajous extends _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__.default {
     /**
      * Creates an instance of Lissajous.
      *
@@ -2621,18 +2810,18 @@ class Lissajous extends _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__["default"] {
             'wz',
             'sideLength',
         ]);
-        settings.adaptMode = _types_shape_base__WEBPACK_IMPORTED_MODULE_1__["EShapePrimitiveAdaptMode"].None;
+        settings.adaptMode = _types_shape_base__WEBPACK_IMPORTED_MODULE_1__.EShapePrimitiveAdaptMode.None;
         super(settings, true);
         this.props.wx = settings.wx || 1;
         this.props.wy = settings.wy || 2;
         this.props.wz = settings.wz || 0;
         this.loop = {
             start: 0,
-            end: _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__["default"].PI2,
+            end: _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__.default.PI2,
             inc: prop_arguments => {
                 const wx = this.getProp('wx', prop_arguments);
                 const wy = this.getProp('wy', prop_arguments);
-                const ratio = wx == wy ? _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__["default"].PId2 : 0.5 - Math.min(49, wx + wy) * 0.01;
+                const ratio = wx == wy ? _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__.default.PId2 : 0.5 - Math.min(49, wx + wy) * 0.01;
                 return (1 / Math.pow(this.sideLength[0] * this.sideLength[1], 0.25)) * ratio;
             },
             vertex: (shape_loop_repetition, prop_arguments) => {
@@ -2671,7 +2860,7 @@ class Lissajous extends _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__["default"] {
         super.setProp(key, value);
     }
 }
-/* harmony default export */ __webpack_exports__["default"] = (Lissajous);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Lissajous);
 //# sourceMappingURL=Lissajous.js.map
 
 /***/ }),
@@ -2680,11 +2869,17 @@ class Lissajous extends _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__["default"] {
 /*!*********************************************!*\
   !*** ./dist/core/shapes/primitives/Rect.js ***!
   \*********************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! namespace exports */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
 /* harmony import */ var _types_shape_base__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../types/shape-base */ "./dist/core/types/shape-base.js");
 /* harmony import */ var _ShapeBuffer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../ShapeBuffer */ "./dist/core/shapes/ShapeBuffer.js");
 
@@ -2695,7 +2890,7 @@ __webpack_require__.r(__webpack_exports__);
  * @class Rect
  * @extends {ShapeBuffer}
  */
-class Rect extends _ShapeBuffer__WEBPACK_IMPORTED_MODULE_1__["default"] {
+class Rect extends _ShapeBuffer__WEBPACK_IMPORTED_MODULE_1__.default {
     /**
      * Creates an instance of Rect.
      *
@@ -2705,11 +2900,11 @@ class Rect extends _ShapeBuffer__WEBPACK_IMPORTED_MODULE_1__["default"] {
     constructor(settings = {}) {
         settings.type = 'Rect';
         settings.shape = [-1, -1, 1, -1, 1, 1, -1, 1];
-        settings.adaptMode = _types_shape_base__WEBPACK_IMPORTED_MODULE_0__["EShapePrimitiveAdaptMode"].None;
+        settings.adaptMode = _types_shape_base__WEBPACK_IMPORTED_MODULE_0__.EShapePrimitiveAdaptMode.None;
         super(settings);
     }
 }
-/* harmony default export */ __webpack_exports__["default"] = (Rect);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Rect);
 //# sourceMappingURL=Rect.js.map
 
 /***/ }),
@@ -2718,11 +2913,17 @@ class Rect extends _ShapeBuffer__WEBPACK_IMPORTED_MODULE_1__["default"] {
 /*!*******************************************************!*\
   !*** ./dist/core/shapes/primitives/RegularPolygon.js ***!
   \*******************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! namespace exports */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
 /* harmony import */ var _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../ShapeLoop */ "./dist/core/shapes/ShapeLoop.js");
 /* harmony import */ var _types_shape_base__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../types/shape-base */ "./dist/core/types/shape-base.js");
 
@@ -2734,18 +2935,18 @@ __webpack_require__.r(__webpack_exports__);
  * @class RegularPolygon
  * @extends {ShapeLoop}
  */
-class RegularPolygon extends _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__["default"] {
+class RegularPolygon extends _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__.default {
     constructor(settings = {}) {
         var _a;
         settings.type = settings.type || 'RegularPolygon';
         settings.shapeLoopPropsDependencies = (settings.shapeLoopPropsDependencies || []).concat(['sideNumber']);
-        settings.adaptMode = (_a = settings.adaptMode) !== null && _a !== void 0 ? _a : _types_shape_base__WEBPACK_IMPORTED_MODULE_1__["EShapePrimitiveAdaptMode"].None;
+        settings.adaptMode = (_a = settings.adaptMode) !== null && _a !== void 0 ? _a : _types_shape_base__WEBPACK_IMPORTED_MODULE_1__.EShapePrimitiveAdaptMode.None;
         super(settings, true);
         this.props.sideNumber = settings.sideNumber;
         this.loop = {
             start: 0,
-            end: _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__["default"].PI2,
-            inc: (prop_arguments) => _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__["default"].PI2 / this.getProp('sideNumber', prop_arguments, 5),
+            end: _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__.default.PI2,
+            inc: (prop_arguments) => _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__.default.PI2 / this.getProp('sideNumber', prop_arguments, 5),
             vertex: shape_loop_repetition => {
                 return [Math.cos(shape_loop_repetition.angle), Math.sin(shape_loop_repetition.angle)];
             },
@@ -2777,7 +2978,7 @@ class RegularPolygon extends _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__["default"] 
         super.setProp(key, value);
     }
 }
-/* harmony default export */ __webpack_exports__["default"] = (RegularPolygon);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (RegularPolygon);
 //# sourceMappingURL=RegularPolygon.js.map
 
 /***/ }),
@@ -2786,11 +2987,17 @@ class RegularPolygon extends _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__["default"] 
 /*!*********************************************!*\
   !*** ./dist/core/shapes/primitives/Rose.js ***!
   \*********************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! namespace exports */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
 /* harmony import */ var _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../ShapeLoop */ "./dist/core/shapes/ShapeLoop.js");
 /* harmony import */ var _types_shape_base__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../types/shape-base */ "./dist/core/types/shape-base.js");
 
@@ -2802,7 +3009,7 @@ __webpack_require__.r(__webpack_exports__);
  * @class Rose
  * @extends {ShapeLoop}
  */
-class Rose extends _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__["default"] {
+class Rose extends _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__.default {
     /**
      * Creates an instance of Rose.
      *
@@ -2813,7 +3020,7 @@ class Rose extends _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__["default"] {
         var _a, _b, _c;
         settings.type = 'Rose';
         settings.shapeLoopPropsDependencies = (settings.shapeLoopPropsDependencies || []).concat(['n', 'd', 'sideLength']);
-        settings.adaptMode = (_a = settings.adaptMode) !== null && _a !== void 0 ? _a : _types_shape_base__WEBPACK_IMPORTED_MODULE_1__["EShapePrimitiveAdaptMode"].Scale;
+        settings.adaptMode = (_a = settings.adaptMode) !== null && _a !== void 0 ? _a : _types_shape_base__WEBPACK_IMPORTED_MODULE_1__.EShapePrimitiveAdaptMode.Scale;
         super(settings, true);
         this.props.n = (_b = settings.n) !== null && _b !== void 0 ? _b : 1;
         this.props.d = (_c = settings.d) !== null && _c !== void 0 ? _c : 2;
@@ -2825,7 +3032,7 @@ class Rose extends _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__["default"] {
                 const d = this.getProp('d', prop_arguments);
                 const sides = Math.pow(this.sideLength[0] * this.sideLength[1], 0.45);
                 const k = d < n ? n / d : 1.5;
-                return _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__["default"].PI2 / (sides * k);
+                return _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__.default.PI2 / (sides * k);
             },
             vertex: (shape_loop_repetition, prop_arguments) => {
                 const k = this.getProp('n', prop_arguments) / this.getProp('d', prop_arguments);
@@ -2870,7 +3077,7 @@ class Rose extends _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__["default"] {
      */
     static getFinalAngleFromK(n, d) {
         if (n == d)
-            return _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__["default"].PI2;
+            return _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__.default.PI2;
         const k = n / d;
         const p = n * d;
         if (!Number.isInteger(k) && k % 0.5 == 0)
@@ -2878,7 +3085,7 @@ class Rose extends _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__["default"] {
         return Math.PI * d * (p % 2 == 0 ? 2 : 1);
     }
 }
-/* harmony default export */ __webpack_exports__["default"] = (Rose);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Rose);
 //# sourceMappingURL=Rose.js.map
 
 /***/ }),
@@ -2887,11 +3094,17 @@ class Rose extends _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__["default"] {
 /*!***********************************************!*\
   !*** ./dist/core/shapes/primitives/Spiral.js ***!
   \***********************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! namespace exports */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
 /* harmony import */ var _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../ShapeLoop */ "./dist/core/shapes/ShapeLoop.js");
 /* harmony import */ var _types_shape_base__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../types/shape-base */ "./dist/core/types/shape-base.js");
 
@@ -2903,7 +3116,7 @@ __webpack_require__.r(__webpack_exports__);
  * @class Spiral
  * @extends {ShapeLoop}
  */
-class Spiral extends _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__["default"] {
+class Spiral extends _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__.default {
     /**
      * Creates an instance of Spiral.
      *
@@ -2914,7 +3127,7 @@ class Spiral extends _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__["default"] {
         var _a, _b, _c, _d;
         settings.type = 'Spiral';
         settings.bCloseShape = false;
-        settings.adaptMode = (_a = settings.adaptMode) !== null && _a !== void 0 ? _a : _types_shape_base__WEBPACK_IMPORTED_MODULE_1__["EShapePrimitiveAdaptMode"].None;
+        settings.adaptMode = (_a = settings.adaptMode) !== null && _a !== void 0 ? _a : _types_shape_base__WEBPACK_IMPORTED_MODULE_1__.EShapePrimitiveAdaptMode.None;
         settings.shapeLoopPropsDependencies = (settings.shapeLoopPropsDependencies || []).concat([
             'twists',
             'twists_start',
@@ -2926,15 +3139,15 @@ class Spiral extends _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__["default"] {
         this.props.twists = (_c = settings.twists) !== null && _c !== void 0 ? _c : 2;
         this.props.twists_start = (_d = settings.twists_start) !== null && _d !== void 0 ? _d : 0;
         this.loop = {
-            start: (prop_arguments) => _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__["default"].PI2 * this.getProp('twists_start', prop_arguments),
-            end: (prop_arguments) => _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__["default"].PI2 * (this.getProp('twists_start', prop_arguments) + this.getProp('twists', prop_arguments)),
+            start: (prop_arguments) => _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__.default.PI2 * this.getProp('twists_start', prop_arguments),
+            end: (prop_arguments) => _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__.default.PI2 * (this.getProp('twists_start', prop_arguments) + this.getProp('twists', prop_arguments)),
             inc: (prop_arguments) => {
                 // const twists = this.getProp('twists', prop_arguments)
                 // const rep = ShapeLoop.PI2 * twists
                 // const radius = 2 * Math.sqrt(this.sideLength[0] * this.sideLength[1])
                 // return rep / (radius)
                 const twists = this.getProp('twists', prop_arguments);
-                const rep = _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__["default"].PI2 * twists;
+                const rep = _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__.default.PI2 * twists;
                 const radius = 4 + Math.sqrt(this.sideLength[0] * this.sideLength[1]);
                 return rep / (radius * twists);
             },
@@ -3013,7 +3226,7 @@ Spiral.types = {
     LITUUS: 'LITUUS',
     LOGARITHMIC: 'LOGARITHMIC',
 };
-/* harmony default export */ __webpack_exports__["default"] = (Spiral);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Spiral);
 //# sourceMappingURL=Spiral.js.map
 
 /***/ }),
@@ -3022,11 +3235,17 @@ Spiral.types = {
 /*!*************************************************!*\
   !*** ./dist/core/shapes/primitives/Triangle.js ***!
   \*************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! namespace exports */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
 /* harmony import */ var _types_shape_base__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../types/shape-base */ "./dist/core/types/shape-base.js");
 /* harmony import */ var _ShapeBuffer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../ShapeBuffer */ "./dist/core/shapes/ShapeBuffer.js");
 
@@ -3036,7 +3255,7 @@ __webpack_require__.r(__webpack_exports__);
  *
  * @category Core.Primitives
  */
-class Triangle extends _ShapeBuffer__WEBPACK_IMPORTED_MODULE_1__["default"] {
+class Triangle extends _ShapeBuffer__WEBPACK_IMPORTED_MODULE_1__.default {
     /**
      * Creates an instance of Triangleeee.
      *
@@ -3046,11 +3265,11 @@ class Triangle extends _ShapeBuffer__WEBPACK_IMPORTED_MODULE_1__["default"] {
     constructor(settings = {}) {
         settings.type = 'Triangle';
         settings.shape = [-1, -1, 1, 0, -1, 1];
-        settings.adaptMode = _types_shape_base__WEBPACK_IMPORTED_MODULE_0__["EShapePrimitiveAdaptMode"].None;
+        settings.adaptMode = _types_shape_base__WEBPACK_IMPORTED_MODULE_0__.EShapePrimitiveAdaptMode.None;
         super(settings);
     }
 }
-/* harmony default export */ __webpack_exports__["default"] = (Triangle);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Triangle);
 //# sourceMappingURL=Triangle.js.map
 
 /***/ }),
@@ -3059,12 +3278,17 @@ class Triangle extends _ShapeBuffer__WEBPACK_IMPORTED_MODULE_1__["default"] {
 /*!****************************************!*\
   !*** ./dist/core/types/scene-child.js ***!
   \****************************************/
-/*! exports provided: ERepetitionType */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! namespace exports */
+/*! export ERepetitionType [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__.r, __webpack_exports__, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ERepetitionType", function() { return ERepetitionType; });
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ERepetitionType": () => /* binding */ ERepetitionType
+/* harmony export */ });
 /**
  * Repetition type enumerator.
  *
@@ -3094,12 +3318,17 @@ var ERepetitionType;
 /*!***************************************!*\
   !*** ./dist/core/types/shape-base.js ***!
   \***************************************/
-/*! exports provided: EShapePrimitiveAdaptMode */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! namespace exports */
+/*! export EShapePrimitiveAdaptMode [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__.r, __webpack_exports__, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EShapePrimitiveAdaptMode", function() { return EShapePrimitiveAdaptMode; });
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "EShapePrimitiveAdaptMode": () => /* binding */ EShapePrimitiveAdaptMode
+/* harmony export */ });
 /**
  *
  *
@@ -3136,74 +3365,81 @@ var EShapePrimitiveAdaptMode;
 /*!*****************************!*\
   !*** ./dist/index-light.js ***!
   \*****************************/
-/*! exports provided: Scene, SceneChild, Group, Line, Triangle, Rect, RegularPolygon, Circle, Rose, Spiral, Lissajous, Shape, ShapePrimitive, ShapeLoop, ShapeBuffer, clamp, relativeClamp, toDegrees, toRadians, Context, DrawerCanvas, Animation */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! namespace exports */
+/*! export Animation [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/services/animation/Simple.js .default */
+/*! export Circle [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/Circle.js .default */
+/*! export Context [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/Context.js .default */
+/*! export DrawerCanvas [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/services/drawer-canvas/DrawerCanvas.js .default */
+/*! export Group [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/Group.js .default */
+/*! export Line [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/Line.js .default */
+/*! export Lissajous [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/Lissajous.js .default */
+/*! export Rect [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/Rect.js .default */
+/*! export RegularPolygon [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/RegularPolygon.js .default */
+/*! export Rose [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/Rose.js .default */
+/*! export Scene [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/Scene.js .default */
+/*! export SceneChild [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/SceneChild.js .default */
+/*! export Shape [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/Shape.js .default */
+/*! export ShapeBuffer [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/ShapeBuffer.js .default */
+/*! export ShapeLoop [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/ShapeLoop.js .default */
+/*! export ShapePrimitive [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/ShapePrimitive.js .default */
+/*! export Spiral [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/Spiral.js .default */
+/*! export Triangle [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/Triangle.js .default */
+/*! export Vec2 [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] */
+/*! export clamp [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .clamp */
+/*! export relativeClamp [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .relativeClamp */
+/*! export toDegrees [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .toDegrees */
+/*! export toRadians [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .toRadians */
+/*! other exports [not provided] [maybe used in urpflanze-light (runtime-defined)] */
+/*! runtime requirements: __webpack_require__, __webpack_exports__, __webpack_require__.d, __webpack_require__.r, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Scene": () => /* reexport safe */ _core_Scene__WEBPACK_IMPORTED_MODULE_0__.default,
+/* harmony export */   "SceneChild": () => /* reexport safe */ _core_SceneChild__WEBPACK_IMPORTED_MODULE_1__.default,
+/* harmony export */   "Group": () => /* reexport safe */ _core_Group__WEBPACK_IMPORTED_MODULE_2__.default,
+/* harmony export */   "Line": () => /* reexport safe */ _core_shapes_primitives_Line__WEBPACK_IMPORTED_MODULE_3__.default,
+/* harmony export */   "Triangle": () => /* reexport safe */ _core_shapes_primitives_Triangle__WEBPACK_IMPORTED_MODULE_4__.default,
+/* harmony export */   "Rect": () => /* reexport safe */ _core_shapes_primitives_Rect__WEBPACK_IMPORTED_MODULE_5__.default,
+/* harmony export */   "RegularPolygon": () => /* reexport safe */ _core_shapes_primitives_RegularPolygon__WEBPACK_IMPORTED_MODULE_6__.default,
+/* harmony export */   "Circle": () => /* reexport safe */ _core_shapes_primitives_Circle__WEBPACK_IMPORTED_MODULE_7__.default,
+/* harmony export */   "Rose": () => /* reexport safe */ _core_shapes_primitives_Rose__WEBPACK_IMPORTED_MODULE_8__.default,
+/* harmony export */   "Spiral": () => /* reexport safe */ _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_9__.default,
+/* harmony export */   "Lissajous": () => /* reexport safe */ _core_shapes_primitives_Lissajous__WEBPACK_IMPORTED_MODULE_10__.default,
+/* harmony export */   "Shape": () => /* reexport safe */ _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_11__.default,
+/* harmony export */   "ShapePrimitive": () => /* reexport safe */ _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_12__.default,
+/* harmony export */   "ShapeLoop": () => /* reexport safe */ _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_13__.default,
+/* harmony export */   "ShapeBuffer": () => /* reexport safe */ _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_14__.default,
+/* harmony export */   "clamp": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_15__.clamp,
+/* harmony export */   "relativeClamp": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_15__.relativeClamp,
+/* harmony export */   "toDegrees": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_15__.toDegrees,
+/* harmony export */   "toRadians": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_15__.toRadians,
+/* harmony export */   "Vec2": () => /* binding */ Vec2,
+/* harmony export */   "Context": () => /* reexport safe */ _core_Context__WEBPACK_IMPORTED_MODULE_17__.default,
+/* harmony export */   "DrawerCanvas": () => /* reexport safe */ _services_drawer_canvas_DrawerCanvas__WEBPACK_IMPORTED_MODULE_18__.default,
+/* harmony export */   "Animation": () => /* reexport safe */ _services_animation_Simple__WEBPACK_IMPORTED_MODULE_19__.default
+/* harmony export */ });
 /* harmony import */ var _core_Scene__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./core/Scene */ "./dist/core/Scene.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Scene", function() { return _core_Scene__WEBPACK_IMPORTED_MODULE_0__["default"]; });
-
 /* harmony import */ var _core_SceneChild__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./core/SceneChild */ "./dist/core/SceneChild.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "SceneChild", function() { return _core_SceneChild__WEBPACK_IMPORTED_MODULE_1__["default"]; });
-
 /* harmony import */ var _core_Group__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./core/Group */ "./dist/core/Group.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Group", function() { return _core_Group__WEBPACK_IMPORTED_MODULE_2__["default"]; });
-
 /* harmony import */ var _core_shapes_primitives_Line__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./core/shapes/primitives/Line */ "./dist/core/shapes/primitives/Line.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Line", function() { return _core_shapes_primitives_Line__WEBPACK_IMPORTED_MODULE_3__["default"]; });
-
 /* harmony import */ var _core_shapes_primitives_Triangle__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./core/shapes/primitives/Triangle */ "./dist/core/shapes/primitives/Triangle.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Triangle", function() { return _core_shapes_primitives_Triangle__WEBPACK_IMPORTED_MODULE_4__["default"]; });
-
 /* harmony import */ var _core_shapes_primitives_Rect__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./core/shapes/primitives/Rect */ "./dist/core/shapes/primitives/Rect.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Rect", function() { return _core_shapes_primitives_Rect__WEBPACK_IMPORTED_MODULE_5__["default"]; });
-
 /* harmony import */ var _core_shapes_primitives_RegularPolygon__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./core/shapes/primitives/RegularPolygon */ "./dist/core/shapes/primitives/RegularPolygon.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "RegularPolygon", function() { return _core_shapes_primitives_RegularPolygon__WEBPACK_IMPORTED_MODULE_6__["default"]; });
-
 /* harmony import */ var _core_shapes_primitives_Circle__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./core/shapes/primitives/Circle */ "./dist/core/shapes/primitives/Circle.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Circle", function() { return _core_shapes_primitives_Circle__WEBPACK_IMPORTED_MODULE_7__["default"]; });
-
 /* harmony import */ var _core_shapes_primitives_Rose__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./core/shapes/primitives/Rose */ "./dist/core/shapes/primitives/Rose.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Rose", function() { return _core_shapes_primitives_Rose__WEBPACK_IMPORTED_MODULE_8__["default"]; });
-
 /* harmony import */ var _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./core/shapes/primitives/Spiral */ "./dist/core/shapes/primitives/Spiral.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Spiral", function() { return _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_9__["default"]; });
-
 /* harmony import */ var _core_shapes_primitives_Lissajous__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./core/shapes/primitives/Lissajous */ "./dist/core/shapes/primitives/Lissajous.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Lissajous", function() { return _core_shapes_primitives_Lissajous__WEBPACK_IMPORTED_MODULE_10__["default"]; });
-
 /* harmony import */ var _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./core/shapes/Shape */ "./dist/core/shapes/Shape.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Shape", function() { return _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_11__["default"]; });
-
 /* harmony import */ var _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./core/shapes/ShapePrimitive */ "./dist/core/shapes/ShapePrimitive.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ShapePrimitive", function() { return _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_12__["default"]; });
-
 /* harmony import */ var _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./core/shapes/ShapeLoop */ "./dist/core/shapes/ShapeLoop.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ShapeLoop", function() { return _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_13__["default"]; });
-
 /* harmony import */ var _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./core/shapes/ShapeBuffer */ "./dist/core/shapes/ShapeBuffer.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ShapeBuffer", function() { return _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_14__["default"]; });
-
 /* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./Utilites */ "./dist/Utilites.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "clamp", function() { return _Utilites__WEBPACK_IMPORTED_MODULE_15__["clamp"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "relativeClamp", function() { return _Utilites__WEBPACK_IMPORTED_MODULE_15__["relativeClamp"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "toDegrees", function() { return _Utilites__WEBPACK_IMPORTED_MODULE_15__["toDegrees"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "toRadians", function() { return _Utilites__WEBPACK_IMPORTED_MODULE_15__["toRadians"]; });
-
-/* harmony import */ var _core_Context__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./core/Context */ "./dist/core/Context.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Context", function() { return _core_Context__WEBPACK_IMPORTED_MODULE_16__["default"]; });
-
-/* harmony import */ var _services_drawer_canvas_DrawerCanvas__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./services/drawer-canvas/DrawerCanvas */ "./dist/services/drawer-canvas/DrawerCanvas.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "DrawerCanvas", function() { return _services_drawer_canvas_DrawerCanvas__WEBPACK_IMPORTED_MODULE_17__["default"]; });
-
-/* harmony import */ var _services_animation_Simple__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./services/animation/Simple */ "./dist/services/animation/Simple.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Animation", function() { return _services_animation_Simple__WEBPACK_IMPORTED_MODULE_18__["default"]; });
-
+/* harmony import */ var _core_math_Vec2__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./core/math/Vec2 */ "./dist/core/math/Vec2.js");
+/* harmony import */ var _core_Context__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./core/Context */ "./dist/core/Context.js");
+/* harmony import */ var _services_drawer_canvas_DrawerCanvas__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./services/drawer-canvas/DrawerCanvas */ "./dist/services/drawer-canvas/DrawerCanvas.js");
+/* harmony import */ var _services_animation_Simple__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./services/animation/Simple */ "./dist/services/animation/Simple.js");
 /**
  * Core
  */
@@ -3227,6 +3463,8 @@ __webpack_require__.r(__webpack_exports__);
 // Utilities
 
 
+const Vec2 = _core_math_Vec2__WEBPACK_IMPORTED_MODULE_16__.default;
+
 /**
  * Services
  */
@@ -3240,11 +3478,17 @@ __webpack_require__.r(__webpack_exports__);
 /*!**********************************************!*\
   !*** ./dist/services/animation/Animation.js ***!
   \**********************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! namespace exports */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
 /* harmony import */ var _scene_utilities_ScenePropUtilities__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../scene-utilities/ScenePropUtilities */ "./dist/services/scene-utilities/ScenePropUtilities.js");
 /* harmony import */ var _Simple__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Simple */ "./dist/services/animation/Simple.js");
 
@@ -3254,9 +3498,9 @@ const Animation = {
         switch (animation.type) {
             case 'simple': {
                 const simpleAnimation = Object.assign({}, animation.value);
-                simpleAnimation.from = _scene_utilities_ScenePropUtilities__WEBPACK_IMPORTED_MODULE_0__["default"].getTransformedValue(drawer, prop_name, simpleAnimation.from);
-                simpleAnimation.to = _scene_utilities_ScenePropUtilities__WEBPACK_IMPORTED_MODULE_0__["default"].getTransformedValue(drawer, prop_name, simpleAnimation.to);
-                return _Simple__WEBPACK_IMPORTED_MODULE_1__["default"].compose(simpleAnimation);
+                simpleAnimation.from = _scene_utilities_ScenePropUtilities__WEBPACK_IMPORTED_MODULE_0__.default.getTransformedValue(drawer, prop_name, simpleAnimation.from);
+                simpleAnimation.to = _scene_utilities_ScenePropUtilities__WEBPACK_IMPORTED_MODULE_0__.default.getTransformedValue(drawer, prop_name, simpleAnimation.to);
+                return _Simple__WEBPACK_IMPORTED_MODULE_1__.default.compose(simpleAnimation);
             }
             case 'raw': {
                 const rawValue = animation.value;
@@ -3269,7 +3513,7 @@ const Animation = {
         }
     },
 };
-/* harmony default export */ __webpack_exports__["default"] = (Animation);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Animation);
 //# sourceMappingURL=Animation.js.map
 
 /***/ }),
@@ -3278,11 +3522,17 @@ const Animation = {
 /*!********************************************!*\
   !*** ./dist/services/animation/Easings.js ***!
   \********************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! namespace exports */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
 const Easings = {
     /**
      * @param {number} time current time
@@ -3717,7 +3967,7 @@ const Easings = {
         return Easings.bounceOut(time * 2 - durate, 0, end, durate) * 0.5 + end * 0.5 + start;
     },
 };
-/* harmony default export */ __webpack_exports__["default"] = (Easings);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Easings);
 //# sourceMappingURL=Easings.js.map
 
 /***/ }),
@@ -3726,13 +3976,18 @@ const Easings = {
 /*!*******************************************!*\
   !*** ./dist/services/animation/Simple.js ***!
   \*******************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! namespace exports */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
 /* harmony import */ var _pups_core_build_Models_Color_ColorManager__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @pups/core/build/Models/Color/ColorManager */ "./node_modules/@pups/core/build/Models/Color/ColorManager.js");
-/* harmony import */ var _pups_core_build_Models_Color_ColorManager__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_pups_core_build_Models_Color_ColorManager__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _Easings__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Easings */ "./dist/services/animation/Easings.js");
 /* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Utilites */ "./dist/Utilites.js");
 
@@ -3745,8 +4000,8 @@ const Simple = {
     compose: (simpleAnimation) => {
         if (typeof simpleAnimation.from !== 'string' && typeof simpleAnimation.to !== 'string') {
             const bArray = Array.isArray(simpleAnimation.from) || Array.isArray(simpleAnimation.to);
-            const from = bArray ? Object(_Utilites__WEBPACK_IMPORTED_MODULE_2__["toArray"])(simpleAnimation.from) : simpleAnimation.from;
-            const to = bArray ? Object(_Utilites__WEBPACK_IMPORTED_MODULE_2__["toArray"])(simpleAnimation.to) : simpleAnimation.to;
+            const from = bArray ? (0,_Utilites__WEBPACK_IMPORTED_MODULE_2__.toArray)(simpleAnimation.from) : simpleAnimation.from;
+            const to = bArray ? (0,_Utilites__WEBPACK_IMPORTED_MODULE_2__.toArray)(simpleAnimation.to) : simpleAnimation.to;
             const vCallback = bArray
                 ? (current_index, v) => {
                     const a = (simpleAnimation.invertOdd && current_index % 2 == 1 ? to : from);
@@ -3763,8 +4018,8 @@ const Simple = {
             return createSimpleAnimationCallback(simpleAnimation, (props, v) => vCallback(props.repetition.index, v));
         }
         else {
-            const from = new _pups_core_build_Models_Color_ColorManager__WEBPACK_IMPORTED_MODULE_0___default.a(simpleAnimation.from);
-            const to = new _pups_core_build_Models_Color_ColorManager__WEBPACK_IMPORTED_MODULE_0___default.a(simpleAnimation.to);
+            const from = new _pups_core_build_Models_Color_ColorManager__WEBPACK_IMPORTED_MODULE_0__.default(simpleAnimation.from);
+            const to = new _pups_core_build_Models_Color_ColorManager__WEBPACK_IMPORTED_MODULE_0__.default(simpleAnimation.to);
             const vCallback = simpleAnimation.colorTransitionMode == 'hue' ? interpolateColorHSL : interpolateColorRGB;
             return createSimpleAnimationCallback(simpleAnimation, (props, v) => {
                 const a = simpleAnimation.invertOdd && props.repetition.index % 2 == 1 ? to : from;
@@ -3783,11 +4038,11 @@ function createSimpleAnimationCallback(animation, value) {
                     ? 0
                     : props.time - delay >= durate
                         ? 1
-                        : _Easings__WEBPACK_IMPORTED_MODULE_1__["default"][mode_function](props.time - delay, 0, 1, durate));
+                        : _Easings__WEBPACK_IMPORTED_MODULE_1__.default[mode_function](props.time - delay, 0, 1, durate));
             };
         else
             return function SimpleAnimation(props) {
-                return value(props, props.time <= durate ? _Easings__WEBPACK_IMPORTED_MODULE_1__["default"][mode_function](props.time, 0, 1 - 0, durate) : 1);
+                return value(props, props.time <= durate ? _Easings__WEBPACK_IMPORTED_MODULE_1__.default[mode_function](props.time, 0, 1 - 0, durate) : 1);
             };
     }
     else {
@@ -3803,8 +4058,8 @@ function createSimpleAnimationCallback(animation, value) {
                     const d2 = durate / 2;
                     const t = props.time % durate;
                     return value(props, t <= d2
-                        ? _Easings__WEBPACK_IMPORTED_MODULE_1__["default"][mode_function](t, 0, 1, d2)
-                        : _Easings__WEBPACK_IMPORTED_MODULE_1__["default"][mode_function](d2 - (t - d2), 0, 1, d2));
+                        ? _Easings__WEBPACK_IMPORTED_MODULE_1__.default[mode_function](t, 0, 1, d2)
+                        : _Easings__WEBPACK_IMPORTED_MODULE_1__.default[mode_function](d2 - (t - d2), 0, 1, d2));
                 };
             }
         } // uncontrolled-loop
@@ -3825,12 +4080,12 @@ function createSimpleAnimationCallback(animation, value) {
                             ? 0
                             : time - delay >= durate
                                 ? 1
-                                : _Easings__WEBPACK_IMPORTED_MODULE_1__["default"][mode_function](time - delay, 0, 1, durate));
+                                : _Easings__WEBPACK_IMPORTED_MODULE_1__.default[mode_function](time - delay, 0, 1, durate));
                     };
                 else
                     return function SimpleAnimation(props) {
                         const time = props.time % durate;
-                        return value(props, time <= durate ? _Easings__WEBPACK_IMPORTED_MODULE_1__["default"][mode_function](time, 0, 1 - 0, durate) : 1);
+                        return value(props, time <= durate ? _Easings__WEBPACK_IMPORTED_MODULE_1__.default[mode_function](time, 0, 1 - 0, durate) : 1);
                     };
             }
         }
@@ -3858,7 +4113,7 @@ function interpolateColorHSL(start, end, v) {
     const alpha = aAlpha + v * (bAlpha - aAlpha);
     return `hsla(${Math.floor(_h * 360)},${Math.floor(_s * 100)}%,${Math.floor(_l * 100)}%,${alpha <= 0 ? 0 : alpha >= 1 ? 1 : alpha})`;
 }
-/* harmony default export */ __webpack_exports__["default"] = (Simple);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Simple);
 //# sourceMappingURL=Simple.js.map
 
 /***/ }),
@@ -3867,18 +4122,24 @@ function interpolateColorHSL(start, end, v) {
 /*!*****************************************************!*\
   !*** ./dist/services/drawer-canvas/DrawerCanvas.js ***!
   \*****************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! namespace exports */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
 /* harmony import */ var _core_Scene__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../core/Scene */ "./dist/core/Scene.js");
 /* harmony import */ var _timeline_Timeline__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../timeline/Timeline */ "./dist/services/timeline/Timeline.js");
 /* harmony import */ var _scene_utilities_SceneUtilities__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../scene-utilities/SceneUtilities */ "./dist/services/scene-utilities/SceneUtilities.js");
-/* harmony import */ var _FrameBuffer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./FrameBuffer */ "./dist/services/drawer-canvas/FrameBuffer.js");
+/* harmony import */ var _FrameBuffer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./FrameBuffer */ "./dist/services/drawer-canvas/FrameBuffer.js");
 /* harmony import */ var _events_Emitter__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../events/Emitter */ "./dist/services/events/Emitter.js");
-/* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../Utilites */ "./dist/Utilites.js");
-/* harmony import */ var gl_matrix__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! gl-matrix */ "./node_modules/gl-matrix/esm/index.js");
+/* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../Utilites */ "./dist/Utilites.js");
+/* harmony import */ var gl_matrix__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! gl-matrix */ "./node_modules/gl-matrix/esm/vec2.js");
 
 
 
@@ -3892,16 +4153,16 @@ __webpack_require__.r(__webpack_exports__);
  * @class DrawerCanvas
  * @extends {Emitter<DrawerCanvasEvents>}
  */
-class DrawerCanvas extends _events_Emitter__WEBPACK_IMPORTED_MODULE_4__["default"] {
+class DrawerCanvas extends _events_Emitter__WEBPACK_IMPORTED_MODULE_4__.default {
     constructor(scene, canvasOrContainer, drawOptions = {}, ratio = undefined, resolution = 0, bBuffering = false) {
         var _a, _b, _c, _d, _e, _f, _g;
         super();
         this.bBuffering = false;
-        this.timeline = new _timeline_Timeline__WEBPACK_IMPORTED_MODULE_1__["default"]();
+        this.timeline = new _timeline_Timeline__WEBPACK_IMPORTED_MODULE_1__.default();
         this.resolution = resolution || (scene && scene.width ? scene.width : 0);
         this.ratio = ratio || (scene && scene.width && scene.height ? scene.width / scene.height : 1);
         this.bBuffering = bBuffering;
-        this.buffer = new _FrameBuffer__WEBPACK_IMPORTED_MODULE_3__["default"]();
+        this.buffer = new _FrameBuffer__WEBPACK_IMPORTED_MODULE_5__.default();
         if (scene) {
             const width = this.ratio >= 1 ? scene.width : scene.width * this.ratio;
             const height = this.ratio >= 1 ? scene.height / this.ratio : scene.height;
@@ -4044,10 +4305,10 @@ class DrawerCanvas extends _events_Emitter__WEBPACK_IMPORTED_MODULE_4__["default
         }
         if (resolution && resolution != this.resolution && this.scene) {
             this.resolution = resolution;
-            _core_Scene__WEBPACK_IMPORTED_MODULE_0__["default"].walk((sceneChild) => {
+            _core_Scene__WEBPACK_IMPORTED_MODULE_0__.default.walk((sceneChild) => {
                 const props = sceneChild.data.props;
                 Object.keys(props).forEach(name => {
-                    _scene_utilities_SceneUtilities__WEBPACK_IMPORTED_MODULE_2__["default"].setProp(sceneChild, name, props[name], this);
+                    _scene_utilities_SceneUtilities__WEBPACK_IMPORTED_MODULE_2__.default.setProp(sceneChild, name, props[name], this);
                 });
             }, this.scene);
         }
@@ -4358,7 +4619,7 @@ class DrawerCanvas extends _events_Emitter__WEBPACK_IMPORTED_MODULE_4__["default
      */
     static draw(scene, context, options, resolution) {
         var _a, _b, _c, _d;
-        const start_time = Object(_Utilites__WEBPACK_IMPORTED_MODULE_5__["now"])();
+        const start_time = (0,_Utilites__WEBPACK_IMPORTED_MODULE_3__.now)();
         if (context) {
             const scale = (_a = options.scale) !== null && _a !== void 0 ? _a : 1;
             const translate = (_b = options.translate) !== null && _b !== void 0 ? _b : [0, 0];
@@ -4405,13 +4666,13 @@ class DrawerCanvas extends _events_Emitter__WEBPACK_IMPORTED_MODULE_4__["default
             if (simmetricLine > 0) {
                 const offset = Math.PI / simmetricLine;
                 const size = Math.max(width, height) / 2;
-                const center = gl_matrix__WEBPACK_IMPORTED_MODULE_6__["vec2"].fromValues(size / 2, size / 2);
+                const center = gl_matrix__WEBPACK_IMPORTED_MODULE_6__.fromValues(size / 2, size / 2);
                 for (let i = 0; i < simmetricLine; i++) {
-                    const a = gl_matrix__WEBPACK_IMPORTED_MODULE_6__["vec2"].fromValues(-size, -size);
-                    const b = gl_matrix__WEBPACK_IMPORTED_MODULE_6__["vec2"].fromValues(size * 2, size * 2);
+                    const a = gl_matrix__WEBPACK_IMPORTED_MODULE_6__.fromValues(-size, -size);
+                    const b = gl_matrix__WEBPACK_IMPORTED_MODULE_6__.fromValues(size * 2, size * 2);
                     const rotate = i * offset + Math.PI / 4;
-                    gl_matrix__WEBPACK_IMPORTED_MODULE_6__["vec2"].rotate(a, a, center, rotate);
-                    gl_matrix__WEBPACK_IMPORTED_MODULE_6__["vec2"].rotate(b, b, center, rotate);
+                    gl_matrix__WEBPACK_IMPORTED_MODULE_6__.rotate(a, a, center, rotate);
+                    gl_matrix__WEBPACK_IMPORTED_MODULE_6__.rotate(b, b, center, rotate);
                     context.beginPath();
                     context.strokeStyle = scene.mainColor;
                     context.lineWidth = 1;
@@ -4483,11 +4744,11 @@ class DrawerCanvas extends _events_Emitter__WEBPACK_IMPORTED_MODULE_4__["default
                 }
             });
         }
-        const end_time = Object(_Utilites__WEBPACK_IMPORTED_MODULE_5__["now"])();
+        const end_time = (0,_Utilites__WEBPACK_IMPORTED_MODULE_3__.now)();
         return end_time - start_time;
     }
 }
-/* harmony default export */ __webpack_exports__["default"] = (DrawerCanvas);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (DrawerCanvas);
 //# sourceMappingURL=DrawerCanvas.js.map
 
 /***/ }),
@@ -4496,11 +4757,17 @@ class DrawerCanvas extends _events_Emitter__WEBPACK_IMPORTED_MODULE_4__["default
 /*!****************************************************!*\
   !*** ./dist/services/drawer-canvas/FrameBuffer.js ***!
   \****************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! namespace exports */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
 /**
  *
  * @category Services.DrawerCavnas
@@ -4529,7 +4796,7 @@ class FrameBuffer {
         return Object.keys(this.frames).map(e => +e);
     }
 }
-/* harmony default export */ __webpack_exports__["default"] = (FrameBuffer);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (FrameBuffer);
 //# sourceMappingURL=FrameBuffer.js.map
 
 /***/ }),
@@ -4538,11 +4805,17 @@ class FrameBuffer {
 /*!*****************************************!*\
   !*** ./dist/services/events/Emitter.js ***!
   \*****************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! namespace exports */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
 /**
  *
  * @category Services
@@ -4598,7 +4871,7 @@ class Emitter {
         }
     }
 }
-/* harmony default export */ __webpack_exports__["default"] = (Emitter);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Emitter);
 //# sourceMappingURL=Emitter.js.map
 
 /***/ }),
@@ -4607,27 +4880,33 @@ class Emitter {
 /*!**************************************************************!*\
   !*** ./dist/services/scene-utilities/SceneChildPropsData.js ***!
   \**************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! namespace exports */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
 /* harmony import */ var _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../core/shapes/primitives/Spiral */ "./dist/core/shapes/primitives/Spiral.js");
 /* harmony import */ var _core_types_shape_base__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../core/types/shape-base */ "./dist/core/types/shape-base.js");
 
 
 const OptionShapePrimitiveAdaptMode = [
-    { key: 'None', value: _core_types_shape_base__WEBPACK_IMPORTED_MODULE_1__["EShapePrimitiveAdaptMode"].None },
-    { key: 'Scale', value: _core_types_shape_base__WEBPACK_IMPORTED_MODULE_1__["EShapePrimitiveAdaptMode"].Scale },
-    { key: 'Center', value: _core_types_shape_base__WEBPACK_IMPORTED_MODULE_1__["EShapePrimitiveAdaptMode"].Center },
-    { key: 'Fill', value: _core_types_shape_base__WEBPACK_IMPORTED_MODULE_1__["EShapePrimitiveAdaptMode"].Fill },
+    { key: 'None', value: _core_types_shape_base__WEBPACK_IMPORTED_MODULE_1__.EShapePrimitiveAdaptMode.None },
+    { key: 'Scale', value: _core_types_shape_base__WEBPACK_IMPORTED_MODULE_1__.EShapePrimitiveAdaptMode.Scale },
+    { key: 'Center', value: _core_types_shape_base__WEBPACK_IMPORTED_MODULE_1__.EShapePrimitiveAdaptMode.Center },
+    { key: 'Fill', value: _core_types_shape_base__WEBPACK_IMPORTED_MODULE_1__.EShapePrimitiveAdaptMode.Fill },
 ];
 const OptionSpiralType = [
-    { key: 'ARCHIMEDE', value: _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_0__["default"].types.ARCHIMEDE },
-    { key: 'FERMAT', value: _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_0__["default"].types.FERMAT },
-    { key: 'HYPERBOLIC', value: _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_0__["default"].types.HYPERBOLIC },
-    { key: 'LITUUS', value: _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_0__["default"].types.LITUUS },
-    { key: 'LOGARITHMIC', value: _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_0__["default"].types.LOGARITHMIC },
+    { key: 'ARCHIMEDE', value: _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_0__.default.types.ARCHIMEDE },
+    { key: 'FERMAT', value: _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_0__.default.types.FERMAT },
+    { key: 'HYPERBOLIC', value: _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_0__.default.types.HYPERBOLIC },
+    { key: 'LITUUS', value: _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_0__.default.types.LITUUS },
+    { key: 'LOGARITHMIC', value: _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_0__.default.types.LOGARITHMIC },
 ];
 // @ts-ignore
 const SceneChildPropsData = {
@@ -4953,7 +5232,7 @@ const SceneChildPropsData = {
         label: 'Spiral type',
         type: 'select',
         options: OptionSpiralType,
-        default: _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_0__["default"].types.ARCHIMEDE,
+        default: _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_0__.default.types.ARCHIMEDE,
         transformation: 'none',
     },
     // loop
@@ -4988,7 +5267,7 @@ const SceneChildPropsData = {
         transformation: 'none',
     },
 };
-/* harmony default export */ __webpack_exports__["default"] = (SceneChildPropsData);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SceneChildPropsData);
 //# sourceMappingURL=SceneChildPropsData.js.map
 
 /***/ }),
@@ -4997,11 +5276,17 @@ const SceneChildPropsData = {
 /*!*************************************************************!*\
   !*** ./dist/services/scene-utilities/ScenePropUtilities.js ***!
   \*************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! namespace exports */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
 /* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Utilites */ "./dist/Utilites.js");
 /* harmony import */ var _SceneChildPropsData__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SceneChildPropsData */ "./dist/services/scene-utilities/SceneChildPropsData.js");
 
@@ -5073,7 +5358,7 @@ class ScenePropUtilities {
         return value && typeof value === 'object' && value.type && value.type === 'drawer-transformation';
     }
     static bPropTransformable(name, value) {
-        const sceneChildProp = _SceneChildPropsData__WEBPACK_IMPORTED_MODULE_1__["default"][name];
+        const sceneChildProp = _SceneChildPropsData__WEBPACK_IMPORTED_MODULE_1__.default[name];
         return (sceneChildProp &&
             sceneChildProp.transformation !== 'none' &&
             typeof value !== 'undefined' &&
@@ -5081,16 +5366,16 @@ class ScenePropUtilities {
             !ScenePropUtilities.bValueAnimation(value));
     }
     static getValueDrawerTransformationType(name) {
-        const sceneChildProp = _SceneChildPropsData__WEBPACK_IMPORTED_MODULE_1__["default"][name];
+        const sceneChildProp = _SceneChildPropsData__WEBPACK_IMPORTED_MODULE_1__.default[name];
         return sceneChildProp && sceneChildProp.transformation !== 'none' ? sceneChildProp.transformation : null;
     }
     static getTransformedValue(drawer, name, value) {
-        const sceneChildProp = _SceneChildPropsData__WEBPACK_IMPORTED_MODULE_1__["default"][name];
+        const sceneChildProp = _SceneChildPropsData__WEBPACK_IMPORTED_MODULE_1__.default[name];
         if (ScenePropUtilities.bPropTransformable(name, value)) {
             let transformedValueFunction;
             switch (sceneChildProp.transformation) {
                 case 'angle':
-                    transformedValueFunction = _Utilites__WEBPACK_IMPORTED_MODULE_0__["toRadians"];
+                    transformedValueFunction = _Utilites__WEBPACK_IMPORTED_MODULE_0__.toRadians;
                     break;
                 case 'resolution-based':
                     transformedValueFunction = drawer.getValueFromResolution.bind(drawer);
@@ -5108,12 +5393,12 @@ class ScenePropUtilities {
         return value;
     }
     static getTransformedValueInverse(drawer, name, value) {
-        const sceneChildProp = _SceneChildPropsData__WEBPACK_IMPORTED_MODULE_1__["default"][name];
+        const sceneChildProp = _SceneChildPropsData__WEBPACK_IMPORTED_MODULE_1__.default[name];
         if (ScenePropUtilities.bPropTransformable(name, value)) {
             let transformedValueFunction;
             switch (sceneChildProp.transformation) {
                 case 'angle':
-                    transformedValueFunction = _Utilites__WEBPACK_IMPORTED_MODULE_0__["toDegrees"];
+                    transformedValueFunction = _Utilites__WEBPACK_IMPORTED_MODULE_0__.toDegrees;
                     break;
                 case 'resolution-based':
                     transformedValueFunction = drawer.getValueFromResolutionScaled.bind(drawer);
@@ -5132,7 +5417,7 @@ class ScenePropUtilities {
 }
 ScenePropUtilities.RAW_ARGUMENTS = '{ context, repetition, time, shape, shape_loop, data }';
 ScenePropUtilities.RAW_ARGUMENTS_WITH_PARENT = '{ context, repetition, parent, time, shape, shape_loop, data }';
-/* harmony default export */ __webpack_exports__["default"] = (ScenePropUtilities);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ScenePropUtilities);
 //# sourceMappingURL=ScenePropUtilities.js.map
 
 /***/ }),
@@ -5141,31 +5426,37 @@ ScenePropUtilities.RAW_ARGUMENTS_WITH_PARENT = '{ context, repetition, parent, t
 /*!*********************************************************!*\
   !*** ./dist/services/scene-utilities/SceneUtilities.js ***!
   \*********************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! namespace exports */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/index.js");
-/* harmony import */ var _core_SceneChild__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../core/SceneChild */ "./dist/core/SceneChild.js");
-/* harmony import */ var _core_shapes_primitives_Line__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../core/shapes/primitives/Line */ "./dist/core/shapes/primitives/Line.js");
-/* harmony import */ var _core_shapes_primitives_Triangle__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../core/shapes/primitives/Triangle */ "./dist/core/shapes/primitives/Triangle.js");
-/* harmony import */ var _core_shapes_primitives_Rect__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../core/shapes/primitives/Rect */ "./dist/core/shapes/primitives/Rect.js");
-/* harmony import */ var _core_shapes_primitives_RegularPolygon__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../core/shapes/primitives/RegularPolygon */ "./dist/core/shapes/primitives/RegularPolygon.js");
-/* harmony import */ var _core_shapes_primitives_Circle__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../core/shapes/primitives/Circle */ "./dist/core/shapes/primitives/Circle.js");
-/* harmony import */ var _core_shapes_primitives_Rose__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../core/shapes/primitives/Rose */ "./dist/core/shapes/primitives/Rose.js");
-/* harmony import */ var _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../core/shapes/primitives/Spiral */ "./dist/core/shapes/primitives/Spiral.js");
-/* harmony import */ var _core_shapes_primitives_Lissajous__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../core/shapes/primitives/Lissajous */ "./dist/core/shapes/primitives/Lissajous.js");
-/* harmony import */ var _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../core/shapes/Shape */ "./dist/core/shapes/Shape.js");
-/* harmony import */ var _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../core/shapes/ShapePrimitive */ "./dist/core/shapes/ShapePrimitive.js");
-/* harmony import */ var _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../core/shapes/ShapeLoop */ "./dist/core/shapes/ShapeLoop.js");
-/* harmony import */ var _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../core/shapes/ShapeBuffer */ "./dist/core/shapes/ShapeBuffer.js");
-/* harmony import */ var _core_Scene__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../core/Scene */ "./dist/core/Scene.js");
-/* harmony import */ var _core_Group__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../core/Group */ "./dist/core/Group.js");
-/* harmony import */ var _core_shapes_ShapeBase__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../../core/shapes/ShapeBase */ "./dist/core/shapes/ShapeBase.js");
-/* harmony import */ var _SceneChildPropsData__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./SceneChildPropsData */ "./dist/services/scene-utilities/SceneChildPropsData.js");
-/* harmony import */ var _ScenePropUtilities__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./ScenePropUtilities */ "./dist/services/scene-utilities/ScenePropUtilities.js");
-/* harmony import */ var _animation_Animation__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ../animation/Animation */ "./dist/services/animation/Animation.js");
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/v1.js");
+/* harmony import */ var _core_SceneChild__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../../core/SceneChild */ "./dist/core/SceneChild.js");
+/* harmony import */ var _core_shapes_primitives_Line__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../core/shapes/primitives/Line */ "./dist/core/shapes/primitives/Line.js");
+/* harmony import */ var _core_shapes_primitives_Triangle__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../core/shapes/primitives/Triangle */ "./dist/core/shapes/primitives/Triangle.js");
+/* harmony import */ var _core_shapes_primitives_Rect__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../core/shapes/primitives/Rect */ "./dist/core/shapes/primitives/Rect.js");
+/* harmony import */ var _core_shapes_primitives_RegularPolygon__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../core/shapes/primitives/RegularPolygon */ "./dist/core/shapes/primitives/RegularPolygon.js");
+/* harmony import */ var _core_shapes_primitives_Circle__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../core/shapes/primitives/Circle */ "./dist/core/shapes/primitives/Circle.js");
+/* harmony import */ var _core_shapes_primitives_Rose__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../core/shapes/primitives/Rose */ "./dist/core/shapes/primitives/Rose.js");
+/* harmony import */ var _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../core/shapes/primitives/Spiral */ "./dist/core/shapes/primitives/Spiral.js");
+/* harmony import */ var _core_shapes_primitives_Lissajous__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../core/shapes/primitives/Lissajous */ "./dist/core/shapes/primitives/Lissajous.js");
+/* harmony import */ var _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../core/shapes/Shape */ "./dist/core/shapes/Shape.js");
+/* harmony import */ var _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../core/shapes/ShapePrimitive */ "./dist/core/shapes/ShapePrimitive.js");
+/* harmony import */ var _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../core/shapes/ShapeLoop */ "./dist/core/shapes/ShapeLoop.js");
+/* harmony import */ var _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../core/shapes/ShapeBuffer */ "./dist/core/shapes/ShapeBuffer.js");
+/* harmony import */ var _core_Scene__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../core/Scene */ "./dist/core/Scene.js");
+/* harmony import */ var _core_Group__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../core/Group */ "./dist/core/Group.js");
+/* harmony import */ var _core_shapes_ShapeBase__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../core/shapes/ShapeBase */ "./dist/core/shapes/ShapeBase.js");
+/* harmony import */ var _SceneChildPropsData__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./SceneChildPropsData */ "./dist/services/scene-utilities/SceneChildPropsData.js");
+/* harmony import */ var _ScenePropUtilities__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./ScenePropUtilities */ "./dist/services/scene-utilities/ScenePropUtilities.js");
+/* harmony import */ var _animation_Animation__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../animation/Animation */ "./dist/services/animation/Animation.js");
 
 
 // Shapes
@@ -5197,18 +5488,18 @@ class SceneUtilities {
         this.registeredSceneChilds = {};
         this.registeredSceneChilds = {};
         this.registeredSceneChilds = {
-            Line: _core_shapes_primitives_Line__WEBPACK_IMPORTED_MODULE_2__["default"],
-            Triangle: _core_shapes_primitives_Triangle__WEBPACK_IMPORTED_MODULE_3__["default"],
-            Rect: _core_shapes_primitives_Rect__WEBPACK_IMPORTED_MODULE_4__["default"],
-            RegularPolygon: _core_shapes_primitives_RegularPolygon__WEBPACK_IMPORTED_MODULE_5__["default"],
-            Circle: _core_shapes_primitives_Circle__WEBPACK_IMPORTED_MODULE_6__["default"],
-            Rose: _core_shapes_primitives_Rose__WEBPACK_IMPORTED_MODULE_7__["default"],
-            Spiral: _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_8__["default"],
-            Lissajous: _core_shapes_primitives_Lissajous__WEBPACK_IMPORTED_MODULE_9__["default"],
-            Group: _core_Group__WEBPACK_IMPORTED_MODULE_15__["default"],
-            Shape: _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_10__["default"],
-            ShapeLoop: _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_12__["default"],
-            ShapeBuffer: _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_13__["default"],
+            Line: _core_shapes_primitives_Line__WEBPACK_IMPORTED_MODULE_0__.default,
+            Triangle: _core_shapes_primitives_Triangle__WEBPACK_IMPORTED_MODULE_1__.default,
+            Rect: _core_shapes_primitives_Rect__WEBPACK_IMPORTED_MODULE_2__.default,
+            RegularPolygon: _core_shapes_primitives_RegularPolygon__WEBPACK_IMPORTED_MODULE_3__.default,
+            Circle: _core_shapes_primitives_Circle__WEBPACK_IMPORTED_MODULE_4__.default,
+            Rose: _core_shapes_primitives_Rose__WEBPACK_IMPORTED_MODULE_5__.default,
+            Spiral: _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_6__.default,
+            Lissajous: _core_shapes_primitives_Lissajous__WEBPACK_IMPORTED_MODULE_7__.default,
+            Group: _core_Group__WEBPACK_IMPORTED_MODULE_13__.default,
+            Shape: _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_8__.default,
+            ShapeLoop: _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_10__.default,
+            ShapeBuffer: _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_11__.default,
         };
     }
     //#region Register scene child
@@ -5267,14 +5558,14 @@ class SceneUtilities {
     create(item, props, scene, drawer) {
         var _a;
         scene = scene ? scene : typeof item !== 'string' ? item.scene : undefined;
-        if (item instanceof _core_SceneChild__WEBPACK_IMPORTED_MODULE_1__["default"]) {
+        if (item instanceof _core_SceneChild__WEBPACK_IMPORTED_MODULE_18__.default) {
             this.getChildren(item).forEach(child => this.create(child, undefined, scene, drawer));
             return item;
         }
         if (item in this.registeredSceneChilds) {
             if (!props)
                 props = {};
-            props.id = props.id || Object(uuid__WEBPACK_IMPORTED_MODULE_0__["v1"])();
+            props.id = props.id || (0,uuid__WEBPACK_IMPORTED_MODULE_19__.default)();
             if (!props.name && scene)
                 props.name = item + '_' + (this.getCountSceneChildOfType(scene, item) + 1);
             if (!props.data)
@@ -5293,8 +5584,8 @@ class SceneUtilities {
             }
             const sceneChild = new this.registeredSceneChilds[item](props);
             if (sceneChild && drawer && this.isAPrimitive(sceneChild)) {
-                const sideLength = (_a = _SceneChildPropsData__WEBPACK_IMPORTED_MODULE_17__["default"].sideLength) === null || _a === void 0 ? void 0 : _a.default;
-                sceneChild.setProp('sideLength', _ScenePropUtilities__WEBPACK_IMPORTED_MODULE_18__["default"].getTransformedValue(drawer, 'sideLength', sideLength));
+                const sideLength = (_a = _SceneChildPropsData__WEBPACK_IMPORTED_MODULE_15__.default.sideLength) === null || _a === void 0 ? void 0 : _a.default;
+                sceneChild.setProp('sideLength', _ScenePropUtilities__WEBPACK_IMPORTED_MODULE_16__.default.getTransformedValue(drawer, 'sideLength', sideLength));
                 sceneChild.data.props.sideLength = sideLength;
             }
             this.getChildren(sceneChild).forEach(child => this.create(child));
@@ -5313,7 +5604,7 @@ class SceneUtilities {
      */
     getCountSceneChildOfType(scene, type) {
         let count = 0;
-        _core_Scene__WEBPACK_IMPORTED_MODULE_14__["default"].walk(sceneChild => {
+        _core_Scene__WEBPACK_IMPORTED_MODULE_12__.default.walk(sceneChild => {
             count += sceneChild.type == type ? 1 : 0;
         }, scene);
         return count;
@@ -5331,21 +5622,21 @@ class SceneUtilities {
     copy(sceneChild, scene, drawer, strict = false) {
         // copy only props, without name, id
         const props = sceneChild.getProps();
-        if (sceneChild instanceof _core_shapes_ShapeBase__WEBPACK_IMPORTED_MODULE_16__["default"]) {
+        if (sceneChild instanceof _core_shapes_ShapeBase__WEBPACK_IMPORTED_MODULE_14__.default) {
             props.bUseParent = sceneChild.bUseParent;
         }
-        if (sceneChild instanceof _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_13__["default"]) {
+        if (sceneChild instanceof _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_11__.default) {
             props.shape = sceneChild.shape;
         }
-        if (sceneChild instanceof _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_11__["default"]) {
+        if (sceneChild instanceof _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_9__.default) {
             props.bCloseShape = sceneChild.bCloseShape;
             props.adaptMode = sceneChild.adaptMode;
             props.vertexCallback = sceneChild.vertexCallback;
         }
-        if (sceneChild instanceof _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_12__["default"]) {
+        if (sceneChild instanceof _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_10__.default) {
             props.shapeLoopPropsDependencies = sceneChild.shapeLoopPropsDependencies;
         }
-        if (sceneChild instanceof _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_12__["default"]) {
+        if (sceneChild instanceof _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_10__.default) {
             props.shapeLoopPropsDependencies = sceneChild.shapeLoopPropsDependencies;
         }
         if (strict) {
@@ -5356,17 +5647,17 @@ class SceneUtilities {
         }
         const copied = this.create(sceneChild.type, props, scene, drawer);
         if (copied) {
-            if (sceneChild instanceof _core_Group__WEBPACK_IMPORTED_MODULE_15__["default"]) {
+            if (sceneChild instanceof _core_Group__WEBPACK_IMPORTED_MODULE_13__.default) {
                 sceneChild.getChildren().forEach((child) => {
                     const copiedChild = this.copy(child, scene, drawer);
                     copiedChild && copied.add(copiedChild);
                 });
             }
-            else if (sceneChild instanceof _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_10__["default"] && sceneChild.shape) {
+            else if (sceneChild instanceof _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_8__.default && sceneChild.shape) {
                 const copiedShape = sceneChild.shape instanceof Float32Array ? sceneChild.shape : this.copy(sceneChild.shape, scene, drawer);
                 copiedShape && (copied.shape = copiedShape);
             }
-            else if (sceneChild instanceof _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_13__["default"] && sceneChild.shape) {
+            else if (sceneChild instanceof _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_11__.default && sceneChild.shape) {
                 ;
                 copied.setShape(new Float32Array(sceneChild.shape));
             }
@@ -5388,16 +5679,16 @@ class SceneUtilities {
      */
     add(parent, sceneChild, props, scene) {
         let newSceneChild = null;
-        if (parent instanceof _core_Group__WEBPACK_IMPORTED_MODULE_15__["default"] || parent instanceof _core_Scene__WEBPACK_IMPORTED_MODULE_14__["default"]) {
+        if (parent instanceof _core_Group__WEBPACK_IMPORTED_MODULE_13__.default || parent instanceof _core_Scene__WEBPACK_IMPORTED_MODULE_12__.default) {
             newSceneChild = this.create(sceneChild, props, scene);
             newSceneChild && parent.add(newSceneChild);
         }
-        else if (parent instanceof _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_10__["default"]) {
+        else if (parent instanceof _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_8__.default) {
             if (parent.shape == undefined) {
                 newSceneChild = this.create(sceneChild, props, scene);
                 newSceneChild && parent.setShape(newSceneChild);
             }
-            else if (parent.shape instanceof _core_shapes_ShapeBase__WEBPACK_IMPORTED_MODULE_16__["default"]) {
+            else if (parent.shape instanceof _core_shapes_ShapeBase__WEBPACK_IMPORTED_MODULE_14__.default) {
                 newSceneChild = this.create(sceneChild, props, scene);
                 if (newSceneChild) {
                     const newGroup = this.create('Group', undefined, scene);
@@ -5408,7 +5699,7 @@ class SceneUtilities {
                     newGroup.add(newSceneChild);
                 }
             }
-            else if (parent.shape instanceof _core_Group__WEBPACK_IMPORTED_MODULE_15__["default"]) {
+            else if (parent.shape instanceof _core_Group__WEBPACK_IMPORTED_MODULE_13__.default) {
                 this.add(parent.shape, sceneChild, undefined, scene);
             }
         }
@@ -5433,9 +5724,9 @@ class SceneUtilities {
             }
         }
         else {
-            if (from instanceof _core_Group__WEBPACK_IMPORTED_MODULE_15__["default"])
+            if (from instanceof _core_Group__WEBPACK_IMPORTED_MODULE_13__.default)
                 from.removeFromId(item.id);
-            else if (from instanceof _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_10__["default"])
+            else if (from instanceof _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_8__.default)
                 from.setShape(undefined);
         }
     }
@@ -5482,9 +5773,9 @@ class SceneUtilities {
      * @memberof SceneUtilities
      */
     getChildren(sceneChild) {
-        if (sceneChild instanceof _core_Group__WEBPACK_IMPORTED_MODULE_15__["default"])
+        if (sceneChild instanceof _core_Group__WEBPACK_IMPORTED_MODULE_13__.default)
             return sceneChild.getChildren();
-        return sceneChild instanceof _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_10__["default"] && sceneChild.shape ? [sceneChild.shape] : [];
+        return sceneChild instanceof _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_8__.default && sceneChild.shape ? [sceneChild.shape] : [];
     }
     /**
      * Return only primitive children
@@ -5497,7 +5788,7 @@ class SceneUtilities {
         let result = [];
         const children = this.getChildren(sceneChild);
         for (let i = 0, len = children.length; i < len; i++) {
-            if (children[i] instanceof _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_11__["default"])
+            if (children[i] instanceof _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_9__.default)
                 result.push(children[i]);
             else
                 result = result.concat(...this.getChildrenPrimitives(children[i]));
@@ -5528,7 +5819,7 @@ class SceneUtilities {
      */
     getCountOfSceneChildType(scene, type) {
         let count = 0;
-        _core_Scene__WEBPACK_IMPORTED_MODULE_14__["default"].walk(sceneChild => {
+        _core_Scene__WEBPACK_IMPORTED_MODULE_12__.default.walk(sceneChild => {
             count += sceneChild.type == type ? 1 : 0;
         }, scene);
         return count;
@@ -5554,7 +5845,7 @@ class SceneUtilities {
      * @memberof SceneUtilities
      */
     isGroup(sceneChild) {
-        return sceneChild instanceof _core_Group__WEBPACK_IMPORTED_MODULE_15__["default"];
+        return sceneChild instanceof _core_Group__WEBPACK_IMPORTED_MODULE_13__.default;
     }
     /**
      * Check sceneChild are Shape and has a child
@@ -5564,7 +5855,7 @@ class SceneUtilities {
      * @memberof SceneUtilities
      */
     hasShapeChild(sceneChild) {
-        return sceneChild instanceof _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_10__["default"] ? sceneChild.shape !== undefined : false;
+        return sceneChild instanceof _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_8__.default ? sceneChild.shape !== undefined : false;
     }
     /**
      * Check sceneChild is a ShapeBuffer an are binded
@@ -5574,7 +5865,7 @@ class SceneUtilities {
      * @memberof SceneUtilities
      */
     hasShapeBuffer(sceneChild) {
-        return sceneChild instanceof _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_13__["default"];
+        return sceneChild instanceof _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_11__.default;
     }
     /**
      * Check scene child is a Primitive
@@ -5584,7 +5875,7 @@ class SceneUtilities {
      * @memberof SceneUtilities
      */
     isAPrimitive(sceneChild) {
-        return sceneChild instanceof _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_11__["default"];
+        return sceneChild instanceof _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_9__.default;
     }
     /**
      * Check scene child is a ShapeLoop
@@ -5594,7 +5885,7 @@ class SceneUtilities {
      * @memberof SceneUtilities
      */
     hasLoop(sceneChild) {
-        return sceneChild instanceof _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_12__["default"];
+        return sceneChild instanceof _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_10__.default;
     }
     //#endregion
     /**
@@ -5607,15 +5898,15 @@ class SceneUtilities {
      * @memberof SceneUtilities
      */
     setProp(sceneChild, name, value, drawer) {
-        if (_ScenePropUtilities__WEBPACK_IMPORTED_MODULE_18__["default"].bValueAnimation(value)) {
+        if (_ScenePropUtilities__WEBPACK_IMPORTED_MODULE_16__.default.bValueAnimation(value)) {
             sceneChild.data.props[name] = value;
-            sceneChild.setProp(name, _animation_Animation__WEBPACK_IMPORTED_MODULE_19__["default"].composeAnimation(drawer, name, value));
+            sceneChild.setProp(name, _animation_Animation__WEBPACK_IMPORTED_MODULE_17__.default.composeAnimation(drawer, name, value));
             return;
         }
         if (name === 'loop') {
-            if (sceneChild instanceof _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_12__["default"] && _ScenePropUtilities__WEBPACK_IMPORTED_MODULE_18__["default"].bValueLoop(value)) {
+            if (sceneChild instanceof _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_10__.default && _ScenePropUtilities__WEBPACK_IMPORTED_MODULE_16__.default.bValueLoop(value)) {
                 sceneChild.data.props.loop = value;
-                sceneChild.setProp('loop', _ScenePropUtilities__WEBPACK_IMPORTED_MODULE_18__["default"].composeLoop(value));
+                sceneChild.setProp('loop', _ScenePropUtilities__WEBPACK_IMPORTED_MODULE_16__.default.composeLoop(value));
                 const dynamic = value.dynamyc;
                 const realDynamic = sceneChild.shapeLoopPropsDependencies.indexOf('prop_argumens') >= 0;
                 if (dynamic !== realDynamic) {
@@ -5631,29 +5922,29 @@ class SceneUtilities {
             return;
         }
         if (name === 'vertexCallback') {
-            if (sceneChild instanceof _core_shapes_ShapeBase__WEBPACK_IMPORTED_MODULE_16__["default"] && _ScenePropUtilities__WEBPACK_IMPORTED_MODULE_18__["default"].bValueVertexCallback(value)) {
+            if (sceneChild instanceof _core_shapes_ShapeBase__WEBPACK_IMPORTED_MODULE_14__.default && _ScenePropUtilities__WEBPACK_IMPORTED_MODULE_16__.default.bValueVertexCallback(value)) {
                 sceneChild.data.props.vertexCallback = value;
-                sceneChild.vertexCallback = _ScenePropUtilities__WEBPACK_IMPORTED_MODULE_18__["default"].composeVertexCallback(value);
+                sceneChild.vertexCallback = _ScenePropUtilities__WEBPACK_IMPORTED_MODULE_16__.default.composeVertexCallback(value);
                 sceneChild.bUseParent = true;
                 sceneChild.clearBuffer(true, true);
             }
             return;
         }
-        if (_ScenePropUtilities__WEBPACK_IMPORTED_MODULE_18__["default"].bPropTransformable(name, value)) {
-            if (_ScenePropUtilities__WEBPACK_IMPORTED_MODULE_18__["default"].bValueDrawer(value)) {
+        if (_ScenePropUtilities__WEBPACK_IMPORTED_MODULE_16__.default.bPropTransformable(name, value)) {
+            if (_ScenePropUtilities__WEBPACK_IMPORTED_MODULE_16__.default.bValueDrawer(value)) {
                 sceneChild.data.props[name] = value;
-                sceneChild.setProp(name, _ScenePropUtilities__WEBPACK_IMPORTED_MODULE_18__["default"].getTransformedValue(drawer, name, value.value));
+                sceneChild.setProp(name, _ScenePropUtilities__WEBPACK_IMPORTED_MODULE_16__.default.getTransformedValue(drawer, name, value.value));
             }
             else {
                 sceneChild.setProp(name, value);
             }
             return;
         }
-        if (name in _SceneChildPropsData__WEBPACK_IMPORTED_MODULE_17__["default"] && _SceneChildPropsData__WEBPACK_IMPORTED_MODULE_17__["default"][name].transformation !== 'none')
+        if (name in _SceneChildPropsData__WEBPACK_IMPORTED_MODULE_15__.default && _SceneChildPropsData__WEBPACK_IMPORTED_MODULE_15__.default[name].transformation !== 'none')
             sceneChild.data.props[name] = value;
         switch (name) {
             case 'bUseParent':
-                if (sceneChild instanceof _core_shapes_ShapeBase__WEBPACK_IMPORTED_MODULE_16__["default"])
+                if (sceneChild instanceof _core_shapes_ShapeBase__WEBPACK_IMPORTED_MODULE_14__.default)
                     sceneChild.bUseParent = value;
                 break;
             case 'bCloseShape':
@@ -5676,7 +5967,7 @@ class SceneUtilities {
         }
     }
 }
-/* harmony default export */ __webpack_exports__["default"] = (new SceneUtilities());
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new SceneUtilities());
 //# sourceMappingURL=SceneUtilities.js.map
 
 /***/ }),
@@ -5685,11 +5976,17 @@ class SceneUtilities {
 /*!********************************************!*\
   !*** ./dist/services/timeline/Timeline.js ***!
   \********************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! namespace exports */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
 /* harmony import */ var _events_Emitter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../events/Emitter */ "./dist/services/events/Emitter.js");
 
 /**
@@ -5698,7 +5995,7 @@ __webpack_require__.r(__webpack_exports__);
  * @class Timeline
  * @extends {Emitter<TimelineEvents>}
  */
-class Timeline extends _events_Emitter__WEBPACK_IMPORTED_MODULE_0__["default"] {
+class Timeline extends _events_Emitter__WEBPACK_IMPORTED_MODULE_0__.default {
     /**
      * Class used for time and rendering managment
      *
@@ -6014,7 +6311,7 @@ class Timeline extends _events_Emitter__WEBPACK_IMPORTED_MODULE_0__["default"] {
 Timeline.START = 'start';
 Timeline.PAUSE = 'pause';
 Timeline.STOP = 'stop';
-/* harmony default export */ __webpack_exports__["default"] = (Timeline);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Timeline);
 //# sourceMappingURL=Timeline.js.map
 
 /***/ }),
@@ -6023,12 +6320,16 @@ Timeline.STOP = 'stop';
 /*!************************************************************************!*\
   !*** ./node_modules/@pups/core/build/Models/Color/ColorConversions.js ***!
   \************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! flagged exports */
+/*! export __esModule [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_exports__ */
+/***/ ((__unused_webpack_module, exports) => {
 
 "use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, "__esModule", ({ value: true }));
 class ColorConversions {
     /**
      *
@@ -6267,12 +6568,17 @@ exports.default = ColorConversions;
 /*!***********************************************************************!*\
   !*** ./node_modules/@pups/core/build/Models/Color/ColorExceptions.js ***!
   \***********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! flagged exports */
+/*! export ColorNotValidException [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export ColorParsingException [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export __esModule [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_exports__ */
+/***/ ((__unused_webpack_module, exports) => {
 
 "use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, "__esModule", ({ value: true }));
 class ColorNotValidException extends Error {
     constructor(color, types) {
         super(`Il colore '${color}' non è valido.\nI formati supportati sono: ${types.map(e => e.type).join(', ')}`);
@@ -6293,12 +6599,16 @@ exports.ColorParsingException = ColorParsingException;
 /*!********************************************************************!*\
   !*** ./node_modules/@pups/core/build/Models/Color/ColorManager.js ***!
   \********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! flagged exports */
+/*! export __esModule [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_exports__, __webpack_require__ */
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, "__esModule", ({ value: true }));
 const Number_1 = __webpack_require__(/*! @pups/utility/build/Number */ "./node_modules/@pups/utility/build/Number.js");
 const Array_1 = __webpack_require__(/*! @pups/utility/build/Array */ "./node_modules/@pups/utility/build/Array.js");
 const ColorParser_1 = __webpack_require__(/*! ./ColorParser */ "./node_modules/@pups/core/build/Models/Color/ColorParser.js");
@@ -6513,12 +6823,16 @@ exports.default = ColorManager;
 /*!*******************************************************************!*\
   !*** ./node_modules/@pups/core/build/Models/Color/ColorParser.js ***!
   \*******************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! flagged exports */
+/*! export __esModule [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_exports__, __webpack_require__ */
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, "__esModule", ({ value: true }));
 const ColorExceptions_1 = __webpack_require__(/*! ./ColorExceptions */ "./node_modules/@pups/core/build/Models/Color/ColorExceptions.js");
 const Array_1 = __webpack_require__(/*! @pups/utility/build/Array */ "./node_modules/@pups/utility/build/Array.js");
 const Number_1 = __webpack_require__(/*! @pups/utility/build/Number */ "./node_modules/@pups/utility/build/Number.js");
@@ -6768,12 +7082,24 @@ exports.default = ColorParser;
 /*!***************************************************!*\
   !*** ./node_modules/@pups/utility/build/Array.js ***!
   \***************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! flagged exports */
+/*! export __esModule [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export hasObjectProperty [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export indexOfObjectProperty [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export intersect [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export nextElement [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export prevElement [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export randomElement [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export toFloat [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export toInt [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_exports__, __webpack_require__ */
+/*! CommonJS bailout: exports.indexOfObjectProperty(...) prevents optimization as exports is passed as call context at 51:54-83 */
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, "__esModule", ({ value: true }));
 const Object_1 = __webpack_require__(/*! ./Object */ "./node_modules/@pups/utility/build/Object.js");
 const Number_1 = __webpack_require__(/*! ./Number */ "./node_modules/@pups/utility/build/Number.js");
 /**
@@ -6948,12 +7274,30 @@ exports.randomElement = (a) => a[Number_1.randomInt(0, a.length - 1)];
 /*!****************************************************!*\
   !*** ./node_modules/@pups/utility/build/Number.js ***!
   \****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! flagged exports */
+/*! export __esModule [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export clamp [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export clamp01 [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export fix [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export lerp [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export newId [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export nextNumber [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export prevNumber [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export randomFloat [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export randomInt [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export relativeClamp [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export round [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export twoDigits [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_exports__ */
+/*! CommonJS bailout: exports.clamp(...) prevents optimization as exports is passed as call context at 24:29-42 */
+/*! CommonJS bailout: exports.clamp(...) prevents optimization as exports is passed as call context at 49:65-78 */
+/*! CommonJS bailout: exports.clamp01(...) prevents optimization as exports is passed as call context at 113:72-87 */
+/***/ ((__unused_webpack_module, exports) => {
 
 "use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, "__esModule", ({ value: true }));
 let uid = 0;
 /**
  * Ritorna un numerio incrementale
@@ -7080,12 +7424,28 @@ exports.round = (val) => ~~(val + 0.5);
 /*!****************************************************!*\
   !*** ./node_modules/@pups/utility/build/Object.js ***!
   \****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! flagged exports */
+/*! export __esModule [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export each [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export getProperty [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export hasProperty [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export isDef [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export isEqual [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export isUndef [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export map [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export setProperties [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_exports__, top-level-this-exports */
+/*! CommonJS bailout: exports.isDef(...) prevents optimization as exports is passed as call context at 19:12-25 */
+/*! CommonJS bailout: exports.isEqual(...) prevents optimization as exports is passed as call context at 36:54-69 */
+/*! CommonJS bailout: this.getProperty(...) prevents optimization as this is passed as call context at 80:18-34 */
+/*! CommonJS bailout: this.getProperty(...) prevents optimization as this is passed as call context at 104:35-51 */
+/*! CommonJS bailout: this.getProperty(...) prevents optimization as this is passed as call context at 106:19-35 */
+/***/ (function(__unused_webpack_module, exports) {
 
 "use strict";
 
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, "__esModule", ({ value: true }));
 /**
  * Controlla se il valore è definito
  *
@@ -7230,17 +7590,27 @@ exports.setProperties = (object, properties, values) => {
 /*!**********************************************!*\
   !*** ./node_modules/gl-matrix/esm/common.js ***!
   \**********************************************/
-/*! exports provided: EPSILON, ARRAY_TYPE, RANDOM, setMatrixArrayType, toRadian, equals */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! namespace exports */
+/*! export ARRAY_TYPE [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export EPSILON [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export RANDOM [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export equals [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export setMatrixArrayType [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export toRadian [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__.r, __webpack_exports__, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EPSILON", function() { return EPSILON; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ARRAY_TYPE", function() { return ARRAY_TYPE; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RANDOM", function() { return RANDOM; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setMatrixArrayType", function() { return setMatrixArrayType; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toRadian", function() { return toRadian; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "equals", function() { return equals; });
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "EPSILON": () => /* binding */ EPSILON,
+/* harmony export */   "ARRAY_TYPE": () => /* binding */ ARRAY_TYPE,
+/* harmony export */   "RANDOM": () => /* binding */ RANDOM,
+/* harmony export */   "setMatrixArrayType": () => /* binding */ setMatrixArrayType,
+/* harmony export */   "toRadian": () => /* binding */ toRadian,
+/* harmony export */   "equals": () => /* binding */ equals
+/* harmony export */ });
 /**
  * Common utilities
  * @module glMatrix
@@ -7294,1923 +7664,113 @@ if (!Math.hypot) Math.hypot = function () {
 
 /***/ }),
 
-/***/ "./node_modules/gl-matrix/esm/index.js":
-/*!*********************************************!*\
-  !*** ./node_modules/gl-matrix/esm/index.js ***!
-  \*********************************************/
-/*! exports provided: glMatrix, mat2, mat2d, mat3, mat4, quat, quat2, vec2, vec3, vec4 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _common_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./common.js */ "./node_modules/gl-matrix/esm/common.js");
-/* harmony reexport (module object) */ __webpack_require__.d(__webpack_exports__, "glMatrix", function() { return _common_js__WEBPACK_IMPORTED_MODULE_0__; });
-/* harmony import */ var _mat2_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./mat2.js */ "./node_modules/gl-matrix/esm/mat2.js");
-/* harmony reexport (module object) */ __webpack_require__.d(__webpack_exports__, "mat2", function() { return _mat2_js__WEBPACK_IMPORTED_MODULE_1__; });
-/* harmony import */ var _mat2d_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./mat2d.js */ "./node_modules/gl-matrix/esm/mat2d.js");
-/* harmony reexport (module object) */ __webpack_require__.d(__webpack_exports__, "mat2d", function() { return _mat2d_js__WEBPACK_IMPORTED_MODULE_2__; });
-/* harmony import */ var _mat3_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./mat3.js */ "./node_modules/gl-matrix/esm/mat3.js");
-/* harmony reexport (module object) */ __webpack_require__.d(__webpack_exports__, "mat3", function() { return _mat3_js__WEBPACK_IMPORTED_MODULE_3__; });
-/* harmony import */ var _mat4_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./mat4.js */ "./node_modules/gl-matrix/esm/mat4.js");
-/* harmony reexport (module object) */ __webpack_require__.d(__webpack_exports__, "mat4", function() { return _mat4_js__WEBPACK_IMPORTED_MODULE_4__; });
-/* harmony import */ var _quat_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./quat.js */ "./node_modules/gl-matrix/esm/quat.js");
-/* harmony reexport (module object) */ __webpack_require__.d(__webpack_exports__, "quat", function() { return _quat_js__WEBPACK_IMPORTED_MODULE_5__; });
-/* harmony import */ var _quat2_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./quat2.js */ "./node_modules/gl-matrix/esm/quat2.js");
-/* harmony reexport (module object) */ __webpack_require__.d(__webpack_exports__, "quat2", function() { return _quat2_js__WEBPACK_IMPORTED_MODULE_6__; });
-/* harmony import */ var _vec2_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./vec2.js */ "./node_modules/gl-matrix/esm/vec2.js");
-/* harmony reexport (module object) */ __webpack_require__.d(__webpack_exports__, "vec2", function() { return _vec2_js__WEBPACK_IMPORTED_MODULE_7__; });
-/* harmony import */ var _vec3_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./vec3.js */ "./node_modules/gl-matrix/esm/vec3.js");
-/* harmony reexport (module object) */ __webpack_require__.d(__webpack_exports__, "vec3", function() { return _vec3_js__WEBPACK_IMPORTED_MODULE_8__; });
-/* harmony import */ var _vec4_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./vec4.js */ "./node_modules/gl-matrix/esm/vec4.js");
-/* harmony reexport (module object) */ __webpack_require__.d(__webpack_exports__, "vec4", function() { return _vec4_js__WEBPACK_IMPORTED_MODULE_9__; });
-
-
-
-
-
-
-
-
-
-
-
-
-/***/ }),
-
-/***/ "./node_modules/gl-matrix/esm/mat2.js":
-/*!********************************************!*\
-  !*** ./node_modules/gl-matrix/esm/mat2.js ***!
-  \********************************************/
-/*! exports provided: create, clone, copy, identity, fromValues, set, transpose, invert, adjoint, determinant, multiply, rotate, scale, fromRotation, fromScaling, str, frob, LDU, add, subtract, exactEquals, equals, multiplyScalar, multiplyScalarAndAdd, mul, sub */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "create", function() { return create; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "clone", function() { return clone; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "copy", function() { return copy; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "identity", function() { return identity; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fromValues", function() { return fromValues; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "set", function() { return set; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "transpose", function() { return transpose; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "invert", function() { return invert; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "adjoint", function() { return adjoint; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "determinant", function() { return determinant; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "multiply", function() { return multiply; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "rotate", function() { return rotate; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "scale", function() { return scale; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fromRotation", function() { return fromRotation; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fromScaling", function() { return fromScaling; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "str", function() { return str; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "frob", function() { return frob; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LDU", function() { return LDU; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "add", function() { return add; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "subtract", function() { return subtract; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "exactEquals", function() { return exactEquals; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "equals", function() { return equals; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "multiplyScalar", function() { return multiplyScalar; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "multiplyScalarAndAdd", function() { return multiplyScalarAndAdd; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mul", function() { return mul; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sub", function() { return sub; });
-/* harmony import */ var _common_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./common.js */ "./node_modules/gl-matrix/esm/common.js");
-
-/**
- * 2x2 Matrix
- * @module mat2
- */
-
-/**
- * Creates a new identity mat2
- *
- * @returns {mat2} a new 2x2 matrix
- */
-
-function create() {
-  var out = new _common_js__WEBPACK_IMPORTED_MODULE_0__["ARRAY_TYPE"](4);
-
-  if (_common_js__WEBPACK_IMPORTED_MODULE_0__["ARRAY_TYPE"] != Float32Array) {
-    out[1] = 0;
-    out[2] = 0;
-  }
-
-  out[0] = 1;
-  out[3] = 1;
-  return out;
-}
-/**
- * Creates a new mat2 initialized with values from an existing matrix
- *
- * @param {ReadonlyMat2} a matrix to clone
- * @returns {mat2} a new 2x2 matrix
- */
-
-function clone(a) {
-  var out = new _common_js__WEBPACK_IMPORTED_MODULE_0__["ARRAY_TYPE"](4);
-  out[0] = a[0];
-  out[1] = a[1];
-  out[2] = a[2];
-  out[3] = a[3];
-  return out;
-}
-/**
- * Copy the values from one mat2 to another
- *
- * @param {mat2} out the receiving matrix
- * @param {ReadonlyMat2} a the source matrix
- * @returns {mat2} out
- */
-
-function copy(out, a) {
-  out[0] = a[0];
-  out[1] = a[1];
-  out[2] = a[2];
-  out[3] = a[3];
-  return out;
-}
-/**
- * Set a mat2 to the identity matrix
- *
- * @param {mat2} out the receiving matrix
- * @returns {mat2} out
- */
-
-function identity(out) {
-  out[0] = 1;
-  out[1] = 0;
-  out[2] = 0;
-  out[3] = 1;
-  return out;
-}
-/**
- * Create a new mat2 with the given values
- *
- * @param {Number} m00 Component in column 0, row 0 position (index 0)
- * @param {Number} m01 Component in column 0, row 1 position (index 1)
- * @param {Number} m10 Component in column 1, row 0 position (index 2)
- * @param {Number} m11 Component in column 1, row 1 position (index 3)
- * @returns {mat2} out A new 2x2 matrix
- */
-
-function fromValues(m00, m01, m10, m11) {
-  var out = new _common_js__WEBPACK_IMPORTED_MODULE_0__["ARRAY_TYPE"](4);
-  out[0] = m00;
-  out[1] = m01;
-  out[2] = m10;
-  out[3] = m11;
-  return out;
-}
-/**
- * Set the components of a mat2 to the given values
- *
- * @param {mat2} out the receiving matrix
- * @param {Number} m00 Component in column 0, row 0 position (index 0)
- * @param {Number} m01 Component in column 0, row 1 position (index 1)
- * @param {Number} m10 Component in column 1, row 0 position (index 2)
- * @param {Number} m11 Component in column 1, row 1 position (index 3)
- * @returns {mat2} out
- */
-
-function set(out, m00, m01, m10, m11) {
-  out[0] = m00;
-  out[1] = m01;
-  out[2] = m10;
-  out[3] = m11;
-  return out;
-}
-/**
- * Transpose the values of a mat2
- *
- * @param {mat2} out the receiving matrix
- * @param {ReadonlyMat2} a the source matrix
- * @returns {mat2} out
- */
-
-function transpose(out, a) {
-  // If we are transposing ourselves we can skip a few steps but have to cache
-  // some values
-  if (out === a) {
-    var a1 = a[1];
-    out[1] = a[2];
-    out[2] = a1;
-  } else {
-    out[0] = a[0];
-    out[1] = a[2];
-    out[2] = a[1];
-    out[3] = a[3];
-  }
-
-  return out;
-}
-/**
- * Inverts a mat2
- *
- * @param {mat2} out the receiving matrix
- * @param {ReadonlyMat2} a the source matrix
- * @returns {mat2} out
- */
-
-function invert(out, a) {
-  var a0 = a[0],
-      a1 = a[1],
-      a2 = a[2],
-      a3 = a[3]; // Calculate the determinant
-
-  var det = a0 * a3 - a2 * a1;
-
-  if (!det) {
-    return null;
-  }
-
-  det = 1.0 / det;
-  out[0] = a3 * det;
-  out[1] = -a1 * det;
-  out[2] = -a2 * det;
-  out[3] = a0 * det;
-  return out;
-}
-/**
- * Calculates the adjugate of a mat2
- *
- * @param {mat2} out the receiving matrix
- * @param {ReadonlyMat2} a the source matrix
- * @returns {mat2} out
- */
-
-function adjoint(out, a) {
-  // Caching this value is nessecary if out == a
-  var a0 = a[0];
-  out[0] = a[3];
-  out[1] = -a[1];
-  out[2] = -a[2];
-  out[3] = a0;
-  return out;
-}
-/**
- * Calculates the determinant of a mat2
- *
- * @param {ReadonlyMat2} a the source matrix
- * @returns {Number} determinant of a
- */
-
-function determinant(a) {
-  return a[0] * a[3] - a[2] * a[1];
-}
-/**
- * Multiplies two mat2's
- *
- * @param {mat2} out the receiving matrix
- * @param {ReadonlyMat2} a the first operand
- * @param {ReadonlyMat2} b the second operand
- * @returns {mat2} out
- */
-
-function multiply(out, a, b) {
-  var a0 = a[0],
-      a1 = a[1],
-      a2 = a[2],
-      a3 = a[3];
-  var b0 = b[0],
-      b1 = b[1],
-      b2 = b[2],
-      b3 = b[3];
-  out[0] = a0 * b0 + a2 * b1;
-  out[1] = a1 * b0 + a3 * b1;
-  out[2] = a0 * b2 + a2 * b3;
-  out[3] = a1 * b2 + a3 * b3;
-  return out;
-}
-/**
- * Rotates a mat2 by the given angle
- *
- * @param {mat2} out the receiving matrix
- * @param {ReadonlyMat2} a the matrix to rotate
- * @param {Number} rad the angle to rotate the matrix by
- * @returns {mat2} out
- */
-
-function rotate(out, a, rad) {
-  var a0 = a[0],
-      a1 = a[1],
-      a2 = a[2],
-      a3 = a[3];
-  var s = Math.sin(rad);
-  var c = Math.cos(rad);
-  out[0] = a0 * c + a2 * s;
-  out[1] = a1 * c + a3 * s;
-  out[2] = a0 * -s + a2 * c;
-  out[3] = a1 * -s + a3 * c;
-  return out;
-}
-/**
- * Scales the mat2 by the dimensions in the given vec2
- *
- * @param {mat2} out the receiving matrix
- * @param {ReadonlyMat2} a the matrix to rotate
- * @param {ReadonlyVec2} v the vec2 to scale the matrix by
- * @returns {mat2} out
- **/
-
-function scale(out, a, v) {
-  var a0 = a[0],
-      a1 = a[1],
-      a2 = a[2],
-      a3 = a[3];
-  var v0 = v[0],
-      v1 = v[1];
-  out[0] = a0 * v0;
-  out[1] = a1 * v0;
-  out[2] = a2 * v1;
-  out[3] = a3 * v1;
-  return out;
-}
-/**
- * Creates a matrix from a given angle
- * This is equivalent to (but much faster than):
- *
- *     mat2.identity(dest);
- *     mat2.rotate(dest, dest, rad);
- *
- * @param {mat2} out mat2 receiving operation result
- * @param {Number} rad the angle to rotate the matrix by
- * @returns {mat2} out
- */
-
-function fromRotation(out, rad) {
-  var s = Math.sin(rad);
-  var c = Math.cos(rad);
-  out[0] = c;
-  out[1] = s;
-  out[2] = -s;
-  out[3] = c;
-  return out;
-}
-/**
- * Creates a matrix from a vector scaling
- * This is equivalent to (but much faster than):
- *
- *     mat2.identity(dest);
- *     mat2.scale(dest, dest, vec);
- *
- * @param {mat2} out mat2 receiving operation result
- * @param {ReadonlyVec2} v Scaling vector
- * @returns {mat2} out
- */
-
-function fromScaling(out, v) {
-  out[0] = v[0];
-  out[1] = 0;
-  out[2] = 0;
-  out[3] = v[1];
-  return out;
-}
-/**
- * Returns a string representation of a mat2
- *
- * @param {ReadonlyMat2} a matrix to represent as a string
- * @returns {String} string representation of the matrix
- */
-
-function str(a) {
-  return "mat2(" + a[0] + ", " + a[1] + ", " + a[2] + ", " + a[3] + ")";
-}
-/**
- * Returns Frobenius norm of a mat2
- *
- * @param {ReadonlyMat2} a the matrix to calculate Frobenius norm of
- * @returns {Number} Frobenius norm
- */
-
-function frob(a) {
-  return Math.hypot(a[0], a[1], a[2], a[3]);
-}
-/**
- * Returns L, D and U matrices (Lower triangular, Diagonal and Upper triangular) by factorizing the input matrix
- * @param {ReadonlyMat2} L the lower triangular matrix
- * @param {ReadonlyMat2} D the diagonal matrix
- * @param {ReadonlyMat2} U the upper triangular matrix
- * @param {ReadonlyMat2} a the input matrix to factorize
- */
-
-function LDU(L, D, U, a) {
-  L[2] = a[2] / a[0];
-  U[0] = a[0];
-  U[1] = a[1];
-  U[3] = a[3] - L[2] * U[1];
-  return [L, D, U];
-}
-/**
- * Adds two mat2's
- *
- * @param {mat2} out the receiving matrix
- * @param {ReadonlyMat2} a the first operand
- * @param {ReadonlyMat2} b the second operand
- * @returns {mat2} out
- */
-
-function add(out, a, b) {
-  out[0] = a[0] + b[0];
-  out[1] = a[1] + b[1];
-  out[2] = a[2] + b[2];
-  out[3] = a[3] + b[3];
-  return out;
-}
-/**
- * Subtracts matrix b from matrix a
- *
- * @param {mat2} out the receiving matrix
- * @param {ReadonlyMat2} a the first operand
- * @param {ReadonlyMat2} b the second operand
- * @returns {mat2} out
- */
-
-function subtract(out, a, b) {
-  out[0] = a[0] - b[0];
-  out[1] = a[1] - b[1];
-  out[2] = a[2] - b[2];
-  out[3] = a[3] - b[3];
-  return out;
-}
-/**
- * Returns whether or not the matrices have exactly the same elements in the same position (when compared with ===)
- *
- * @param {ReadonlyMat2} a The first matrix.
- * @param {ReadonlyMat2} b The second matrix.
- * @returns {Boolean} True if the matrices are equal, false otherwise.
- */
-
-function exactEquals(a, b) {
-  return a[0] === b[0] && a[1] === b[1] && a[2] === b[2] && a[3] === b[3];
-}
-/**
- * Returns whether or not the matrices have approximately the same elements in the same position.
- *
- * @param {ReadonlyMat2} a The first matrix.
- * @param {ReadonlyMat2} b The second matrix.
- * @returns {Boolean} True if the matrices are equal, false otherwise.
- */
-
-function equals(a, b) {
-  var a0 = a[0],
-      a1 = a[1],
-      a2 = a[2],
-      a3 = a[3];
-  var b0 = b[0],
-      b1 = b[1],
-      b2 = b[2],
-      b3 = b[3];
-  return Math.abs(a0 - b0) <= _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"] * Math.max(1.0, Math.abs(a0), Math.abs(b0)) && Math.abs(a1 - b1) <= _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"] * Math.max(1.0, Math.abs(a1), Math.abs(b1)) && Math.abs(a2 - b2) <= _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"] * Math.max(1.0, Math.abs(a2), Math.abs(b2)) && Math.abs(a3 - b3) <= _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"] * Math.max(1.0, Math.abs(a3), Math.abs(b3));
-}
-/**
- * Multiply each element of the matrix by a scalar.
- *
- * @param {mat2} out the receiving matrix
- * @param {ReadonlyMat2} a the matrix to scale
- * @param {Number} b amount to scale the matrix's elements by
- * @returns {mat2} out
- */
-
-function multiplyScalar(out, a, b) {
-  out[0] = a[0] * b;
-  out[1] = a[1] * b;
-  out[2] = a[2] * b;
-  out[3] = a[3] * b;
-  return out;
-}
-/**
- * Adds two mat2's after multiplying each element of the second operand by a scalar value.
- *
- * @param {mat2} out the receiving vector
- * @param {ReadonlyMat2} a the first operand
- * @param {ReadonlyMat2} b the second operand
- * @param {Number} scale the amount to scale b's elements by before adding
- * @returns {mat2} out
- */
-
-function multiplyScalarAndAdd(out, a, b, scale) {
-  out[0] = a[0] + b[0] * scale;
-  out[1] = a[1] + b[1] * scale;
-  out[2] = a[2] + b[2] * scale;
-  out[3] = a[3] + b[3] * scale;
-  return out;
-}
-/**
- * Alias for {@link mat2.multiply}
- * @function
- */
-
-var mul = multiply;
-/**
- * Alias for {@link mat2.subtract}
- * @function
- */
-
-var sub = subtract;
-
-/***/ }),
-
-/***/ "./node_modules/gl-matrix/esm/mat2d.js":
-/*!*********************************************!*\
-  !*** ./node_modules/gl-matrix/esm/mat2d.js ***!
-  \*********************************************/
-/*! exports provided: create, clone, copy, identity, fromValues, set, invert, determinant, multiply, rotate, scale, translate, fromRotation, fromScaling, fromTranslation, str, frob, add, subtract, multiplyScalar, multiplyScalarAndAdd, exactEquals, equals, mul, sub */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "create", function() { return create; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "clone", function() { return clone; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "copy", function() { return copy; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "identity", function() { return identity; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fromValues", function() { return fromValues; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "set", function() { return set; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "invert", function() { return invert; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "determinant", function() { return determinant; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "multiply", function() { return multiply; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "rotate", function() { return rotate; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "scale", function() { return scale; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "translate", function() { return translate; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fromRotation", function() { return fromRotation; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fromScaling", function() { return fromScaling; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fromTranslation", function() { return fromTranslation; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "str", function() { return str; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "frob", function() { return frob; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "add", function() { return add; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "subtract", function() { return subtract; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "multiplyScalar", function() { return multiplyScalar; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "multiplyScalarAndAdd", function() { return multiplyScalarAndAdd; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "exactEquals", function() { return exactEquals; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "equals", function() { return equals; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mul", function() { return mul; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sub", function() { return sub; });
-/* harmony import */ var _common_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./common.js */ "./node_modules/gl-matrix/esm/common.js");
-
-/**
- * 2x3 Matrix
- * @module mat2d
- * @description
- * A mat2d contains six elements defined as:
- * <pre>
- * [a, b,
- *  c, d,
- *  tx, ty]
- * </pre>
- * This is a short form for the 3x3 matrix:
- * <pre>
- * [a, b, 0,
- *  c, d, 0,
- *  tx, ty, 1]
- * </pre>
- * The last column is ignored so the array is shorter and operations are faster.
- */
-
-/**
- * Creates a new identity mat2d
- *
- * @returns {mat2d} a new 2x3 matrix
- */
-
-function create() {
-  var out = new _common_js__WEBPACK_IMPORTED_MODULE_0__["ARRAY_TYPE"](6);
-
-  if (_common_js__WEBPACK_IMPORTED_MODULE_0__["ARRAY_TYPE"] != Float32Array) {
-    out[1] = 0;
-    out[2] = 0;
-    out[4] = 0;
-    out[5] = 0;
-  }
-
-  out[0] = 1;
-  out[3] = 1;
-  return out;
-}
-/**
- * Creates a new mat2d initialized with values from an existing matrix
- *
- * @param {ReadonlyMat2d} a matrix to clone
- * @returns {mat2d} a new 2x3 matrix
- */
-
-function clone(a) {
-  var out = new _common_js__WEBPACK_IMPORTED_MODULE_0__["ARRAY_TYPE"](6);
-  out[0] = a[0];
-  out[1] = a[1];
-  out[2] = a[2];
-  out[3] = a[3];
-  out[4] = a[4];
-  out[5] = a[5];
-  return out;
-}
-/**
- * Copy the values from one mat2d to another
- *
- * @param {mat2d} out the receiving matrix
- * @param {ReadonlyMat2d} a the source matrix
- * @returns {mat2d} out
- */
-
-function copy(out, a) {
-  out[0] = a[0];
-  out[1] = a[1];
-  out[2] = a[2];
-  out[3] = a[3];
-  out[4] = a[4];
-  out[5] = a[5];
-  return out;
-}
-/**
- * Set a mat2d to the identity matrix
- *
- * @param {mat2d} out the receiving matrix
- * @returns {mat2d} out
- */
-
-function identity(out) {
-  out[0] = 1;
-  out[1] = 0;
-  out[2] = 0;
-  out[3] = 1;
-  out[4] = 0;
-  out[5] = 0;
-  return out;
-}
-/**
- * Create a new mat2d with the given values
- *
- * @param {Number} a Component A (index 0)
- * @param {Number} b Component B (index 1)
- * @param {Number} c Component C (index 2)
- * @param {Number} d Component D (index 3)
- * @param {Number} tx Component TX (index 4)
- * @param {Number} ty Component TY (index 5)
- * @returns {mat2d} A new mat2d
- */
-
-function fromValues(a, b, c, d, tx, ty) {
-  var out = new _common_js__WEBPACK_IMPORTED_MODULE_0__["ARRAY_TYPE"](6);
-  out[0] = a;
-  out[1] = b;
-  out[2] = c;
-  out[3] = d;
-  out[4] = tx;
-  out[5] = ty;
-  return out;
-}
-/**
- * Set the components of a mat2d to the given values
- *
- * @param {mat2d} out the receiving matrix
- * @param {Number} a Component A (index 0)
- * @param {Number} b Component B (index 1)
- * @param {Number} c Component C (index 2)
- * @param {Number} d Component D (index 3)
- * @param {Number} tx Component TX (index 4)
- * @param {Number} ty Component TY (index 5)
- * @returns {mat2d} out
- */
-
-function set(out, a, b, c, d, tx, ty) {
-  out[0] = a;
-  out[1] = b;
-  out[2] = c;
-  out[3] = d;
-  out[4] = tx;
-  out[5] = ty;
-  return out;
-}
-/**
- * Inverts a mat2d
- *
- * @param {mat2d} out the receiving matrix
- * @param {ReadonlyMat2d} a the source matrix
- * @returns {mat2d} out
- */
-
-function invert(out, a) {
-  var aa = a[0],
-      ab = a[1],
-      ac = a[2],
-      ad = a[3];
-  var atx = a[4],
-      aty = a[5];
-  var det = aa * ad - ab * ac;
-
-  if (!det) {
-    return null;
-  }
-
-  det = 1.0 / det;
-  out[0] = ad * det;
-  out[1] = -ab * det;
-  out[2] = -ac * det;
-  out[3] = aa * det;
-  out[4] = (ac * aty - ad * atx) * det;
-  out[5] = (ab * atx - aa * aty) * det;
-  return out;
-}
-/**
- * Calculates the determinant of a mat2d
- *
- * @param {ReadonlyMat2d} a the source matrix
- * @returns {Number} determinant of a
- */
-
-function determinant(a) {
-  return a[0] * a[3] - a[1] * a[2];
-}
-/**
- * Multiplies two mat2d's
- *
- * @param {mat2d} out the receiving matrix
- * @param {ReadonlyMat2d} a the first operand
- * @param {ReadonlyMat2d} b the second operand
- * @returns {mat2d} out
- */
-
-function multiply(out, a, b) {
-  var a0 = a[0],
-      a1 = a[1],
-      a2 = a[2],
-      a3 = a[3],
-      a4 = a[4],
-      a5 = a[5];
-  var b0 = b[0],
-      b1 = b[1],
-      b2 = b[2],
-      b3 = b[3],
-      b4 = b[4],
-      b5 = b[5];
-  out[0] = a0 * b0 + a2 * b1;
-  out[1] = a1 * b0 + a3 * b1;
-  out[2] = a0 * b2 + a2 * b3;
-  out[3] = a1 * b2 + a3 * b3;
-  out[4] = a0 * b4 + a2 * b5 + a4;
-  out[5] = a1 * b4 + a3 * b5 + a5;
-  return out;
-}
-/**
- * Rotates a mat2d by the given angle
- *
- * @param {mat2d} out the receiving matrix
- * @param {ReadonlyMat2d} a the matrix to rotate
- * @param {Number} rad the angle to rotate the matrix by
- * @returns {mat2d} out
- */
-
-function rotate(out, a, rad) {
-  var a0 = a[0],
-      a1 = a[1],
-      a2 = a[2],
-      a3 = a[3],
-      a4 = a[4],
-      a5 = a[5];
-  var s = Math.sin(rad);
-  var c = Math.cos(rad);
-  out[0] = a0 * c + a2 * s;
-  out[1] = a1 * c + a3 * s;
-  out[2] = a0 * -s + a2 * c;
-  out[3] = a1 * -s + a3 * c;
-  out[4] = a4;
-  out[5] = a5;
-  return out;
-}
-/**
- * Scales the mat2d by the dimensions in the given vec2
- *
- * @param {mat2d} out the receiving matrix
- * @param {ReadonlyMat2d} a the matrix to translate
- * @param {ReadonlyVec2} v the vec2 to scale the matrix by
- * @returns {mat2d} out
- **/
-
-function scale(out, a, v) {
-  var a0 = a[0],
-      a1 = a[1],
-      a2 = a[2],
-      a3 = a[3],
-      a4 = a[4],
-      a5 = a[5];
-  var v0 = v[0],
-      v1 = v[1];
-  out[0] = a0 * v0;
-  out[1] = a1 * v0;
-  out[2] = a2 * v1;
-  out[3] = a3 * v1;
-  out[4] = a4;
-  out[5] = a5;
-  return out;
-}
-/**
- * Translates the mat2d by the dimensions in the given vec2
- *
- * @param {mat2d} out the receiving matrix
- * @param {ReadonlyMat2d} a the matrix to translate
- * @param {ReadonlyVec2} v the vec2 to translate the matrix by
- * @returns {mat2d} out
- **/
-
-function translate(out, a, v) {
-  var a0 = a[0],
-      a1 = a[1],
-      a2 = a[2],
-      a3 = a[3],
-      a4 = a[4],
-      a5 = a[5];
-  var v0 = v[0],
-      v1 = v[1];
-  out[0] = a0;
-  out[1] = a1;
-  out[2] = a2;
-  out[3] = a3;
-  out[4] = a0 * v0 + a2 * v1 + a4;
-  out[5] = a1 * v0 + a3 * v1 + a5;
-  return out;
-}
-/**
- * Creates a matrix from a given angle
- * This is equivalent to (but much faster than):
- *
- *     mat2d.identity(dest);
- *     mat2d.rotate(dest, dest, rad);
- *
- * @param {mat2d} out mat2d receiving operation result
- * @param {Number} rad the angle to rotate the matrix by
- * @returns {mat2d} out
- */
-
-function fromRotation(out, rad) {
-  var s = Math.sin(rad),
-      c = Math.cos(rad);
-  out[0] = c;
-  out[1] = s;
-  out[2] = -s;
-  out[3] = c;
-  out[4] = 0;
-  out[5] = 0;
-  return out;
-}
-/**
- * Creates a matrix from a vector scaling
- * This is equivalent to (but much faster than):
- *
- *     mat2d.identity(dest);
- *     mat2d.scale(dest, dest, vec);
- *
- * @param {mat2d} out mat2d receiving operation result
- * @param {ReadonlyVec2} v Scaling vector
- * @returns {mat2d} out
- */
-
-function fromScaling(out, v) {
-  out[0] = v[0];
-  out[1] = 0;
-  out[2] = 0;
-  out[3] = v[1];
-  out[4] = 0;
-  out[5] = 0;
-  return out;
-}
-/**
- * Creates a matrix from a vector translation
- * This is equivalent to (but much faster than):
- *
- *     mat2d.identity(dest);
- *     mat2d.translate(dest, dest, vec);
- *
- * @param {mat2d} out mat2d receiving operation result
- * @param {ReadonlyVec2} v Translation vector
- * @returns {mat2d} out
- */
-
-function fromTranslation(out, v) {
-  out[0] = 1;
-  out[1] = 0;
-  out[2] = 0;
-  out[3] = 1;
-  out[4] = v[0];
-  out[5] = v[1];
-  return out;
-}
-/**
- * Returns a string representation of a mat2d
- *
- * @param {ReadonlyMat2d} a matrix to represent as a string
- * @returns {String} string representation of the matrix
- */
-
-function str(a) {
-  return "mat2d(" + a[0] + ", " + a[1] + ", " + a[2] + ", " + a[3] + ", " + a[4] + ", " + a[5] + ")";
-}
-/**
- * Returns Frobenius norm of a mat2d
- *
- * @param {ReadonlyMat2d} a the matrix to calculate Frobenius norm of
- * @returns {Number} Frobenius norm
- */
-
-function frob(a) {
-  return Math.hypot(a[0], a[1], a[2], a[3], a[4], a[5], 1);
-}
-/**
- * Adds two mat2d's
- *
- * @param {mat2d} out the receiving matrix
- * @param {ReadonlyMat2d} a the first operand
- * @param {ReadonlyMat2d} b the second operand
- * @returns {mat2d} out
- */
-
-function add(out, a, b) {
-  out[0] = a[0] + b[0];
-  out[1] = a[1] + b[1];
-  out[2] = a[2] + b[2];
-  out[3] = a[3] + b[3];
-  out[4] = a[4] + b[4];
-  out[5] = a[5] + b[5];
-  return out;
-}
-/**
- * Subtracts matrix b from matrix a
- *
- * @param {mat2d} out the receiving matrix
- * @param {ReadonlyMat2d} a the first operand
- * @param {ReadonlyMat2d} b the second operand
- * @returns {mat2d} out
- */
-
-function subtract(out, a, b) {
-  out[0] = a[0] - b[0];
-  out[1] = a[1] - b[1];
-  out[2] = a[2] - b[2];
-  out[3] = a[3] - b[3];
-  out[4] = a[4] - b[4];
-  out[5] = a[5] - b[5];
-  return out;
-}
-/**
- * Multiply each element of the matrix by a scalar.
- *
- * @param {mat2d} out the receiving matrix
- * @param {ReadonlyMat2d} a the matrix to scale
- * @param {Number} b amount to scale the matrix's elements by
- * @returns {mat2d} out
- */
-
-function multiplyScalar(out, a, b) {
-  out[0] = a[0] * b;
-  out[1] = a[1] * b;
-  out[2] = a[2] * b;
-  out[3] = a[3] * b;
-  out[4] = a[4] * b;
-  out[5] = a[5] * b;
-  return out;
-}
-/**
- * Adds two mat2d's after multiplying each element of the second operand by a scalar value.
- *
- * @param {mat2d} out the receiving vector
- * @param {ReadonlyMat2d} a the first operand
- * @param {ReadonlyMat2d} b the second operand
- * @param {Number} scale the amount to scale b's elements by before adding
- * @returns {mat2d} out
- */
-
-function multiplyScalarAndAdd(out, a, b, scale) {
-  out[0] = a[0] + b[0] * scale;
-  out[1] = a[1] + b[1] * scale;
-  out[2] = a[2] + b[2] * scale;
-  out[3] = a[3] + b[3] * scale;
-  out[4] = a[4] + b[4] * scale;
-  out[5] = a[5] + b[5] * scale;
-  return out;
-}
-/**
- * Returns whether or not the matrices have exactly the same elements in the same position (when compared with ===)
- *
- * @param {ReadonlyMat2d} a The first matrix.
- * @param {ReadonlyMat2d} b The second matrix.
- * @returns {Boolean} True if the matrices are equal, false otherwise.
- */
-
-function exactEquals(a, b) {
-  return a[0] === b[0] && a[1] === b[1] && a[2] === b[2] && a[3] === b[3] && a[4] === b[4] && a[5] === b[5];
-}
-/**
- * Returns whether or not the matrices have approximately the same elements in the same position.
- *
- * @param {ReadonlyMat2d} a The first matrix.
- * @param {ReadonlyMat2d} b The second matrix.
- * @returns {Boolean} True if the matrices are equal, false otherwise.
- */
-
-function equals(a, b) {
-  var a0 = a[0],
-      a1 = a[1],
-      a2 = a[2],
-      a3 = a[3],
-      a4 = a[4],
-      a5 = a[5];
-  var b0 = b[0],
-      b1 = b[1],
-      b2 = b[2],
-      b3 = b[3],
-      b4 = b[4],
-      b5 = b[5];
-  return Math.abs(a0 - b0) <= _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"] * Math.max(1.0, Math.abs(a0), Math.abs(b0)) && Math.abs(a1 - b1) <= _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"] * Math.max(1.0, Math.abs(a1), Math.abs(b1)) && Math.abs(a2 - b2) <= _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"] * Math.max(1.0, Math.abs(a2), Math.abs(b2)) && Math.abs(a3 - b3) <= _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"] * Math.max(1.0, Math.abs(a3), Math.abs(b3)) && Math.abs(a4 - b4) <= _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"] * Math.max(1.0, Math.abs(a4), Math.abs(b4)) && Math.abs(a5 - b5) <= _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"] * Math.max(1.0, Math.abs(a5), Math.abs(b5));
-}
-/**
- * Alias for {@link mat2d.multiply}
- * @function
- */
-
-var mul = multiply;
-/**
- * Alias for {@link mat2d.subtract}
- * @function
- */
-
-var sub = subtract;
-
-/***/ }),
-
-/***/ "./node_modules/gl-matrix/esm/mat3.js":
-/*!********************************************!*\
-  !*** ./node_modules/gl-matrix/esm/mat3.js ***!
-  \********************************************/
-/*! exports provided: create, fromMat4, clone, copy, fromValues, set, identity, transpose, invert, adjoint, determinant, multiply, translate, rotate, scale, fromTranslation, fromRotation, fromScaling, fromMat2d, fromQuat, normalFromMat4, projection, str, frob, add, subtract, multiplyScalar, multiplyScalarAndAdd, exactEquals, equals, mul, sub */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "create", function() { return create; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fromMat4", function() { return fromMat4; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "clone", function() { return clone; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "copy", function() { return copy; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fromValues", function() { return fromValues; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "set", function() { return set; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "identity", function() { return identity; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "transpose", function() { return transpose; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "invert", function() { return invert; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "adjoint", function() { return adjoint; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "determinant", function() { return determinant; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "multiply", function() { return multiply; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "translate", function() { return translate; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "rotate", function() { return rotate; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "scale", function() { return scale; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fromTranslation", function() { return fromTranslation; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fromRotation", function() { return fromRotation; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fromScaling", function() { return fromScaling; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fromMat2d", function() { return fromMat2d; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fromQuat", function() { return fromQuat; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "normalFromMat4", function() { return normalFromMat4; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "projection", function() { return projection; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "str", function() { return str; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "frob", function() { return frob; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "add", function() { return add; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "subtract", function() { return subtract; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "multiplyScalar", function() { return multiplyScalar; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "multiplyScalarAndAdd", function() { return multiplyScalarAndAdd; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "exactEquals", function() { return exactEquals; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "equals", function() { return equals; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mul", function() { return mul; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sub", function() { return sub; });
-/* harmony import */ var _common_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./common.js */ "./node_modules/gl-matrix/esm/common.js");
-
-/**
- * 3x3 Matrix
- * @module mat3
- */
-
-/**
- * Creates a new identity mat3
- *
- * @returns {mat3} a new 3x3 matrix
- */
-
-function create() {
-  var out = new _common_js__WEBPACK_IMPORTED_MODULE_0__["ARRAY_TYPE"](9);
-
-  if (_common_js__WEBPACK_IMPORTED_MODULE_0__["ARRAY_TYPE"] != Float32Array) {
-    out[1] = 0;
-    out[2] = 0;
-    out[3] = 0;
-    out[5] = 0;
-    out[6] = 0;
-    out[7] = 0;
-  }
-
-  out[0] = 1;
-  out[4] = 1;
-  out[8] = 1;
-  return out;
-}
-/**
- * Copies the upper-left 3x3 values into the given mat3.
- *
- * @param {mat3} out the receiving 3x3 matrix
- * @param {ReadonlyMat4} a   the source 4x4 matrix
- * @returns {mat3} out
- */
-
-function fromMat4(out, a) {
-  out[0] = a[0];
-  out[1] = a[1];
-  out[2] = a[2];
-  out[3] = a[4];
-  out[4] = a[5];
-  out[5] = a[6];
-  out[6] = a[8];
-  out[7] = a[9];
-  out[8] = a[10];
-  return out;
-}
-/**
- * Creates a new mat3 initialized with values from an existing matrix
- *
- * @param {ReadonlyMat3} a matrix to clone
- * @returns {mat3} a new 3x3 matrix
- */
-
-function clone(a) {
-  var out = new _common_js__WEBPACK_IMPORTED_MODULE_0__["ARRAY_TYPE"](9);
-  out[0] = a[0];
-  out[1] = a[1];
-  out[2] = a[2];
-  out[3] = a[3];
-  out[4] = a[4];
-  out[5] = a[5];
-  out[6] = a[6];
-  out[7] = a[7];
-  out[8] = a[8];
-  return out;
-}
-/**
- * Copy the values from one mat3 to another
- *
- * @param {mat3} out the receiving matrix
- * @param {ReadonlyMat3} a the source matrix
- * @returns {mat3} out
- */
-
-function copy(out, a) {
-  out[0] = a[0];
-  out[1] = a[1];
-  out[2] = a[2];
-  out[3] = a[3];
-  out[4] = a[4];
-  out[5] = a[5];
-  out[6] = a[6];
-  out[7] = a[7];
-  out[8] = a[8];
-  return out;
-}
-/**
- * Create a new mat3 with the given values
- *
- * @param {Number} m00 Component in column 0, row 0 position (index 0)
- * @param {Number} m01 Component in column 0, row 1 position (index 1)
- * @param {Number} m02 Component in column 0, row 2 position (index 2)
- * @param {Number} m10 Component in column 1, row 0 position (index 3)
- * @param {Number} m11 Component in column 1, row 1 position (index 4)
- * @param {Number} m12 Component in column 1, row 2 position (index 5)
- * @param {Number} m20 Component in column 2, row 0 position (index 6)
- * @param {Number} m21 Component in column 2, row 1 position (index 7)
- * @param {Number} m22 Component in column 2, row 2 position (index 8)
- * @returns {mat3} A new mat3
- */
-
-function fromValues(m00, m01, m02, m10, m11, m12, m20, m21, m22) {
-  var out = new _common_js__WEBPACK_IMPORTED_MODULE_0__["ARRAY_TYPE"](9);
-  out[0] = m00;
-  out[1] = m01;
-  out[2] = m02;
-  out[3] = m10;
-  out[4] = m11;
-  out[5] = m12;
-  out[6] = m20;
-  out[7] = m21;
-  out[8] = m22;
-  return out;
-}
-/**
- * Set the components of a mat3 to the given values
- *
- * @param {mat3} out the receiving matrix
- * @param {Number} m00 Component in column 0, row 0 position (index 0)
- * @param {Number} m01 Component in column 0, row 1 position (index 1)
- * @param {Number} m02 Component in column 0, row 2 position (index 2)
- * @param {Number} m10 Component in column 1, row 0 position (index 3)
- * @param {Number} m11 Component in column 1, row 1 position (index 4)
- * @param {Number} m12 Component in column 1, row 2 position (index 5)
- * @param {Number} m20 Component in column 2, row 0 position (index 6)
- * @param {Number} m21 Component in column 2, row 1 position (index 7)
- * @param {Number} m22 Component in column 2, row 2 position (index 8)
- * @returns {mat3} out
- */
-
-function set(out, m00, m01, m02, m10, m11, m12, m20, m21, m22) {
-  out[0] = m00;
-  out[1] = m01;
-  out[2] = m02;
-  out[3] = m10;
-  out[4] = m11;
-  out[5] = m12;
-  out[6] = m20;
-  out[7] = m21;
-  out[8] = m22;
-  return out;
-}
-/**
- * Set a mat3 to the identity matrix
- *
- * @param {mat3} out the receiving matrix
- * @returns {mat3} out
- */
-
-function identity(out) {
-  out[0] = 1;
-  out[1] = 0;
-  out[2] = 0;
-  out[3] = 0;
-  out[4] = 1;
-  out[5] = 0;
-  out[6] = 0;
-  out[7] = 0;
-  out[8] = 1;
-  return out;
-}
-/**
- * Transpose the values of a mat3
- *
- * @param {mat3} out the receiving matrix
- * @param {ReadonlyMat3} a the source matrix
- * @returns {mat3} out
- */
-
-function transpose(out, a) {
-  // If we are transposing ourselves we can skip a few steps but have to cache some values
-  if (out === a) {
-    var a01 = a[1],
-        a02 = a[2],
-        a12 = a[5];
-    out[1] = a[3];
-    out[2] = a[6];
-    out[3] = a01;
-    out[5] = a[7];
-    out[6] = a02;
-    out[7] = a12;
-  } else {
-    out[0] = a[0];
-    out[1] = a[3];
-    out[2] = a[6];
-    out[3] = a[1];
-    out[4] = a[4];
-    out[5] = a[7];
-    out[6] = a[2];
-    out[7] = a[5];
-    out[8] = a[8];
-  }
-
-  return out;
-}
-/**
- * Inverts a mat3
- *
- * @param {mat3} out the receiving matrix
- * @param {ReadonlyMat3} a the source matrix
- * @returns {mat3} out
- */
-
-function invert(out, a) {
-  var a00 = a[0],
-      a01 = a[1],
-      a02 = a[2];
-  var a10 = a[3],
-      a11 = a[4],
-      a12 = a[5];
-  var a20 = a[6],
-      a21 = a[7],
-      a22 = a[8];
-  var b01 = a22 * a11 - a12 * a21;
-  var b11 = -a22 * a10 + a12 * a20;
-  var b21 = a21 * a10 - a11 * a20; // Calculate the determinant
-
-  var det = a00 * b01 + a01 * b11 + a02 * b21;
-
-  if (!det) {
-    return null;
-  }
-
-  det = 1.0 / det;
-  out[0] = b01 * det;
-  out[1] = (-a22 * a01 + a02 * a21) * det;
-  out[2] = (a12 * a01 - a02 * a11) * det;
-  out[3] = b11 * det;
-  out[4] = (a22 * a00 - a02 * a20) * det;
-  out[5] = (-a12 * a00 + a02 * a10) * det;
-  out[6] = b21 * det;
-  out[7] = (-a21 * a00 + a01 * a20) * det;
-  out[8] = (a11 * a00 - a01 * a10) * det;
-  return out;
-}
-/**
- * Calculates the adjugate of a mat3
- *
- * @param {mat3} out the receiving matrix
- * @param {ReadonlyMat3} a the source matrix
- * @returns {mat3} out
- */
-
-function adjoint(out, a) {
-  var a00 = a[0],
-      a01 = a[1],
-      a02 = a[2];
-  var a10 = a[3],
-      a11 = a[4],
-      a12 = a[5];
-  var a20 = a[6],
-      a21 = a[7],
-      a22 = a[8];
-  out[0] = a11 * a22 - a12 * a21;
-  out[1] = a02 * a21 - a01 * a22;
-  out[2] = a01 * a12 - a02 * a11;
-  out[3] = a12 * a20 - a10 * a22;
-  out[4] = a00 * a22 - a02 * a20;
-  out[5] = a02 * a10 - a00 * a12;
-  out[6] = a10 * a21 - a11 * a20;
-  out[7] = a01 * a20 - a00 * a21;
-  out[8] = a00 * a11 - a01 * a10;
-  return out;
-}
-/**
- * Calculates the determinant of a mat3
- *
- * @param {ReadonlyMat3} a the source matrix
- * @returns {Number} determinant of a
- */
-
-function determinant(a) {
-  var a00 = a[0],
-      a01 = a[1],
-      a02 = a[2];
-  var a10 = a[3],
-      a11 = a[4],
-      a12 = a[5];
-  var a20 = a[6],
-      a21 = a[7],
-      a22 = a[8];
-  return a00 * (a22 * a11 - a12 * a21) + a01 * (-a22 * a10 + a12 * a20) + a02 * (a21 * a10 - a11 * a20);
-}
-/**
- * Multiplies two mat3's
- *
- * @param {mat3} out the receiving matrix
- * @param {ReadonlyMat3} a the first operand
- * @param {ReadonlyMat3} b the second operand
- * @returns {mat3} out
- */
-
-function multiply(out, a, b) {
-  var a00 = a[0],
-      a01 = a[1],
-      a02 = a[2];
-  var a10 = a[3],
-      a11 = a[4],
-      a12 = a[5];
-  var a20 = a[6],
-      a21 = a[7],
-      a22 = a[8];
-  var b00 = b[0],
-      b01 = b[1],
-      b02 = b[2];
-  var b10 = b[3],
-      b11 = b[4],
-      b12 = b[5];
-  var b20 = b[6],
-      b21 = b[7],
-      b22 = b[8];
-  out[0] = b00 * a00 + b01 * a10 + b02 * a20;
-  out[1] = b00 * a01 + b01 * a11 + b02 * a21;
-  out[2] = b00 * a02 + b01 * a12 + b02 * a22;
-  out[3] = b10 * a00 + b11 * a10 + b12 * a20;
-  out[4] = b10 * a01 + b11 * a11 + b12 * a21;
-  out[5] = b10 * a02 + b11 * a12 + b12 * a22;
-  out[6] = b20 * a00 + b21 * a10 + b22 * a20;
-  out[7] = b20 * a01 + b21 * a11 + b22 * a21;
-  out[8] = b20 * a02 + b21 * a12 + b22 * a22;
-  return out;
-}
-/**
- * Translate a mat3 by the given vector
- *
- * @param {mat3} out the receiving matrix
- * @param {ReadonlyMat3} a the matrix to translate
- * @param {ReadonlyVec2} v vector to translate by
- * @returns {mat3} out
- */
-
-function translate(out, a, v) {
-  var a00 = a[0],
-      a01 = a[1],
-      a02 = a[2],
-      a10 = a[3],
-      a11 = a[4],
-      a12 = a[5],
-      a20 = a[6],
-      a21 = a[7],
-      a22 = a[8],
-      x = v[0],
-      y = v[1];
-  out[0] = a00;
-  out[1] = a01;
-  out[2] = a02;
-  out[3] = a10;
-  out[4] = a11;
-  out[5] = a12;
-  out[6] = x * a00 + y * a10 + a20;
-  out[7] = x * a01 + y * a11 + a21;
-  out[8] = x * a02 + y * a12 + a22;
-  return out;
-}
-/**
- * Rotates a mat3 by the given angle
- *
- * @param {mat3} out the receiving matrix
- * @param {ReadonlyMat3} a the matrix to rotate
- * @param {Number} rad the angle to rotate the matrix by
- * @returns {mat3} out
- */
-
-function rotate(out, a, rad) {
-  var a00 = a[0],
-      a01 = a[1],
-      a02 = a[2],
-      a10 = a[3],
-      a11 = a[4],
-      a12 = a[5],
-      a20 = a[6],
-      a21 = a[7],
-      a22 = a[8],
-      s = Math.sin(rad),
-      c = Math.cos(rad);
-  out[0] = c * a00 + s * a10;
-  out[1] = c * a01 + s * a11;
-  out[2] = c * a02 + s * a12;
-  out[3] = c * a10 - s * a00;
-  out[4] = c * a11 - s * a01;
-  out[5] = c * a12 - s * a02;
-  out[6] = a20;
-  out[7] = a21;
-  out[8] = a22;
-  return out;
-}
-/**
- * Scales the mat3 by the dimensions in the given vec2
- *
- * @param {mat3} out the receiving matrix
- * @param {ReadonlyMat3} a the matrix to rotate
- * @param {ReadonlyVec2} v the vec2 to scale the matrix by
- * @returns {mat3} out
- **/
-
-function scale(out, a, v) {
-  var x = v[0],
-      y = v[1];
-  out[0] = x * a[0];
-  out[1] = x * a[1];
-  out[2] = x * a[2];
-  out[3] = y * a[3];
-  out[4] = y * a[4];
-  out[5] = y * a[5];
-  out[6] = a[6];
-  out[7] = a[7];
-  out[8] = a[8];
-  return out;
-}
-/**
- * Creates a matrix from a vector translation
- * This is equivalent to (but much faster than):
- *
- *     mat3.identity(dest);
- *     mat3.translate(dest, dest, vec);
- *
- * @param {mat3} out mat3 receiving operation result
- * @param {ReadonlyVec2} v Translation vector
- * @returns {mat3} out
- */
-
-function fromTranslation(out, v) {
-  out[0] = 1;
-  out[1] = 0;
-  out[2] = 0;
-  out[3] = 0;
-  out[4] = 1;
-  out[5] = 0;
-  out[6] = v[0];
-  out[7] = v[1];
-  out[8] = 1;
-  return out;
-}
-/**
- * Creates a matrix from a given angle
- * This is equivalent to (but much faster than):
- *
- *     mat3.identity(dest);
- *     mat3.rotate(dest, dest, rad);
- *
- * @param {mat3} out mat3 receiving operation result
- * @param {Number} rad the angle to rotate the matrix by
- * @returns {mat3} out
- */
-
-function fromRotation(out, rad) {
-  var s = Math.sin(rad),
-      c = Math.cos(rad);
-  out[0] = c;
-  out[1] = s;
-  out[2] = 0;
-  out[3] = -s;
-  out[4] = c;
-  out[5] = 0;
-  out[6] = 0;
-  out[7] = 0;
-  out[8] = 1;
-  return out;
-}
-/**
- * Creates a matrix from a vector scaling
- * This is equivalent to (but much faster than):
- *
- *     mat3.identity(dest);
- *     mat3.scale(dest, dest, vec);
- *
- * @param {mat3} out mat3 receiving operation result
- * @param {ReadonlyVec2} v Scaling vector
- * @returns {mat3} out
- */
-
-function fromScaling(out, v) {
-  out[0] = v[0];
-  out[1] = 0;
-  out[2] = 0;
-  out[3] = 0;
-  out[4] = v[1];
-  out[5] = 0;
-  out[6] = 0;
-  out[7] = 0;
-  out[8] = 1;
-  return out;
-}
-/**
- * Copies the values from a mat2d into a mat3
- *
- * @param {mat3} out the receiving matrix
- * @param {ReadonlyMat2d} a the matrix to copy
- * @returns {mat3} out
- **/
-
-function fromMat2d(out, a) {
-  out[0] = a[0];
-  out[1] = a[1];
-  out[2] = 0;
-  out[3] = a[2];
-  out[4] = a[3];
-  out[5] = 0;
-  out[6] = a[4];
-  out[7] = a[5];
-  out[8] = 1;
-  return out;
-}
-/**
- * Calculates a 3x3 matrix from the given quaternion
- *
- * @param {mat3} out mat3 receiving operation result
- * @param {ReadonlyQuat} q Quaternion to create matrix from
- *
- * @returns {mat3} out
- */
-
-function fromQuat(out, q) {
-  var x = q[0],
-      y = q[1],
-      z = q[2],
-      w = q[3];
-  var x2 = x + x;
-  var y2 = y + y;
-  var z2 = z + z;
-  var xx = x * x2;
-  var yx = y * x2;
-  var yy = y * y2;
-  var zx = z * x2;
-  var zy = z * y2;
-  var zz = z * z2;
-  var wx = w * x2;
-  var wy = w * y2;
-  var wz = w * z2;
-  out[0] = 1 - yy - zz;
-  out[3] = yx - wz;
-  out[6] = zx + wy;
-  out[1] = yx + wz;
-  out[4] = 1 - xx - zz;
-  out[7] = zy - wx;
-  out[2] = zx - wy;
-  out[5] = zy + wx;
-  out[8] = 1 - xx - yy;
-  return out;
-}
-/**
- * Calculates a 3x3 normal matrix (transpose inverse) from the 4x4 matrix
- *
- * @param {mat3} out mat3 receiving operation result
- * @param {ReadonlyMat4} a Mat4 to derive the normal matrix from
- *
- * @returns {mat3} out
- */
-
-function normalFromMat4(out, a) {
-  var a00 = a[0],
-      a01 = a[1],
-      a02 = a[2],
-      a03 = a[3];
-  var a10 = a[4],
-      a11 = a[5],
-      a12 = a[6],
-      a13 = a[7];
-  var a20 = a[8],
-      a21 = a[9],
-      a22 = a[10],
-      a23 = a[11];
-  var a30 = a[12],
-      a31 = a[13],
-      a32 = a[14],
-      a33 = a[15];
-  var b00 = a00 * a11 - a01 * a10;
-  var b01 = a00 * a12 - a02 * a10;
-  var b02 = a00 * a13 - a03 * a10;
-  var b03 = a01 * a12 - a02 * a11;
-  var b04 = a01 * a13 - a03 * a11;
-  var b05 = a02 * a13 - a03 * a12;
-  var b06 = a20 * a31 - a21 * a30;
-  var b07 = a20 * a32 - a22 * a30;
-  var b08 = a20 * a33 - a23 * a30;
-  var b09 = a21 * a32 - a22 * a31;
-  var b10 = a21 * a33 - a23 * a31;
-  var b11 = a22 * a33 - a23 * a32; // Calculate the determinant
-
-  var det = b00 * b11 - b01 * b10 + b02 * b09 + b03 * b08 - b04 * b07 + b05 * b06;
-
-  if (!det) {
-    return null;
-  }
-
-  det = 1.0 / det;
-  out[0] = (a11 * b11 - a12 * b10 + a13 * b09) * det;
-  out[1] = (a12 * b08 - a10 * b11 - a13 * b07) * det;
-  out[2] = (a10 * b10 - a11 * b08 + a13 * b06) * det;
-  out[3] = (a02 * b10 - a01 * b11 - a03 * b09) * det;
-  out[4] = (a00 * b11 - a02 * b08 + a03 * b07) * det;
-  out[5] = (a01 * b08 - a00 * b10 - a03 * b06) * det;
-  out[6] = (a31 * b05 - a32 * b04 + a33 * b03) * det;
-  out[7] = (a32 * b02 - a30 * b05 - a33 * b01) * det;
-  out[8] = (a30 * b04 - a31 * b02 + a33 * b00) * det;
-  return out;
-}
-/**
- * Generates a 2D projection matrix with the given bounds
- *
- * @param {mat3} out mat3 frustum matrix will be written into
- * @param {number} width Width of your gl context
- * @param {number} height Height of gl context
- * @returns {mat3} out
- */
-
-function projection(out, width, height) {
-  out[0] = 2 / width;
-  out[1] = 0;
-  out[2] = 0;
-  out[3] = 0;
-  out[4] = -2 / height;
-  out[5] = 0;
-  out[6] = -1;
-  out[7] = 1;
-  out[8] = 1;
-  return out;
-}
-/**
- * Returns a string representation of a mat3
- *
- * @param {ReadonlyMat3} a matrix to represent as a string
- * @returns {String} string representation of the matrix
- */
-
-function str(a) {
-  return "mat3(" + a[0] + ", " + a[1] + ", " + a[2] + ", " + a[3] + ", " + a[4] + ", " + a[5] + ", " + a[6] + ", " + a[7] + ", " + a[8] + ")";
-}
-/**
- * Returns Frobenius norm of a mat3
- *
- * @param {ReadonlyMat3} a the matrix to calculate Frobenius norm of
- * @returns {Number} Frobenius norm
- */
-
-function frob(a) {
-  return Math.hypot(a[0], a[1], a[2], a[3], a[4], a[5], a[6], a[7], a[8]);
-}
-/**
- * Adds two mat3's
- *
- * @param {mat3} out the receiving matrix
- * @param {ReadonlyMat3} a the first operand
- * @param {ReadonlyMat3} b the second operand
- * @returns {mat3} out
- */
-
-function add(out, a, b) {
-  out[0] = a[0] + b[0];
-  out[1] = a[1] + b[1];
-  out[2] = a[2] + b[2];
-  out[3] = a[3] + b[3];
-  out[4] = a[4] + b[4];
-  out[5] = a[5] + b[5];
-  out[6] = a[6] + b[6];
-  out[7] = a[7] + b[7];
-  out[8] = a[8] + b[8];
-  return out;
-}
-/**
- * Subtracts matrix b from matrix a
- *
- * @param {mat3} out the receiving matrix
- * @param {ReadonlyMat3} a the first operand
- * @param {ReadonlyMat3} b the second operand
- * @returns {mat3} out
- */
-
-function subtract(out, a, b) {
-  out[0] = a[0] - b[0];
-  out[1] = a[1] - b[1];
-  out[2] = a[2] - b[2];
-  out[3] = a[3] - b[3];
-  out[4] = a[4] - b[4];
-  out[5] = a[5] - b[5];
-  out[6] = a[6] - b[6];
-  out[7] = a[7] - b[7];
-  out[8] = a[8] - b[8];
-  return out;
-}
-/**
- * Multiply each element of the matrix by a scalar.
- *
- * @param {mat3} out the receiving matrix
- * @param {ReadonlyMat3} a the matrix to scale
- * @param {Number} b amount to scale the matrix's elements by
- * @returns {mat3} out
- */
-
-function multiplyScalar(out, a, b) {
-  out[0] = a[0] * b;
-  out[1] = a[1] * b;
-  out[2] = a[2] * b;
-  out[3] = a[3] * b;
-  out[4] = a[4] * b;
-  out[5] = a[5] * b;
-  out[6] = a[6] * b;
-  out[7] = a[7] * b;
-  out[8] = a[8] * b;
-  return out;
-}
-/**
- * Adds two mat3's after multiplying each element of the second operand by a scalar value.
- *
- * @param {mat3} out the receiving vector
- * @param {ReadonlyMat3} a the first operand
- * @param {ReadonlyMat3} b the second operand
- * @param {Number} scale the amount to scale b's elements by before adding
- * @returns {mat3} out
- */
-
-function multiplyScalarAndAdd(out, a, b, scale) {
-  out[0] = a[0] + b[0] * scale;
-  out[1] = a[1] + b[1] * scale;
-  out[2] = a[2] + b[2] * scale;
-  out[3] = a[3] + b[3] * scale;
-  out[4] = a[4] + b[4] * scale;
-  out[5] = a[5] + b[5] * scale;
-  out[6] = a[6] + b[6] * scale;
-  out[7] = a[7] + b[7] * scale;
-  out[8] = a[8] + b[8] * scale;
-  return out;
-}
-/**
- * Returns whether or not the matrices have exactly the same elements in the same position (when compared with ===)
- *
- * @param {ReadonlyMat3} a The first matrix.
- * @param {ReadonlyMat3} b The second matrix.
- * @returns {Boolean} True if the matrices are equal, false otherwise.
- */
-
-function exactEquals(a, b) {
-  return a[0] === b[0] && a[1] === b[1] && a[2] === b[2] && a[3] === b[3] && a[4] === b[4] && a[5] === b[5] && a[6] === b[6] && a[7] === b[7] && a[8] === b[8];
-}
-/**
- * Returns whether or not the matrices have approximately the same elements in the same position.
- *
- * @param {ReadonlyMat3} a The first matrix.
- * @param {ReadonlyMat3} b The second matrix.
- * @returns {Boolean} True if the matrices are equal, false otherwise.
- */
-
-function equals(a, b) {
-  var a0 = a[0],
-      a1 = a[1],
-      a2 = a[2],
-      a3 = a[3],
-      a4 = a[4],
-      a5 = a[5],
-      a6 = a[6],
-      a7 = a[7],
-      a8 = a[8];
-  var b0 = b[0],
-      b1 = b[1],
-      b2 = b[2],
-      b3 = b[3],
-      b4 = b[4],
-      b5 = b[5],
-      b6 = b[6],
-      b7 = b[7],
-      b8 = b[8];
-  return Math.abs(a0 - b0) <= _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"] * Math.max(1.0, Math.abs(a0), Math.abs(b0)) && Math.abs(a1 - b1) <= _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"] * Math.max(1.0, Math.abs(a1), Math.abs(b1)) && Math.abs(a2 - b2) <= _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"] * Math.max(1.0, Math.abs(a2), Math.abs(b2)) && Math.abs(a3 - b3) <= _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"] * Math.max(1.0, Math.abs(a3), Math.abs(b3)) && Math.abs(a4 - b4) <= _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"] * Math.max(1.0, Math.abs(a4), Math.abs(b4)) && Math.abs(a5 - b5) <= _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"] * Math.max(1.0, Math.abs(a5), Math.abs(b5)) && Math.abs(a6 - b6) <= _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"] * Math.max(1.0, Math.abs(a6), Math.abs(b6)) && Math.abs(a7 - b7) <= _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"] * Math.max(1.0, Math.abs(a7), Math.abs(b7)) && Math.abs(a8 - b8) <= _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"] * Math.max(1.0, Math.abs(a8), Math.abs(b8));
-}
-/**
- * Alias for {@link mat3.multiply}
- * @function
- */
-
-var mul = multiply;
-/**
- * Alias for {@link mat3.subtract}
- * @function
- */
-
-var sub = subtract;
-
-/***/ }),
-
 /***/ "./node_modules/gl-matrix/esm/mat4.js":
 /*!********************************************!*\
   !*** ./node_modules/gl-matrix/esm/mat4.js ***!
   \********************************************/
-/*! exports provided: create, clone, copy, fromValues, set, identity, transpose, invert, adjoint, determinant, multiply, translate, scale, rotate, rotateX, rotateY, rotateZ, fromTranslation, fromScaling, fromRotation, fromXRotation, fromYRotation, fromZRotation, fromRotationTranslation, fromQuat2, getTranslation, getScaling, getRotation, fromRotationTranslationScale, fromRotationTranslationScaleOrigin, fromQuat, frustum, perspective, perspectiveFromFieldOfView, ortho, lookAt, targetTo, str, frob, add, subtract, multiplyScalar, multiplyScalarAndAdd, exactEquals, equals, mul, sub */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! namespace exports */
+/*! export add [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export adjoint [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export clone [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export copy [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export create [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export determinant [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export equals [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export exactEquals [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export frob [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export fromQuat [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export fromQuat2 [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export fromRotation [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export fromRotationTranslation [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export fromRotationTranslationScale [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export fromRotationTranslationScaleOrigin [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export fromScaling [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export fromTranslation [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export fromValues [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export fromXRotation [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export fromYRotation [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export fromZRotation [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export frustum [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export getRotation [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export getScaling [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export getTranslation [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export identity [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export invert [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export lookAt [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export mul [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export multiply [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export multiplyScalar [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export multiplyScalarAndAdd [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export ortho [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export perspective [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export perspectiveFromFieldOfView [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export rotate [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export rotateX [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export rotateY [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export rotateZ [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export scale [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export set [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export str [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export sub [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export subtract [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export targetTo [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export translate [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export transpose [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_require__.r, __webpack_exports__, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "create", function() { return create; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "clone", function() { return clone; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "copy", function() { return copy; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fromValues", function() { return fromValues; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "set", function() { return set; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "identity", function() { return identity; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "transpose", function() { return transpose; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "invert", function() { return invert; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "adjoint", function() { return adjoint; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "determinant", function() { return determinant; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "multiply", function() { return multiply; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "translate", function() { return translate; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "scale", function() { return scale; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "rotate", function() { return rotate; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "rotateX", function() { return rotateX; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "rotateY", function() { return rotateY; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "rotateZ", function() { return rotateZ; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fromTranslation", function() { return fromTranslation; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fromScaling", function() { return fromScaling; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fromRotation", function() { return fromRotation; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fromXRotation", function() { return fromXRotation; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fromYRotation", function() { return fromYRotation; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fromZRotation", function() { return fromZRotation; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fromRotationTranslation", function() { return fromRotationTranslation; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fromQuat2", function() { return fromQuat2; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTranslation", function() { return getTranslation; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getScaling", function() { return getScaling; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getRotation", function() { return getRotation; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fromRotationTranslationScale", function() { return fromRotationTranslationScale; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fromRotationTranslationScaleOrigin", function() { return fromRotationTranslationScaleOrigin; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fromQuat", function() { return fromQuat; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "frustum", function() { return frustum; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "perspective", function() { return perspective; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "perspectiveFromFieldOfView", function() { return perspectiveFromFieldOfView; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ortho", function() { return ortho; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "lookAt", function() { return lookAt; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "targetTo", function() { return targetTo; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "str", function() { return str; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "frob", function() { return frob; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "add", function() { return add; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "subtract", function() { return subtract; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "multiplyScalar", function() { return multiplyScalar; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "multiplyScalarAndAdd", function() { return multiplyScalarAndAdd; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "exactEquals", function() { return exactEquals; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "equals", function() { return equals; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mul", function() { return mul; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sub", function() { return sub; });
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "create": () => /* binding */ create,
+/* harmony export */   "clone": () => /* binding */ clone,
+/* harmony export */   "copy": () => /* binding */ copy,
+/* harmony export */   "fromValues": () => /* binding */ fromValues,
+/* harmony export */   "set": () => /* binding */ set,
+/* harmony export */   "identity": () => /* binding */ identity,
+/* harmony export */   "transpose": () => /* binding */ transpose,
+/* harmony export */   "invert": () => /* binding */ invert,
+/* harmony export */   "adjoint": () => /* binding */ adjoint,
+/* harmony export */   "determinant": () => /* binding */ determinant,
+/* harmony export */   "multiply": () => /* binding */ multiply,
+/* harmony export */   "translate": () => /* binding */ translate,
+/* harmony export */   "scale": () => /* binding */ scale,
+/* harmony export */   "rotate": () => /* binding */ rotate,
+/* harmony export */   "rotateX": () => /* binding */ rotateX,
+/* harmony export */   "rotateY": () => /* binding */ rotateY,
+/* harmony export */   "rotateZ": () => /* binding */ rotateZ,
+/* harmony export */   "fromTranslation": () => /* binding */ fromTranslation,
+/* harmony export */   "fromScaling": () => /* binding */ fromScaling,
+/* harmony export */   "fromRotation": () => /* binding */ fromRotation,
+/* harmony export */   "fromXRotation": () => /* binding */ fromXRotation,
+/* harmony export */   "fromYRotation": () => /* binding */ fromYRotation,
+/* harmony export */   "fromZRotation": () => /* binding */ fromZRotation,
+/* harmony export */   "fromRotationTranslation": () => /* binding */ fromRotationTranslation,
+/* harmony export */   "fromQuat2": () => /* binding */ fromQuat2,
+/* harmony export */   "getTranslation": () => /* binding */ getTranslation,
+/* harmony export */   "getScaling": () => /* binding */ getScaling,
+/* harmony export */   "getRotation": () => /* binding */ getRotation,
+/* harmony export */   "fromRotationTranslationScale": () => /* binding */ fromRotationTranslationScale,
+/* harmony export */   "fromRotationTranslationScaleOrigin": () => /* binding */ fromRotationTranslationScaleOrigin,
+/* harmony export */   "fromQuat": () => /* binding */ fromQuat,
+/* harmony export */   "frustum": () => /* binding */ frustum,
+/* harmony export */   "perspective": () => /* binding */ perspective,
+/* harmony export */   "perspectiveFromFieldOfView": () => /* binding */ perspectiveFromFieldOfView,
+/* harmony export */   "ortho": () => /* binding */ ortho,
+/* harmony export */   "lookAt": () => /* binding */ lookAt,
+/* harmony export */   "targetTo": () => /* binding */ targetTo,
+/* harmony export */   "str": () => /* binding */ str,
+/* harmony export */   "frob": () => /* binding */ frob,
+/* harmony export */   "add": () => /* binding */ add,
+/* harmony export */   "subtract": () => /* binding */ subtract,
+/* harmony export */   "multiplyScalar": () => /* binding */ multiplyScalar,
+/* harmony export */   "multiplyScalarAndAdd": () => /* binding */ multiplyScalarAndAdd,
+/* harmony export */   "exactEquals": () => /* binding */ exactEquals,
+/* harmony export */   "equals": () => /* binding */ equals,
+/* harmony export */   "mul": () => /* binding */ mul,
+/* harmony export */   "sub": () => /* binding */ sub
+/* harmony export */ });
 /* harmony import */ var _common_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./common.js */ "./node_modules/gl-matrix/esm/common.js");
 
 /**
@@ -9225,9 +7785,9 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 function create() {
-  var out = new _common_js__WEBPACK_IMPORTED_MODULE_0__["ARRAY_TYPE"](16);
+  var out = new _common_js__WEBPACK_IMPORTED_MODULE_0__.ARRAY_TYPE(16);
 
-  if (_common_js__WEBPACK_IMPORTED_MODULE_0__["ARRAY_TYPE"] != Float32Array) {
+  if (_common_js__WEBPACK_IMPORTED_MODULE_0__.ARRAY_TYPE != Float32Array) {
     out[1] = 0;
     out[2] = 0;
     out[3] = 0;
@@ -9256,7 +7816,7 @@ function create() {
  */
 
 function clone(a) {
-  var out = new _common_js__WEBPACK_IMPORTED_MODULE_0__["ARRAY_TYPE"](16);
+  var out = new _common_js__WEBPACK_IMPORTED_MODULE_0__.ARRAY_TYPE(16);
   out[0] = a[0];
   out[1] = a[1];
   out[2] = a[2];
@@ -9325,7 +7885,7 @@ function copy(out, a) {
  */
 
 function fromValues(m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23, m30, m31, m32, m33) {
-  var out = new _common_js__WEBPACK_IMPORTED_MODULE_0__["ARRAY_TYPE"](16);
+  var out = new _common_js__WEBPACK_IMPORTED_MODULE_0__.ARRAY_TYPE(16);
   out[0] = m00;
   out[1] = m01;
   out[2] = m02;
@@ -9777,7 +8337,7 @@ function rotate(out, a, rad, axis) {
   var b10, b11, b12;
   var b20, b21, b22;
 
-  if (len < _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"]) {
+  if (len < _common_js__WEBPACK_IMPORTED_MODULE_0__.EPSILON) {
     return null;
   }
 
@@ -10048,7 +8608,7 @@ function fromRotation(out, rad, axis) {
   var len = Math.hypot(x, y, z);
   var s, c, t;
 
-  if (len < _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"]) {
+  if (len < _common_js__WEBPACK_IMPORTED_MODULE_0__.EPSILON) {
     return null;
   }
 
@@ -10241,7 +8801,7 @@ function fromRotationTranslation(out, q, v) {
  */
 
 function fromQuat2(out, a) {
-  var translation = new _common_js__WEBPACK_IMPORTED_MODULE_0__["ARRAY_TYPE"](3);
+  var translation = new _common_js__WEBPACK_IMPORTED_MODULE_0__.ARRAY_TYPE(3);
   var bx = -a[0],
       by = -a[1],
       bz = -a[2],
@@ -10318,7 +8878,7 @@ function getScaling(out, mat) {
  */
 
 function getRotation(out, mat) {
-  var scaling = new _common_js__WEBPACK_IMPORTED_MODULE_0__["ARRAY_TYPE"](3);
+  var scaling = new _common_js__WEBPACK_IMPORTED_MODULE_0__.ARRAY_TYPE(3);
   getScaling(scaling, mat);
   var is1 = 1 / scaling[0];
   var is2 = 1 / scaling[1];
@@ -10707,7 +9267,7 @@ function lookAt(out, eye, center, up) {
   var centery = center[1];
   var centerz = center[2];
 
-  if (Math.abs(eyex - centerx) < _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"] && Math.abs(eyey - centery) < _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"] && Math.abs(eyez - centerz) < _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"]) {
+  if (Math.abs(eyex - centerx) < _common_js__WEBPACK_IMPORTED_MODULE_0__.EPSILON && Math.abs(eyey - centery) < _common_js__WEBPACK_IMPORTED_MODULE_0__.EPSILON && Math.abs(eyez - centerz) < _common_js__WEBPACK_IMPORTED_MODULE_0__.EPSILON) {
     return identity(out);
   }
 
@@ -11012,7 +9572,7 @@ function equals(a, b) {
       b13 = b[13],
       b14 = b[14],
       b15 = b[15];
-  return Math.abs(a0 - b0) <= _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"] * Math.max(1.0, Math.abs(a0), Math.abs(b0)) && Math.abs(a1 - b1) <= _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"] * Math.max(1.0, Math.abs(a1), Math.abs(b1)) && Math.abs(a2 - b2) <= _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"] * Math.max(1.0, Math.abs(a2), Math.abs(b2)) && Math.abs(a3 - b3) <= _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"] * Math.max(1.0, Math.abs(a3), Math.abs(b3)) && Math.abs(a4 - b4) <= _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"] * Math.max(1.0, Math.abs(a4), Math.abs(b4)) && Math.abs(a5 - b5) <= _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"] * Math.max(1.0, Math.abs(a5), Math.abs(b5)) && Math.abs(a6 - b6) <= _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"] * Math.max(1.0, Math.abs(a6), Math.abs(b6)) && Math.abs(a7 - b7) <= _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"] * Math.max(1.0, Math.abs(a7), Math.abs(b7)) && Math.abs(a8 - b8) <= _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"] * Math.max(1.0, Math.abs(a8), Math.abs(b8)) && Math.abs(a9 - b9) <= _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"] * Math.max(1.0, Math.abs(a9), Math.abs(b9)) && Math.abs(a10 - b10) <= _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"] * Math.max(1.0, Math.abs(a10), Math.abs(b10)) && Math.abs(a11 - b11) <= _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"] * Math.max(1.0, Math.abs(a11), Math.abs(b11)) && Math.abs(a12 - b12) <= _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"] * Math.max(1.0, Math.abs(a12), Math.abs(b12)) && Math.abs(a13 - b13) <= _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"] * Math.max(1.0, Math.abs(a13), Math.abs(b13)) && Math.abs(a14 - b14) <= _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"] * Math.max(1.0, Math.abs(a14), Math.abs(b14)) && Math.abs(a15 - b15) <= _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"] * Math.max(1.0, Math.abs(a15), Math.abs(b15));
+  return Math.abs(a0 - b0) <= _common_js__WEBPACK_IMPORTED_MODULE_0__.EPSILON * Math.max(1.0, Math.abs(a0), Math.abs(b0)) && Math.abs(a1 - b1) <= _common_js__WEBPACK_IMPORTED_MODULE_0__.EPSILON * Math.max(1.0, Math.abs(a1), Math.abs(b1)) && Math.abs(a2 - b2) <= _common_js__WEBPACK_IMPORTED_MODULE_0__.EPSILON * Math.max(1.0, Math.abs(a2), Math.abs(b2)) && Math.abs(a3 - b3) <= _common_js__WEBPACK_IMPORTED_MODULE_0__.EPSILON * Math.max(1.0, Math.abs(a3), Math.abs(b3)) && Math.abs(a4 - b4) <= _common_js__WEBPACK_IMPORTED_MODULE_0__.EPSILON * Math.max(1.0, Math.abs(a4), Math.abs(b4)) && Math.abs(a5 - b5) <= _common_js__WEBPACK_IMPORTED_MODULE_0__.EPSILON * Math.max(1.0, Math.abs(a5), Math.abs(b5)) && Math.abs(a6 - b6) <= _common_js__WEBPACK_IMPORTED_MODULE_0__.EPSILON * Math.max(1.0, Math.abs(a6), Math.abs(b6)) && Math.abs(a7 - b7) <= _common_js__WEBPACK_IMPORTED_MODULE_0__.EPSILON * Math.max(1.0, Math.abs(a7), Math.abs(b7)) && Math.abs(a8 - b8) <= _common_js__WEBPACK_IMPORTED_MODULE_0__.EPSILON * Math.max(1.0, Math.abs(a8), Math.abs(b8)) && Math.abs(a9 - b9) <= _common_js__WEBPACK_IMPORTED_MODULE_0__.EPSILON * Math.max(1.0, Math.abs(a9), Math.abs(b9)) && Math.abs(a10 - b10) <= _common_js__WEBPACK_IMPORTED_MODULE_0__.EPSILON * Math.max(1.0, Math.abs(a10), Math.abs(b10)) && Math.abs(a11 - b11) <= _common_js__WEBPACK_IMPORTED_MODULE_0__.EPSILON * Math.max(1.0, Math.abs(a11), Math.abs(b11)) && Math.abs(a12 - b12) <= _common_js__WEBPACK_IMPORTED_MODULE_0__.EPSILON * Math.max(1.0, Math.abs(a12), Math.abs(b12)) && Math.abs(a13 - b13) <= _common_js__WEBPACK_IMPORTED_MODULE_0__.EPSILON * Math.max(1.0, Math.abs(a13), Math.abs(b13)) && Math.abs(a14 - b14) <= _common_js__WEBPACK_IMPORTED_MODULE_0__.EPSILON * Math.max(1.0, Math.abs(a14), Math.abs(b14)) && Math.abs(a15 - b15) <= _common_js__WEBPACK_IMPORTED_MODULE_0__.EPSILON * Math.max(1.0, Math.abs(a15), Math.abs(b15));
 }
 /**
  * Alias for {@link mat4.multiply}
@@ -11029,1714 +9589,109 @@ var sub = subtract;
 
 /***/ }),
 
-/***/ "./node_modules/gl-matrix/esm/quat.js":
-/*!********************************************!*\
-  !*** ./node_modules/gl-matrix/esm/quat.js ***!
-  \********************************************/
-/*! exports provided: create, identity, setAxisAngle, getAxisAngle, getAngle, multiply, rotateX, rotateY, rotateZ, calculateW, exp, ln, pow, slerp, random, invert, conjugate, fromMat3, fromEuler, str, clone, fromValues, copy, set, add, mul, scale, dot, lerp, length, len, squaredLength, sqrLen, normalize, exactEquals, equals, rotationTo, sqlerp, setAxes */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "create", function() { return create; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "identity", function() { return identity; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setAxisAngle", function() { return setAxisAngle; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getAxisAngle", function() { return getAxisAngle; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getAngle", function() { return getAngle; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "multiply", function() { return multiply; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "rotateX", function() { return rotateX; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "rotateY", function() { return rotateY; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "rotateZ", function() { return rotateZ; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "calculateW", function() { return calculateW; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "exp", function() { return exp; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ln", function() { return ln; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "pow", function() { return pow; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "slerp", function() { return slerp; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "random", function() { return random; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "invert", function() { return invert; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "conjugate", function() { return conjugate; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fromMat3", function() { return fromMat3; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fromEuler", function() { return fromEuler; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "str", function() { return str; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "clone", function() { return clone; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fromValues", function() { return fromValues; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "copy", function() { return copy; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "set", function() { return set; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "add", function() { return add; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mul", function() { return mul; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "scale", function() { return scale; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dot", function() { return dot; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "lerp", function() { return lerp; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "length", function() { return length; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "len", function() { return len; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "squaredLength", function() { return squaredLength; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sqrLen", function() { return sqrLen; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "normalize", function() { return normalize; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "exactEquals", function() { return exactEquals; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "equals", function() { return equals; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "rotationTo", function() { return rotationTo; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sqlerp", function() { return sqlerp; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setAxes", function() { return setAxes; });
-/* harmony import */ var _common_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./common.js */ "./node_modules/gl-matrix/esm/common.js");
-/* harmony import */ var _mat3_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./mat3.js */ "./node_modules/gl-matrix/esm/mat3.js");
-/* harmony import */ var _vec3_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./vec3.js */ "./node_modules/gl-matrix/esm/vec3.js");
-/* harmony import */ var _vec4_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./vec4.js */ "./node_modules/gl-matrix/esm/vec4.js");
-
-
-
-
-/**
- * Quaternion
- * @module quat
- */
-
-/**
- * Creates a new identity quat
- *
- * @returns {quat} a new quaternion
- */
-
-function create() {
-  var out = new _common_js__WEBPACK_IMPORTED_MODULE_0__["ARRAY_TYPE"](4);
-
-  if (_common_js__WEBPACK_IMPORTED_MODULE_0__["ARRAY_TYPE"] != Float32Array) {
-    out[0] = 0;
-    out[1] = 0;
-    out[2] = 0;
-  }
-
-  out[3] = 1;
-  return out;
-}
-/**
- * Set a quat to the identity quaternion
- *
- * @param {quat} out the receiving quaternion
- * @returns {quat} out
- */
-
-function identity(out) {
-  out[0] = 0;
-  out[1] = 0;
-  out[2] = 0;
-  out[3] = 1;
-  return out;
-}
-/**
- * Sets a quat from the given angle and rotation axis,
- * then returns it.
- *
- * @param {quat} out the receiving quaternion
- * @param {ReadonlyVec3} axis the axis around which to rotate
- * @param {Number} rad the angle in radians
- * @returns {quat} out
- **/
-
-function setAxisAngle(out, axis, rad) {
-  rad = rad * 0.5;
-  var s = Math.sin(rad);
-  out[0] = s * axis[0];
-  out[1] = s * axis[1];
-  out[2] = s * axis[2];
-  out[3] = Math.cos(rad);
-  return out;
-}
-/**
- * Gets the rotation axis and angle for a given
- *  quaternion. If a quaternion is created with
- *  setAxisAngle, this method will return the same
- *  values as providied in the original parameter list
- *  OR functionally equivalent values.
- * Example: The quaternion formed by axis [0, 0, 1] and
- *  angle -90 is the same as the quaternion formed by
- *  [0, 0, 1] and 270. This method favors the latter.
- * @param  {vec3} out_axis  Vector receiving the axis of rotation
- * @param  {ReadonlyQuat} q     Quaternion to be decomposed
- * @return {Number}     Angle, in radians, of the rotation
- */
-
-function getAxisAngle(out_axis, q) {
-  var rad = Math.acos(q[3]) * 2.0;
-  var s = Math.sin(rad / 2.0);
-
-  if (s > _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"]) {
-    out_axis[0] = q[0] / s;
-    out_axis[1] = q[1] / s;
-    out_axis[2] = q[2] / s;
-  } else {
-    // If s is zero, return any axis (no rotation - axis does not matter)
-    out_axis[0] = 1;
-    out_axis[1] = 0;
-    out_axis[2] = 0;
-  }
-
-  return rad;
-}
-/**
- * Gets the angular distance between two unit quaternions
- *
- * @param  {ReadonlyQuat} a     Origin unit quaternion
- * @param  {ReadonlyQuat} b     Destination unit quaternion
- * @return {Number}     Angle, in radians, between the two quaternions
- */
-
-function getAngle(a, b) {
-  var dotproduct = dot(a, b);
-  return Math.acos(2 * dotproduct * dotproduct - 1);
-}
-/**
- * Multiplies two quat's
- *
- * @param {quat} out the receiving quaternion
- * @param {ReadonlyQuat} a the first operand
- * @param {ReadonlyQuat} b the second operand
- * @returns {quat} out
- */
-
-function multiply(out, a, b) {
-  var ax = a[0],
-      ay = a[1],
-      az = a[2],
-      aw = a[3];
-  var bx = b[0],
-      by = b[1],
-      bz = b[2],
-      bw = b[3];
-  out[0] = ax * bw + aw * bx + ay * bz - az * by;
-  out[1] = ay * bw + aw * by + az * bx - ax * bz;
-  out[2] = az * bw + aw * bz + ax * by - ay * bx;
-  out[3] = aw * bw - ax * bx - ay * by - az * bz;
-  return out;
-}
-/**
- * Rotates a quaternion by the given angle about the X axis
- *
- * @param {quat} out quat receiving operation result
- * @param {ReadonlyQuat} a quat to rotate
- * @param {number} rad angle (in radians) to rotate
- * @returns {quat} out
- */
-
-function rotateX(out, a, rad) {
-  rad *= 0.5;
-  var ax = a[0],
-      ay = a[1],
-      az = a[2],
-      aw = a[3];
-  var bx = Math.sin(rad),
-      bw = Math.cos(rad);
-  out[0] = ax * bw + aw * bx;
-  out[1] = ay * bw + az * bx;
-  out[2] = az * bw - ay * bx;
-  out[3] = aw * bw - ax * bx;
-  return out;
-}
-/**
- * Rotates a quaternion by the given angle about the Y axis
- *
- * @param {quat} out quat receiving operation result
- * @param {ReadonlyQuat} a quat to rotate
- * @param {number} rad angle (in radians) to rotate
- * @returns {quat} out
- */
-
-function rotateY(out, a, rad) {
-  rad *= 0.5;
-  var ax = a[0],
-      ay = a[1],
-      az = a[2],
-      aw = a[3];
-  var by = Math.sin(rad),
-      bw = Math.cos(rad);
-  out[0] = ax * bw - az * by;
-  out[1] = ay * bw + aw * by;
-  out[2] = az * bw + ax * by;
-  out[3] = aw * bw - ay * by;
-  return out;
-}
-/**
- * Rotates a quaternion by the given angle about the Z axis
- *
- * @param {quat} out quat receiving operation result
- * @param {ReadonlyQuat} a quat to rotate
- * @param {number} rad angle (in radians) to rotate
- * @returns {quat} out
- */
-
-function rotateZ(out, a, rad) {
-  rad *= 0.5;
-  var ax = a[0],
-      ay = a[1],
-      az = a[2],
-      aw = a[3];
-  var bz = Math.sin(rad),
-      bw = Math.cos(rad);
-  out[0] = ax * bw + ay * bz;
-  out[1] = ay * bw - ax * bz;
-  out[2] = az * bw + aw * bz;
-  out[3] = aw * bw - az * bz;
-  return out;
-}
-/**
- * Calculates the W component of a quat from the X, Y, and Z components.
- * Assumes that quaternion is 1 unit in length.
- * Any existing W component will be ignored.
- *
- * @param {quat} out the receiving quaternion
- * @param {ReadonlyQuat} a quat to calculate W component of
- * @returns {quat} out
- */
-
-function calculateW(out, a) {
-  var x = a[0],
-      y = a[1],
-      z = a[2];
-  out[0] = x;
-  out[1] = y;
-  out[2] = z;
-  out[3] = Math.sqrt(Math.abs(1.0 - x * x - y * y - z * z));
-  return out;
-}
-/**
- * Calculate the exponential of a unit quaternion.
- *
- * @param {quat} out the receiving quaternion
- * @param {ReadonlyQuat} a quat to calculate the exponential of
- * @returns {quat} out
- */
-
-function exp(out, a) {
-  var x = a[0],
-      y = a[1],
-      z = a[2],
-      w = a[3];
-  var r = Math.sqrt(x * x + y * y + z * z);
-  var et = Math.exp(w);
-  var s = r > 0 ? et * Math.sin(r) / r : 0;
-  out[0] = x * s;
-  out[1] = y * s;
-  out[2] = z * s;
-  out[3] = et * Math.cos(r);
-  return out;
-}
-/**
- * Calculate the natural logarithm of a unit quaternion.
- *
- * @param {quat} out the receiving quaternion
- * @param {ReadonlyQuat} a quat to calculate the exponential of
- * @returns {quat} out
- */
-
-function ln(out, a) {
-  var x = a[0],
-      y = a[1],
-      z = a[2],
-      w = a[3];
-  var r = Math.sqrt(x * x + y * y + z * z);
-  var t = r > 0 ? Math.atan2(r, w) / r : 0;
-  out[0] = x * t;
-  out[1] = y * t;
-  out[2] = z * t;
-  out[3] = 0.5 * Math.log(x * x + y * y + z * z + w * w);
-  return out;
-}
-/**
- * Calculate the scalar power of a unit quaternion.
- *
- * @param {quat} out the receiving quaternion
- * @param {ReadonlyQuat} a quat to calculate the exponential of
- * @param {Number} b amount to scale the quaternion by
- * @returns {quat} out
- */
-
-function pow(out, a, b) {
-  ln(out, a);
-  scale(out, out, b);
-  exp(out, out);
-  return out;
-}
-/**
- * Performs a spherical linear interpolation between two quat
- *
- * @param {quat} out the receiving quaternion
- * @param {ReadonlyQuat} a the first operand
- * @param {ReadonlyQuat} b the second operand
- * @param {Number} t interpolation amount, in the range [0-1], between the two inputs
- * @returns {quat} out
- */
-
-function slerp(out, a, b, t) {
-  // benchmarks:
-  //    http://jsperf.com/quaternion-slerp-implementations
-  var ax = a[0],
-      ay = a[1],
-      az = a[2],
-      aw = a[3];
-  var bx = b[0],
-      by = b[1],
-      bz = b[2],
-      bw = b[3];
-  var omega, cosom, sinom, scale0, scale1; // calc cosine
-
-  cosom = ax * bx + ay * by + az * bz + aw * bw; // adjust signs (if necessary)
-
-  if (cosom < 0.0) {
-    cosom = -cosom;
-    bx = -bx;
-    by = -by;
-    bz = -bz;
-    bw = -bw;
-  } // calculate coefficients
-
-
-  if (1.0 - cosom > _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"]) {
-    // standard case (slerp)
-    omega = Math.acos(cosom);
-    sinom = Math.sin(omega);
-    scale0 = Math.sin((1.0 - t) * omega) / sinom;
-    scale1 = Math.sin(t * omega) / sinom;
-  } else {
-    // "from" and "to" quaternions are very close
-    //  ... so we can do a linear interpolation
-    scale0 = 1.0 - t;
-    scale1 = t;
-  } // calculate final values
-
-
-  out[0] = scale0 * ax + scale1 * bx;
-  out[1] = scale0 * ay + scale1 * by;
-  out[2] = scale0 * az + scale1 * bz;
-  out[3] = scale0 * aw + scale1 * bw;
-  return out;
-}
-/**
- * Generates a random unit quaternion
- *
- * @param {quat} out the receiving quaternion
- * @returns {quat} out
- */
-
-function random(out) {
-  // Implementation of http://planning.cs.uiuc.edu/node198.html
-  // TODO: Calling random 3 times is probably not the fastest solution
-  var u1 = _common_js__WEBPACK_IMPORTED_MODULE_0__["RANDOM"]();
-  var u2 = _common_js__WEBPACK_IMPORTED_MODULE_0__["RANDOM"]();
-  var u3 = _common_js__WEBPACK_IMPORTED_MODULE_0__["RANDOM"]();
-  var sqrt1MinusU1 = Math.sqrt(1 - u1);
-  var sqrtU1 = Math.sqrt(u1);
-  out[0] = sqrt1MinusU1 * Math.sin(2.0 * Math.PI * u2);
-  out[1] = sqrt1MinusU1 * Math.cos(2.0 * Math.PI * u2);
-  out[2] = sqrtU1 * Math.sin(2.0 * Math.PI * u3);
-  out[3] = sqrtU1 * Math.cos(2.0 * Math.PI * u3);
-  return out;
-}
-/**
- * Calculates the inverse of a quat
- *
- * @param {quat} out the receiving quaternion
- * @param {ReadonlyQuat} a quat to calculate inverse of
- * @returns {quat} out
- */
-
-function invert(out, a) {
-  var a0 = a[0],
-      a1 = a[1],
-      a2 = a[2],
-      a3 = a[3];
-  var dot = a0 * a0 + a1 * a1 + a2 * a2 + a3 * a3;
-  var invDot = dot ? 1.0 / dot : 0; // TODO: Would be faster to return [0,0,0,0] immediately if dot == 0
-
-  out[0] = -a0 * invDot;
-  out[1] = -a1 * invDot;
-  out[2] = -a2 * invDot;
-  out[3] = a3 * invDot;
-  return out;
-}
-/**
- * Calculates the conjugate of a quat
- * If the quaternion is normalized, this function is faster than quat.inverse and produces the same result.
- *
- * @param {quat} out the receiving quaternion
- * @param {ReadonlyQuat} a quat to calculate conjugate of
- * @returns {quat} out
- */
-
-function conjugate(out, a) {
-  out[0] = -a[0];
-  out[1] = -a[1];
-  out[2] = -a[2];
-  out[3] = a[3];
-  return out;
-}
-/**
- * Creates a quaternion from the given 3x3 rotation matrix.
- *
- * NOTE: The resultant quaternion is not normalized, so you should be sure
- * to renormalize the quaternion yourself where necessary.
- *
- * @param {quat} out the receiving quaternion
- * @param {ReadonlyMat3} m rotation matrix
- * @returns {quat} out
- * @function
- */
-
-function fromMat3(out, m) {
-  // Algorithm in Ken Shoemake's article in 1987 SIGGRAPH course notes
-  // article "Quaternion Calculus and Fast Animation".
-  var fTrace = m[0] + m[4] + m[8];
-  var fRoot;
-
-  if (fTrace > 0.0) {
-    // |w| > 1/2, may as well choose w > 1/2
-    fRoot = Math.sqrt(fTrace + 1.0); // 2w
-
-    out[3] = 0.5 * fRoot;
-    fRoot = 0.5 / fRoot; // 1/(4w)
-
-    out[0] = (m[5] - m[7]) * fRoot;
-    out[1] = (m[6] - m[2]) * fRoot;
-    out[2] = (m[1] - m[3]) * fRoot;
-  } else {
-    // |w| <= 1/2
-    var i = 0;
-    if (m[4] > m[0]) i = 1;
-    if (m[8] > m[i * 3 + i]) i = 2;
-    var j = (i + 1) % 3;
-    var k = (i + 2) % 3;
-    fRoot = Math.sqrt(m[i * 3 + i] - m[j * 3 + j] - m[k * 3 + k] + 1.0);
-    out[i] = 0.5 * fRoot;
-    fRoot = 0.5 / fRoot;
-    out[3] = (m[j * 3 + k] - m[k * 3 + j]) * fRoot;
-    out[j] = (m[j * 3 + i] + m[i * 3 + j]) * fRoot;
-    out[k] = (m[k * 3 + i] + m[i * 3 + k]) * fRoot;
-  }
-
-  return out;
-}
-/**
- * Creates a quaternion from the given euler angle x, y, z.
- *
- * @param {quat} out the receiving quaternion
- * @param {x} Angle to rotate around X axis in degrees.
- * @param {y} Angle to rotate around Y axis in degrees.
- * @param {z} Angle to rotate around Z axis in degrees.
- * @returns {quat} out
- * @function
- */
-
-function fromEuler(out, x, y, z) {
-  var halfToRad = 0.5 * Math.PI / 180.0;
-  x *= halfToRad;
-  y *= halfToRad;
-  z *= halfToRad;
-  var sx = Math.sin(x);
-  var cx = Math.cos(x);
-  var sy = Math.sin(y);
-  var cy = Math.cos(y);
-  var sz = Math.sin(z);
-  var cz = Math.cos(z);
-  out[0] = sx * cy * cz - cx * sy * sz;
-  out[1] = cx * sy * cz + sx * cy * sz;
-  out[2] = cx * cy * sz - sx * sy * cz;
-  out[3] = cx * cy * cz + sx * sy * sz;
-  return out;
-}
-/**
- * Returns a string representation of a quatenion
- *
- * @param {ReadonlyQuat} a vector to represent as a string
- * @returns {String} string representation of the vector
- */
-
-function str(a) {
-  return "quat(" + a[0] + ", " + a[1] + ", " + a[2] + ", " + a[3] + ")";
-}
-/**
- * Creates a new quat initialized with values from an existing quaternion
- *
- * @param {ReadonlyQuat} a quaternion to clone
- * @returns {quat} a new quaternion
- * @function
- */
-
-var clone = _vec4_js__WEBPACK_IMPORTED_MODULE_3__["clone"];
-/**
- * Creates a new quat initialized with the given values
- *
- * @param {Number} x X component
- * @param {Number} y Y component
- * @param {Number} z Z component
- * @param {Number} w W component
- * @returns {quat} a new quaternion
- * @function
- */
-
-var fromValues = _vec4_js__WEBPACK_IMPORTED_MODULE_3__["fromValues"];
-/**
- * Copy the values from one quat to another
- *
- * @param {quat} out the receiving quaternion
- * @param {ReadonlyQuat} a the source quaternion
- * @returns {quat} out
- * @function
- */
-
-var copy = _vec4_js__WEBPACK_IMPORTED_MODULE_3__["copy"];
-/**
- * Set the components of a quat to the given values
- *
- * @param {quat} out the receiving quaternion
- * @param {Number} x X component
- * @param {Number} y Y component
- * @param {Number} z Z component
- * @param {Number} w W component
- * @returns {quat} out
- * @function
- */
-
-var set = _vec4_js__WEBPACK_IMPORTED_MODULE_3__["set"];
-/**
- * Adds two quat's
- *
- * @param {quat} out the receiving quaternion
- * @param {ReadonlyQuat} a the first operand
- * @param {ReadonlyQuat} b the second operand
- * @returns {quat} out
- * @function
- */
-
-var add = _vec4_js__WEBPACK_IMPORTED_MODULE_3__["add"];
-/**
- * Alias for {@link quat.multiply}
- * @function
- */
-
-var mul = multiply;
-/**
- * Scales a quat by a scalar number
- *
- * @param {quat} out the receiving vector
- * @param {ReadonlyQuat} a the vector to scale
- * @param {Number} b amount to scale the vector by
- * @returns {quat} out
- * @function
- */
-
-var scale = _vec4_js__WEBPACK_IMPORTED_MODULE_3__["scale"];
-/**
- * Calculates the dot product of two quat's
- *
- * @param {ReadonlyQuat} a the first operand
- * @param {ReadonlyQuat} b the second operand
- * @returns {Number} dot product of a and b
- * @function
- */
-
-var dot = _vec4_js__WEBPACK_IMPORTED_MODULE_3__["dot"];
-/**
- * Performs a linear interpolation between two quat's
- *
- * @param {quat} out the receiving quaternion
- * @param {ReadonlyQuat} a the first operand
- * @param {ReadonlyQuat} b the second operand
- * @param {Number} t interpolation amount, in the range [0-1], between the two inputs
- * @returns {quat} out
- * @function
- */
-
-var lerp = _vec4_js__WEBPACK_IMPORTED_MODULE_3__["lerp"];
-/**
- * Calculates the length of a quat
- *
- * @param {ReadonlyQuat} a vector to calculate length of
- * @returns {Number} length of a
- */
-
-var length = _vec4_js__WEBPACK_IMPORTED_MODULE_3__["length"];
-/**
- * Alias for {@link quat.length}
- * @function
- */
-
-var len = length;
-/**
- * Calculates the squared length of a quat
- *
- * @param {ReadonlyQuat} a vector to calculate squared length of
- * @returns {Number} squared length of a
- * @function
- */
-
-var squaredLength = _vec4_js__WEBPACK_IMPORTED_MODULE_3__["squaredLength"];
-/**
- * Alias for {@link quat.squaredLength}
- * @function
- */
-
-var sqrLen = squaredLength;
-/**
- * Normalize a quat
- *
- * @param {quat} out the receiving quaternion
- * @param {ReadonlyQuat} a quaternion to normalize
- * @returns {quat} out
- * @function
- */
-
-var normalize = _vec4_js__WEBPACK_IMPORTED_MODULE_3__["normalize"];
-/**
- * Returns whether or not the quaternions have exactly the same elements in the same position (when compared with ===)
- *
- * @param {ReadonlyQuat} a The first quaternion.
- * @param {ReadonlyQuat} b The second quaternion.
- * @returns {Boolean} True if the vectors are equal, false otherwise.
- */
-
-var exactEquals = _vec4_js__WEBPACK_IMPORTED_MODULE_3__["exactEquals"];
-/**
- * Returns whether or not the quaternions have approximately the same elements in the same position.
- *
- * @param {ReadonlyQuat} a The first vector.
- * @param {ReadonlyQuat} b The second vector.
- * @returns {Boolean} True if the vectors are equal, false otherwise.
- */
-
-var equals = _vec4_js__WEBPACK_IMPORTED_MODULE_3__["equals"];
-/**
- * Sets a quaternion to represent the shortest rotation from one
- * vector to another.
- *
- * Both vectors are assumed to be unit length.
- *
- * @param {quat} out the receiving quaternion.
- * @param {ReadonlyVec3} a the initial vector
- * @param {ReadonlyVec3} b the destination vector
- * @returns {quat} out
- */
-
-var rotationTo = function () {
-  var tmpvec3 = _vec3_js__WEBPACK_IMPORTED_MODULE_2__["create"]();
-  var xUnitVec3 = _vec3_js__WEBPACK_IMPORTED_MODULE_2__["fromValues"](1, 0, 0);
-  var yUnitVec3 = _vec3_js__WEBPACK_IMPORTED_MODULE_2__["fromValues"](0, 1, 0);
-  return function (out, a, b) {
-    var dot = _vec3_js__WEBPACK_IMPORTED_MODULE_2__["dot"](a, b);
-
-    if (dot < -0.999999) {
-      _vec3_js__WEBPACK_IMPORTED_MODULE_2__["cross"](tmpvec3, xUnitVec3, a);
-      if (_vec3_js__WEBPACK_IMPORTED_MODULE_2__["len"](tmpvec3) < 0.000001) _vec3_js__WEBPACK_IMPORTED_MODULE_2__["cross"](tmpvec3, yUnitVec3, a);
-      _vec3_js__WEBPACK_IMPORTED_MODULE_2__["normalize"](tmpvec3, tmpvec3);
-      setAxisAngle(out, tmpvec3, Math.PI);
-      return out;
-    } else if (dot > 0.999999) {
-      out[0] = 0;
-      out[1] = 0;
-      out[2] = 0;
-      out[3] = 1;
-      return out;
-    } else {
-      _vec3_js__WEBPACK_IMPORTED_MODULE_2__["cross"](tmpvec3, a, b);
-      out[0] = tmpvec3[0];
-      out[1] = tmpvec3[1];
-      out[2] = tmpvec3[2];
-      out[3] = 1 + dot;
-      return normalize(out, out);
-    }
-  };
-}();
-/**
- * Performs a spherical linear interpolation with two control points
- *
- * @param {quat} out the receiving quaternion
- * @param {ReadonlyQuat} a the first operand
- * @param {ReadonlyQuat} b the second operand
- * @param {ReadonlyQuat} c the third operand
- * @param {ReadonlyQuat} d the fourth operand
- * @param {Number} t interpolation amount, in the range [0-1], between the two inputs
- * @returns {quat} out
- */
-
-var sqlerp = function () {
-  var temp1 = create();
-  var temp2 = create();
-  return function (out, a, b, c, d, t) {
-    slerp(temp1, a, d, t);
-    slerp(temp2, b, c, t);
-    slerp(out, temp1, temp2, 2 * t * (1 - t));
-    return out;
-  };
-}();
-/**
- * Sets the specified quaternion with values corresponding to the given
- * axes. Each axis is a vec3 and is expected to be unit length and
- * perpendicular to all other specified axes.
- *
- * @param {ReadonlyVec3} view  the vector representing the viewing direction
- * @param {ReadonlyVec3} right the vector representing the local "right" direction
- * @param {ReadonlyVec3} up    the vector representing the local "up" direction
- * @returns {quat} out
- */
-
-var setAxes = function () {
-  var matr = _mat3_js__WEBPACK_IMPORTED_MODULE_1__["create"]();
-  return function (out, view, right, up) {
-    matr[0] = right[0];
-    matr[3] = right[1];
-    matr[6] = right[2];
-    matr[1] = up[0];
-    matr[4] = up[1];
-    matr[7] = up[2];
-    matr[2] = -view[0];
-    matr[5] = -view[1];
-    matr[8] = -view[2];
-    return normalize(out, fromMat3(out, matr));
-  };
-}();
-
-/***/ }),
-
-/***/ "./node_modules/gl-matrix/esm/quat2.js":
-/*!*********************************************!*\
-  !*** ./node_modules/gl-matrix/esm/quat2.js ***!
-  \*********************************************/
-/*! exports provided: create, clone, fromValues, fromRotationTranslationValues, fromRotationTranslation, fromTranslation, fromRotation, fromMat4, copy, identity, set, getReal, getDual, setReal, setDual, getTranslation, translate, rotateX, rotateY, rotateZ, rotateByQuatAppend, rotateByQuatPrepend, rotateAroundAxis, add, multiply, mul, scale, dot, lerp, invert, conjugate, length, len, squaredLength, sqrLen, normalize, str, exactEquals, equals */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "create", function() { return create; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "clone", function() { return clone; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fromValues", function() { return fromValues; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fromRotationTranslationValues", function() { return fromRotationTranslationValues; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fromRotationTranslation", function() { return fromRotationTranslation; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fromTranslation", function() { return fromTranslation; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fromRotation", function() { return fromRotation; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fromMat4", function() { return fromMat4; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "copy", function() { return copy; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "identity", function() { return identity; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "set", function() { return set; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getReal", function() { return getReal; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getDual", function() { return getDual; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setReal", function() { return setReal; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setDual", function() { return setDual; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getTranslation", function() { return getTranslation; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "translate", function() { return translate; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "rotateX", function() { return rotateX; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "rotateY", function() { return rotateY; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "rotateZ", function() { return rotateZ; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "rotateByQuatAppend", function() { return rotateByQuatAppend; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "rotateByQuatPrepend", function() { return rotateByQuatPrepend; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "rotateAroundAxis", function() { return rotateAroundAxis; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "add", function() { return add; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "multiply", function() { return multiply; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mul", function() { return mul; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "scale", function() { return scale; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dot", function() { return dot; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "lerp", function() { return lerp; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "invert", function() { return invert; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "conjugate", function() { return conjugate; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "length", function() { return length; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "len", function() { return len; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "squaredLength", function() { return squaredLength; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sqrLen", function() { return sqrLen; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "normalize", function() { return normalize; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "str", function() { return str; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "exactEquals", function() { return exactEquals; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "equals", function() { return equals; });
-/* harmony import */ var _common_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./common.js */ "./node_modules/gl-matrix/esm/common.js");
-/* harmony import */ var _quat_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./quat.js */ "./node_modules/gl-matrix/esm/quat.js");
-/* harmony import */ var _mat4_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./mat4.js */ "./node_modules/gl-matrix/esm/mat4.js");
-
-
-
-/**
- * Dual Quaternion<br>
- * Format: [real, dual]<br>
- * Quaternion format: XYZW<br>
- * Make sure to have normalized dual quaternions, otherwise the functions may not work as intended.<br>
- * @module quat2
- */
-
-/**
- * Creates a new identity dual quat
- *
- * @returns {quat2} a new dual quaternion [real -> rotation, dual -> translation]
- */
-
-function create() {
-  var dq = new _common_js__WEBPACK_IMPORTED_MODULE_0__["ARRAY_TYPE"](8);
-
-  if (_common_js__WEBPACK_IMPORTED_MODULE_0__["ARRAY_TYPE"] != Float32Array) {
-    dq[0] = 0;
-    dq[1] = 0;
-    dq[2] = 0;
-    dq[4] = 0;
-    dq[5] = 0;
-    dq[6] = 0;
-    dq[7] = 0;
-  }
-
-  dq[3] = 1;
-  return dq;
-}
-/**
- * Creates a new quat initialized with values from an existing quaternion
- *
- * @param {ReadonlyQuat2} a dual quaternion to clone
- * @returns {quat2} new dual quaternion
- * @function
- */
-
-function clone(a) {
-  var dq = new _common_js__WEBPACK_IMPORTED_MODULE_0__["ARRAY_TYPE"](8);
-  dq[0] = a[0];
-  dq[1] = a[1];
-  dq[2] = a[2];
-  dq[3] = a[3];
-  dq[4] = a[4];
-  dq[5] = a[5];
-  dq[6] = a[6];
-  dq[7] = a[7];
-  return dq;
-}
-/**
- * Creates a new dual quat initialized with the given values
- *
- * @param {Number} x1 X component
- * @param {Number} y1 Y component
- * @param {Number} z1 Z component
- * @param {Number} w1 W component
- * @param {Number} x2 X component
- * @param {Number} y2 Y component
- * @param {Number} z2 Z component
- * @param {Number} w2 W component
- * @returns {quat2} new dual quaternion
- * @function
- */
-
-function fromValues(x1, y1, z1, w1, x2, y2, z2, w2) {
-  var dq = new _common_js__WEBPACK_IMPORTED_MODULE_0__["ARRAY_TYPE"](8);
-  dq[0] = x1;
-  dq[1] = y1;
-  dq[2] = z1;
-  dq[3] = w1;
-  dq[4] = x2;
-  dq[5] = y2;
-  dq[6] = z2;
-  dq[7] = w2;
-  return dq;
-}
-/**
- * Creates a new dual quat from the given values (quat and translation)
- *
- * @param {Number} x1 X component
- * @param {Number} y1 Y component
- * @param {Number} z1 Z component
- * @param {Number} w1 W component
- * @param {Number} x2 X component (translation)
- * @param {Number} y2 Y component (translation)
- * @param {Number} z2 Z component (translation)
- * @returns {quat2} new dual quaternion
- * @function
- */
-
-function fromRotationTranslationValues(x1, y1, z1, w1, x2, y2, z2) {
-  var dq = new _common_js__WEBPACK_IMPORTED_MODULE_0__["ARRAY_TYPE"](8);
-  dq[0] = x1;
-  dq[1] = y1;
-  dq[2] = z1;
-  dq[3] = w1;
-  var ax = x2 * 0.5,
-      ay = y2 * 0.5,
-      az = z2 * 0.5;
-  dq[4] = ax * w1 + ay * z1 - az * y1;
-  dq[5] = ay * w1 + az * x1 - ax * z1;
-  dq[6] = az * w1 + ax * y1 - ay * x1;
-  dq[7] = -ax * x1 - ay * y1 - az * z1;
-  return dq;
-}
-/**
- * Creates a dual quat from a quaternion and a translation
- *
- * @param {ReadonlyQuat2} dual quaternion receiving operation result
- * @param {ReadonlyQuat} q a normalized quaternion
- * @param {ReadonlyVec3} t tranlation vector
- * @returns {quat2} dual quaternion receiving operation result
- * @function
- */
-
-function fromRotationTranslation(out, q, t) {
-  var ax = t[0] * 0.5,
-      ay = t[1] * 0.5,
-      az = t[2] * 0.5,
-      bx = q[0],
-      by = q[1],
-      bz = q[2],
-      bw = q[3];
-  out[0] = bx;
-  out[1] = by;
-  out[2] = bz;
-  out[3] = bw;
-  out[4] = ax * bw + ay * bz - az * by;
-  out[5] = ay * bw + az * bx - ax * bz;
-  out[6] = az * bw + ax * by - ay * bx;
-  out[7] = -ax * bx - ay * by - az * bz;
-  return out;
-}
-/**
- * Creates a dual quat from a translation
- *
- * @param {ReadonlyQuat2} dual quaternion receiving operation result
- * @param {ReadonlyVec3} t translation vector
- * @returns {quat2} dual quaternion receiving operation result
- * @function
- */
-
-function fromTranslation(out, t) {
-  out[0] = 0;
-  out[1] = 0;
-  out[2] = 0;
-  out[3] = 1;
-  out[4] = t[0] * 0.5;
-  out[5] = t[1] * 0.5;
-  out[6] = t[2] * 0.5;
-  out[7] = 0;
-  return out;
-}
-/**
- * Creates a dual quat from a quaternion
- *
- * @param {ReadonlyQuat2} dual quaternion receiving operation result
- * @param {ReadonlyQuat} q the quaternion
- * @returns {quat2} dual quaternion receiving operation result
- * @function
- */
-
-function fromRotation(out, q) {
-  out[0] = q[0];
-  out[1] = q[1];
-  out[2] = q[2];
-  out[3] = q[3];
-  out[4] = 0;
-  out[5] = 0;
-  out[6] = 0;
-  out[7] = 0;
-  return out;
-}
-/**
- * Creates a new dual quat from a matrix (4x4)
- *
- * @param {quat2} out the dual quaternion
- * @param {ReadonlyMat4} a the matrix
- * @returns {quat2} dual quat receiving operation result
- * @function
- */
-
-function fromMat4(out, a) {
-  //TODO Optimize this
-  var outer = _quat_js__WEBPACK_IMPORTED_MODULE_1__["create"]();
-  _mat4_js__WEBPACK_IMPORTED_MODULE_2__["getRotation"](outer, a);
-  var t = new _common_js__WEBPACK_IMPORTED_MODULE_0__["ARRAY_TYPE"](3);
-  _mat4_js__WEBPACK_IMPORTED_MODULE_2__["getTranslation"](t, a);
-  fromRotationTranslation(out, outer, t);
-  return out;
-}
-/**
- * Copy the values from one dual quat to another
- *
- * @param {quat2} out the receiving dual quaternion
- * @param {ReadonlyQuat2} a the source dual quaternion
- * @returns {quat2} out
- * @function
- */
-
-function copy(out, a) {
-  out[0] = a[0];
-  out[1] = a[1];
-  out[2] = a[2];
-  out[3] = a[3];
-  out[4] = a[4];
-  out[5] = a[5];
-  out[6] = a[6];
-  out[7] = a[7];
-  return out;
-}
-/**
- * Set a dual quat to the identity dual quaternion
- *
- * @param {quat2} out the receiving quaternion
- * @returns {quat2} out
- */
-
-function identity(out) {
-  out[0] = 0;
-  out[1] = 0;
-  out[2] = 0;
-  out[3] = 1;
-  out[4] = 0;
-  out[5] = 0;
-  out[6] = 0;
-  out[7] = 0;
-  return out;
-}
-/**
- * Set the components of a dual quat to the given values
- *
- * @param {quat2} out the receiving quaternion
- * @param {Number} x1 X component
- * @param {Number} y1 Y component
- * @param {Number} z1 Z component
- * @param {Number} w1 W component
- * @param {Number} x2 X component
- * @param {Number} y2 Y component
- * @param {Number} z2 Z component
- * @param {Number} w2 W component
- * @returns {quat2} out
- * @function
- */
-
-function set(out, x1, y1, z1, w1, x2, y2, z2, w2) {
-  out[0] = x1;
-  out[1] = y1;
-  out[2] = z1;
-  out[3] = w1;
-  out[4] = x2;
-  out[5] = y2;
-  out[6] = z2;
-  out[7] = w2;
-  return out;
-}
-/**
- * Gets the real part of a dual quat
- * @param  {quat} out real part
- * @param  {ReadonlyQuat2} a Dual Quaternion
- * @return {quat} real part
- */
-
-var getReal = _quat_js__WEBPACK_IMPORTED_MODULE_1__["copy"];
-/**
- * Gets the dual part of a dual quat
- * @param  {quat} out dual part
- * @param  {ReadonlyQuat2} a Dual Quaternion
- * @return {quat} dual part
- */
-
-function getDual(out, a) {
-  out[0] = a[4];
-  out[1] = a[5];
-  out[2] = a[6];
-  out[3] = a[7];
-  return out;
-}
-/**
- * Set the real component of a dual quat to the given quaternion
- *
- * @param {quat2} out the receiving quaternion
- * @param {ReadonlyQuat} q a quaternion representing the real part
- * @returns {quat2} out
- * @function
- */
-
-var setReal = _quat_js__WEBPACK_IMPORTED_MODULE_1__["copy"];
-/**
- * Set the dual component of a dual quat to the given quaternion
- *
- * @param {quat2} out the receiving quaternion
- * @param {ReadonlyQuat} q a quaternion representing the dual part
- * @returns {quat2} out
- * @function
- */
-
-function setDual(out, q) {
-  out[4] = q[0];
-  out[5] = q[1];
-  out[6] = q[2];
-  out[7] = q[3];
-  return out;
-}
-/**
- * Gets the translation of a normalized dual quat
- * @param  {vec3} out translation
- * @param  {ReadonlyQuat2} a Dual Quaternion to be decomposed
- * @return {vec3} translation
- */
-
-function getTranslation(out, a) {
-  var ax = a[4],
-      ay = a[5],
-      az = a[6],
-      aw = a[7],
-      bx = -a[0],
-      by = -a[1],
-      bz = -a[2],
-      bw = a[3];
-  out[0] = (ax * bw + aw * bx + ay * bz - az * by) * 2;
-  out[1] = (ay * bw + aw * by + az * bx - ax * bz) * 2;
-  out[2] = (az * bw + aw * bz + ax * by - ay * bx) * 2;
-  return out;
-}
-/**
- * Translates a dual quat by the given vector
- *
- * @param {quat2} out the receiving dual quaternion
- * @param {ReadonlyQuat2} a the dual quaternion to translate
- * @param {ReadonlyVec3} v vector to translate by
- * @returns {quat2} out
- */
-
-function translate(out, a, v) {
-  var ax1 = a[0],
-      ay1 = a[1],
-      az1 = a[2],
-      aw1 = a[3],
-      bx1 = v[0] * 0.5,
-      by1 = v[1] * 0.5,
-      bz1 = v[2] * 0.5,
-      ax2 = a[4],
-      ay2 = a[5],
-      az2 = a[6],
-      aw2 = a[7];
-  out[0] = ax1;
-  out[1] = ay1;
-  out[2] = az1;
-  out[3] = aw1;
-  out[4] = aw1 * bx1 + ay1 * bz1 - az1 * by1 + ax2;
-  out[5] = aw1 * by1 + az1 * bx1 - ax1 * bz1 + ay2;
-  out[6] = aw1 * bz1 + ax1 * by1 - ay1 * bx1 + az2;
-  out[7] = -ax1 * bx1 - ay1 * by1 - az1 * bz1 + aw2;
-  return out;
-}
-/**
- * Rotates a dual quat around the X axis
- *
- * @param {quat2} out the receiving dual quaternion
- * @param {ReadonlyQuat2} a the dual quaternion to rotate
- * @param {number} rad how far should the rotation be
- * @returns {quat2} out
- */
-
-function rotateX(out, a, rad) {
-  var bx = -a[0],
-      by = -a[1],
-      bz = -a[2],
-      bw = a[3],
-      ax = a[4],
-      ay = a[5],
-      az = a[6],
-      aw = a[7],
-      ax1 = ax * bw + aw * bx + ay * bz - az * by,
-      ay1 = ay * bw + aw * by + az * bx - ax * bz,
-      az1 = az * bw + aw * bz + ax * by - ay * bx,
-      aw1 = aw * bw - ax * bx - ay * by - az * bz;
-  _quat_js__WEBPACK_IMPORTED_MODULE_1__["rotateX"](out, a, rad);
-  bx = out[0];
-  by = out[1];
-  bz = out[2];
-  bw = out[3];
-  out[4] = ax1 * bw + aw1 * bx + ay1 * bz - az1 * by;
-  out[5] = ay1 * bw + aw1 * by + az1 * bx - ax1 * bz;
-  out[6] = az1 * bw + aw1 * bz + ax1 * by - ay1 * bx;
-  out[7] = aw1 * bw - ax1 * bx - ay1 * by - az1 * bz;
-  return out;
-}
-/**
- * Rotates a dual quat around the Y axis
- *
- * @param {quat2} out the receiving dual quaternion
- * @param {ReadonlyQuat2} a the dual quaternion to rotate
- * @param {number} rad how far should the rotation be
- * @returns {quat2} out
- */
-
-function rotateY(out, a, rad) {
-  var bx = -a[0],
-      by = -a[1],
-      bz = -a[2],
-      bw = a[3],
-      ax = a[4],
-      ay = a[5],
-      az = a[6],
-      aw = a[7],
-      ax1 = ax * bw + aw * bx + ay * bz - az * by,
-      ay1 = ay * bw + aw * by + az * bx - ax * bz,
-      az1 = az * bw + aw * bz + ax * by - ay * bx,
-      aw1 = aw * bw - ax * bx - ay * by - az * bz;
-  _quat_js__WEBPACK_IMPORTED_MODULE_1__["rotateY"](out, a, rad);
-  bx = out[0];
-  by = out[1];
-  bz = out[2];
-  bw = out[3];
-  out[4] = ax1 * bw + aw1 * bx + ay1 * bz - az1 * by;
-  out[5] = ay1 * bw + aw1 * by + az1 * bx - ax1 * bz;
-  out[6] = az1 * bw + aw1 * bz + ax1 * by - ay1 * bx;
-  out[7] = aw1 * bw - ax1 * bx - ay1 * by - az1 * bz;
-  return out;
-}
-/**
- * Rotates a dual quat around the Z axis
- *
- * @param {quat2} out the receiving dual quaternion
- * @param {ReadonlyQuat2} a the dual quaternion to rotate
- * @param {number} rad how far should the rotation be
- * @returns {quat2} out
- */
-
-function rotateZ(out, a, rad) {
-  var bx = -a[0],
-      by = -a[1],
-      bz = -a[2],
-      bw = a[3],
-      ax = a[4],
-      ay = a[5],
-      az = a[6],
-      aw = a[7],
-      ax1 = ax * bw + aw * bx + ay * bz - az * by,
-      ay1 = ay * bw + aw * by + az * bx - ax * bz,
-      az1 = az * bw + aw * bz + ax * by - ay * bx,
-      aw1 = aw * bw - ax * bx - ay * by - az * bz;
-  _quat_js__WEBPACK_IMPORTED_MODULE_1__["rotateZ"](out, a, rad);
-  bx = out[0];
-  by = out[1];
-  bz = out[2];
-  bw = out[3];
-  out[4] = ax1 * bw + aw1 * bx + ay1 * bz - az1 * by;
-  out[5] = ay1 * bw + aw1 * by + az1 * bx - ax1 * bz;
-  out[6] = az1 * bw + aw1 * bz + ax1 * by - ay1 * bx;
-  out[7] = aw1 * bw - ax1 * bx - ay1 * by - az1 * bz;
-  return out;
-}
-/**
- * Rotates a dual quat by a given quaternion (a * q)
- *
- * @param {quat2} out the receiving dual quaternion
- * @param {ReadonlyQuat2} a the dual quaternion to rotate
- * @param {ReadonlyQuat} q quaternion to rotate by
- * @returns {quat2} out
- */
-
-function rotateByQuatAppend(out, a, q) {
-  var qx = q[0],
-      qy = q[1],
-      qz = q[2],
-      qw = q[3],
-      ax = a[0],
-      ay = a[1],
-      az = a[2],
-      aw = a[3];
-  out[0] = ax * qw + aw * qx + ay * qz - az * qy;
-  out[1] = ay * qw + aw * qy + az * qx - ax * qz;
-  out[2] = az * qw + aw * qz + ax * qy - ay * qx;
-  out[3] = aw * qw - ax * qx - ay * qy - az * qz;
-  ax = a[4];
-  ay = a[5];
-  az = a[6];
-  aw = a[7];
-  out[4] = ax * qw + aw * qx + ay * qz - az * qy;
-  out[5] = ay * qw + aw * qy + az * qx - ax * qz;
-  out[6] = az * qw + aw * qz + ax * qy - ay * qx;
-  out[7] = aw * qw - ax * qx - ay * qy - az * qz;
-  return out;
-}
-/**
- * Rotates a dual quat by a given quaternion (q * a)
- *
- * @param {quat2} out the receiving dual quaternion
- * @param {ReadonlyQuat} q quaternion to rotate by
- * @param {ReadonlyQuat2} a the dual quaternion to rotate
- * @returns {quat2} out
- */
-
-function rotateByQuatPrepend(out, q, a) {
-  var qx = q[0],
-      qy = q[1],
-      qz = q[2],
-      qw = q[3],
-      bx = a[0],
-      by = a[1],
-      bz = a[2],
-      bw = a[3];
-  out[0] = qx * bw + qw * bx + qy * bz - qz * by;
-  out[1] = qy * bw + qw * by + qz * bx - qx * bz;
-  out[2] = qz * bw + qw * bz + qx * by - qy * bx;
-  out[3] = qw * bw - qx * bx - qy * by - qz * bz;
-  bx = a[4];
-  by = a[5];
-  bz = a[6];
-  bw = a[7];
-  out[4] = qx * bw + qw * bx + qy * bz - qz * by;
-  out[5] = qy * bw + qw * by + qz * bx - qx * bz;
-  out[6] = qz * bw + qw * bz + qx * by - qy * bx;
-  out[7] = qw * bw - qx * bx - qy * by - qz * bz;
-  return out;
-}
-/**
- * Rotates a dual quat around a given axis. Does the normalisation automatically
- *
- * @param {quat2} out the receiving dual quaternion
- * @param {ReadonlyQuat2} a the dual quaternion to rotate
- * @param {ReadonlyVec3} axis the axis to rotate around
- * @param {Number} rad how far the rotation should be
- * @returns {quat2} out
- */
-
-function rotateAroundAxis(out, a, axis, rad) {
-  //Special case for rad = 0
-  if (Math.abs(rad) < _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"]) {
-    return copy(out, a);
-  }
-
-  var axisLength = Math.hypot(axis[0], axis[1], axis[2]);
-  rad = rad * 0.5;
-  var s = Math.sin(rad);
-  var bx = s * axis[0] / axisLength;
-  var by = s * axis[1] / axisLength;
-  var bz = s * axis[2] / axisLength;
-  var bw = Math.cos(rad);
-  var ax1 = a[0],
-      ay1 = a[1],
-      az1 = a[2],
-      aw1 = a[3];
-  out[0] = ax1 * bw + aw1 * bx + ay1 * bz - az1 * by;
-  out[1] = ay1 * bw + aw1 * by + az1 * bx - ax1 * bz;
-  out[2] = az1 * bw + aw1 * bz + ax1 * by - ay1 * bx;
-  out[3] = aw1 * bw - ax1 * bx - ay1 * by - az1 * bz;
-  var ax = a[4],
-      ay = a[5],
-      az = a[6],
-      aw = a[7];
-  out[4] = ax * bw + aw * bx + ay * bz - az * by;
-  out[5] = ay * bw + aw * by + az * bx - ax * bz;
-  out[6] = az * bw + aw * bz + ax * by - ay * bx;
-  out[7] = aw * bw - ax * bx - ay * by - az * bz;
-  return out;
-}
-/**
- * Adds two dual quat's
- *
- * @param {quat2} out the receiving dual quaternion
- * @param {ReadonlyQuat2} a the first operand
- * @param {ReadonlyQuat2} b the second operand
- * @returns {quat2} out
- * @function
- */
-
-function add(out, a, b) {
-  out[0] = a[0] + b[0];
-  out[1] = a[1] + b[1];
-  out[2] = a[2] + b[2];
-  out[3] = a[3] + b[3];
-  out[4] = a[4] + b[4];
-  out[5] = a[5] + b[5];
-  out[6] = a[6] + b[6];
-  out[7] = a[7] + b[7];
-  return out;
-}
-/**
- * Multiplies two dual quat's
- *
- * @param {quat2} out the receiving dual quaternion
- * @param {ReadonlyQuat2} a the first operand
- * @param {ReadonlyQuat2} b the second operand
- * @returns {quat2} out
- */
-
-function multiply(out, a, b) {
-  var ax0 = a[0],
-      ay0 = a[1],
-      az0 = a[2],
-      aw0 = a[3],
-      bx1 = b[4],
-      by1 = b[5],
-      bz1 = b[6],
-      bw1 = b[7],
-      ax1 = a[4],
-      ay1 = a[5],
-      az1 = a[6],
-      aw1 = a[7],
-      bx0 = b[0],
-      by0 = b[1],
-      bz0 = b[2],
-      bw0 = b[3];
-  out[0] = ax0 * bw0 + aw0 * bx0 + ay0 * bz0 - az0 * by0;
-  out[1] = ay0 * bw0 + aw0 * by0 + az0 * bx0 - ax0 * bz0;
-  out[2] = az0 * bw0 + aw0 * bz0 + ax0 * by0 - ay0 * bx0;
-  out[3] = aw0 * bw0 - ax0 * bx0 - ay0 * by0 - az0 * bz0;
-  out[4] = ax0 * bw1 + aw0 * bx1 + ay0 * bz1 - az0 * by1 + ax1 * bw0 + aw1 * bx0 + ay1 * bz0 - az1 * by0;
-  out[5] = ay0 * bw1 + aw0 * by1 + az0 * bx1 - ax0 * bz1 + ay1 * bw0 + aw1 * by0 + az1 * bx0 - ax1 * bz0;
-  out[6] = az0 * bw1 + aw0 * bz1 + ax0 * by1 - ay0 * bx1 + az1 * bw0 + aw1 * bz0 + ax1 * by0 - ay1 * bx0;
-  out[7] = aw0 * bw1 - ax0 * bx1 - ay0 * by1 - az0 * bz1 + aw1 * bw0 - ax1 * bx0 - ay1 * by0 - az1 * bz0;
-  return out;
-}
-/**
- * Alias for {@link quat2.multiply}
- * @function
- */
-
-var mul = multiply;
-/**
- * Scales a dual quat by a scalar number
- *
- * @param {quat2} out the receiving dual quat
- * @param {ReadonlyQuat2} a the dual quat to scale
- * @param {Number} b amount to scale the dual quat by
- * @returns {quat2} out
- * @function
- */
-
-function scale(out, a, b) {
-  out[0] = a[0] * b;
-  out[1] = a[1] * b;
-  out[2] = a[2] * b;
-  out[3] = a[3] * b;
-  out[4] = a[4] * b;
-  out[5] = a[5] * b;
-  out[6] = a[6] * b;
-  out[7] = a[7] * b;
-  return out;
-}
-/**
- * Calculates the dot product of two dual quat's (The dot product of the real parts)
- *
- * @param {ReadonlyQuat2} a the first operand
- * @param {ReadonlyQuat2} b the second operand
- * @returns {Number} dot product of a and b
- * @function
- */
-
-var dot = _quat_js__WEBPACK_IMPORTED_MODULE_1__["dot"];
-/**
- * Performs a linear interpolation between two dual quats's
- * NOTE: The resulting dual quaternions won't always be normalized (The error is most noticeable when t = 0.5)
- *
- * @param {quat2} out the receiving dual quat
- * @param {ReadonlyQuat2} a the first operand
- * @param {ReadonlyQuat2} b the second operand
- * @param {Number} t interpolation amount, in the range [0-1], between the two inputs
- * @returns {quat2} out
- */
-
-function lerp(out, a, b, t) {
-  var mt = 1 - t;
-  if (dot(a, b) < 0) t = -t;
-  out[0] = a[0] * mt + b[0] * t;
-  out[1] = a[1] * mt + b[1] * t;
-  out[2] = a[2] * mt + b[2] * t;
-  out[3] = a[3] * mt + b[3] * t;
-  out[4] = a[4] * mt + b[4] * t;
-  out[5] = a[5] * mt + b[5] * t;
-  out[6] = a[6] * mt + b[6] * t;
-  out[7] = a[7] * mt + b[7] * t;
-  return out;
-}
-/**
- * Calculates the inverse of a dual quat. If they are normalized, conjugate is cheaper
- *
- * @param {quat2} out the receiving dual quaternion
- * @param {ReadonlyQuat2} a dual quat to calculate inverse of
- * @returns {quat2} out
- */
-
-function invert(out, a) {
-  var sqlen = squaredLength(a);
-  out[0] = -a[0] / sqlen;
-  out[1] = -a[1] / sqlen;
-  out[2] = -a[2] / sqlen;
-  out[3] = a[3] / sqlen;
-  out[4] = -a[4] / sqlen;
-  out[5] = -a[5] / sqlen;
-  out[6] = -a[6] / sqlen;
-  out[7] = a[7] / sqlen;
-  return out;
-}
-/**
- * Calculates the conjugate of a dual quat
- * If the dual quaternion is normalized, this function is faster than quat2.inverse and produces the same result.
- *
- * @param {quat2} out the receiving quaternion
- * @param {ReadonlyQuat2} a quat to calculate conjugate of
- * @returns {quat2} out
- */
-
-function conjugate(out, a) {
-  out[0] = -a[0];
-  out[1] = -a[1];
-  out[2] = -a[2];
-  out[3] = a[3];
-  out[4] = -a[4];
-  out[5] = -a[5];
-  out[6] = -a[6];
-  out[7] = a[7];
-  return out;
-}
-/**
- * Calculates the length of a dual quat
- *
- * @param {ReadonlyQuat2} a dual quat to calculate length of
- * @returns {Number} length of a
- * @function
- */
-
-var length = _quat_js__WEBPACK_IMPORTED_MODULE_1__["length"];
-/**
- * Alias for {@link quat2.length}
- * @function
- */
-
-var len = length;
-/**
- * Calculates the squared length of a dual quat
- *
- * @param {ReadonlyQuat2} a dual quat to calculate squared length of
- * @returns {Number} squared length of a
- * @function
- */
-
-var squaredLength = _quat_js__WEBPACK_IMPORTED_MODULE_1__["squaredLength"];
-/**
- * Alias for {@link quat2.squaredLength}
- * @function
- */
-
-var sqrLen = squaredLength;
-/**
- * Normalize a dual quat
- *
- * @param {quat2} out the receiving dual quaternion
- * @param {ReadonlyQuat2} a dual quaternion to normalize
- * @returns {quat2} out
- * @function
- */
-
-function normalize(out, a) {
-  var magnitude = squaredLength(a);
-
-  if (magnitude > 0) {
-    magnitude = Math.sqrt(magnitude);
-    var a0 = a[0] / magnitude;
-    var a1 = a[1] / magnitude;
-    var a2 = a[2] / magnitude;
-    var a3 = a[3] / magnitude;
-    var b0 = a[4];
-    var b1 = a[5];
-    var b2 = a[6];
-    var b3 = a[7];
-    var a_dot_b = a0 * b0 + a1 * b1 + a2 * b2 + a3 * b3;
-    out[0] = a0;
-    out[1] = a1;
-    out[2] = a2;
-    out[3] = a3;
-    out[4] = (b0 - a0 * a_dot_b) / magnitude;
-    out[5] = (b1 - a1 * a_dot_b) / magnitude;
-    out[6] = (b2 - a2 * a_dot_b) / magnitude;
-    out[7] = (b3 - a3 * a_dot_b) / magnitude;
-  }
-
-  return out;
-}
-/**
- * Returns a string representation of a dual quatenion
- *
- * @param {ReadonlyQuat2} a dual quaternion to represent as a string
- * @returns {String} string representation of the dual quat
- */
-
-function str(a) {
-  return "quat2(" + a[0] + ", " + a[1] + ", " + a[2] + ", " + a[3] + ", " + a[4] + ", " + a[5] + ", " + a[6] + ", " + a[7] + ")";
-}
-/**
- * Returns whether or not the dual quaternions have exactly the same elements in the same position (when compared with ===)
- *
- * @param {ReadonlyQuat2} a the first dual quaternion.
- * @param {ReadonlyQuat2} b the second dual quaternion.
- * @returns {Boolean} true if the dual quaternions are equal, false otherwise.
- */
-
-function exactEquals(a, b) {
-  return a[0] === b[0] && a[1] === b[1] && a[2] === b[2] && a[3] === b[3] && a[4] === b[4] && a[5] === b[5] && a[6] === b[6] && a[7] === b[7];
-}
-/**
- * Returns whether or not the dual quaternions have approximately the same elements in the same position.
- *
- * @param {ReadonlyQuat2} a the first dual quat.
- * @param {ReadonlyQuat2} b the second dual quat.
- * @returns {Boolean} true if the dual quats are equal, false otherwise.
- */
-
-function equals(a, b) {
-  var a0 = a[0],
-      a1 = a[1],
-      a2 = a[2],
-      a3 = a[3],
-      a4 = a[4],
-      a5 = a[5],
-      a6 = a[6],
-      a7 = a[7];
-  var b0 = b[0],
-      b1 = b[1],
-      b2 = b[2],
-      b3 = b[3],
-      b4 = b[4],
-      b5 = b[5],
-      b6 = b[6],
-      b7 = b[7];
-  return Math.abs(a0 - b0) <= _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"] * Math.max(1.0, Math.abs(a0), Math.abs(b0)) && Math.abs(a1 - b1) <= _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"] * Math.max(1.0, Math.abs(a1), Math.abs(b1)) && Math.abs(a2 - b2) <= _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"] * Math.max(1.0, Math.abs(a2), Math.abs(b2)) && Math.abs(a3 - b3) <= _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"] * Math.max(1.0, Math.abs(a3), Math.abs(b3)) && Math.abs(a4 - b4) <= _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"] * Math.max(1.0, Math.abs(a4), Math.abs(b4)) && Math.abs(a5 - b5) <= _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"] * Math.max(1.0, Math.abs(a5), Math.abs(b5)) && Math.abs(a6 - b6) <= _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"] * Math.max(1.0, Math.abs(a6), Math.abs(b6)) && Math.abs(a7 - b7) <= _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"] * Math.max(1.0, Math.abs(a7), Math.abs(b7));
-}
-
-/***/ }),
-
 /***/ "./node_modules/gl-matrix/esm/vec2.js":
 /*!********************************************!*\
   !*** ./node_modules/gl-matrix/esm/vec2.js ***!
   \********************************************/
-/*! exports provided: create, clone, fromValues, copy, set, add, subtract, multiply, divide, ceil, floor, min, max, round, scale, scaleAndAdd, distance, squaredDistance, length, squaredLength, negate, inverse, normalize, dot, cross, lerp, random, transformMat2, transformMat2d, transformMat3, transformMat4, rotate, angle, zero, str, exactEquals, equals, len, sub, mul, div, dist, sqrDist, sqrLen, forEach */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! namespace exports */
+/*! export add [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export angle [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export ceil [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export clone [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export copy [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export create [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export cross [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export dist [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export distance [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export div [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export divide [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export dot [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export equals [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export exactEquals [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export floor [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export forEach [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export fromValues [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export inverse [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export len [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export length [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export lerp [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export max [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export min [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export mul [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export multiply [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export negate [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export normalize [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export random [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export rotate [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export round [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export scale [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export scaleAndAdd [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export set [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export sqrDist [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export sqrLen [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export squaredDistance [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export squaredLength [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export str [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export sub [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export subtract [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export transformMat2 [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export transformMat2d [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export transformMat3 [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export transformMat4 [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export zero [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_require__.r, __webpack_exports__, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "create", function() { return create; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "clone", function() { return clone; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fromValues", function() { return fromValues; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "copy", function() { return copy; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "set", function() { return set; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "add", function() { return add; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "subtract", function() { return subtract; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "multiply", function() { return multiply; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "divide", function() { return divide; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ceil", function() { return ceil; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "floor", function() { return floor; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "min", function() { return min; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "max", function() { return max; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "round", function() { return round; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "scale", function() { return scale; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "scaleAndAdd", function() { return scaleAndAdd; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "distance", function() { return distance; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "squaredDistance", function() { return squaredDistance; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "length", function() { return length; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "squaredLength", function() { return squaredLength; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "negate", function() { return negate; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "inverse", function() { return inverse; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "normalize", function() { return normalize; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dot", function() { return dot; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cross", function() { return cross; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "lerp", function() { return lerp; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "random", function() { return random; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "transformMat2", function() { return transformMat2; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "transformMat2d", function() { return transformMat2d; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "transformMat3", function() { return transformMat3; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "transformMat4", function() { return transformMat4; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "rotate", function() { return rotate; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "angle", function() { return angle; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "zero", function() { return zero; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "str", function() { return str; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "exactEquals", function() { return exactEquals; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "equals", function() { return equals; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "len", function() { return len; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sub", function() { return sub; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mul", function() { return mul; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "div", function() { return div; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dist", function() { return dist; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sqrDist", function() { return sqrDist; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sqrLen", function() { return sqrLen; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "forEach", function() { return forEach; });
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "create": () => /* binding */ create,
+/* harmony export */   "clone": () => /* binding */ clone,
+/* harmony export */   "fromValues": () => /* binding */ fromValues,
+/* harmony export */   "copy": () => /* binding */ copy,
+/* harmony export */   "set": () => /* binding */ set,
+/* harmony export */   "add": () => /* binding */ add,
+/* harmony export */   "subtract": () => /* binding */ subtract,
+/* harmony export */   "multiply": () => /* binding */ multiply,
+/* harmony export */   "divide": () => /* binding */ divide,
+/* harmony export */   "ceil": () => /* binding */ ceil,
+/* harmony export */   "floor": () => /* binding */ floor,
+/* harmony export */   "min": () => /* binding */ min,
+/* harmony export */   "max": () => /* binding */ max,
+/* harmony export */   "round": () => /* binding */ round,
+/* harmony export */   "scale": () => /* binding */ scale,
+/* harmony export */   "scaleAndAdd": () => /* binding */ scaleAndAdd,
+/* harmony export */   "distance": () => /* binding */ distance,
+/* harmony export */   "squaredDistance": () => /* binding */ squaredDistance,
+/* harmony export */   "length": () => /* binding */ length,
+/* harmony export */   "squaredLength": () => /* binding */ squaredLength,
+/* harmony export */   "negate": () => /* binding */ negate,
+/* harmony export */   "inverse": () => /* binding */ inverse,
+/* harmony export */   "normalize": () => /* binding */ normalize,
+/* harmony export */   "dot": () => /* binding */ dot,
+/* harmony export */   "cross": () => /* binding */ cross,
+/* harmony export */   "lerp": () => /* binding */ lerp,
+/* harmony export */   "random": () => /* binding */ random,
+/* harmony export */   "transformMat2": () => /* binding */ transformMat2,
+/* harmony export */   "transformMat2d": () => /* binding */ transformMat2d,
+/* harmony export */   "transformMat3": () => /* binding */ transformMat3,
+/* harmony export */   "transformMat4": () => /* binding */ transformMat4,
+/* harmony export */   "rotate": () => /* binding */ rotate,
+/* harmony export */   "angle": () => /* binding */ angle,
+/* harmony export */   "zero": () => /* binding */ zero,
+/* harmony export */   "str": () => /* binding */ str,
+/* harmony export */   "exactEquals": () => /* binding */ exactEquals,
+/* harmony export */   "equals": () => /* binding */ equals,
+/* harmony export */   "len": () => /* binding */ len,
+/* harmony export */   "sub": () => /* binding */ sub,
+/* harmony export */   "mul": () => /* binding */ mul,
+/* harmony export */   "div": () => /* binding */ div,
+/* harmony export */   "dist": () => /* binding */ dist,
+/* harmony export */   "sqrDist": () => /* binding */ sqrDist,
+/* harmony export */   "sqrLen": () => /* binding */ sqrLen,
+/* harmony export */   "forEach": () => /* binding */ forEach
+/* harmony export */ });
 /* harmony import */ var _common_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./common.js */ "./node_modules/gl-matrix/esm/common.js");
 
 /**
@@ -12751,9 +9706,9 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 function create() {
-  var out = new _common_js__WEBPACK_IMPORTED_MODULE_0__["ARRAY_TYPE"](2);
+  var out = new _common_js__WEBPACK_IMPORTED_MODULE_0__.ARRAY_TYPE(2);
 
-  if (_common_js__WEBPACK_IMPORTED_MODULE_0__["ARRAY_TYPE"] != Float32Array) {
+  if (_common_js__WEBPACK_IMPORTED_MODULE_0__.ARRAY_TYPE != Float32Array) {
     out[0] = 0;
     out[1] = 0;
   }
@@ -12768,7 +9723,7 @@ function create() {
  */
 
 function clone(a) {
-  var out = new _common_js__WEBPACK_IMPORTED_MODULE_0__["ARRAY_TYPE"](2);
+  var out = new _common_js__WEBPACK_IMPORTED_MODULE_0__.ARRAY_TYPE(2);
   out[0] = a[0];
   out[1] = a[1];
   return out;
@@ -12782,7 +9737,7 @@ function clone(a) {
  */
 
 function fromValues(x, y) {
-  var out = new _common_js__WEBPACK_IMPORTED_MODULE_0__["ARRAY_TYPE"](2);
+  var out = new _common_js__WEBPACK_IMPORTED_MODULE_0__.ARRAY_TYPE(2);
   out[0] = x;
   out[1] = y;
   return out;
@@ -13118,7 +10073,7 @@ function lerp(out, a, b, t) {
 
 function random(out, scale) {
   scale = scale || 1.0;
-  var r = _common_js__WEBPACK_IMPORTED_MODULE_0__["RANDOM"]() * 2.0 * Math.PI;
+  var r = _common_js__WEBPACK_IMPORTED_MODULE_0__.RANDOM() * 2.0 * Math.PI;
   out[0] = Math.cos(r) * scale;
   out[1] = Math.sin(r) * scale;
   return out;
@@ -13275,7 +10230,7 @@ function equals(a, b) {
       a1 = a[1];
   var b0 = b[0],
       b1 = b[1];
-  return Math.abs(a0 - b0) <= _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"] * Math.max(1.0, Math.abs(a0), Math.abs(b0)) && Math.abs(a1 - b1) <= _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"] * Math.max(1.0, Math.abs(a1), Math.abs(b1));
+  return Math.abs(a0 - b0) <= _common_js__WEBPACK_IMPORTED_MODULE_0__.EPSILON * Math.max(1.0, Math.abs(a0), Math.abs(b0)) && Math.abs(a1 - b1) <= _common_js__WEBPACK_IMPORTED_MODULE_0__.EPSILON * Math.max(1.0, Math.abs(a1), Math.abs(b1));
 }
 /**
  * Alias for {@link vec2.length}
@@ -13369,59 +10324,111 @@ var forEach = function () {
 /*!********************************************!*\
   !*** ./node_modules/gl-matrix/esm/vec3.js ***!
   \********************************************/
-/*! exports provided: create, clone, length, fromValues, copy, set, add, subtract, multiply, divide, ceil, floor, min, max, round, scale, scaleAndAdd, distance, squaredDistance, squaredLength, negate, inverse, normalize, dot, cross, lerp, hermite, bezier, random, transformMat4, transformMat3, transformQuat, rotateX, rotateY, rotateZ, angle, zero, str, exactEquals, equals, sub, mul, div, dist, sqrDist, len, sqrLen, forEach */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! namespace exports */
+/*! export add [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export angle [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export bezier [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export ceil [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export clone [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export copy [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export create [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export cross [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export dist [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export distance [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export div [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export divide [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export dot [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export equals [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export exactEquals [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export floor [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export forEach [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export fromValues [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export hermite [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export inverse [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export len [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export length [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export lerp [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export max [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export min [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export mul [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export multiply [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export negate [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export normalize [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export random [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export rotateX [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export rotateY [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export rotateZ [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export round [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export scale [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export scaleAndAdd [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export set [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export sqrDist [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export sqrLen [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export squaredDistance [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export squaredLength [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export str [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export sub [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export subtract [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export transformMat3 [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export transformMat4 [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export transformQuat [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export zero [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_require__.r, __webpack_exports__, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "create", function() { return create; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "clone", function() { return clone; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "length", function() { return length; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fromValues", function() { return fromValues; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "copy", function() { return copy; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "set", function() { return set; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "add", function() { return add; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "subtract", function() { return subtract; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "multiply", function() { return multiply; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "divide", function() { return divide; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ceil", function() { return ceil; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "floor", function() { return floor; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "min", function() { return min; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "max", function() { return max; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "round", function() { return round; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "scale", function() { return scale; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "scaleAndAdd", function() { return scaleAndAdd; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "distance", function() { return distance; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "squaredDistance", function() { return squaredDistance; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "squaredLength", function() { return squaredLength; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "negate", function() { return negate; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "inverse", function() { return inverse; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "normalize", function() { return normalize; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dot", function() { return dot; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cross", function() { return cross; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "lerp", function() { return lerp; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "hermite", function() { return hermite; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "bezier", function() { return bezier; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "random", function() { return random; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "transformMat4", function() { return transformMat4; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "transformMat3", function() { return transformMat3; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "transformQuat", function() { return transformQuat; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "rotateX", function() { return rotateX; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "rotateY", function() { return rotateY; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "rotateZ", function() { return rotateZ; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "angle", function() { return angle; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "zero", function() { return zero; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "str", function() { return str; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "exactEquals", function() { return exactEquals; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "equals", function() { return equals; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sub", function() { return sub; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mul", function() { return mul; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "div", function() { return div; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dist", function() { return dist; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sqrDist", function() { return sqrDist; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "len", function() { return len; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sqrLen", function() { return sqrLen; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "forEach", function() { return forEach; });
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "create": () => /* binding */ create,
+/* harmony export */   "clone": () => /* binding */ clone,
+/* harmony export */   "length": () => /* binding */ length,
+/* harmony export */   "fromValues": () => /* binding */ fromValues,
+/* harmony export */   "copy": () => /* binding */ copy,
+/* harmony export */   "set": () => /* binding */ set,
+/* harmony export */   "add": () => /* binding */ add,
+/* harmony export */   "subtract": () => /* binding */ subtract,
+/* harmony export */   "multiply": () => /* binding */ multiply,
+/* harmony export */   "divide": () => /* binding */ divide,
+/* harmony export */   "ceil": () => /* binding */ ceil,
+/* harmony export */   "floor": () => /* binding */ floor,
+/* harmony export */   "min": () => /* binding */ min,
+/* harmony export */   "max": () => /* binding */ max,
+/* harmony export */   "round": () => /* binding */ round,
+/* harmony export */   "scale": () => /* binding */ scale,
+/* harmony export */   "scaleAndAdd": () => /* binding */ scaleAndAdd,
+/* harmony export */   "distance": () => /* binding */ distance,
+/* harmony export */   "squaredDistance": () => /* binding */ squaredDistance,
+/* harmony export */   "squaredLength": () => /* binding */ squaredLength,
+/* harmony export */   "negate": () => /* binding */ negate,
+/* harmony export */   "inverse": () => /* binding */ inverse,
+/* harmony export */   "normalize": () => /* binding */ normalize,
+/* harmony export */   "dot": () => /* binding */ dot,
+/* harmony export */   "cross": () => /* binding */ cross,
+/* harmony export */   "lerp": () => /* binding */ lerp,
+/* harmony export */   "hermite": () => /* binding */ hermite,
+/* harmony export */   "bezier": () => /* binding */ bezier,
+/* harmony export */   "random": () => /* binding */ random,
+/* harmony export */   "transformMat4": () => /* binding */ transformMat4,
+/* harmony export */   "transformMat3": () => /* binding */ transformMat3,
+/* harmony export */   "transformQuat": () => /* binding */ transformQuat,
+/* harmony export */   "rotateX": () => /* binding */ rotateX,
+/* harmony export */   "rotateY": () => /* binding */ rotateY,
+/* harmony export */   "rotateZ": () => /* binding */ rotateZ,
+/* harmony export */   "angle": () => /* binding */ angle,
+/* harmony export */   "zero": () => /* binding */ zero,
+/* harmony export */   "str": () => /* binding */ str,
+/* harmony export */   "exactEquals": () => /* binding */ exactEquals,
+/* harmony export */   "equals": () => /* binding */ equals,
+/* harmony export */   "sub": () => /* binding */ sub,
+/* harmony export */   "mul": () => /* binding */ mul,
+/* harmony export */   "div": () => /* binding */ div,
+/* harmony export */   "dist": () => /* binding */ dist,
+/* harmony export */   "sqrDist": () => /* binding */ sqrDist,
+/* harmony export */   "len": () => /* binding */ len,
+/* harmony export */   "sqrLen": () => /* binding */ sqrLen,
+/* harmony export */   "forEach": () => /* binding */ forEach
+/* harmony export */ });
 /* harmony import */ var _common_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./common.js */ "./node_modules/gl-matrix/esm/common.js");
 
 /**
@@ -13436,9 +10443,9 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 function create() {
-  var out = new _common_js__WEBPACK_IMPORTED_MODULE_0__["ARRAY_TYPE"](3);
+  var out = new _common_js__WEBPACK_IMPORTED_MODULE_0__.ARRAY_TYPE(3);
 
-  if (_common_js__WEBPACK_IMPORTED_MODULE_0__["ARRAY_TYPE"] != Float32Array) {
+  if (_common_js__WEBPACK_IMPORTED_MODULE_0__.ARRAY_TYPE != Float32Array) {
     out[0] = 0;
     out[1] = 0;
     out[2] = 0;
@@ -13454,7 +10461,7 @@ function create() {
  */
 
 function clone(a) {
-  var out = new _common_js__WEBPACK_IMPORTED_MODULE_0__["ARRAY_TYPE"](3);
+  var out = new _common_js__WEBPACK_IMPORTED_MODULE_0__.ARRAY_TYPE(3);
   out[0] = a[0];
   out[1] = a[1];
   out[2] = a[2];
@@ -13483,7 +10490,7 @@ function length(a) {
  */
 
 function fromValues(x, y, z) {
-  var out = new _common_js__WEBPACK_IMPORTED_MODULE_0__["ARRAY_TYPE"](3);
+  var out = new _common_js__WEBPACK_IMPORTED_MODULE_0__.ARRAY_TYPE(3);
   out[0] = x;
   out[1] = y;
   out[2] = z;
@@ -13884,8 +10891,8 @@ function bezier(out, a, b, c, d, t) {
 
 function random(out, scale) {
   scale = scale || 1.0;
-  var r = _common_js__WEBPACK_IMPORTED_MODULE_0__["RANDOM"]() * 2.0 * Math.PI;
-  var z = _common_js__WEBPACK_IMPORTED_MODULE_0__["RANDOM"]() * 2.0 - 1.0;
+  var r = _common_js__WEBPACK_IMPORTED_MODULE_0__.RANDOM() * 2.0 * Math.PI;
+  var z = _common_js__WEBPACK_IMPORTED_MODULE_0__.RANDOM() * 2.0 - 1.0;
   var zScale = Math.sqrt(1.0 - z * z) * scale;
   out[0] = Math.cos(r) * zScale;
   out[1] = Math.sin(r) * zScale;
@@ -14121,7 +11128,7 @@ function equals(a, b) {
   var b0 = b[0],
       b1 = b[1],
       b2 = b[2];
-  return Math.abs(a0 - b0) <= _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"] * Math.max(1.0, Math.abs(a0), Math.abs(b0)) && Math.abs(a1 - b1) <= _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"] * Math.max(1.0, Math.abs(a1), Math.abs(b1)) && Math.abs(a2 - b2) <= _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"] * Math.max(1.0, Math.abs(a2), Math.abs(b2));
+  return Math.abs(a0 - b0) <= _common_js__WEBPACK_IMPORTED_MODULE_0__.EPSILON * Math.max(1.0, Math.abs(a0), Math.abs(b0)) && Math.abs(a1 - b1) <= _common_js__WEBPACK_IMPORTED_MODULE_0__.EPSILON * Math.max(1.0, Math.abs(a1), Math.abs(b1)) && Math.abs(a2 - b2) <= _common_js__WEBPACK_IMPORTED_MODULE_0__.EPSILON * Math.max(1.0, Math.abs(a2), Math.abs(b2));
 }
 /**
  * Alias for {@link vec3.subtract}
@@ -14213,729 +11220,14 @@ var forEach = function () {
 
 /***/ }),
 
-/***/ "./node_modules/gl-matrix/esm/vec4.js":
-/*!********************************************!*\
-  !*** ./node_modules/gl-matrix/esm/vec4.js ***!
-  \********************************************/
-/*! exports provided: create, clone, fromValues, copy, set, add, subtract, multiply, divide, ceil, floor, min, max, round, scale, scaleAndAdd, distance, squaredDistance, length, squaredLength, negate, inverse, normalize, dot, cross, lerp, random, transformMat4, transformQuat, zero, str, exactEquals, equals, sub, mul, div, dist, sqrDist, len, sqrLen, forEach */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "create", function() { return create; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "clone", function() { return clone; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fromValues", function() { return fromValues; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "copy", function() { return copy; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "set", function() { return set; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "add", function() { return add; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "subtract", function() { return subtract; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "multiply", function() { return multiply; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "divide", function() { return divide; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ceil", function() { return ceil; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "floor", function() { return floor; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "min", function() { return min; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "max", function() { return max; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "round", function() { return round; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "scale", function() { return scale; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "scaleAndAdd", function() { return scaleAndAdd; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "distance", function() { return distance; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "squaredDistance", function() { return squaredDistance; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "length", function() { return length; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "squaredLength", function() { return squaredLength; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "negate", function() { return negate; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "inverse", function() { return inverse; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "normalize", function() { return normalize; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dot", function() { return dot; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cross", function() { return cross; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "lerp", function() { return lerp; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "random", function() { return random; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "transformMat4", function() { return transformMat4; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "transformQuat", function() { return transformQuat; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "zero", function() { return zero; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "str", function() { return str; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "exactEquals", function() { return exactEquals; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "equals", function() { return equals; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sub", function() { return sub; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mul", function() { return mul; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "div", function() { return div; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dist", function() { return dist; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sqrDist", function() { return sqrDist; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "len", function() { return len; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sqrLen", function() { return sqrLen; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "forEach", function() { return forEach; });
-/* harmony import */ var _common_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./common.js */ "./node_modules/gl-matrix/esm/common.js");
-
-/**
- * 4 Dimensional Vector
- * @module vec4
- */
-
-/**
- * Creates a new, empty vec4
- *
- * @returns {vec4} a new 4D vector
- */
-
-function create() {
-  var out = new _common_js__WEBPACK_IMPORTED_MODULE_0__["ARRAY_TYPE"](4);
-
-  if (_common_js__WEBPACK_IMPORTED_MODULE_0__["ARRAY_TYPE"] != Float32Array) {
-    out[0] = 0;
-    out[1] = 0;
-    out[2] = 0;
-    out[3] = 0;
-  }
-
-  return out;
-}
-/**
- * Creates a new vec4 initialized with values from an existing vector
- *
- * @param {ReadonlyVec4} a vector to clone
- * @returns {vec4} a new 4D vector
- */
-
-function clone(a) {
-  var out = new _common_js__WEBPACK_IMPORTED_MODULE_0__["ARRAY_TYPE"](4);
-  out[0] = a[0];
-  out[1] = a[1];
-  out[2] = a[2];
-  out[3] = a[3];
-  return out;
-}
-/**
- * Creates a new vec4 initialized with the given values
- *
- * @param {Number} x X component
- * @param {Number} y Y component
- * @param {Number} z Z component
- * @param {Number} w W component
- * @returns {vec4} a new 4D vector
- */
-
-function fromValues(x, y, z, w) {
-  var out = new _common_js__WEBPACK_IMPORTED_MODULE_0__["ARRAY_TYPE"](4);
-  out[0] = x;
-  out[1] = y;
-  out[2] = z;
-  out[3] = w;
-  return out;
-}
-/**
- * Copy the values from one vec4 to another
- *
- * @param {vec4} out the receiving vector
- * @param {ReadonlyVec4} a the source vector
- * @returns {vec4} out
- */
-
-function copy(out, a) {
-  out[0] = a[0];
-  out[1] = a[1];
-  out[2] = a[2];
-  out[3] = a[3];
-  return out;
-}
-/**
- * Set the components of a vec4 to the given values
- *
- * @param {vec4} out the receiving vector
- * @param {Number} x X component
- * @param {Number} y Y component
- * @param {Number} z Z component
- * @param {Number} w W component
- * @returns {vec4} out
- */
-
-function set(out, x, y, z, w) {
-  out[0] = x;
-  out[1] = y;
-  out[2] = z;
-  out[3] = w;
-  return out;
-}
-/**
- * Adds two vec4's
- *
- * @param {vec4} out the receiving vector
- * @param {ReadonlyVec4} a the first operand
- * @param {ReadonlyVec4} b the second operand
- * @returns {vec4} out
- */
-
-function add(out, a, b) {
-  out[0] = a[0] + b[0];
-  out[1] = a[1] + b[1];
-  out[2] = a[2] + b[2];
-  out[3] = a[3] + b[3];
-  return out;
-}
-/**
- * Subtracts vector b from vector a
- *
- * @param {vec4} out the receiving vector
- * @param {ReadonlyVec4} a the first operand
- * @param {ReadonlyVec4} b the second operand
- * @returns {vec4} out
- */
-
-function subtract(out, a, b) {
-  out[0] = a[0] - b[0];
-  out[1] = a[1] - b[1];
-  out[2] = a[2] - b[2];
-  out[3] = a[3] - b[3];
-  return out;
-}
-/**
- * Multiplies two vec4's
- *
- * @param {vec4} out the receiving vector
- * @param {ReadonlyVec4} a the first operand
- * @param {ReadonlyVec4} b the second operand
- * @returns {vec4} out
- */
-
-function multiply(out, a, b) {
-  out[0] = a[0] * b[0];
-  out[1] = a[1] * b[1];
-  out[2] = a[2] * b[2];
-  out[3] = a[3] * b[3];
-  return out;
-}
-/**
- * Divides two vec4's
- *
- * @param {vec4} out the receiving vector
- * @param {ReadonlyVec4} a the first operand
- * @param {ReadonlyVec4} b the second operand
- * @returns {vec4} out
- */
-
-function divide(out, a, b) {
-  out[0] = a[0] / b[0];
-  out[1] = a[1] / b[1];
-  out[2] = a[2] / b[2];
-  out[3] = a[3] / b[3];
-  return out;
-}
-/**
- * Math.ceil the components of a vec4
- *
- * @param {vec4} out the receiving vector
- * @param {ReadonlyVec4} a vector to ceil
- * @returns {vec4} out
- */
-
-function ceil(out, a) {
-  out[0] = Math.ceil(a[0]);
-  out[1] = Math.ceil(a[1]);
-  out[2] = Math.ceil(a[2]);
-  out[3] = Math.ceil(a[3]);
-  return out;
-}
-/**
- * Math.floor the components of a vec4
- *
- * @param {vec4} out the receiving vector
- * @param {ReadonlyVec4} a vector to floor
- * @returns {vec4} out
- */
-
-function floor(out, a) {
-  out[0] = Math.floor(a[0]);
-  out[1] = Math.floor(a[1]);
-  out[2] = Math.floor(a[2]);
-  out[3] = Math.floor(a[3]);
-  return out;
-}
-/**
- * Returns the minimum of two vec4's
- *
- * @param {vec4} out the receiving vector
- * @param {ReadonlyVec4} a the first operand
- * @param {ReadonlyVec4} b the second operand
- * @returns {vec4} out
- */
-
-function min(out, a, b) {
-  out[0] = Math.min(a[0], b[0]);
-  out[1] = Math.min(a[1], b[1]);
-  out[2] = Math.min(a[2], b[2]);
-  out[3] = Math.min(a[3], b[3]);
-  return out;
-}
-/**
- * Returns the maximum of two vec4's
- *
- * @param {vec4} out the receiving vector
- * @param {ReadonlyVec4} a the first operand
- * @param {ReadonlyVec4} b the second operand
- * @returns {vec4} out
- */
-
-function max(out, a, b) {
-  out[0] = Math.max(a[0], b[0]);
-  out[1] = Math.max(a[1], b[1]);
-  out[2] = Math.max(a[2], b[2]);
-  out[3] = Math.max(a[3], b[3]);
-  return out;
-}
-/**
- * Math.round the components of a vec4
- *
- * @param {vec4} out the receiving vector
- * @param {ReadonlyVec4} a vector to round
- * @returns {vec4} out
- */
-
-function round(out, a) {
-  out[0] = Math.round(a[0]);
-  out[1] = Math.round(a[1]);
-  out[2] = Math.round(a[2]);
-  out[3] = Math.round(a[3]);
-  return out;
-}
-/**
- * Scales a vec4 by a scalar number
- *
- * @param {vec4} out the receiving vector
- * @param {ReadonlyVec4} a the vector to scale
- * @param {Number} b amount to scale the vector by
- * @returns {vec4} out
- */
-
-function scale(out, a, b) {
-  out[0] = a[0] * b;
-  out[1] = a[1] * b;
-  out[2] = a[2] * b;
-  out[3] = a[3] * b;
-  return out;
-}
-/**
- * Adds two vec4's after scaling the second operand by a scalar value
- *
- * @param {vec4} out the receiving vector
- * @param {ReadonlyVec4} a the first operand
- * @param {ReadonlyVec4} b the second operand
- * @param {Number} scale the amount to scale b by before adding
- * @returns {vec4} out
- */
-
-function scaleAndAdd(out, a, b, scale) {
-  out[0] = a[0] + b[0] * scale;
-  out[1] = a[1] + b[1] * scale;
-  out[2] = a[2] + b[2] * scale;
-  out[3] = a[3] + b[3] * scale;
-  return out;
-}
-/**
- * Calculates the euclidian distance between two vec4's
- *
- * @param {ReadonlyVec4} a the first operand
- * @param {ReadonlyVec4} b the second operand
- * @returns {Number} distance between a and b
- */
-
-function distance(a, b) {
-  var x = b[0] - a[0];
-  var y = b[1] - a[1];
-  var z = b[2] - a[2];
-  var w = b[3] - a[3];
-  return Math.hypot(x, y, z, w);
-}
-/**
- * Calculates the squared euclidian distance between two vec4's
- *
- * @param {ReadonlyVec4} a the first operand
- * @param {ReadonlyVec4} b the second operand
- * @returns {Number} squared distance between a and b
- */
-
-function squaredDistance(a, b) {
-  var x = b[0] - a[0];
-  var y = b[1] - a[1];
-  var z = b[2] - a[2];
-  var w = b[3] - a[3];
-  return x * x + y * y + z * z + w * w;
-}
-/**
- * Calculates the length of a vec4
- *
- * @param {ReadonlyVec4} a vector to calculate length of
- * @returns {Number} length of a
- */
-
-function length(a) {
-  var x = a[0];
-  var y = a[1];
-  var z = a[2];
-  var w = a[3];
-  return Math.hypot(x, y, z, w);
-}
-/**
- * Calculates the squared length of a vec4
- *
- * @param {ReadonlyVec4} a vector to calculate squared length of
- * @returns {Number} squared length of a
- */
-
-function squaredLength(a) {
-  var x = a[0];
-  var y = a[1];
-  var z = a[2];
-  var w = a[3];
-  return x * x + y * y + z * z + w * w;
-}
-/**
- * Negates the components of a vec4
- *
- * @param {vec4} out the receiving vector
- * @param {ReadonlyVec4} a vector to negate
- * @returns {vec4} out
- */
-
-function negate(out, a) {
-  out[0] = -a[0];
-  out[1] = -a[1];
-  out[2] = -a[2];
-  out[3] = -a[3];
-  return out;
-}
-/**
- * Returns the inverse of the components of a vec4
- *
- * @param {vec4} out the receiving vector
- * @param {ReadonlyVec4} a vector to invert
- * @returns {vec4} out
- */
-
-function inverse(out, a) {
-  out[0] = 1.0 / a[0];
-  out[1] = 1.0 / a[1];
-  out[2] = 1.0 / a[2];
-  out[3] = 1.0 / a[3];
-  return out;
-}
-/**
- * Normalize a vec4
- *
- * @param {vec4} out the receiving vector
- * @param {ReadonlyVec4} a vector to normalize
- * @returns {vec4} out
- */
-
-function normalize(out, a) {
-  var x = a[0];
-  var y = a[1];
-  var z = a[2];
-  var w = a[3];
-  var len = x * x + y * y + z * z + w * w;
-
-  if (len > 0) {
-    len = 1 / Math.sqrt(len);
-  }
-
-  out[0] = x * len;
-  out[1] = y * len;
-  out[2] = z * len;
-  out[3] = w * len;
-  return out;
-}
-/**
- * Calculates the dot product of two vec4's
- *
- * @param {ReadonlyVec4} a the first operand
- * @param {ReadonlyVec4} b the second operand
- * @returns {Number} dot product of a and b
- */
-
-function dot(a, b) {
-  return a[0] * b[0] + a[1] * b[1] + a[2] * b[2] + a[3] * b[3];
-}
-/**
- * Returns the cross-product of three vectors in a 4-dimensional space
- *
- * @param {ReadonlyVec4} result the receiving vector
- * @param {ReadonlyVec4} U the first vector
- * @param {ReadonlyVec4} V the second vector
- * @param {ReadonlyVec4} W the third vector
- * @returns {vec4} result
- */
-
-function cross(out, u, v, w) {
-  var A = v[0] * w[1] - v[1] * w[0],
-      B = v[0] * w[2] - v[2] * w[0],
-      C = v[0] * w[3] - v[3] * w[0],
-      D = v[1] * w[2] - v[2] * w[1],
-      E = v[1] * w[3] - v[3] * w[1],
-      F = v[2] * w[3] - v[3] * w[2];
-  var G = u[0];
-  var H = u[1];
-  var I = u[2];
-  var J = u[3];
-  out[0] = H * F - I * E + J * D;
-  out[1] = -(G * F) + I * C - J * B;
-  out[2] = G * E - H * C + J * A;
-  out[3] = -(G * D) + H * B - I * A;
-  return out;
-}
-/**
- * Performs a linear interpolation between two vec4's
- *
- * @param {vec4} out the receiving vector
- * @param {ReadonlyVec4} a the first operand
- * @param {ReadonlyVec4} b the second operand
- * @param {Number} t interpolation amount, in the range [0-1], between the two inputs
- * @returns {vec4} out
- */
-
-function lerp(out, a, b, t) {
-  var ax = a[0];
-  var ay = a[1];
-  var az = a[2];
-  var aw = a[3];
-  out[0] = ax + t * (b[0] - ax);
-  out[1] = ay + t * (b[1] - ay);
-  out[2] = az + t * (b[2] - az);
-  out[3] = aw + t * (b[3] - aw);
-  return out;
-}
-/**
- * Generates a random vector with the given scale
- *
- * @param {vec4} out the receiving vector
- * @param {Number} [scale] Length of the resulting vector. If ommitted, a unit vector will be returned
- * @returns {vec4} out
- */
-
-function random(out, scale) {
-  scale = scale || 1.0; // Marsaglia, George. Choosing a Point from the Surface of a
-  // Sphere. Ann. Math. Statist. 43 (1972), no. 2, 645--646.
-  // http://projecteuclid.org/euclid.aoms/1177692644;
-
-  var v1, v2, v3, v4;
-  var s1, s2;
-
-  do {
-    v1 = _common_js__WEBPACK_IMPORTED_MODULE_0__["RANDOM"]() * 2 - 1;
-    v2 = _common_js__WEBPACK_IMPORTED_MODULE_0__["RANDOM"]() * 2 - 1;
-    s1 = v1 * v1 + v2 * v2;
-  } while (s1 >= 1);
-
-  do {
-    v3 = _common_js__WEBPACK_IMPORTED_MODULE_0__["RANDOM"]() * 2 - 1;
-    v4 = _common_js__WEBPACK_IMPORTED_MODULE_0__["RANDOM"]() * 2 - 1;
-    s2 = v3 * v3 + v4 * v4;
-  } while (s2 >= 1);
-
-  var d = Math.sqrt((1 - s1) / s2);
-  out[0] = scale * v1;
-  out[1] = scale * v2;
-  out[2] = scale * v3 * d;
-  out[3] = scale * v4 * d;
-  return out;
-}
-/**
- * Transforms the vec4 with a mat4.
- *
- * @param {vec4} out the receiving vector
- * @param {ReadonlyVec4} a the vector to transform
- * @param {ReadonlyMat4} m matrix to transform with
- * @returns {vec4} out
- */
-
-function transformMat4(out, a, m) {
-  var x = a[0],
-      y = a[1],
-      z = a[2],
-      w = a[3];
-  out[0] = m[0] * x + m[4] * y + m[8] * z + m[12] * w;
-  out[1] = m[1] * x + m[5] * y + m[9] * z + m[13] * w;
-  out[2] = m[2] * x + m[6] * y + m[10] * z + m[14] * w;
-  out[3] = m[3] * x + m[7] * y + m[11] * z + m[15] * w;
-  return out;
-}
-/**
- * Transforms the vec4 with a quat
- *
- * @param {vec4} out the receiving vector
- * @param {ReadonlyVec4} a the vector to transform
- * @param {ReadonlyQuat} q quaternion to transform with
- * @returns {vec4} out
- */
-
-function transformQuat(out, a, q) {
-  var x = a[0],
-      y = a[1],
-      z = a[2];
-  var qx = q[0],
-      qy = q[1],
-      qz = q[2],
-      qw = q[3]; // calculate quat * vec
-
-  var ix = qw * x + qy * z - qz * y;
-  var iy = qw * y + qz * x - qx * z;
-  var iz = qw * z + qx * y - qy * x;
-  var iw = -qx * x - qy * y - qz * z; // calculate result * inverse quat
-
-  out[0] = ix * qw + iw * -qx + iy * -qz - iz * -qy;
-  out[1] = iy * qw + iw * -qy + iz * -qx - ix * -qz;
-  out[2] = iz * qw + iw * -qz + ix * -qy - iy * -qx;
-  out[3] = a[3];
-  return out;
-}
-/**
- * Set the components of a vec4 to zero
- *
- * @param {vec4} out the receiving vector
- * @returns {vec4} out
- */
-
-function zero(out) {
-  out[0] = 0.0;
-  out[1] = 0.0;
-  out[2] = 0.0;
-  out[3] = 0.0;
-  return out;
-}
-/**
- * Returns a string representation of a vector
- *
- * @param {ReadonlyVec4} a vector to represent as a string
- * @returns {String} string representation of the vector
- */
-
-function str(a) {
-  return "vec4(" + a[0] + ", " + a[1] + ", " + a[2] + ", " + a[3] + ")";
-}
-/**
- * Returns whether or not the vectors have exactly the same elements in the same position (when compared with ===)
- *
- * @param {ReadonlyVec4} a The first vector.
- * @param {ReadonlyVec4} b The second vector.
- * @returns {Boolean} True if the vectors are equal, false otherwise.
- */
-
-function exactEquals(a, b) {
-  return a[0] === b[0] && a[1] === b[1] && a[2] === b[2] && a[3] === b[3];
-}
-/**
- * Returns whether or not the vectors have approximately the same elements in the same position.
- *
- * @param {ReadonlyVec4} a The first vector.
- * @param {ReadonlyVec4} b The second vector.
- * @returns {Boolean} True if the vectors are equal, false otherwise.
- */
-
-function equals(a, b) {
-  var a0 = a[0],
-      a1 = a[1],
-      a2 = a[2],
-      a3 = a[3];
-  var b0 = b[0],
-      b1 = b[1],
-      b2 = b[2],
-      b3 = b[3];
-  return Math.abs(a0 - b0) <= _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"] * Math.max(1.0, Math.abs(a0), Math.abs(b0)) && Math.abs(a1 - b1) <= _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"] * Math.max(1.0, Math.abs(a1), Math.abs(b1)) && Math.abs(a2 - b2) <= _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"] * Math.max(1.0, Math.abs(a2), Math.abs(b2)) && Math.abs(a3 - b3) <= _common_js__WEBPACK_IMPORTED_MODULE_0__["EPSILON"] * Math.max(1.0, Math.abs(a3), Math.abs(b3));
-}
-/**
- * Alias for {@link vec4.subtract}
- * @function
- */
-
-var sub = subtract;
-/**
- * Alias for {@link vec4.multiply}
- * @function
- */
-
-var mul = multiply;
-/**
- * Alias for {@link vec4.divide}
- * @function
- */
-
-var div = divide;
-/**
- * Alias for {@link vec4.distance}
- * @function
- */
-
-var dist = distance;
-/**
- * Alias for {@link vec4.squaredDistance}
- * @function
- */
-
-var sqrDist = squaredDistance;
-/**
- * Alias for {@link vec4.length}
- * @function
- */
-
-var len = length;
-/**
- * Alias for {@link vec4.squaredLength}
- * @function
- */
-
-var sqrLen = squaredLength;
-/**
- * Perform some operation over an array of vec4s.
- *
- * @param {Array} a the array of vectors to iterate over
- * @param {Number} stride Number of elements between the start of each vec4. If 0 assumes tightly packed
- * @param {Number} offset Number of elements to skip at the beginning of the array
- * @param {Number} count Number of vec4s to iterate over. If 0 iterates over entire array
- * @param {Function} fn Function to call for each vector in the array
- * @param {Object} [arg] additional argument to pass to fn
- * @returns {Array} a
- * @function
- */
-
-var forEach = function () {
-  var vec = create();
-  return function (a, stride, offset, count, fn, arg) {
-    var i, l;
-
-    if (!stride) {
-      stride = 4;
-    }
-
-    if (!offset) {
-      offset = 0;
-    }
-
-    if (count) {
-      l = Math.min(count * stride + offset, a.length);
-    } else {
-      l = a.length;
-    }
-
-    for (i = offset; i < l; i += stride) {
-      vec[0] = a[i];
-      vec[1] = a[i + 1];
-      vec[2] = a[i + 2];
-      vec[3] = a[i + 3];
-      fn(vec, vec, arg);
-      a[i] = vec[0];
-      a[i + 1] = vec[1];
-      a[i + 2] = vec[2];
-      a[i + 3] = vec[3];
-    }
-
-    return a;
-  };
-}();
-
-/***/ }),
-
 /***/ "./node_modules/simplex-noise/simplex-noise.js":
 /*!*****************************************************!*\
   !*** ./node_modules/simplex-noise/simplex-noise.js ***!
   \*****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: __webpack_exports__, module, __webpack_require__ */
+/*! CommonJS bailout: module.exports is used directly at 470:4-18 */
+/***/ ((module, exports, __webpack_require__) => {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;/*
  * A fast javascript implementation of simplex noise by Jonas Wagner
@@ -15400,7 +11692,7 @@ Better rank ordering method by Stefan Gustavson in 2012.
 
   // amd
   if (true) !(__WEBPACK_AMD_DEFINE_RESULT__ = (function() {return SimplexNoise;}).call(exports, __webpack_require__, exports, module),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+		__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
   // common js
   if (true) exports.SimplexNoise = SimplexNoise;
   // browser
@@ -15415,352 +11707,22 @@ Better rank ordering method by Stefan Gustavson in 2012.
 
 /***/ }),
 
-/***/ "./node_modules/uuid/dist/esm-browser/index.js":
-/*!*****************************************************!*\
-  !*** ./node_modules/uuid/dist/esm-browser/index.js ***!
-  \*****************************************************/
-/*! exports provided: v1, v3, v4, v5, NIL, version, validate, stringify, parse */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _v1_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./v1.js */ "./node_modules/uuid/dist/esm-browser/v1.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "v1", function() { return _v1_js__WEBPACK_IMPORTED_MODULE_0__["default"]; });
-
-/* harmony import */ var _v3_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./v3.js */ "./node_modules/uuid/dist/esm-browser/v3.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "v3", function() { return _v3_js__WEBPACK_IMPORTED_MODULE_1__["default"]; });
-
-/* harmony import */ var _v4_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./v4.js */ "./node_modules/uuid/dist/esm-browser/v4.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "v4", function() { return _v4_js__WEBPACK_IMPORTED_MODULE_2__["default"]; });
-
-/* harmony import */ var _v5_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./v5.js */ "./node_modules/uuid/dist/esm-browser/v5.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "v5", function() { return _v5_js__WEBPACK_IMPORTED_MODULE_3__["default"]; });
-
-/* harmony import */ var _nil_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./nil.js */ "./node_modules/uuid/dist/esm-browser/nil.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NIL", function() { return _nil_js__WEBPACK_IMPORTED_MODULE_4__["default"]; });
-
-/* harmony import */ var _version_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./version.js */ "./node_modules/uuid/dist/esm-browser/version.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "version", function() { return _version_js__WEBPACK_IMPORTED_MODULE_5__["default"]; });
-
-/* harmony import */ var _validate_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./validate.js */ "./node_modules/uuid/dist/esm-browser/validate.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "validate", function() { return _validate_js__WEBPACK_IMPORTED_MODULE_6__["default"]; });
-
-/* harmony import */ var _stringify_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./stringify.js */ "./node_modules/uuid/dist/esm-browser/stringify.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "stringify", function() { return _stringify_js__WEBPACK_IMPORTED_MODULE_7__["default"]; });
-
-/* harmony import */ var _parse_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./parse.js */ "./node_modules/uuid/dist/esm-browser/parse.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "parse", function() { return _parse_js__WEBPACK_IMPORTED_MODULE_8__["default"]; });
-
-
-
-
-
-
-
-
-
-
-
-/***/ }),
-
-/***/ "./node_modules/uuid/dist/esm-browser/md5.js":
-/*!***************************************************!*\
-  !*** ./node_modules/uuid/dist/esm-browser/md5.js ***!
-  \***************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/*
- * Browser-compatible JavaScript MD5
- *
- * Modification of JavaScript MD5
- * https://github.com/blueimp/JavaScript-MD5
- *
- * Copyright 2011, Sebastian Tschan
- * https://blueimp.net
- *
- * Licensed under the MIT license:
- * https://opensource.org/licenses/MIT
- *
- * Based on
- * A JavaScript implementation of the RSA Data Security, Inc. MD5 Message
- * Digest Algorithm, as defined in RFC 1321.
- * Version 2.2 Copyright (C) Paul Johnston 1999 - 2009
- * Other contributors: Greg Holt, Andrew Kepert, Ydnar, Lostinet
- * Distributed under the BSD License
- * See http://pajhome.org.uk/crypt/md5 for more info.
- */
-function md5(bytes) {
-  if (typeof bytes === 'string') {
-    var msg = unescape(encodeURIComponent(bytes)); // UTF8 escape
-
-    bytes = new Uint8Array(msg.length);
-
-    for (var i = 0; i < msg.length; ++i) {
-      bytes[i] = msg.charCodeAt(i);
-    }
-  }
-
-  return md5ToHexEncodedArray(wordsToMd5(bytesToWords(bytes), bytes.length * 8));
-}
-/*
- * Convert an array of little-endian words to an array of bytes
- */
-
-
-function md5ToHexEncodedArray(input) {
-  var output = [];
-  var length32 = input.length * 32;
-  var hexTab = '0123456789abcdef';
-
-  for (var i = 0; i < length32; i += 8) {
-    var x = input[i >> 5] >>> i % 32 & 0xff;
-    var hex = parseInt(hexTab.charAt(x >>> 4 & 0x0f) + hexTab.charAt(x & 0x0f), 16);
-    output.push(hex);
-  }
-
-  return output;
-}
-/**
- * Calculate output length with padding and bit length
- */
-
-
-function getOutputLength(inputLength8) {
-  return (inputLength8 + 64 >>> 9 << 4) + 14 + 1;
-}
-/*
- * Calculate the MD5 of an array of little-endian words, and a bit length.
- */
-
-
-function wordsToMd5(x, len) {
-  /* append padding */
-  x[len >> 5] |= 0x80 << len % 32;
-  x[getOutputLength(len) - 1] = len;
-  var a = 1732584193;
-  var b = -271733879;
-  var c = -1732584194;
-  var d = 271733878;
-
-  for (var i = 0; i < x.length; i += 16) {
-    var olda = a;
-    var oldb = b;
-    var oldc = c;
-    var oldd = d;
-    a = md5ff(a, b, c, d, x[i], 7, -680876936);
-    d = md5ff(d, a, b, c, x[i + 1], 12, -389564586);
-    c = md5ff(c, d, a, b, x[i + 2], 17, 606105819);
-    b = md5ff(b, c, d, a, x[i + 3], 22, -1044525330);
-    a = md5ff(a, b, c, d, x[i + 4], 7, -176418897);
-    d = md5ff(d, a, b, c, x[i + 5], 12, 1200080426);
-    c = md5ff(c, d, a, b, x[i + 6], 17, -1473231341);
-    b = md5ff(b, c, d, a, x[i + 7], 22, -45705983);
-    a = md5ff(a, b, c, d, x[i + 8], 7, 1770035416);
-    d = md5ff(d, a, b, c, x[i + 9], 12, -1958414417);
-    c = md5ff(c, d, a, b, x[i + 10], 17, -42063);
-    b = md5ff(b, c, d, a, x[i + 11], 22, -1990404162);
-    a = md5ff(a, b, c, d, x[i + 12], 7, 1804603682);
-    d = md5ff(d, a, b, c, x[i + 13], 12, -40341101);
-    c = md5ff(c, d, a, b, x[i + 14], 17, -1502002290);
-    b = md5ff(b, c, d, a, x[i + 15], 22, 1236535329);
-    a = md5gg(a, b, c, d, x[i + 1], 5, -165796510);
-    d = md5gg(d, a, b, c, x[i + 6], 9, -1069501632);
-    c = md5gg(c, d, a, b, x[i + 11], 14, 643717713);
-    b = md5gg(b, c, d, a, x[i], 20, -373897302);
-    a = md5gg(a, b, c, d, x[i + 5], 5, -701558691);
-    d = md5gg(d, a, b, c, x[i + 10], 9, 38016083);
-    c = md5gg(c, d, a, b, x[i + 15], 14, -660478335);
-    b = md5gg(b, c, d, a, x[i + 4], 20, -405537848);
-    a = md5gg(a, b, c, d, x[i + 9], 5, 568446438);
-    d = md5gg(d, a, b, c, x[i + 14], 9, -1019803690);
-    c = md5gg(c, d, a, b, x[i + 3], 14, -187363961);
-    b = md5gg(b, c, d, a, x[i + 8], 20, 1163531501);
-    a = md5gg(a, b, c, d, x[i + 13], 5, -1444681467);
-    d = md5gg(d, a, b, c, x[i + 2], 9, -51403784);
-    c = md5gg(c, d, a, b, x[i + 7], 14, 1735328473);
-    b = md5gg(b, c, d, a, x[i + 12], 20, -1926607734);
-    a = md5hh(a, b, c, d, x[i + 5], 4, -378558);
-    d = md5hh(d, a, b, c, x[i + 8], 11, -2022574463);
-    c = md5hh(c, d, a, b, x[i + 11], 16, 1839030562);
-    b = md5hh(b, c, d, a, x[i + 14], 23, -35309556);
-    a = md5hh(a, b, c, d, x[i + 1], 4, -1530992060);
-    d = md5hh(d, a, b, c, x[i + 4], 11, 1272893353);
-    c = md5hh(c, d, a, b, x[i + 7], 16, -155497632);
-    b = md5hh(b, c, d, a, x[i + 10], 23, -1094730640);
-    a = md5hh(a, b, c, d, x[i + 13], 4, 681279174);
-    d = md5hh(d, a, b, c, x[i], 11, -358537222);
-    c = md5hh(c, d, a, b, x[i + 3], 16, -722521979);
-    b = md5hh(b, c, d, a, x[i + 6], 23, 76029189);
-    a = md5hh(a, b, c, d, x[i + 9], 4, -640364487);
-    d = md5hh(d, a, b, c, x[i + 12], 11, -421815835);
-    c = md5hh(c, d, a, b, x[i + 15], 16, 530742520);
-    b = md5hh(b, c, d, a, x[i + 2], 23, -995338651);
-    a = md5ii(a, b, c, d, x[i], 6, -198630844);
-    d = md5ii(d, a, b, c, x[i + 7], 10, 1126891415);
-    c = md5ii(c, d, a, b, x[i + 14], 15, -1416354905);
-    b = md5ii(b, c, d, a, x[i + 5], 21, -57434055);
-    a = md5ii(a, b, c, d, x[i + 12], 6, 1700485571);
-    d = md5ii(d, a, b, c, x[i + 3], 10, -1894986606);
-    c = md5ii(c, d, a, b, x[i + 10], 15, -1051523);
-    b = md5ii(b, c, d, a, x[i + 1], 21, -2054922799);
-    a = md5ii(a, b, c, d, x[i + 8], 6, 1873313359);
-    d = md5ii(d, a, b, c, x[i + 15], 10, -30611744);
-    c = md5ii(c, d, a, b, x[i + 6], 15, -1560198380);
-    b = md5ii(b, c, d, a, x[i + 13], 21, 1309151649);
-    a = md5ii(a, b, c, d, x[i + 4], 6, -145523070);
-    d = md5ii(d, a, b, c, x[i + 11], 10, -1120210379);
-    c = md5ii(c, d, a, b, x[i + 2], 15, 718787259);
-    b = md5ii(b, c, d, a, x[i + 9], 21, -343485551);
-    a = safeAdd(a, olda);
-    b = safeAdd(b, oldb);
-    c = safeAdd(c, oldc);
-    d = safeAdd(d, oldd);
-  }
-
-  return [a, b, c, d];
-}
-/*
- * Convert an array bytes to an array of little-endian words
- * Characters >255 have their high-byte silently ignored.
- */
-
-
-function bytesToWords(input) {
-  if (input.length === 0) {
-    return [];
-  }
-
-  var length8 = input.length * 8;
-  var output = new Uint32Array(getOutputLength(length8));
-
-  for (var i = 0; i < length8; i += 8) {
-    output[i >> 5] |= (input[i / 8] & 0xff) << i % 32;
-  }
-
-  return output;
-}
-/*
- * Add integers, wrapping at 2^32. This uses 16-bit operations internally
- * to work around bugs in some JS interpreters.
- */
-
-
-function safeAdd(x, y) {
-  var lsw = (x & 0xffff) + (y & 0xffff);
-  var msw = (x >> 16) + (y >> 16) + (lsw >> 16);
-  return msw << 16 | lsw & 0xffff;
-}
-/*
- * Bitwise rotate a 32-bit number to the left.
- */
-
-
-function bitRotateLeft(num, cnt) {
-  return num << cnt | num >>> 32 - cnt;
-}
-/*
- * These functions implement the four basic operations the algorithm uses.
- */
-
-
-function md5cmn(q, a, b, x, s, t) {
-  return safeAdd(bitRotateLeft(safeAdd(safeAdd(a, q), safeAdd(x, t)), s), b);
-}
-
-function md5ff(a, b, c, d, x, s, t) {
-  return md5cmn(b & c | ~b & d, a, b, x, s, t);
-}
-
-function md5gg(a, b, c, d, x, s, t) {
-  return md5cmn(b & d | c & ~d, a, b, x, s, t);
-}
-
-function md5hh(a, b, c, d, x, s, t) {
-  return md5cmn(b ^ c ^ d, a, b, x, s, t);
-}
-
-function md5ii(a, b, c, d, x, s, t) {
-  return md5cmn(c ^ (b | ~d), a, b, x, s, t);
-}
-
-/* harmony default export */ __webpack_exports__["default"] = (md5);
-
-/***/ }),
-
-/***/ "./node_modules/uuid/dist/esm-browser/nil.js":
-/*!***************************************************!*\
-  !*** ./node_modules/uuid/dist/esm-browser/nil.js ***!
-  \***************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ('00000000-0000-0000-0000-000000000000');
-
-/***/ }),
-
-/***/ "./node_modules/uuid/dist/esm-browser/parse.js":
-/*!*****************************************************!*\
-  !*** ./node_modules/uuid/dist/esm-browser/parse.js ***!
-  \*****************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _validate_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./validate.js */ "./node_modules/uuid/dist/esm-browser/validate.js");
-
-
-function parse(uuid) {
-  if (!Object(_validate_js__WEBPACK_IMPORTED_MODULE_0__["default"])(uuid)) {
-    throw TypeError('Invalid UUID');
-  }
-
-  var v;
-  var arr = new Uint8Array(16); // Parse ########-....-....-....-............
-
-  arr[0] = (v = parseInt(uuid.slice(0, 8), 16)) >>> 24;
-  arr[1] = v >>> 16 & 0xff;
-  arr[2] = v >>> 8 & 0xff;
-  arr[3] = v & 0xff; // Parse ........-####-....-....-............
-
-  arr[4] = (v = parseInt(uuid.slice(9, 13), 16)) >>> 8;
-  arr[5] = v & 0xff; // Parse ........-....-####-....-............
-
-  arr[6] = (v = parseInt(uuid.slice(14, 18), 16)) >>> 8;
-  arr[7] = v & 0xff; // Parse ........-....-....-####-............
-
-  arr[8] = (v = parseInt(uuid.slice(19, 23), 16)) >>> 8;
-  arr[9] = v & 0xff; // Parse ........-....-....-....-############
-  // (Use "/" to avoid 32-bit truncation when bit-shifting high-order bytes)
-
-  arr[10] = (v = parseInt(uuid.slice(24, 36), 16)) / 0x10000000000 & 0xff;
-  arr[11] = v / 0x100000000 & 0xff;
-  arr[12] = v >>> 24 & 0xff;
-  arr[13] = v >>> 16 & 0xff;
-  arr[14] = v >>> 8 & 0xff;
-  arr[15] = v & 0xff;
-  return arr;
-}
-
-/* harmony default export */ __webpack_exports__["default"] = (parse);
-
-/***/ }),
-
 /***/ "./node_modules/uuid/dist/esm-browser/regex.js":
 /*!*****************************************************!*\
   !*** ./node_modules/uuid/dist/esm-browser/regex.js ***!
   \*****************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! namespace exports */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = (/^(?:[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|00000000-0000-0000-0000-000000000000)$/i);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (/^(?:[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}|00000000-0000-0000-0000-000000000000)$/i);
 
 /***/ }),
 
@@ -15768,12 +11730,17 @@ __webpack_require__.r(__webpack_exports__);
 /*!***************************************************!*\
   !*** ./node_modules/uuid/dist/esm-browser/rng.js ***!
   \***************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! namespace exports */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__.r, __webpack_exports__, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return rng; });
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => /* binding */ rng
+/* harmony export */ });
 // Unique ID creation requires a high quality random # generator. In the browser we therefore
 // require the crypto API and do not support built-in fallback to lower quality random number
 // generators (like Math.random()).
@@ -15791,123 +11758,21 @@ function rng() {
 
 /***/ }),
 
-/***/ "./node_modules/uuid/dist/esm-browser/sha1.js":
-/*!****************************************************!*\
-  !*** ./node_modules/uuid/dist/esm-browser/sha1.js ***!
-  \****************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-// Adapted from Chris Veness' SHA1 code at
-// http://www.movable-type.co.uk/scripts/sha1.html
-function f(s, x, y, z) {
-  switch (s) {
-    case 0:
-      return x & y ^ ~x & z;
-
-    case 1:
-      return x ^ y ^ z;
-
-    case 2:
-      return x & y ^ x & z ^ y & z;
-
-    case 3:
-      return x ^ y ^ z;
-  }
-}
-
-function ROTL(x, n) {
-  return x << n | x >>> 32 - n;
-}
-
-function sha1(bytes) {
-  var K = [0x5a827999, 0x6ed9eba1, 0x8f1bbcdc, 0xca62c1d6];
-  var H = [0x67452301, 0xefcdab89, 0x98badcfe, 0x10325476, 0xc3d2e1f0];
-
-  if (typeof bytes === 'string') {
-    var msg = unescape(encodeURIComponent(bytes)); // UTF8 escape
-
-    bytes = [];
-
-    for (var i = 0; i < msg.length; ++i) {
-      bytes.push(msg.charCodeAt(i));
-    }
-  } else if (!Array.isArray(bytes)) {
-    // Convert Array-like to Array
-    bytes = Array.prototype.slice.call(bytes);
-  }
-
-  bytes.push(0x80);
-  var l = bytes.length / 4 + 2;
-  var N = Math.ceil(l / 16);
-  var M = new Array(N);
-
-  for (var _i = 0; _i < N; ++_i) {
-    var arr = new Uint32Array(16);
-
-    for (var j = 0; j < 16; ++j) {
-      arr[j] = bytes[_i * 64 + j * 4] << 24 | bytes[_i * 64 + j * 4 + 1] << 16 | bytes[_i * 64 + j * 4 + 2] << 8 | bytes[_i * 64 + j * 4 + 3];
-    }
-
-    M[_i] = arr;
-  }
-
-  M[N - 1][14] = (bytes.length - 1) * 8 / Math.pow(2, 32);
-  M[N - 1][14] = Math.floor(M[N - 1][14]);
-  M[N - 1][15] = (bytes.length - 1) * 8 & 0xffffffff;
-
-  for (var _i2 = 0; _i2 < N; ++_i2) {
-    var W = new Uint32Array(80);
-
-    for (var t = 0; t < 16; ++t) {
-      W[t] = M[_i2][t];
-    }
-
-    for (var _t = 16; _t < 80; ++_t) {
-      W[_t] = ROTL(W[_t - 3] ^ W[_t - 8] ^ W[_t - 14] ^ W[_t - 16], 1);
-    }
-
-    var a = H[0];
-    var b = H[1];
-    var c = H[2];
-    var d = H[3];
-    var e = H[4];
-
-    for (var _t2 = 0; _t2 < 80; ++_t2) {
-      var s = Math.floor(_t2 / 20);
-      var T = ROTL(a, 5) + f(s, b, c, d) + e + K[s] + W[_t2] >>> 0;
-      e = d;
-      d = c;
-      c = ROTL(b, 30) >>> 0;
-      b = a;
-      a = T;
-    }
-
-    H[0] = H[0] + a >>> 0;
-    H[1] = H[1] + b >>> 0;
-    H[2] = H[2] + c >>> 0;
-    H[3] = H[3] + d >>> 0;
-    H[4] = H[4] + e >>> 0;
-  }
-
-  return [H[0] >> 24 & 0xff, H[0] >> 16 & 0xff, H[0] >> 8 & 0xff, H[0] & 0xff, H[1] >> 24 & 0xff, H[1] >> 16 & 0xff, H[1] >> 8 & 0xff, H[1] & 0xff, H[2] >> 24 & 0xff, H[2] >> 16 & 0xff, H[2] >> 8 & 0xff, H[2] & 0xff, H[3] >> 24 & 0xff, H[3] >> 16 & 0xff, H[3] >> 8 & 0xff, H[3] & 0xff, H[4] >> 24 & 0xff, H[4] >> 16 & 0xff, H[4] >> 8 & 0xff, H[4] & 0xff];
-}
-
-/* harmony default export */ __webpack_exports__["default"] = (sha1);
-
-/***/ }),
-
 /***/ "./node_modules/uuid/dist/esm-browser/stringify.js":
 /*!*********************************************************!*\
   !*** ./node_modules/uuid/dist/esm-browser/stringify.js ***!
   \*********************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! namespace exports */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
 /* harmony import */ var _validate_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./validate.js */ "./node_modules/uuid/dist/esm-browser/validate.js");
 
 /**
@@ -15931,14 +11796,14 @@ function stringify(arr) {
   // "undefined" in the uuid)
   // - Invalid input values for the RFC `version` or `variant` fields
 
-  if (!Object(_validate_js__WEBPACK_IMPORTED_MODULE_0__["default"])(uuid)) {
+  if (!(0,_validate_js__WEBPACK_IMPORTED_MODULE_0__.default)(uuid)) {
     throw TypeError('Stringified UUID is invalid');
   }
 
   return uuid;
 }
 
-/* harmony default export */ __webpack_exports__["default"] = (stringify);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (stringify);
 
 /***/ }),
 
@@ -15946,11 +11811,17 @@ function stringify(arr) {
 /*!**************************************************!*\
   !*** ./node_modules/uuid/dist/esm-browser/v1.js ***!
   \**************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! namespace exports */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
 /* harmony import */ var _rng_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./rng.js */ "./node_modules/uuid/dist/esm-browser/rng.js");
 /* harmony import */ var _stringify_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./stringify.js */ "./node_modules/uuid/dist/esm-browser/stringify.js");
 
@@ -15977,7 +11848,7 @@ function v1(options, buf, offset) {
   // system entropy.  See #189
 
   if (node == null || clockseq == null) {
-    var seedBytes = options.random || (options.rng || _rng_js__WEBPACK_IMPORTED_MODULE_0__["default"])();
+    var seedBytes = options.random || (options.rng || _rng_js__WEBPACK_IMPORTED_MODULE_0__.default)();
 
     if (node == null) {
       // Per 4.5, create and 48-bit node id, (47 random bits + multicast bit = 1)
@@ -16044,164 +11915,10 @@ function v1(options, buf, offset) {
     b[i + n] = node[n];
   }
 
-  return buf || Object(_stringify_js__WEBPACK_IMPORTED_MODULE_1__["default"])(b);
+  return buf || (0,_stringify_js__WEBPACK_IMPORTED_MODULE_1__.default)(b);
 }
 
-/* harmony default export */ __webpack_exports__["default"] = (v1);
-
-/***/ }),
-
-/***/ "./node_modules/uuid/dist/esm-browser/v3.js":
-/*!**************************************************!*\
-  !*** ./node_modules/uuid/dist/esm-browser/v3.js ***!
-  \**************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _v35_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./v35.js */ "./node_modules/uuid/dist/esm-browser/v35.js");
-/* harmony import */ var _md5_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./md5.js */ "./node_modules/uuid/dist/esm-browser/md5.js");
-
-
-var v3 = Object(_v35_js__WEBPACK_IMPORTED_MODULE_0__["default"])('v3', 0x30, _md5_js__WEBPACK_IMPORTED_MODULE_1__["default"]);
-/* harmony default export */ __webpack_exports__["default"] = (v3);
-
-/***/ }),
-
-/***/ "./node_modules/uuid/dist/esm-browser/v35.js":
-/*!***************************************************!*\
-  !*** ./node_modules/uuid/dist/esm-browser/v35.js ***!
-  \***************************************************/
-/*! exports provided: DNS, URL, default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DNS", function() { return DNS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "URL", function() { return URL; });
-/* harmony import */ var _stringify_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./stringify.js */ "./node_modules/uuid/dist/esm-browser/stringify.js");
-/* harmony import */ var _parse_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./parse.js */ "./node_modules/uuid/dist/esm-browser/parse.js");
-
-
-
-function stringToBytes(str) {
-  str = unescape(encodeURIComponent(str)); // UTF8 escape
-
-  var bytes = [];
-
-  for (var i = 0; i < str.length; ++i) {
-    bytes.push(str.charCodeAt(i));
-  }
-
-  return bytes;
-}
-
-var DNS = '6ba7b810-9dad-11d1-80b4-00c04fd430c8';
-var URL = '6ba7b811-9dad-11d1-80b4-00c04fd430c8';
-/* harmony default export */ __webpack_exports__["default"] = (function (name, version, hashfunc) {
-  function generateUUID(value, namespace, buf, offset) {
-    if (typeof value === 'string') {
-      value = stringToBytes(value);
-    }
-
-    if (typeof namespace === 'string') {
-      namespace = Object(_parse_js__WEBPACK_IMPORTED_MODULE_1__["default"])(namespace);
-    }
-
-    if (namespace.length !== 16) {
-      throw TypeError('Namespace must be array-like (16 iterable integer values, 0-255)');
-    } // Compute hash of namespace and value, Per 4.3
-    // Future: Use spread syntax when supported on all platforms, e.g. `bytes =
-    // hashfunc([...namespace, ... value])`
-
-
-    var bytes = new Uint8Array(16 + value.length);
-    bytes.set(namespace);
-    bytes.set(value, namespace.length);
-    bytes = hashfunc(bytes);
-    bytes[6] = bytes[6] & 0x0f | version;
-    bytes[8] = bytes[8] & 0x3f | 0x80;
-
-    if (buf) {
-      offset = offset || 0;
-
-      for (var i = 0; i < 16; ++i) {
-        buf[offset + i] = bytes[i];
-      }
-
-      return buf;
-    }
-
-    return Object(_stringify_js__WEBPACK_IMPORTED_MODULE_0__["default"])(bytes);
-  } // Function#name is not settable on some platforms (#270)
-
-
-  try {
-    generateUUID.name = name; // eslint-disable-next-line no-empty
-  } catch (err) {} // For CommonJS default export support
-
-
-  generateUUID.DNS = DNS;
-  generateUUID.URL = URL;
-  return generateUUID;
-});
-
-/***/ }),
-
-/***/ "./node_modules/uuid/dist/esm-browser/v4.js":
-/*!**************************************************!*\
-  !*** ./node_modules/uuid/dist/esm-browser/v4.js ***!
-  \**************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _rng_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./rng.js */ "./node_modules/uuid/dist/esm-browser/rng.js");
-/* harmony import */ var _stringify_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./stringify.js */ "./node_modules/uuid/dist/esm-browser/stringify.js");
-
-
-
-function v4(options, buf, offset) {
-  options = options || {};
-  var rnds = options.random || (options.rng || _rng_js__WEBPACK_IMPORTED_MODULE_0__["default"])(); // Per 4.4, set bits for version and `clock_seq_hi_and_reserved`
-
-  rnds[6] = rnds[6] & 0x0f | 0x40;
-  rnds[8] = rnds[8] & 0x3f | 0x80; // Copy bytes to buffer, if provided
-
-  if (buf) {
-    offset = offset || 0;
-
-    for (var i = 0; i < 16; ++i) {
-      buf[offset + i] = rnds[i];
-    }
-
-    return buf;
-  }
-
-  return Object(_stringify_js__WEBPACK_IMPORTED_MODULE_1__["default"])(rnds);
-}
-
-/* harmony default export */ __webpack_exports__["default"] = (v4);
-
-/***/ }),
-
-/***/ "./node_modules/uuid/dist/esm-browser/v5.js":
-/*!**************************************************!*\
-  !*** ./node_modules/uuid/dist/esm-browser/v5.js ***!
-  \**************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _v35_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./v35.js */ "./node_modules/uuid/dist/esm-browser/v35.js");
-/* harmony import */ var _sha1_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./sha1.js */ "./node_modules/uuid/dist/esm-browser/sha1.js");
-
-
-var v5 = Object(_v35_js__WEBPACK_IMPORTED_MODULE_0__["default"])('v5', 0x50, _sha1_js__WEBPACK_IMPORTED_MODULE_1__["default"]);
-/* harmony default export */ __webpack_exports__["default"] = (v5);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (v1);
 
 /***/ }),
 
@@ -16209,46 +11926,100 @@ var v5 = Object(_v35_js__WEBPACK_IMPORTED_MODULE_0__["default"])('v5', 0x50, _sh
 /*!********************************************************!*\
   !*** ./node_modules/uuid/dist/esm-browser/validate.js ***!
   \********************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! namespace exports */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
 /* harmony import */ var _regex_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./regex.js */ "./node_modules/uuid/dist/esm-browser/regex.js");
 
 
 function validate(uuid) {
-  return typeof uuid === 'string' && _regex_js__WEBPACK_IMPORTED_MODULE_0__["default"].test(uuid);
+  return typeof uuid === 'string' && _regex_js__WEBPACK_IMPORTED_MODULE_0__.default.test(uuid);
 }
 
-/* harmony default export */ __webpack_exports__["default"] = (validate);
-
-/***/ }),
-
-/***/ "./node_modules/uuid/dist/esm-browser/version.js":
-/*!*******************************************************!*\
-  !*** ./node_modules/uuid/dist/esm-browser/version.js ***!
-  \*******************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _validate_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./validate.js */ "./node_modules/uuid/dist/esm-browser/validate.js");
-
-
-function version(uuid) {
-  if (!Object(_validate_js__WEBPACK_IMPORTED_MODULE_0__["default"])(uuid)) {
-    throw TypeError('Invalid UUID');
-  }
-
-  return parseInt(uuid.substr(14, 1), 16);
-}
-
-/* harmony default export */ __webpack_exports__["default"] = (version);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (validate);
 
 /***/ })
 
-/******/ });
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		if(__webpack_module_cache__[moduleId]) {
+/******/ 			return __webpack_module_cache__[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => module['default'] :
+/******/ 				() => module;
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop)
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+/******/ 	// module exports must be returned from runtime so entry inlining is disabled
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__("./dist/index-light.js");
+/******/ })()
+;
 });
 //# sourceMappingURL=urpflanze-light.js.map

@@ -4,6 +4,7 @@ import SceneChild from "../SceneChild";
 import Context from "../Context";
 import * as glme from "../math/gl-matrix-extensions";
 import { clamp } from "../../Utilites";
+import Vec2 from "../math/Vec2";
 glMatrix.setMatrixArrayType(Array);
 const tmp_matrix = mat4.create();
 const transform_matrix = mat4.create();
@@ -312,8 +313,8 @@ class ShapeBase extends SceneChild {
                         const vertex = [buffer[buffer_index], buffer[buffer_index + 1], perspective];
                         {
                             vec3.transformMat4(vertex, vertex, transform_matrix);
-                            squeezeX !== 0 && glme.squeezeX(vertex, squeezeX);
-                            squeezeY !== 0 && glme.squeezeY(vertex, squeezeY);
+                            squeezeX !== 0 && Vec2.squeezeX(vertex, squeezeX);
+                            squeezeY !== 0 && Vec2.squeezeY(vertex, squeezeY);
                             if (perspective > 0) {
                                 bPerspectiveOrigin && vec3.add(vertex, vertex, perspectiveOrigin);
                                 vec3.transformMat4(vertex, vertex, perspective_matrix);

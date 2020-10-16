@@ -46,9 +46,7 @@ export function resolveType(type) {
 		}
 
 		if (type.name === 'Array' && type.typeArguments && type.typeArguments.length === 1) {
-			return type.typeArguments[0].id
-				? `Array&lt;<a href="#/ref/${type.typeArguments[0].name}">${type.typeArguments[0].name}</a>&gt;`
-				: `Array&lt;${type.typeArguments[0].name}&gt;`
+			return `Array&lt;${resolveType(type.typeArguments[0])}&gt;`
 		}
 
 		if (type.type === 'stringLiteral') return `'${type.value}'`
@@ -71,9 +69,9 @@ export function resolveType(type) {
 			return `${type.operator} ${resolveType(type.target)}`
 		}
 
-		if (type.type === 'reflection' && type.declaration) {
-			console.log('ASDASDASASDD', type)
-		}
+		// if (type.type === 'reflection' && type.declaration) {
+		// 	console.log('ASDASDASASDD', type)
+		// }
 
 		if (type.type === 'reflection' && type.declaration && type.declaration.parameters) {
 			return `(${type.declaration.parameters

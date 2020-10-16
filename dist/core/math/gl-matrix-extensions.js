@@ -2,6 +2,11 @@ export const VEC3_ZERO = [0, 0, 0];
 export const VEC3_ONE = [1, 1, 1];
 export const VEC2_ZERO = [0, 0];
 export const VEC2_ONE = [1, 1];
+/**
+ * Skew matrix
+ *
+ * @internal
+ */
 export function fromSkew(out, skew) {
     out[0] = 1;
     out[1] = Math.tan(skew[1]);
@@ -21,11 +26,21 @@ export function fromSkew(out, skew) {
     out[15] = 1;
     return out;
 }
+/**
+ * number to vec 2
+ *
+ * @internal
+ */
 export function toVec2(x) {
     if (Array.isArray(x))
         return [x[0], x[1]];
     return [x, x];
 }
+/**
+ * number to vec 3
+ *
+ * @internal
+ */
 export function toVec3(x, defaultZValue = 0) {
     if (Array.isArray(x))
         return [x[0], x[1], defaultZValue];

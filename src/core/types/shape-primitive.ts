@@ -13,6 +13,10 @@ export interface IShapeBufferProps extends IShapePrimitiveProps {}
  * @category Core.Props and Settings Interfaces
  */
 export interface IShapeBufferSettings extends IShapeBufferProps, IShapePrimitiveSettings {
+	/**
+	 * [x1,y1, x2,y1-, ...., xn, yn]
+	 * @order -30
+	 */
 	shape?: Float32Array | Array<number>
 }
 
@@ -24,8 +28,25 @@ export type TShapeLoopGeneratorFormula = (
 	shape_loop_repetition: IShapeLoopRepetition,
 	prop_arguments: ISceneChildPropArguments
 ) => vec2
+
 /**
+ * Object to create a shape from a loop from <mark>start</mark>
+ * to <mark>end</mark> by <mark>inc</mark> increments.
  *
+ * @example
+ * ```javascript
+ *  //
+ *  // Example of creating a circle of 100 points
+ *  //
+ * ShapeLoop({
+ * 	loop: {
+ * 		start: 0,
+ * 		end: 100,
+ * 		inc: 1,
+ * 		vertex: ({ offset }) => [Math.cos(offset * Math.PI * 2), Math.sin(offset * Math.PI * 2)]
+ * 	}
+ * })
+ * ```
  * @category Core.Interfaces
  */
 export interface IShapeLoopGenerator {
@@ -41,8 +62,8 @@ export interface IShapeLoopGenerator {
  */
 export interface IShapeLoopProps extends IShapePrimitiveProps {
 	/**
-	 *  <a href="[base_url]/IShapeLoopGenerator">IShapeLoopGenerator</a> for more details
-	 * @order -21
+	 * <a href="[base_url]/IShapeLoopGenerator">IShapeLoopGenerator</a> for more details
+	 * @order -30
 	 */
 	loop?: IShapeLoopGenerator
 }
@@ -52,7 +73,12 @@ export interface IShapeLoopProps extends IShapePrimitiveProps {
  * @category Core.Props and Settings Interfaces
  */
 export interface IShapeLoopSettings extends IShapeLoopProps, IShapePrimitiveSettings {
-	shapeLoopPropsDependencies?: Array<string>
+	/**
+	 * Array of properties on which shapeloop generation depends,
+	 * for example the circle varies the number of points based on the radius (sideLength)
+	 * @order -30
+	 */
+	shapeLoopPropsDependencies?: Array<'vertexCallback' | 'prop_arguments' | string>
 }
 
 //////
@@ -62,6 +88,10 @@ export interface IShapeLoopSettings extends IShapeLoopProps, IShapePrimitiveSett
  * @category Core.Primitive Interfaces
  */
 export interface IRegularPolygonProps extends IShapeLoopProps {
+	/**
+	 * sideNumber / segments
+	 * @order -35
+	 */
 	sideNumber?: TSceneChildProp<number>
 }
 
@@ -72,11 +102,21 @@ export interface IRegularPolygonProps extends IShapeLoopProps {
 export interface IRegularPolygonSettings extends IRegularPolygonProps, IShapeLoopSettings {}
 
 /**
+ * For <mark>n</mark> and <mark>d</mark> see Rose on <a target="_blank" href="https://en.wikipedia.org/wiki/Rose_(mathematics)">Wikipedia</a>
  *
  * @category Core.Primitive Interfaces
  */
 export interface IRoseProps extends IShapeLoopProps {
+	/**
+	 * n coefficient
+	 * @order -31
+	 */
 	n?: TSceneChildProp<number>
+
+	/**
+	 * d coefficient
+	 * @order -30
+	 */
 	d?: TSceneChildProp<number>
 }
 
@@ -97,8 +137,22 @@ export type TSpiralType = 'ARCHIMEDE' | 'HYPERBOLIC' | 'FERMAT' | 'LITUUS' | 'LO
  * @category Core.Primitive Interfaces
  */
 export interface ISpiralProps extends IShapeLoopProps {
+	/**
+	 * type of spiral
+	 * @order -35
+	 */
 	spiral?: TSpiralType
+
+	/**
+	 * number of twists
+	 * @order -34
+	 */
 	twists?: TSceneChildProp<number>
+
+	/**
+	 * twist start
+	 * @order -33
+	 */
 	twists_start?: TSceneChildProp<number>
 }
 
@@ -109,12 +163,26 @@ export interface ISpiralProps extends IShapeLoopProps {
 export interface ISpiralSettings extends ISpiralProps, IShapeLoopSettings {}
 
 /**
- *
+ * For <mark>wx</mark>, <mark>wy</mark> and <mark>wx</mark> see Lissajous on <a target="_blank" href="https://en.wikipedia.org/wiki/Lissajous_curve">Wikipedia</a>
  * @category Core.Primitive Interfaces
  */
 export interface ILissajousProps extends IShapeLoopProps {
+	/**
+	 * wx coefficient
+	 * @order -37
+	 */
 	wx?: TSceneChildProp<number>
+
+	/**
+	 * wy coefficient
+	 * @order -36
+	 */
 	wy?: TSceneChildProp<number>
+
+	/**
+	 * wz coefficient
+	 * @order -35
+	 */
 	wz?: TSceneChildProp<number>
 }
 
