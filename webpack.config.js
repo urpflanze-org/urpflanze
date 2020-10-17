@@ -14,7 +14,7 @@ module.exports = (env, argv) => ({
 	},
 	resolve: {
 		fallback: {
-			stream: false,
+			stream: true,
 		},
 	},
 	devtool: 'source-map',

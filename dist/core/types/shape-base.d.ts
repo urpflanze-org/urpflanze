@@ -1,7 +1,6 @@
 import { IBaseRepetition, IRepetition, ISceneChildPropArguments, ISceneChildProps, ISceneChildSettings, TSceneChildProp } from "./scene-child";
 import SceneChild from "../SceneChild";
-import ShapePrimitive from "../shapes/ShapePrimitive";
-import Shape from "../shapes/Shape";
+import ShapeBase from "../shapes/ShapeBase";
 /**
  * Object for index the buffer
  *
@@ -11,13 +10,11 @@ export interface IBufferIndex {
     /**
      * Reference to shape
      */
-    shape: ShapePrimitive;
+    shape: ShapeBase;
     /**
      * Parent indexing
      */
-    parent?: Omit<IBufferIndex, 'shape'> & {
-        shape: Shape;
-    };
+    parent?: IBufferIndex;
     /**
      * Frame length
      */

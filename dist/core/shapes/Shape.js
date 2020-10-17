@@ -112,13 +112,32 @@ class Shape extends ShapeBase {
                     },
                 },
             };
+            const copy = (f, parent) => {
+                return {
+                    shape: f.shape,
+                    repetition: f.repetition,
+                    frame_length: f.frame_length,
+                    parent: f.parent ? copy(f.parent, parent) : parent
+                };
+            };
             for (let i = 0, len = child_indexed_buffer.length; i < len; i++) {
-                const current_indexed = child_indexed_buffer[i];
-                current_indexed.parent = parent;
+                const current_indexed = Object.assign({}, child_indexed_buffer[i]);
+                if (current_indexed.parent) {
+                    current_indexed.parent = copy(current_indexed.parent, parent);
+                }
+                else {
+                    current_indexed.parent = parent;
+                }
                 indexed_buffer.push(current_indexed);
             }
         }
     }
+    // public getIndexedBuffer() {
+    // 	if (this.shape) {
+    // 		return this.shape.getIndexedBuffer()
+    // 	}
+    // 	return this.indexed_buffer
+    // }
     /**
      * Set shape
      *

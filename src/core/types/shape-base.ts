@@ -9,6 +9,7 @@ import {
 import SceneChild from '@core/SceneChild'
 import ShapePrimitive from '@core/shapes/ShapePrimitive'
 import Shape from '@core/shapes/Shape'
+import ShapeBase from '@core/shapes/ShapeBase'
 
 /**
  * Object for index the buffer
@@ -19,11 +20,12 @@ export interface IBufferIndex {
 	/**
 	 * Reference to shape
 	 */
-	shape: ShapePrimitive
+	shape: ShapeBase
 	/**
 	 * Parent indexing
 	 */
-	parent?: Omit<IBufferIndex, 'shape'> & { shape: Shape }
+	// parent?: Omit<IBufferIndex, 'shape'> & { shape: Shape }
+	parent?: IBufferIndex
 	/**
 	 * Frame length
 	 */
