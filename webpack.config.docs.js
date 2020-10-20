@@ -1,4 +1,5 @@
 const webpack = require('webpack')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 const path = require('path')
 
 module.exports = (env, argv) => {
@@ -11,9 +12,19 @@ module.exports = (env, argv) => {
 			path: path.join(__dirname, './docs/public'),
 		},
 		plugins: [
-			new webpack.DefinePlugin({
-				BASE_PAGE_URL: bProduction ? '"https://raw.githubusercontent.com/genbs/urpflanze/dev/docs/"' : '"/docs/"',
+			new HtmlWebpackPlugin({
+				template: path.join(__dirname, './docs/src/index.html'),
+				filename: path.join(__dirname, './docs/public/index.html'),
+				baseUrl: bProduction ? '/urpflanze/public/' : '/docs/public/',
 			}),
+
+			new HtmlWebpackPlugin({
+				template: path.join(__dirname, './docs/src/redirect.html'),
+				filename: path.join(__dirname, './docs/index.html'),
+				baseUrl: bProduction ? '/urpflanze/public/' : '/docs/public/',
+			}),
+
+			new webpack.DefinePlugin({}),
 		],
 		module: {
 			rules: [

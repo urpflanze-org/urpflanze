@@ -3,7 +3,7 @@ import { TEasing } from '@services/animation/Easings'
 /**
  *
  *
- * @category Core.Animation
+ * @category Services.Animation
  * @export
  * @interface ICallableValue
  * @template T
@@ -19,8 +19,14 @@ export interface ICallableValue<T> {
 	state: any
 }
 
+/**
+ * @category Services.Animation
+ */
 export type TCallableValue<T> = T | ICallableValue<T>
 
+/**
+ * @category Services.Animation
+ */
 export type TDrawerTransformation = 'none' | 'angle' | 'resolution-based' | 'resolution-scaled-based'
 
 export type TDrawerValue = {

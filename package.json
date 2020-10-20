@@ -30,7 +30,7 @@
 		"build": "ttsc",
 		"build-library": "webpack --mode development",
 		"build-library-min": "webpack --mode production",
-		"prepublishOnly": "ttsc & npm run build-library & npm run build-library-min",
+		"prepublishOnly": "ttsc & npm run build-library & npm run build-library-min & npm run build-docs",
 		"watch": "ttsc --watch",
 		"generate-docs-references": "node generate-docs-references.js",
 		"watch-docs": "webpack --config webpack.config.docs.js --watch",
@@ -42,6 +42,7 @@
 	"devDependencies": {
 		"@types/uuid": "^8.3.0",
 		"css-loader": "^5.0.0",
+		"html-webpack-plugin": "^4.5.0",
 		"sass": "^1.27.0",
 		"sass-loader": "^10.0.3",
 		"style-loader": "^2.0.0",

@@ -23,7 +23,7 @@ export function goto(page) {
 		closeMenu()
 		activateLink(page)
 
-		const endpoint = `${BASE_PAGE_URL}public/pages${page.substr(1)}.html`
+		const endpoint = `pages${page.substr(1)}.html`
 
 		if (page.indexOf('ref') >= 0) {
 			loadReference(page.substr(6))
