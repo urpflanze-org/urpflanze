@@ -1,7 +1,11 @@
 import { EShapePrimitiveAdaptMode } from '@core/types/shape-base'
-import { IShapeLoop, IVertexCallback, TAnimation, TCallableValue, TDrawerValue } from '@services/types/animation'
+import { IShapeLoopAnimation, IVertexCallbackAnimation, TAnimation, TCallableValue } from '@services/types/animation'
+import { ISceneChildDrawerData, TDrawerValue } from './drawer-canvas'
 import { TSceneChildProps } from './scene-utilities'
 
+/**
+ * @category Services.Export/Import
+ */
 export interface IProjectSequence {
 	start: number
 	end: number
@@ -9,6 +13,9 @@ export interface IProjectSequence {
 	framerate: number
 }
 
+/**
+ * @category Services.Export/Import
+ */
 export interface IProject {
 	id: string
 	name: string
@@ -34,29 +41,38 @@ export interface IProject {
 	scene: IProjectScene
 }
 
+/**
+ * @category Services.Export/Import
+ */
 export interface IProjectScene {
 	[key: string]: IProjectSceneChild
 }
 
-export interface IProjectSceneChildData {
-	highlighted: boolean
-	visible: boolean
-	disableGhost: boolean
+/**
+ * @category Services.Export/Import
+ */
+export interface IProjectSceneChildData extends ISceneChildDrawerData {
 	imported?: boolean
 	fillColor?: { r: number; g: number; b: number; a: number }
 	strokeColor?: { r: number; g: number; b: number; a: number }
 }
 
+/**
+ * @category Services.Export/Import
+ */
 export type IProjectSceneChildDataProps = {
 	[k in keyof Omit<
 		TSceneChildProps,
 		'id' | 'name' | 'order' | 'data' | 'adaptMode' | 'bCloseShape' | 'shape' | 'loop' | 'vertexCallback'
 	>]: TAnimation | TCallableValue<number | Array<number> | string> | TDrawerValue
 } & {
-	loop?: IShapeLoop
-	vertexCallback?: IVertexCallback
+	loop?: IShapeLoopAnimation
+	vertexCallback?: IVertexCallbackAnimation
 }
 
+/**
+ * @category Services.Export/Import
+ */
 export interface IProjectSceneChild {
 	type: string
 	id: string

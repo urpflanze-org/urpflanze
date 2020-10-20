@@ -1,4 +1,5 @@
 const path = require('path')
+
 module.exports = (env, argv) => ({
 	entry: {
 		urpflanze: './dist/index.js',

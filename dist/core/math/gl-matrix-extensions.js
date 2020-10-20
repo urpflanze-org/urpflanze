@@ -6,6 +6,7 @@ export var VEC2_ONE = [1, 1];
  * Skew matrix
  *
  * @internal
+ * @ignore
  */
 export function fromSkew(out, skew) {
     out[0] = 1;
@@ -30,6 +31,7 @@ export function fromSkew(out, skew) {
  * number to vec 2
  *
  * @internal
+ * @ignore
  */
 export function toVec2(x) {
     if (Array.isArray(x))
@@ -40,6 +42,7 @@ export function toVec2(x) {
  * number to vec 3
  *
  * @internal
+ * @ignore
  */
 export function toVec3(x, defaultZValue) {
     if (defaultZValue === void 0) { defaultZValue = 0; }

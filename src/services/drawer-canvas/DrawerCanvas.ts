@@ -5,7 +5,7 @@ import SceneChild from '@core/SceneChild'
 import SceneUtilities from '@services/scene-utilities/SceneUtilities'
 import FrameBuffer from '@services/drawer-canvas/FrameBuffer'
 import Emitter from '@services/events/Emitter'
-import { DrawerCanvasEvents, DrawOptions } from '@services/types/drawer-canvas'
+import { IDrawerCanvasEvents, IDrawOptions } from '@services/types/drawer-canvas'
 import { now } from 'src/Utilites'
 import { vec2 } from 'gl-matrix'
 
@@ -15,7 +15,7 @@ import { vec2 } from 'gl-matrix'
  * @class DrawerCanvas
  * @extends {Emitter<DrawerCanvasEvents>}
  */
-class DrawerCanvas extends Emitter<DrawerCanvasEvents> {
+class DrawerCanvas extends Emitter<IDrawerCanvasEvents> {
 	private scene: Scene
 	private canvas: HTMLCanvasElement | OffscreenCanvas
 
@@ -26,7 +26,7 @@ class DrawerCanvas extends Emitter<DrawerCanvasEvents> {
 	private animation_id: number | null
 	private draw_id: number | null
 	private redraw_id: number | null
-	private drawOptions: DrawOptions
+	private drawOptions: IDrawOptions
 
 	private timeline: Timeline
 
@@ -37,7 +37,7 @@ class DrawerCanvas extends Emitter<DrawerCanvasEvents> {
 	constructor(
 		scene?: Scene,
 		canvasOrContainer?: HTMLElement | HTMLCanvasElement | OffscreenCanvas,
-		drawOptions: DrawOptions = {},
+		drawOptions: IDrawOptions = {},
 		ratio: number | undefined = undefined,
 		resolution = 0,
 		bBuffering = false
@@ -314,19 +314,19 @@ class DrawerCanvas extends Emitter<DrawerCanvasEvents> {
 	 * Set draw option
 	 *
 	 * @template K
-	 * @param {(K | DrawOptions)} name
-	 * @param {Required<DrawOptions>[K]} [value]
+	 * @param {(K | IDrawOptions)} name
+	 * @param {Required<IDrawOptions>[K]} [value]
 	 * @memberof CanvasDrawer
 	 */
-	public setOption<K extends keyof DrawOptions>(name: K | DrawOptions, value?: Required<DrawOptions>[K]): void {
+	public setOption<K extends keyof IDrawOptions>(name: K | IDrawOptions, value?: Required<IDrawOptions>[K]): void {
 		if (typeof name == 'object') {
-			const keys = Object.keys(name) as Array<keyof DrawOptions>
+			const keys = Object.keys(name) as Array<keyof IDrawOptions>
 			for (let i = 0, len = keys.length; i < len; i++) {
 				// @ts-ignore
 				this.drawOptions[keys[i]] = name[keys[i]]
 			}
 		} else {
-			this.drawOptions[name] = value as Required<DrawOptions>[K]
+			this.drawOptions[name] = value as Required<IDrawOptions>[K]
 		}
 
 		this.flushBuffer()
@@ -337,11 +337,11 @@ class DrawerCanvas extends Emitter<DrawerCanvasEvents> {
 	 *
 	 * @template K
 	 * @param {K} name
-	 * @param {DrawOptions[K]} default_value
-	 * @returns {DrawOptions[K]}
+	 * @param {IDrawOptions[K]} default_value
+	 * @returns {IDrawOptions[K]}
 	 * @memberof DrawerCanvas
 	 */
-	public getOption<K extends keyof DrawOptions>(name: K, default_value?: DrawOptions[K]): DrawOptions[K] {
+	public getOption<K extends keyof IDrawOptions>(name: K, default_value?: IDrawOptions[K]): IDrawOptions[K] {
 		return this.drawOptions[name] ?? default_value
 	}
 
@@ -351,7 +351,7 @@ class DrawerCanvas extends Emitter<DrawerCanvasEvents> {
 	 * @returns {DrawOptions}
 	 * @memberof DrawerCanvas
 	 */
-	public getOptions(): DrawOptions {
+	public getOptions(): IDrawOptions {
 		return this.drawOptions
 	}
 
@@ -582,7 +582,7 @@ class DrawerCanvas extends Emitter<DrawerCanvasEvents> {
 	public static draw(
 		scene: Scene,
 		context: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D | null,
-		options: DrawOptions,
+		options: IDrawOptions,
 		resolution?: number
 	): number {
 		const start_time = now()
@@ -671,8 +671,13 @@ class DrawerCanvas extends Emitter<DrawerCanvasEvents> {
 			let logFillColorWarn = false
 			let logStrokeColorWarn = false
 
+			context.globalCompositeOperation = 'source-over'
 			scene.stream(({ lineWidth, strokeColor, fillColor, shape, buffer, frame_length, frame_buffer_index }) => {
 				if (shape.data && (shape.data.visible === false || (bGhost && shape.data.disableGhost === true))) return
+
+				if (shape.data && shape.data.composite) {
+					context.globalCompositeOperation = shape.data.composite
+				}
 
 				context.beginPath()
 
@@ -739,6 +744,10 @@ class DrawerCanvas extends Emitter<DrawerCanvasEvents> {
 					context.lineWidth = fixedLineWidth ? lineWidth : lineWidth * scale
 					context.strokeStyle = strokeColor
 					context.stroke()
+				}
+
+				if (shape.data && shape.data.composite) {
+					context.globalCompositeOperation = 'source-over'
 				}
 			})
 		}

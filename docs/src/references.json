@@ -1823,340 +1823,6 @@
 		"category": "Core.Scene"
 	},
 	{
-		"name": "Context",
-		"type": "Object",
-		"order": 9999,
-		"source": {
-			"fileName": "src/core/Context.ts",
-			"line": 29,
-			"character": 13
-		},
-		"description": "Utilities function passed to <a href=\"#/ref/ISceneChildPropArguments\">ISceneChildPropArguments</a>",
-		"examples": [
-			"\n```javascript\nconst circle = new Urpflanze.Circle({\n\tdistance: ({ context, repetition }) => context.noise('seed', repetition.current_index) * 200\n})\n```\n"
-		],
-		"functions": [
-			{
-				"name": "angle",
-				"description": "Return angle (atan) from offset (or center) for matrix repetition.\nOffset is array between [-1, -1] and [1, 1].\nThe return value is bettween -Math.PI / 2 and Math.PI / 2",
-				"parameters": [
-					{
-						"name": "repetition",
-						"type": {
-							"type": "reference",
-							"id": 658,
-							"name": "IRepetition"
-						},
-						"order": 9999
-					},
-					{
-						"name": "offsetFromCenter",
-						"type": {
-							"type": "reference",
-							"name": "vec2"
-						},
-						"defaultValue": "[0, 0]",
-						"order": 9999
-					}
-				],
-				"return_type": {
-					"type": "intrinsic",
-					"name": "number"
-				}
-			},
-			{
-				"name": "angle2",
-				"description": "Return angle (atan2, 4 quadrants) from offset (or center) for matrix repetition.\nOffset is array between [-1, -1] and [1, 1].\nThe return value is bettween -Math.PI an Math.PI",
-				"parameters": [
-					{
-						"name": "repetition",
-						"type": {
-							"type": "reference",
-							"id": 658,
-							"name": "IRepetition"
-						},
-						"order": 9999
-					},
-					{
-						"name": "offsetFromCenter",
-						"type": {
-							"type": "reference",
-							"name": "vec2"
-						},
-						"defaultValue": "[0, 0]",
-						"order": 9999
-					}
-				],
-				"return_type": {
-					"type": "intrinsic",
-					"name": "number"
-				}
-			},
-			{
-				"name": "distance",
-				"description": "Return distance from offset (or center) for matrix repetition.\nThe return value is between 0 and 1",
-				"parameters": [
-					{
-						"name": "repetition",
-						"type": {
-							"type": "reference",
-							"id": 658,
-							"name": "IRepetition"
-						},
-						"order": 9999
-					},
-					{
-						"name": "offsetFromCenter",
-						"description": "offset relative to distance prop",
-						"type": {
-							"type": "reference",
-							"name": "vec2"
-						},
-						"defaultValue": "[0, 0]",
-						"order": 9999
-					}
-				],
-				"return_type": {
-					"type": "intrinsic",
-					"name": "number"
-				}
-			},
-			{
-				"name": "noise",
-				"description": "<a href=\"https://github.com/jwagner/simplex-noise.js\" target=\"_blank\">SimplexNoise</a>\nUse 'random' as seed property for random seed.\nReturn value between -1 and 1",
-				"parameters": [
-					{
-						"name": "seed",
-						"type": {
-							"type": "intrinsic",
-							"name": "string"
-						},
-						"defaultValue": "\"random\"",
-						"order": 9999
-					},
-					{
-						"name": "x",
-						"type": {
-							"type": "intrinsic",
-							"name": "number"
-						},
-						"defaultValue": "0",
-						"order": 9999
-					},
-					{
-						"name": "y",
-						"type": {
-							"type": "intrinsic",
-							"name": "number"
-						},
-						"defaultValue": "0",
-						"order": 9999
-					},
-					{
-						"name": "z",
-						"type": {
-							"type": "intrinsic",
-							"name": "number"
-						},
-						"defaultValue": "0",
-						"order": 9999
-					}
-				],
-				"return_type": {
-					"type": "intrinsic",
-					"name": "number"
-				}
-			},
-			{
-				"name": "percH",
-				"description": "Get value percentage of scene height.",
-				"parameters": [
-					{
-						"name": "percentage",
-						"type": {
-							"type": "intrinsic",
-							"name": "number"
-						},
-						"order": 9999
-					},
-					{
-						"name": "sceneChild",
-						"type": {
-							"type": "reference",
-							"id": 50,
-							"name": "SceneChild"
-						},
-						"order": 9999
-					}
-				],
-				"return_type": {
-					"type": "intrinsic",
-					"name": "number"
-				}
-			},
-			{
-				"name": "percW",
-				"description": "Get value percentage of scene width.",
-				"parameters": [
-					{
-						"name": "percentage",
-						"type": {
-							"type": "intrinsic",
-							"name": "number"
-						},
-						"order": 9999
-					},
-					{
-						"name": "sceneChild",
-						"type": {
-							"type": "reference",
-							"id": 50,
-							"name": "SceneChild"
-						},
-						"order": 9999
-					}
-				],
-				"return_type": {
-					"type": "intrinsic",
-					"name": "number"
-				}
-			}
-		],
-		"category": "Core.Utilities"
-	},
-	{
-		"name": "fromSkew",
-		"description": "Skew matrix",
-		"parameters": [
-			{
-				"name": "out",
-				"type": {
-					"type": "reference",
-					"name": "mat4"
-				},
-				"order": 9999
-			},
-			{
-				"name": "skew",
-				"type": {
-					"type": "tuple",
-					"elements": [
-						{
-							"type": "intrinsic",
-							"name": "number"
-						},
-						{
-							"type": "intrinsic",
-							"name": "number"
-						}
-					]
-				},
-				"order": 9999
-			}
-		],
-		"return_type": {
-			"type": "reference",
-			"name": "mat4"
-		},
-		"type": "Function",
-		"source": {
-			"fileName": "src/core/math/gl-matrix-extensions.ts",
-			"line": 13,
-			"character": 24
-		}
-	},
-	{
-		"name": "toVec2",
-		"description": "number to vec 2",
-		"parameters": [
-			{
-				"name": "x",
-				"type": {
-					"type": "union",
-					"types": [
-						{
-							"name": "number",
-							"type": "intrinsic",
-							"order": 9999
-						},
-						{
-							"name": "Array",
-							"type": "reference",
-							"typeArguments": [
-								{
-									"type": "intrinsic",
-									"name": "number"
-								}
-							],
-							"order": 9999
-						}
-					]
-				},
-				"order": 9999
-			}
-		],
-		"return_type": {
-			"type": "reference",
-			"name": "vec2"
-		},
-		"type": "Function",
-		"source": {
-			"fileName": "src/core/math/gl-matrix-extensions.ts",
-			"line": 38,
-			"character": 22
-		}
-	},
-	{
-		"name": "toVec3",
-		"description": "number to vec 3",
-		"parameters": [
-			{
-				"name": "x",
-				"type": {
-					"type": "union",
-					"types": [
-						{
-							"name": "number",
-							"type": "intrinsic",
-							"order": 9999
-						},
-						{
-							"name": "Array",
-							"type": "reference",
-							"typeArguments": [
-								{
-									"type": "intrinsic",
-									"name": "number"
-								}
-							],
-							"order": 9999
-						}
-					]
-				},
-				"order": 9999
-			},
-			{
-				"name": "defaultZValue",
-				"type": {
-					"type": "intrinsic",
-					"name": "number"
-				},
-				"defaultValue": "0",
-				"order": 9999
-			}
-		],
-		"return_type": {
-			"type": "reference",
-			"name": "vec3"
-		},
-		"type": "Function",
-		"source": {
-			"fileName": "src/core/math/gl-matrix-extensions.ts",
-			"line": 48,
-			"character": 22
-		}
-	},
-	{
 		"name": "ShapeBase",
 		"type": "Class",
 		"order": 4,
@@ -2551,6 +2217,928 @@
 			}
 		],
 		"category": "Core.Abstract"
+	},
+	{
+		"name": "Context",
+		"type": "Object",
+		"order": 9999,
+		"source": {
+			"fileName": "src/core/Context.ts",
+			"line": 29,
+			"character": 13
+		},
+		"description": "Utilities function passed to <a href=\"#/ref/ISceneChildPropArguments\">ISceneChildPropArguments</a>",
+		"examples": [
+			"\n```javascript\nconst circle = new Urpflanze.Circle({\n\tdistance: ({ context, repetition }) => context.noise('seed', repetition.current_index) * 200\n})\n```\n"
+		],
+		"functions": [
+			{
+				"name": "angle",
+				"description": "Return angle (atan) from offset (or center) for matrix repetition.\nOffset is array between [-1, -1] and [1, 1].\nThe return value is bettween -Math.PI / 2 and Math.PI / 2",
+				"parameters": [
+					{
+						"name": "repetition",
+						"type": {
+							"type": "reference",
+							"id": 658,
+							"name": "IRepetition"
+						},
+						"order": 9999
+					},
+					{
+						"name": "offsetFromCenter",
+						"type": {
+							"type": "reference",
+							"name": "vec2"
+						},
+						"defaultValue": "[0, 0]",
+						"order": 9999
+					}
+				],
+				"return_type": {
+					"type": "intrinsic",
+					"name": "number"
+				}
+			},
+			{
+				"name": "angle2",
+				"description": "Return angle (atan2, 4 quadrants) from offset (or center) for matrix repetition.\nOffset is array between [-1, -1] and [1, 1].\nThe return value is bettween -Math.PI an Math.PI",
+				"parameters": [
+					{
+						"name": "repetition",
+						"type": {
+							"type": "reference",
+							"id": 658,
+							"name": "IRepetition"
+						},
+						"order": 9999
+					},
+					{
+						"name": "offsetFromCenter",
+						"type": {
+							"type": "reference",
+							"name": "vec2"
+						},
+						"defaultValue": "[0, 0]",
+						"order": 9999
+					}
+				],
+				"return_type": {
+					"type": "intrinsic",
+					"name": "number"
+				}
+			},
+			{
+				"name": "distance",
+				"description": "Return distance from offset (or center) for matrix repetition.\nThe return value is between 0 and 1",
+				"parameters": [
+					{
+						"name": "repetition",
+						"type": {
+							"type": "reference",
+							"id": 658,
+							"name": "IRepetition"
+						},
+						"order": 9999
+					},
+					{
+						"name": "offsetFromCenter",
+						"description": "offset relative to distance prop",
+						"type": {
+							"type": "reference",
+							"name": "vec2"
+						},
+						"defaultValue": "[0, 0]",
+						"order": 9999
+					}
+				],
+				"return_type": {
+					"type": "intrinsic",
+					"name": "number"
+				}
+			},
+			{
+				"name": "noise",
+				"description": "<a href=\"https://github.com/jwagner/simplex-noise.js\" target=\"_blank\">SimplexNoise</a>\nUse 'random' as seed property for random seed.\nReturn value between -1 and 1",
+				"parameters": [
+					{
+						"name": "seed",
+						"type": {
+							"type": "intrinsic",
+							"name": "string"
+						},
+						"defaultValue": "\"random\"",
+						"order": 9999
+					},
+					{
+						"name": "x",
+						"type": {
+							"type": "intrinsic",
+							"name": "number"
+						},
+						"defaultValue": "0",
+						"order": 9999
+					},
+					{
+						"name": "y",
+						"type": {
+							"type": "intrinsic",
+							"name": "number"
+						},
+						"defaultValue": "0",
+						"order": 9999
+					},
+					{
+						"name": "z",
+						"type": {
+							"type": "intrinsic",
+							"name": "number"
+						},
+						"defaultValue": "0",
+						"order": 9999
+					}
+				],
+				"return_type": {
+					"type": "intrinsic",
+					"name": "number"
+				}
+			},
+			{
+				"name": "percH",
+				"description": "Get value percentage of scene height.",
+				"parameters": [
+					{
+						"name": "percentage",
+						"type": {
+							"type": "intrinsic",
+							"name": "number"
+						},
+						"order": 9999
+					},
+					{
+						"name": "sceneChild",
+						"type": {
+							"type": "reference",
+							"id": 50,
+							"name": "SceneChild"
+						},
+						"order": 9999
+					}
+				],
+				"return_type": {
+					"type": "intrinsic",
+					"name": "number"
+				}
+			},
+			{
+				"name": "percW",
+				"description": "Get value percentage of scene width.",
+				"parameters": [
+					{
+						"name": "percentage",
+						"type": {
+							"type": "intrinsic",
+							"name": "number"
+						},
+						"order": 9999
+					},
+					{
+						"name": "sceneChild",
+						"type": {
+							"type": "reference",
+							"id": 50,
+							"name": "SceneChild"
+						},
+						"order": 9999
+					}
+				],
+				"return_type": {
+					"type": "intrinsic",
+					"name": "number"
+				}
+			}
+		],
+		"category": "Core.Utilities"
+	},
+	{
+		"name": "Vec2",
+		"type": "Object",
+		"order": 9999,
+		"source": {
+			"fileName": "src/core/math/Vec2.ts",
+			"line": 16,
+			"character": 10
+		},
+		"description": "Vec2 operation",
+		"variables": [
+			{
+				"name": "ONE",
+				"description": "Vertex [1, 1]",
+				"type": {
+					"type": "tuple",
+					"elements": [
+						{
+							"type": "intrinsic",
+							"name": "number"
+						},
+						{
+							"type": "intrinsic",
+							"name": "number"
+						}
+					]
+				},
+				"defaultValue": "Array.from([1, 1]) as [number, number]",
+				"order": 9999
+			},
+			{
+				"name": "ZERO",
+				"description": "Vertex [0, 0]",
+				"type": {
+					"type": "tuple",
+					"elements": [
+						{
+							"type": "intrinsic",
+							"name": "number"
+						},
+						{
+							"type": "intrinsic",
+							"name": "number"
+						}
+					]
+				},
+				"defaultValue": "Array.from([0, 0]) as [number, number]",
+				"order": 9999
+			}
+		],
+		"functions": [
+			{
+				"name": "angle",
+				"description": "angle between two point",
+				"parameters": [
+					{
+						"name": "a",
+						"type": {
+							"type": "reference",
+							"typeArguments": [
+								{
+									"type": "intrinsic",
+									"name": "number"
+								}
+							],
+							"name": "Array"
+						},
+						"order": 9999
+					},
+					{
+						"name": "b",
+						"type": {
+							"type": "reference",
+							"typeArguments": [
+								{
+									"type": "intrinsic",
+									"name": "number"
+								}
+							],
+							"name": "Array"
+						},
+						"order": 9999
+					}
+				],
+				"return_type": {
+					"type": "intrinsic",
+					"name": "number"
+				}
+			},
+			{
+				"name": "create",
+				"description": "Create new vertex",
+				"parameters": [
+					{
+						"name": "x",
+						"type": {
+							"type": "union",
+							"types": [
+								{
+									"name": "Array",
+									"type": "reference",
+									"typeArguments": [
+										{
+											"type": "intrinsic",
+											"name": "number"
+										}
+									],
+									"order": 9999
+								},
+								{
+									"name": "number",
+									"type": "intrinsic",
+									"order": 9999
+								}
+							]
+						},
+						"defaultValue": "0",
+						"order": 9999
+					},
+					{
+						"name": "y",
+						"type": {
+							"type": "union",
+							"types": [
+								{
+									"name": "undefined",
+									"type": "intrinsic",
+									"order": 9999
+								},
+								{
+									"name": "number",
+									"type": "intrinsic",
+									"order": 9999
+								}
+							]
+						},
+						"order": 9999,
+						"bOptional": true
+					}
+				],
+				"return_type": {
+					"type": "reference",
+					"typeArguments": [
+						{
+							"type": "intrinsic",
+							"name": "number"
+						}
+					],
+					"name": "Array"
+				}
+			},
+			{
+				"name": "distance",
+				"description": "Distance between two points",
+				"parameters": [
+					{
+						"name": "a",
+						"type": {
+							"type": "reference",
+							"typeArguments": [
+								{
+									"type": "intrinsic",
+									"name": "number"
+								}
+							],
+							"name": "Array"
+						},
+						"order": 9999
+					},
+					{
+						"name": "b",
+						"type": {
+							"type": "reference",
+							"typeArguments": [
+								{
+									"type": "intrinsic",
+									"name": "number"
+								}
+							],
+							"name": "Array"
+						},
+						"order": 9999
+					}
+				],
+				"return_type": {
+					"type": "intrinsic",
+					"name": "number"
+				}
+			},
+			{
+				"name": "divide",
+				"description": "Scale vertex",
+				"parameters": [
+					{
+						"name": "vec",
+						"type": {
+							"type": "reference",
+							"typeArguments": [
+								{
+									"type": "intrinsic",
+									"name": "number"
+								}
+							],
+							"name": "Array"
+						},
+						"order": 9999
+					},
+					{
+						"name": "to",
+						"description": "\n",
+						"type": {
+							"type": "reference",
+							"typeArguments": [
+								{
+									"type": "intrinsic",
+									"name": "number"
+								}
+							],
+							"name": "Array"
+						},
+						"order": 9999
+					}
+				],
+				"return_type": {
+					"type": "intrinsic",
+					"name": "void"
+				}
+			},
+			{
+				"name": "dot",
+				"description": "dot product",
+				"parameters": [
+					{
+						"name": "a",
+						"type": {
+							"type": "reference",
+							"typeArguments": [
+								{
+									"type": "intrinsic",
+									"name": "number"
+								}
+							],
+							"name": "Array"
+						},
+						"order": 9999
+					},
+					{
+						"name": "b",
+						"type": {
+							"type": "reference",
+							"typeArguments": [
+								{
+									"type": "intrinsic",
+									"name": "number"
+								}
+							],
+							"name": "Array"
+						},
+						"order": 9999
+					}
+				],
+				"return_type": {
+					"type": "intrinsic",
+					"name": "number"
+				}
+			},
+			{
+				"name": "length",
+				"description": "length of point",
+				"parameters": [
+					{
+						"name": "vec",
+						"type": {
+							"type": "reference",
+							"typeArguments": [
+								{
+									"type": "intrinsic",
+									"name": "number"
+								}
+							],
+							"name": "Array"
+						},
+						"order": 9999
+					}
+				],
+				"return_type": {
+					"type": "intrinsic",
+					"name": "number"
+				}
+			},
+			{
+				"name": "rotate",
+				"description": "Rotate point",
+				"parameters": [
+					{
+						"name": "vec",
+						"type": {
+							"type": "reference",
+							"typeArguments": [
+								{
+									"type": "intrinsic",
+									"name": "number"
+								}
+							],
+							"name": "Array"
+						},
+						"order": 9999
+					},
+					{
+						"name": "MATRIX",
+						"type": {
+							"type": "reference",
+							"typeArguments": [
+								{
+									"type": "intrinsic",
+									"name": "number"
+								}
+							],
+							"name": "Array"
+						},
+						"order": 9999
+					},
+					{
+						"name": "pointToRotate",
+						"type": {
+							"type": "reference",
+							"typeArguments": [
+								{
+									"type": "intrinsic",
+									"name": "number"
+								}
+							],
+							"name": "Array"
+						},
+						"order": 9999
+					}
+				],
+				"return_type": {
+					"type": "intrinsic",
+					"name": "void"
+				}
+			},
+			{
+				"name": "rotateX",
+				"description": "RotateX point",
+				"parameters": [
+					{
+						"name": "vec",
+						"type": {
+							"type": "reference",
+							"typeArguments": [
+								{
+									"type": "intrinsic",
+									"name": "number"
+								}
+							],
+							"name": "Array"
+						},
+						"order": 9999
+					},
+					{
+						"name": "pointToRotate",
+						"type": {
+							"type": "reference",
+							"typeArguments": [
+								{
+									"type": "intrinsic",
+									"name": "number"
+								}
+							],
+							"name": "Array"
+						},
+						"order": 9999
+					},
+					{
+						"name": "rad",
+						"description": "\n",
+						"type": {
+							"type": "intrinsic",
+							"name": "number"
+						},
+						"order": 9999
+					}
+				],
+				"return_type": {
+					"type": "intrinsic",
+					"name": "void"
+				}
+			},
+			{
+				"name": "rotateY",
+				"description": "RotateY point",
+				"parameters": [
+					{
+						"name": "vec",
+						"type": {
+							"type": "reference",
+							"typeArguments": [
+								{
+									"type": "intrinsic",
+									"name": "number"
+								}
+							],
+							"name": "Array"
+						},
+						"order": 9999
+					},
+					{
+						"name": "pointToRotate",
+						"type": {
+							"type": "reference",
+							"typeArguments": [
+								{
+									"type": "intrinsic",
+									"name": "number"
+								}
+							],
+							"name": "Array"
+						},
+						"order": 9999
+					},
+					{
+						"name": "rad",
+						"description": "\n",
+						"type": {
+							"type": "intrinsic",
+							"name": "number"
+						},
+						"order": 9999
+					}
+				],
+				"return_type": {
+					"type": "intrinsic",
+					"name": "void"
+				}
+			},
+			{
+				"name": "rotateZ",
+				"description": "RotateZ point",
+				"parameters": [
+					{
+						"name": "vec",
+						"type": {
+							"type": "reference",
+							"typeArguments": [
+								{
+									"type": "intrinsic",
+									"name": "number"
+								}
+							],
+							"name": "Array"
+						},
+						"order": 9999
+					},
+					{
+						"name": "pointToRotate",
+						"type": {
+							"type": "reference",
+							"typeArguments": [
+								{
+									"type": "intrinsic",
+									"name": "number"
+								}
+							],
+							"name": "Array"
+						},
+						"order": 9999
+					},
+					{
+						"name": "rad",
+						"description": "\n",
+						"type": {
+							"type": "intrinsic",
+							"name": "number"
+						},
+						"order": 9999
+					}
+				],
+				"return_type": {
+					"type": "intrinsic",
+					"name": "void"
+				}
+			},
+			{
+				"name": "scale",
+				"description": "Scale vertex",
+				"parameters": [
+					{
+						"name": "vec",
+						"type": {
+							"type": "reference",
+							"typeArguments": [
+								{
+									"type": "intrinsic",
+									"name": "number"
+								}
+							],
+							"name": "Array"
+						},
+						"order": 9999
+					},
+					{
+						"name": "to",
+						"description": "\n",
+						"type": {
+							"type": "reference",
+							"typeArguments": [
+								{
+									"type": "intrinsic",
+									"name": "number"
+								}
+							],
+							"name": "Array"
+						},
+						"order": 9999
+					}
+				],
+				"return_type": {
+					"type": "intrinsic",
+					"name": "void"
+				}
+			},
+			{
+				"name": "skewX",
+				"description": "skewX point",
+				"parameters": [
+					{
+						"name": "vec",
+						"type": {
+							"type": "reference",
+							"typeArguments": [
+								{
+									"type": "intrinsic",
+									"name": "number"
+								}
+							],
+							"name": "Array"
+						},
+						"order": 9999
+					},
+					{
+						"name": "m",
+						"description": "\n",
+						"type": {
+							"type": "intrinsic",
+							"name": "number"
+						},
+						"order": 9999
+					}
+				],
+				"return_type": {
+					"type": "intrinsic",
+					"name": "void"
+				}
+			},
+			{
+				"name": "skewY",
+				"description": "skewY point",
+				"parameters": [
+					{
+						"name": "vec",
+						"type": {
+							"type": "reference",
+							"typeArguments": [
+								{
+									"type": "intrinsic",
+									"name": "number"
+								}
+							],
+							"name": "Array"
+						},
+						"order": 9999
+					},
+					{
+						"name": "m",
+						"description": "\n",
+						"type": {
+							"type": "intrinsic",
+							"name": "number"
+						},
+						"order": 9999
+					}
+				],
+				"return_type": {
+					"type": "intrinsic",
+					"name": "void"
+				}
+			},
+			{
+				"name": "squeezeX",
+				"description": "squeezeX point",
+				"parameters": [
+					{
+						"name": "vec",
+						"type": {
+							"type": "reference",
+							"typeArguments": [
+								{
+									"type": "intrinsic",
+									"name": "number"
+								}
+							],
+							"name": "Array"
+						},
+						"order": 9999
+					},
+					{
+						"name": "m",
+						"description": "\n",
+						"type": {
+							"type": "intrinsic",
+							"name": "number"
+						},
+						"order": 9999
+					}
+				],
+				"return_type": {
+					"type": "intrinsic",
+					"name": "void"
+				}
+			},
+			{
+				"name": "squeezeY",
+				"description": "squeezeY point",
+				"parameters": [
+					{
+						"name": "vec",
+						"type": {
+							"type": "reference",
+							"typeArguments": [
+								{
+									"type": "intrinsic",
+									"name": "number"
+								}
+							],
+							"name": "Array"
+						},
+						"order": 9999
+					},
+					{
+						"name": "m",
+						"description": "\n",
+						"type": {
+							"type": "intrinsic",
+							"name": "number"
+						},
+						"order": 9999
+					}
+				],
+				"return_type": {
+					"type": "intrinsic",
+					"name": "void"
+				}
+			},
+			{
+				"name": "toString",
+				"description": "Vec to string",
+				"parameters": [
+					{
+						"name": "vec",
+						"type": {
+							"type": "reference",
+							"typeArguments": [
+								{
+									"type": "intrinsic",
+									"name": "number"
+								}
+							],
+							"name": "Array"
+						},
+						"order": 9999
+					}
+				],
+				"return_type": {
+					"type": "intrinsic",
+					"name": "string"
+				}
+			},
+			{
+				"name": "translate",
+				"description": "Translate vertex",
+				"parameters": [
+					{
+						"name": "vec",
+						"type": {
+							"type": "reference",
+							"typeArguments": [
+								{
+									"type": "intrinsic",
+									"name": "number"
+								}
+							],
+							"name": "Array"
+						},
+						"order": 9999
+					},
+					{
+						"name": "to",
+						"description": "\n",
+						"type": {
+							"type": "reference",
+							"typeArguments": [
+								{
+									"type": "intrinsic",
+									"name": "number"
+								}
+							],
+							"name": "Array"
+						},
+						"order": 9999
+					}
+				],
+				"return_type": {
+					"type": "intrinsic",
+					"name": "void"
+				}
+			}
+		],
+		"category": "Core.Utilities"
 	},
 	{
 		"name": "Shape",
@@ -15257,7 +15845,7 @@
 						"name": "drawer",
 						"type": {
 							"type": "reference",
-							"id": 4143,
+							"id": 4149,
 							"name": "DrawerCanvas"
 						},
 						"order": 9999
@@ -15274,7 +15862,7 @@
 						"name": "animation",
 						"type": {
 							"type": "reference",
-							"id": 3459,
+							"id": 3489,
 							"name": "TAnimation"
 						},
 						"order": 9999
@@ -16916,7 +17504,7 @@
 						"name": "simpleAnimation",
 						"type": {
 							"type": "reference",
-							"id": 3438,
+							"id": 3473,
 							"name": "ISimpleAnimation"
 						},
 						"order": 9999
@@ -16964,7 +17552,7 @@
 						"name": "props",
 						"type": {
 							"type": "reference",
-							"id": 3462,
+							"id": 3492,
 							"name": "TSimpleAnimationLoop"
 						},
 						"order": 9999
@@ -17012,7 +17600,7 @@
 						"name": "props",
 						"type": {
 							"type": "reference",
-							"id": 3464,
+							"id": 3494,
 							"name": "TSimpleAnimationStatic"
 						},
 						"order": 9999
@@ -17060,7 +17648,7 @@
 						"name": "props",
 						"type": {
 							"type": "reference",
-							"id": 3463,
+							"id": 3493,
 							"name": "TSimpleAnimationUncontrolledLoop"
 						},
 						"order": 9999
@@ -17156,8 +17744,8 @@
 					"name": "drawOptions",
 					"type": {
 						"type": "reference",
-						"id": 4118,
-						"name": "DrawOptions"
+						"id": 3220,
+						"name": "IDrawOptions"
 					},
 					"defaultValue": "{}",
 					"order": 9999
@@ -17237,7 +17825,7 @@
 				"name": "buffer",
 				"type": {
 					"type": "reference",
-					"id": 4096,
+					"id": 4127,
 					"name": "FrameBuffer"
 				},
 				"order": 9999,
@@ -17292,8 +17880,8 @@
 				"name": "drawOptions",
 				"type": {
 					"type": "reference",
-					"id": 4118,
-					"name": "DrawOptions"
+					"id": 3220,
+					"name": "IDrawOptions"
 				},
 				"order": 9999,
 				"bPrivate": true
@@ -17480,8 +18068,8 @@
 								"operator": "keyof",
 								"target": {
 									"type": "reference",
-									"id": 4118,
-									"name": "DrawOptions"
+									"id": 3220,
+									"name": "IDrawOptions"
 								}
 							}
 						},
@@ -17499,14 +18087,14 @@
 									"operator": "keyof",
 									"target": {
 										"type": "reference",
-										"id": 4118,
-										"name": "DrawOptions"
+										"id": 3220,
+										"name": "IDrawOptions"
 									}
 								}
 							},
 							"objectType": {
 								"type": "reference",
-								"name": "DrawOptions"
+								"name": "IDrawOptions"
 							}
 						},
 						"order": 9999,
@@ -17515,7 +18103,7 @@
 				],
 				"typeParameter": [
 					{
-						"id": 4216,
+						"id": 4222,
 						"name": "K",
 						"kind": 131072,
 						"kindString": "Type parameter",
@@ -17526,8 +18114,8 @@
 							"operator": "keyof",
 							"target": {
 								"type": "reference",
-								"id": 4118,
-								"name": "DrawOptions"
+								"id": 3220,
+								"name": "IDrawOptions"
 							}
 						}
 					}
@@ -17542,14 +18130,14 @@
 							"operator": "keyof",
 							"target": {
 								"type": "reference",
-								"id": 4118,
-								"name": "DrawOptions"
+								"id": 3220,
+								"name": "IDrawOptions"
 							}
 						}
 					},
 					"objectType": {
 						"type": "reference",
-						"name": "DrawOptions"
+						"name": "IDrawOptions"
 					}
 				},
 				"bPublic": true
@@ -17559,8 +18147,8 @@
 				"parameters": [],
 				"return_type": {
 					"type": "reference",
-					"id": 4118,
-					"name": "DrawOptions"
+					"id": 3220,
+					"name": "IDrawOptions"
 				},
 				"bPublic": true
 			},
@@ -17822,7 +18410,7 @@
 									"order": 9999
 								},
 								{
-									"name": "DrawOptions",
+									"name": "IDrawOptions",
 									"type": "reference",
 									"order": 9999
 								}
@@ -17842,8 +18430,8 @@
 									"operator": "keyof",
 									"target": {
 										"type": "reference",
-										"id": 4118,
-										"name": "DrawOptions"
+										"id": 3220,
+										"name": "IDrawOptions"
 									}
 								}
 							},
@@ -17852,7 +18440,7 @@
 								"typeArguments": [
 									{
 										"type": "reference",
-										"name": "DrawOptions"
+										"name": "IDrawOptions"
 									}
 								],
 								"name": "Required"
@@ -17864,7 +18452,7 @@
 				],
 				"typeParameter": [
 					{
-						"id": 4211,
+						"id": 4217,
 						"name": "K",
 						"kind": 131072,
 						"kindString": "Type parameter",
@@ -17875,8 +18463,8 @@
 							"operator": "keyof",
 							"target": {
 								"type": "reference",
-								"id": 4118,
-								"name": "DrawOptions"
+								"id": 3220,
+								"name": "IDrawOptions"
 							}
 						}
 					}
@@ -18006,8 +18594,8 @@
 						"name": "options",
 						"type": {
 							"type": "reference",
-							"id": 4118,
-							"name": "DrawOptions"
+							"id": 3220,
+							"name": "IDrawOptions"
 						},
 						"order": 9999
 					},
@@ -18057,7 +18645,7 @@
 				"type": {
 					"type": "reflection",
 					"declaration": {
-						"id": 4098,
+						"id": 4129,
 						"name": "__type",
 						"kind": 65536,
 						"kindString": "Type literal",
@@ -18066,14 +18654,14 @@
 						},
 						"indexSignature": [
 							{
-								"id": 4099,
+								"id": 4130,
 								"name": "__index",
 								"kind": 8192,
 								"kindString": "Index signature",
 								"flags": {},
 								"parameters": [
 									{
-										"id": 4100,
+										"id": 4131,
 										"name": "frameNumber",
 										"kind": 32768,
 										"kindString": "Parameter",
@@ -18220,7 +18808,7 @@
 				"bPublic": true
 			}
 		],
-		"category": "Services.DrawerCavnas"
+		"category": "Services.DrawerCanvas"
 	},
 	{
 		"name": "Emitter",
@@ -18543,7 +19131,7 @@
 						"name": "drawer",
 						"type": {
 							"type": "reference",
-							"id": 4143,
+							"id": 4149,
 							"name": "DrawerCanvas"
 						},
 						"order": 9999
@@ -18570,7 +19158,7 @@
 						"name": "drawer",
 						"type": {
 							"type": "reference",
-							"id": 4143,
+							"id": 4149,
 							"name": "DrawerCanvas"
 						},
 						"order": 9999
@@ -18587,7 +19175,7 @@
 				],
 				"return_type": {
 					"type": "reference",
-					"id": 3471,
+					"id": 3501,
 					"name": "IProject"
 				}
 			},
@@ -18635,7 +19223,7 @@
 				],
 				"return_type": {
 					"type": "reference",
-					"id": 3507,
+					"id": 3538,
 					"name": "IProjectSceneChild"
 				}
 			},
@@ -18646,7 +19234,7 @@
 						"name": "project",
 						"type": {
 							"type": "reference",
-							"id": 3471,
+							"id": 3501,
 							"name": "IProject"
 						},
 						"order": 9999
@@ -18677,7 +19265,7 @@
 						"name": "drawer",
 						"type": {
 							"type": "reference",
-							"id": 4143,
+							"id": 4149,
 							"name": "DrawerCanvas"
 						},
 						"order": 9999
@@ -18686,7 +19274,7 @@
 						"name": "settings",
 						"type": {
 							"type": "reference",
-							"id": 4304,
+							"id": 4291,
 							"name": "IRenderSettings"
 						},
 						"order": 9999
@@ -18713,8 +19301,8 @@
 						"name": "options",
 						"type": {
 							"type": "reference",
-							"id": 4118,
-							"name": "DrawOptions"
+							"id": 3220,
+							"name": "IDrawOptions"
 						},
 						"order": 9999
 					},
@@ -18777,7 +19365,7 @@
 					"types": [
 						{
 							"type": "reference",
-							"id": 4143,
+							"id": 4149,
 							"name": "DrawerCanvas"
 						},
 						{
@@ -18794,7 +19382,7 @@
 						"name": "projectSceneChild",
 						"type": {
 							"type": "reference",
-							"id": 3507,
+							"id": 3538,
 							"name": "IProjectSceneChild"
 						},
 						"order": 9999
@@ -18803,7 +19391,7 @@
 						"name": "drawer",
 						"type": {
 							"type": "reference",
-							"id": 4143,
+							"id": 4149,
 							"name": "DrawerCanvas"
 						},
 						"order": 9999
@@ -18829,7 +19417,7 @@
 				"parameters": [],
 				"return_type": {
 					"type": "reference",
-					"id": 3471,
+					"id": 3501,
 					"name": "IProject"
 				},
 				"bStatic": true
@@ -18852,7 +19440,7 @@
 					"name": "settings",
 					"type": {
 						"type": "reference",
-						"id": 4328,
+						"id": 4315,
 						"name": "ICapturerSettings"
 					},
 					"defaultValue": "{}",
@@ -18953,7 +19541,7 @@
 				"name": "type",
 				"type": {
 					"type": "reference",
-					"id": 4326,
+					"id": 4313,
 					"name": "TRenderType"
 				},
 				"order": 9999
@@ -19029,7 +19617,7 @@
 						"name": "settings",
 						"type": {
 							"type": "reference",
-							"id": 4328,
+							"id": 4315,
 							"name": "ICapturerSettings"
 						},
 						"order": 9999
@@ -19091,7 +19679,7 @@
 						"name": "type",
 						"type": {
 							"type": "reference",
-							"id": 4326,
+							"id": 4313,
 							"name": "TRenderType"
 						},
 						"order": 9999
@@ -19143,7 +19731,7 @@
 						"name": "type",
 						"type": {
 							"type": "reference",
-							"id": 4325,
+							"id": 4312,
 							"name": "TRenderImageType"
 						},
 						"order": 9999
@@ -19195,7 +19783,7 @@
 						"name": "type",
 						"type": {
 							"type": "reference",
-							"id": 4326,
+							"id": 4313,
 							"name": "TRenderType"
 						},
 						"order": 9999
@@ -19241,7 +19829,7 @@
 				"name": "capturer",
 				"type": {
 					"type": "reference",
-					"id": 4331,
+					"id": 4318,
 					"name": "Capturer"
 				},
 				"order": 9999
@@ -19300,7 +19888,7 @@
 						"name": "drawer",
 						"type": {
 							"type": "reference",
-							"id": 4143,
+							"id": 4149,
 							"name": "DrawerCanvas"
 						},
 						"order": 9999
@@ -19309,7 +19897,7 @@
 						"name": "settings",
 						"type": {
 							"type": "reference",
-							"id": 4304,
+							"id": 4291,
 							"name": "IRenderSettings"
 						},
 						"order": 9999
@@ -19320,7 +19908,7 @@
 					"typeArguments": [
 						{
 							"type": "reference",
-							"id": 4310,
+							"id": 4297,
 							"name": "IRenderStart"
 						}
 					],
@@ -19335,7 +19923,7 @@
 						"name": "drawer",
 						"type": {
 							"type": "reference",
-							"id": 4143,
+							"id": 4149,
 							"name": "DrawerCanvas"
 						},
 						"order": 9999
@@ -19344,7 +19932,7 @@
 						"name": "settings",
 						"type": {
 							"type": "reference",
-							"id": 4304,
+							"id": 4291,
 							"name": "IRenderSettings"
 						},
 						"order": 9999
@@ -19375,7 +19963,7 @@
 						"name": "drawer",
 						"type": {
 							"type": "reference",
-							"id": 4143,
+							"id": 4149,
 							"name": "DrawerCanvas"
 						},
 						"order": 9999
@@ -19384,7 +19972,7 @@
 						"name": "settings",
 						"type": {
 							"type": "reference",
-							"id": 4304,
+							"id": 4291,
 							"name": "IRenderSettings"
 						},
 						"order": 9999
@@ -19458,7 +20046,7 @@
 						"name": "drawer",
 						"type": {
 							"type": "reference",
-							"id": 4143,
+							"id": 4149,
 							"name": "DrawerCanvas"
 						},
 						"order": 9999
@@ -19467,7 +20055,7 @@
 						"name": "settings",
 						"type": {
 							"type": "reference",
-							"id": 4304,
+							"id": 4291,
 							"name": "IRenderSettings"
 						},
 						"order": 9999
@@ -19638,7 +20226,7 @@
 						{
 							"type": "reflection",
 							"declaration": {
-								"id": 3546,
+								"id": 3577,
 								"name": "__type",
 								"kind": 65536,
 								"kindString": "Type literal",
@@ -19647,7 +20235,7 @@
 								},
 								"children": [
 									{
-										"id": 3547,
+										"id": 3578,
 										"name": "key",
 										"kind": 32,
 										"kindString": "Variable",
@@ -19667,7 +20255,7 @@
 										}
 									},
 									{
-										"id": 3548,
+										"id": 3579,
 										"name": "value",
 										"kind": 32,
 										"kindString": "Variable",
@@ -19692,8 +20280,8 @@
 										"title": "Variables",
 										"kind": 32,
 										"children": [
-											3547,
-											3548
+											3578,
+											3579
 										]
 									}
 								],
@@ -19736,7 +20324,7 @@
 				"name": "transformation",
 				"type": {
 					"type": "reference",
-					"id": 3454,
+					"id": 3249,
 					"name": "TDrawerTransformation"
 				},
 				"order": 9999
@@ -19745,7 +20333,7 @@
 				"name": "type",
 				"type": {
 					"type": "reference",
-					"id": 3555,
+					"id": 3586,
 					"name": "TPropInputType"
 				},
 				"order": 9999
@@ -19848,7 +20436,7 @@
 								"operator": "keyof",
 								"target": {
 									"type": "reference",
-									"id": 3529,
+									"id": 3560,
 									"name": "TSceneChildProps"
 								}
 							},
@@ -19929,7 +20517,7 @@
 		"order": 9999,
 		"source": {
 			"fileName": "src/services/scene-utilities/ScenePropUtilities.ts",
-			"line": 17,
+			"line": 18,
 			"character": 24
 		},
 		"properties": [
@@ -20086,8 +20674,8 @@
 						"name": "loop",
 						"type": {
 							"type": "reference",
-							"id": 3422,
-							"name": "IShapeLoop"
+							"id": 3457,
+							"name": "IShapeLoopAnimation"
 						},
 						"order": 9999
 					}
@@ -20134,7 +20722,7 @@
 						"name": "drawer",
 						"type": {
 							"type": "reference",
-							"id": 4143,
+							"id": 4149,
 							"name": "DrawerCanvas"
 						},
 						"order": 9999
@@ -20188,7 +20776,7 @@
 						"name": "drawer",
 						"type": {
 							"type": "reference",
-							"id": 4143,
+							"id": 4149,
 							"name": "DrawerCanvas"
 						},
 						"order": 9999
@@ -20197,7 +20785,7 @@
 						"name": "name",
 						"type": {
 							"type": "reference",
-							"id": 3556,
+							"id": 3587,
 							"name": "TSceneChildPropsDataKeys"
 						},
 						"order": 9999
@@ -20249,7 +20837,7 @@
 					"types": [
 						{
 							"type": "reference",
-							"id": 3454,
+							"id": 3249,
 							"name": "TDrawerTransformation"
 						},
 						{
@@ -20278,7 +20866,7 @@
 				"type": {
 					"type": "reflection",
 					"declaration": {
-						"id": 4003,
+						"id": 4034,
 						"name": "__type",
 						"kind": 65536,
 						"kindString": "Type literal",
@@ -20287,14 +20875,14 @@
 						},
 						"indexSignature": [
 							{
-								"id": 4004,
+								"id": 4035,
 								"name": "__index",
 								"kind": 8192,
 								"kindString": "Index signature",
 								"flags": {},
 								"parameters": [
 									{
-										"id": 4005,
+										"id": 4036,
 										"name": "type",
 										"kind": 32768,
 										"kindString": "Parameter",
@@ -20307,7 +20895,7 @@
 								],
 								"type": {
 									"type": "reference",
-									"id": 4093,
+									"id": 4124,
 									"name": "SceneChildInstance"
 								}
 							}
@@ -20372,7 +20960,7 @@
 						"name": "props",
 						"type": {
 							"type": "reference",
-							"id": 3529,
+							"id": 3560,
 							"name": "TSceneChildProps"
 						},
 						"order": 9999,
@@ -20431,7 +21019,7 @@
 						"name": "drawer",
 						"type": {
 							"type": "reference",
-							"id": 4143,
+							"id": 4149,
 							"name": "DrawerCanvas"
 						},
 						"order": 9999,
@@ -20489,7 +21077,7 @@
 						"name": "props",
 						"type": {
 							"type": "reference",
-							"id": 3529,
+							"id": 3560,
 							"name": "TSceneChildProps"
 						},
 						"order": 9999,
@@ -20509,7 +21097,7 @@
 						"name": "drawer",
 						"type": {
 							"type": "reference",
-							"id": 4143,
+							"id": 4149,
 							"name": "DrawerCanvas"
 						},
 						"order": 9999,
@@ -20874,7 +21462,7 @@
 						"name": "ref",
 						"type": {
 							"type": "reference",
-							"id": 4093,
+							"id": 4124,
 							"name": "SceneChildInstance"
 						},
 						"order": 9999
@@ -20948,7 +21536,7 @@
 						"name": "drawer",
 						"type": {
 							"type": "reference",
-							"id": 4143,
+							"id": 4149,
 							"name": "DrawerCanvas"
 						},
 						"order": 9999
@@ -20996,7 +21584,7 @@
 						"type": {
 							"type": "reflection",
 							"declaration": {
-								"id": 4069,
+								"id": 4100,
 								"name": "__type",
 								"kind": 65536,
 								"kindString": "Type literal",
@@ -21005,14 +21593,14 @@
 								},
 								"signatures": [
 									{
-										"id": 4070,
+										"id": 4101,
 										"name": "__call",
 										"kind": 4096,
 										"kindString": "Call signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 4071,
+												"id": 4102,
 												"name": "child",
 												"kind": 32768,
 												"kindString": "Parameter",
@@ -21048,7 +21636,7 @@
 				}
 			}
 		],
-		"category": "Services.Scene Utilities"
+		"category": "Services.SceneUtilities"
 	},
 	{
 		"name": "SceneChildInstance",
@@ -21064,7 +21652,7 @@
 			"type": {
 				"type": "reflection",
 				"declaration": {
-					"id": 4094,
+					"id": 4125,
 					"name": "__type",
 					"kind": 65536,
 					"kindString": "Type literal",
@@ -21188,7 +21776,7 @@
 				"type": {
 					"type": "reference",
 					"id": 3116,
-					"name": "SequenceMeta"
+					"name": "ISequenceMeta"
 				},
 				"order": 9999,
 				"bPrivate": true
@@ -21356,7 +21944,7 @@
 				"return_type": {
 					"type": "reference",
 					"id": 3116,
-					"name": "SequenceMeta"
+					"name": "ISequenceMeta"
 				},
 				"bPublic": true
 			},
@@ -21623,7 +22211,7 @@
 		],
 		"typeParameters": [
 			{
-				"id": 3419,
+				"id": 3454,
 				"name": "T",
 				"kind": 131072,
 				"kindString": "Type parameter",
@@ -21643,7 +22231,7 @@
 		"order": 9999,
 		"source": {
 			"fileName": "src/services/types/animation.ts",
-			"line": 89,
+			"line": 123,
 			"character": 26
 		},
 		"extends": [
@@ -21668,16 +22256,16 @@
 				"order": 9999
 			}
 		],
-		"category": "Other"
+		"category": "Services.Animation"
 	},
 	{
 		"type": "Interface",
-		"name": "IShapeLoop",
+		"name": "IShapeLoopAnimation",
 		"order": 9999,
 		"source": {
 			"fileName": "src/services/types/animation.ts",
-			"line": 39,
-			"character": 27
+			"line": 34,
+			"character": 36
 		},
 		"properties": [
 			{
@@ -21692,7 +22280,7 @@
 				"name": "end",
 				"type": {
 					"type": "reference",
-					"id": 3452,
+					"id": 3487,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -21707,7 +22295,7 @@
 				"name": "inc",
 				"type": {
 					"type": "reference",
-					"id": 3452,
+					"id": 3487,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -21722,7 +22310,7 @@
 				"name": "start",
 				"type": {
 					"type": "reference",
-					"id": 3452,
+					"id": 3487,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -21737,7 +22325,7 @@
 				"name": "vertex",
 				"type": {
 					"type": "reference",
-					"id": 3418,
+					"id": 3453,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -21764,7 +22352,7 @@
 				"order": 9999
 			}
 		],
-		"category": "Other"
+		"category": "Services.Animation"
 	},
 	{
 		"type": "Interface",
@@ -21772,7 +22360,7 @@
 		"order": 9999,
 		"source": {
 			"fileName": "src/services/types/animation.ts",
-			"line": 70,
+			"line": 90,
 			"character": 33
 		},
 		"properties": [
@@ -21886,7 +22474,7 @@
 				"name": "mode_function",
 				"type": {
 					"type": "reference",
-					"id": 3460,
+					"id": 3490,
 					"name": "TModeFunction"
 				},
 				"order": 9999,
@@ -21926,7 +22514,7 @@
 				"name": "type",
 				"type": {
 					"type": "reference",
-					"id": 3461,
+					"id": 3491,
 					"name": "TSimpleAnimationType"
 				},
 				"order": 9999
@@ -21952,16 +22540,16 @@
 				"bOptional": true
 			}
 		],
-		"category": "Other"
+		"category": "Services.Animation"
 	},
 	{
 		"type": "Interface",
-		"name": "IVertexCallback",
+		"name": "IVertexCallbackAnimation",
 		"order": 9999,
 		"source": {
 			"fileName": "src/services/types/animation.ts",
-			"line": 49,
-			"character": 32
+			"line": 48,
+			"character": 41
 		},
 		"extends": [
 			"ICallableValue"
@@ -21993,7 +22581,7 @@
 				"order": 9999
 			}
 		],
-		"category": "Other"
+		"category": "Services.Animation"
 	},
 	{
 		"name": "TAnimation",
@@ -22001,7 +22589,7 @@
 		"order": 9999,
 		"source": {
 			"fileName": "src/services/types/animation.ts",
-			"line": 65,
+			"line": 75,
 			"character": 22
 		},
 		"parameter": {
@@ -22023,7 +22611,7 @@
 			},
 			"order": 9999
 		},
-		"category": "Other"
+		"category": "Services.Animation"
 	},
 	{
 		"name": "TCallableValue",
@@ -22061,7 +22649,7 @@
 		},
 		"typeParameters": [
 			{
-				"id": 3453,
+				"id": 3488,
 				"name": "T",
 				"kind": 131072,
 				"kindString": "Type parameter",
@@ -22073,138 +22661,12 @@
 		"category": "Services.Animation"
 	},
 	{
-		"name": "TDrawerTransformation",
-		"type": "Type",
-		"order": 9999,
-		"source": {
-			"fileName": "src/services/types/animation.ts",
-			"line": 30,
-			"character": 33
-		},
-		"parameter": {
-			"name": "TDrawerTransformation",
-			"type": {
-				"type": "union",
-				"types": [
-					{
-						"type": "stringLiteral",
-						"value": "none",
-						"order": 9999
-					},
-					{
-						"type": "stringLiteral",
-						"value": "angle",
-						"order": 9999
-					},
-					{
-						"type": "stringLiteral",
-						"value": "resolution-based",
-						"order": 9999
-					},
-					{
-						"type": "stringLiteral",
-						"value": "resolution-scaled-based",
-						"order": 9999
-					}
-				]
-			},
-			"order": 9999
-		},
-		"category": "Services.Animation"
-	},
-	{
-		"name": "TDrawerValue",
-		"type": "Type",
-		"order": 9999,
-		"source": {
-			"fileName": "src/services/types/animation.ts",
-			"line": 32,
-			"character": 24
-		},
-		"parameter": {
-			"name": "TDrawerValue",
-			"type": {
-				"type": "reflection",
-				"declaration": {
-					"id": 3456,
-					"name": "__type",
-					"kind": 65536,
-					"kindString": "Type literal",
-					"flags": {
-						"isExported": true
-					},
-					"children": [
-						{
-							"id": 3457,
-							"name": "type",
-							"kind": 32,
-							"kindString": "Variable",
-							"flags": {
-								"isExported": true
-							},
-							"sources": [
-								{
-									"fileName": "src/services/types/animation.ts",
-									"line": 33,
-									"character": 5
-								}
-							],
-							"type": {
-								"type": "stringLiteral",
-								"value": "drawer-transformation"
-							}
-						},
-						{
-							"id": 3458,
-							"name": "value",
-							"kind": 32,
-							"kindString": "Variable",
-							"flags": {
-								"isExported": true
-							},
-							"sources": [
-								{
-									"fileName": "src/services/types/animation.ts",
-									"line": 34,
-									"character": 6
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "any"
-							}
-						}
-					],
-					"groups": [
-						{
-							"title": "Variables",
-							"kind": 32,
-							"children": [
-								3457,
-								3458
-							]
-						}
-					],
-					"sources": [
-						{
-							"fileName": "src/services/types/animation.ts",
-							"line": 32,
-							"character": 26
-						}
-					]
-				}
-			},
-			"order": 9999
-		},
-		"category": "Other"
-	},
-	{
 		"name": "TModeFunction",
 		"type": "Type",
 		"order": 9999,
 		"source": {
 			"fileName": "src/services/types/animation.ts",
-			"line": 67,
+			"line": 80,
 			"character": 25
 		},
 		"parameter": {
@@ -22231,7 +22693,7 @@
 			},
 			"order": 9999
 		},
-		"category": "Other"
+		"category": "Services.Animation"
 	},
 	{
 		"name": "TSimpleAnimationLoop",
@@ -22239,7 +22701,7 @@
 		"order": 9999,
 		"source": {
 			"fileName": "src/services/types/animation.ts",
-			"line": 85,
+			"line": 108,
 			"character": 32
 		},
 		"parameter": {
@@ -22249,7 +22711,7 @@
 				"typeArguments": [
 					{
 						"type": "reference",
-						"id": 3438,
+						"id": 3473,
 						"name": "ISimpleAnimation"
 					},
 					{
@@ -22270,7 +22732,7 @@
 			},
 			"order": 9999
 		},
-		"category": "Other"
+		"category": "Services.Animation"
 	},
 	{
 		"name": "TSimpleAnimationStatic",
@@ -22278,7 +22740,7 @@
 		"order": 9999,
 		"source": {
 			"fileName": "src/services/types/animation.ts",
-			"line": 87,
+			"line": 118,
 			"character": 34
 		},
 		"parameter": {
@@ -22288,7 +22750,7 @@
 				"typeArguments": [
 					{
 						"type": "reference",
-						"id": 3438,
+						"id": 3473,
 						"name": "ISimpleAnimation"
 					},
 					{
@@ -22300,7 +22762,7 @@
 			},
 			"order": 9999
 		},
-		"category": "Other"
+		"category": "Services.Animation"
 	},
 	{
 		"name": "TSimpleAnimationType",
@@ -22308,7 +22770,7 @@
 		"order": 9999,
 		"source": {
 			"fileName": "src/services/types/animation.ts",
-			"line": 68,
+			"line": 85,
 			"character": 32
 		},
 		"parameter": {
@@ -22335,7 +22797,7 @@
 			},
 			"order": 9999
 		},
-		"category": "Other"
+		"category": "Services.Animation"
 	},
 	{
 		"name": "TSimpleAnimationUncontrolledLoop",
@@ -22343,7 +22805,7 @@
 		"order": 9999,
 		"source": {
 			"fileName": "src/services/types/animation.ts",
-			"line": 86,
+			"line": 113,
 			"character": 44
 		},
 		"parameter": {
@@ -22353,7 +22815,7 @@
 				"typeArguments": [
 					{
 						"type": "reference",
-						"id": 3438,
+						"id": 3473,
 						"name": "ISimpleAnimation"
 					},
 					{
@@ -22365,16 +22827,16 @@
 			},
 			"order": 9999
 		},
-		"category": "Other"
+		"category": "Services.Animation"
 	},
 	{
 		"type": "Interface",
-		"name": "DrawOptions",
+		"name": "IDrawOptions",
 		"order": 9999,
 		"source": {
 			"fileName": "src/services/types/drawer-canvas.ts",
-			"line": 1,
-			"character": 28
+			"line": 4,
+			"character": 29
 		},
 		"properties": [
 			{
@@ -22632,16 +23094,17 @@
 				"order": 9999,
 				"bOptional": true
 			}
-		]
+		],
+		"category": "Services.DrawerCanvas"
 	},
 	{
 		"type": "Interface",
-		"name": "DrawerCanvasEvents",
+		"name": "IDrawerCanvasEvents",
 		"order": 9999,
 		"source": {
 			"fileName": "src/services/types/drawer-canvas.ts",
-			"line": 16,
-			"character": 35
+			"line": 22,
+			"character": 36
 		},
 		"properties": [
 			{
@@ -22649,7 +23112,7 @@
 				"type": {
 					"type": "reflection",
 					"declaration": {
-						"id": 4136,
+						"id": 3238,
 						"name": "__type",
 						"kind": 65536,
 						"kindString": "Type literal",
@@ -22658,7 +23121,7 @@
 						},
 						"children": [
 							{
-								"id": 4137,
+								"id": 3239,
 								"name": "current_frame",
 								"kind": 32,
 								"kindString": "Variable",
@@ -22668,7 +23131,7 @@
 								"sources": [
 									{
 										"fileName": "src/services/types/drawer-canvas.ts",
-										"line": 18,
+										"line": 24,
 										"character": 15
 									}
 								],
@@ -22678,7 +23141,7 @@
 								}
 							},
 							{
-								"id": 4138,
+								"id": 3240,
 								"name": "current_time",
 								"kind": 32,
 								"kindString": "Variable",
@@ -22688,7 +23151,7 @@
 								"sources": [
 									{
 										"fileName": "src/services/types/drawer-canvas.ts",
-										"line": 19,
+										"line": 25,
 										"character": 14
 									}
 								],
@@ -22703,15 +23166,15 @@
 								"title": "Variables",
 								"kind": 32,
 								"children": [
-									4137,
-									4138
+									3239,
+									3240
 								]
 							}
 						],
 						"sources": [
 							{
 								"fileName": "src/services/types/drawer-canvas.ts",
-								"line": 17,
+								"line": 23,
 								"character": 29
 							}
 						]
@@ -22743,7 +23206,310 @@
 				},
 				"order": 9999
 			}
-		]
+		],
+		"category": "Services.DrawerCanvas"
+	},
+	{
+		"type": "Interface",
+		"name": "ISceneChildDrawerData",
+		"order": 9999,
+		"source": {
+			"fileName": "src/services/types/drawer-canvas.ts",
+			"line": 48,
+			"character": 38
+		},
+		"properties": [
+			{
+				"name": "composite",
+				"type": {
+					"type": "union",
+					"types": [
+						{
+							"type": "stringLiteral",
+							"value": "source-over",
+							"order": 9999
+						},
+						{
+							"type": "stringLiteral",
+							"value": "source-in",
+							"order": 9999
+						},
+						{
+							"type": "stringLiteral",
+							"value": "source-out",
+							"order": 9999
+						},
+						{
+							"type": "stringLiteral",
+							"value": "source-atop",
+							"order": 9999
+						},
+						{
+							"type": "stringLiteral",
+							"value": "destination-over",
+							"order": 9999
+						},
+						{
+							"type": "stringLiteral",
+							"value": "destination-in",
+							"order": 9999
+						},
+						{
+							"type": "stringLiteral",
+							"value": "destination-out",
+							"order": 9999
+						},
+						{
+							"type": "stringLiteral",
+							"value": "destination-atop",
+							"order": 9999
+						},
+						{
+							"type": "stringLiteral",
+							"value": "lighter",
+							"order": 9999
+						},
+						{
+							"type": "stringLiteral",
+							"value": "copy",
+							"order": 9999
+						},
+						{
+							"type": "stringLiteral",
+							"value": "xor",
+							"order": 9999
+						},
+						{
+							"type": "stringLiteral",
+							"value": "multiply",
+							"order": 9999
+						},
+						{
+							"type": "stringLiteral",
+							"value": "screen",
+							"order": 9999
+						},
+						{
+							"type": "stringLiteral",
+							"value": "overlay",
+							"order": 9999
+						},
+						{
+							"type": "stringLiteral",
+							"value": "darken",
+							"order": 9999
+						},
+						{
+							"type": "stringLiteral",
+							"value": "lighten",
+							"order": 9999
+						},
+						{
+							"type": "stringLiteral",
+							"value": "color-dodge",
+							"order": 9999
+						},
+						{
+							"type": "stringLiteral",
+							"value": "color-burn",
+							"order": 9999
+						},
+						{
+							"type": "stringLiteral",
+							"value": "hard-light",
+							"order": 9999
+						},
+						{
+							"type": "stringLiteral",
+							"value": "soft-light",
+							"order": 9999
+						},
+						{
+							"type": "stringLiteral",
+							"value": "difference",
+							"order": 9999
+						},
+						{
+							"type": "stringLiteral",
+							"value": "exclusion",
+							"order": 9999
+						},
+						{
+							"type": "stringLiteral",
+							"value": "hue",
+							"order": 9999
+						},
+						{
+							"type": "stringLiteral",
+							"value": "saturation",
+							"order": 9999
+						},
+						{
+							"type": "stringLiteral",
+							"value": "color",
+							"order": 9999
+						},
+						{
+							"type": "stringLiteral",
+							"value": "luminosity",
+							"order": 9999
+						}
+					]
+				},
+				"order": 9999
+			},
+			{
+				"name": "disableGhost",
+				"type": {
+					"type": "intrinsic",
+					"name": "boolean"
+				},
+				"order": 9999
+			},
+			{
+				"name": "highlighted",
+				"type": {
+					"type": "intrinsic",
+					"name": "boolean"
+				},
+				"order": 9999
+			},
+			{
+				"name": "visible",
+				"type": {
+					"type": "intrinsic",
+					"name": "boolean"
+				},
+				"order": 9999
+			}
+		],
+		"category": "Services.DrawerCanvas"
+	},
+	{
+		"name": "TDrawerTransformation",
+		"type": "Type",
+		"order": 9999,
+		"source": {
+			"fileName": "src/services/types/drawer-canvas.ts",
+			"line": 35,
+			"character": 33
+		},
+		"parameter": {
+			"name": "TDrawerTransformation",
+			"type": {
+				"type": "union",
+				"types": [
+					{
+						"type": "stringLiteral",
+						"value": "none",
+						"order": 9999
+					},
+					{
+						"type": "stringLiteral",
+						"value": "angle",
+						"order": 9999
+					},
+					{
+						"type": "stringLiteral",
+						"value": "resolution-based",
+						"order": 9999
+					},
+					{
+						"type": "stringLiteral",
+						"value": "resolution-scaled-based",
+						"order": 9999
+					}
+				]
+			},
+			"order": 9999
+		},
+		"category": "Services.DrawerCanvas"
+	},
+	{
+		"name": "TDrawerValue",
+		"type": "Type",
+		"order": 9999,
+		"source": {
+			"fileName": "src/services/types/drawer-canvas.ts",
+			"line": 40,
+			"character": 24
+		},
+		"parameter": {
+			"name": "TDrawerValue",
+			"type": {
+				"type": "reflection",
+				"declaration": {
+					"id": 3251,
+					"name": "__type",
+					"kind": 65536,
+					"kindString": "Type literal",
+					"flags": {
+						"isExported": true
+					},
+					"children": [
+						{
+							"id": 3252,
+							"name": "type",
+							"kind": 32,
+							"kindString": "Variable",
+							"flags": {
+								"isExported": true
+							},
+							"sources": [
+								{
+									"fileName": "src/services/types/drawer-canvas.ts",
+									"line": 41,
+									"character": 5
+								}
+							],
+							"type": {
+								"type": "stringLiteral",
+								"value": "drawer-transformation"
+							}
+						},
+						{
+							"id": 3253,
+							"name": "value",
+							"kind": 32,
+							"kindString": "Variable",
+							"flags": {
+								"isExported": true
+							},
+							"sources": [
+								{
+									"fileName": "src/services/types/drawer-canvas.ts",
+									"line": 42,
+									"character": 6
+								}
+							],
+							"type": {
+								"type": "intrinsic",
+								"name": "any"
+							}
+						}
+					],
+					"groups": [
+						{
+							"title": "Variables",
+							"kind": 32,
+							"children": [
+								3252,
+								3253
+							]
+						}
+					],
+					"sources": [
+						{
+							"fileName": "src/services/types/drawer-canvas.ts",
+							"line": 40,
+							"character": 26
+						}
+					]
+				}
+			},
+			"order": 9999
+		},
+		"category": "Services.DrawerCanvas"
 	},
 	{
 		"type": "Interface",
@@ -22751,7 +23517,7 @@
 		"order": 9999,
 		"source": {
 			"fileName": "src/services/types/project.ts",
-			"line": 12,
+			"line": 19,
 			"character": 25
 		},
 		"properties": [
@@ -22920,7 +23686,7 @@
 				"name": "scene",
 				"type": {
 					"type": "reference",
-					"id": 3487,
+					"id": 3517,
 					"name": "IProjectScene"
 				},
 				"order": 9999
@@ -22929,7 +23695,7 @@
 				"name": "sequence",
 				"type": {
 					"type": "reference",
-					"id": 3466,
+					"id": 3496,
 					"name": "IProjectSequence"
 				},
 				"order": 9999
@@ -22954,7 +23720,8 @@
 				"order": 9999,
 				"bOptional": true
 			}
-		]
+		],
+		"category": "Services.Export/Import"
 	},
 	{
 		"type": "Interface",
@@ -22962,10 +23729,11 @@
 		"order": 9999,
 		"source": {
 			"fileName": "src/services/types/project.ts",
-			"line": 37,
+			"line": 47,
 			"character": 30
 		},
-		"properties": []
+		"properties": [],
+		"category": "Services.Export/Import"
 	},
 	{
 		"type": "Interface",
@@ -22973,7 +23741,7 @@
 		"order": 9999,
 		"source": {
 			"fileName": "src/services/types/project.ts",
-			"line": 60,
+			"line": 76,
 			"character": 35
 		},
 		"properties": [
@@ -23052,7 +23820,7 @@
 					"typeArguments": [
 						{
 							"type": "reference",
-							"id": 3507,
+							"id": 3538,
 							"name": "IProjectSceneChild"
 						}
 					],
@@ -23065,7 +23833,7 @@
 				"name": "data",
 				"type": {
 					"type": "reference",
-					"id": 3490,
+					"id": 3520,
 					"name": "IProjectSceneChildData"
 				},
 				"order": 9999
@@ -23126,7 +23894,7 @@
 				"name": "props",
 				"type": {
 					"type": "reference",
-					"id": 3523,
+					"id": 3554,
 					"name": "IProjectSceneChildDataProps"
 				},
 				"order": 9999
@@ -23168,7 +23936,8 @@
 				"order": 9999,
 				"bOptional": true
 			}
-		]
+		],
+		"category": "Services.Export/Import"
 	},
 	{
 		"type": "Interface",
@@ -23176,10 +23945,152 @@
 		"order": 9999,
 		"source": {
 			"fileName": "src/services/types/project.ts",
-			"line": 41,
+			"line": 54,
 			"character": 39
 		},
+		"extends": [
+			"ISceneChildDrawerData"
+		],
 		"properties": [
+			{
+				"name": "composite",
+				"type": {
+					"type": "union",
+					"types": [
+						{
+							"type": "stringLiteral",
+							"value": "source-over",
+							"order": 9999
+						},
+						{
+							"type": "stringLiteral",
+							"value": "source-in",
+							"order": 9999
+						},
+						{
+							"type": "stringLiteral",
+							"value": "source-out",
+							"order": 9999
+						},
+						{
+							"type": "stringLiteral",
+							"value": "source-atop",
+							"order": 9999
+						},
+						{
+							"type": "stringLiteral",
+							"value": "destination-over",
+							"order": 9999
+						},
+						{
+							"type": "stringLiteral",
+							"value": "destination-in",
+							"order": 9999
+						},
+						{
+							"type": "stringLiteral",
+							"value": "destination-out",
+							"order": 9999
+						},
+						{
+							"type": "stringLiteral",
+							"value": "destination-atop",
+							"order": 9999
+						},
+						{
+							"type": "stringLiteral",
+							"value": "lighter",
+							"order": 9999
+						},
+						{
+							"type": "stringLiteral",
+							"value": "copy",
+							"order": 9999
+						},
+						{
+							"type": "stringLiteral",
+							"value": "xor",
+							"order": 9999
+						},
+						{
+							"type": "stringLiteral",
+							"value": "multiply",
+							"order": 9999
+						},
+						{
+							"type": "stringLiteral",
+							"value": "screen",
+							"order": 9999
+						},
+						{
+							"type": "stringLiteral",
+							"value": "overlay",
+							"order": 9999
+						},
+						{
+							"type": "stringLiteral",
+							"value": "darken",
+							"order": 9999
+						},
+						{
+							"type": "stringLiteral",
+							"value": "lighten",
+							"order": 9999
+						},
+						{
+							"type": "stringLiteral",
+							"value": "color-dodge",
+							"order": 9999
+						},
+						{
+							"type": "stringLiteral",
+							"value": "color-burn",
+							"order": 9999
+						},
+						{
+							"type": "stringLiteral",
+							"value": "hard-light",
+							"order": 9999
+						},
+						{
+							"type": "stringLiteral",
+							"value": "soft-light",
+							"order": 9999
+						},
+						{
+							"type": "stringLiteral",
+							"value": "difference",
+							"order": 9999
+						},
+						{
+							"type": "stringLiteral",
+							"value": "exclusion",
+							"order": 9999
+						},
+						{
+							"type": "stringLiteral",
+							"value": "hue",
+							"order": 9999
+						},
+						{
+							"type": "stringLiteral",
+							"value": "saturation",
+							"order": 9999
+						},
+						{
+							"type": "stringLiteral",
+							"value": "color",
+							"order": 9999
+						},
+						{
+							"type": "stringLiteral",
+							"value": "luminosity",
+							"order": 9999
+						}
+					]
+				},
+				"order": 9999
+			},
 			{
 				"name": "disableGhost",
 				"type": {
@@ -23267,7 +24178,8 @@
 				},
 				"order": 9999
 			}
-		]
+		],
+		"category": "Services.Export/Import"
 	},
 	{
 		"type": "Interface",
@@ -23275,7 +24187,7 @@
 		"order": 9999,
 		"source": {
 			"fileName": "src/services/types/project.ts",
-			"line": 5,
+			"line": 9,
 			"character": 33
 		},
 		"properties": [
@@ -23311,7 +24223,8 @@
 				},
 				"order": 9999
 			}
-		]
+		],
+		"category": "Services.Export/Import"
 	},
 	{
 		"name": "IProjectSceneChildDataProps",
@@ -23319,7 +24232,7 @@
 		"order": 9999,
 		"source": {
 			"fileName": "src/services/types/project.ts",
-			"line": 50,
+			"line": 63,
 			"character": 39
 		},
 		"parameter": {
@@ -23338,7 +24251,8 @@
 				]
 			},
 			"order": 9999
-		}
+		},
+		"category": "Services.Export/Import"
 	},
 	{
 		"type": "Interface",
@@ -23346,7 +24260,7 @@
 		"order": 9999,
 		"source": {
 			"fileName": "src/services/types/renedrer.ts",
-			"line": 28,
+			"line": 40,
 			"character": 30
 		},
 		"properties": [
@@ -23354,7 +24268,7 @@
 				"name": "renderer:render-frame",
 				"type": {
 					"type": "reference",
-					"id": 4315,
+					"id": 4302,
 					"name": "IRenderFrame"
 				},
 				"order": 9999
@@ -23363,12 +24277,13 @@
 				"name": "renderer:start",
 				"type": {
 					"type": "reference",
-					"id": 4310,
+					"id": 4297,
 					"name": "IRenderStart"
 				},
 				"order": 9999
 			}
-		]
+		],
+		"category": "Services.Renderer"
 	},
 	{
 		"type": "Interface",
@@ -23376,7 +24291,7 @@
 		"order": 9999,
 		"source": {
 			"fileName": "src/services/types/renedrer.ts",
-			"line": 19,
+			"line": 28,
 			"character": 29
 		},
 		"properties": [
@@ -23428,7 +24343,8 @@
 				},
 				"order": 9999
 			}
-		]
+		],
+		"category": "Services.Renderer"
 	},
 	{
 		"type": "Interface",
@@ -23436,7 +24352,7 @@
 		"order": 9999,
 		"source": {
 			"fileName": "src/services/types/renedrer.ts",
-			"line": 4,
+			"line": 7,
 			"character": 32
 		},
 		"properties": [
@@ -23476,12 +24392,13 @@
 				"name": "type",
 				"type": {
 					"type": "reference",
-					"id": 4326,
+					"id": 4313,
 					"name": "TRenderType"
 				},
 				"order": 9999
 			}
-		]
+		],
+		"category": "Services.Renderer"
 	},
 	{
 		"type": "Interface",
@@ -23489,7 +24406,7 @@
 		"order": 9999,
 		"source": {
 			"fileName": "src/services/types/renedrer.ts",
-			"line": 12,
+			"line": 18,
 			"character": 29
 		},
 		"properties": [
@@ -23525,7 +24442,8 @@
 				},
 				"order": 9999
 			}
-		]
+		],
+		"category": "Services.Renderer"
 	},
 	{
 		"name": "TRenderImageType",
@@ -23591,7 +24509,7 @@
 		"order": 9999,
 		"source": {
 			"fileName": "src/services/types/scene-utilities.ts",
-			"line": 14,
+			"line": 17,
 			"character": 28
 		},
 		"parameter": {
@@ -23649,7 +24567,7 @@
 									{
 										"type": "reflection",
 										"declaration": {
-											"id": 3530,
+											"id": 3561,
 											"name": "__type",
 											"kind": 65536,
 											"kindString": "Type literal",
@@ -23658,7 +24576,7 @@
 											},
 											"children": [
 												{
-													"id": 3534,
+													"id": 3565,
 													"name": "data",
 													"kind": 32,
 													"kindString": "Variable",
@@ -23669,18 +24587,18 @@
 													"sources": [
 														{
 															"fileName": "src/services/types/scene-utilities.ts",
-															"line": 25,
+															"line": 28,
 															"character": 6
 														}
 													],
 													"type": {
 														"type": "reference",
-														"id": 3490,
+														"id": 3520,
 														"name": "IProjectSceneChildData"
 													}
 												},
 												{
-													"id": 3531,
+													"id": 3562,
 													"name": "id",
 													"kind": 32,
 													"kindString": "Variable",
@@ -23691,7 +24609,7 @@
 													"sources": [
 														{
 															"fileName": "src/services/types/scene-utilities.ts",
-															"line": 22,
+															"line": 25,
 															"character": 4
 														}
 													],
@@ -23710,7 +24628,7 @@
 													}
 												},
 												{
-													"id": 3532,
+													"id": 3563,
 													"name": "name",
 													"kind": 32,
 													"kindString": "Variable",
@@ -23721,7 +24639,7 @@
 													"sources": [
 														{
 															"fileName": "src/services/types/scene-utilities.ts",
-															"line": 23,
+															"line": 26,
 															"character": 6
 														}
 													],
@@ -23740,7 +24658,7 @@
 													}
 												},
 												{
-													"id": 3533,
+													"id": 3564,
 													"name": "order",
 													"kind": 32,
 													"kindString": "Variable",
@@ -23751,7 +24669,7 @@
 													"sources": [
 														{
 															"fileName": "src/services/types/scene-utilities.ts",
-															"line": 24,
+															"line": 27,
 															"character": 7
 														}
 													],
@@ -23775,17 +24693,17 @@
 													"title": "Variables",
 													"kind": 32,
 													"children": [
-														3534,
-														3531,
-														3532,
-														3533
+														3565,
+														3562,
+														3563,
+														3564
 													]
 												}
 											],
 											"sources": [
 												{
 													"fileName": "src/services/types/scene-utilities.ts",
-													"line": 21,
+													"line": 24,
 													"character": 18
 												}
 											]
@@ -23807,16 +24725,17 @@
 				]
 			},
 			"order": 9999
-		}
+		},
+		"category": "Services.SceneUtilities"
 	},
 	{
 		"type": "Interface",
-		"name": "SequenceMeta",
+		"name": "ISequenceMeta",
 		"order": 9999,
 		"source": {
 			"fileName": "src/services/types/timeline.ts",
-			"line": 11,
-			"character": 29
+			"line": 17,
+			"character": 30
 		},
 		"properties": [
 			{
@@ -23859,16 +24778,17 @@
 				},
 				"order": 9999
 			}
-		]
+		],
+		"category": "Services.Timeline"
 	},
 	{
 		"type": "Interface",
-		"name": "TimelineEvents",
+		"name": "ITimelineEvents",
 		"order": 9999,
 		"source": {
 			"fileName": "src/services/types/timeline.ts",
-			"line": 1,
-			"character": 31
+			"line": 4,
+			"character": 32
 		},
 		"properties": [
 			{
@@ -23903,7 +24823,7 @@
 								"sources": [
 									{
 										"fileName": "src/services/types/timeline.ts",
-										"line": 5,
+										"line": 8,
 										"character": 15
 									}
 								],
@@ -23923,7 +24843,7 @@
 								"sources": [
 									{
 										"fileName": "src/services/types/timeline.ts",
-										"line": 6,
+										"line": 9,
 										"character": 14
 									}
 								],
@@ -23943,7 +24863,7 @@
 								"sources": [
 									{
 										"fileName": "src/services/types/timeline.ts",
-										"line": 7,
+										"line": 10,
 										"character": 5
 									}
 								],
@@ -23967,7 +24887,7 @@
 						"sources": [
 							{
 								"fileName": "src/services/types/timeline.ts",
-								"line": 4,
+								"line": 7,
 								"character": 21
 							}
 						]
@@ -23980,10 +24900,11 @@
 				"type": {
 					"type": "reference",
 					"id": 3116,
-					"name": "SequenceMeta"
+					"name": "ISequenceMeta"
 				},
 				"order": 9999
 			}
-		]
+		],
+		"category": "Services.Timeline"
 	}
 ]

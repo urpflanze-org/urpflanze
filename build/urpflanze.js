@@ -1141,236 +1141,208 @@ __webpack_require__.r(__webpack_exports__);
  * Temporany matrix
  *
  * @internal
+ * @ignore
  */
 var MATRIX = new Array(4);
 /**
- * Create new vertex
+ * Vec2 operation
  *
- * @param {TArray | number} [x=0]
- * @param {number} [y]
- * @returns {TArray}
- * @internal
+ * @category Core.Utilities
  */
-var create = function (x, y) {
-    if (x === void 0) { x = 0; }
-    var out = new Array(2);
-    if (typeof x === 'number') {
-        out[0] = x;
-        out[1] = y !== null && y !== void 0 ? y : x;
-    }
-    else {
-        out[0] = x[0];
-        out[1] = x[1];
-    }
-    return out;
+var Vec2 = {
+    /**
+     * Create new vertex
+     *
+     * @param {Array<number> | number} [x=0]
+     * @param {number} [y]
+     * @returns {Array<number>}
+     */
+    create: function (x, y) {
+        if (x === void 0) { x = 0; }
+        var out = new Array(2);
+        if (typeof x === 'number') {
+            out[0] = x;
+            out[1] = y !== null && y !== void 0 ? y : x;
+        }
+        else {
+            out[0] = x[0];
+            out[1] = x[1];
+        }
+        return out;
+    },
+    /**
+     * Distance between two points
+     *
+     * @param {Array<number>} a
+     * @param {Array<number>} b
+     * @returns {number}
+     */
+    distance: function (a, b) { return Math.hypot(b[0] - a[0], b[1] - a[1]); },
+    /**
+     * dot product
+     *
+     * @param {Array<number>} a
+     * @param {Array<number>} b
+     * @returns {number}
+     */
+    dot: function (a, b) { return a[0] * b[0] + a[1] * b[1]; },
+    /**
+     * length of point
+     *
+     * @param {Array<number>} vec
+     * @returns {number}
+     */
+    length: function (vec) { return Math.hypot(vec[0], vec[1]); },
+    /**
+     * angle between two point
+     *
+     * @param {Array<number>} a
+     * @param {Array<number>} b
+     * @returns {number}
+     */
+    angle: function (a, b) {
+        var m = Vec2.length(a) * Vec2.length(b);
+        return Math.acos((0,_Utilites__WEBPACK_IMPORTED_MODULE_0__.clamp)(-1, 1, m && Vec2.dot(a, b) / m));
+    },
+    /**
+     * skewX point
+     *
+     * @param {Array<number>} vec
+     * @param {number} m
+     */
+    skewX: function (vec, m) {
+        vec[0] += Math.tan(m) * vec[1];
+    },
+    /**
+     * skewY point
+     *
+     * @param {Array<number>} vec
+     * @param {number} m
+     */
+    skewY: function (vec, m) {
+        vec[1] += Math.tan(m) * vec[0];
+    },
+    /**
+     * squeezeX point
+     *
+     * @param {Array<number>} vec
+     * @param {number} m
+     */
+    squeezeX: function (vec, m) {
+        vec[1] += vec[1] * (vec[0] * -m);
+    },
+    /**
+     * squeezeY point
+     *
+     * @param {Array<number>} vec
+     * @param {number} m
+     */
+    squeezeY: function (vec, m) {
+        vec[0] += vec[0] * (vec[1] * m);
+    },
+    /**
+     * Rotate point
+     *
+     * @param {Array<number>} vec
+     * @param {Array<number>} MATRIX
+     * @param {Array<number>} pointToRotate
+     * @internal
+     */
+    rotate: function (vec, MATRIX, pointToRotate) {
+        var p0 = vec[0] - pointToRotate[0];
+        var p1 = vec[1] - pointToRotate[1];
+        vec[0] = p0 * MATRIX[0] + p1 * MATRIX[1] + pointToRotate[0];
+        vec[1] = p0 * MATRIX[2] + p1 * MATRIX[3] + pointToRotate[1];
+    },
+    /**
+     * RotateX point
+     *
+     * @param {Array<number>} vec
+     * @param {Array<number>} pointToRotate
+     * @param {number} rad
+     */
+    rotateX: function (vec, pointToRotate, rad) {
+        MATRIX[0] = 1;
+        MATRIX[1] = 0;
+        MATRIX[2] = 0;
+        MATRIX[3] = Math.cos(rad);
+        Vec2.rotate(vec, MATRIX, pointToRotate);
+    },
+    /**
+     * RotateY point
+     *
+     * @param {Array<number>} vec
+     * @param {Array<number>} pointToRotate
+     * @param {number} rad
+     */
+    rotateY: function (vec, pointToRotate, rad) {
+        MATRIX[0] = Math.cos(rad);
+        MATRIX[1] = 0;
+        MATRIX[2] = 0;
+        MATRIX[3] = 1;
+        Vec2.rotate(vec, MATRIX, pointToRotate);
+    },
+    /**
+     * RotateZ point
+     *
+     * @param {Array<number>} vec
+     * @param {Array<number>} pointToRotate
+     * @param {number} rad
+     */
+    rotateZ: function (vec, pointToRotate, rad) {
+        MATRIX[0] = Math.cos(rad);
+        MATRIX[1] = -Math.sin(rad);
+        MATRIX[2] = Math.sin(rad);
+        MATRIX[3] = Math.cos(rad);
+        Vec2.rotate(vec, MATRIX, pointToRotate);
+    },
+    /**
+     * Translate vertex
+     *
+     * @param {Array<number>} vec
+     * @param {Array<number>} to
+     */
+    translate: function (vec, to) {
+        vec[0] += to[0];
+        vec[1] += to[1];
+    },
+    /**
+     * Scale vertex
+     *
+     * @param {Array<number>} vec
+     * @param {Array<number>} to
+     */
+    scale: function (vec, to) {
+        vec[0] *= to[0];
+        vec[1] *= to[1];
+    },
+    /**
+     * Scale vertex
+     *
+     * @param {Array<number>} vec
+     * @param {Array<number>} to
+     */
+    divide: function (vec, to) {
+        vec[0] /= to[0];
+        vec[1] /= to[1];
+    },
+    /**
+     * Vec to string
+     *
+     * @param {Array<number>} vec
+     * @return {string}
+     */
+    toString: function (vec) { return "x: " + vec[0] + ", y: " + vec[1]; },
+    /**
+     * Vertex [0, 0]
+     */
+    ZERO: Array.from([0, 0]),
+    /**
+     * Vertex [1, 1]
+     */
+    ONE: Array.from([1, 1]),
 };
-/**
- * Distance between two points
- *
- * @param {TArray} a
- * @param {TArray} b
- * @returns {number}
- * @internal
- */
-var distance = function (a, b) { return Math.hypot(b[0] - a[0], b[1] - a[1]); };
-/**
- * dot product
- *
- * @param {TArray} a
- * @param {TArray} b
- * @returns {number}
- * @internal
- */
-var dot = function (a, b) { return a[0] * b[0] + a[1] * b[1]; };
-/**
- * length of point
- *
- * @param {TArray} vec
- * @returns {number}
- * @internal
- */
-var length = function (vec) { return Math.hypot(vec[0], vec[1]); };
-/**
- * angle between two point
- *
- * @param {TArray} a
- * @param {TArray} b
- * @returns {number}
- * @internal
- */
-var angle = function (a, b) {
-    var m = length(a) * length(b);
-    return Math.acos((0,_Utilites__WEBPACK_IMPORTED_MODULE_0__.clamp)(-1, 1, m && dot(a, b) / m));
-};
-/**
- * skewX point
- *
- * @param {TArray} vec
- * @param {number} m
- * @internal
- */
-var skewX = function (vec, m) {
-    vec[0] += Math.tan(m) * vec[1];
-};
-/**
- * skewY point
- *
- * @param {TArray} vec
- * @param {number} m
- * @internal
- */
-var skewY = function (vec, m) {
-    vec[1] += Math.tan(m) * vec[0];
-};
-/**
- * squeezeX point
- *
- * @param {TArray} vec
- * @param {number} m
- * @internal
- */
-var squeezeX = function (vec, m) {
-    vec[1] += vec[1] * (vec[0] * -m);
-};
-/**
- * squeezeY point
- *
- * @param {TArray} vec
- * @param {number} m
- */
-var squeezeY = function (vec, m) {
-    vec[0] += vec[0] * (vec[1] * m);
-};
-/**
- * Rotate point
- *
- * @param {TArray} vec
- * @param {TArray} MATRIX
- * @param {TArray} pointToRotate
- * @internal
- */
-var rotate = function (vec, MATRIX, pointToRotate) {
-    var p0 = vec[0] - pointToRotate[0];
-    var p1 = vec[1] - pointToRotate[1];
-    vec[0] = p0 * MATRIX[0] + p1 * MATRIX[1] + pointToRotate[0];
-    vec[1] = p0 * MATRIX[2] + p1 * MATRIX[3] + pointToRotate[1];
-};
-/**
- * RotateX point
- *
- * @param {TArray} vec
- * @param {TArray} pointToRotate
- * @param {number} rad
- * @internal
- */
-var rotateX = function (vec, pointToRotate, rad) {
-    MATRIX[0] = 1;
-    MATRIX[1] = 0;
-    MATRIX[2] = 0;
-    MATRIX[3] = Math.cos(rad);
-    rotate(vec, MATRIX, pointToRotate);
-};
-/**
- * RotateY point
- *
- * @param {TArray} vec
- * @param {TArray} pointToRotate
- * @param {number} rad
- * @internal
- */
-var rotateY = function (vec, pointToRotate, rad) {
-    MATRIX[0] = Math.cos(rad);
-    MATRIX[1] = 0;
-    MATRIX[2] = 0;
-    MATRIX[3] = 1;
-    rotate(vec, MATRIX, pointToRotate);
-};
-/**
- * RotateZ point
- *
- * @param {TArray} vec
- * @param {TArray} pointToRotate
- * @param {number} rad
- * @internal
- */
-var rotateZ = function (vec, pointToRotate, rad) {
-    MATRIX[0] = Math.cos(rad);
-    MATRIX[1] = -Math.sin(rad);
-    MATRIX[2] = Math.sin(rad);
-    MATRIX[3] = Math.cos(rad);
-    rotate(vec, MATRIX, pointToRotate);
-};
-/**
- * Translate vertex
- *
- * @param {TArray} vec
- * @param {TArray} to
- * @internal
- */
-var translate = function (vec, to) {
-    vec[0] += to[0];
-    vec[1] += to[1];
-};
-/**
- * Scale vertex
- *
- * @param {TArray} vec
- * @param {TArray} to
- * @internal
- */
-var scale = function (vec, to) {
-    vec[0] *= to[0];
-    vec[1] *= to[1];
-};
-/**
- * Scale vertex
- *
- * @param {TArray} vec
- * @param {TArray} to
- * @internal
- */
-var divide = function (vec, to) {
-    vec[0] /= to[0];
-    vec[1] /= to[1];
-};
-/**
- * Vec to string
- *
- * @param {TArray} vec
- * @return {string}
- * @internal
- */
-var toString = function (vec) { return "x: " + vec[0] + ", y: " + vec[1]; };
-/**
- * Vertex [0, 0]
- * @internal
- */
-var ZERO = Array.from([0, 0]);
-/**
- * Vertex [1, 1]
- * @internal
- */
-var ONE = Array.from([1, 1]);
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-    create: create,
-    distance: distance,
-    dot: dot,
-    length: length,
-    angle: angle,
-    squeezeX: squeezeX,
-    squeezeY: squeezeY,
-    skewX: skewX,
-    skewY: skewY,
-    rotateX: rotateX,
-    rotateY: rotateY,
-    rotateZ: rotateZ,
-    translate: translate,
-    scale: scale,
-    divide: divide,
-    toString: toString,
-    ZERO: ZERO,
-    ONE: ONE,
-});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Vec2);
 //# sourceMappingURL=Vec2.js.map
 
 /***/ }),
@@ -1410,6 +1382,7 @@ var VEC2_ONE = [1, 1];
  * Skew matrix
  *
  * @internal
+ * @ignore
  */
 function fromSkew(out, skew) {
     out[0] = 1;
@@ -1434,6 +1407,7 @@ function fromSkew(out, skew) {
  * number to vec 2
  *
  * @internal
+ * @ignore
  */
 function toVec2(x) {
     if (Array.isArray(x))
@@ -1444,6 +1418,7 @@ function toVec2(x) {
  * number to vec 3
  *
  * @internal
+ * @ignore
  */
 function toVec3(x, defaultZValue) {
     if (defaultZValue === void 0) { defaultZValue = 0; }
@@ -3872,7 +3847,7 @@ var EShapePrimitiveAdaptMode;
 /*! export ShapePrimitive [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/ShapePrimitive.js .default */
 /*! export Spiral [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/Spiral.js .default */
 /*! export Triangle [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/Triangle.js .default */
-/*! export Vec2 [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] */
+/*! export Vec2 [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/math/Vec2.js .default */
 /*! export clamp [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .clamp */
 /*! export relativeClamp [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .relativeClamp */
 /*! export toDegrees [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .toDegrees */
@@ -3903,7 +3878,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "relativeClamp": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_15__.relativeClamp,
 /* harmony export */   "toDegrees": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_15__.toDegrees,
 /* harmony export */   "toRadians": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_15__.toRadians,
-/* harmony export */   "Vec2": () => /* binding */ Vec2,
+/* harmony export */   "Vec2": () => /* reexport safe */ _core_math_Vec2__WEBPACK_IMPORTED_MODULE_16__.default,
 /* harmony export */   "Context": () => /* reexport safe */ _core_Context__WEBPACK_IMPORTED_MODULE_17__.default,
 /* harmony export */   "DrawerCanvas": () => /* reexport safe */ _services_drawer_canvas_DrawerCanvas__WEBPACK_IMPORTED_MODULE_18__.default,
 /* harmony export */   "Animation": () => /* reexport safe */ _services_animation_Simple__WEBPACK_IMPORTED_MODULE_19__.default
@@ -3943,7 +3918,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-// export * from '@core/shapes/primitives/Heart'
 
 
 
@@ -3951,7 +3925,6 @@ __webpack_require__.r(__webpack_exports__);
 // Utilities
 
 
-var Vec2 = _core_math_Vec2__WEBPACK_IMPORTED_MODULE_16__.default;
 
 /**
  * Services
@@ -3992,7 +3965,7 @@ var Vec2 = _core_math_Vec2__WEBPACK_IMPORTED_MODULE_16__.default;
 /*! export ShapePrimitive [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/ShapePrimitive.js .default */
 /*! export Spiral [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/Spiral.js .default */
 /*! export Triangle [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/Triangle.js .default */
-/*! export Vec2 [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/index-light.js .Vec2 */
+/*! export Vec2 [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/core/math/Vec2.js .default */
 /*! export clamp [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .clamp */
 /*! export relativeClamp [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .relativeClamp */
 /*! export toDegrees [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .toDegrees */
@@ -5037,8 +5010,8 @@ var DrawerCanvas = /** @class */ (function (_super) {
      * Set draw option
      *
      * @template K
-     * @param {(K | DrawOptions)} name
-     * @param {Required<DrawOptions>[K]} [value]
+     * @param {(K | IDrawOptions)} name
+     * @param {Required<IDrawOptions>[K]} [value]
      * @memberof CanvasDrawer
      */
     DrawerCanvas.prototype.setOption = function (name, value) {
@@ -5059,8 +5032,8 @@ var DrawerCanvas = /** @class */ (function (_super) {
      *
      * @template K
      * @param {K} name
-     * @param {DrawOptions[K]} default_value
-     * @returns {DrawOptions[K]}
+     * @param {IDrawOptions[K]} default_value
+     * @returns {IDrawOptions[K]}
      * @memberof DrawerCanvas
      */
     DrawerCanvas.prototype.getOption = function (name, default_value) {
@@ -5333,10 +5306,14 @@ var DrawerCanvas = /** @class */ (function (_super) {
             }
             var logFillColorWarn_1 = false;
             var logStrokeColorWarn_1 = false;
+            context.globalCompositeOperation = 'source-over';
             scene.stream(function (_a) {
                 var lineWidth = _a.lineWidth, strokeColor = _a.strokeColor, fillColor = _a.fillColor, shape = _a.shape, buffer = _a.buffer, frame_length = _a.frame_length, frame_buffer_index = _a.frame_buffer_index;
                 if (shape.data && (shape.data.visible === false || (bGhost_1 && shape.data.disableGhost === true)))
                     return;
+                if (shape.data && shape.data.composite) {
+                    context.globalCompositeOperation = shape.data.composite;
+                }
                 context.beginPath();
                 context.moveTo((buffer[frame_buffer_index] - width_1 / 2) * final_scale_1[0] + final_translate_1[0], (buffer[frame_buffer_index + 1] - height_1 / 2) * final_scale_1[1] + final_translate_1[1]);
                 for (var i = 2; i < frame_length; i += 2) {
@@ -5391,6 +5368,9 @@ var DrawerCanvas = /** @class */ (function (_super) {
                     context.strokeStyle = strokeColor;
                     context.stroke();
                 }
+                if (shape.data && shape.data.composite) {
+                    context.globalCompositeOperation = 'source-over';
+                }
             });
         }
         var end_time = (0,_Utilites__WEBPACK_IMPORTED_MODULE_5__.now)();
@@ -5420,7 +5400,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /**
  *
- * @category Services.DrawerCavnas
+ * @category Services.DrawerCanvas
  * @class FrameBuffer
  */
 var FrameBuffer = /** @class */ (function () {
@@ -7017,7 +6997,7 @@ var __spreadArrays = (undefined && undefined.__spreadArrays) || function () {
 
 /**
  *
- * @category Services.Scene Utilities
+ * @category Services.SceneUtilities
  * @class SceneUtilities
  */
 var SceneUtilities = /** @class */ (function () {
@@ -7561,7 +7541,7 @@ var __assign = (undefined && undefined.__assign) || function () {
  *
  * @category Services.Timeline
  * @class Timeline
- * @extends {Emitter<TimelineEvents>}
+ * @extends {Emitter<ITimelineEvents>}
  */
 var Timeline = /** @class */ (function (_super) {
     __extends(Timeline, _super);

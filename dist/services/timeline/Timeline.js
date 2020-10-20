@@ -28,7 +28,7 @@ import { now } from "../../Utilites";
  *
  * @category Services.Timeline
  * @class Timeline
- * @extends {Emitter<TimelineEvents>}
+ * @extends {Emitter<ITimelineEvents>}
  */
 var Timeline = /** @class */ (function (_super) {
     __extends(Timeline, _super);

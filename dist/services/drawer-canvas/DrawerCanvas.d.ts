@@ -2,14 +2,14 @@ import Scene from "../../core/Scene";
 import Timeline from "../timeline/Timeline";
 import FrameBuffer from "./FrameBuffer";
 import Emitter from "../events/Emitter";
-import { DrawerCanvasEvents, DrawOptions } from "../types/drawer-canvas";
+import { IDrawerCanvasEvents, IDrawOptions } from "../types/drawer-canvas";
 /**
  *
  * @category Services
  * @class DrawerCanvas
  * @extends {Emitter<DrawerCanvasEvents>}
  */
-declare class DrawerCanvas extends Emitter<DrawerCanvasEvents> {
+declare class DrawerCanvas extends Emitter<IDrawerCanvasEvents> {
     private scene;
     private canvas;
     private resolution;
@@ -22,7 +22,7 @@ declare class DrawerCanvas extends Emitter<DrawerCanvasEvents> {
     private timeline;
     private bBuffering;
     buffer: FrameBuffer;
-    constructor(scene?: Scene, canvasOrContainer?: HTMLElement | HTMLCanvasElement | OffscreenCanvas, drawOptions?: DrawOptions, ratio?: number | undefined, resolution?: number, bBuffering?: boolean);
+    constructor(scene?: Scene, canvasOrContainer?: HTMLElement | HTMLCanvasElement | OffscreenCanvas, drawOptions?: IDrawOptions, ratio?: number | undefined, resolution?: number, bBuffering?: boolean);
     setBuffering(bBuffering: boolean): void;
     getBBuffering(): boolean;
     /**
@@ -115,28 +115,28 @@ declare class DrawerCanvas extends Emitter<DrawerCanvasEvents> {
      * Set draw option
      *
      * @template K
-     * @param {(K | DrawOptions)} name
-     * @param {Required<DrawOptions>[K]} [value]
+     * @param {(K | IDrawOptions)} name
+     * @param {Required<IDrawOptions>[K]} [value]
      * @memberof CanvasDrawer
      */
-    setOption<K extends keyof DrawOptions>(name: K | DrawOptions, value?: Required<DrawOptions>[K]): void;
+    setOption<K extends keyof IDrawOptions>(name: K | IDrawOptions, value?: Required<IDrawOptions>[K]): void;
     /**
      *
      *
      * @template K
      * @param {K} name
-     * @param {DrawOptions[K]} default_value
-     * @returns {DrawOptions[K]}
+     * @param {IDrawOptions[K]} default_value
+     * @returns {IDrawOptions[K]}
      * @memberof DrawerCanvas
      */
-    getOption<K extends keyof DrawOptions>(name: K, default_value?: DrawOptions[K]): DrawOptions[K];
+    getOption<K extends keyof IDrawOptions>(name: K, default_value?: IDrawOptions[K]): IDrawOptions[K];
     /**
      *
      *
      * @returns {DrawOptions}
      * @memberof DrawerCanvas
      */
-    getOptions(): DrawOptions;
+    getOptions(): IDrawOptions;
     /**
      * Internal tick animation
      *
@@ -192,7 +192,7 @@ declare class DrawerCanvas extends Emitter<DrawerCanvasEvents> {
      * @returns {number}
      * @memberof DrawerCanvas
      */
-    static draw(scene: Scene, context: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D | null, options: DrawOptions, resolution?: number): number;
+    static draw(scene: Scene, context: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D | null, options: IDrawOptions, resolution?: number): number;
 }
 export default DrawerCanvas;
 //# sourceMappingURL=DrawerCanvas.d.ts.map

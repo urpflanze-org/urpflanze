@@ -28,7 +28,7 @@ import ScenePropUtilities from "./ScenePropUtilities";
 import Animation from "../animation/Animation";
 /**
  *
- * @category Services.Scene Utilities
+ * @category Services.SceneUtilities
  * @class SceneUtilities
  */
 var SceneUtilities = /** @class */ (function () {

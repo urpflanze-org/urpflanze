@@ -1,7 +1,7 @@
 import Scene from '@core/Scene'
 import SceneChild from '@core/SceneChild'
 import DrawerCanvas from '@services/drawer-canvas/DrawerCanvas'
-import { DrawOptions } from '@services/types/drawer-canvas'
+import { IDrawOptions } from '@services/types/drawer-canvas'
 import { IRenderSettings } from '@services/types/renedrer'
 
 const DEFAULT_SETTINGS = {
@@ -26,7 +26,7 @@ class SVGExporter {
 
 		const all_parts: Array<Array<string>> = []
 
-		const drawOptions: DrawOptions = { ...drawer.getOptions() }
+		const drawOptions: IDrawOptions = { ...drawer.getOptions() }
 
 		if (drawOptions.ghosts) {
 			const time = timeline.getTime()
@@ -91,7 +91,7 @@ class SVGExporter {
 		return result.join('\n')
 	}
 
-	static draw(scene: Scene, options: DrawOptions, resolution: number, decimals: number): Array<string> {
+	static draw(scene: Scene, options: IDrawOptions, resolution: number, decimals: number): Array<string> {
 		const scale: number = options.scale ?? 1
 		const translate: Array<number> = options.translate ?? [0, 0]
 		const time: number = options.time ?? 0

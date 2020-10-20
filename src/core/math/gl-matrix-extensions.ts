@@ -9,6 +9,7 @@ export const VEC2_ONE: vec2 = [1, 1]
  * Skew matrix
  *
  * @internal
+ * @ignore
  */
 export function fromSkew(out: mat4, skew: [number, number]) {
 	out[0] = 1
@@ -34,6 +35,7 @@ export function fromSkew(out: mat4, skew: [number, number]) {
  * number to vec 2
  *
  * @internal
+ * @ignore
  */
 export function toVec2(x: number | Array<number>): vec2 {
 	if (Array.isArray(x)) return [x[0], x[1]]
@@ -44,6 +46,7 @@ export function toVec2(x: number | Array<number>): vec2 {
  * number to vec 3
  *
  * @internal
+ * @ignore
  */
 export function toVec3(x: number | Array<number>, defaultZValue = 0): vec3 {
 	if (Array.isArray(x)) return [x[0], x[1], defaultZValue]

@@ -5,9 +5,10 @@ import SceneChildPropsData, {
 	ISceneChildPropData,
 	TSceneChildPropsDataKeys,
 } from '@services/scene-utilities/SceneChildPropsData'
-import { IShapeLoop, TAnimation, TDrawerTransformation, TDrawerValue } from '@services/types/animation'
+import { IShapeLoopAnimation, TAnimation } from '@services/types/animation'
 import { IShapeLoopGenerator, TShapeLoopGeneratorFormula } from '@core/types/shape-primitive'
 import { TVertexCallback } from '@core/types/shape-base'
+import { TDrawerTransformation, TDrawerValue } from '@services/types/drawer-canvas'
 
 /**
  *
@@ -51,7 +52,7 @@ class ScenePropUtilities {
 		}
 	}
 
-	static composeLoop(loop: IShapeLoop): IShapeLoopGenerator {
+	static composeLoop(loop: IShapeLoopAnimation): IShapeLoopGenerator {
 		const vertex = loop.vertex.raw
 			? (new Function(
 					'index',

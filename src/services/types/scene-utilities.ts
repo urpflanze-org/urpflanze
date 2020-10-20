@@ -11,6 +11,9 @@ import {
 } from '@core/types/shape-primitive'
 import { IShapeSettings } from '@core/types/shape-base'
 
+/**
+ * @category Services.SceneUtilities
+ */
 export type TSceneChildProps = Omit<
 	(IShapeLoopSettings &
 		IShapeBufferSettings &

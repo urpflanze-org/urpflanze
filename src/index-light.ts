@@ -17,7 +17,6 @@ export { default as Circle } from '@core/shapes/primitives/Circle'
 export { default as Rose } from '@core/shapes/primitives/Rose'
 export { default as Spiral } from '@core/shapes/primitives/Spiral'
 export { default as Lissajous } from '@core/shapes/primitives/Lissajous'
-// export * from '@core/shapes/primitives/Heart'
 
 export { default as Shape } from '@core/shapes/Shape'
 export { default as ShapePrimitive } from '@core/shapes/ShapePrimitive'
@@ -27,9 +26,7 @@ export { default as ShapeBuffer } from '@core/shapes/ShapeBuffer'
 // Utilities
 export { clamp, relativeClamp, toDegrees, toRadians } from 'src/Utilites'
 
-import * as vec2 from '@core/math/Vec2'
-
-export const Vec2 = vec2.default
+export { default as Vec2 } from '@core/math/Vec2'
 
 export { default as Context } from '@core/Context'
 

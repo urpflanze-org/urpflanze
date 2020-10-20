@@ -26,15 +26,15 @@ import DrawerCanvas from '@services/drawer-canvas/DrawerCanvas'
 import SceneChildPropsData, { TSceneChildPropsDataKeys } from '@services/scene-utilities/SceneChildPropsData'
 import ScenePropUtilities from '@services/scene-utilities/ScenePropUtilities'
 import Animation from '@services/animation/Animation'
-import { IShapeLoop } from '@services/types/animation'
 import { TSceneChildProps } from '@services/types/scene-utilities'
 import { ISceneChildProps } from '@core/types/scene-child'
+import { IShapeLoopAnimation } from '@services/types/animation'
 
 export type SceneChildInstance = new (props: any) => SceneChild
 
 /**
  *
- * @category Services.Scene Utilities
+ * @category Services.SceneUtilities
  * @class SceneUtilities
  */
 class SceneUtilities {
@@ -515,7 +515,7 @@ class SceneUtilities {
 			if (sceneChild instanceof ShapeLoop && ScenePropUtilities.bValueLoop(value)) {
 				sceneChild.data.props.loop = value
 				sceneChild.setProp('loop', ScenePropUtilities.composeLoop(value))
-				const dynamic = (value as IShapeLoop).dynamyc
+				const dynamic = (value as IShapeLoopAnimation).dynamyc
 				const realDynamic = (sceneChild as ShapeLoop).shapeLoopPropsDependencies.indexOf('prop_argumens') >= 0
 
 				if (dynamic !== realDynamic) {

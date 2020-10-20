@@ -1,6 +1,9 @@
 export type TRenderImageType = 'image/png' | 'image/jpeg'
 export type TRenderType = TRenderImageType | 'image/svg+xml'
 
+/**
+ * @category Services.Renderer
+ */
 export interface IRenderSettings {
 	size: number
 	quality: number // 0 - 1
@@ -9,6 +12,9 @@ export interface IRenderSettings {
 	noBackground: boolean
 }
 
+/**
+ * @category Services.Renderer
+ */
 export interface IRenderStart {
 	estimated_time: number
 	total_frames: number
@@ -16,6 +22,9 @@ export interface IRenderStart {
 	forPart: number
 }
 
+/**
+ * @category Services.Renderer
+ */
 export interface IRenderFrame {
 	frame: number
 	part: number
@@ -25,6 +34,9 @@ export interface IRenderFrame {
 	render_time: number
 }
 
+/**
+ * @category Services.Renderer
+ */
 export interface IRenderEvents {
 	'renderer:start': IRenderStart
 	'renderer:render-frame': IRenderFrame

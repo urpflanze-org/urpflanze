@@ -1,5 +1,8 @@
-export interface TimelineEvents {
-    'timeline:update_sequence': SequenceMeta;
+/**
+ * @category Services.Timeline
+ */
+export interface ITimelineEvents {
+    'timeline:update_sequence': ISequenceMeta;
     'timeline:change_status': string;
     'timeline:progress': {
         current_frame: number;
@@ -7,7 +10,10 @@ export interface TimelineEvents {
         fps: number;
     };
 }
-export interface SequenceMeta {
+/**
+ * @category Services.Timeline
+ */
+export interface ISequenceMeta {
     start: number;
     end: number;
     durate: number;

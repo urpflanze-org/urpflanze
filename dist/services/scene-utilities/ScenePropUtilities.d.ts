@@ -1,8 +1,9 @@
 import DrawerCanvas from "../drawer-canvas/DrawerCanvas";
 import { TSceneChildPropsDataKeys } from "./SceneChildPropsData";
-import { IShapeLoop, TAnimation, TDrawerTransformation, TDrawerValue } from "../types/animation";
+import { IShapeLoopAnimation, TAnimation } from "../types/animation";
 import { IShapeLoopGenerator } from "../../core/types/shape-primitive";
 import { TVertexCallback } from "../../core/types/shape-base";
+import { TDrawerTransformation, TDrawerValue } from "../types/drawer-canvas";
 /**
  *
  * @category Services.Scene Utilities
@@ -14,7 +15,7 @@ declare class ScenePropUtilities {
     static bValueLoop(value: any): boolean;
     static bValueVertexCallback(value: any): boolean;
     static composeVertexCallback(value: any): TVertexCallback | undefined;
-    static composeLoop(loop: IShapeLoop): IShapeLoopGenerator;
+    static composeLoop(loop: IShapeLoopAnimation): IShapeLoopGenerator;
     static bValueAnimation(value: TAnimation | any): boolean;
     static bValueDrawer(value: TDrawerValue | any): boolean;
     static bPropTransformable(name: string, value: any): boolean;

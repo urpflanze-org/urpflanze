@@ -8,7 +8,7 @@ import { TEasing } from '@services/animation/Easings'
  * @interface ICallableValue
  * @template T
  */
-export interface ICallableValue<T> {
+export interface ICallableValue<T> /* eslint-disable-line no-eval */ {
 	/**
 	 * raw function (string) return T
 	 *
@@ -24,19 +24,14 @@ export interface ICallableValue<T> {
  */
 export type TCallableValue<T> = T | ICallableValue<T>
 
-/**
- * @category Services.Animation
- */
-export type TDrawerTransformation = 'none' | 'angle' | 'resolution-based' | 'resolution-scaled-based'
-
-export type TDrawerValue = {
-	type: 'drawer-transformation'
-	value: any
-}
-
 //////////////////////////
 
-export interface IShapeLoop {
+/**
+ *
+ *
+ * @category Services.Animation
+ */
+export interface IShapeLoopAnimation {
 	start: TCallableValue<number>
 	end: TCallableValue<number>
 	inc: TCallableValue<number>
@@ -46,27 +41,52 @@ export interface IShapeLoop {
 
 //////////////////////////
 
-export interface IVertexCallback extends ICallableValue<Array<number> | Float32Array> {
+/**
+ *
+ * @category Services.Animation
+ */
+export interface IVertexCallbackAnimation extends ICallableValue<Array<number> | Float32Array> {
 	dynamic: boolean // set bUseParent at true
 }
 
 //////////////////////////
 
+/**
+ *
+ * @category Services.Animation
+ */
 interface IAnimationSimple {
 	type: 'simple'
 	value: ISimpleAnimation
 }
 
+/**
+ *
+ * @category Services.Animation
+ */
 interface IAnimationRaw {
 	type: 'raw'
 	value: IRawState
 }
 
+/**
+ * @category Services.Animation
+ */
 export type TAnimation = IAnimationSimple | IAnimationRaw
 
+/**
+ * @category Services.Animation
+ */
 export type TModeFunction = TEasing | 'sin' | 'cos'
+
+/**
+ * @category Services.Animation
+ */
 export type TSimpleAnimationType = 'loop' | 'uncontrolled-loop' | 'static'
 
+/**
+ * @category Services.Animation
+ */
 export interface ISimpleAnimation {
 	from: number | Array<number> | string
 	to: number | Array<number> | string
@@ -82,8 +102,22 @@ export interface ISimpleAnimation {
 	colorTransitionMode?: 'hue' | 'rgb'
 }
 
+/**
+ * @category Services.Animation
+ */
 export type TSimpleAnimationLoop = Omit<ISimpleAnimation, 'delay' | 'type'>
+
+/**
+ * @category Services.Animation
+ */
 export type TSimpleAnimationUncontrolledLoop = Omit<ISimpleAnimation, 'type'>
+
+/**
+ * @category Services.Animation
+ */
 export type TSimpleAnimationStatic = Omit<ISimpleAnimation, 'type'>
 
+/**
+ * @category Services.Animation
+ */
 export interface IRawState extends ICallableValue<number | Array<number> | Float32Array | string> {}

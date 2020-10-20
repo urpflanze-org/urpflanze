@@ -1,12 +1,12 @@
 import Emitter from "../events/Emitter";
-import { SequenceMeta, TimelineEvents } from "../types/timeline";
+import { ISequenceMeta, ITimelineEvents } from "../types/timeline";
 /**
  *
  * @category Services.Timeline
  * @class Timeline
- * @extends {Emitter<TimelineEvents>}
+ * @extends {Emitter<ITimelineEvents>}
  */
-declare class Timeline extends Emitter<TimelineEvents> {
+declare class Timeline extends Emitter<ITimelineEvents> {
     static START: string;
     static PAUSE: string;
     static STOP: string;
@@ -34,7 +34,7 @@ declare class Timeline extends Emitter<TimelineEvents> {
      * @returns {Sequence}
      * @memberof Timeline
      */
-    getSequence(): SequenceMeta;
+    getSequence(): ISequenceMeta;
     /**
      * Set sequence
      *

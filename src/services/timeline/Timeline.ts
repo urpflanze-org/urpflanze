@@ -1,14 +1,14 @@
 import Emitter from '@services/events/Emitter'
-import { SequenceMeta, TimelineEvents } from '@services/types/timeline'
+import { ISequenceMeta, ITimelineEvents } from '@services/types/timeline'
 import { now } from 'src/Utilites'
 
 /**
  *
  * @category Services.Timeline
  * @class Timeline
- * @extends {Emitter<TimelineEvents>}
+ * @extends {Emitter<ITimelineEvents>}
  */
-class Timeline extends Emitter<TimelineEvents> {
+class Timeline extends Emitter<ITimelineEvents> {
 	static START = 'start'
 	static PAUSE = 'pause'
 	static STOP = 'stop'
@@ -27,7 +27,7 @@ class Timeline extends Emitter<TimelineEvents> {
 
 	private b_sequence_started: boolean
 
-	private sequence: SequenceMeta
+	private sequence: ISequenceMeta
 
 	/**
 	 * Class used for time and rendering managment
@@ -70,7 +70,7 @@ class Timeline extends Emitter<TimelineEvents> {
 	 * @returns {Sequence}
 	 * @memberof Timeline
 	 */
-	public getSequence(): SequenceMeta {
+	public getSequence(): ISequenceMeta {
 		return { ...this.sequence }
 	}
 

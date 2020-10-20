@@ -5,7 +5,7 @@ import { TSceneChildProps } from "../types/scene-utilities";
 export declare type SceneChildInstance = new (props: any) => SceneChild;
 /**
  *
- * @category Services.Scene Utilities
+ * @category Services.SceneUtilities
  * @class SceneUtilities
  */
 declare class SceneUtilities {

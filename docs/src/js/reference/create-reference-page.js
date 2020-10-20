@@ -5,6 +5,7 @@ import {
 	printDescription,
 	printFunctionExample,
 	printFunctions,
+	printVariables,
 	resolveType,
 	resolveTypeParameter,
 } from './create-page-utility'

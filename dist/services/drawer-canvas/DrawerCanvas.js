@@ -276,8 +276,8 @@ var DrawerCanvas = /** @class */ (function (_super) {
      * Set draw option
      *
      * @template K
-     * @param {(K | DrawOptions)} name
-     * @param {Required<DrawOptions>[K]} [value]
+     * @param {(K | IDrawOptions)} name
+     * @param {Required<IDrawOptions>[K]} [value]
      * @memberof CanvasDrawer
      */
     DrawerCanvas.prototype.setOption = function (name, value) {
@@ -298,8 +298,8 @@ var DrawerCanvas = /** @class */ (function (_super) {
      *
      * @template K
      * @param {K} name
-     * @param {DrawOptions[K]} default_value
-     * @returns {DrawOptions[K]}
+     * @param {IDrawOptions[K]} default_value
+     * @returns {IDrawOptions[K]}
      * @memberof DrawerCanvas
      */
     DrawerCanvas.prototype.getOption = function (name, default_value) {
@@ -572,10 +572,14 @@ var DrawerCanvas = /** @class */ (function (_super) {
             }
             var logFillColorWarn_1 = false;
             var logStrokeColorWarn_1 = false;
+            context.globalCompositeOperation = 'source-over';
             scene.stream(function (_a) {
                 var lineWidth = _a.lineWidth, strokeColor = _a.strokeColor, fillColor = _a.fillColor, shape = _a.shape, buffer = _a.buffer, frame_length = _a.frame_length, frame_buffer_index = _a.frame_buffer_index;
                 if (shape.data && (shape.data.visible === false || (bGhost_1 && shape.data.disableGhost === true)))
                     return;
+                if (shape.data && shape.data.composite) {
+                    context.globalCompositeOperation = shape.data.composite;
+                }
                 context.beginPath();
                 context.moveTo((buffer[frame_buffer_index] - width_1 / 2) * final_scale_1[0] + final_translate_1[0], (buffer[frame_buffer_index + 1] - height_1 / 2) * final_scale_1[1] + final_translate_1[1]);
                 for (var i = 2; i < frame_length; i += 2) {
@@ -629,6 +633,9 @@ var DrawerCanvas = /** @class */ (function (_super) {
                     context.lineWidth = fixedLineWidth_1 ? lineWidth : lineWidth * scale_1;
                     context.strokeStyle = strokeColor;
                     context.stroke();
+                }
+                if (shape.data && shape.data.composite) {
+                    context.globalCompositeOperation = 'source-over';
                 }
             });
         }
