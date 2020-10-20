@@ -88,7 +88,7 @@ abstract class ShapeBase extends SceneChild {
 	 * @internal
 	 * @ignore
 	 */
-	private generate_id: number = -1
+	private generate_id = -1
 
 	/**
 	 * A final array of vertices to draw
@@ -120,7 +120,7 @@ abstract class ShapeBase extends SceneChild {
 	 * @internal
 	 * @ignore
 	 */
-	protected bIndexed: boolean = false
+	protected bIndexed = false
 
 	/**
 	 * With this parameter the shape will be created at each repetition,
@@ -296,7 +296,7 @@ abstract class ShapeBase extends SceneChild {
 	 * @param {boolean} [bClearIndexed=false]
 	 * @memberof ShapeBase
 	 */
-	public setProp(key: keyof ISceneChildProps | ISceneChildProps, value?: any, bClearIndexed: boolean = false): void {
+	public setProp(key: keyof ISceneChildProps | ISceneChildProps, value?: any, bClearIndexed = false): void {
 		if (typeof key == 'string') {
 			bClearIndexed = bClearIndexed || key == 'repetitions'
 			this.props[key] = value
@@ -318,7 +318,7 @@ abstract class ShapeBase extends SceneChild {
 	 * @param {boolean} [bPropagateToChildren=false]
 	 * @memberof ShapeBase
 	 */
-	public clearBuffer(bClearIndexed: boolean = false, bPropagateToParents: boolean = true) {
+	public clearBuffer(bClearIndexed = false, bPropagateToParents = true): void {
 		this.buffer = undefined
 
 		if (bClearIndexed) {
@@ -344,7 +344,7 @@ abstract class ShapeBase extends SceneChild {
 	 */
 	public generate(
 		generate_id: number,
-		bDirectSceneChild: boolean = false,
+		bDirectSceneChild = false,
 		parent_prop_arguments?: ISceneChildPropArguments
 	): void {
 		if (!this.scene || (this.buffer && (this.bStatic || (generate_id === this.generate_id && !this.bUseParent)))) {
@@ -596,7 +596,7 @@ abstract class ShapeBase extends SceneChild {
 	 * @memberof ShapeBase
 	 */
 	public getRepetitionCount(): number {
-		let repetitions = this.getProp('repetitions', undefined, 1)
+		const repetitions = this.getProp('repetitions', undefined, 1)
 
 		return Array.isArray(repetitions) ? repetitions[0] * (repetitions[1] ?? repetitions[0]) : repetitions
 	}

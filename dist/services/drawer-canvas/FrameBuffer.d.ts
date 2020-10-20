@@ -5,7 +5,6 @@
  */
 declare class FrameBuffer {
     private frames;
-    constructor();
     exist(frameNumber: number): boolean;
     get(frameNumber: number): ImageData | null;
     count(): number;

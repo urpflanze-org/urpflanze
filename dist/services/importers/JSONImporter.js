@@ -1,3 +1,14 @@
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 import Scene from "../../core/Scene";
 import DrawerCanvas from "../drawer-canvas/DrawerCanvas";
 import { parseFunction } from "../../Utilites";
@@ -8,16 +19,18 @@ import { v1 as uuidv1 } from 'uuid';
  * @category Services
  * @class JSONImporter
  */
-class JSONImporter {
-    parse(project_json) {
+var JSONImporter = /** @class */ (function () {
+    function JSONImporter() {
+    }
+    JSONImporter.prototype.parse = function (project_json) {
         var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
         if (!project_json)
             return null;
-        const parsed = project_json && project_json.length > 0 ? JSON.parse(project_json) : {};
+        var parsed = project_json && project_json.length > 0 ? JSON.parse(project_json) : {};
         if (!('scene' in parsed))
             return null;
-        const emptyProject = JSONImporter.createEmptyProject();
-        const project = {
+        var emptyProject = JSONImporter.createEmptyProject();
+        var project = {
             id: (_a = parsed.id) !== null && _a !== void 0 ? _a : emptyProject.id,
             name: (_b = parsed.name) !== null && _b !== void 0 ? _b : emptyProject.name,
             width: (_c = parsed.width) !== null && _c !== void 0 ? _c : emptyProject.width,
@@ -31,35 +44,35 @@ class JSONImporter {
             ghost_skip_function: (_l = parsed.ghost_skip_function) !== null && _l !== void 0 ? _l : emptyProject.ghost_skip_function,
             ratio: (_m = parsed.ratio) !== null && _m !== void 0 ? _m : emptyProject.ratio,
             scene: parsed.scene || emptyProject.scene,
-            sequence: Object.assign(Object.assign({}, emptyProject.sequence), parsed.sequence),
+            sequence: __assign(__assign({}, emptyProject.sequence), parsed.sequence),
         };
         project.sequence.durate = project.sequence.end - project.sequence.start;
-        const drawOptions = {
+        var drawOptions = {
             clearCanvas: project.clearCanvas,
             ghosts: project.ghosts,
             ghost_skip_time: parseFunction.unparse(project.ghost_skip_time),
         };
-        const scene = new Scene({
+        var scene = new Scene({
             mainColor: project.mainColor,
             background: project.background,
             width: project.width,
             height: project.height,
         });
-        const drawer = new DrawerCanvas(scene, undefined, drawOptions, project.ratio, project.resolution);
-        const timeline = drawer.getTimeline();
+        var drawer = new DrawerCanvas(scene, undefined, drawOptions, project.ratio, project.resolution);
+        var timeline = drawer.getTimeline();
         timeline.setSequence(project.sequence.start, project.sequence.end, project.sequence.framerate);
-        const sceneChilds = Object.values(project.scene || []);
-        for (let i = 0, len = sceneChilds.length; i < len; i++) {
-            const sceneChild = this.parseSceneChild(sceneChilds[i], drawer);
+        var sceneChilds = Object.values(project.scene || []);
+        for (var i = 0, len = sceneChilds.length; i < len; i++) {
+            var sceneChild = this.parseSceneChild(sceneChilds[i], drawer);
             sceneChild && scene.add(sceneChild);
         }
         return drawer;
-    }
-    parseSceneChild(projectSceneChild, drawer) {
-        const shape = typeof projectSceneChild.shape !== 'undefined'
+    };
+    JSONImporter.prototype.parseSceneChild = function (projectSceneChild, drawer) {
+        var shape = typeof projectSceneChild.shape !== 'undefined'
             ? Float32Array.from(Object.values(projectSceneChild.shape))
             : undefined;
-        const settings = {
+        var settings = {
             id: projectSceneChild.id,
             name: projectSceneChild.name,
             order: projectSceneChild.order,
@@ -70,46 +83,47 @@ class JSONImporter {
             vertexCallback: parseFunction.unparse(projectSceneChild.vertexCallback),
             shape: shape,
         };
-        const props = Object.assign({}, projectSceneChild.props);
-        const sceneChild = SceneUtilities.create(projectSceneChild.type, settings);
+        var props = __assign({}, projectSceneChild.props);
+        var sceneChild = SceneUtilities.create(projectSceneChild.type, settings);
         if (sceneChild) {
             ;
-            Object.keys(props).forEach(propKey => {
+            Object.keys(props).forEach(function (propKey) {
                 SceneUtilities.setProp(sceneChild, propKey, parseFunction.unparse(props[propKey]), drawer);
             });
             if (projectSceneChild.children && projectSceneChild.children.length > 0) {
-                for (let i = 0, len = projectSceneChild.children.length; i < len; i++) {
-                    const child = this.parseSceneChild(projectSceneChild.children[i], drawer);
+                for (var i = 0, len = projectSceneChild.children.length; i < len; i++) {
+                    var child = this.parseSceneChild(projectSceneChild.children[i], drawer);
                     child && SceneUtilities.add(sceneChild, child);
                 }
             }
             return sceneChild;
         }
-        console.warn(`JSONImporter: can't import`, [projectSceneChild]);
+        console.warn("JSONImporter: can't import", [projectSceneChild]);
         return null;
-    }
-}
-JSONImporter.createEmptyProject = () => {
-    return {
-        id: uuidv1(),
-        name: '',
-        width: 600,
-        height: 600,
-        resolution: 600,
-        background: '#000',
-        mainColor: '#fff',
-        clearCanvas: true,
-        ghosts: 0,
-        ghost_skip_time: 30,
-        ratio: 1,
-        scene: {},
-        sequence: {
-            start: 0,
-            end: 6000,
-            durate: 6000,
-            framerate: 60,
-        },
     };
-};
+    JSONImporter.createEmptyProject = function () {
+        return {
+            id: uuidv1(),
+            name: '',
+            width: 600,
+            height: 600,
+            resolution: 600,
+            background: '#000',
+            mainColor: '#fff',
+            clearCanvas: true,
+            ghosts: 0,
+            ghost_skip_time: 30,
+            ratio: 1,
+            scene: {},
+            sequence: {
+                start: 0,
+                end: 6000,
+                durate: 6000,
+                framerate: 60,
+            },
+        };
+    };
+    return JSONImporter;
+}());
 export default JSONImporter;
 //# sourceMappingURL=JSONImporter.js.map

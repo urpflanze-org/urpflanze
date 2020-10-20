@@ -3,7 +3,6 @@ import { TStreamCallback, ISceneSettings } from '@core/types/scene'
 import SceneChild from '@core/SceneChild'
 import Group from '@core/Group'
 import Shape from '@core/shapes/Shape'
-import { vec2 } from 'gl-matrix'
 
 /**
  * Container for all SceneChild.
@@ -18,13 +17,13 @@ class Scene {
 	 * Logical number, the drawer will take care
 	 * of defining the unit of measure
 	 */
-	public width: number = 400
+	public width = 400
 
 	/**
 	 * Logical number, the drawer will take care
 	 * of defining the unit of measure
 	 */
-	public height: number = 400
+	public height = 400
 
 	/**
 	 * Refers to the central point of the scene
@@ -34,17 +33,17 @@ class Scene {
 	/**
 	 * Default background color (black)
 	 */
-	public background: string = 'hsla(0, 0%, 0%, 1)'
+	public background = 'hsla(0, 0%, 0%, 1)'
 
 	/**
 	 * Default ScenePrimitive stroke color (white)
 	 */
-	public mainColor: string = 'hsla(0, 0%, 100%, 1)'
+	public mainColor = 'hsla(0, 0%, 100%, 1)'
 
 	/**
 	 * Current time
 	 */
-	public current_time: number = 0
+	public current_time = 0
 
 	/**
 	 * A list of children added to scene
@@ -55,7 +54,7 @@ class Scene {
 
 	/**
 	 * Creates an instance of Scene.
-	 * You can see the default values ​​in the property definitions
+	 * You can see the default values in the property definitions
 	 */
 	constructor(settings: ISceneSettings = {}) {
 		if (typeof settings.width !== 'undefined') this.width = settings.width

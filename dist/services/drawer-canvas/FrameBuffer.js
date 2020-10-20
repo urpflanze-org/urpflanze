@@ -3,28 +3,29 @@
  * @category Services.DrawerCavnas
  * @class FrameBuffer
  */
-class FrameBuffer {
-    constructor() {
+var FrameBuffer = /** @class */ (function () {
+    function FrameBuffer() {
         this.frames = {};
     }
-    exist(frameNumber) {
+    FrameBuffer.prototype.exist = function (frameNumber) {
         return frameNumber in this.frames;
-    }
-    get(frameNumber) {
+    };
+    FrameBuffer.prototype.get = function (frameNumber) {
         return this.exist(frameNumber) ? this.frames[frameNumber] : null;
-    }
-    count() {
+    };
+    FrameBuffer.prototype.count = function () {
         return Object.keys(this.frames).length;
-    }
-    push(frameNumber, context) {
+    };
+    FrameBuffer.prototype.push = function (frameNumber, context) {
         this.frames[frameNumber] = context.getImageData(0, 0, context.canvas.width, context.canvas.height);
-    }
-    flush() {
+    };
+    FrameBuffer.prototype.flush = function () {
         this.frames = {};
-    }
-    getRenderedFrames() {
-        return Object.keys(this.frames).map(e => +e);
-    }
-}
+    };
+    FrameBuffer.prototype.getRenderedFrames = function () {
+        return Object.keys(this.frames).map(function (e) { return +e; });
+    };
+    return FrameBuffer;
+}());
 export default FrameBuffer;
 //# sourceMappingURL=FrameBuffer.js.map

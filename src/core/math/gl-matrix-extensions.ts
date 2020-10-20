@@ -45,7 +45,7 @@ export function toVec2(x: number | Array<number>): vec2 {
  *
  * @internal
  */
-export function toVec3(x: number | Array<number>, defaultZValue: number = 0): vec3 {
+export function toVec3(x: number | Array<number>, defaultZValue = 0): vec3 {
 	if (Array.isArray(x)) return [x[0], x[1], defaultZValue]
 	return [x, x, defaultZValue]
 }

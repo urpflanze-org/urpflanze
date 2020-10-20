@@ -77,7 +77,7 @@ declare class Shape extends ShapeBase {
      * @returns {IShapeBounding}
      * @memberof Shape
      */
-    getBounding(bDirectSceneChild: boolean): IShapeBounding;
+    getBounding(): IShapeBounding;
 }
 export default Shape;
 //# sourceMappingURL=Shape.d.ts.map

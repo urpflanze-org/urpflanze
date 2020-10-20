@@ -7,8 +7,6 @@ import {
 	TSceneChildProp,
 } from '@core/types/scene-child'
 import SceneChild from '@core/SceneChild'
-import ShapePrimitive from '@core/shapes/ShapePrimitive'
-import Shape from '@core/shapes/Shape'
 import ShapeBase from '@core/shapes/ShapeBase'
 
 /**
@@ -57,7 +55,7 @@ export interface IShapeBaseSettings extends ISceneChildSettings {
 	/**
 	 * With this parameter the shape will be created at each repetition,
 	 * useful if you want to encapsulate this shape in another and use its <mark>repetition</mark> object.
-	 * fillColor, strokeColor and lineWidth don't need to as they are generated during the buffer stream.
+	 * In the case of ShapePrimitive fillColor, strokeColor and lineWidth don't need to as they are generated during the buffer stream.
 	 * @order -14
 	 */
 	bUseParent?: boolean

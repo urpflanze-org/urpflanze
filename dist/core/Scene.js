@@ -9,12 +9,13 @@ import Shape from "./shapes/Shape";
  * @category Core.Scene
  * @class Scene
  */
-class Scene {
+var Scene = /** @class */ (function () {
     /**
      * Creates an instance of Scene.
-     * You can see the default values ​​in the property definitions
+     * You can see the default values in the property definitions
      */
-    constructor(settings = {}) {
+    function Scene(settings) {
+        if (settings === void 0) { settings = {}; }
         /**
          * Logical number, the drawer will take care
          * of defining the unit of measure
@@ -55,31 +56,33 @@ class Scene {
      * @param {number} [height=width]
      * @memberof Scene
      */
-    resize(width, height = width) {
+    Scene.prototype.resize = function (width, height) {
+        if (height === void 0) { height = width; }
         this.width = width;
         this.height = height;
         this.center = [this.width / 2, this.height / 2];
-        this.children.forEach(sceneChild => sceneChild.clearBuffer(true, false));
-    }
+        this.children.forEach(function (sceneChild) { return sceneChild.clearBuffer(true, false); });
+    };
     /**
      * Update all children, generate a streamable buffer for drawing
      *
      * @param {number} [at_time] time in ms
      * @memberof Scene
      */
-    update(at_time) {
+    Scene.prototype.update = function (at_time) {
+        var _this = this;
         this.current_time = at_time;
-        this.children.forEach((child) => child.generate(this.current_time, true));
-    }
+        this.children.forEach(function (child) { return child.generate(_this.current_time, true); });
+    };
     /**
      * Traverse the child buffer and use it with callback
      *
      * @param {TStreamCallback} callback
      * @memberof Scene
      */
-    stream(callback) {
-        this.children.forEach(sceneChild => sceneChild.stream(callback));
-    }
+    Scene.prototype.stream = function (callback) {
+        this.children.forEach(function (sceneChild) { return sceneChild.stream(callback); });
+    };
     /*
      |--------------------------------------------------------------------------
      |  SceneChild
@@ -91,9 +94,9 @@ class Scene {
      * @returns {Array<SceneChild>}
      * @memberof Scene
      */
-    getChildren() {
+    Scene.prototype.getChildren = function () {
         return this.children;
-    }
+    };
     /**
      * Add SceneChild to Scene, pass `order` for drawing priorities
      *
@@ -101,32 +104,32 @@ class Scene {
      * @param {number} [order]
      * @memberof Scene
      */
-    add(item, order) {
+    Scene.prototype.add = function (item, order) {
         item.order =
             typeof order !== 'undefined'
                 ? order
                 : typeof item.order !== 'undefined'
                     ? item.order
                     : this.children.length > 0
-                        ? Math.max.apply(this, this.children.map(e => e.order)) + 1
+                        ? Math.max.apply(this, this.children.map(function (e) { return e.order; })) + 1
                         : 0;
         Scene.propagateToChilden(item, this);
         this.children.push(item);
         item.clearBuffer(true, false);
         this.sortChildren();
-    }
+    };
     /**
      * Sort children by order
      *
      * @memberof Scene
      */
-    sortChildren() {
-        this.children.sort((a, b) => a.order - b.order);
-        this.children = this.children.map((child, index) => {
+    Scene.prototype.sortChildren = function () {
+        this.children.sort(function (a, b) { return a.order - b.order; });
+        this.children = this.children.map(function (child, index) {
             child.order = index;
             return child;
         });
-    }
+    };
     /**
      * Find sceneChild from id or name in the whole scene
      *
@@ -134,15 +137,15 @@ class Scene {
      * @returns {(SceneChild | null)}
      * @memberof Scene
      */
-    find(id_or_name) {
-        const children = this.getChildren();
-        for (let i = 0, len = children.length; i < len; i++) {
-            const result = children[i].find(id_or_name);
+    Scene.prototype.find = function (id_or_name) {
+        var children = this.getChildren();
+        for (var i = 0, len = children.length; i < len; i++) {
+            var result = children[i].find(id_or_name);
             if (result !== null)
                 return result;
         }
         return null;
-    }
+    };
     /**
      * Get shape by index
      *
@@ -150,39 +153,39 @@ class Scene {
      * @returns {(SceneChild | null)}
      * @memberof Scene
      */
-    get(index) {
+    Scene.prototype.get = function (index) {
         return index >= 0 && index < this.children.length ? this.children[index] : null;
-    }
+    };
     /**
      * Remove a shape by index
      *
      * @param {number} index
      * @memberof Scene
      */
-    remove(index) {
+    Scene.prototype.remove = function (index) {
         index >= 0 && index < this.children.length && this.children.splice(index, 1);
-    }
+    };
     /**
      * Removes all children
      *
      * @memberof Scene
      */
-    removeChildren() {
+    Scene.prototype.removeChildren = function () {
         this.children = [];
-    }
+    };
     /**
      * Remove sceneChild by id or name
      *
      * @param {number | number} id_or_name
      * @memberof Scene
      */
-    removeFromId(id_or_name) {
-        for (let i = 0, len = this.children.length; i < len; i++)
+    Scene.prototype.removeFromId = function (id_or_name) {
+        for (var i = 0, len = this.children.length; i < len; i++)
             if (this.children[i].id === id_or_name || this.children[i].name === id_or_name) {
                 this.children.splice(i, 1);
                 return;
             }
-    }
+    };
     /**
      * Return true if sceneChild is direct children
      *
@@ -190,13 +193,13 @@ class Scene {
      * @returns {boolean}
      * @memberof Scene
      */
-    isFirstLevelChild(sceneChild) {
-        for (let i = 0, len = this.children.length; i < len; i++)
+    Scene.prototype.isFirstLevelChild = function (sceneChild) {
+        for (var i = 0, len = this.children.length; i < len; i++)
             if (this.children[i].id == sceneChild.id)
                 return true;
-        const parents = this.getParentsOfSceneChild(sceneChild);
+        var parents = this.getParentsOfSceneChild(sceneChild);
         return parents.length == 1 && parents[0] instanceof Group;
-    }
+    };
     /**
      * Returns the list of sceneChild hierarchy starting from the scene
      *
@@ -204,14 +207,14 @@ class Scene {
      * @returns {Array<SceneChild>}
      * @memberof Scene
      */
-    getParentsOfSceneChild(sceneChild) {
-        const result = Scene.getParentsOfSceneChild(this, sceneChild);
+    Scene.prototype.getParentsOfSceneChild = function (sceneChild) {
+        var result = Scene.getParentsOfSceneChild(this, sceneChild);
         if (result) {
             result.splice(0, 1);
             return result;
         }
         return [];
-    }
+    };
     /**
      * Returns the list of sceneChild hierarchy starting from the scene
      *
@@ -222,30 +225,31 @@ class Scene {
      * @returns {(Array<SceneChild | Scene> | null)}
      * @memberof Scene
      */
-    static getParentsOfSceneChild(current, sceneChild, parents = []) {
-        let result;
+    Scene.getParentsOfSceneChild = function (current, sceneChild, parents) {
+        if (parents === void 0) { parents = []; }
+        var result;
         if (current instanceof SceneChild) {
             if (current.id == sceneChild.id)
                 return parents;
             if (current instanceof Shape && current.shape) {
-                const tmp_parents = parents.slice();
+                var tmp_parents = parents.slice();
                 tmp_parents.push(current);
                 if ((result = Scene.getParentsOfSceneChild(current.shape, sceneChild, tmp_parents)))
                     return result;
             }
         }
         if (current instanceof Scene || current instanceof Group) {
-            const children = current.getChildren();
+            var children = current.getChildren();
             parents.push(current);
-            for (let i = 0, len = children.length; i < len; i++) {
-                const child = children[i];
+            for (var i = 0, len = children.length; i < len; i++) {
+                var child = children[i];
                 if ((result = Scene.getParentsOfSceneChild(child, sceneChild, parents)))
                     return result;
             }
             parents.pop();
         }
         return null;
-    }
+    };
     /**
      * Walk through the scene
      *
@@ -254,7 +258,7 @@ class Scene {
      * @param {(Scene | SceneChild)} current
      * @memberof Scene
      */
-    static walk(callback, current) {
+    Scene.walk = function (callback, current) {
         if (current instanceof SceneChild) {
             if (callback(current) === false)
                 return false;
@@ -263,14 +267,14 @@ class Scene {
                     return false;
         }
         if (current instanceof Scene || current instanceof Group) {
-            const children = current.getChildren();
-            for (let i = 0, len = children.length; i < len; i++) {
-                const child = children[i];
+            var children = current.getChildren();
+            for (var i = 0, len = children.length; i < len; i++) {
+                var child = children[i];
                 if (Scene.walk(callback, child) === false)
                     return false;
             }
         }
-    }
+    };
     /**
      * Propagate scene to sceneChild (and children)
      *
@@ -279,10 +283,10 @@ class Scene {
      * @param {Scene} scene
      * @memberof Scene
      */
-    static propagateToChilden(sceneChild, scene) {
+    Scene.propagateToChilden = function (sceneChild, scene) {
         sceneChild.scene = scene;
         if (sceneChild instanceof Group) {
-            sceneChild.getChildren().forEach((item) => {
+            sceneChild.getChildren().forEach(function (item) {
                 Scene.propagateToChilden(item, scene);
             });
         }
@@ -290,7 +294,8 @@ class Scene {
             sceneChild.shape.scene = scene;
             Scene.propagateToChilden(sceneChild.shape, scene);
         }
-    }
-}
+    };
+    return Scene;
+}());
 export default Scene;
 //# sourceMappingURL=Scene.js.map

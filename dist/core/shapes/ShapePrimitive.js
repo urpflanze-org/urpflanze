@@ -1,38 +1,65 @@
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 import ShapeBase from "./ShapeBase";
 import { EShapePrimitiveAdaptMode, IShapeBounding, IShapePrimitiveProps, IShapePrimitiveSettings, } from "../types/shape-base";
 import { toVec2 } from "../math/gl-matrix-extensions";
 /**
  * @category Core.Abstract
  */
-class ShapePrimitive extends ShapeBase {
+var ShapePrimitive = /** @class */ (function (_super) {
+    __extends(ShapePrimitive, _super);
     /**
      * Creates an instance of ShapePrimitive.
      *
      * @param {IShapePrimitiveSettings} [settings={}]
      * @memberof ShapePrimitive
      */
-    constructor(settings = {}) {
+    function ShapePrimitive(settings) {
+        if (settings === void 0) { settings = {}; }
         var _a, _b;
-        super(settings);
+        var _this = _super.call(this, settings) || this;
         /**
          * Shape bounding
          *
          * @type {IShapeBounding}
          * @memberof ShapePrimitive
          */
-        this.single_bounding = Object.assign({}, ShapePrimitive.EMPTY_BOUNDING);
-        const sideLength = typeof settings.sideLength === 'number'
+        _this.single_bounding = __assign({}, ShapePrimitive.EMPTY_BOUNDING);
+        var sideLength = typeof settings.sideLength === 'number'
             ? [settings.sideLength, settings.sideLength]
             : Array.isArray(settings.sideLength)
                 ? settings.sideLength
                 : [50, 50];
-        this.sideLength = sideLength;
-        this.props.sideLength = settings.sideLength;
-        this.props.fillColor = settings.fillColor;
-        this.props.lineWidth = settings.lineWidth;
-        this.props.strokeColor = settings.strokeColor;
-        this.adaptMode = (_a = settings.adaptMode) !== null && _a !== void 0 ? _a : EShapePrimitiveAdaptMode.None;
-        this.bCloseShape = (_b = settings.bCloseShape) !== null && _b !== void 0 ? _b : true;
+        _this.sideLength = sideLength;
+        _this.props.sideLength = settings.sideLength;
+        _this.props.fillColor = settings.fillColor;
+        _this.props.lineWidth = settings.lineWidth;
+        _this.props.strokeColor = settings.strokeColor;
+        _this.adaptMode = (_a = settings.adaptMode) !== null && _a !== void 0 ? _a : EShapePrimitiveAdaptMode.None;
+        _this.bCloseShape = (_b = settings.bCloseShape) !== null && _b !== void 0 ? _b : true;
+        return _this;
     }
     /**
      * Check if shape is static
@@ -40,9 +67,9 @@ class ShapePrimitive extends ShapeBase {
      * @returns {boolean}
      * @memberof ShapePrimitive
      */
-    isStatic() {
-        return typeof this.props.sideLength !== 'function' && super.isStatic();
-    }
+    ShapePrimitive.prototype.isStatic = function () {
+        return typeof this.props.sideLength !== 'function' && _super.prototype.isStatic.call(this);
+    };
     /**
      * Get prop
      *
@@ -52,9 +79,9 @@ class ShapePrimitive extends ShapeBase {
      * @returns {*}
      * @memberof ShapePrimitive
      */
-    getProp(key, prop_arguments, default_value) {
-        return super.getProp(key, prop_arguments, default_value);
-    }
+    ShapePrimitive.prototype.getProp = function (key, prop_arguments, default_value) {
+        return _super.prototype.getProp.call(this, key, prop_arguments, default_value);
+    };
     /**
      * set side length when generate a buffer into shape loop or shape buffer
      *
@@ -62,14 +89,14 @@ class ShapePrimitive extends ShapeBase {
      * @param {ISceneChildPropArguments} prop_arguments
      * @memberof ShapePrimitive
      */
-    bindSideLength(prop_arguments) {
-        const sideLength = toVec2(this.getProp('sideLength', prop_arguments, [50, 50]));
+    ShapePrimitive.prototype.bindSideLength = function (prop_arguments) {
+        var sideLength = toVec2(this.getProp('sideLength', prop_arguments, [50, 50]));
         if (this.sideLength[0] !== sideLength[0] && this.sideLength[1] !== sideLength[1]) {
             this.sideLength = sideLength;
             return true;
         }
         return false;
-    }
+    };
     /**
      * Return a bounding of generated buffer if is direct scene child
      *
@@ -77,9 +104,9 @@ class ShapePrimitive extends ShapeBase {
      * @returns {IShapeBounding}
      * @memberof ShapePrimitive
      */
-    getBounding(bDirectSceneChild) {
+    ShapePrimitive.prototype.getBounding = function (bDirectSceneChild) {
         return bDirectSceneChild ? this.single_bounding : this.bounding;
-    }
+    };
     /**
      * Add this to indexed_buffer
      *
@@ -88,11 +115,11 @@ class ShapePrimitive extends ShapeBase {
      * @param {IRepetition} repetition
      * @memberof ShapePrimitive
      */
-    addIndex(frame_length, repetition) {
-        const indexed_buffer = this.indexed_buffer;
+    ShapePrimitive.prototype.addIndex = function (frame_length, repetition) {
+        var indexed_buffer = this.indexed_buffer;
         indexed_buffer.push({
             shape: this,
-            frame_length,
+            frame_length: frame_length,
             repetition: {
                 type: repetition.type,
                 angle: repetition.angle,
@@ -111,44 +138,44 @@ class ShapePrimitive extends ShapeBase {
                 },
             },
         });
-    }
+    };
     /**
      * Return bCloseShape
      *
      * @returns {boolean}
      * @memberof ShapePrimitive
      */
-    isClosed() {
+    ShapePrimitive.prototype.isClosed = function () {
         return this.bCloseShape;
-    }
+    };
     /**
      * Set bCloseShape
      *
      * @param {boolean} bCloseShape
      * @memberof ShapePrimitive
      */
-    setClosed(bCloseShape) {
+    ShapePrimitive.prototype.setClosed = function (bCloseShape) {
         this.bCloseShape = bCloseShape;
-    }
+    };
     /**
      * Return adaptMode
      *
      * @returns {EShapePrimitiveAdaptMode}
      * @memberof ShapeBase
      */
-    getAdaptMode() {
+    ShapePrimitive.prototype.getAdaptMode = function () {
         return this.adaptMode;
-    }
+    };
     /**
      * Set adaptMode
      *
      * @param {EShapePrimitiveAdaptMode} bAdapted
      * @memberof ShapeBase
      */
-    adapt(adaptMode) {
+    ShapePrimitive.prototype.adapt = function (adaptMode) {
         this.adaptMode = adaptMode;
         this.clearBuffer(true);
-    }
+    };
     /**
      * Get buffer bounding
      *
@@ -157,13 +184,13 @@ class ShapePrimitive extends ShapeBase {
      * @returns {IShapeBounding}
      * @memberof ShapePrimitive
      */
-    static getBounding(buffer, bounding) {
+    ShapePrimitive.getBounding = function (buffer, bounding) {
         if (typeof bounding === 'undefined')
-            bounding = Object.assign({}, ShapePrimitive.EMPTY_BOUNDING);
-        let minX = Number.MAX_VALUE, minY = Number.MAX_VALUE, maxX = Number.MIN_VALUE, maxY = Number.MIN_VALUE;
-        for (let i = 0, len = buffer.length; i < len; i += 2) {
-            const x = buffer[i];
-            const y = buffer[i + 1];
+            bounding = __assign({}, ShapePrimitive.EMPTY_BOUNDING);
+        var minX = Number.MAX_VALUE, minY = Number.MAX_VALUE, maxX = Number.MIN_VALUE, maxY = Number.MIN_VALUE;
+        for (var i = 0, len = buffer.length; i < len; i += 2) {
+            var x = buffer[i];
+            var y = buffer[i + 1];
             if (x > maxX)
                 maxX = x;
             else if (x < minX)
@@ -180,7 +207,7 @@ class ShapePrimitive extends ShapeBase {
         bounding.cx = bounding.x - bounding.width / 2;
         bounding.cy = bounding.y - bounding.height / 2;
         return bounding;
-    }
+    };
     /**
      * Return adapted buffer between [-1,-1] and [1,1]
      *
@@ -191,41 +218,42 @@ class ShapePrimitive extends ShapeBase {
      * @returns {Float32Array}
      * @memberof ShapePrimitive
      */
-    static adaptBuffer(input, mode, rect) {
+    ShapePrimitive.adaptBuffer = function (input, mode, rect) {
         if (mode === EShapePrimitiveAdaptMode.None)
             return Float32Array.from(input);
-        const output = new Float32Array(input.length);
+        var output = new Float32Array(input.length);
         if (!rect) {
             rect = ShapePrimitive.getBounding(input);
         }
-        let scale = rect.width >= 2 ||
+        var scale = rect.width >= 2 ||
             rect.height >= 2 ||
             (mode >= EShapePrimitiveAdaptMode.Fill && (rect.width < 2 || rect.height < 2))
             ? 2 / Math.max(rect.width, rect.height)
             : 1;
-        let translateX = mode >= EShapePrimitiveAdaptMode.Center ? rect.cx : 0;
-        let translateY = mode >= EShapePrimitiveAdaptMode.Center ? rect.cy : 0;
-        for (let i = 0, len = input.length; i < len; i += 2) {
+        var translateX = mode >= EShapePrimitiveAdaptMode.Center ? rect.cx : 0;
+        var translateY = mode >= EShapePrimitiveAdaptMode.Center ? rect.cy : 0;
+        for (var i = 0, len = input.length; i < len; i += 2) {
             output[i] = (input[i] - translateX) * scale;
             output[i + 1] = (input[i + 1] - translateY) * scale;
         }
         return output;
-    }
-}
-/**
- * Empty buffer bounding
- *
- * @static
- * @type {IShapeBounding}
- * @memberof ShapePrimitive
- */
-ShapePrimitive.EMPTY_BOUNDING = {
-    cx: 0,
-    cy: 0,
-    x: -1,
-    y: -1,
-    width: 2,
-    height: 2,
-};
+    };
+    /**
+     * Empty buffer bounding
+     *
+     * @static
+     * @type {IShapeBounding}
+     * @memberof ShapePrimitive
+     */
+    ShapePrimitive.EMPTY_BOUNDING = {
+        cx: 0,
+        cy: 0,
+        x: -1,
+        y: -1,
+        width: 2,
+        height: 2,
+    };
+    return ShapePrimitive;
+}(ShapeBase));
 export default ShapePrimitive;
 //# sourceMappingURL=ShapePrimitive.js.map

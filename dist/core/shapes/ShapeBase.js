@@ -1,3 +1,27 @@
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 import { glMatrix, mat4, vec2, vec3 } from 'gl-matrix';
 import { ERepetitionType, IRepetition, IBaseRepetition, ISceneChildPropArguments, ISceneChildProps, ISceneChildStreamArguments, } from "../types/scene-child";
 import SceneChild from "../SceneChild";
@@ -6,10 +30,10 @@ import * as glme from "../math/gl-matrix-extensions";
 import { clamp } from "../../Utilites";
 import Vec2 from "../math/Vec2";
 glMatrix.setMatrixArrayType(Array);
-const tmp_matrix = mat4.create();
-const transform_matrix = mat4.create();
-const perspective_matrix = mat4.create();
-const repetition_matrix = mat4.create();
+var tmp_matrix = mat4.create();
+var transform_matrix = mat4.create();
+var perspective_matrix = mat4.create();
+var repetition_matrix = mat4.create();
 /**
  * Main class for shape generation
  *
@@ -19,15 +43,17 @@ const repetition_matrix = mat4.create();
  * @order 4
  * @extends {SceneChild}
  */
-class ShapeBase extends SceneChild {
+var ShapeBase = /** @class */ (function (_super) {
+    __extends(ShapeBase, _super);
     /**
      * Creates an instance of ShapeBase
      *
      * @param {ISceneChildSettings} [settings={}]
      * @memberof ShapeBase
      */
-    constructor(settings = {}) {
-        super(settings);
+    function ShapeBase(settings) {
+        if (settings === void 0) { settings = {}; }
+        var _this = _super.call(this, settings) || this;
         /**
          * Shape generation id
          * used for prevent buffer calculation
@@ -35,15 +61,15 @@ class ShapeBase extends SceneChild {
          * @internal
          * @ignore
          */
-        this.generate_id = -1;
+        _this.generate_id = -1;
         /**
          * Flag used to determine if indexed_buffer has been generated
          *
          * @internal
          * @ignore
          */
-        this.bIndexed = false;
-        this.bounding = {
+        _this.bIndexed = false;
+        _this.bounding = {
             cx: 0,
             cy: 0,
             x: -1,
@@ -51,7 +77,7 @@ class ShapeBase extends SceneChild {
             width: 2,
             height: 2,
         };
-        this.props = {
+        _this.props = {
             distance: settings.distance,
             repetitions: settings.repetitions,
             rotateX: settings.rotateX,
@@ -68,8 +94,9 @@ class ShapeBase extends SceneChild {
             perspective: settings.perspective,
             perspectiveOrigin: settings.perspectiveOrigin,
         };
-        this.bUseParent = !!settings.bUseParent;
-        this.vertexCallback = settings.vertexCallback;
+        _this.bUseParent = !!settings.bUseParent;
+        _this.vertexCallback = settings.vertexCallback;
+        return _this;
     }
     /**
      * Check if the shape should be generated every time
@@ -77,8 +104,8 @@ class ShapeBase extends SceneChild {
      * @returns {boolean}
      * @memberof ShapeBase
      */
-    isStatic() {
-        const props = this.props;
+    ShapeBase.prototype.isStatic = function () {
+        var props = this.props;
         return (typeof props.distance !== 'function' &&
             typeof props.repetitions !== 'function' &&
             typeof props.rotateX !== 'function' &&
@@ -92,7 +119,7 @@ class ShapeBase extends SceneChild {
             typeof props.translate !== 'function' &&
             typeof props.scale !== 'function' &&
             typeof props.transformOrigin !== 'function');
-    }
+    };
     /**
      * Check if the indexed_buffer array needs to be recreated every time,
      * this can happen when a shape generates an array of vertices different in length at each repetition
@@ -100,9 +127,9 @@ class ShapeBase extends SceneChild {
      * @returns {boolean}
      * @memberof ShapeBase
      */
-    isStaticIndexed() {
+    ShapeBase.prototype.isStaticIndexed = function () {
         return typeof this.props.repetitions !== 'function';
-    }
+    };
     /**
      * Return a prop value
      *
@@ -112,9 +139,9 @@ class ShapeBase extends SceneChild {
      * @returns {*}
      * @memberof ShapeBase
      */
-    getProp(key, prop_arguments, default_value) {
+    ShapeBase.prototype.getProp = function (key, prop_arguments, default_value) {
         var _a;
-        let attribute = this.props[key];
+        var attribute = this.props[key];
         if (typeof attribute == 'function') {
             prop_arguments = prop_arguments || ShapeBase.EMPTY_PROP_ARGUMENTS;
             if (typeof prop_arguments.shape === 'undefined')
@@ -123,7 +150,7 @@ class ShapeBase extends SceneChild {
             attribute = attribute(prop_arguments);
         }
         return typeof attribute === 'undefined' || Number.isNaN(attribute) ? default_value : attribute;
-    }
+    };
     /**
      * Set a single or multiple props
      *
@@ -132,17 +159,21 @@ class ShapeBase extends SceneChild {
      * @param {boolean} [bClearIndexed=false]
      * @memberof ShapeBase
      */
-    setProp(key, value, bClearIndexed = false) {
+    ShapeBase.prototype.setProp = function (key, value, bClearIndexed) {
+        var _this = this;
+        if (bClearIndexed === void 0) { bClearIndexed = false; }
         if (typeof key == 'string') {
             bClearIndexed = bClearIndexed || key == 'repetitions';
             this.props[key] = value;
         }
         else {
             bClearIndexed = bClearIndexed || 'repetitions' in key;
-            Object.keys(key).forEach((k) => (this.props[k] = key[k]));
+            Object.keys(key).forEach(function (k) {
+                return (_this.props[k] = key[k]);
+            });
         }
         this.clearBuffer(bClearIndexed);
-    }
+    };
     /**
      *  Unset buffer
      *
@@ -151,7 +182,9 @@ class ShapeBase extends SceneChild {
      * @param {boolean} [bPropagateToChildren=false]
      * @memberof ShapeBase
      */
-    clearBuffer(bClearIndexed = false, bPropagateToParents = true) {
+    ShapeBase.prototype.clearBuffer = function (bClearIndexed, bPropagateToParents) {
+        if (bClearIndexed === void 0) { bClearIndexed = false; }
+        if (bPropagateToParents === void 0) { bPropagateToParents = true; }
         this.buffer = undefined;
         if (bClearIndexed) {
             this.bIndexed = false;
@@ -159,10 +192,10 @@ class ShapeBase extends SceneChild {
         this.bStatic = this.isStatic();
         this.bStaticIndexed = this.isStaticIndexed();
         if (bPropagateToParents && this.scene && !this.scene.isFirstLevelChild(this)) {
-            const parents = this.scene.getParentsOfSceneChild(this);
+            var parents = this.scene.getParentsOfSceneChild(this);
             parents.length > 0 && parents[parents.length - 1].clearBuffer(bClearIndexed, bPropagateToParents /* true */);
         }
-    }
+    };
     /**
      * Update the vertex array if the shape is not static and update the indexed_buffer if it is also not static
      *
@@ -171,46 +204,47 @@ class ShapeBase extends SceneChild {
      * @param {ISceneChildPropArguments} [parent_prop_arguments]
      * @memberof ShapeBase
      */
-    generate(generate_id, bDirectSceneChild = false, parent_prop_arguments) {
+    ShapeBase.prototype.generate = function (generate_id, bDirectSceneChild, parent_prop_arguments) {
         var _a, _b, _c;
+        if (bDirectSceneChild === void 0) { bDirectSceneChild = false; }
         if (!this.scene || (this.buffer && (this.bStatic || (generate_id === this.generate_id && !this.bUseParent)))) {
             return;
         }
         this.generate_id = generate_id;
         if (!this.bStaticIndexed || !this.bIndexed)
             this.indexed_buffer = [];
-        let minX = Number.MAX_VALUE, minY = Number.MAX_VALUE, maxX = Number.MIN_VALUE, maxY = Number.MIN_VALUE;
-        const repetition = ShapeBase.getEmptyRepetition();
-        const repetitions = this.getProp('repetitions', { parent: parent_prop_arguments, repetition, time: 1, context: Context }, 1);
-        const repetition_type = Array.isArray(repetitions) ? ERepetitionType.Matrix : ERepetitionType.Ring;
-        const repetition_count = Array.isArray(repetitions)
+        var minX = Number.MAX_VALUE, minY = Number.MAX_VALUE, maxX = Number.MIN_VALUE, maxY = Number.MIN_VALUE;
+        var repetition = ShapeBase.getEmptyRepetition();
+        var repetitions = this.getProp('repetitions', { parent: parent_prop_arguments, repetition: repetition, time: 1, context: Context }, 1);
+        var repetition_type = Array.isArray(repetitions) ? ERepetitionType.Matrix : ERepetitionType.Ring;
+        var repetition_count = Array.isArray(repetitions)
             ? repetitions[0] * ((_a = repetitions[1]) !== null && _a !== void 0 ? _a : repetitions[0])
             : repetitions;
-        const repetition_col_count = Array.isArray(repetitions) ? repetitions[0] : repetition_count;
-        const repetition_row_count = Array.isArray(repetitions) ? (_b = repetitions[1]) !== null && _b !== void 0 ? _b : repetitions[0] : 1;
-        const col_repetition = repetition.col;
+        var repetition_col_count = Array.isArray(repetitions) ? repetitions[0] : repetition_count;
+        var repetition_row_count = Array.isArray(repetitions) ? (_b = repetitions[1]) !== null && _b !== void 0 ? _b : repetitions[0] : 1;
+        var col_repetition = repetition.col;
         col_repetition.count = repetition_col_count;
-        const row_repetition = repetition.row;
+        var row_repetition = repetition.row;
         row_repetition.count = repetition_row_count;
         repetition.count = repetition_count;
         repetition.col.count = repetition_col_count;
         repetition.row.count = repetition_row_count;
         repetition.type = repetition_type;
-        const prop_arguments = {
-            repetition,
+        var prop_arguments = {
+            repetition: repetition,
             context: Context,
             time: ((_c = this.scene) === null || _c === void 0 ? void 0 : _c.current_time) || 0,
             shape: this,
             data: this.data,
             parent: parent_prop_arguments,
         };
-        let total_buffer_length = 0;
-        const buffers = [];
-        let current_index = 0;
-        const center_matrix = vec2.fromValues((repetition_col_count - 1) / 2, (repetition_row_count - 1) / 2);
-        const sceneCenter = [this.scene.center[0], this.scene.center[1], 0];
-        for (let current_row_repetition = 0; current_row_repetition < repetition_row_count; current_row_repetition++) {
-            for (let current_col_repetition = 0; current_col_repetition < repetition_col_count; current_col_repetition++, current_index++) {
+        var total_buffer_length = 0;
+        var buffers = [];
+        var current_index = 0;
+        var center_matrix = vec2.fromValues((repetition_col_count - 1) / 2, (repetition_row_count - 1) / 2);
+        var sceneCenter = [this.scene.center[0], this.scene.center[1], 0];
+        for (var current_row_repetition = 0; current_row_repetition < repetition_row_count; current_row_repetition++) {
+            for (var current_col_repetition = 0; current_col_repetition < repetition_col_count; current_col_repetition++, current_index++) {
                 repetition.index = current_index + 1;
                 repetition.offset = repetition.index / repetition.count;
                 repetition.angle =
@@ -220,27 +254,27 @@ class ShapeBase extends SceneChild {
                 row_repetition.index = current_row_repetition + 1;
                 row_repetition.offset = row_repetition.index / row_repetition.count;
                 // Generate primitives buffer recursively
-                const buffer = this.generateBuffer(generate_id, prop_arguments);
-                const buffer_length = buffer.length;
-                const bounding = this.getBounding(bDirectSceneChild);
+                var buffer = this.generateBuffer(generate_id, prop_arguments);
+                var buffer_length = buffer.length;
+                var bounding = this.getBounding(bDirectSceneChild);
                 buffers[current_index] = new Float32Array(buffer_length);
                 total_buffer_length += buffer_length;
                 {
-                    const distance = glme.toVec2(this.getProp('distance', prop_arguments, glme.VEC2_ZERO));
-                    const displace = this.getProp('displace', prop_arguments, 0);
-                    const scale = glme.toVec3(this.getProp('scale', prop_arguments, glme.VEC2_ONE), 1);
-                    const translate = glme.toVec3(this.getProp('translate', prop_arguments, glme.VEC2_ZERO), 0);
-                    const skewX = this.getProp('skewX', prop_arguments, 0);
-                    const skewY = this.getProp('skewY', prop_arguments, 0);
-                    const squeezeX = this.getProp('squeezeX', prop_arguments, 0);
-                    const squeezeY = this.getProp('squeezeY', prop_arguments, 0);
-                    const rotateX = this.getProp('rotateX', prop_arguments, 0);
-                    const rotateY = this.getProp('rotateY', prop_arguments, 0);
-                    const rotateZ = this.getProp('rotateZ', prop_arguments, 0);
-                    const perspectiveProp = clamp(0, 1, this.getProp('perspective', prop_arguments, 0));
-                    const perspectiveOrigin = glme.toVec3(this.getProp('perspectiveOrigin', prop_arguments, glme.VEC2_ZERO), 0);
-                    const transformOrigin = glme.toVec3(this.getProp('transformOrigin', prop_arguments, glme.VEC2_ZERO), 0);
-                    let offset;
+                    var distance = glme.toVec2(this.getProp('distance', prop_arguments, glme.VEC2_ZERO));
+                    var displace = this.getProp('displace', prop_arguments, 0);
+                    var scale = glme.toVec3(this.getProp('scale', prop_arguments, glme.VEC2_ONE), 1);
+                    var translate = glme.toVec3(this.getProp('translate', prop_arguments, glme.VEC2_ZERO), 0);
+                    var skewX = this.getProp('skewX', prop_arguments, 0);
+                    var skewY = this.getProp('skewY', prop_arguments, 0);
+                    var squeezeX = this.getProp('squeezeX', prop_arguments, 0);
+                    var squeezeY = this.getProp('squeezeY', prop_arguments, 0);
+                    var rotateX = this.getProp('rotateX', prop_arguments, 0);
+                    var rotateY = this.getProp('rotateY', prop_arguments, 0);
+                    var rotateZ = this.getProp('rotateZ', prop_arguments, 0);
+                    var perspectiveProp = clamp(0, 1, this.getProp('perspective', prop_arguments, 0));
+                    var perspectiveOrigin = glme.toVec3(this.getProp('perspectiveOrigin', prop_arguments, glme.VEC2_ZERO), 0);
+                    var transformOrigin = glme.toVec3(this.getProp('transformOrigin', prop_arguments, glme.VEC2_ZERO), 0);
+                    var offset = void 0;
                     switch (repetition_type) {
                         case ERepetitionType.Ring:
                             offset = vec3.fromValues(distance[0], 0, 0);
@@ -250,10 +284,10 @@ class ShapeBase extends SceneChild {
                             offset = vec3.fromValues(distance[0] * (current_col_repetition - center_matrix[0]), distance[1] * (current_row_repetition - center_matrix[1]), 0);
                             break;
                     }
-                    const perspectiveSize = perspectiveProp > 0 ? Math.max(bounding.width, bounding.height) / 2 : 1;
-                    const perspective = perspectiveProp > 0 ? perspectiveSize + (1 - perspectiveProp) * (perspectiveSize * 10) : 0;
-                    const bTransformOrigin = perspective !== 0 || transformOrigin[0] !== 0 || transformOrigin[1] !== 0;
-                    const bPerspectiveOrigin = perspectiveOrigin[0] !== 0 || perspectiveOrigin[1] !== 0;
+                    var perspectiveSize = perspectiveProp > 0 ? Math.max(bounding.width, bounding.height) / 2 : 1;
+                    var perspective = perspectiveProp > 0 ? perspectiveSize + (1 - perspectiveProp) * (perspectiveSize * 10) : 0;
+                    var bTransformOrigin = perspective !== 0 || transformOrigin[0] !== 0 || transformOrigin[1] !== 0;
+                    var bPerspectiveOrigin = perspectiveOrigin[0] !== 0 || perspectiveOrigin[1] !== 0;
                     if (bTransformOrigin) {
                         transformOrigin[0] *= bounding.width / 2;
                         transformOrigin[1] *= bounding.height / 2;
@@ -309,8 +343,8 @@ class ShapeBase extends SceneChild {
                         }
                     }
                     // Apply matrices on vertex
-                    for (let buffer_index = 0; buffer_index < buffer_length; buffer_index += 2) {
-                        const vertex = [buffer[buffer_index], buffer[buffer_index + 1], perspective];
+                    for (var buffer_index = 0; buffer_index < buffer_length; buffer_index += 2) {
+                        var vertex = [buffer[buffer_index], buffer[buffer_index + 1], perspective];
                         {
                             vec3.transformMat4(vertex, vertex, transform_matrix);
                             squeezeX !== 0 && Vec2.squeezeX(vertex, squeezeX);
@@ -323,11 +357,11 @@ class ShapeBase extends SceneChild {
                             }
                             vec3.transformMat4(vertex, vertex, repetition_matrix);
                             if (this.vertexCallback) {
-                                const index = buffer_index / 2 + 1;
-                                const count = buffer_length / 2;
+                                var index = buffer_index / 2 + 1;
+                                var count = buffer_length / 2;
                                 this.vertexCallback(vertex, prop_arguments, {
-                                    index,
-                                    count,
+                                    index: index,
+                                    count: count,
                                     offset: index / count,
                                 });
                             }
@@ -357,50 +391,50 @@ class ShapeBase extends SceneChild {
         this.bounding.cx = this.bounding.x - this.bounding.width / 2;
         this.bounding.cy = this.bounding.y - this.bounding.height / 2;
         this.buffer = new Float32Array(total_buffer_length);
-        for (let i = 0, offset = 0, len = buffers.length; i < len; offset += buffers[i].length, i++)
+        for (var i = 0, offset = 0, len = buffers.length; i < len; offset += buffers[i].length, i++)
             this.buffer.set(buffers[i], offset);
         this.bIndexed = true;
-    }
+    };
     /**
      * Get number of repetitions
      *
      * @returns {number}
      * @memberof ShapeBase
      */
-    getRepetitionCount() {
+    ShapeBase.prototype.getRepetitionCount = function () {
         var _a;
-        let repetitions = this.getProp('repetitions', undefined, 1);
+        var repetitions = this.getProp('repetitions', undefined, 1);
         return Array.isArray(repetitions) ? repetitions[0] * ((_a = repetitions[1]) !== null && _a !== void 0 ? _a : repetitions[0]) : repetitions;
-    }
+    };
     /**
      * Return buffer
      *
      * @returns {(Float32Array | undefined)}
      * @memberof ShapeBase
      */
-    getBuffer() {
+    ShapeBase.prototype.getBuffer = function () {
         return this.buffer;
-    }
+    };
     /**
      * Return indexed buffer
      *
      * @returns {(Array<IBufferIndex> | undefined)}
      * @memberof ShapeBase
      */
-    getIndexedBuffer() {
+    ShapeBase.prototype.getIndexedBuffer = function () {
         return this.indexed_buffer;
-    }
+    };
     /**
      * Stream buffer
      *
      * @param {(TStreamCallback} callback
      * @memberof ShapeBase
      */
-    stream(callback) {
+    ShapeBase.prototype.stream = function (callback) {
         if (this.scene && this.buffer && this.indexed_buffer) {
-            for (let i = 0, j = 0, len = this.indexed_buffer.length; i < len; i++) {
-                const current_indexing = this.indexed_buffer[i];
-                const prop_arguments = {
+            for (var i = 0, j = 0, len = this.indexed_buffer.length; i < len; i++) {
+                var current_indexing = this.indexed_buffer[i];
+                var prop_arguments = {
                     shape: current_indexing.shape,
                     repetition: current_indexing.repetition,
                     context: Context,
@@ -408,10 +442,10 @@ class ShapeBase extends SceneChild {
                     parent: current_indexing.parent,
                     data: current_indexing.shape.data,
                 };
-                const fillColor = current_indexing.shape.getProp('fillColor', prop_arguments);
-                const strokeColor = current_indexing.shape.getProp('strokeColor', prop_arguments, typeof fillColor !== 'undefined' ? undefined : this.scene.mainColor);
-                const lineWidth = current_indexing.shape.getProp('lineWidth', prop_arguments, typeof fillColor !== 'undefined' && typeof strokeColor === 'undefined' ? undefined : 1);
-                const streamArguments = {
+                var fillColor = current_indexing.shape.getProp('fillColor', prop_arguments);
+                var strokeColor = current_indexing.shape.getProp('strokeColor', prop_arguments, typeof fillColor !== 'undefined' ? undefined : this.scene.mainColor);
+                var lineWidth = current_indexing.shape.getProp('lineWidth', prop_arguments, typeof fillColor !== 'undefined' && typeof strokeColor === 'undefined' ? undefined : 1);
+                var streamArguments = {
                     buffer: this.buffer,
                     frame_length: current_indexing.frame_length,
                     frame_buffer_index: j,
@@ -427,43 +461,44 @@ class ShapeBase extends SceneChild {
                 j += current_indexing.frame_length;
             }
         }
-    }
-}
-/**
- * Empty buffer
- *
- * @internal
- * @ignore
- */
-ShapeBase.EMPTY_BUFFER = new Float32Array(0);
-/**
- * Empty BaseRepetition
- *
- * @internal
- * @ignore
- */
-ShapeBase.getEmptySimpleRepetition = () => ({
-    index: 1,
-    offset: 1,
-    count: 1,
-});
-/**
- * Empty Repetition
- *
- * @internal
- * @ignore
- */
-ShapeBase.getEmptyRepetition = () => (Object.assign(Object.assign({ type: ERepetitionType.Ring, angle: 0 }, ShapeBase.getEmptySimpleRepetition()), { row: ShapeBase.getEmptySimpleRepetition(), col: ShapeBase.getEmptySimpleRepetition() }));
-/**
- * Empty Prop Arguments
- *
- * @internal
- * @ignore
- */
-ShapeBase.EMPTY_PROP_ARGUMENTS = {
-    time: 0,
-    context: Context,
-    repetition: ShapeBase.getEmptyRepetition(),
-};
+    };
+    /**
+     * Empty buffer
+     *
+     * @internal
+     * @ignore
+     */
+    ShapeBase.EMPTY_BUFFER = new Float32Array(0);
+    /**
+     * Empty BaseRepetition
+     *
+     * @internal
+     * @ignore
+     */
+    ShapeBase.getEmptySimpleRepetition = function () { return ({
+        index: 1,
+        offset: 1,
+        count: 1,
+    }); };
+    /**
+     * Empty Repetition
+     *
+     * @internal
+     * @ignore
+     */
+    ShapeBase.getEmptyRepetition = function () { return (__assign(__assign({ type: ERepetitionType.Ring, angle: 0 }, ShapeBase.getEmptySimpleRepetition()), { row: ShapeBase.getEmptySimpleRepetition(), col: ShapeBase.getEmptySimpleRepetition() })); };
+    /**
+     * Empty Prop Arguments
+     *
+     * @internal
+     * @ignore
+     */
+    ShapeBase.EMPTY_PROP_ARGUMENTS = {
+        time: 0,
+        context: Context,
+        repetition: ShapeBase.getEmptyRepetition(),
+    };
+    return ShapeBase;
+}(SceneChild));
 export default ShapeBase;
 //# sourceMappingURL=ShapeBase.js.map

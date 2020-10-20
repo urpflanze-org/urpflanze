@@ -65,7 +65,7 @@ declare abstract class SceneChild {
     data: any;
     /**
      * Creates an instance of SceneChild.
-     * Base values ​​will be assigned in case they are not passed
+     * Base values will be assigned in case they are not passed
      *
      * @param {ISceneChildSettings} settings
      * @memberof SceneChild

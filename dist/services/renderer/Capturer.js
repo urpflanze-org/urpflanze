@@ -3,8 +3,9 @@
  * @category Services.Renderer
  * @class Capturer
  */
-class Capturer {
-    constructor(settings = {}) {
+var Capturer = /** @class */ (function () {
+    function Capturer(settings) {
+        if (settings === void 0) { settings = {}; }
         this.type = settings.type || 'image/jpeg';
         this.encoder = this.type === 'image/png' ? 'png' : 'jpeg';
         this.extension = this.encoder === 'jpeg' ? '.jpg' : '.png';
@@ -13,80 +14,82 @@ class Capturer {
         this.promises = [];
         this.chunks = [];
     }
-    setSettings(settings) {
+    Capturer.prototype.setSettings = function (settings) {
         this.type = settings.type || 'image/jpeg';
         this.encoder = this.type === 'image/png' ? 'png' : 'jpeg';
         this.extension = this.encoder === 'jpeg' ? '.jpg' : '.png';
         this.quality = settings && settings.quality ? settings.quality : 1;
-    }
-    start(total_frames) {
+    };
+    Capturer.prototype.start = function (total_frames) {
         this.chunks = new Array(total_frames);
         this.promises = new Array(total_frames);
         this.started = true;
-    }
-    stop() {
+    };
+    Capturer.prototype.stop = function () {
         this.chunks = [];
         this.promises = [];
         this.started = false;
-    }
-    capture(canvas, framenumber) {
+    };
+    Capturer.prototype.capture = function (canvas, framenumber) {
         if (this.started) {
-            const type = this.type;
-            const quality = this.quality;
-            const chunks = this.chunks;
-            const promise = new Promise((resolve, reject) => {
-                Capturer.render(canvas, type, quality)
-                    .then(blob => {
-                    chunks[framenumber] = blob;
+            var type_1 = this.type;
+            var quality_1 = this.quality;
+            var chunks_1 = this.chunks;
+            var promise = new Promise(function (resolve, reject) {
+                Capturer.render(canvas, type_1, quality_1)
+                    .then(function (blob) {
+                    chunks_1[framenumber] = blob;
                     resolve(framenumber);
                 })
-                    .catch(e => reject([framenumber, e]));
+                    .catch(function (e) { return reject([framenumber, e]); });
             });
             this.promises[framenumber] = promise;
             return promise;
         }
         return Promise.reject();
-    }
-    save() {
+    };
+    Capturer.prototype.save = function () {
+        var _this = this;
         if (this.started) {
-            return new Promise((resolve, reject) => {
-                Promise.all(this.promises).then(() => {
-                    resolve(this.chunks);
-                }, reason => {
+            return new Promise(function (resolve, reject) {
+                Promise.all(_this.promises).then(function () {
+                    resolve(_this.chunks);
+                }, function (reason) {
                     reject(reason);
                 });
             });
         }
         return Promise.reject('not started');
-    }
-    static getRenderTime(canvas, type, quality) {
-        const startTime = performance.now();
-        return Capturer.render(canvas, type, quality).then(() => performance.now() - startTime);
-    }
-    static getBlob(canvas, type, quality) {
-        return new Promise((resolve, reject) => {
+    };
+    Capturer.getRenderTime = function (canvas, type, quality) {
+        var startTime = performance.now();
+        return Capturer.render(canvas, type, quality).then(function () { return performance.now() - startTime; });
+    };
+    Capturer.getBlob = function (canvas, type, quality) {
+        return new Promise(function (resolve, reject) {
             if (canvas instanceof OffscreenCanvas)
-                return canvas.convertToBlob({ type, quality }).then(resolve).catch(reject);
+                return canvas.convertToBlob({ type: type, quality: quality }).then(resolve).catch(reject);
             else if (canvas instanceof HTMLCanvasElement)
-                return canvas.toBlob(blob => (blob ? resolve(blob) : reject()), type, quality);
+                return canvas.toBlob(function (blob) { return (blob ? resolve(blob) : reject()); }, type, quality);
         });
-    }
-    static render(canvas, type, quality) {
-        return new Promise((resolve, reject) => {
-            const blobPromise = Capturer.getBlob(canvas, type, quality);
+    };
+    Capturer.render = function (canvas, type, quality) {
+        return new Promise(function (resolve, reject) {
+            var blobPromise = Capturer.getBlob(canvas, type, quality);
             blobPromise
-                .then(blob => {
-                const fileReader = new FileReader();
-                fileReader.addEventListener('load', () => {
+                .then(function (blob) {
+                var fileReader = new FileReader();
+                fileReader.addEventListener('load', function () {
                     fileReader.result && fileReader.result instanceof ArrayBuffer
                         ? resolve(new Uint8Array(fileReader.result))
                         : reject();
                 }, { passive: true });
                 fileReader.readAsArrayBuffer(blob);
             })
-                .catch(e => reject(e));
+                .catch(function (e) { return reject(e); });
         });
-    }
-}
+    };
+    return Capturer;
+}());
 export default Capturer;
 //# sourceMappingURL=Capturer.js.map

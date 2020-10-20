@@ -315,11 +315,12 @@ const Easings = {
 			p = durate * 0.3
 		}
 
+		let s = 0
 		if (!a || a < Math.abs(end)) {
 			a = end
-			var s = p / 4
+			s = p / 4
 		} else {
-			var s = (p / (2 * Math.PI)) * Math.asin(end / a)
+			s = (p / (2 * Math.PI)) * Math.asin(end / a)
 		}
 
 		return -(a * Math.pow(2, 10 * (time -= 1)) * Math.sin(((time * durate - s) * (2 * Math.PI)) / p)) + start
@@ -345,11 +346,12 @@ const Easings = {
 			p = durate * 0.3
 		}
 
+		let s = 0
 		if (!a || a < Math.abs(end)) {
 			a = end
-			var s = p / 4
+			s = p / 4
 		} else {
-			var s = (p / (2 * Math.PI)) * Math.asin(end / a)
+			s = (p / (2 * Math.PI)) * Math.asin(end / a)
 		}
 
 		return a * Math.pow(2, -10 * time) * Math.sin(((time * durate - s) * (2 * Math.PI)) / p) + end + start
@@ -377,11 +379,12 @@ const Easings = {
 			p = durate * (0.3 * 1.5)
 		}
 
+		let s = 0
 		if (!a || a < Math.abs(end)) {
 			a = end
-			var s = p / 4
+			s = p / 4
 		} else {
-			var s = (p / (2 * Math.PI)) * Math.asin(end / a)
+			s = (p / (2 * Math.PI)) * Math.asin(end / a)
 		}
 
 		if (time < 1) {

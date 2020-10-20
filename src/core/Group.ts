@@ -216,7 +216,7 @@ class Group extends SceneChild {
 	 */
 	public generate(
 		indexing_id: number,
-		bDirectSceneChild: boolean = false,
+		bDirectSceneChild = false,
 		parent_prop_arguments?: ISceneChildPropArguments
 	): void {
 		this.children.forEach(item => item.generate(indexing_id, bDirectSceneChild, parent_prop_arguments))
@@ -250,7 +250,7 @@ class Group extends SceneChild {
 	 * @param {boolean} [bPropagateToParents=false]
 	 * @memberof Group
 	 */
-	public clearBuffer(bClearIndexed: boolean = false, bPropagateToParents: boolean = true) {
+	public clearBuffer(bClearIndexed = false, bPropagateToParents = true) {
 		this.children.forEach(item => item.clearBuffer(bClearIndexed, false))
 
 		if (this.scene && bPropagateToParents) {

@@ -4,7 +4,7 @@
  * @internal
  * @ignore
  */
-let __id = 0;
+var __id = 0;
 /**
  * The element to be added into a scene.
  * Preserve props, drawing order, generate and return buffers.
@@ -15,15 +15,15 @@ let __id = 0;
  * @order 2
  * @class SceneChild
  */
-class SceneChild {
+var SceneChild = /** @class */ (function () {
     /**
      * Creates an instance of SceneChild.
-     * Base values ​​will be assigned in case they are not passed
+     * Base values will be assigned in case they are not passed
      *
      * @param {ISceneChildSettings} settings
      * @memberof SceneChild
      */
-    constructor(settings) {
+    function SceneChild(settings) {
         var _a;
         this.id = (_a = settings.id) !== null && _a !== void 0 ? _a : ++__id;
         this.type = settings.type || 'SceneChild';
@@ -39,20 +39,20 @@ class SceneChild {
      * @returns {(SceneChild | null)}
      * @memberof SceneChild
      */
-    find(id_or_name) {
+    SceneChild.prototype.find = function (id_or_name) {
         if (this.id === id_or_name || this.name === id_or_name)
             return this;
         return null;
-    }
+    };
     /**
      * Return the sceneChild properties
      *
      * @returns {ISceneChildProps}
      * @memberof SceneChild
      */
-    getProps() {
+    SceneChild.prototype.getProps = function () {
         return this.props;
-    }
+    };
     /**
      * Return a sceneChild prop or default value
      *
@@ -62,10 +62,10 @@ class SceneChild {
      * @returns {*}
      * @memberof SceneChild
      */
-    getProp(key, prop_arguments, default_value) {
+    SceneChild.prototype.getProp = function (key, prop_arguments, default_value) {
         var _a;
-        return (_a = this.props[key]) !== null && _a !== void 0 ? _a : default_value;
-    }
+        return ((_a = this.props[key]) !== null && _a !== void 0 ? _a : default_value);
+    };
     /**
      * Set a single or multiple props
      *
@@ -73,12 +73,16 @@ class SceneChild {
      * @param {*} [value]
      * @memberof ShapeBase
      */
-    setPropUnsafe(key, value) {
+    SceneChild.prototype.setPropUnsafe = function (key, value) {
+        var _this = this;
         if (typeof key == 'string')
             this.props[key] = value;
         else
-            Object.keys(key).forEach((k) => (this.props[k] = key[k]));
-    }
-}
+            Object.keys(key).forEach(function (k) {
+                return (_this.props[k] = key[k]);
+            });
+    };
+    return SceneChild;
+}());
 export default SceneChild;
 //# sourceMappingURL=SceneChild.js.map

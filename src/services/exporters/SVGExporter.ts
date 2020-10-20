@@ -140,7 +140,7 @@ class SVGExporter {
 				if (bGhost) {
 					const color = /\((.+),(.+),(.+),(.+)\)/g.exec(fillColor)
 					if (color) {
-						let [, a, b, c, o]: Array<string> = color as RegExpExecArray
+						const [, a, b, c, o]: Array<string> = color as RegExpExecArray
 						const alpha = o ? parseFloat(o) : 1
 						const ghostAlpha = alpha <= 0 ? 0 : alpha * ghostMultiplier
 						fillColor =
@@ -155,7 +155,7 @@ class SVGExporter {
 				if (bGhost) {
 					const color = /\((.+),(.+),(.+),(.+)\)/g.exec(strokeColor)
 					if (color) {
-						let [, a, b, c, o]: Array<string> = color as RegExpExecArray
+						const [, a, b, c, o]: Array<string> = color as RegExpExecArray
 						const alpha = o ? parseFloat(o) : 1
 						const ghostAlpha = alpha <= 0 ? 0 : alpha * ghostMultiplier
 						strokeColor =

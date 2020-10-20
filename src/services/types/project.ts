@@ -25,7 +25,7 @@ export interface IProject {
 	clearCanvas: boolean
 	ghosts: number
 	ghost_skip_time?: number
-	ghost_skip_function?: number | string | Function
+	ghost_skip_function?: number | string | CallableFunction
 
 	// Timeline
 	sequence: IProjectSequence

@@ -5,9 +5,11 @@ import SceneChildPropsData, { ISceneChildPropData, TSceneChildPropsDataKeys, } f
  * @category Services.Scene Utilities
  * @class ScenePropUtilities
  */
-class ScenePropUtilities {
+var ScenePropUtilities = /** @class */ (function () {
+    function ScenePropUtilities() {
+    }
     //#region ShapeLoop
-    static bValueLoop(value) {
+    ScenePropUtilities.bValueLoop = function (value) {
         return (typeof value === 'object' &&
             'start' in value &&
             'end' in value &&
@@ -15,28 +17,28 @@ class ScenePropUtilities {
             'vertex' in value &&
             value.vertex.raw &&
             value.vertex.raw.length > 0);
-    }
-    static bValueVertexCallback(value) {
+    };
+    ScenePropUtilities.bValueVertexCallback = function (value) {
         return value && value.raw && value.raw.length > 0;
-    }
-    static composeVertexCallback(value) {
+    };
+    ScenePropUtilities.composeVertexCallback = function (value) {
         if (value && value.raw) {
-            const vertexCallback = new Function('vertex', ScenePropUtilities.RAW_ARGUMENTS, 'vertex_index', 'vertex_lenght', `return ${value.raw}`);
+            var vertexCallback = new Function('vertex', ScenePropUtilities.RAW_ARGUMENTS, 'vertex_index', 'vertex_lenght', "return " + value.raw);
             return vertexCallback;
         }
-    }
-    static composeLoop(loop) {
-        const vertex = loop.vertex.raw
-            ? new Function('index', ScenePropUtilities.RAW_ARGUMENTS, `return ${loop.vertex.raw}`)
+    };
+    ScenePropUtilities.composeLoop = function (loop) {
+        var vertex = loop.vertex.raw
+            ? new Function('index', ScenePropUtilities.RAW_ARGUMENTS, "return " + loop.vertex.raw)
             : undefined;
         //Todo: number -> resolve function
         return {
             start: loop.start,
             end: loop.end,
             inc: loop.inc,
-            vertex,
+            vertex: vertex,
         };
-    }
+    };
     //#endregion
     // static getRandomFunctionForProp(name): (rand: number) => any {
     //     const prop: ISceneChildProp = UISceneChildUtilitiesStatic.sceneChildProps[name]
@@ -57,31 +59,31 @@ class ScenePropUtilities {
     // }
     //#endregion
     //#region Props relative to drawer
-    static bValueAnimation(value) {
+    ScenePropUtilities.bValueAnimation = function (value) {
         return (value &&
             typeof value === 'object' &&
             value.type &&
             (value.type === 'simple' || value.type === 'raw') /*|| value.type == 'random'*/);
-    }
-    static bValueDrawer(value) {
+    };
+    ScenePropUtilities.bValueDrawer = function (value) {
         return value && typeof value === 'object' && value.type && value.type === 'drawer-transformation';
-    }
-    static bPropTransformable(name, value) {
-        const sceneChildProp = SceneChildPropsData[name];
+    };
+    ScenePropUtilities.bPropTransformable = function (name, value) {
+        var sceneChildProp = SceneChildPropsData[name];
         return (sceneChildProp &&
             sceneChildProp.transformation !== 'none' &&
             typeof value !== 'undefined' &&
             typeof value !== 'function' &&
             !ScenePropUtilities.bValueAnimation(value));
-    }
-    static getValueDrawerTransformationType(name) {
-        const sceneChildProp = SceneChildPropsData[name];
+    };
+    ScenePropUtilities.getValueDrawerTransformationType = function (name) {
+        var sceneChildProp = SceneChildPropsData[name];
         return sceneChildProp && sceneChildProp.transformation !== 'none' ? sceneChildProp.transformation : null;
-    }
-    static getTransformedValue(drawer, name, value) {
-        const sceneChildProp = SceneChildPropsData[name];
+    };
+    ScenePropUtilities.getTransformedValue = function (drawer, name, value) {
+        var sceneChildProp = SceneChildPropsData[name];
         if (ScenePropUtilities.bPropTransformable(name, value)) {
-            let transformedValueFunction;
+            var transformedValueFunction = void 0;
             switch (sceneChildProp.transformation) {
                 case 'angle':
                     transformedValueFunction = toRadians;
@@ -100,11 +102,11 @@ class ScenePropUtilities {
                 : value;
         }
         return value;
-    }
-    static getTransformedValueInverse(drawer, name, value) {
-        const sceneChildProp = SceneChildPropsData[name];
+    };
+    ScenePropUtilities.getTransformedValueInverse = function (drawer, name, value) {
+        var sceneChildProp = SceneChildPropsData[name];
         if (ScenePropUtilities.bPropTransformable(name, value)) {
-            let transformedValueFunction;
+            var transformedValueFunction = void 0;
             switch (sceneChildProp.transformation) {
                 case 'angle':
                     transformedValueFunction = toDegrees;
@@ -122,9 +124,10 @@ class ScenePropUtilities {
                     : transformedValueFunction(value);
         }
         return value;
-    }
-}
-ScenePropUtilities.RAW_ARGUMENTS = '{ context, repetition, time, shape, shape_loop, data }';
-ScenePropUtilities.RAW_ARGUMENTS_WITH_PARENT = '{ context, repetition, parent, time, shape, shape_loop, data }';
+    };
+    ScenePropUtilities.RAW_ARGUMENTS = '{ context, repetition, time, shape, shape_loop, data }';
+    ScenePropUtilities.RAW_ARGUMENTS_WITH_PARENT = '{ context, repetition, parent, time, shape, shape_loop, data }';
+    return ScenePropUtilities;
+}());
 export default ScenePropUtilities;
 //# sourceMappingURL=ScenePropUtilities.js.map

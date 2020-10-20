@@ -9,9 +9,9 @@ import { now } from 'src/Utilites'
  * @extends {Emitter<TimelineEvents>}
  */
 class Timeline extends Emitter<TimelineEvents> {
-	static START: string = 'start'
-	static PAUSE: string = 'pause'
-	static STOP: string = 'stop'
+	static START = 'start'
+	static PAUSE = 'pause'
+	static STOP = 'stop'
 
 	private fps_samples_size: number
 	private fps_samples: Array<number>

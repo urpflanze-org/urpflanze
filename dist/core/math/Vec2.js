@@ -4,7 +4,7 @@ import { clamp } from "../../Utilites";
  *
  * @internal
  */
-const MATRIX = new Array(4);
+var MATRIX = new Array(4);
 /**
  * Create new vertex
  *
@@ -13,8 +13,9 @@ const MATRIX = new Array(4);
  * @returns {TArray}
  * @internal
  */
-const create = (x = 0, y) => {
-    const out = new Array(2);
+var create = function (x, y) {
+    if (x === void 0) { x = 0; }
+    var out = new Array(2);
     if (typeof x === 'number') {
         out[0] = x;
         out[1] = y !== null && y !== void 0 ? y : x;
@@ -33,7 +34,7 @@ const create = (x = 0, y) => {
  * @returns {number}
  * @internal
  */
-const distance = (a, b) => Math.hypot(b[0] - a[0], b[1] - a[1]);
+var distance = function (a, b) { return Math.hypot(b[0] - a[0], b[1] - a[1]); };
 /**
  * dot product
  *
@@ -42,7 +43,7 @@ const distance = (a, b) => Math.hypot(b[0] - a[0], b[1] - a[1]);
  * @returns {number}
  * @internal
  */
-const dot = (a, b) => a[0] * b[0] + a[1] * b[1];
+var dot = function (a, b) { return a[0] * b[0] + a[1] * b[1]; };
 /**
  * length of point
  *
@@ -50,7 +51,7 @@ const dot = (a, b) => a[0] * b[0] + a[1] * b[1];
  * @returns {number}
  * @internal
  */
-const length = (vec) => Math.hypot(vec[0], vec[1]);
+var length = function (vec) { return Math.hypot(vec[0], vec[1]); };
 /**
  * angle between two point
  *
@@ -59,8 +60,8 @@ const length = (vec) => Math.hypot(vec[0], vec[1]);
  * @returns {number}
  * @internal
  */
-const angle = (a, b) => {
-    const m = length(a) * length(b);
+var angle = function (a, b) {
+    var m = length(a) * length(b);
     return Math.acos(clamp(-1, 1, m && dot(a, b) / m));
 };
 /**
@@ -70,7 +71,7 @@ const angle = (a, b) => {
  * @param {number} m
  * @internal
  */
-const skewX = (vec, m) => {
+var skewX = function (vec, m) {
     vec[0] += Math.tan(m) * vec[1];
 };
 /**
@@ -80,7 +81,7 @@ const skewX = (vec, m) => {
  * @param {number} m
  * @internal
  */
-const skewY = (vec, m) => {
+var skewY = function (vec, m) {
     vec[1] += Math.tan(m) * vec[0];
 };
 /**
@@ -90,7 +91,7 @@ const skewY = (vec, m) => {
  * @param {number} m
  * @internal
  */
-const squeezeX = (vec, m) => {
+var squeezeX = function (vec, m) {
     vec[1] += vec[1] * (vec[0] * -m);
 };
 /**
@@ -99,7 +100,7 @@ const squeezeX = (vec, m) => {
  * @param {TArray} vec
  * @param {number} m
  */
-const squeezeY = (vec, m) => {
+var squeezeY = function (vec, m) {
     vec[0] += vec[0] * (vec[1] * m);
 };
 /**
@@ -110,9 +111,9 @@ const squeezeY = (vec, m) => {
  * @param {TArray} pointToRotate
  * @internal
  */
-const rotate = (vec, MATRIX, pointToRotate) => {
-    const p0 = vec[0] - pointToRotate[0];
-    const p1 = vec[1] - pointToRotate[1];
+var rotate = function (vec, MATRIX, pointToRotate) {
+    var p0 = vec[0] - pointToRotate[0];
+    var p1 = vec[1] - pointToRotate[1];
     vec[0] = p0 * MATRIX[0] + p1 * MATRIX[1] + pointToRotate[0];
     vec[1] = p0 * MATRIX[2] + p1 * MATRIX[3] + pointToRotate[1];
 };
@@ -124,7 +125,7 @@ const rotate = (vec, MATRIX, pointToRotate) => {
  * @param {number} rad
  * @internal
  */
-const rotateX = (vec, pointToRotate, rad) => {
+var rotateX = function (vec, pointToRotate, rad) {
     MATRIX[0] = 1;
     MATRIX[1] = 0;
     MATRIX[2] = 0;
@@ -139,7 +140,7 @@ const rotateX = (vec, pointToRotate, rad) => {
  * @param {number} rad
  * @internal
  */
-const rotateY = (vec, pointToRotate, rad) => {
+var rotateY = function (vec, pointToRotate, rad) {
     MATRIX[0] = Math.cos(rad);
     MATRIX[1] = 0;
     MATRIX[2] = 0;
@@ -154,7 +155,7 @@ const rotateY = (vec, pointToRotate, rad) => {
  * @param {number} rad
  * @internal
  */
-const rotateZ = (vec, pointToRotate, rad) => {
+var rotateZ = function (vec, pointToRotate, rad) {
     MATRIX[0] = Math.cos(rad);
     MATRIX[1] = -Math.sin(rad);
     MATRIX[2] = Math.sin(rad);
@@ -168,7 +169,7 @@ const rotateZ = (vec, pointToRotate, rad) => {
  * @param {TArray} to
  * @internal
  */
-const translate = (vec, to) => {
+var translate = function (vec, to) {
     vec[0] += to[0];
     vec[1] += to[1];
 };
@@ -179,7 +180,7 @@ const translate = (vec, to) => {
  * @param {TArray} to
  * @internal
  */
-const scale = (vec, to) => {
+var scale = function (vec, to) {
     vec[0] *= to[0];
     vec[1] *= to[1];
 };
@@ -190,7 +191,7 @@ const scale = (vec, to) => {
  * @param {TArray} to
  * @internal
  */
-const divide = (vec, to) => {
+var divide = function (vec, to) {
     vec[0] /= to[0];
     vec[1] /= to[1];
 };
@@ -201,35 +202,35 @@ const divide = (vec, to) => {
  * @return {string}
  * @internal
  */
-const toString = (vec) => `x: ${vec[0]}, y: ${vec[1]}`;
+var toString = function (vec) { return "x: " + vec[0] + ", y: " + vec[1]; };
 /**
  * Vertex [0, 0]
  * @internal
  */
-const ZERO = Array.from([0, 0]);
+var ZERO = Array.from([0, 0]);
 /**
  * Vertex [1, 1]
  * @internal
  */
-const ONE = Array.from([1, 1]);
+var ONE = Array.from([1, 1]);
 export default {
-    create,
-    distance,
-    dot,
-    length,
-    angle,
-    squeezeX,
-    squeezeY,
-    skewX,
-    skewY,
-    rotateX,
-    rotateY,
-    rotateZ,
-    translate,
-    scale,
-    divide,
-    toString,
-    ZERO,
-    ONE,
+    create: create,
+    distance: distance,
+    dot: dot,
+    length: length,
+    angle: angle,
+    squeezeX: squeezeX,
+    squeezeY: squeezeY,
+    skewX: skewX,
+    skewY: skewY,
+    rotateX: rotateX,
+    rotateY: rotateY,
+    rotateZ: rotateZ,
+    translate: translate,
+    scale: scale,
+    divide: divide,
+    toString: toString,
+    ZERO: ZERO,
+    ONE: ONE,
 };
 //# sourceMappingURL=Vec2.js.map

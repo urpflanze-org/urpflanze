@@ -90,7 +90,7 @@ class ShapeLoop extends ShapePrimitive {
 	 * @param {boolean} [bPreventGeneration=false]
 	 * @memberof ShapeLoop
 	 */
-	constructor(settings: IShapeLoopSettings = {}, bPreventGeneration: boolean = false) {
+	constructor(settings: IShapeLoopSettings = {}, bPreventGeneration = false) {
 		settings.type = settings.type || 'ShapeLoop'
 		super(settings)
 
@@ -166,7 +166,7 @@ class ShapeLoop extends ShapePrimitive {
 	 * @param {boolean} [bPropagateToParents=false]
 	 * @memberof ShapeLoop
 	 */
-	public clearBuffer(bClearIndexed: boolean = false, bPropagateToParents: boolean = true) {
+	public clearBuffer(bClearIndexed = false, bPropagateToParents = true): void {
 		super.clearBuffer(bClearIndexed, bPropagateToParents)
 
 		this.bStaticLoop = this.isStaticLoop()

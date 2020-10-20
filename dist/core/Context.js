@@ -5,7 +5,7 @@ import { vec2 } from 'gl-matrix';
  * @internal
  * @ignore
  */
-const noises = {
+var noises = {
     random: new SimplexNoise(Math.random),
 };
 /**
@@ -19,7 +19,7 @@ const noises = {
  * })
  * ```
  */
-const Context = {
+var Context = {
     /**
      * <a href="https://github.com/jwagner/simplex-noise.js" target="_blank">SimplexNoise</a>
      * Use 'random' as seed property for random seed.
@@ -31,7 +31,11 @@ const Context = {
      * @param {number} [z=0]
      * @returns {number}
      */
-    noise: (seed = 'random', x = 0, y = 0, z = 0) => {
+    noise: function (seed, x, y, z) {
+        if (seed === void 0) { seed = 'random'; }
+        if (x === void 0) { x = 0; }
+        if (y === void 0) { y = 0; }
+        if (z === void 0) { z = 0; }
         if (!noises[seed]) {
             noises[seed] = new SimplexNoise(seed);
         }
@@ -46,13 +50,14 @@ const Context = {
      * @param {vec2} offsetFromCenter
      * @returns {number}
      */
-    angle: (repetition, offsetFromCenter = [0, 0]) => {
+    angle: function (repetition, offsetFromCenter) {
+        if (offsetFromCenter === void 0) { offsetFromCenter = [0, 0]; }
         if (repetition.type == ERepetitionType.Matrix) {
-            const center_matrix = vec2.fromValues((repetition.col.count - 1) / 2, (repetition.row.count - 1) / 2);
+            var center_matrix = vec2.fromValues((repetition.col.count - 1) / 2, (repetition.row.count - 1) / 2);
             center_matrix[0] += center_matrix[0] * offsetFromCenter[0];
             center_matrix[1] += center_matrix[1] * offsetFromCenter[1];
-            const x = repetition.col.index - 1 - center_matrix[0];
-            const y = repetition.row.index - 1 - center_matrix[1];
+            var x = repetition.col.index - 1 - center_matrix[0];
+            var y = repetition.row.index - 1 - center_matrix[1];
             return x === 0 ? 0 : Math.atan(y / x);
         }
         return repetition.angle;
@@ -66,13 +71,14 @@ const Context = {
      * @param {vec2} offsetFromCenter
      * @returns {number}
      */
-    angle2: (repetition, offsetFromCenter = [0, 0]) => {
+    angle2: function (repetition, offsetFromCenter) {
+        if (offsetFromCenter === void 0) { offsetFromCenter = [0, 0]; }
         if (repetition.type == ERepetitionType.Matrix) {
-            const center_matrix = vec2.fromValues((repetition.col.count - 1) / 2, (repetition.row.count - 1) / 2);
+            var center_matrix = vec2.fromValues((repetition.col.count - 1) / 2, (repetition.row.count - 1) / 2);
             center_matrix[0] += center_matrix[0] * offsetFromCenter[0];
             center_matrix[1] += center_matrix[1] * offsetFromCenter[1];
-            const x = repetition.col.index - 1 - center_matrix[0];
-            const y = repetition.col.index - 1 - center_matrix[1];
+            var x = repetition.col.index - 1 - center_matrix[0];
+            var y = repetition.col.index - 1 - center_matrix[1];
             return x === 0 ? 0 : Math.atan2(y, x);
         }
         return repetition.angle;
@@ -85,12 +91,13 @@ const Context = {
      * @param {vec2} offsetFromCenter offset relative to distance prop
      * @returns {number}
      */
-    distance: (repetition, offsetFromCenter = [0, 0]) => {
+    distance: function (repetition, offsetFromCenter) {
+        if (offsetFromCenter === void 0) { offsetFromCenter = [0, 0]; }
         if (repetition.type == ERepetitionType.Matrix) {
-            const center_matrix = vec2.fromValues(0.5, 0.5);
+            var center_matrix = vec2.fromValues(0.5, 0.5);
             center_matrix[0] += center_matrix[0] * offsetFromCenter[0];
             center_matrix[1] += center_matrix[1] * offsetFromCenter[1];
-            const current = vec2.fromValues(repetition.col.offset - 0.5 / repetition.col.count, repetition.row.offset - 0.5 / repetition.row.count);
+            var current = vec2.fromValues(repetition.col.offset - 0.5 / repetition.col.count, repetition.row.offset - 0.5 / repetition.row.count);
             return vec2.distance(current, center_matrix);
         }
         return 1;
@@ -102,7 +109,7 @@ const Context = {
      * @param {SceneChild} sceneChild
      * @returns {number}
      */
-    percW: (percentage, sceneChild) => {
+    percW: function (percentage, sceneChild) {
         return sceneChild && sceneChild.scene ? (sceneChild.scene.width * percentage) / 100 : percentage;
     },
     /**
@@ -112,7 +119,7 @@ const Context = {
      * @param {SceneChild} sceneChild
      * @returns {number}
      */
-    percH: (percentage, sceneChild) => {
+    percH: function (percentage, sceneChild) {
         return sceneChild && sceneChild.scene ? (sceneChild.scene.height * percentage) / 100 : percentage;
     },
 };

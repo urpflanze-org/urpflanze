@@ -1,3 +1,10 @@
+var __spreadArrays = (this && this.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
 import { v1 as uuidv1 } from 'uuid';
 import SceneChild from "../../core/SceneChild";
 // Shapes
@@ -24,23 +31,23 @@ import Animation from "../animation/Animation";
  * @category Services.Scene Utilities
  * @class SceneUtilities
  */
-class SceneUtilities {
-    constructor() {
+var SceneUtilities = /** @class */ (function () {
+    function SceneUtilities() {
         this.registeredSceneChilds = {};
         this.registeredSceneChilds = {};
         this.registeredSceneChilds = {
-            Line,
-            Triangle,
-            Rect,
-            RegularPolygon,
-            Circle,
-            Rose,
-            Spiral,
-            Lissajous,
-            Group,
-            Shape,
-            ShapeLoop,
-            ShapeBuffer,
+            Line: Line,
+            Triangle: Triangle,
+            Rect: Rect,
+            RegularPolygon: RegularPolygon,
+            Circle: Circle,
+            Rose: Rose,
+            Spiral: Spiral,
+            Lissajous: Lissajous,
+            Group: Group,
+            Shape: Shape,
+            ShapeLoop: ShapeLoop,
+            ShapeBuffer: ShapeBuffer,
         };
     }
     //#region Register scene child
@@ -50,9 +57,9 @@ class SceneUtilities {
      * @returns {Array<string>}
      * @memberof SceneUtilities
      */
-    getRegistered() {
+    SceneUtilities.prototype.getRegistered = function () {
         return Object.keys(this.registeredSceneChilds);
-    }
+    };
     /**
      * Register scene child for fast creation
      *
@@ -60,28 +67,28 @@ class SceneUtilities {
      * @param {SceneChildInstance} ref
      * @memberof SceneUtilities
      */
-    register(type, ref) {
+    SceneUtilities.prototype.register = function (type, ref) {
         if (!(type in this.registeredSceneChilds)) {
             this.registeredSceneChilds[type] = ref;
         }
         else {
-            console.warn(`SceneUtilities: SceneChild "${type}" is already registered`);
+            console.warn("SceneUtilities: SceneChild \"" + type + "\" is already registered");
         }
-    }
+    };
     /**
      * unregister scene child
      *
      * @param {string} type
      * @memberof SceneUtilities
      */
-    unregister(type) {
+    SceneUtilities.prototype.unregister = function (type) {
         if (type in this.registeredSceneChilds) {
             delete this.registeredSceneChilds[type];
         }
         else {
-            console.warn(`SceneUtilities: SceneChild "${type}" is not registered`);
+            console.warn("SceneUtilities: SceneChild \"" + type + "\" is not registered");
         }
-    }
+    };
     //#endregion
     //#region Scene manipulation
     /**
@@ -96,11 +103,12 @@ class SceneUtilities {
      * @returns {(SceneChild | null)}
      * @memberof SceneUtilities
      */
-    create(item, props, scene, drawer) {
+    SceneUtilities.prototype.create = function (item, props, scene, drawer) {
+        var _this = this;
         var _a;
         scene = scene ? scene : typeof item !== 'string' ? item.scene : undefined;
         if (item instanceof SceneChild) {
-            this.getChildren(item).forEach(child => this.create(child, undefined, scene, drawer));
+            this.getChildren(item).forEach(function (child) { return _this.create(child, undefined, scene, drawer); });
             return item;
         }
         if (item in this.registeredSceneChilds) {
@@ -123,18 +131,18 @@ class SceneUtilities {
                 if (!('loop' in props))
                     props.loop = { start: 0, end: Math.PI * 2, inc: (Math.PI * 2) / 20 };
             }
-            const sceneChild = new this.registeredSceneChilds[item](props);
+            var sceneChild = new this.registeredSceneChilds[item](props);
             if (sceneChild && drawer && this.isAPrimitive(sceneChild)) {
-                const sideLength = (_a = SceneChildPropsData.sideLength) === null || _a === void 0 ? void 0 : _a.default;
+                var sideLength = (_a = SceneChildPropsData.sideLength) === null || _a === void 0 ? void 0 : _a.default;
                 sceneChild.setProp('sideLength', ScenePropUtilities.getTransformedValue(drawer, 'sideLength', sideLength));
                 sceneChild.data.props.sideLength = sideLength;
             }
-            this.getChildren(sceneChild).forEach(child => this.create(child));
+            this.getChildren(sceneChild).forEach(function (child) { return _this.create(child); });
             return sceneChild;
         }
-        console.warn(`SceneUtilities: Creation failed. SceneChild "${item}" is not registered`);
+        console.warn("SceneUtilities: Creation failed. SceneChild \"" + item + "\" is not registered");
         return null;
-    }
+    };
     /**
      * Return number of element from a type
      *
@@ -143,13 +151,13 @@ class SceneUtilities {
      * @returns {number}
      * @memberof SceneUtilities
      */
-    getCountSceneChildOfType(scene, type) {
-        let count = 0;
-        Scene.walk(sceneChild => {
+    SceneUtilities.prototype.getCountSceneChildOfType = function (scene, type) {
+        var count = 0;
+        Scene.walk(function (sceneChild) {
             count += sceneChild.type == type ? 1 : 0;
         }, scene);
         return count;
-    }
+    };
     /**
      * Return a copy of sceneChild
      *
@@ -160,9 +168,11 @@ class SceneUtilities {
      * @returns {(SceneChild | null)}
      * @memberof SceneUtilities
      */
-    copy(sceneChild, scene, drawer, strict = false) {
+    SceneUtilities.prototype.copy = function (sceneChild, scene, drawer, strict) {
+        var _this = this;
+        if (strict === void 0) { strict = false; }
         // copy only props, without name, id
-        const props = sceneChild.getProps();
+        var props = sceneChild.getProps();
         if (sceneChild instanceof ShapeBase) {
             props.bUseParent = sceneChild.bUseParent;
         }
@@ -186,16 +196,16 @@ class SceneUtilities {
             props.order = sceneChild.order;
             props.data = JSON.parse(JSON.stringify(sceneChild.data || {}));
         }
-        const copied = this.create(sceneChild.type, props, scene, drawer);
+        var copied = this.create(sceneChild.type, props, scene, drawer);
         if (copied) {
             if (sceneChild instanceof Group) {
-                sceneChild.getChildren().forEach((child) => {
-                    const copiedChild = this.copy(child, scene, drawer);
+                sceneChild.getChildren().forEach(function (child) {
+                    var copiedChild = _this.copy(child, scene, drawer);
                     copiedChild && copied.add(copiedChild);
                 });
             }
             else if (sceneChild instanceof Shape && sceneChild.shape) {
-                const copiedShape = sceneChild.shape instanceof Float32Array ? sceneChild.shape : this.copy(sceneChild.shape, scene, drawer);
+                var copiedShape = sceneChild.shape instanceof Float32Array ? sceneChild.shape : this.copy(sceneChild.shape, scene, drawer);
                 copiedShape && (copied.shape = copiedShape);
             }
             else if (sceneChild instanceof ShapeBuffer && sceneChild.shape) {
@@ -204,9 +214,9 @@ class SceneUtilities {
             }
             return copied;
         }
-        console.warn(`SceneUtilities: Copy failed.`, sceneChild);
+        console.warn("SceneUtilities: Copy failed.", sceneChild);
         return null;
-    }
+    };
     /**
      * Add scene child to parent.
      * Create a group if parent is Shape and has one element (not Group) inside.
@@ -218,8 +228,8 @@ class SceneUtilities {
      * @returns {(SceneChild | null)}
      * @memberof SceneUtilities
      */
-    add(parent, sceneChild, props, scene) {
-        let newSceneChild = null;
+    SceneUtilities.prototype.add = function (parent, sceneChild, props, scene) {
+        var newSceneChild = null;
         if (parent instanceof Group || parent instanceof Scene) {
             newSceneChild = this.create(sceneChild, props, scene);
             newSceneChild && parent.add(newSceneChild);
@@ -232,8 +242,8 @@ class SceneUtilities {
             else if (parent.shape instanceof ShapeBase) {
                 newSceneChild = this.create(sceneChild, props, scene);
                 if (newSceneChild) {
-                    const newGroup = this.create('Group', undefined, scene);
-                    const sibling = parent.shape;
+                    var newGroup = this.create('Group', undefined, scene);
+                    var sibling = parent.shape;
                     this.remove(parent, sibling);
                     parent.setShape(newGroup);
                     newGroup.add(sibling);
@@ -245,7 +255,7 @@ class SceneUtilities {
             }
         }
         return newSceneChild;
-    }
+    };
     /**
      * Remove scene child from
      *
@@ -253,15 +263,15 @@ class SceneUtilities {
      * @param {SceneChild} [item]
      * @memberof SceneUtilities
      */
-    remove(from, item) {
+    SceneUtilities.prototype.remove = function (from, item) {
         if (!item) {
             // 'from' as item to remove
             if (from.scene) {
-                const parent = this.getParent(from);
-                !parent ? from.scene.removeFromId(from.id) : this.remove(parent, from);
+                var parent_1 = this.getParent(from);
+                !parent_1 ? from.scene.removeFromId(from.id) : this.remove(parent_1, from);
             }
             else {
-                console.warn(`SceneUtilities: Remove failed. SceneChild is not added into scene`, from);
+                console.warn("SceneUtilities: Remove failed. SceneChild is not added into scene", from);
             }
         }
         else {
@@ -270,7 +280,7 @@ class SceneUtilities {
             else if (from instanceof Shape)
                 from.setShape(undefined);
         }
-    }
+    };
     //#endregion
     //#region Scene parent and children
     /**
@@ -280,10 +290,10 @@ class SceneUtilities {
      * @returns {(SceneChild | null)}
      * @memberof SceneUtilities
      */
-    getRootParent(sceneChild) {
-        const parents = this.getParents(sceneChild);
+    SceneUtilities.prototype.getRootParent = function (sceneChild) {
+        var parents = this.getParents(sceneChild);
         return parents.length > 0 ? parents[0] : null;
-    }
+    };
     /**
      * Get first level parent
      *
@@ -291,10 +301,10 @@ class SceneUtilities {
      * @returns {(SceneChild | null)}
      * @memberof SceneUtilities
      */
-    getParent(sceneChild) {
-        const parents = this.getParents(sceneChild);
+    SceneUtilities.prototype.getParent = function (sceneChild) {
+        var parents = this.getParents(sceneChild);
         return parents.length > 0 ? parents[parents.length - 1] : null;
-    }
+    };
     /**
      * Get all parents
      *
@@ -302,9 +312,9 @@ class SceneUtilities {
      * @returns {Array<SceneChild>}
      * @memberof SceneUtilities
      */
-    getParents(sceneChild) {
+    SceneUtilities.prototype.getParents = function (sceneChild) {
         return sceneChild && sceneChild.scene ? sceneChild.scene.getParentsOfSceneChild(sceneChild) : [];
-    }
+    };
     /**
      * Return children of a shape.
      * Only Group has array of children, Shape has only one child.
@@ -313,11 +323,11 @@ class SceneUtilities {
      * @returns {Array<SceneChild>}
      * @memberof SceneUtilities
      */
-    getChildren(sceneChild) {
+    SceneUtilities.prototype.getChildren = function (sceneChild) {
         if (sceneChild instanceof Group)
             return sceneChild.getChildren();
         return sceneChild instanceof Shape && sceneChild.shape ? [sceneChild.shape] : [];
-    }
+    };
     /**
      * Return only primitive children
      *
@@ -325,17 +335,17 @@ class SceneUtilities {
      * @returns {Array<SceneChild>}
      * @memberof SceneUtilities
      */
-    getChildrenPrimitives(sceneChild) {
-        let result = [];
-        const children = this.getChildren(sceneChild);
-        for (let i = 0, len = children.length; i < len; i++) {
+    SceneUtilities.prototype.getChildrenPrimitives = function (sceneChild) {
+        var result = [];
+        var children = this.getChildren(sceneChild);
+        for (var i = 0, len = children.length; i < len; i++) {
             if (children[i] instanceof ShapePrimitive)
                 result.push(children[i]);
             else
-                result = result.concat(...this.getChildrenPrimitives(children[i]));
+                result = result.concat.apply(result, this.getChildrenPrimitives(children[i]));
         }
         return result;
-    }
+    };
     /**
      * Return a list of neighbors
      *
@@ -343,13 +353,13 @@ class SceneUtilities {
      * @returns {(Array<SceneChild>)}
      * @memberof SceneUtilities
      */
-    getNeighbors(sceneChild) {
+    SceneUtilities.prototype.getNeighbors = function (sceneChild) {
         if (sceneChild.scene) {
-            const parent = this.getParent(sceneChild);
-            return parent == null ? sceneChild.scene.getChildren() : this.getChildren(parent);
+            var parent_2 = this.getParent(sceneChild);
+            return parent_2 == null ? sceneChild.scene.getChildren() : this.getChildren(parent_2);
         }
         return [];
-    }
+    };
     /**
      * Return a number of element type into a scene
      *
@@ -358,13 +368,13 @@ class SceneUtilities {
      * @returns {number}
      * @memberof SceneUtilities
      */
-    getCountOfSceneChildType(scene, type) {
-        let count = 0;
-        Scene.walk(sceneChild => {
+    SceneUtilities.prototype.getCountOfSceneChildType = function (scene, type) {
+        var count = 0;
+        Scene.walk(function (sceneChild) {
             count += sceneChild.type == type ? 1 : 0;
         }, scene);
         return count;
-    }
+    };
     /**
      * Walk through sceneChild
      *
@@ -372,10 +382,10 @@ class SceneUtilities {
      * @param {(child: SceneChild) => void} callback
      * @memberof SceneUtilities
      */
-    walk(sceneChild, callback) {
+    SceneUtilities.prototype.walk = function (sceneChild, callback) {
         callback(sceneChild);
-        this.getChildren(sceneChild).forEach(child => callback(child));
-    }
+        this.getChildren(sceneChild).forEach(function (child) { return callback(child); });
+    };
     //#endregion
     //#region checker
     /**
@@ -385,9 +395,9 @@ class SceneUtilities {
      * @returns {boolean}
      * @memberof SceneUtilities
      */
-    isGroup(sceneChild) {
+    SceneUtilities.prototype.isGroup = function (sceneChild) {
         return sceneChild instanceof Group;
-    }
+    };
     /**
      * Check sceneChild are Shape and has a child
      *
@@ -395,9 +405,9 @@ class SceneUtilities {
      * @returns {boolean}
      * @memberof SceneUtilities
      */
-    hasShapeChild(sceneChild) {
+    SceneUtilities.prototype.hasShapeChild = function (sceneChild) {
         return sceneChild instanceof Shape ? sceneChild.shape !== undefined : false;
-    }
+    };
     /**
      * Check sceneChild is a ShapeBuffer an are binded
      *
@@ -405,9 +415,9 @@ class SceneUtilities {
      * @returns {boolean}
      * @memberof SceneUtilities
      */
-    hasShapeBuffer(sceneChild) {
+    SceneUtilities.prototype.hasShapeBuffer = function (sceneChild) {
         return sceneChild instanceof ShapeBuffer;
-    }
+    };
     /**
      * Check scene child is a Primitive
      *
@@ -415,9 +425,9 @@ class SceneUtilities {
      * @returns {boolean}
      * @memberof SceneUtilities
      */
-    isAPrimitive(sceneChild) {
+    SceneUtilities.prototype.isAPrimitive = function (sceneChild) {
         return sceneChild instanceof ShapePrimitive;
-    }
+    };
     /**
      * Check scene child is a ShapeLoop
      *
@@ -425,9 +435,9 @@ class SceneUtilities {
      * @returns {boolean}
      * @memberof SceneUtilities
      */
-    hasLoop(sceneChild) {
+    SceneUtilities.prototype.hasLoop = function (sceneChild) {
         return sceneChild instanceof ShapeLoop;
-    }
+    };
     //#endregion
     /**
      * Set UISceneChild prop, convert animation on transformable props
@@ -438,7 +448,8 @@ class SceneUtilities {
      * @param {DrawerCanvas} drawer
      * @memberof SceneUtilities
      */
-    setProp(sceneChild, name, value, drawer) {
+    SceneUtilities.prototype.setProp = function (sceneChild, name, value, drawer) {
+        var _a, _b;
         if (ScenePropUtilities.bValueAnimation(value)) {
             sceneChild.data.props[name] = value;
             sceneChild.setProp(name, Animation.composeAnimation(drawer, name, value));
@@ -448,10 +459,10 @@ class SceneUtilities {
             if (sceneChild instanceof ShapeLoop && ScenePropUtilities.bValueLoop(value)) {
                 sceneChild.data.props.loop = value;
                 sceneChild.setProp('loop', ScenePropUtilities.composeLoop(value));
-                const dynamic = value.dynamyc;
-                const realDynamic = sceneChild.shapeLoopPropsDependencies.indexOf('prop_argumens') >= 0;
+                var dynamic = value.dynamyc;
+                var realDynamic = sceneChild.shapeLoopPropsDependencies.indexOf('prop_argumens') >= 0;
                 if (dynamic !== realDynamic) {
-                    const dependencies = [...sceneChild.shapeLoopPropsDependencies];
+                    var dependencies = __spreadArrays(sceneChild.shapeLoopPropsDependencies);
                     if (dynamic)
                         !(dependencies.indexOf('prop_argumens') >= 0) && dependencies.push('prop_arguments');
                     else
@@ -499,14 +510,15 @@ class SceneUtilities {
             default:
                 // loop
                 if (name.indexOf('.') > 0) {
-                    const splitted = name.split('.');
-                    sceneChild.setProp({ [splitted[0]]: { [splitted[1]]: value } });
+                    var splitted = name.split('.');
+                    sceneChild.setProp((_a = {}, _a[splitted[0]] = (_b = {}, _b[splitted[1]] = value, _b), _a));
                 }
                 else
                     sceneChild.setProp(name, value);
                 break;
         }
-    }
-}
+    };
+    return SceneUtilities;
+}());
 export default new SceneUtilities();
 //# sourceMappingURL=SceneUtilities.js.map

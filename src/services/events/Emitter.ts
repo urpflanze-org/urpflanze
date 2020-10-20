@@ -6,7 +6,7 @@
  * @template EventTypes
  */
 abstract class Emitter<EventTypes> {
-	private callbacks: { [e in keyof EventTypes]: Array<(args: EventTypes[keyof EventTypes]) => any> }
+	private callbacks: Record<keyof EventTypes, Array<(args: EventTypes[keyof EventTypes]) => any>>
 
 	constructor() {
 		//@ts-ignore

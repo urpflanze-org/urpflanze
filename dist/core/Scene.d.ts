@@ -43,7 +43,7 @@ declare class Scene {
     private children;
     /**
      * Creates an instance of Scene.
-     * You can see the default values ​​in the property definitions
+     * You can see the default values in the property definitions
      */
     constructor(settings?: ISceneSettings);
     /**

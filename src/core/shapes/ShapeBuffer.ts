@@ -56,7 +56,7 @@ class ShapeBuffer extends ShapePrimitive {
 	 * @param {boolean} [bPropagateToParents=false]
 	 * @memberof ShapeLoop
 	 */
-	public clearBuffer(bClearIndexed: boolean = false, bPropagateToParents: boolean = true) {
+	public clearBuffer(bClearIndexed = false, bPropagateToParents = true): void {
 		super.clearBuffer(bClearIndexed, bPropagateToParents)
 
 		this.bindBuffer()
@@ -148,7 +148,7 @@ class ShapeBuffer extends ShapePrimitive {
 	 * @param {number} [level=1]
 	 * @memberof ShapeBuffer
 	 */
-	public subdivide(level: number = 1) {
+	public subdivide(level = 1) {
 		let subdivided: Float32Array | undefined = this.shape
 
 		if (subdivided && subdivided.length > 0) {

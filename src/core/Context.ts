@@ -38,7 +38,7 @@ const Context = {
 	 * @param {number} [z=0]
 	 * @returns {number}
 	 */
-	noise: (seed: string = 'random', x = 0, y = 0, z = 0): number => {
+	noise: (seed = 'random', x = 0, y = 0, z = 0): number => {
 		if (!noises[seed]) {
 			noises[seed] = new SimplexNoise(seed)
 		}

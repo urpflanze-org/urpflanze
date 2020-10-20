@@ -1,4 +1,4 @@
-import ShapeLoop from '../ShapeLoop'
+import ShapeLoop from '@core/shapes/ShapeLoop'
 import { IShapeLoopProps, ISpiralProps, ISpiralSettings, TSpiralType } from '@core/types/shape-primitive'
 import { ISceneChildPropArguments, IShapeLoopRepetition } from '@core/types/scene-child'
 import { EShapePrimitiveAdaptMode } from '@core/types/shape-base'
@@ -86,12 +86,12 @@ class Spiral extends ShapeLoop {
 	 *
 	 * @param {keyof ISpiralProps} key
 	 * @param {ISceneChildPropArguments} [prop_arguments]
-	 * @param {*} [defaul_value]
+	 * @param {any} [default_value]
 	 * @returns {*}
 	 * @memberof Spiral
 	 */
-	public getProp(key: keyof ISpiralProps, prop_arguments?: ISceneChildPropArguments, defaul_value?: any): any {
-		return super.getProp(key as keyof IShapeLoopProps, prop_arguments, defaul_value)
+	public getProp(key: keyof ISpiralProps, prop_arguments?: ISceneChildPropArguments, default_value?: any): any {
+		return super.getProp(key as keyof IShapeLoopProps, prop_arguments, default_value)
 	}
 
 	/**

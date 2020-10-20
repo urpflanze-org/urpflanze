@@ -188,7 +188,7 @@ class Renderer extends Emitter<IRenderEvents> {
 			for (let i = 0, len = chunks.length; i < len; i++) {
 				const frame_number = (i + frame_from).toString()
 
-				let frameName: string = ''
+				let frameName = ''
 				for (let j = frame_number.length; j <= 4; j++) frameName += '0'
 
 				frameName += frame_number

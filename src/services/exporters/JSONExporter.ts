@@ -62,7 +62,7 @@ class JSONExporter {
 		return project
 	}
 
-	parseSceneChild(sceneChild: SceneChild, parent_id?: string | number, depth: number = 0): IProjectSceneChild {
+	parseSceneChild(sceneChild: SceneChild, parent_id?: string | number, depth = 0): IProjectSceneChild {
 		const projectSceneChild: IProjectSceneChild = {
 			id: sceneChild.id + '',
 			type: sceneChild.type,

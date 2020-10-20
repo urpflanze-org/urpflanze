@@ -1,7 +1,7 @@
-export const VEC3_ZERO = [0, 0, 0];
-export const VEC3_ONE = [1, 1, 1];
-export const VEC2_ZERO = [0, 0];
-export const VEC2_ONE = [1, 1];
+export var VEC3_ZERO = [0, 0, 0];
+export var VEC3_ONE = [1, 1, 1];
+export var VEC2_ZERO = [0, 0];
+export var VEC2_ONE = [1, 1];
 /**
  * Skew matrix
  *
@@ -41,7 +41,8 @@ export function toVec2(x) {
  *
  * @internal
  */
-export function toVec3(x, defaultZValue = 0) {
+export function toVec3(x, defaultZValue) {
+    if (defaultZValue === void 0) { defaultZValue = 0; }
     if (Array.isArray(x))
         return [x[0], x[1], defaultZValue];
     return [x, x, defaultZValue];

@@ -21,7 +21,7 @@ export { default as ShapeBuffer } from "./core/shapes/ShapeBuffer";
 // Utilities
 export { clamp, relativeClamp, toDegrees, toRadians } from "./Utilites";
 import * as vec2 from "./core/math/Vec2";
-export const Vec2 = vec2.default;
+export var Vec2 = vec2.default;
 export { default as Context } from "./core/Context";
 /**
  * Services

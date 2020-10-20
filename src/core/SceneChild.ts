@@ -82,7 +82,7 @@ abstract class SceneChild {
 
 	/**
 	 * Creates an instance of SceneChild.
-	 * Base values ​​will be assigned in case they are not passed
+	 * Base values will be assigned in case they are not passed
 	 *
 	 * @param {ISceneChildSettings} settings
 	 * @memberof SceneChild
@@ -149,7 +149,7 @@ abstract class SceneChild {
 	 * @memberof SceneChild
 	 */
 	public getProp(key: keyof ISceneChildProps, prop_arguments?: ISceneChildPropArguments, default_value?: any): any {
-		return this.props[key] ?? default_value
+		return (this.props[key] ?? default_value) as any
 	}
 
 	/**

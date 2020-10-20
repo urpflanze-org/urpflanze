@@ -1,20 +1,19 @@
 import Spiral from "../../core/shapes/primitives/Spiral";
 import { EShapePrimitiveAdaptMode } from "../../core/types/shape-base";
-const OptionShapePrimitiveAdaptMode = [
+var OptionShapePrimitiveAdaptMode = [
     { key: 'None', value: EShapePrimitiveAdaptMode.None },
     { key: 'Scale', value: EShapePrimitiveAdaptMode.Scale },
     { key: 'Center', value: EShapePrimitiveAdaptMode.Center },
     { key: 'Fill', value: EShapePrimitiveAdaptMode.Fill },
 ];
-const OptionSpiralType = [
+var OptionSpiralType = [
     { key: 'ARCHIMEDE', value: Spiral.types.ARCHIMEDE },
     { key: 'FERMAT', value: Spiral.types.FERMAT },
     { key: 'HYPERBOLIC', value: Spiral.types.HYPERBOLIC },
     { key: 'LITUUS', value: Spiral.types.LITUUS },
     { key: 'LOGARITHMIC', value: Spiral.types.LOGARITHMIC },
 ];
-// @ts-ignore
-const SceneChildPropsData = {
+var SceneChildPropsData = {
     repetitions: {
         animable: true,
         name: 'repetitions',
@@ -160,6 +159,42 @@ const SceneChildPropsData = {
         step: 0.01,
         default: [1, 1],
         default_animate: 3,
+        transformation: 'none',
+    },
+    transformOrigin: {
+        animable: true,
+        name: 'transformOrigin',
+        label: 'Transform Origin',
+        type: 'multiple-range',
+        min: -1,
+        max: 1,
+        step: 0.01,
+        default: [1, 1],
+        default_animate: [-1, 1],
+        transformation: 'none',
+    },
+    perspective: {
+        animable: true,
+        name: 'perspective',
+        label: 'Perspective',
+        type: 'range',
+        min: -1,
+        max: 1,
+        step: 0.01,
+        default: 0,
+        default_animate: 0.8,
+        transformation: 'none',
+    },
+    perspectiveOrigin: {
+        animable: true,
+        name: 'perspectiveOrigin',
+        label: 'Perspective Origin',
+        type: 'multiple-range',
+        min: -1,
+        max: 1,
+        step: 0.01,
+        default: [1, 1],
+        default_animate: [-1, 1],
         transformation: 'none',
     },
     // rotationOrigin: {

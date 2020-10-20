@@ -1,4 +1,4 @@
-const Easings = {
+var Easings = {
     /**
      * @param {number} time current time
      * @param {number} start start value
@@ -6,7 +6,7 @@ const Easings = {
      * @param {number} durate duration
      * @returns {number}
      */
-    linear: (time, start, end, durate) => (end * time) / durate + start,
+    linear: function (time, start, end, durate) { return (end * time) / durate + start; },
     /**
      * @param {number} time current time
      * @param {number} start start value
@@ -14,7 +14,7 @@ const Easings = {
      * @param {number} duratte duration
      * @returns {number}
      */
-    quadraticIn: (time, start, end, duratte) => {
+    quadraticIn: function (time, start, end, duratte) {
         time /= duratte;
         return end * time * time + start;
     },
@@ -25,7 +25,7 @@ const Easings = {
      * @param {number} durate duration
      * @returns {number}
      */
-    quadraticOut: (time, start, end, durate) => {
+    quadraticOut: function (time, start, end, durate) {
         time /= durate;
         return -end * time * (time - 2) + start;
     },
@@ -36,7 +36,7 @@ const Easings = {
      * @param {number} durate duration
      * @returns {number}
      */
-    quadraticInOut: (time, start, end, durate) => {
+    quadraticInOut: function (time, start, end, durate) {
         time /= durate / 2;
         if (time < 1)
             return (end / 2) * time * time + start;
@@ -50,7 +50,7 @@ const Easings = {
      * @param {number} durate duration
      * @returns {number}
      */
-    cubicIn: (time, start, end, durate) => {
+    cubicIn: function (time, start, end, durate) {
         time /= durate;
         return end * time * time * time + start;
     },
@@ -61,7 +61,7 @@ const Easings = {
      * @param {number} durate duration
      * @returns {number}
      */
-    cubicOut: (time, start, end, durate) => {
+    cubicOut: function (time, start, end, durate) {
         time /= durate;
         time--;
         return end * (time * time * time + 1) + start;
@@ -73,7 +73,7 @@ const Easings = {
      * @param {number} durate duration
      * @returns {number}
      */
-    cubicInOut: (time, start, end, durate) => {
+    cubicInOut: function (time, start, end, durate) {
         time /= durate / 2;
         if (time < 1)
             return (end / 2) * time * time * time + start;
@@ -87,7 +87,7 @@ const Easings = {
      * @param {number} durate duration
      * @returns {number}
      */
-    quarticIn: (time, start, end, durate) => {
+    quarticIn: function (time, start, end, durate) {
         time /= durate;
         return end * time * time * time * time + start;
     },
@@ -98,7 +98,7 @@ const Easings = {
      * @param {number} durate duration
      * @returns {number}
      */
-    quarticOut: (time, start, end, durate) => {
+    quarticOut: function (time, start, end, durate) {
         time /= durate;
         time--;
         return -end * (time * time * time * time - 1) + start;
@@ -110,7 +110,7 @@ const Easings = {
      * @param {number} durate duration
      * @returns {number}
      */
-    quarticInOut: (time, start, end, durate) => {
+    quarticInOut: function (time, start, end, durate) {
         time /= durate / 2;
         if (time < 1)
             return (end / 2) * time * time * time * time + start;
@@ -124,7 +124,7 @@ const Easings = {
      * @param {number} durate duration
      * @returns {number}
      */
-    quinticIn: (time, start, end, durate) => {
+    quinticIn: function (time, start, end, durate) {
         time /= durate;
         return end * time * time * time * time * time + start;
     },
@@ -135,7 +135,7 @@ const Easings = {
      * @param {number} durate duration
      * @returns {number}
      */
-    quinticOut: (time, start, end, durate) => {
+    quinticOut: function (time, start, end, durate) {
         time /= durate;
         time--;
         return end * (time * time * time * time * time + 1) + start;
@@ -147,7 +147,7 @@ const Easings = {
      * @param {number} durate duration
      * @returns {number}
      */
-    quinticInOut: (time, start, end, durate) => {
+    quinticInOut: function (time, start, end, durate) {
         time /= durate / 2;
         if (time < 1)
             return (end / 2) * time * time * time * time * time + start;
@@ -161,7 +161,7 @@ const Easings = {
      * @param {number} durate duration
      * @returns {number}
      */
-    sinusoidalIn: (time, start, end, durate) => {
+    sinusoidalIn: function (time, start, end, durate) {
         return -end * Math.cos((time / durate) * (Math.PI / 2)) + end + start;
     },
     /**
@@ -171,7 +171,7 @@ const Easings = {
      * @param {number} durate duration
      * @returns {number}
      */
-    sinusoidalOut: (time, start, end, durate) => {
+    sinusoidalOut: function (time, start, end, durate) {
         return end * Math.sin((time / durate) * (Math.PI / 2)) + start;
     },
     /**
@@ -181,7 +181,7 @@ const Easings = {
      * @param {number} durate duration
      * @returns {number}
      */
-    sinusoidalInOut: (time, start, end, durate) => {
+    sinusoidalInOut: function (time, start, end, durate) {
         return (-end / 2) * (Math.cos((Math.PI * time) / durate) - 1) + start;
     },
     /**
@@ -191,7 +191,7 @@ const Easings = {
      * @param {number} durate duration
      * @returns {number}
      */
-    exponentialIn: (time, start, end, durate) => {
+    exponentialIn: function (time, start, end, durate) {
         return end * Math.pow(2, 10 * (time / durate - 1)) + start;
     },
     /**
@@ -201,7 +201,7 @@ const Easings = {
      * @param {number} durate duration
      * @returns {number}
      */
-    exponentialOut: (time, start, end, durate) => {
+    exponentialOut: function (time, start, end, durate) {
         return end * (-Math.pow(2, (-10 * time) / durate) + 1) + start;
     },
     /**
@@ -211,7 +211,7 @@ const Easings = {
      * @param {number} durate duration
      * @returns {number}
      */
-    exponentialInOut: (time, start, end, durate) => {
+    exponentialInOut: function (time, start, end, durate) {
         time /= durate / 2;
         if (time < 1)
             return (end / 2) * Math.pow(2, 10 * (time - 1)) + start;
@@ -225,7 +225,7 @@ const Easings = {
      * @param {number} durate duration
      * @returns {number}
      */
-    circularIn: (time, start, end, durate) => {
+    circularIn: function (time, start, end, durate) {
         time /= durate;
         return -end * (Math.sqrt(1 - time * time) - 1) + start;
     },
@@ -236,7 +236,7 @@ const Easings = {
      * @param {number} durate duration
      * @returns {number}
      */
-    circularOut: (time, start, end, durate) => {
+    circularOut: function (time, start, end, durate) {
         time /= durate;
         time--;
         return end * Math.sqrt(1 - time * time) + start;
@@ -248,7 +248,7 @@ const Easings = {
      * @param {number} durate duration
      * @returns {number}
      */
-    circularInOut: (time, start, end, durate) => {
+    circularInOut: function (time, start, end, durate) {
         time /= durate / 2;
         if (time < 1)
             return (-end / 2) * (Math.sqrt(1 - time * time) - 1) + start;
@@ -274,12 +274,13 @@ const Easings = {
         if (!p) {
             p = durate * 0.3;
         }
+        var s = 0;
         if (!a || a < Math.abs(end)) {
             a = end;
-            var s = p / 4;
+            s = p / 4;
         }
         else {
-            var s = (p / (2 * Math.PI)) * Math.asin(end / a);
+            s = (p / (2 * Math.PI)) * Math.asin(end / a);
         }
         return -(a * Math.pow(2, 10 * (time -= 1)) * Math.sin(((time * durate - s) * (2 * Math.PI)) / p)) + start;
     },
@@ -302,12 +303,13 @@ const Easings = {
         if (!p) {
             p = durate * 0.3;
         }
+        var s = 0;
         if (!a || a < Math.abs(end)) {
             a = end;
-            var s = p / 4;
+            s = p / 4;
         }
         else {
-            var s = (p / (2 * Math.PI)) * Math.asin(end / a);
+            s = (p / (2 * Math.PI)) * Math.asin(end / a);
         }
         return a * Math.pow(2, -10 * time) * Math.sin(((time * durate - s) * (2 * Math.PI)) / p) + end + start;
     },
@@ -330,12 +332,13 @@ const Easings = {
         if (!p) {
             p = durate * (0.3 * 1.5);
         }
+        var s = 0;
         if (!a || a < Math.abs(end)) {
             a = end;
-            var s = p / 4;
+            s = p / 4;
         }
         else {
-            var s = (p / (2 * Math.PI)) * Math.asin(end / a);
+            s = (p / (2 * Math.PI)) * Math.asin(end / a);
         }
         if (time < 1) {
             return -0.5 * (a * Math.pow(2, 10 * (time -= 1)) * Math.sin(((time * durate - s) * (2 * Math.PI)) / p)) + start;

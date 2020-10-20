@@ -6,8 +6,6 @@
 class FrameBuffer {
 	private frames: { [frameNumber: number]: ImageData } = {}
 
-	constructor() {}
-
 	public exist(frameNumber: number): boolean {
 		return frameNumber in this.frames
 	}

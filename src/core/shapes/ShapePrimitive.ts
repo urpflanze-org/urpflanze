@@ -283,15 +283,15 @@ abstract class ShapePrimitive extends ShapeBase {
 			rect = ShapePrimitive.getBounding(input)
 		}
 
-		let scale =
+		const scale =
 			rect.width >= 2 ||
 			rect.height >= 2 ||
 			(mode >= EShapePrimitiveAdaptMode.Fill && (rect.width < 2 || rect.height < 2))
 				? 2 / Math.max(rect.width, rect.height)
 				: 1
 
-		let translateX = mode >= EShapePrimitiveAdaptMode.Center ? rect.cx : 0
-		let translateY = mode >= EShapePrimitiveAdaptMode.Center ? rect.cy : 0
+		const translateX = mode >= EShapePrimitiveAdaptMode.Center ? rect.cx : 0
+		const translateY = mode >= EShapePrimitiveAdaptMode.Center ? rect.cy : 0
 
 		for (let i = 0, len = input.length; i < len; i += 2) {
 			output[i] = (input[i] - translateX) * scale

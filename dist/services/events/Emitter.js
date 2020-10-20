@@ -5,8 +5,8 @@
  * @class Emitter
  * @template EventTypes
  */
-class Emitter {
-    constructor() {
+var Emitter = /** @class */ (function () {
+    function Emitter() {
         //@ts-ignore
         this.callbacks = {};
     }
@@ -17,12 +17,12 @@ class Emitter {
      * @param {(value: EventTypes[keyof EventTypes]) => any} callback
      * @memberof Emitter
      */
-    attach(e, callback) {
+    Emitter.prototype.attach = function (e, callback) {
         if (!(e in this.callbacks)) {
             this.callbacks[e] = [];
         }
         this.callbacks[e].push(callback);
-    }
+    };
     /**
      * Remove callbach listener at event
      *
@@ -30,14 +30,14 @@ class Emitter {
      * @param {(value: EventTypes[keyof EventTypes]) => void} callback
      * @memberof Emitter
      */
-    detach(e, callback) {
+    Emitter.prototype.detach = function (e, callback) {
         if (e in this.callbacks) {
-            const index = this.callbacks[e].indexOf(callback);
+            var index = this.callbacks[e].indexOf(callback);
             if (index >= 0) {
                 this.callbacks[e].splice(index, 1);
             }
         }
-    }
+    };
     /**
      * Dispatch event
      *
@@ -45,13 +45,14 @@ class Emitter {
      * @param {EventTypes[keyof EventTypes]} [params]
      * @memberof Emitter
      */
-    dispatch(e, params) {
+    Emitter.prototype.dispatch = function (e, params) {
         if (e in this.callbacks) {
-            for (let i = 0, len = this.callbacks[e].length; i < len; i++)
+            for (var i = 0, len = this.callbacks[e].length; i < len; i++)
                 if (this.callbacks[e][i](params) === false)
                     break;
         }
-    }
-}
+    };
+    return Emitter;
+}());
 export default Emitter;
 //# sourceMappingURL=Emitter.js.map

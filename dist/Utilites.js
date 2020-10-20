@@ -1,12 +1,12 @@
 /**
  * @ignore
  */
-export const parseFunction = {
+export var parseFunction = {
     suffix: '$fn:',
-    parse: (data) => {
+    parse: function (data) {
         return typeof data === 'function' && data.name !== 'SimpleAnimation' ? parseFunction.suffix + data.toString() : data;
     },
-    unparse: (data) => {
+    unparse: function (data) {
         return typeof data === 'string' && data.indexOf(parseFunction.suffix) === 0
             ? eval(data.substr(parseFunction.suffix.length))
             : data;
@@ -21,24 +21,24 @@ export const parseFunction = {
  * @returns {ICancelablePromise<T>}
  */
 export function cancelablePromise(promise) {
-    let resolved = false;
-    let canceled = false;
-    const wrappedPromise = new Promise((resolve, reject) => {
+    var resolved = false;
+    var canceled = false;
+    var wrappedPromise = new Promise(function (resolve, reject) {
         promise
-            .then(val => {
+            .then(function (val) {
             resolved = true;
             canceled ? reject('canceled') : resolve(val);
         })
-            .catch(error => {
+            .catch(function (error) {
             resolved = true;
             canceled ? reject('canceled') : reject(error);
         });
     });
     return {
         promise: wrappedPromise,
-        resolved: () => resolved,
-        canceled: () => canceled,
-        cancel: () => {
+        resolved: function () { return resolved; },
+        canceled: function () { return canceled; },
+        cancel: function () {
             canceled = true;
         },
     };

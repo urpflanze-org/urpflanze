@@ -3,8 +3,8 @@
 		"sourceMap": true,
 		"outDir": "dist",
 		"noImplicitAny": true,
-		"module": "es6",
-		"target": "es6",
+		"module": "es2015",
+		"target": "es5",
 		"moduleResolution": "node",
 		"removeComments": false,
 		"preserveConstEnums": true,
@@ -27,6 +27,6 @@
 		"lib": ["es2017", "dom"]
 	},
 	"compileOnSave": true,
-	"include": ["src/**/*", "typings/node"],
-	"exclude": ["node_modules"]
+	"include": ["src/**/*"],
+	"exclude": ["node_modules", ".vscode", "dist", "build", "testing", "docs"]
 }

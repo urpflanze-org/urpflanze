@@ -67,7 +67,7 @@ function createSimpleAnimationCallback<T>(
 	animation: ISimpleAnimation,
 	value: (props: ISceneChildPropArguments, currentInterpolation: number) => T
 ): TSceneChildProp<T> {
-	let { durate, type, mode, mode_function, delay } = animation as Required<ISimpleAnimation>
+	const { durate, type, mode, mode_function, delay } = animation as Required<ISimpleAnimation>
 
 	if (type === 'static') {
 		if (delay && delay > 0)

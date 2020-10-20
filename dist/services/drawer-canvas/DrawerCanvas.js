@@ -1,3 +1,27 @@
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 import Scene from "../../core/Scene";
 import Timeline from "../timeline/Timeline";
 import SceneUtilities from "../scene-utilities/SceneUtilities";
@@ -11,34 +35,39 @@ import { vec2 } from 'gl-matrix';
  * @class DrawerCanvas
  * @extends {Emitter<DrawerCanvasEvents>}
  */
-class DrawerCanvas extends Emitter {
-    constructor(scene, canvasOrContainer, drawOptions = {}, ratio = undefined, resolution = 0, bBuffering = false) {
+var DrawerCanvas = /** @class */ (function (_super) {
+    __extends(DrawerCanvas, _super);
+    function DrawerCanvas(scene, canvasOrContainer, drawOptions, ratio, resolution, bBuffering) {
+        if (drawOptions === void 0) { drawOptions = {}; }
+        if (ratio === void 0) { ratio = undefined; }
+        if (resolution === void 0) { resolution = 0; }
+        if (bBuffering === void 0) { bBuffering = false; }
         var _a, _b, _c, _d, _e, _f, _g;
-        super();
-        this.bBuffering = false;
-        this.timeline = new Timeline();
-        this.resolution = resolution || (scene && scene.width ? scene.width : 0);
-        this.ratio = ratio || (scene && scene.width && scene.height ? scene.width / scene.height : 1);
-        this.bBuffering = bBuffering;
-        this.buffer = new FrameBuffer();
+        var _this = _super.call(this) || this;
+        _this.bBuffering = false;
+        _this.timeline = new Timeline();
+        _this.resolution = resolution || (scene && scene.width ? scene.width : 0);
+        _this.ratio = ratio || (scene && scene.width && scene.height ? scene.width / scene.height : 1);
+        _this.bBuffering = bBuffering;
+        _this.buffer = new FrameBuffer();
         if (scene) {
-            const width = this.ratio >= 1 ? scene.width : scene.width * this.ratio;
-            const height = this.ratio >= 1 ? scene.height / this.ratio : scene.height;
+            var width = _this.ratio >= 1 ? scene.width : scene.width * _this.ratio;
+            var height = _this.ratio >= 1 ? scene.height / _this.ratio : scene.height;
             scene.resize(width, height);
-            this.setScene(scene);
+            _this.setScene(scene);
         }
         if ((typeof HTMLCanvasElement !== 'undefined' && canvasOrContainer instanceof HTMLCanvasElement) ||
             (typeof OffscreenCanvas !== 'undefined' && canvasOrContainer instanceof OffscreenCanvas)) {
-            const canvas = canvasOrContainer;
-            this.setCanvas(canvas);
+            var canvas = canvasOrContainer;
+            _this.setCanvas(canvas);
         }
         else if (canvasOrContainer) {
-            const canvas = document.createElement('canvas');
-            const container = canvasOrContainer;
+            var canvas = document.createElement('canvas');
+            var container = canvasOrContainer;
             container.appendChild(canvas);
-            this.setCanvas(canvas);
+            _this.setCanvas(canvas);
         }
-        this.drawOptions = {
+        _this.drawOptions = {
             scale: (_a = drawOptions.scale) !== null && _a !== void 0 ? _a : 1,
             translate: (_b = drawOptions.translate) !== null && _b !== void 0 ? _b : [0, 0],
             time: (_c = drawOptions.time) !== null && _c !== void 0 ? _c : 0,
@@ -51,48 +80,49 @@ class DrawerCanvas extends Emitter {
             ghost_skip_function: drawOptions.ghost_skip_function,
             backgroundImage: drawOptions.backgroundImage,
         };
-        this.draw_id = null;
-        this.redraw_id = null;
-        this.animation_id = null;
-        this.draw = this.draw.bind(this);
-        this.animate = this.animate.bind(this);
-        this.startAnimation = this.startAnimation.bind(this);
+        _this.draw_id = null;
+        _this.redraw_id = null;
+        _this.animation_id = null;
+        _this.draw = _this.draw.bind(_this);
+        _this.animate = _this.animate.bind(_this);
+        _this.startAnimation = _this.startAnimation.bind(_this);
+        return _this;
     }
-    setBuffering(bBuffering) {
+    DrawerCanvas.prototype.setBuffering = function (bBuffering) {
         this.bBuffering = bBuffering;
         this.flushBuffer();
-    }
-    getBBuffering() {
+    };
+    DrawerCanvas.prototype.getBBuffering = function () {
         return this.bBuffering;
-    }
+    };
     /**
      * Set scene
      *
      * @param {Scene} scene
      * @memberof CanvasDrawer
      */
-    setScene(scene) {
+    DrawerCanvas.prototype.setScene = function (scene) {
         this.scene = scene;
         if (!this.resolution && this.scene.width)
             this.resolution = this.scene.width;
         if (this.canvas) {
             this.setCanvas(this.canvas); // and flush
         }
-    }
-    getScene() {
+    };
+    DrawerCanvas.prototype.getScene = function () {
         return this.scene;
-    }
-    getTimeline() {
+    };
+    DrawerCanvas.prototype.getTimeline = function () {
         return this.timeline;
-    }
+    };
     /**
      * Set the canvas or append to container
      *
      * @param {(HTMLElement | HTMLCanvasElement | OffscreenCanvas)} canvasOrContainer
      * @memberof CanvasDrawer
      */
-    setCanvas(canvasOrContainer) {
-        let canvas;
+    DrawerCanvas.prototype.setCanvas = function (canvasOrContainer) {
+        var canvas;
         if (typeof HTMLElement !== 'undefined' && canvasOrContainer instanceof HTMLElement) {
             if (typeof HTMLCanvasElement !== 'undefined' && canvasOrContainer instanceof HTMLCanvasElement) {
                 canvas = canvasOrContainer;
@@ -115,25 +145,25 @@ class DrawerCanvas extends Emitter {
         if (this.scene) {
             this.resize(this.scene.width, this.scene.height); // and flush
         }
-    }
+    };
     /**
      * Return canvas element
      *
      * @returns {(HTMLCanvasElement | OffscreenCanvas)}
      * @memberof DrawerCanvas
      */
-    getCanvas() {
+    DrawerCanvas.prototype.getCanvas = function () {
         return this.canvas;
-    }
+    };
     /**
      * Return canvas context
      *
      * @returns {(CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D | null)}
      * @memberof DrawerCanvas
      */
-    getContext() {
+    DrawerCanvas.prototype.getContext = function () {
         return this.context;
-    }
+    };
     /**
      * Resize scene and canvas
      *
@@ -143,11 +173,12 @@ class DrawerCanvas extends Emitter {
      * @param {number} [resolution]
      * @memberof DrawerCanvas
      */
-    resize(width, height, ratio, resolution) {
+    DrawerCanvas.prototype.resize = function (width, height, ratio, resolution) {
+        var _this = this;
         // const dpi = typeof devicePixelRatio !== 'undefined' ? devicePixelRatio : 1
-        const dpi = 1;
+        var dpi = 1;
         ratio = ratio || this.ratio || width / height;
-        const size = Math.max(width, height);
+        var size = Math.max(width, height);
         width = ratio >= 1 ? size : size * ratio;
         height = ratio >= 1 ? size / ratio : size;
         this.ratio = ratio;
@@ -163,64 +194,64 @@ class DrawerCanvas extends Emitter {
         }
         if (resolution && resolution != this.resolution && this.scene) {
             this.resolution = resolution;
-            Scene.walk((sceneChild) => {
-                const props = sceneChild.data.props;
-                Object.keys(props).forEach(name => {
-                    SceneUtilities.setProp(sceneChild, name, props[name], this);
+            Scene.walk(function (sceneChild) {
+                var props = sceneChild.data.props;
+                Object.keys(props).forEach(function (name) {
+                    SceneUtilities.setProp(sceneChild, name, props[name], _this);
                 });
             }, this.scene);
         }
         this.flushBuffer();
         this.dispatch('drawer-canvas:resize');
-    }
-    flushBuffer() {
+    };
+    DrawerCanvas.prototype.flushBuffer = function () {
         if (this.bBuffering) {
             this.buffer.flush();
             this.dispatch('drawer-canvas:buffer_flush');
         }
-    }
-    getRenderedFrames() {
+    };
+    DrawerCanvas.prototype.getRenderedFrames = function () {
         if (this.bBuffering) {
             return this.buffer.getRenderedFrames();
         }
         return [];
-    }
+    };
     /**
      * Resize by ratio
      *
      * @param {number} ratio
      * @memberof DrawerCanvas
      */
-    setRatio(ratio) {
+    DrawerCanvas.prototype.setRatio = function (ratio) {
         this.resize(this.scene.width, this.scene.height, ratio);
-    }
+    };
     /**
      * Return drawer ratio
      *
      * @returns {number}
      * @memberof DrawerCanvas
      */
-    getRatio() {
+    DrawerCanvas.prototype.getRatio = function () {
         return this.ratio;
-    }
+    };
     /**
      * Get resolution
      *
      * @returns {number}
      * @memberof DrawerCanvas
      */
-    getResolution() {
+    DrawerCanvas.prototype.getResolution = function () {
         return this.resolution;
-    }
+    };
     /**
      * Get resolution of drawer
      *
      * @param {number} resolution
      * @memberof DrawerCanvas
      */
-    setResolution(resolution) {
+    DrawerCanvas.prototype.setResolution = function (resolution) {
         this.resize(this.scene.width, this.scene.height, this.ratio, resolution);
-    }
+    };
     /**
      * Get scene value scaled based on resolution
      *
@@ -228,9 +259,9 @@ class DrawerCanvas extends Emitter {
      * @returns
      * @memberof DrawerCanvas
      */
-    getValueFromResolution(value) {
+    DrawerCanvas.prototype.getValueFromResolution = function (value) {
         return (value * this.resolution) / 200;
-    }
+    };
     /**
      * Get scene value scaled based on resolution
      *
@@ -238,9 +269,9 @@ class DrawerCanvas extends Emitter {
      * @returns
      * @memberof DrawerCanvas
      */
-    getValueFromResolutionScaled(value) {
+    DrawerCanvas.prototype.getValueFromResolutionScaled = function (value) {
         return (value * 200) / this.resolution;
-    }
+    };
     /**
      * Set draw option
      *
@@ -249,10 +280,10 @@ class DrawerCanvas extends Emitter {
      * @param {Required<DrawOptions>[K]} [value]
      * @memberof CanvasDrawer
      */
-    setOption(name, value) {
+    DrawerCanvas.prototype.setOption = function (name, value) {
         if (typeof name == 'object') {
-            const keys = Object.keys(name);
-            for (let i = 0, len = keys.length; i < len; i++) {
+            var keys = Object.keys(name);
+            for (var i = 0, len = keys.length; i < len; i++) {
                 // @ts-ignore
                 this.drawOptions[keys[i]] = name[keys[i]];
             }
@@ -261,7 +292,7 @@ class DrawerCanvas extends Emitter {
             this.drawOptions[name] = value;
         }
         this.flushBuffer();
-    }
+    };
     /**
      *
      *
@@ -271,71 +302,71 @@ class DrawerCanvas extends Emitter {
      * @returns {DrawOptions[K]}
      * @memberof DrawerCanvas
      */
-    getOption(name, default_value) {
+    DrawerCanvas.prototype.getOption = function (name, default_value) {
         var _a;
         return (_a = this.drawOptions[name]) !== null && _a !== void 0 ? _a : default_value;
-    }
+    };
     /**
      *
      *
      * @returns {DrawOptions}
      * @memberof DrawerCanvas
      */
-    getOptions() {
+    DrawerCanvas.prototype.getOptions = function () {
         return this.drawOptions;
-    }
+    };
     /**
      * Internal tick animation
      *
      * @private
      * @memberof CanvasDrawer
      */
-    animate(timestamp) {
+    DrawerCanvas.prototype.animate = function (timestamp) {
         if (this.timeline.bSequenceStarted()) {
             this.animation_id = requestAnimationFrame(this.animate);
             if (this.timeline.tick(timestamp))
                 this.draw();
         }
-    }
+    };
     /**
      * Start animation drawing
      *
      * @memberof CanvasDrawer
      */
-    startAnimation() {
+    DrawerCanvas.prototype.startAnimation = function () {
         this.stopAnimation();
         this.timeline.start();
         this.animation_id = requestAnimationFrame(this.animate);
-    }
+    };
     /**
      * Stop animation drawing
      *
      * @memberof CanvasDrawer
      */
-    stopAnimation() {
+    DrawerCanvas.prototype.stopAnimation = function () {
         this.timeline.stop();
         if (this.animation_id)
             cancelAnimationFrame(this.animation_id);
-    }
+    };
     /**
      * Pause animation drawing
      *
      * @memberof CanvasDrawer
      */
-    pauseAnimation() {
+    DrawerCanvas.prototype.pauseAnimation = function () {
         this.timeline.pause();
         if (this.animation_id)
             cancelAnimationFrame(this.animation_id);
-    }
+    };
     /**
      * Play animation drawing
      *
      * @memberof CanvasDrawer
      */
-    playAnimation() {
+    DrawerCanvas.prototype.playAnimation = function () {
         this.timeline.start();
         requestAnimationFrame(this.animate);
-    }
+    };
     // public preload(): Promise<boolean> {
     // 	if (this.bBuffering && this.scene) {
     // 		return new Promise<boolean>((resolve, reject) => {
@@ -394,15 +425,15 @@ class DrawerCanvas extends Emitter {
      * @returns {number}
      * @memberof DrawerCanvas
      */
-    draw() {
+    DrawerCanvas.prototype.draw = function () {
         var _a, _b;
-        let draw_time = 0;
-        const drawOptions = Object.assign({}, this.drawOptions);
+        var draw_time = 0;
+        var drawOptions = __assign({}, this.drawOptions);
         drawOptions.ghost_index = undefined;
-        const clearCanvas = this.drawOptions.clearCanvas || this.timeline.getCurrentFrame() <= 0;
+        var clearCanvas = this.drawOptions.clearCanvas || this.timeline.getCurrentFrame() <= 0;
         drawOptions.clearCanvas = clearCanvas;
         drawOptions.time = this.timeline.getTime();
-        const current_frame = this.timeline.getFrameAtTime(drawOptions.time);
+        var current_frame = this.timeline.getFrameAtTime(drawOptions.time);
         this.dispatch('drawer-canvas:before_draw', {
             current_frame: current_frame,
             current_time: drawOptions.time,
@@ -412,11 +443,11 @@ class DrawerCanvas extends Emitter {
         }
         else {
             if (drawOptions.ghosts) {
-                const ghostDrawOptions = Object.assign({}, drawOptions);
-                const time = this.timeline.getTime();
-                const sequenceEndTime = this.timeline.getSequenceEndTime();
-                for (let i = 1; i <= ghostDrawOptions.ghosts; i++) {
-                    const ghostTime = time -
+                var ghostDrawOptions = __assign({}, drawOptions);
+                var time = this.timeline.getTime();
+                var sequenceEndTime = this.timeline.getSequenceEndTime();
+                for (var i = 1; i <= ghostDrawOptions.ghosts; i++) {
+                    var ghostTime = time -
                         (drawOptions.ghost_skip_function
                             ? drawOptions.ghost_skip_function(i)
                             : i * ((_b = drawOptions.ghost_skip_time) !== null && _b !== void 0 ? _b : 30));
@@ -441,14 +472,14 @@ class DrawerCanvas extends Emitter {
             }
         }
         return draw_time;
-    }
+    };
     /**
      * Redraw
      *
      * @returns {void}
      * @memberof DrawerCanvas
      */
-    redraw() {
+    DrawerCanvas.prototype.redraw = function () {
         if (!this.timeline.bSequenceStarted()) {
             this.draw_id && cancelAnimationFrame(this.draw_id);
             !this.drawOptions.clearCanvas &&
@@ -464,7 +495,7 @@ class DrawerCanvas extends Emitter {
             this.redraw_id && cancelAnimationFrame(this.redraw_id);
             this.redraw_id = requestAnimationFrame(this.startAnimation);
         }
-    }
+    };
     /**
      * Static draw scene
      *
@@ -475,136 +506,136 @@ class DrawerCanvas extends Emitter {
      * @returns {number}
      * @memberof DrawerCanvas
      */
-    static draw(scene, context, options, resolution) {
+    DrawerCanvas.draw = function (scene, context, options, resolution) {
         var _a, _b, _c, _d;
-        const start_time = now();
+        var start_time = now();
         if (context) {
-            const scale = (_a = options.scale) !== null && _a !== void 0 ? _a : 1;
-            const translate = (_b = options.translate) !== null && _b !== void 0 ? _b : [0, 0];
-            const time = (_c = options.time) !== null && _c !== void 0 ? _c : 0;
-            const simmetricLine = (_d = options.simmetricLine) !== null && _d !== void 0 ? _d : 0;
-            const fixedLineWidth = options.fixedLineWidth;
-            const clearCanvas = options.clearCanvas;
-            const noBackground = options.noBackground;
-            const backgroundImage = options.backgroundImage;
-            const bGhost = typeof options.ghosts !== 'undefined' &&
+            var scale_1 = (_a = options.scale) !== null && _a !== void 0 ? _a : 1;
+            var translate = (_b = options.translate) !== null && _b !== void 0 ? _b : [0, 0];
+            var time_1 = (_c = options.time) !== null && _c !== void 0 ? _c : 0;
+            var simmetricLine = (_d = options.simmetricLine) !== null && _d !== void 0 ? _d : 0;
+            var fixedLineWidth_1 = options.fixedLineWidth;
+            var clearCanvas = options.clearCanvas;
+            var noBackground = options.noBackground;
+            var backgroundImage = options.backgroundImage;
+            var bGhost_1 = typeof options.ghosts !== 'undefined' &&
                 options.ghosts > 0 &&
                 typeof options.ghost_index !== 'undefined' &&
                 options.ghost_index > 0;
-            const ghostMultiplier = bGhost
+            var ghostMultiplier_1 = bGhost_1
                 ? 1 - options.ghost_index / (options.ghosts + 0.5)
                 : 1;
-            const width = scene.width;
-            const height = scene.height;
-            const ratio_x = width > height ? 1 : height / width;
-            const ratio_y = width > height ? width / height : 1;
-            resolution = resolution || width;
-            const final_scale = [(width / (resolution / ratio_x)) * scale, (height / (resolution / ratio_y)) * scale];
-            const final_translate = [
-                width / 2 - (scale > 1 ? (translate[0] * width) / (1 / ((scale - 1) / 2)) : 0),
-                height / 2 - (scale > 1 ? (translate[1] * height) / (1 / ((scale - 1) / 2)) : 0),
+            var width_1 = scene.width;
+            var height_1 = scene.height;
+            var ratio_x = width_1 > height_1 ? 1 : height_1 / width_1;
+            var ratio_y = width_1 > height_1 ? width_1 / height_1 : 1;
+            resolution = resolution || width_1;
+            var final_scale_1 = [(width_1 / (resolution / ratio_x)) * scale_1, (height_1 / (resolution / ratio_y)) * scale_1];
+            var final_translate_1 = [
+                width_1 / 2 - (scale_1 > 1 ? (translate[0] * width_1) / (1 / ((scale_1 - 1) / 2)) : 0),
+                height_1 / 2 - (scale_1 > 1 ? (translate[1] * height_1) / (1 / ((scale_1 - 1) / 2)) : 0),
             ];
-            scene.current_time = time;
-            scene.getChildren().forEach((sceneChild) => {
+            scene.current_time = time_1;
+            scene.getChildren().forEach(function (sceneChild) {
                 if (!sceneChild.data ||
                     !(sceneChild.data.visible === false) ||
-                    !(bGhost && sceneChild.data.disableGhost === true))
-                    sceneChild.generate(time, true);
+                    !(bGhost_1 && sceneChild.data.disableGhost === true))
+                    sceneChild.generate(time_1, true);
             });
             if (clearCanvas) {
                 if (noBackground) {
-                    context.clearRect(0, 0, width, height);
+                    context.clearRect(0, 0, width_1, height_1);
                 }
                 else {
                     context.fillStyle = scene.background;
-                    context.fillRect(0, 0, width, height);
-                    backgroundImage && context.drawImage(backgroundImage, 0, 0, width, height);
+                    context.fillRect(0, 0, width_1, height_1);
+                    backgroundImage && context.drawImage(backgroundImage, 0, 0, width_1, height_1);
                 }
             }
             if (simmetricLine > 0) {
-                const offset = Math.PI / simmetricLine;
-                const size = Math.max(width, height) / 2;
-                const center = vec2.fromValues(size / 2, size / 2);
-                for (let i = 0; i < simmetricLine; i++) {
-                    const a = vec2.fromValues(-size, -size);
-                    const b = vec2.fromValues(size * 2, size * 2);
-                    const rotate = i * offset + Math.PI / 4;
+                var offset = Math.PI / simmetricLine;
+                var size = Math.max(width_1, height_1) / 2;
+                var center = vec2.fromValues(size / 2, size / 2);
+                for (var i = 0; i < simmetricLine; i++) {
+                    var a = vec2.fromValues(-size, -size);
+                    var b = vec2.fromValues(size * 2, size * 2);
+                    var rotate = i * offset + Math.PI / 4;
                     vec2.rotate(a, a, center, rotate);
                     vec2.rotate(b, b, center, rotate);
                     context.beginPath();
                     context.strokeStyle = scene.mainColor;
                     context.lineWidth = 1;
-                    context.moveTo((a[0] - size / 2) * final_scale[0] + final_translate[0], (a[1] - size / 2) * final_scale[1] + final_translate[1]);
-                    context.lineTo((b[0] - size / 2) * final_scale[0] + final_translate[0], (b[1] - size / 2) * final_scale[1] + final_translate[1]);
+                    context.moveTo((a[0] - size / 2) * final_scale_1[0] + final_translate_1[0], (a[1] - size / 2) * final_scale_1[1] + final_translate_1[1]);
+                    context.lineTo((b[0] - size / 2) * final_scale_1[0] + final_translate_1[0], (b[1] - size / 2) * final_scale_1[1] + final_translate_1[1]);
                     context.stroke();
                 }
             }
-            let logFillColorWarn = false;
-            let logStrokeColorWarn = false;
-            scene.stream(({ lineWidth, strokeColor, fillColor, shape, buffer, frame_length, frame_buffer_index }) => {
-                if (shape.data && (shape.data.visible === false || (bGhost && shape.data.disableGhost === true)))
+            var logFillColorWarn_1 = false;
+            var logStrokeColorWarn_1 = false;
+            scene.stream(function (_a) {
+                var lineWidth = _a.lineWidth, strokeColor = _a.strokeColor, fillColor = _a.fillColor, shape = _a.shape, buffer = _a.buffer, frame_length = _a.frame_length, frame_buffer_index = _a.frame_buffer_index;
+                if (shape.data && (shape.data.visible === false || (bGhost_1 && shape.data.disableGhost === true)))
                     return;
                 context.beginPath();
-                context.moveTo((buffer[frame_buffer_index] - width / 2) * final_scale[0] + final_translate[0], (buffer[frame_buffer_index + 1] - height / 2) * final_scale[1] + final_translate[1]);
-                for (let i = 2; i < frame_length; i += 2) {
-                    context.lineTo((buffer[frame_buffer_index + i] - width / 2) * final_scale[0] + final_translate[0], (buffer[frame_buffer_index + i + 1] - height / 2) * final_scale[1] + final_translate[1]);
+                context.moveTo((buffer[frame_buffer_index] - width_1 / 2) * final_scale_1[0] + final_translate_1[0], (buffer[frame_buffer_index + 1] - height_1 / 2) * final_scale_1[1] + final_translate_1[1]);
+                for (var i = 2; i < frame_length; i += 2) {
+                    context.lineTo((buffer[frame_buffer_index + i] - width_1 / 2) * final_scale_1[0] + final_translate_1[0], (buffer[frame_buffer_index + i + 1] - height_1 / 2) * final_scale_1[1] + final_translate_1[1]);
                 }
                 shape && shape.isClosed() && context.closePath();
                 if (shape && shape.data && shape.data.highlighted) {
-                    context.lineWidth = (lineWidth || 1) * 3 * scale;
+                    context.lineWidth = (lineWidth || 1) * 3 * scale_1;
                     context.strokeStyle = scene.mainColor;
                     context.stroke();
                     return;
                 }
                 if (fillColor) {
-                    if (bGhost) {
-                        const color = /\((.+),(.+),(.+),(.+)?\)/g.exec(fillColor);
+                    if (bGhost_1) {
+                        var color = /\((.+),(.+),(.+),(.+)?\)/g.exec(fillColor);
                         if (color) {
-                            let [, a, b, c, o] = color;
-                            const alpha = o ? parseFloat(o) : 1;
-                            const ghostAlpha = alpha <= 0 ? 0 : alpha * ghostMultiplier;
+                            var _b = color, a = _b[1], b = _b[2], c = _b[3], o = _b[4];
+                            var alpha = o ? parseFloat(o) : 1;
+                            var ghostAlpha = alpha <= 0 ? 0 : alpha * ghostMultiplier_1;
                             fillColor =
                                 fillColor.indexOf('rgb') >= 0
-                                    ? `rgba(${a},${b},${c},${ghostAlpha})`
-                                    : `hsla(${a},${b},${c},${ghostAlpha})`;
+                                    ? "rgba(" + a + "," + b + "," + c + "," + ghostAlpha + ")"
+                                    : "hsla(" + a + "," + b + "," + c + "," + ghostAlpha + ")";
                         }
-                        else if (!logFillColorWarn) {
-                            console.warn(`[Urpflanze:DrawerCanvas] Unable ghost fill color '${fillColor}', 
-							please enter a rgba or hsla color`);
-                            logFillColorWarn = true;
+                        else if (!logFillColorWarn_1) {
+                            console.warn("[Urpflanze:DrawerCanvas] Unable ghost fill color '" + fillColor + "', \n\t\t\t\t\t\t\tplease enter a rgba or hsla color");
+                            logFillColorWarn_1 = true;
                         }
                     }
                     context.fillStyle = fillColor;
                     context.fill();
                 }
                 if (strokeColor && lineWidth) {
-                    if (bGhost) {
-                        const color = /\((.+),(.+),(.+),(.+)?\)/g.exec(strokeColor);
+                    if (bGhost_1) {
+                        var color = /\((.+),(.+),(.+),(.+)?\)/g.exec(strokeColor);
                         if (color) {
-                            let [, a, b, c, o] = color;
-                            const alpha = o ? parseFloat(o) : 1;
-                            const ghostAlpha = alpha <= 0 ? 0 : alpha * ghostMultiplier;
+                            var _c = color, a = _c[1], b = _c[2], c = _c[3], o = _c[4];
+                            var alpha = o ? parseFloat(o) : 1;
+                            var ghostAlpha = alpha <= 0 ? 0 : alpha * ghostMultiplier_1;
                             strokeColor =
                                 strokeColor.indexOf('rgb') >= 0
-                                    ? `rgba(${a},${b},${c},${ghostAlpha})`
-                                    : `hsla(${a},${b},${c},${ghostAlpha})`;
+                                    ? "rgba(" + a + "," + b + "," + c + "," + ghostAlpha + ")"
+                                    : "hsla(" + a + "," + b + "," + c + "," + ghostAlpha + ")";
                         }
-                        else if (!logStrokeColorWarn) {
-                            console.warn(`[Urpflanze:DrawerCanvas] Unable ghost stroke color '${fillColor}', 
-							please enter a rgba or hsla color`);
-                            logStrokeColorWarn = true;
+                        else if (!logStrokeColorWarn_1) {
+                            console.warn("[Urpflanze:DrawerCanvas] Unable ghost stroke color '" + fillColor + "', \n\t\t\t\t\t\t\tplease enter a rgba or hsla color");
+                            logStrokeColorWarn_1 = true;
                         }
-                        lineWidth *= ghostMultiplier;
+                        lineWidth *= ghostMultiplier_1;
                     }
-                    context.lineWidth = fixedLineWidth ? lineWidth : lineWidth * scale;
+                    context.lineWidth = fixedLineWidth_1 ? lineWidth : lineWidth * scale_1;
                     context.strokeStyle = strokeColor;
                     context.stroke();
                 }
             });
         }
-        const end_time = now();
+        var end_time = now();
         return end_time - start_time;
-    }
-}
+    };
+    return DrawerCanvas;
+}(Emitter));
 export default DrawerCanvas;
 //# sourceMappingURL=DrawerCanvas.js.map
