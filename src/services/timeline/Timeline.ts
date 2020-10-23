@@ -196,6 +196,10 @@ class Timeline extends Emitter<ITimelineEvents> {
 
 	//#region change status
 
+	public bSequenceStarted(): boolean {
+		return this.b_sequence_started
+	}
+
 	/**
 	 * Start the sequence
 	 *
@@ -316,11 +320,7 @@ class Timeline extends Emitter<ITimelineEvents> {
 
 	//#endregion
 
-	//#region animation meta
-
-	public bSequenceStarted(): boolean {
-		return this.b_sequence_started
-	}
+	//#region Frame and Time
 
 	/**
 	 * Return current animation frame

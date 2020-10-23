@@ -50,6 +50,9 @@ var ShapeLoop = /** @class */ (function (_super) {
         _this = _super.call(this, settings) || this;
         _this.shapeLoopPropsDependencies = (settings.shapeLoopPropsDependencies || []).concat('bAdaptBuffer');
         _this.props.loop = settings.loop;
+        if (typeof settings.loop === 'undefined') {
+            console.warn("[Urpflanze:ShapeLoop] requires the 'loop' property");
+        }
         if (!bPreventGeneration) {
             _this.loop = {
                 start: 0,

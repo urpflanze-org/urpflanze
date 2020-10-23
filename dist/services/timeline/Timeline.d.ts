@@ -107,6 +107,7 @@ declare class Timeline extends Emitter<ITimelineEvents> {
      * @memberof Timeline
      */
     getFramesCount(): number;
+    bSequenceStarted(): boolean;
     /**
      * Start the sequence
      *
@@ -141,7 +142,6 @@ declare class Timeline extends Emitter<ITimelineEvents> {
      * @memberof Timeline
      */
     private calculateFPS;
-    bSequenceStarted(): boolean;
     /**
      * Return current animation frame
      *

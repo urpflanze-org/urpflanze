@@ -175,6 +175,9 @@ var Timeline = /** @class */ (function (_super) {
     };
     //#endregion meta
     //#region change status
+    Timeline.prototype.bSequenceStarted = function () {
+        return this.b_sequence_started;
+    };
     /**
      * Start the sequence
      *
@@ -275,10 +278,7 @@ var Timeline = /** @class */ (function (_super) {
         this.fps_samples_index = (this.fps_samples_index + 1) % this.fps_samples_size;
     };
     //#endregion
-    //#region animation meta
-    Timeline.prototype.bSequenceStarted = function () {
-        return this.b_sequence_started;
-    };
+    //#region Frame and Time
     /**
      * Return current animation frame
      *
