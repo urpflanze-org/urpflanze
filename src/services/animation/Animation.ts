@@ -1,5 +1,5 @@
 import ScenePropUtilities from '@services/scene-utilities/ScenePropUtilities'
-import DrawerCanvas from '@services/drawer-canvas/DrawerCanvas'
+import DrawerCanvas from '@services/drawers/drawer-canvas/DrawerCanvas'
 
 import { TAnimation } from '@services/types/animation'
 import Simple from '@services/animation/Simple'

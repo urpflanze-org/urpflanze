@@ -21,7 +21,7 @@ import ShapeBuffer from '@core/shapes/ShapeBuffer'
 import Scene from '@core/Scene'
 import Group from '@core/Group'
 import ShapeBase from '@core/shapes/ShapeBase'
-import DrawerCanvas from '@services/drawer-canvas/DrawerCanvas'
+import DrawerCanvas from '@services/drawers/drawer-canvas/DrawerCanvas'
 
 import SceneChildPropsData, { TSceneChildPropsDataKeys } from '@services/scene-utilities/SceneChildPropsData'
 import ScenePropUtilities from '@services/scene-utilities/ScenePropUtilities'
@@ -231,8 +231,7 @@ class SceneUtilities {
 					copiedChild && (copied as Group).add(copiedChild)
 				})
 			} else if (sceneChild instanceof Shape && sceneChild.shape) {
-				const copiedShape: SceneChild | null =
-					sceneChild.shape instanceof Float32Array ? sceneChild.shape : this.copy(sceneChild.shape, scene, drawer)
+				const copiedShape: SceneChild | null = this.copy(sceneChild.shape, scene, drawer)
 				copiedShape && ((copied as Shape).shape = copiedShape)
 			} else if (sceneChild instanceof ShapeBuffer && sceneChild.shape) {
 				;(copied as ShapeBuffer).setShape(new Float32Array(sceneChild.shape))

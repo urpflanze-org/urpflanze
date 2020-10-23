@@ -1,5 +1,5 @@
 import SceneChild from "../../core/SceneChild";
-import DrawerCanvas from "../drawer-canvas/DrawerCanvas";
+import DrawerCanvas from "../drawers/drawer-canvas/DrawerCanvas";
 import { IProject, IProjectSceneChild } from "../types/project";
 /**
  *

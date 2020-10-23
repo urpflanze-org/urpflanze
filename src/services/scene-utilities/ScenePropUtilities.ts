@@ -1,6 +1,6 @@
 import { toRadians, toDegrees } from 'src/Utilites'
 
-import DrawerCanvas from '@services/drawer-canvas/DrawerCanvas'
+import DrawerCanvas from '@services/drawers/drawer-canvas/DrawerCanvas'
 import SceneChildPropsData, {
 	ISceneChildPropData,
 	TSceneChildPropsDataKeys,

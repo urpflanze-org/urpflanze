@@ -7,7 +7,7 @@ import Emitter from '@services/events/Emitter'
 import { IRenderEvents, IRenderSettings, IRenderStart, TRenderImageType, TRenderType } from '@services/types/renedrer'
 
 import Capturer from '@services/renderer/Capturer'
-import DrawerCanvas from '@services/drawer-canvas/DrawerCanvas'
+import DrawerCanvas from '@services/drawers/drawer-canvas/DrawerCanvas'
 
 /**
  *

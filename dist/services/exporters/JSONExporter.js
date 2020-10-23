@@ -19,20 +19,20 @@ import JSONImporter from "../importers/JSONImporter";
 import SceneUtilities from "../scene-utilities/SceneUtilities";
 /**
  *
- * @category Services
+ * @category Services.Exporters
  * @class JSONExporter
  */
 var JSONExporter = /** @class */ (function () {
     function JSONExporter() {
     }
-    JSONExporter.prototype.parse = function (drawer, name) {
+    JSONExporter.parse = function (drawer, name) {
         if (name === void 0) { name = 'EmptyProject'; }
-        return this.toString(this.parseAsProject(drawer, name));
+        return JSONExporter.toString(JSONExporter.parseAsProject(drawer, name));
     };
-    JSONExporter.prototype.toString = function (project) {
+    JSONExporter.toString = function (project) {
         return JSON.stringify(project);
     };
-    JSONExporter.prototype.parseAsProject = function (drawer, name) {
+    JSONExporter.parseAsProject = function (drawer, name) {
         if (name === void 0) { name = 'EmptyProject'; }
         var scene = drawer.getScene();
         var timeline = drawer.getTimeline();
@@ -52,11 +52,11 @@ var JSONExporter = /** @class */ (function () {
         project.scene = {};
         var sceneChilds = scene.getChildren();
         for (var i = 0, len = sceneChilds.length; i < len; i++) {
-            project.scene[sceneChilds[i].id] = this.parseSceneChild(sceneChilds[i]);
+            project.scene[sceneChilds[i].id] = JSONExporter.parseSceneChild(sceneChilds[i]);
         }
         return project;
     };
-    JSONExporter.prototype.parseSceneChild = function (sceneChild, parent_id, depth) {
+    JSONExporter.parseSceneChild = function (sceneChild, parent_id, depth) {
         if (depth === void 0) { depth = 0; }
         var projectSceneChild = {
             id: sceneChild.id + '',
@@ -89,7 +89,7 @@ var JSONExporter = /** @class */ (function () {
             var children = [];
             var shapeChildren = SceneUtilities.getChildren(sceneChild);
             for (var i = 0; i < shapeChildren.length; i++)
-                children.push(this.parseSceneChild(shapeChildren[i], sceneChild.id, depth + 1));
+                children.push(JSONExporter.parseSceneChild(shapeChildren[i], sceneChild.id, depth + 1));
             projectSceneChild.children = children;
         }
         return projectSceneChild;

@@ -1,7 +1,7 @@
 import Scene from '@core/Scene'
 import SceneChild from '@core/SceneChild'
 
-import DrawerCanvas from '@services/drawer-canvas/DrawerCanvas'
+import DrawerCanvas from '@services/drawers/drawer-canvas/DrawerCanvas'
 
 import { IProject, IProjectSceneChild, IProjectSceneChildDataProps } from '@services/types/project'
 import { parseFunction } from 'src/Utilites'

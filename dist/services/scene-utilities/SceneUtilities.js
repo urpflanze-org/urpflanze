@@ -205,7 +205,7 @@ var SceneUtilities = /** @class */ (function () {
                 });
             }
             else if (sceneChild instanceof Shape && sceneChild.shape) {
-                var copiedShape = sceneChild.shape instanceof Float32Array ? sceneChild.shape : this.copy(sceneChild.shape, scene, drawer);
+                var copiedShape = this.copy(sceneChild.shape, scene, drawer);
                 copiedShape && (copied.shape = copiedShape);
             }
             else if (sceneChild instanceof ShapeBuffer && sceneChild.shape) {

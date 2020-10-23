@@ -1,4 +1,4 @@
-import DrawerCanvas from "../drawer-canvas/DrawerCanvas";
+import DrawerCanvas from "../drawers/drawer-canvas/DrawerCanvas";
 import { TAnimation } from "../types/animation";
 import { TSceneChildProp } from "../../core/types/scene-child";
 declare const Animation: {

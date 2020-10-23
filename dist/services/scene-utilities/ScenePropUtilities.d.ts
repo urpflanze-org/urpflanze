@@ -1,4 +1,4 @@
-import DrawerCanvas from "../drawer-canvas/DrawerCanvas";
+import DrawerCanvas from "../drawers/drawer-canvas/DrawerCanvas";
 import { TSceneChildPropsDataKeys } from "./SceneChildPropsData";
 import { IShapeLoopAnimation, TAnimation } from "../types/animation";
 import { IShapeLoopGenerator } from "../../core/types/shape-primitive";

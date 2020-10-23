@@ -33,5 +33,5 @@ export { default as Context } from '@core/Context'
 /**
  * Services
  */
-export { default as DrawerCanvas } from '@services/drawer-canvas/DrawerCanvas'
+export { default as DrawerCanvas } from '@services/drawers/drawer-canvas/DrawerCanvas'
 export { default as Animation } from '@services/animation/Simple'

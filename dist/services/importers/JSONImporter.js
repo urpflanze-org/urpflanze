@@ -10,7 +10,7 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 import Scene from "../../core/Scene";
-import DrawerCanvas from "../drawer-canvas/DrawerCanvas";
+import DrawerCanvas from "../drawers/drawer-canvas/DrawerCanvas";
 import { parseFunction } from "../../Utilites";
 import SceneUtilities from "../scene-utilities/SceneUtilities";
 import { v1 as uuidv1 } from 'uuid';

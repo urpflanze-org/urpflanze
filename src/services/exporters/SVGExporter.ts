@@ -1,6 +1,6 @@
 import Scene from '@core/Scene'
 import SceneChild from '@core/SceneChild'
-import DrawerCanvas from '@services/drawer-canvas/DrawerCanvas'
+import DrawerCanvas from '@services/drawers/drawer-canvas/DrawerCanvas'
 import { IDrawOptions } from '@services/types/drawer-canvas'
 import { IRenderSettings } from '@services/types/renedrer'
 

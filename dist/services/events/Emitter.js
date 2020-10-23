@@ -1,6 +1,6 @@
 /**
  *
- * @category Services
+ * @category Services.Emitter
  * @abstract
  * @class Emitter
  * @template EventTypes

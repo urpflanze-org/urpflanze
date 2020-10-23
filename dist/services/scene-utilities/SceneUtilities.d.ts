@@ -1,6 +1,6 @@
 import SceneChild from "../../core/SceneChild";
 import Scene from "../../core/Scene";
-import DrawerCanvas from "../drawer-canvas/DrawerCanvas";
+import DrawerCanvas from "../drawers/drawer-canvas/DrawerCanvas";
 import { TSceneChildProps } from "../types/scene-utilities";
 export declare type SceneChildInstance = new (props: any) => SceneChild;
 /**

@@ -1,5 +1,5 @@
 import Scene from "../../core/Scene";
-import DrawerCanvas from "../drawer-canvas/DrawerCanvas";
+import DrawerCanvas from "../drawers/drawer-canvas/DrawerCanvas";
 import { IDrawOptions } from "../types/drawer-canvas";
 import { IRenderSettings } from "../types/renedrer";
 /**
