@@ -1,7 +1,7 @@
 import SceneChild from "../../core/SceneChild";
 import Scene from "../../core/Scene";
-import DrawerCanvas from "../drawers/drawer-canvas/DrawerCanvas";
 import { TSceneChildProps } from "../types/scene-utilities";
+import Drawer from "../drawers/Drawer";
 export declare type SceneChildInstance = new (props: any) => SceneChild;
 /**
  *
@@ -45,7 +45,7 @@ declare class SceneUtilities {
      * @returns {(SceneChild | null)}
      * @memberof SceneUtilities
      */
-    create(item: string | SceneChild, props?: TSceneChildProps, scene?: Scene, drawer?: DrawerCanvas): SceneChild | null;
+    create(item: string | SceneChild, props?: TSceneChildProps, scene?: Scene, drawer?: Drawer<any, any>): SceneChild | null;
     /**
      * Return number of element from a type
      *
@@ -65,7 +65,7 @@ declare class SceneUtilities {
      * @returns {(SceneChild | null)}
      * @memberof SceneUtilities
      */
-    copy(sceneChild: SceneChild, scene?: Scene, drawer?: DrawerCanvas, strict?: boolean): SceneChild | null;
+    copy(sceneChild: SceneChild, scene?: Scene, drawer?: Drawer<any, any>, strict?: boolean): SceneChild | null;
     /**
      * Add scene child to parent.
      * Create a group if parent is Shape and has one element (not Group) inside.
@@ -201,7 +201,7 @@ declare class SceneUtilities {
      * @param {DrawerCanvas} drawer
      * @memberof SceneUtilities
      */
-    setProp(sceneChild: SceneChild, name: string, value: any, drawer: DrawerCanvas): void;
+    setProp(sceneChild: SceneChild, name: string, value: any, drawer: Drawer<any, any>): void;
 }
 declare const _default: SceneUtilities;
 export default _default;

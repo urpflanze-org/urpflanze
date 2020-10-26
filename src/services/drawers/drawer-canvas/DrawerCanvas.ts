@@ -4,10 +4,10 @@ import Timeline from '@services/timeline/Timeline'
 import SceneChild from '@core/SceneChild'
 import SceneUtilities from '@services/scene-utilities/SceneUtilities'
 import FrameBuffer from '@services/drawers/drawer-canvas/FrameBuffer'
-import Emitter from '@services/events/Emitter'
-import { IDrawerCanvasEvents, IDrawOptions } from '@services/types/drawer-canvas'
+import { IDrawerCanvasEvents, IDrawerCanvasOptions } from '@services/types/drawer-canvas'
 import { now } from 'src/Utilites'
 import { vec2 } from 'gl-matrix'
+import Drawer from '../Drawer'
 
 /**
  *
@@ -15,20 +15,10 @@ import { vec2 } from 'gl-matrix'
  * @class DrawerCanvas
  * @extends {Emitter<DrawerCanvasEvents>}
  */
-class DrawerCanvas extends Emitter<IDrawerCanvasEvents> {
-	private scene: Scene
+class DrawerCanvas extends Drawer<IDrawerCanvasOptions, IDrawerCanvasEvents> {
 	private canvas: HTMLCanvasElement | OffscreenCanvas
 
-	private resolution: number
-	private ratio: number
-
 	private context: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D | null
-	private animation_id: number | null
-	private draw_id: number | null
-	private redraw_id: number | null
-	private drawOptions: IDrawOptions
-
-	private timeline: Timeline
 
 	private bBuffering = false
 
@@ -37,27 +27,16 @@ class DrawerCanvas extends Emitter<IDrawerCanvasEvents> {
 	constructor(
 		scene?: Scene,
 		canvasOrContainer?: HTMLElement | HTMLCanvasElement | OffscreenCanvas,
-		drawOptions: IDrawOptions = {},
+		drawerOptions: IDrawerCanvasOptions = {},
 		ratio: number | undefined = undefined,
 		resolution = 0,
 		bBuffering = false
 	) {
-		super()
-
-		this.timeline = new Timeline()
-		this.resolution = resolution || (scene && scene.width ? scene.width : 0)
-		this.ratio = ratio || (scene && scene.width && scene.height ? scene.width / scene.height : 1)
+		super(scene, ratio, resolution)
 
 		this.bBuffering = bBuffering
+
 		this.buffer = new FrameBuffer()
-
-		if (scene) {
-			const width = this.ratio >= 1 ? scene.width : scene.width * this.ratio
-			const height = this.ratio >= 1 ? scene.height / this.ratio : scene.height
-
-			scene.resize(width, height)
-			this.setScene(scene)
-		}
 
 		if (
 			(typeof HTMLCanvasElement !== 'undefined' && canvasOrContainer instanceof HTMLCanvasElement) ||
@@ -72,27 +51,19 @@ class DrawerCanvas extends Emitter<IDrawerCanvasEvents> {
 			this.setCanvas(canvas)
 		}
 
-		this.drawOptions = {
-			scale: drawOptions.scale ?? 1,
-			translate: drawOptions.translate ?? [0, 0],
-			time: drawOptions.time ?? 0,
-			simmetricLine: drawOptions.simmetricLine ?? 0,
-			clearCanvas: drawOptions.clearCanvas ?? true,
-			fixedLineWidth: drawOptions.fixedLineWidth ?? false,
-			noBackground: drawOptions.noBackground ?? false,
-			ghosts: drawOptions.ghosts || 0,
-			ghost_skip_time: drawOptions.ghost_skip_time || 0,
-			ghost_skip_function: drawOptions.ghost_skip_function,
-			backgroundImage: drawOptions.backgroundImage,
+		this.drawerOptions = {
+			scale: drawerOptions.scale ?? 1,
+			translate: drawerOptions.translate ?? [0, 0],
+			time: drawerOptions.time ?? 0,
+			simmetricLines: drawerOptions.simmetricLines ?? 0,
+			clear: drawerOptions.clear ?? true,
+			fixedLineWidth: drawerOptions.fixedLineWidth ?? false,
+			noBackground: drawerOptions.noBackground ?? false,
+			ghosts: drawerOptions.ghosts || 0,
+			ghost_skip_time: drawerOptions.ghost_skip_time ?? 30,
+			ghost_skip_function: drawerOptions.ghost_skip_function,
+			backgroundImage: drawerOptions.backgroundImage,
 		}
-
-		this.draw_id = null
-		this.redraw_id = null
-		this.animation_id = null
-
-		this.draw = this.draw.bind(this)
-		this.animate = this.animate.bind(this)
-		this.startAnimation = this.startAnimation.bind(this)
 	}
 
 	public setBuffering(bBuffering: boolean): void {
@@ -111,21 +82,11 @@ class DrawerCanvas extends Emitter<IDrawerCanvasEvents> {
 	 * @memberof CanvasDrawer
 	 */
 	public setScene(scene: Scene): void {
-		this.scene = scene
-
-		if (!this.resolution && this.scene.width) this.resolution = this.scene.width
+		super.setScene(scene)
 
 		if (this.canvas) {
 			this.setCanvas(this.canvas) // and flush
 		}
-	}
-
-	public getScene(): Scene {
-		return this.scene
-	}
-
-	public getTimeline(): Timeline {
-		return this.timeline
 	}
 
 	/**
@@ -193,42 +154,19 @@ class DrawerCanvas extends Emitter<IDrawerCanvasEvents> {
 	 * @memberof DrawerCanvas
 	 */
 	public resize(width: number, height: number, ratio?: number, resolution?: number) {
-		// const dpi = typeof devicePixelRatio !== 'undefined' ? devicePixelRatio : 1
-		const dpi = 1
-		ratio = ratio || this.ratio || width / height
-
-		const size = Math.max(width, height)
-		width = ratio >= 1 ? size : size * ratio
-		height = ratio >= 1 ? size / ratio : size
-
-		this.ratio = ratio
-
-		if (this.scene) this.scene.resize(width, height)
+		super.resize(width, height, ratio, resolution)
 
 		if (this.canvas) {
-			this.canvas.width = width * dpi
-			this.canvas.height = height * dpi
+			this.canvas.width = this.scene.width
+			this.canvas.height = this.scene.height
 
 			if (typeof HTMLCanvasElement !== 'undefined' && this.canvas instanceof HTMLCanvasElement) {
-				this.canvas.style.width = width + 'px'
-				this.canvas.style.height = height + 'px'
+				this.canvas.style.width = this.scene.width + 'px'
+				this.canvas.style.height = this.scene.height + 'px'
 			}
 		}
 
-		if (resolution && resolution != this.resolution && this.scene) {
-			this.resolution = resolution
-
-			Scene.walk((sceneChild: SceneChild) => {
-				const props = sceneChild.data.props
-
-				Object.keys(props).forEach(name => {
-					SceneUtilities.setProp(sceneChild, name, props[name], this)
-				})
-			}, this.scene)
-		}
-
 		this.flushBuffer()
-
 		this.dispatch('drawer-canvas:resize')
 	}
 
@@ -249,169 +187,19 @@ class DrawerCanvas extends Emitter<IDrawerCanvasEvents> {
 	}
 
 	/**
-	 * Resize by ratio
-	 *
-	 * @param {number} ratio
-	 * @memberof DrawerCanvas
-	 */
-	public setRatio(ratio: number) {
-		this.resize(this.scene.width, this.scene.height, ratio)
-	}
-
-	/**
-	 * Return drawer ratio
-	 *
-	 * @returns {number}
-	 * @memberof DrawerCanvas
-	 */
-	public getRatio(): number {
-		return this.ratio
-	}
-
-	/**
-	 * Get resolution
-	 *
-	 * @returns {number}
-	 * @memberof DrawerCanvas
-	 */
-	public getResolution(): number {
-		return this.resolution
-	}
-
-	/**
-	 * Get resolution of drawer
-	 *
-	 * @param {number} resolution
-	 * @memberof DrawerCanvas
-	 */
-	public setResolution(resolution: number) {
-		this.resize(this.scene.width, this.scene.height, this.ratio, resolution)
-	}
-
-	/**
-	 * Get scene value scaled based on resolution
-	 *
-	 * @param {number} value
-	 * @returns
-	 * @memberof DrawerCanvas
-	 */
-	public getValueFromResolution(value: number) {
-		return (value * this.resolution) / 200
-	}
-
-	/**
-	 * Get scene value scaled based on resolution
-	 *
-	 * @param {number} value
-	 * @returns
-	 * @memberof DrawerCanvas
-	 */
-	public getValueFromResolutionScaled(value: number) {
-		return (value * 200) / this.resolution
-	}
-
-	/**
 	 * Set draw option
 	 *
 	 * @template K
-	 * @param {(K | IDrawOptions)} name
-	 * @param {Required<IDrawOptions>[K]} [value]
+	 * @param {(K | IDrawerOptions)} name
+	 * @param {Required<IDrawerOptions>[K]} [value]
 	 * @memberof CanvasDrawer
 	 */
-	public setOption<K extends keyof IDrawOptions>(name: K | IDrawOptions, value?: Required<IDrawOptions>[K]): void {
-		if (typeof name == 'object') {
-			const keys = Object.keys(name) as Array<keyof IDrawOptions>
-			for (let i = 0, len = keys.length; i < len; i++) {
-				// @ts-ignore
-				this.drawOptions[keys[i]] = name[keys[i]]
-			}
-		} else {
-			this.drawOptions[name] = value as Required<IDrawOptions>[K]
-		}
-
+	public setOption<K extends keyof IDrawerCanvasOptions>(
+		name: K | IDrawerCanvasOptions,
+		value?: Required<IDrawerCanvasOptions>[K]
+	): void {
+		super.setOption(name, value)
 		this.flushBuffer()
-	}
-
-	/**
-	 *
-	 *
-	 * @template K
-	 * @param {K} name
-	 * @param {IDrawOptions[K]} default_value
-	 * @returns {IDrawOptions[K]}
-	 * @memberof DrawerCanvas
-	 */
-	public getOption<K extends keyof IDrawOptions>(name: K, default_value?: IDrawOptions[K]): IDrawOptions[K] {
-		return this.drawOptions[name] ?? default_value
-	}
-
-	/**
-	 *
-	 *
-	 * @returns {DrawOptions}
-	 * @memberof DrawerCanvas
-	 */
-	public getOptions(): IDrawOptions {
-		return this.drawOptions
-	}
-
-	/**
-	 * Internal tick animation
-	 *
-	 * @private
-	 * @memberof CanvasDrawer
-	 */
-	private animate(timestamp: number): void {
-		if (this.timeline.bSequenceStarted()) {
-			this.animation_id = requestAnimationFrame(this.animate)
-
-			if (this.timeline.tick(timestamp)) this.draw()
-		}
-	}
-
-	/**
-	 * Start animation drawing
-	 *
-	 * @memberof CanvasDrawer
-	 */
-	public startAnimation(): void {
-		this.stopAnimation()
-
-		this.timeline.start()
-		this.animation_id = requestAnimationFrame(this.animate)
-	}
-
-	/**
-	 * Stop animation drawing
-	 *
-	 * @memberof CanvasDrawer
-	 */
-	public stopAnimation(): void {
-		this.timeline.stop()
-
-		if (this.animation_id) cancelAnimationFrame(this.animation_id)
-	}
-
-	/**
-	 * Pause animation drawing
-	 *
-	 * @memberof CanvasDrawer
-	 */
-	public pauseAnimation(): void {
-		this.timeline.pause()
-
-		if (this.animation_id) cancelAnimationFrame(this.animation_id)
-	}
-
-	/**
-	 * Play animation drawing
-	 *
-	 * @memberof CanvasDrawer
-	 */
-	public playAnimation(): void {
-		this.timeline.start()
-
-		requestAnimationFrame(this.animate)
 	}
 
 	// public preload(): Promise<boolean> {
@@ -435,34 +223,34 @@ class DrawerCanvas extends Emitter<IDrawerCanvasEvents> {
 
 	// 			if (!context) reject('Create context error')
 
-	// 			const drawOptions = { ...this.drawOptions }
+	// 			const drawerOptions = { ...this.drawerOptions }
 	// 			const sequenceEndTime = this.timeline.getSequenceEndTime()
 
 	// 			for (let i = 0; i < sequence.frames; i++) {
 	// 				// requestAnimationFrame(() => {
 	// 				const time = this.timeline.getFrameTime(i)
-	// 				drawOptions.clearCanvas = this.drawOptions.clearCanvas || i === 0
-	// 				drawOptions.time = time
-	// 				DrawerCanvas.draw(this.scene, context, drawOptions, this.resolution)
+	// 				drawerOptions.clear = this.drawerOptions.clear || i === 0
+	// 				drawerOptions.time = time
+	// 				DrawerCanvas.draw(this.scene, context, drawerOptions, this.resolution)
 
-	// 				if (drawOptions.ghosts) {
-	// 					for (let gi = 1; gi <= drawOptions.ghosts; gi++) {
+	// 				if (drawerOptions.ghosts) {
+	// 					for (let gi = 1; gi <= drawerOptions.ghosts; gi++) {
 	// 						const ghostTime =
 	// 							time -
-	// 							(drawOptions.ghost_skip_function
-	// 								? drawOptions.ghost_skip_function(gi)
-	// 								: gi * (drawOptions.ghost_skip_time ?? 30))
+	// 							(drawerOptions.ghost_skip_function
+	// 								? drawerOptions.ghost_skip_function(gi)
+	// 								: gi * (drawerOptions.ghost_skip_time ?? 30))
 
-	// 						drawOptions.clearCanvas = false
-	// 						drawOptions.ghost_index = gi
-	// 						drawOptions.time =
+	// 						drawerOptions.clear = false
+	// 						drawerOptions.ghost_index = gi
+	// 						drawerOptions.time =
 	// 							ghostTime < 0
 	// 								? ghostTime + sequenceEndTime
 	// 								: ghostTime > sequenceEndTime
 	// 								? ghostTime % sequenceEndTime
 	// 								: ghostTime
 
-	// 						DrawerCanvas.draw(this.scene, context, drawOptions, this.resolution)
+	// 						DrawerCanvas.draw(this.scene, context, drawerOptions, this.resolution)
 	// 					}
 	// 				}
 
@@ -486,51 +274,32 @@ class DrawerCanvas extends Emitter<IDrawerCanvasEvents> {
 	public draw(): number {
 		let draw_time = 0
 
-		const drawOptions = { ...this.drawOptions }
+		const timeline = this.timeline
+		const drawAtTime = timeline.getTime()
+		const drawerOptions: IDrawerCanvasOptions & { ghost_index: number | undefined } = {
+			...this.drawerOptions,
+			ghost_index: undefined,
+			clear: this.drawerOptions.clear || timeline.getCurrentFrame() <= 0,
+			time: drawAtTime,
+		}
 
-		drawOptions.ghost_index = undefined
-		const clearCanvas = this.drawOptions.clearCanvas || this.timeline.getCurrentFrame() <= 0
-		drawOptions.clearCanvas = clearCanvas
-		drawOptions.time = this.timeline.getTime()
-		const current_frame = this.timeline.getFrameAtTime(drawOptions.time)
+		const current_frame = timeline.getFrameAtTime(drawAtTime)
 
 		this.dispatch('drawer-canvas:before_draw', {
 			current_frame: current_frame,
-			current_time: drawOptions.time,
+			current_time: drawAtTime,
 		})
 
 		if (this.bBuffering && this.buffer.exist(current_frame)) {
 			this.context?.putImageData(this.buffer.get(current_frame) as ImageData, 0, 0)
 		} else {
-			if (drawOptions.ghosts) {
-				const ghostDrawOptions = { ...drawOptions }
-				const time = this.timeline.getTime()
-				const sequenceEndTime = this.timeline.getSequenceEndTime()
-
-				for (let i = 1; i <= (ghostDrawOptions.ghosts as number); i++) {
-					const ghostTime =
-						time -
-						(drawOptions.ghost_skip_function
-							? drawOptions.ghost_skip_function(i)
-							: i * (drawOptions.ghost_skip_time ?? 30))
-
-					ghostDrawOptions.clearCanvas = clearCanvas && i === 1
-
-					ghostDrawOptions.ghost_index = i
-					ghostDrawOptions.time =
-						ghostTime < 0
-							? ghostTime + sequenceEndTime
-							: ghostTime > sequenceEndTime
-							? ghostTime % sequenceEndTime
-							: ghostTime
-
-					draw_time += DrawerCanvas.draw(this.scene, this.context, ghostDrawOptions, this.resolution)
-				}
-
-				drawOptions.clearCanvas = false
+			if (drawerOptions.ghosts) {
+				Drawer.eachGhosts(drawerOptions, timeline, ghostDrawerOptions => {
+					draw_time += DrawerCanvas.draw(this.scene, this.context, ghostDrawerOptions, this.resolution)
+				})
 			}
 
-			draw_time += DrawerCanvas.draw(this.scene, this.context, drawOptions, this.resolution)
+			draw_time += DrawerCanvas.draw(this.scene, this.context, drawerOptions, this.resolution)
 
 			if (this.bBuffering && this.context) {
 				this.buffer.push(current_frame, this.context)
@@ -545,44 +314,19 @@ class DrawerCanvas extends Emitter<IDrawerCanvasEvents> {
 	}
 
 	/**
-	 * Redraw
-	 *
-	 * @returns {void}
-	 * @memberof DrawerCanvas
-	 */
-	public redraw(): void {
-		if (!this.timeline.bSequenceStarted()) {
-			this.draw_id && cancelAnimationFrame(this.draw_id)
-			!this.drawOptions.clearCanvas &&
-				(typeof this.drawOptions.ghosts == undefined || this.drawOptions.ghosts == 0) &&
-				this.timeline.stop()
-			this.draw_id = requestAnimationFrame(this.draw)
-		} else if (
-			!this.drawOptions.clearCanvas &&
-			(typeof this.drawOptions.ghosts == undefined || this.drawOptions.ghosts == 0)
-		) {
-			this.stopAnimation()
-			// this.redraw_id && clearTimeout(this.redraw_id)
-			// this.redraw_id = setTimeout(() => this.startAnimation(), 100)
-			this.redraw_id && cancelAnimationFrame(this.redraw_id)
-			this.redraw_id = requestAnimationFrame(this.startAnimation)
-		}
-	}
-
-	/**
 	 * Static draw scene
 	 *
 	 * @static
 	 * @param {Scene} scene
 	 * @param {(CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D | null)} context
-	 * @param {DrawOptions} options
+	 * @param {DrawerOptions} options
 	 * @returns {number}
 	 * @memberof DrawerCanvas
 	 */
 	public static draw(
 		scene: Scene,
 		context: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D | null,
-		options: IDrawOptions,
+		options: IDrawerCanvasOptions & { ghost_index?: number },
 		resolution?: number
 	): number {
 		const start_time = now()
@@ -591,9 +335,9 @@ class DrawerCanvas extends Emitter<IDrawerCanvasEvents> {
 			const scale: number = options.scale ?? 1
 			const translate: Array<number> = options.translate ?? [0, 0]
 			const time: number = options.time ?? 0
-			const simmetricLine: number = options.simmetricLine ?? 0
+			const simmetricLines: number = options.simmetricLines ?? 0
 			const fixedLineWidth: boolean | undefined = options.fixedLineWidth
-			const clearCanvas: boolean | undefined = options.clearCanvas
+			const clear: boolean | undefined = options.clear
 			const noBackground: boolean | undefined = options.noBackground
 			const backgroundImage: CanvasImageSource | undefined = options.backgroundImage
 			const bGhost: boolean =
@@ -603,7 +347,7 @@ class DrawerCanvas extends Emitter<IDrawerCanvasEvents> {
 				options.ghost_index > 0
 			const ghostMultiplier: number = bGhost
 				? 1 - (options.ghost_index as number) / ((options.ghosts as number) + 0.5)
-				: 1
+				: 0
 
 			const width: number = scene.width
 			const height: number = scene.height
@@ -618,17 +362,7 @@ class DrawerCanvas extends Emitter<IDrawerCanvasEvents> {
 				height / 2 - (scale > 1 ? (translate[1] * height) / (1 / ((scale - 1) / 2)) : 0),
 			]
 
-			scene.current_time = time
-			scene.getChildren().forEach((sceneChild: SceneChild) => {
-				if (
-					!sceneChild.data ||
-					!(sceneChild.data.visible === false) ||
-					!(bGhost && sceneChild.data.disableGhost === true)
-				)
-					sceneChild.generate(time, true)
-			})
-
-			if (clearCanvas) {
+			if (clear) {
 				if (noBackground) {
 					context.clearRect(0, 0, width, height)
 				} else {
@@ -639,122 +373,133 @@ class DrawerCanvas extends Emitter<IDrawerCanvasEvents> {
 				}
 			}
 
-			if (simmetricLine > 0) {
-				const offset = Math.PI / simmetricLine
-				const size = Math.max(width, height) / 2
-				const center = vec2.fromValues(size / 2, size / 2)
-
-				for (let i = 0; i < simmetricLine; i++) {
-					const a = vec2.fromValues(-size, -size)
-					const b = vec2.fromValues(size * 2, size * 2)
-					const rotate = i * offset + Math.PI / 4
-
-					vec2.rotate(a, a, center, rotate)
-					vec2.rotate(b, b, center, rotate)
-
-					context.beginPath()
-					context.strokeStyle = scene.mainColor
-					context.lineWidth = 1
-
-					context.moveTo(
-						(a[0] - size / 2) * final_scale[0] + final_translate[0],
-						(a[1] - size / 2) * final_scale[1] + final_translate[1]
-					)
-					context.lineTo(
-						(b[0] - size / 2) * final_scale[0] + final_translate[0],
-						(b[1] - size / 2) * final_scale[1] + final_translate[1]
-					)
-					context.stroke()
-				}
+			if (simmetricLines > 0) {
+				DrawerCanvas.drawSimmetricLines(
+					context,
+					simmetricLines,
+					width,
+					height,
+					final_scale,
+					final_translate,
+					scene.mainColor
+				)
 			}
 
-			let logFillColorWarn = false
-			let logStrokeColorWarn = false
+			{
+				let logFillColorWarn = false
+				let logStrokeColorWarn = false
 
-			context.globalCompositeOperation = 'source-over'
-			scene.stream(({ lineWidth, strokeColor, fillColor, shape, buffer, frame_length, frame_buffer_index }) => {
-				if (shape.data && (shape.data.visible === false || (bGhost && shape.data.disableGhost === true))) return
+				scene.current_time = time
+				scene.getChildren().forEach((sceneChild: SceneChild) => {
+					if (
+						!sceneChild.data ||
+						!(sceneChild.data.visible === false) ||
+						!(bGhost && sceneChild.data.disableGhost === true)
+					) {
+						sceneChild.generate(time, true)
 
-				if (shape.data && shape.data.composite) {
-					context.globalCompositeOperation = shape.data.composite
-				}
+						sceneChild.stream(streamCallback => {
+							const shapeData = streamCallback.shape.data
+							context.globalCompositeOperation = shapeData && shapeData.composite ? shapeData.composite : 'source-over'
+							context.beginPath()
+							context.moveTo(
+								(streamCallback.buffer[streamCallback.frame_buffer_index] - width / 2) * final_scale[0] +
+									final_translate[0],
+								(streamCallback.buffer[streamCallback.frame_buffer_index + 1] - height / 2) * final_scale[1] +
+									final_translate[1]
+							)
 
-				context.beginPath()
+							for (let i = 2; i < streamCallback.frame_length; i += 2) {
+								context.lineTo(
+									(streamCallback.buffer[streamCallback.frame_buffer_index + i] - width / 2) * final_scale[0] +
+										final_translate[0],
+									(streamCallback.buffer[streamCallback.frame_buffer_index + i + 1] - height / 2) * final_scale[1] +
+										final_translate[1]
+								)
+							}
 
-				context.moveTo(
-					(buffer[frame_buffer_index] - width / 2) * final_scale[0] + final_translate[0],
-					(buffer[frame_buffer_index + 1] - height / 2) * final_scale[1] + final_translate[1]
-				)
+							streamCallback.shape.isClosed() && context.closePath()
 
-				for (let i = 2; i < frame_length; i += 2) {
-					context.lineTo(
-						(buffer[frame_buffer_index + i] - width / 2) * final_scale[0] + final_translate[0],
-						(buffer[frame_buffer_index + i + 1] - height / 2) * final_scale[1] + final_translate[1]
-					)
-				}
+							if (shapeData && shapeData.highlighted) {
+								context.lineWidth = (streamCallback.lineWidth || 1) * 3 * scale
+								context.strokeStyle = scene.mainColor
+								context.stroke()
 
-				shape && shape.isClosed() && context.closePath()
+								return
+							}
 
-				if (shape && shape.data && shape.data.highlighted) {
-					context.lineWidth = (lineWidth || 1) * 3 * scale
-					context.strokeStyle = scene.mainColor
-					context.stroke()
-					return
-				}
-				if (fillColor) {
-					if (bGhost) {
-						const color = /\((.+),(.+),(.+),(.+)?\)/g.exec(fillColor)
-						if (color) {
-							const [, a, b, c, o]: Array<string> = color as RegExpExecArray
-							const alpha = o ? parseFloat(o) : 1
-							const ghostAlpha = alpha <= 0 ? 0 : alpha * ghostMultiplier
-							fillColor =
-								fillColor.indexOf('rgb') >= 0
-									? `rgba(${a},${b},${c},${ghostAlpha})`
-									: `hsla(${a},${b},${c},${ghostAlpha})`
-						} else if (!logFillColorWarn) {
-							console.warn(`[Urpflanze:DrawerCanvas] Unable ghost fill color '${fillColor}', 
-							please enter a rgba or hsla color`)
-							logFillColorWarn = true
-						}
+							if (streamCallback.fillColor) {
+								if (bGhost) {
+									const color = Drawer.ghostifyColor(streamCallback.fillColor, ghostMultiplier)
+									if (color) {
+										streamCallback.fillColor = color
+									} else if (!logFillColorWarn) {
+										console.warn(`[Urpflanze:DrawerCanvas] Unable ghost fill color '${streamCallback.fillColor}', 
+									please enter a rgba or hsla color`)
+										logFillColorWarn = true
+									}
+								}
+								context.fillStyle = streamCallback.fillColor
+								context.fill()
+							}
+
+							if (streamCallback.strokeColor) {
+								if (bGhost) {
+									const color = Drawer.ghostifyColor(streamCallback.strokeColor, ghostMultiplier)
+									if (color) {
+										streamCallback.strokeColor = color
+									} else if (!logStrokeColorWarn) {
+										console.warn(`[Urpflanze:DrawerCanvas] Unable ghost stroke color '${streamCallback.strokeColor}', 
+									please enter a rgba or hsla color`)
+										logStrokeColorWarn = true
+									}
+									streamCallback.lineWidth *= ghostMultiplier
+								}
+
+								context.lineWidth = fixedLineWidth ? streamCallback.lineWidth : streamCallback.lineWidth * scale
+								context.strokeStyle = streamCallback.strokeColor
+								context.stroke()
+							}
+						})
 					}
-					context.fillStyle = fillColor
-					context.fill()
-				}
-
-				if (strokeColor && lineWidth) {
-					if (bGhost) {
-						const color = /\((.+),(.+),(.+),(.+)?\)/g.exec(strokeColor)
-						if (color) {
-							const [, a, b, c, o]: Array<string> = color as RegExpExecArray
-							const alpha = o ? parseFloat(o) : 1
-							const ghostAlpha = alpha <= 0 ? 0 : alpha * ghostMultiplier
-							strokeColor =
-								strokeColor.indexOf('rgb') >= 0
-									? `rgba(${a},${b},${c},${ghostAlpha})`
-									: `hsla(${a},${b},${c},${ghostAlpha})`
-						} else if (!logStrokeColorWarn) {
-							console.warn(`[Urpflanze:DrawerCanvas] Unable ghost stroke color '${fillColor}', 
-							please enter a rgba or hsla color`)
-							logStrokeColorWarn = true
-						}
-						lineWidth *= ghostMultiplier
-					}
-
-					context.lineWidth = fixedLineWidth ? lineWidth : lineWidth * scale
-					context.strokeStyle = strokeColor
-					context.stroke()
-				}
-
-				if (shape.data && shape.data.composite) {
-					context.globalCompositeOperation = 'source-over'
-				}
-			})
+				})
+			}
 		}
 
 		const end_time = now()
 
 		return end_time - start_time
+	}
+
+	static drawSimmetricLines(
+		context: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D,
+		simmetricLines: number,
+		width: number,
+		height: number,
+		scale: Array<number>,
+		translate: Array<number>,
+		color: string
+	) {
+		const offset = Math.PI / simmetricLines
+		const size = Math.max(width, height) / 2
+		const center = vec2.fromValues(size / 2, size / 2)
+
+		for (let i = 0; i < simmetricLines; i++) {
+			const a = vec2.fromValues(-size, -size)
+			const b = vec2.fromValues(size * 2, size * 2)
+			const rotate = i * offset + Math.PI / 4
+
+			vec2.rotate(a, a, center, rotate)
+			vec2.rotate(b, b, center, rotate)
+
+			context.beginPath()
+			context.strokeStyle = color
+			context.lineWidth = 1
+
+			context.moveTo((a[0] - size / 2) * scale[0] + translate[0], (a[1] - size / 2) * scale[1] + translate[1])
+			context.lineTo((b[0] - size / 2) * scale[0] + translate[0], (b[1] - size / 2) * scale[1] + translate[1])
+			context.stroke()
+		}
 	}
 }
 

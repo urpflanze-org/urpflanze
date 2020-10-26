@@ -19,7 +19,8 @@ class Timeline extends Emitter<ITimelineEvents> {
 	private fps: number
 
 	private current_frame: number
-	private last_tick: number
+	private current_time: number
+
 	private paused_time: number
 	private start_time: number
 	private tick_time: number
@@ -34,15 +35,13 @@ class Timeline extends Emitter<ITimelineEvents> {
 	 *
 	 * @memberof Timeline
 	 */
-	constructor() {
+	constructor(durate: number = 60000, framerate: number = 60) {
 		super()
 
 		this.sequence = {
-			start: 0,
-			end: 60000,
-			durate: 60000,
-			framerate: 60,
-			frames: ((6000 - 0) / 1000) * 60,
+			durate,
+			framerate,
+			frames: Math.round(((durate - 0) / 1000) * framerate),
 		}
 
 		this.fps = this.sequence.framerate
@@ -52,11 +51,11 @@ class Timeline extends Emitter<ITimelineEvents> {
 
 		this.b_sequence_started = false
 
-		this.current_frame = -1
-		// this.paused_time = 0
+		this.current_frame = 0
+		this.current_time = 0
 
+		// this.paused_time = 0
 		this.start_time = 0
-		this.last_tick = 0
 		this.accumulator = 0
 
 		this.calculateTickAndSequence()
@@ -77,18 +76,39 @@ class Timeline extends Emitter<ITimelineEvents> {
 	/**
 	 * Set sequence
 	 *
-	 * @param {number} start
-	 * @param {number} end
+	 * @param {number} durate
 	 * @param {number} framerate
 	 * @memberof Timeline
 	 */
-	public setSequence(start: number, end: number, framerate: number) {
-		this.sequence.start = start
-		this.sequence.end = end
+	public setSequence(durate: number, framerate: number) {
+		this.sequence.durate = durate
 		this.sequence.framerate = framerate
 		this.calculateTickAndSequence()
 
 		this.dispatch('timeline:update_sequence', this.getSequence())
+	}
+
+	/**
+	 * Set durate of timeline
+	 *
+	 * @param {number} framerate
+	 * @memberof Timeline
+	 */
+	public setDurate(durate: number) {
+		this.sequence.durate = durate
+		this.calculateTickAndSequence()
+
+		this.dispatch('timeline:update_sequence', this.getSequence())
+	}
+
+	/**
+	 * Get animation durate
+	 *
+	 * @returns {number}
+	 * @memberof Timeline
+	 */
+	public getDurate(): number {
+		return this.sequence.durate
 	}
 
 	/**
@@ -122,64 +142,7 @@ class Timeline extends Emitter<ITimelineEvents> {
 	 */
 	private calculateTickAndSequence(): void {
 		this.tick_time = 1000 / this.sequence.framerate
-		this.sequence.frames = Math.floor(((this.sequence.end - this.sequence.start) / 1000) * this.sequence.framerate)
-		this.sequence.durate = this.sequence.end - this.sequence.start
-	}
-
-	/**
-	 * Get animation start time
-	 *
-	 * @returns {number}
-	 * @memberof Timeline
-	 */
-	public getSequenceStartTime(): number {
-		return this.sequence.start
-	}
-
-	/**
-	 * Set animation start time
-	 *
-	 * @param {number} start_time
-	 * @memberof Timeline
-	 */
-	public setSequenceStartTime(start_time: number) {
-		this.sequence.start = start_time
-		this.calculateTickAndSequence()
-
-		this.dispatch('timeline:update_sequence', this.getSequence())
-	}
-
-	/**
-	 * Get a aniamtion end time
-	 *
-	 * @returns {number}
-	 * @memberof Timeline
-	 */
-	public getSequenceEndTime(): number {
-		return this.sequence.end
-	}
-
-	/**
-	 * Set animation end time
-	 *
-	 * @param {number} end_time
-	 * @memberof Timeline
-	 */
-	public setSequenceEndTime(end_time: number) {
-		this.sequence.end = end_time
-		this.calculateTickAndSequence()
-
-		this.dispatch('timeline:update_sequence', this.getSequence())
-	}
-
-	/**
-	 * Get animation durate
-	 *
-	 * @returns {number}
-	 * @memberof Timeline
-	 */
-	public getSequenceDuration(): number {
-		return this.sequence.end - this.sequence.start
+		this.sequence.frames = Math.round((this.sequence.durate / 1000) * this.sequence.framerate)
 	}
 
 	/**
@@ -208,9 +171,9 @@ class Timeline extends Emitter<ITimelineEvents> {
 	public start(): void {
 		if (!this.b_sequence_started) {
 			this.b_sequence_started = true
-			// this.last_tick = now() - this.paused_time
+			// this.current_time = now() - this.paused_time
 			this.start_time = this.paused_time
-			this.last_tick = 0
+			this.current_time = 0
 			this.accumulator = 0
 
 			this.dispatch('timeline:change_status', Timeline.START)
@@ -237,17 +200,17 @@ class Timeline extends Emitter<ITimelineEvents> {
 	 * @memberof Timeline
 	 */
 	public stop(): void {
-		if (this.current_frame != 1 || this.b_sequence_started) {
+		if (this.b_sequence_started) {
 			this.b_sequence_started = false
-			this.current_frame = -1
+			this.current_frame = 0
 			this.start_time = 0
 			this.paused_time = 0
 
-			this.dispatch('timeline:progress', {
-				current_frame: this.current_frame,
-				current_time: 0,
-				fps: this.fps,
-			})
+			// this.dispatch('timeline:progress', {
+			// 	current_frame: this.current_frame,
+			// 	current_time: 0,
+			// 	fps: this.fps,
+			// })
 
 			this.dispatch('timeline:change_status', Timeline.STOP)
 		}
@@ -269,23 +232,22 @@ class Timeline extends Emitter<ITimelineEvents> {
 
 			const currentTime = timestamp - this.start_time
 
-			const elapsed = currentTime - this.last_tick
-			this.accumulator += elapsed
+			const deltaTime = currentTime - this.current_time
+			this.accumulator += deltaTime
 
-			// if (elapsed >= this.tick_time) {
+			// if (deltaTime >= this.tick_time) {
 			if (this.accumulator >= this.tick_time) {
-				const delta = (currentTime - this.last_tick) / 1000
-				this.calculateFPS(1 / delta)
+				this.calculateFPS(1 / (deltaTime / 1000))
 
-				// this.last_tick = currentTime - (elapsed % this.tick_time)
-				this.last_tick = currentTime
-				this.current_frame = this.getFrameAtTime(this.last_tick)
+				// this.current_time = currentTime - (deltaTime % this.tick_time)
+				this.current_time = currentTime
+				this.current_frame = this.getFrameAtTime(currentTime)
 				// this.current_frame = (this.current_frame + 1) % this.sequence.frames
 				this.accumulator -= this.tick_time
 
 				this.dispatch('timeline:progress', {
 					current_frame: this.current_frame,
-					current_time: this.last_tick,
+					current_time: this.current_time,
 					fps: this.fps,
 				})
 
@@ -341,7 +303,7 @@ class Timeline extends Emitter<ITimelineEvents> {
 	 */
 	public getFrameTime(frame: number): number {
 		frame = frame < 0 ? this.sequence.frames - (frame % this.sequence.frames) : frame % this.sequence.frames
-		return (this.sequence.start + frame * this.tick_time) % this.sequence.end
+		return (frame * this.tick_time) % this.sequence.durate
 	}
 
 	/**
@@ -352,7 +314,7 @@ class Timeline extends Emitter<ITimelineEvents> {
 	 * @memberof Timeline
 	 */
 	public getFrameAtTime(time: number): number {
-		return Math.round(((this.sequence.start + time) % this.sequence.end) / this.tick_time)
+		return Math.round((time % this.sequence.durate) / this.tick_time)
 	}
 
 	/**
@@ -362,7 +324,8 @@ class Timeline extends Emitter<ITimelineEvents> {
 	 * @memberof Timeline
 	 */
 	public setFrame(frame: number): void {
-		this.current_frame = frame - 1
+		this.current_frame = frame
+		this.current_time = this.getFrameTime(frame)
 	}
 
 	/**
@@ -376,15 +339,13 @@ class Timeline extends Emitter<ITimelineEvents> {
 	}
 
 	/**
-	 * Return the current time based on current frame
+	 * Return the current time
 	 *
 	 * @returns {number}
 	 * @memberof Timeline
 	 */
 	public getTime(): number {
-		return (
-			(this.sequence.start + (this.current_frame <= 0 ? 0 : this.current_frame) * this.tick_time) % this.sequence.end
-		)
+		return this.current_time
 	}
 
 	/**
@@ -394,9 +355,10 @@ class Timeline extends Emitter<ITimelineEvents> {
 	 * @memberof Timeline
 	 */
 	public setTime(time: number) {
-		time = time <= this.sequence.start ? this.sequence.start : time >= this.sequence.end ? this.sequence.end : time
+		time = (time + this.sequence.durate) % this.sequence.durate
 
-		this.current_frame = Math.floor(time / this.tick_time) - 1
+		this.current_time = time
+		this.current_frame = this.getFrameAtTime(time)
 
 		this.dispatch('timeline:progress', {
 			current_frame: this.current_frame,

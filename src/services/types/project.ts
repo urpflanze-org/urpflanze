@@ -7,8 +7,6 @@ import { TSceneChildProps } from './scene-utilities'
  * @category Services.Export/Import
  */
 export interface IProjectSequence {
-	start: number
-	end: number
 	durate: number
 	framerate: number
 }
@@ -29,7 +27,7 @@ export interface IProject {
 	// DrawOptions
 	ratio: number
 	backgroundImage?: string
-	clearCanvas: boolean
+	clear: boolean
 	ghosts: number
 	ghost_skip_time?: number
 	ghost_skip_function?: number | string | CallableFunction

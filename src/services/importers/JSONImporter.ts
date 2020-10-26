@@ -25,7 +25,7 @@ class JSONImporter {
 			background: '#000',
 			mainColor: '#fff',
 
-			clearCanvas: true,
+			clear: true,
 			ghosts: 0,
 			ghost_skip_time: 30,
 			ratio: 1,
@@ -33,8 +33,6 @@ class JSONImporter {
 			scene: {},
 
 			sequence: {
-				start: 0,
-				end: 6000,
 				durate: 6000,
 				framerate: 60,
 			},
@@ -59,7 +57,7 @@ class JSONImporter {
 			background: parsed.background ?? emptyProject.background,
 			mainColor: parsed.mainColor ?? emptyProject.mainColor,
 
-			clearCanvas: parsed.clearCanvas ?? emptyProject.clearCanvas,
+			clear: parsed.clear ?? emptyProject.clear,
 			ghosts: parsed.ghosts ?? emptyProject.ghosts,
 			ghost_skip_time: parsed.ghost_skip_time ?? emptyProject.ghost_skip_time,
 			ghost_skip_function: parsed.ghost_skip_function ?? emptyProject.ghost_skip_function,
@@ -70,10 +68,8 @@ class JSONImporter {
 			sequence: { ...emptyProject.sequence, ...parsed.sequence },
 		}
 
-		project.sequence.durate = project.sequence.end - project.sequence.start
-
 		const drawOptions = {
-			clearCanvas: project.clearCanvas,
+			clear: project.clear,
 			ghosts: project.ghosts,
 			ghost_skip_time: parseFunction.unparse(project.ghost_skip_time),
 		}
@@ -87,7 +83,7 @@ class JSONImporter {
 		const drawer = new DrawerCanvas(scene, undefined, drawOptions, project.ratio, project.resolution)
 
 		const timeline = drawer.getTimeline()
-		timeline.setSequence(project.sequence.start, project.sequence.end, project.sequence.framerate)
+		timeline.setSequence(project.sequence.durate, project.sequence.framerate)
 
 		const sceneChilds: Array<IProjectSceneChild> = Object.values(project.scene || [])
 

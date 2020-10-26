@@ -1,17 +1,21 @@
+export interface IDrawerOptions {
+    time?: number;
+    noBackground?: boolean;
+    ghosts?: number;
+    clear?: boolean;
+    ghost_skip_time?: number;
+    ghost_skip_function?: (ghost_index: number) => number;
+}
+export interface IDrawerSVGOptions extends IDrawerOptions {
+    decimals?: number;
+}
 /**
  * @category Services.DrawerCanvas
  */
-export interface IDrawOptions {
-    time?: number;
+export interface IDrawerCanvasOptions extends IDrawerOptions {
     scale?: number;
     translate?: Array<number>;
-    simmetricLine?: number;
-    clearCanvas?: boolean;
-    noBackground?: boolean;
-    ghosts?: number;
-    ghost_skip_time?: number;
-    ghost_skip_function?: (ghost_index: number) => number;
-    ghost_index?: number;
+    simmetricLines?: number;
     fixedLineWidth?: boolean;
     backgroundImage?: CanvasImageSource;
 }

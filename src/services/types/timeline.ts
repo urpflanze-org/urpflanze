@@ -15,8 +15,8 @@ export interface ITimelineEvents {
  * @category Services.Timeline
  */
 export interface ISequenceMeta {
-	start: number
-	end: number
+	// start: number
+	// end: number
 	durate: number
 	frames: number
 	framerate: number

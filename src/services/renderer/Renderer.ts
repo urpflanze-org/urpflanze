@@ -33,12 +33,12 @@ class Renderer extends Emitter<IRenderEvents> {
 		this.capturer.start(1)
 
 		const promise = new Promise<Uint8Array>((resolve, reject) => {
-			const bClearCanvas = drawer.getOption('clearCanvas', true)
+			const bClear = drawer.getOption('clear', true)
 			const timeline = drawer.getTimeline()
 			const sequence = timeline.getSequence()
 
-			if (!bClearCanvas) {
-				const needFrame = settings.time >= sequence.end ? sequence.frames : timeline.getFrameAtTime(settings.time)
+			if (!bClear) {
+				const needFrame = settings.time >= sequence.durate ? sequence.frames : timeline.getFrameAtTime(settings.time)
 				for (let i = 0; i <= needFrame; i++) {
 					timeline.setFrame(i)
 					drawer.draw()
@@ -164,7 +164,7 @@ class Renderer extends Emitter<IRenderEvents> {
 
 			const current_frame = i + frame_from
 			const measure_start = now()
-			timeline.setTime((sequence.start + current_frame * tick_time) % sequence.end)
+			timeline.setFrame(current_frame)
 			drawer.draw()
 			await this.capturer.capture(drawer.getCanvas(), i)
 			const measure_end = now()

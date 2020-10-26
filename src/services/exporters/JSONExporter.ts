@@ -42,14 +42,14 @@ class JSONExporter {
 		project.mainColor = scene.mainColor
 		project.background = scene.background
 
-		project.clearCanvas = drawer.getOption('clearCanvas', true) as boolean
+		project.clear = drawer.getOption('clear', true) as boolean
 		project.ghosts = drawer.getOption('ghosts', 0) as number
 		project.ghost_skip_time = parseFunction.parse(drawer.getOption('ghost_skip_time', 30) as number | string)
 
 		project.ratio = drawer.getRatio()
 
-		const { start, end, framerate } = timeline.getSequence()
-		project.sequence = { start, end, framerate, durate: end - start }
+		const { durate, framerate } = timeline.getSequence()
+		project.sequence = { durate, framerate }
 
 		project.scene = {}
 

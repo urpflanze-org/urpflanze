@@ -29,6 +29,7 @@ import Animation from '@services/animation/Animation'
 import { TSceneChildProps } from '@services/types/scene-utilities'
 import { ISceneChildProps } from '@core/types/scene-child'
 import { IShapeLoopAnimation } from '@services/types/animation'
+import Drawer from '@services/drawers/Drawer'
 
 export type SceneChildInstance = new (props: any) => SceneChild
 
@@ -116,7 +117,7 @@ class SceneUtilities {
 	 * @returns {(SceneChild | null)}
 	 * @memberof SceneUtilities
 	 */
-	create(item: string | SceneChild, props?: TSceneChildProps, scene?: Scene, drawer?: DrawerCanvas): SceneChild | null {
+	create(item: string | SceneChild, props?: TSceneChildProps, scene?: Scene, drawer?: Drawer<any, any>): SceneChild | null {
 		scene = scene ? scene : typeof item !== 'string' ? item.scene : undefined
 
 		if (item instanceof SceneChild) {
@@ -189,7 +190,7 @@ class SceneUtilities {
 	 * @returns {(SceneChild | null)}
 	 * @memberof SceneUtilities
 	 */
-	copy(sceneChild: SceneChild, scene?: Scene, drawer?: DrawerCanvas, strict = false): SceneChild | null {
+	copy(sceneChild: SceneChild, scene?: Scene, drawer?: Drawer<any, any>, strict = false): SceneChild | null {
 		// copy only props, without name, id
 		const props: TSceneChildProps = sceneChild.getProps()
 
@@ -503,7 +504,7 @@ class SceneUtilities {
 	 * @param {DrawerCanvas} drawer
 	 * @memberof SceneUtilities
 	 */
-	setProp(sceneChild: SceneChild, name: string, value: any, drawer: DrawerCanvas): void {
+	setProp(sceneChild: SceneChild, name: string, value: any, drawer: Drawer<any, any>): void {
 		if (ScenePropUtilities.bValueAnimation(value)) {
 			sceneChild.data.props[name] = value
 			sceneChild.setProp(name as keyof ISceneChildProps, Animation.composeAnimation(drawer, name, value))

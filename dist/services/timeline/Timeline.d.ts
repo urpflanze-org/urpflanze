@@ -15,7 +15,7 @@ declare class Timeline extends Emitter<ITimelineEvents> {
     private fps_samples_index;
     private fps;
     private current_frame;
-    private last_tick;
+    private current_time;
     private paused_time;
     private start_time;
     private tick_time;
@@ -27,7 +27,7 @@ declare class Timeline extends Emitter<ITimelineEvents> {
      *
      * @memberof Timeline
      */
-    constructor();
+    constructor(durate?: number, framerate?: number);
     /**
      * Return the sequence
      *
@@ -38,12 +38,25 @@ declare class Timeline extends Emitter<ITimelineEvents> {
     /**
      * Set sequence
      *
-     * @param {number} start
-     * @param {number} end
+     * @param {number} durate
      * @param {number} framerate
      * @memberof Timeline
      */
-    setSequence(start: number, end: number, framerate: number): void;
+    setSequence(durate: number, framerate: number): void;
+    /**
+     * Set durate of timeline
+     *
+     * @param {number} framerate
+     * @memberof Timeline
+     */
+    setDurate(durate: number): void;
+    /**
+     * Get animation durate
+     *
+     * @returns {number}
+     * @memberof Timeline
+     */
+    getDurate(): number;
     /**
      * Return framerate
      *
@@ -65,41 +78,6 @@ declare class Timeline extends Emitter<ITimelineEvents> {
      * @memberof Timeline
      */
     private calculateTickAndSequence;
-    /**
-     * Get animation start time
-     *
-     * @returns {number}
-     * @memberof Timeline
-     */
-    getSequenceStartTime(): number;
-    /**
-     * Set animation start time
-     *
-     * @param {number} start_time
-     * @memberof Timeline
-     */
-    setSequenceStartTime(start_time: number): void;
-    /**
-     * Get a aniamtion end time
-     *
-     * @returns {number}
-     * @memberof Timeline
-     */
-    getSequenceEndTime(): number;
-    /**
-     * Set animation end time
-     *
-     * @param {number} end_time
-     * @memberof Timeline
-     */
-    setSequenceEndTime(end_time: number): void;
-    /**
-     * Get animation durate
-     *
-     * @returns {number}
-     * @memberof Timeline
-     */
-    getSequenceDuration(): number;
     /**
      * Get number of frames of animation
      *
@@ -180,7 +158,7 @@ declare class Timeline extends Emitter<ITimelineEvents> {
      */
     getTickTime(): number;
     /**
-     * Return the current time based on current frame
+     * Return the current time
      *
      * @returns {number}
      * @memberof Timeline

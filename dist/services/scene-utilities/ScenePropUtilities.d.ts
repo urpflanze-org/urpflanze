@@ -4,6 +4,7 @@ import { IShapeLoopAnimation, TAnimation } from "../types/animation";
 import { IShapeLoopGenerator } from "../../core/types/shape-primitive";
 import { TVertexCallback } from "../../core/types/shape-base";
 import { TDrawerTransformation, TDrawerValue } from "../types/drawer-canvas";
+import Drawer from "../drawers/Drawer";
 /**
  *
  * @category Services.Scene Utilities
@@ -20,7 +21,7 @@ declare class ScenePropUtilities {
     static bValueDrawer(value: TDrawerValue | any): boolean;
     static bPropTransformable(name: string, value: any): boolean;
     static getValueDrawerTransformationType(name: string): TDrawerTransformation | null;
-    static getTransformedValue(drawer: DrawerCanvas, name: string, value: any): string | number | Array<number>;
+    static getTransformedValue(drawer: Drawer<any, any>, name: string, value: any): string | number | Array<number>;
     static getTransformedValueInverse(drawer: DrawerCanvas, name: TSceneChildPropsDataKeys, value: any): number | Array<number>;
 }
 export default ScenePropUtilities;

@@ -4,9 +4,10 @@ import DrawerCanvas from '@services/drawers/drawer-canvas/DrawerCanvas'
 import { TAnimation } from '@services/types/animation'
 import Simple from '@services/animation/Simple'
 import { TSceneChildProp } from '@core/types/scene-child'
+import Drawer from '@services/drawers/Drawer'
 
 const Animation = {
-	composeAnimation: (drawer: DrawerCanvas, prop_name: string, animation: TAnimation): TSceneChildProp<any> => {
+	composeAnimation: (drawer: Drawer<any, any>, prop_name: string, animation: TAnimation): TSceneChildProp<any> => {
 		switch (animation.type) {
 			case 'simple': {
 				const simpleAnimation = { ...animation.value }

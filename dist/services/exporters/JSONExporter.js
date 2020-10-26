@@ -43,12 +43,12 @@ var JSONExporter = /** @class */ (function () {
         project.resolution = drawer.getResolution();
         project.mainColor = scene.mainColor;
         project.background = scene.background;
-        project.clearCanvas = drawer.getOption('clearCanvas', true);
+        project.clear = drawer.getOption('clear', true);
         project.ghosts = drawer.getOption('ghosts', 0);
         project.ghost_skip_time = parseFunction.parse(drawer.getOption('ghost_skip_time', 30));
         project.ratio = drawer.getRatio();
-        var _a = timeline.getSequence(), start = _a.start, end = _a.end, framerate = _a.framerate;
-        project.sequence = { start: start, end: end, framerate: framerate, durate: end - start };
+        var _a = timeline.getSequence(), durate = _a.durate, framerate = _a.framerate;
+        project.sequence = { durate: durate, framerate: framerate };
         project.scene = {};
         var sceneChilds = scene.getChildren();
         for (var i = 0, len = sceneChilds.length; i < len; i++) {

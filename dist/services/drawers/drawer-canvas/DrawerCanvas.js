@@ -22,13 +22,10 @@ var __assign = (this && this.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-import Scene from "../../../core/Scene";
-import Timeline from "../../timeline/Timeline";
-import SceneUtilities from "../../scene-utilities/SceneUtilities";
 import FrameBuffer from "./FrameBuffer";
-import Emitter from "../../events/Emitter";
 import { now } from "../../../Utilites";
 import { vec2 } from 'gl-matrix';
+import Drawer from "../Drawer";
 /**
  *
  * @category Services
@@ -37,25 +34,16 @@ import { vec2 } from 'gl-matrix';
  */
 var DrawerCanvas = /** @class */ (function (_super) {
     __extends(DrawerCanvas, _super);
-    function DrawerCanvas(scene, canvasOrContainer, drawOptions, ratio, resolution, bBuffering) {
-        if (drawOptions === void 0) { drawOptions = {}; }
+    function DrawerCanvas(scene, canvasOrContainer, drawerOptions, ratio, resolution, bBuffering) {
+        if (drawerOptions === void 0) { drawerOptions = {}; }
         if (ratio === void 0) { ratio = undefined; }
         if (resolution === void 0) { resolution = 0; }
         if (bBuffering === void 0) { bBuffering = false; }
-        var _a, _b, _c, _d, _e, _f, _g;
-        var _this = _super.call(this) || this;
+        var _a, _b, _c, _d, _e, _f, _g, _h;
+        var _this = _super.call(this, scene, ratio, resolution) || this;
         _this.bBuffering = false;
-        _this.timeline = new Timeline();
-        _this.resolution = resolution || (scene && scene.width ? scene.width : 0);
-        _this.ratio = ratio || (scene && scene.width && scene.height ? scene.width / scene.height : 1);
         _this.bBuffering = bBuffering;
         _this.buffer = new FrameBuffer();
-        if (scene) {
-            var width = _this.ratio >= 1 ? scene.width : scene.width * _this.ratio;
-            var height = _this.ratio >= 1 ? scene.height / _this.ratio : scene.height;
-            scene.resize(width, height);
-            _this.setScene(scene);
-        }
         if ((typeof HTMLCanvasElement !== 'undefined' && canvasOrContainer instanceof HTMLCanvasElement) ||
             (typeof OffscreenCanvas !== 'undefined' && canvasOrContainer instanceof OffscreenCanvas)) {
             var canvas = canvasOrContainer;
@@ -67,25 +55,19 @@ var DrawerCanvas = /** @class */ (function (_super) {
             container.appendChild(canvas);
             _this.setCanvas(canvas);
         }
-        _this.drawOptions = {
-            scale: (_a = drawOptions.scale) !== null && _a !== void 0 ? _a : 1,
-            translate: (_b = drawOptions.translate) !== null && _b !== void 0 ? _b : [0, 0],
-            time: (_c = drawOptions.time) !== null && _c !== void 0 ? _c : 0,
-            simmetricLine: (_d = drawOptions.simmetricLine) !== null && _d !== void 0 ? _d : 0,
-            clearCanvas: (_e = drawOptions.clearCanvas) !== null && _e !== void 0 ? _e : true,
-            fixedLineWidth: (_f = drawOptions.fixedLineWidth) !== null && _f !== void 0 ? _f : false,
-            noBackground: (_g = drawOptions.noBackground) !== null && _g !== void 0 ? _g : false,
-            ghosts: drawOptions.ghosts || 0,
-            ghost_skip_time: drawOptions.ghost_skip_time || 0,
-            ghost_skip_function: drawOptions.ghost_skip_function,
-            backgroundImage: drawOptions.backgroundImage,
+        _this.drawerOptions = {
+            scale: (_a = drawerOptions.scale) !== null && _a !== void 0 ? _a : 1,
+            translate: (_b = drawerOptions.translate) !== null && _b !== void 0 ? _b : [0, 0],
+            time: (_c = drawerOptions.time) !== null && _c !== void 0 ? _c : 0,
+            simmetricLines: (_d = drawerOptions.simmetricLines) !== null && _d !== void 0 ? _d : 0,
+            clear: (_e = drawerOptions.clear) !== null && _e !== void 0 ? _e : true,
+            fixedLineWidth: (_f = drawerOptions.fixedLineWidth) !== null && _f !== void 0 ? _f : false,
+            noBackground: (_g = drawerOptions.noBackground) !== null && _g !== void 0 ? _g : false,
+            ghosts: drawerOptions.ghosts || 0,
+            ghost_skip_time: (_h = drawerOptions.ghost_skip_time) !== null && _h !== void 0 ? _h : 30,
+            ghost_skip_function: drawerOptions.ghost_skip_function,
+            backgroundImage: drawerOptions.backgroundImage,
         };
-        _this.draw_id = null;
-        _this.redraw_id = null;
-        _this.animation_id = null;
-        _this.draw = _this.draw.bind(_this);
-        _this.animate = _this.animate.bind(_this);
-        _this.startAnimation = _this.startAnimation.bind(_this);
         return _this;
     }
     DrawerCanvas.prototype.setBuffering = function (bBuffering) {
@@ -102,18 +84,10 @@ var DrawerCanvas = /** @class */ (function (_super) {
      * @memberof CanvasDrawer
      */
     DrawerCanvas.prototype.setScene = function (scene) {
-        this.scene = scene;
-        if (!this.resolution && this.scene.width)
-            this.resolution = this.scene.width;
+        _super.prototype.setScene.call(this, scene);
         if (this.canvas) {
             this.setCanvas(this.canvas); // and flush
         }
-    };
-    DrawerCanvas.prototype.getScene = function () {
-        return this.scene;
-    };
-    DrawerCanvas.prototype.getTimeline = function () {
-        return this.timeline;
     };
     /**
      * Set the canvas or append to container
@@ -174,32 +148,14 @@ var DrawerCanvas = /** @class */ (function (_super) {
      * @memberof DrawerCanvas
      */
     DrawerCanvas.prototype.resize = function (width, height, ratio, resolution) {
-        var _this = this;
-        // const dpi = typeof devicePixelRatio !== 'undefined' ? devicePixelRatio : 1
-        var dpi = 1;
-        ratio = ratio || this.ratio || width / height;
-        var size = Math.max(width, height);
-        width = ratio >= 1 ? size : size * ratio;
-        height = ratio >= 1 ? size / ratio : size;
-        this.ratio = ratio;
-        if (this.scene)
-            this.scene.resize(width, height);
+        _super.prototype.resize.call(this, width, height, ratio, resolution);
         if (this.canvas) {
-            this.canvas.width = width * dpi;
-            this.canvas.height = height * dpi;
+            this.canvas.width = this.scene.width;
+            this.canvas.height = this.scene.height;
             if (typeof HTMLCanvasElement !== 'undefined' && this.canvas instanceof HTMLCanvasElement) {
-                this.canvas.style.width = width + 'px';
-                this.canvas.style.height = height + 'px';
+                this.canvas.style.width = this.scene.width + 'px';
+                this.canvas.style.height = this.scene.height + 'px';
             }
-        }
-        if (resolution && resolution != this.resolution && this.scene) {
-            this.resolution = resolution;
-            Scene.walk(function (sceneChild) {
-                var props = sceneChild.data.props;
-                Object.keys(props).forEach(function (name) {
-                    SceneUtilities.setProp(sceneChild, name, props[name], _this);
-                });
-            }, this.scene);
         }
         this.flushBuffer();
         this.dispatch('drawer-canvas:resize');
@@ -217,155 +173,16 @@ var DrawerCanvas = /** @class */ (function (_super) {
         return [];
     };
     /**
-     * Resize by ratio
-     *
-     * @param {number} ratio
-     * @memberof DrawerCanvas
-     */
-    DrawerCanvas.prototype.setRatio = function (ratio) {
-        this.resize(this.scene.width, this.scene.height, ratio);
-    };
-    /**
-     * Return drawer ratio
-     *
-     * @returns {number}
-     * @memberof DrawerCanvas
-     */
-    DrawerCanvas.prototype.getRatio = function () {
-        return this.ratio;
-    };
-    /**
-     * Get resolution
-     *
-     * @returns {number}
-     * @memberof DrawerCanvas
-     */
-    DrawerCanvas.prototype.getResolution = function () {
-        return this.resolution;
-    };
-    /**
-     * Get resolution of drawer
-     *
-     * @param {number} resolution
-     * @memberof DrawerCanvas
-     */
-    DrawerCanvas.prototype.setResolution = function (resolution) {
-        this.resize(this.scene.width, this.scene.height, this.ratio, resolution);
-    };
-    /**
-     * Get scene value scaled based on resolution
-     *
-     * @param {number} value
-     * @returns
-     * @memberof DrawerCanvas
-     */
-    DrawerCanvas.prototype.getValueFromResolution = function (value) {
-        return (value * this.resolution) / 200;
-    };
-    /**
-     * Get scene value scaled based on resolution
-     *
-     * @param {number} value
-     * @returns
-     * @memberof DrawerCanvas
-     */
-    DrawerCanvas.prototype.getValueFromResolutionScaled = function (value) {
-        return (value * 200) / this.resolution;
-    };
-    /**
      * Set draw option
      *
      * @template K
-     * @param {(K | IDrawOptions)} name
-     * @param {Required<IDrawOptions>[K]} [value]
+     * @param {(K | IDrawerOptions)} name
+     * @param {Required<IDrawerOptions>[K]} [value]
      * @memberof CanvasDrawer
      */
     DrawerCanvas.prototype.setOption = function (name, value) {
-        if (typeof name == 'object') {
-            var keys = Object.keys(name);
-            for (var i = 0, len = keys.length; i < len; i++) {
-                // @ts-ignore
-                this.drawOptions[keys[i]] = name[keys[i]];
-            }
-        }
-        else {
-            this.drawOptions[name] = value;
-        }
+        _super.prototype.setOption.call(this, name, value);
         this.flushBuffer();
-    };
-    /**
-     *
-     *
-     * @template K
-     * @param {K} name
-     * @param {IDrawOptions[K]} default_value
-     * @returns {IDrawOptions[K]}
-     * @memberof DrawerCanvas
-     */
-    DrawerCanvas.prototype.getOption = function (name, default_value) {
-        var _a;
-        return (_a = this.drawOptions[name]) !== null && _a !== void 0 ? _a : default_value;
-    };
-    /**
-     *
-     *
-     * @returns {DrawOptions}
-     * @memberof DrawerCanvas
-     */
-    DrawerCanvas.prototype.getOptions = function () {
-        return this.drawOptions;
-    };
-    /**
-     * Internal tick animation
-     *
-     * @private
-     * @memberof CanvasDrawer
-     */
-    DrawerCanvas.prototype.animate = function (timestamp) {
-        if (this.timeline.bSequenceStarted()) {
-            this.animation_id = requestAnimationFrame(this.animate);
-            if (this.timeline.tick(timestamp))
-                this.draw();
-        }
-    };
-    /**
-     * Start animation drawing
-     *
-     * @memberof CanvasDrawer
-     */
-    DrawerCanvas.prototype.startAnimation = function () {
-        this.stopAnimation();
-        this.timeline.start();
-        this.animation_id = requestAnimationFrame(this.animate);
-    };
-    /**
-     * Stop animation drawing
-     *
-     * @memberof CanvasDrawer
-     */
-    DrawerCanvas.prototype.stopAnimation = function () {
-        this.timeline.stop();
-        if (this.animation_id)
-            cancelAnimationFrame(this.animation_id);
-    };
-    /**
-     * Pause animation drawing
-     *
-     * @memberof CanvasDrawer
-     */
-    DrawerCanvas.prototype.pauseAnimation = function () {
-        this.timeline.pause();
-        if (this.animation_id)
-            cancelAnimationFrame(this.animation_id);
-    };
-    /**
-     * Play animation drawing
-     *
-     * @memberof CanvasDrawer
-     */
-    DrawerCanvas.prototype.playAnimation = function () {
-        this.timeline.start();
-        requestAnimationFrame(this.animate);
     };
     // public preload(): Promise<boolean> {
     // 	if (this.bBuffering && this.scene) {
@@ -384,30 +201,30 @@ var DrawerCanvas = /** @class */ (function (_super) {
     // 				desynchronized: false,
     // 			})
     // 			if (!context) reject('Create context error')
-    // 			const drawOptions = { ...this.drawOptions }
+    // 			const drawerOptions = { ...this.drawerOptions }
     // 			const sequenceEndTime = this.timeline.getSequenceEndTime()
     // 			for (let i = 0; i < sequence.frames; i++) {
     // 				// requestAnimationFrame(() => {
     // 				const time = this.timeline.getFrameTime(i)
-    // 				drawOptions.clearCanvas = this.drawOptions.clearCanvas || i === 0
-    // 				drawOptions.time = time
-    // 				DrawerCanvas.draw(this.scene, context, drawOptions, this.resolution)
-    // 				if (drawOptions.ghosts) {
-    // 					for (let gi = 1; gi <= drawOptions.ghosts; gi++) {
+    // 				drawerOptions.clear = this.drawerOptions.clear || i === 0
+    // 				drawerOptions.time = time
+    // 				DrawerCanvas.draw(this.scene, context, drawerOptions, this.resolution)
+    // 				if (drawerOptions.ghosts) {
+    // 					for (let gi = 1; gi <= drawerOptions.ghosts; gi++) {
     // 						const ghostTime =
     // 							time -
-    // 							(drawOptions.ghost_skip_function
-    // 								? drawOptions.ghost_skip_function(gi)
-    // 								: gi * (drawOptions.ghost_skip_time ?? 30))
-    // 						drawOptions.clearCanvas = false
-    // 						drawOptions.ghost_index = gi
-    // 						drawOptions.time =
+    // 							(drawerOptions.ghost_skip_function
+    // 								? drawerOptions.ghost_skip_function(gi)
+    // 								: gi * (drawerOptions.ghost_skip_time ?? 30))
+    // 						drawerOptions.clear = false
+    // 						drawerOptions.ghost_index = gi
+    // 						drawerOptions.time =
     // 							ghostTime < 0
     // 								? ghostTime + sequenceEndTime
     // 								: ghostTime > sequenceEndTime
     // 								? ghostTime % sequenceEndTime
     // 								: ghostTime
-    // 						DrawerCanvas.draw(this.scene, context, drawOptions, this.resolution)
+    // 						DrawerCanvas.draw(this.scene, context, drawerOptions, this.resolution)
     // 					}
     // 				}
     // 				this.buffer.push(i, context as CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D)
@@ -426,44 +243,27 @@ var DrawerCanvas = /** @class */ (function (_super) {
      * @memberof DrawerCanvas
      */
     DrawerCanvas.prototype.draw = function () {
-        var _a, _b;
+        var _this = this;
+        var _a;
         var draw_time = 0;
-        var drawOptions = __assign({}, this.drawOptions);
-        drawOptions.ghost_index = undefined;
-        var clearCanvas = this.drawOptions.clearCanvas || this.timeline.getCurrentFrame() <= 0;
-        drawOptions.clearCanvas = clearCanvas;
-        drawOptions.time = this.timeline.getTime();
-        var current_frame = this.timeline.getFrameAtTime(drawOptions.time);
+        var timeline = this.timeline;
+        var drawAtTime = timeline.getTime();
+        var drawerOptions = __assign(__assign({}, this.drawerOptions), { ghost_index: undefined, clear: this.drawerOptions.clear || timeline.getCurrentFrame() <= 0, time: drawAtTime });
+        var current_frame = timeline.getFrameAtTime(drawAtTime);
         this.dispatch('drawer-canvas:before_draw', {
             current_frame: current_frame,
-            current_time: drawOptions.time,
+            current_time: drawAtTime,
         });
         if (this.bBuffering && this.buffer.exist(current_frame)) {
             (_a = this.context) === null || _a === void 0 ? void 0 : _a.putImageData(this.buffer.get(current_frame), 0, 0);
         }
         else {
-            if (drawOptions.ghosts) {
-                var ghostDrawOptions = __assign({}, drawOptions);
-                var time = this.timeline.getTime();
-                var sequenceEndTime = this.timeline.getSequenceEndTime();
-                for (var i = 1; i <= ghostDrawOptions.ghosts; i++) {
-                    var ghostTime = time -
-                        (drawOptions.ghost_skip_function
-                            ? drawOptions.ghost_skip_function(i)
-                            : i * ((_b = drawOptions.ghost_skip_time) !== null && _b !== void 0 ? _b : 30));
-                    ghostDrawOptions.clearCanvas = clearCanvas && i === 1;
-                    ghostDrawOptions.ghost_index = i;
-                    ghostDrawOptions.time =
-                        ghostTime < 0
-                            ? ghostTime + sequenceEndTime
-                            : ghostTime > sequenceEndTime
-                                ? ghostTime % sequenceEndTime
-                                : ghostTime;
-                    draw_time += DrawerCanvas.draw(this.scene, this.context, ghostDrawOptions, this.resolution);
-                }
-                drawOptions.clearCanvas = false;
+            if (drawerOptions.ghosts) {
+                Drawer.eachGhosts(drawerOptions, timeline, function (ghostDrawerOptions) {
+                    draw_time += DrawerCanvas.draw(_this.scene, _this.context, ghostDrawerOptions, _this.resolution);
+                });
             }
-            draw_time += DrawerCanvas.draw(this.scene, this.context, drawOptions, this.resolution);
+            draw_time += DrawerCanvas.draw(this.scene, this.context, drawerOptions, this.resolution);
             if (this.bBuffering && this.context) {
                 this.buffer.push(current_frame, this.context);
                 if (this.buffer.count() >= this.timeline.getFramesCount()) {
@@ -474,35 +274,12 @@ var DrawerCanvas = /** @class */ (function (_super) {
         return draw_time;
     };
     /**
-     * Redraw
-     *
-     * @returns {void}
-     * @memberof DrawerCanvas
-     */
-    DrawerCanvas.prototype.redraw = function () {
-        if (!this.timeline.bSequenceStarted()) {
-            this.draw_id && cancelAnimationFrame(this.draw_id);
-            !this.drawOptions.clearCanvas &&
-                (typeof this.drawOptions.ghosts == undefined || this.drawOptions.ghosts == 0) &&
-                this.timeline.stop();
-            this.draw_id = requestAnimationFrame(this.draw);
-        }
-        else if (!this.drawOptions.clearCanvas &&
-            (typeof this.drawOptions.ghosts == undefined || this.drawOptions.ghosts == 0)) {
-            this.stopAnimation();
-            // this.redraw_id && clearTimeout(this.redraw_id)
-            // this.redraw_id = setTimeout(() => this.startAnimation(), 100)
-            this.redraw_id && cancelAnimationFrame(this.redraw_id);
-            this.redraw_id = requestAnimationFrame(this.startAnimation);
-        }
-    };
-    /**
      * Static draw scene
      *
      * @static
      * @param {Scene} scene
      * @param {(CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D | null)} context
-     * @param {DrawOptions} options
+     * @param {DrawerOptions} options
      * @returns {number}
      * @memberof DrawerCanvas
      */
@@ -513,9 +290,9 @@ var DrawerCanvas = /** @class */ (function (_super) {
             var scale_1 = (_a = options.scale) !== null && _a !== void 0 ? _a : 1;
             var translate = (_b = options.translate) !== null && _b !== void 0 ? _b : [0, 0];
             var time_1 = (_c = options.time) !== null && _c !== void 0 ? _c : 0;
-            var simmetricLine = (_d = options.simmetricLine) !== null && _d !== void 0 ? _d : 0;
+            var simmetricLines = (_d = options.simmetricLines) !== null && _d !== void 0 ? _d : 0;
             var fixedLineWidth_1 = options.fixedLineWidth;
-            var clearCanvas = options.clearCanvas;
+            var clear = options.clear;
             var noBackground = options.noBackground;
             var backgroundImage = options.backgroundImage;
             var bGhost_1 = typeof options.ghosts !== 'undefined' &&
@@ -524,7 +301,7 @@ var DrawerCanvas = /** @class */ (function (_super) {
                 options.ghost_index > 0;
             var ghostMultiplier_1 = bGhost_1
                 ? 1 - options.ghost_index / (options.ghosts + 0.5)
-                : 1;
+                : 0;
             var width_1 = scene.width;
             var height_1 = scene.height;
             var ratio_x = width_1 > height_1 ? 1 : height_1 / width_1;
@@ -535,14 +312,7 @@ var DrawerCanvas = /** @class */ (function (_super) {
                 width_1 / 2 - (scale_1 > 1 ? (translate[0] * width_1) / (1 / ((scale_1 - 1) / 2)) : 0),
                 height_1 / 2 - (scale_1 > 1 ? (translate[1] * height_1) / (1 / ((scale_1 - 1) / 2)) : 0),
             ];
-            scene.current_time = time_1;
-            scene.getChildren().forEach(function (sceneChild) {
-                if (!sceneChild.data ||
-                    !(sceneChild.data.visible === false) ||
-                    !(bGhost_1 && sceneChild.data.disableGhost === true))
-                    sceneChild.generate(time_1, true);
-            });
-            if (clearCanvas) {
+            if (clear) {
                 if (noBackground) {
                     context.clearRect(0, 0, width_1, height_1);
                 }
@@ -552,97 +322,94 @@ var DrawerCanvas = /** @class */ (function (_super) {
                     backgroundImage && context.drawImage(backgroundImage, 0, 0, width_1, height_1);
                 }
             }
-            if (simmetricLine > 0) {
-                var offset = Math.PI / simmetricLine;
-                var size = Math.max(width_1, height_1) / 2;
-                var center = vec2.fromValues(size / 2, size / 2);
-                for (var i = 0; i < simmetricLine; i++) {
-                    var a = vec2.fromValues(-size, -size);
-                    var b = vec2.fromValues(size * 2, size * 2);
-                    var rotate = i * offset + Math.PI / 4;
-                    vec2.rotate(a, a, center, rotate);
-                    vec2.rotate(b, b, center, rotate);
-                    context.beginPath();
-                    context.strokeStyle = scene.mainColor;
-                    context.lineWidth = 1;
-                    context.moveTo((a[0] - size / 2) * final_scale_1[0] + final_translate_1[0], (a[1] - size / 2) * final_scale_1[1] + final_translate_1[1]);
-                    context.lineTo((b[0] - size / 2) * final_scale_1[0] + final_translate_1[0], (b[1] - size / 2) * final_scale_1[1] + final_translate_1[1]);
-                    context.stroke();
-                }
+            if (simmetricLines > 0) {
+                DrawerCanvas.drawSimmetricLines(context, simmetricLines, width_1, height_1, final_scale_1, final_translate_1, scene.mainColor);
             }
-            var logFillColorWarn_1 = false;
-            var logStrokeColorWarn_1 = false;
-            context.globalCompositeOperation = 'source-over';
-            scene.stream(function (_a) {
-                var lineWidth = _a.lineWidth, strokeColor = _a.strokeColor, fillColor = _a.fillColor, shape = _a.shape, buffer = _a.buffer, frame_length = _a.frame_length, frame_buffer_index = _a.frame_buffer_index;
-                if (shape.data && (shape.data.visible === false || (bGhost_1 && shape.data.disableGhost === true)))
-                    return;
-                if (shape.data && shape.data.composite) {
-                    context.globalCompositeOperation = shape.data.composite;
-                }
-                context.beginPath();
-                context.moveTo((buffer[frame_buffer_index] - width_1 / 2) * final_scale_1[0] + final_translate_1[0], (buffer[frame_buffer_index + 1] - height_1 / 2) * final_scale_1[1] + final_translate_1[1]);
-                for (var i = 2; i < frame_length; i += 2) {
-                    context.lineTo((buffer[frame_buffer_index + i] - width_1 / 2) * final_scale_1[0] + final_translate_1[0], (buffer[frame_buffer_index + i + 1] - height_1 / 2) * final_scale_1[1] + final_translate_1[1]);
-                }
-                shape && shape.isClosed() && context.closePath();
-                if (shape && shape.data && shape.data.highlighted) {
-                    context.lineWidth = (lineWidth || 1) * 3 * scale_1;
-                    context.strokeStyle = scene.mainColor;
-                    context.stroke();
-                    return;
-                }
-                if (fillColor) {
-                    if (bGhost_1) {
-                        var color = /\((.+),(.+),(.+),(.+)?\)/g.exec(fillColor);
-                        if (color) {
-                            var _b = color, a = _b[1], b = _b[2], c = _b[3], o = _b[4];
-                            var alpha = o ? parseFloat(o) : 1;
-                            var ghostAlpha = alpha <= 0 ? 0 : alpha * ghostMultiplier_1;
-                            fillColor =
-                                fillColor.indexOf('rgb') >= 0
-                                    ? "rgba(" + a + "," + b + "," + c + "," + ghostAlpha + ")"
-                                    : "hsla(" + a + "," + b + "," + c + "," + ghostAlpha + ")";
-                        }
-                        else if (!logFillColorWarn_1) {
-                            console.warn("[Urpflanze:DrawerCanvas] Unable ghost fill color '" + fillColor + "', \n\t\t\t\t\t\t\tplease enter a rgba or hsla color");
-                            logFillColorWarn_1 = true;
-                        }
+            {
+                var logFillColorWarn_1 = false;
+                var logStrokeColorWarn_1 = false;
+                scene.current_time = time_1;
+                scene.getChildren().forEach(function (sceneChild) {
+                    if (!sceneChild.data ||
+                        !(sceneChild.data.visible === false) ||
+                        !(bGhost_1 && sceneChild.data.disableGhost === true)) {
+                        sceneChild.generate(time_1, true);
+                        sceneChild.stream(function (streamCallback) {
+                            var shapeData = streamCallback.shape.data;
+                            context.globalCompositeOperation = shapeData && shapeData.composite ? shapeData.composite : 'source-over';
+                            context.beginPath();
+                            context.moveTo((streamCallback.buffer[streamCallback.frame_buffer_index] - width_1 / 2) * final_scale_1[0] +
+                                final_translate_1[0], (streamCallback.buffer[streamCallback.frame_buffer_index + 1] - height_1 / 2) * final_scale_1[1] +
+                                final_translate_1[1]);
+                            for (var i = 2; i < streamCallback.frame_length; i += 2) {
+                                context.lineTo((streamCallback.buffer[streamCallback.frame_buffer_index + i] - width_1 / 2) * final_scale_1[0] +
+                                    final_translate_1[0], (streamCallback.buffer[streamCallback.frame_buffer_index + i + 1] - height_1 / 2) * final_scale_1[1] +
+                                    final_translate_1[1]);
+                            }
+                            streamCallback.shape.isClosed() && context.closePath();
+                            if (shapeData && shapeData.highlighted) {
+                                context.lineWidth = (streamCallback.lineWidth || 1) * 3 * scale_1;
+                                context.strokeStyle = scene.mainColor;
+                                context.stroke();
+                                return;
+                            }
+                            if (streamCallback.fillColor) {
+                                if (bGhost_1) {
+                                    var color = Drawer.ghostifyColor(streamCallback.fillColor, ghostMultiplier_1);
+                                    if (color) {
+                                        streamCallback.fillColor = color;
+                                    }
+                                    else if (!logFillColorWarn_1) {
+                                        console.warn("[Urpflanze:DrawerCanvas] Unable ghost fill color '" + streamCallback.fillColor + "', \n\t\t\t\t\t\t\t\t\tplease enter a rgba or hsla color");
+                                        logFillColorWarn_1 = true;
+                                    }
+                                }
+                                context.fillStyle = streamCallback.fillColor;
+                                context.fill();
+                            }
+                            if (streamCallback.strokeColor) {
+                                if (bGhost_1) {
+                                    var color = Drawer.ghostifyColor(streamCallback.strokeColor, ghostMultiplier_1);
+                                    if (color) {
+                                        streamCallback.strokeColor = color;
+                                    }
+                                    else if (!logStrokeColorWarn_1) {
+                                        console.warn("[Urpflanze:DrawerCanvas] Unable ghost stroke color '" + streamCallback.strokeColor + "', \n\t\t\t\t\t\t\t\t\tplease enter a rgba or hsla color");
+                                        logStrokeColorWarn_1 = true;
+                                    }
+                                    streamCallback.lineWidth *= ghostMultiplier_1;
+                                }
+                                context.lineWidth = fixedLineWidth_1 ? streamCallback.lineWidth : streamCallback.lineWidth * scale_1;
+                                context.strokeStyle = streamCallback.strokeColor;
+                                context.stroke();
+                            }
+                        });
                     }
-                    context.fillStyle = fillColor;
-                    context.fill();
-                }
-                if (strokeColor && lineWidth) {
-                    if (bGhost_1) {
-                        var color = /\((.+),(.+),(.+),(.+)?\)/g.exec(strokeColor);
-                        if (color) {
-                            var _c = color, a = _c[1], b = _c[2], c = _c[3], o = _c[4];
-                            var alpha = o ? parseFloat(o) : 1;
-                            var ghostAlpha = alpha <= 0 ? 0 : alpha * ghostMultiplier_1;
-                            strokeColor =
-                                strokeColor.indexOf('rgb') >= 0
-                                    ? "rgba(" + a + "," + b + "," + c + "," + ghostAlpha + ")"
-                                    : "hsla(" + a + "," + b + "," + c + "," + ghostAlpha + ")";
-                        }
-                        else if (!logStrokeColorWarn_1) {
-                            console.warn("[Urpflanze:DrawerCanvas] Unable ghost stroke color '" + fillColor + "', \n\t\t\t\t\t\t\tplease enter a rgba or hsla color");
-                            logStrokeColorWarn_1 = true;
-                        }
-                        lineWidth *= ghostMultiplier_1;
-                    }
-                    context.lineWidth = fixedLineWidth_1 ? lineWidth : lineWidth * scale_1;
-                    context.strokeStyle = strokeColor;
-                    context.stroke();
-                }
-                if (shape.data && shape.data.composite) {
-                    context.globalCompositeOperation = 'source-over';
-                }
-            });
+                });
+            }
         }
         var end_time = now();
         return end_time - start_time;
     };
+    DrawerCanvas.drawSimmetricLines = function (context, simmetricLines, width, height, scale, translate, color) {
+        var offset = Math.PI / simmetricLines;
+        var size = Math.max(width, height) / 2;
+        var center = vec2.fromValues(size / 2, size / 2);
+        for (var i = 0; i < simmetricLines; i++) {
+            var a = vec2.fromValues(-size, -size);
+            var b = vec2.fromValues(size * 2, size * 2);
+            var rotate = i * offset + Math.PI / 4;
+            vec2.rotate(a, a, center, rotate);
+            vec2.rotate(b, b, center, rotate);
+            context.beginPath();
+            context.strokeStyle = color;
+            context.lineWidth = 1;
+            context.moveTo((a[0] - size / 2) * scale[0] + translate[0], (a[1] - size / 2) * scale[1] + translate[1]);
+            context.lineTo((b[0] - size / 2) * scale[0] + translate[0], (b[1] - size / 2) * scale[1] + translate[1]);
+            context.stroke();
+        }
+    };
     return DrawerCanvas;
-}(Emitter));
+}(Drawer));
 export default DrawerCanvas;
 //# sourceMappingURL=DrawerCanvas.js.map

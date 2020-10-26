@@ -1,28 +1,19 @@
 import Scene from "../../../core/Scene";
-import Timeline from "../../timeline/Timeline";
 import FrameBuffer from "./FrameBuffer";
-import Emitter from "../../events/Emitter";
-import { IDrawerCanvasEvents, IDrawOptions } from "../../types/drawer-canvas";
+import { IDrawerCanvasEvents, IDrawerCanvasOptions } from "../../types/drawer-canvas";
+import Drawer from "../Drawer";
 /**
  *
  * @category Services
  * @class DrawerCanvas
  * @extends {Emitter<DrawerCanvasEvents>}
  */
-declare class DrawerCanvas extends Emitter<IDrawerCanvasEvents> {
-    private scene;
+declare class DrawerCanvas extends Drawer<IDrawerCanvasOptions, IDrawerCanvasEvents> {
     private canvas;
-    private resolution;
-    private ratio;
     private context;
-    private animation_id;
-    private draw_id;
-    private redraw_id;
-    private drawOptions;
-    private timeline;
     private bBuffering;
     buffer: FrameBuffer;
-    constructor(scene?: Scene, canvasOrContainer?: HTMLElement | HTMLCanvasElement | OffscreenCanvas, drawOptions?: IDrawOptions, ratio?: number | undefined, resolution?: number, bBuffering?: boolean);
+    constructor(scene?: Scene, canvasOrContainer?: HTMLElement | HTMLCanvasElement | OffscreenCanvas, drawerOptions?: IDrawerCanvasOptions, ratio?: number | undefined, resolution?: number, bBuffering?: boolean);
     setBuffering(bBuffering: boolean): void;
     getBBuffering(): boolean;
     /**
@@ -32,8 +23,6 @@ declare class DrawerCanvas extends Emitter<IDrawerCanvasEvents> {
      * @memberof CanvasDrawer
      */
     setScene(scene: Scene): void;
-    getScene(): Scene;
-    getTimeline(): Timeline;
     /**
      * Set the canvas or append to container
      *
@@ -68,106 +57,14 @@ declare class DrawerCanvas extends Emitter<IDrawerCanvasEvents> {
     flushBuffer(): void;
     getRenderedFrames(): Array<number>;
     /**
-     * Resize by ratio
-     *
-     * @param {number} ratio
-     * @memberof DrawerCanvas
-     */
-    setRatio(ratio: number): void;
-    /**
-     * Return drawer ratio
-     *
-     * @returns {number}
-     * @memberof DrawerCanvas
-     */
-    getRatio(): number;
-    /**
-     * Get resolution
-     *
-     * @returns {number}
-     * @memberof DrawerCanvas
-     */
-    getResolution(): number;
-    /**
-     * Get resolution of drawer
-     *
-     * @param {number} resolution
-     * @memberof DrawerCanvas
-     */
-    setResolution(resolution: number): void;
-    /**
-     * Get scene value scaled based on resolution
-     *
-     * @param {number} value
-     * @returns
-     * @memberof DrawerCanvas
-     */
-    getValueFromResolution(value: number): number;
-    /**
-     * Get scene value scaled based on resolution
-     *
-     * @param {number} value
-     * @returns
-     * @memberof DrawerCanvas
-     */
-    getValueFromResolutionScaled(value: number): number;
-    /**
      * Set draw option
      *
      * @template K
-     * @param {(K | IDrawOptions)} name
-     * @param {Required<IDrawOptions>[K]} [value]
+     * @param {(K | IDrawerOptions)} name
+     * @param {Required<IDrawerOptions>[K]} [value]
      * @memberof CanvasDrawer
      */
-    setOption<K extends keyof IDrawOptions>(name: K | IDrawOptions, value?: Required<IDrawOptions>[K]): void;
-    /**
-     *
-     *
-     * @template K
-     * @param {K} name
-     * @param {IDrawOptions[K]} default_value
-     * @returns {IDrawOptions[K]}
-     * @memberof DrawerCanvas
-     */
-    getOption<K extends keyof IDrawOptions>(name: K, default_value?: IDrawOptions[K]): IDrawOptions[K];
-    /**
-     *
-     *
-     * @returns {DrawOptions}
-     * @memberof DrawerCanvas
-     */
-    getOptions(): IDrawOptions;
-    /**
-     * Internal tick animation
-     *
-     * @private
-     * @memberof CanvasDrawer
-     */
-    private animate;
-    /**
-     * Start animation drawing
-     *
-     * @memberof CanvasDrawer
-     */
-    startAnimation(): void;
-    /**
-     * Stop animation drawing
-     *
-     * @memberof CanvasDrawer
-     */
-    stopAnimation(): void;
-    /**
-     * Pause animation drawing
-     *
-     * @memberof CanvasDrawer
-     */
-    pauseAnimation(): void;
-    /**
-     * Play animation drawing
-     *
-     * @memberof CanvasDrawer
-     */
-    playAnimation(): void;
+    setOption<K extends keyof IDrawerCanvasOptions>(name: K | IDrawerCanvasOptions, value?: Required<IDrawerCanvasOptions>[K]): void;
     /**
      * Draw current scene
      *
@@ -176,23 +73,19 @@ declare class DrawerCanvas extends Emitter<IDrawerCanvasEvents> {
      */
     draw(): number;
     /**
-     * Redraw
-     *
-     * @returns {void}
-     * @memberof DrawerCanvas
-     */
-    redraw(): void;
-    /**
      * Static draw scene
      *
      * @static
      * @param {Scene} scene
      * @param {(CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D | null)} context
-     * @param {DrawOptions} options
+     * @param {DrawerOptions} options
      * @returns {number}
      * @memberof DrawerCanvas
      */
-    static draw(scene: Scene, context: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D | null, options: IDrawOptions, resolution?: number): number;
+    static draw(scene: Scene, context: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D | null, options: IDrawerCanvasOptions & {
+        ghost_index?: number;
+    }, resolution?: number): number;
+    static drawSimmetricLines(context: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D, simmetricLines: number, width: number, height: number, scale: Array<number>, translate: Array<number>, color: string): void;
 }
 export default DrawerCanvas;
 //# sourceMappingURL=DrawerCanvas.d.ts.map
