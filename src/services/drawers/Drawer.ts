@@ -4,7 +4,7 @@ import Timeline from '@services/timeline/Timeline'
 import SceneChild from '@core/SceneChild'
 import SceneUtilities from '@services/scene-utilities/SceneUtilities'
 import Emitter from '@services/events/Emitter'
-import { IDrawerOptions } from '@services/types/drawer-canvas'
+import { IDrawerOptions } from '@services/types/drawer'
 
 abstract class Drawer<IADrawerOptions extends IDrawerOptions, IDrawerEvents> extends Emitter<IDrawerEvents> {
 	protected scene: Scene
@@ -156,7 +156,6 @@ abstract class Drawer<IADrawerOptions extends IDrawerOptions, IDrawerEvents> ext
 		if (typeof name == 'object') {
 			const keys = Object.keys(name) as Array<keyof IADrawerOptions>
 			for (let i = 0, len = keys.length; i < len; i++) {
-				// @ts-ignore
 				this.drawerOptions[keys[i]] = name[keys[i]]
 			}
 		} else {
@@ -248,27 +247,24 @@ abstract class Drawer<IADrawerOptions extends IDrawerOptions, IDrawerEvents> ext
 	public redraw(): void {
 		if (!this.timeline.bSequenceStarted()) {
 			this.draw_id && cancelAnimationFrame(this.draw_id)
-			!this.drawerOptions.clear &&
-				(typeof this.drawerOptions.ghosts === undefined || this.drawerOptions.ghosts === 0) &&
-				this.timeline.stop()
+
+			if (typeof this.drawerOptions.ghosts === undefined || this.drawerOptions.ghosts === 0) this.timeline.stop()
+
 			this.draw_id = requestAnimationFrame(this.draw)
-		} else if (
-			!this.drawerOptions.clear &&
-			(typeof this.drawerOptions.ghosts === undefined || this.drawerOptions.ghosts === 0)
-		) {
+		} else if (typeof this.drawerOptions.ghosts === undefined || this.drawerOptions.ghosts === 0) {
 			this.stopAnimation()
 			this.redraw_id && cancelAnimationFrame(this.redraw_id)
 			this.redraw_id = requestAnimationFrame(this.startAnimation)
 		}
 	}
 
-	static eachGhosts(
+	static eachGhosts<T extends IDrawerOptions>(
 		drawerOptions: IDrawerOptions,
 		timeline: Timeline,
-		ghostCallback: (ghostDrawerOptions: IDrawerOptions) => any
+		ghostCallback: (ghostDrawerOptions: T & { ghost_index?: number }) => any
 	): void {
 		if (drawerOptions.ghosts) {
-			const ghostDrawerOptions: IDrawerOptions & { ghost_index?: number } = {
+			const ghostDrawerOptions: T & { ghost_index?: number } = {
 				...drawerOptions,
 			}
 			const drawAtTime = timeline.getTime()
@@ -281,14 +277,11 @@ abstract class Drawer<IADrawerOptions extends IDrawerOptions, IDrawerEvents> ext
 						? drawerOptions.ghost_skip_function(i)
 						: i * (drawerOptions.ghost_skip_time as number))
 
-				ghostDrawerOptions.clear = drawerOptions.clear && i === 1
 				ghostDrawerOptions.ghost_index = i
 				ghostDrawerOptions.time = (ghostTime + sequenceDurate) % sequenceDurate
 
 				ghostCallback(ghostDrawerOptions)
 			}
-
-			drawerOptions.clear = false
 		}
 	}
 

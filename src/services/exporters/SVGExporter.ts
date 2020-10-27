@@ -1,6 +1,6 @@
 import Drawer from '@services/drawers/Drawer'
 import DrawerSVG from '@services/drawers/drawer-svg/DrawerSVG'
-import { IDrawerSVGOptions } from '@services/types/drawer-canvas'
+import { IDrawerSVGOptions } from '@services/types/drawer'
 import { IRenderSettings } from '@services/types/renedrer'
 
 const DEFAULT_SETTINGS = {

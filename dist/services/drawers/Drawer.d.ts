@@ -1,7 +1,7 @@
 import Scene from "../../core/Scene";
 import Timeline from "../timeline/Timeline";
 import Emitter from "../events/Emitter";
-import { IDrawerOptions } from "../types/drawer-canvas";
+import { IDrawerOptions } from "../types/drawer";
 declare abstract class Drawer<IADrawerOptions extends IDrawerOptions, IDrawerEvents> extends Emitter<IDrawerEvents> {
     protected scene: Scene;
     protected resolution: number;
@@ -113,7 +113,9 @@ declare abstract class Drawer<IADrawerOptions extends IDrawerOptions, IDrawerEve
      * @memberof DrawerCanvas
      */
     redraw(): void;
-    static eachGhosts(drawerOptions: IDrawerOptions, timeline: Timeline, ghostCallback: (ghostDrawerOptions: IDrawerOptions) => any): void;
+    static eachGhosts(drawerOptions: IDrawerOptions, timeline: Timeline, ghostCallback: (ghostDrawerOptions: IDrawerOptions & {
+        ghost_index?: number;
+    }) => any): void;
     static ghostifyColor(color: string, ghostMultiplier: number): string | undefined;
 }
 export default Drawer;

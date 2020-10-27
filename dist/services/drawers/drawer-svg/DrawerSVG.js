@@ -30,16 +30,15 @@ var DrawerSVG = /** @class */ (function (_super) {
         if (drawerOptions === void 0) { drawerOptions = {}; }
         if (ratio === void 0) { ratio = undefined; }
         if (resolution === void 0) { resolution = 0; }
-        var _a, _b, _c, _d;
+        var _a, _b, _c;
         var _this = _super.call(this, scene, ratio, resolution) || this;
         _this.container = container;
         _this.drawerOptions = {
             time: (_a = drawerOptions.time) !== null && _a !== void 0 ? _a : 0,
-            clear: (_b = drawerOptions.clear) !== null && _b !== void 0 ? _b : true,
             decimals: drawerOptions.decimals || 2,
-            noBackground: (_c = drawerOptions.noBackground) !== null && _c !== void 0 ? _c : false,
+            noBackground: (_b = drawerOptions.noBackground) !== null && _b !== void 0 ? _b : false,
             ghosts: drawerOptions.ghosts || 0,
-            ghost_skip_time: (_d = drawerOptions.ghost_skip_time) !== null && _d !== void 0 ? _d : 30,
+            ghost_skip_time: (_c = drawerOptions.ghost_skip_time) !== null && _c !== void 0 ? _c : 30,
             ghost_skip_function: drawerOptions.ghost_skip_function,
         };
         return _this;
@@ -55,7 +54,7 @@ var DrawerSVG = /** @class */ (function (_super) {
         var draw_time = 0;
         var timeline = this.timeline;
         var drawAtTime = timeline.getTime();
-        var drawerOptions = __assign(__assign({}, this.drawerOptions), { ghost_index: undefined, clear: this.drawerOptions.clear || timeline.getCurrentFrame() <= 0, time: drawAtTime });
+        var drawerOptions = __assign(__assign({}, this.drawerOptions), { ghost_index: undefined, time: drawAtTime });
         var paths = [];
         if (drawerOptions.ghosts) {
             Drawer.eachGhosts(drawerOptions, timeline, function (ghostDrawerOptions) {

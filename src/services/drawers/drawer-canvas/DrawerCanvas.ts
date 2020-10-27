@@ -1,10 +1,8 @@
 import Scene from '@core/Scene'
 
-import Timeline from '@services/timeline/Timeline'
 import SceneChild from '@core/SceneChild'
-import SceneUtilities from '@services/scene-utilities/SceneUtilities'
 import FrameBuffer from '@services/drawers/drawer-canvas/FrameBuffer'
-import { IDrawerCanvasEvents, IDrawerCanvasOptions } from '@services/types/drawer-canvas'
+import { IDrawerCanvasEvents, IDrawerCanvasOptions } from '@services/types/drawer'
 import { now } from 'src/Utilites'
 import { vec2 } from 'gl-matrix'
 import Drawer from '../Drawer'
@@ -294,9 +292,12 @@ class DrawerCanvas extends Drawer<IDrawerCanvasOptions, IDrawerCanvasEvents> {
 			this.context?.putImageData(this.buffer.get(current_frame) as ImageData, 0, 0)
 		} else {
 			if (drawerOptions.ghosts) {
-				Drawer.eachGhosts(drawerOptions, timeline, ghostDrawerOptions => {
+				Drawer.eachGhosts<IDrawerCanvasOptions>(drawerOptions, timeline, ghostDrawerOptions => {
+					ghostDrawerOptions.clear = drawerOptions.clear && ghostDrawerOptions.ghost_index === 1
 					draw_time += DrawerCanvas.draw(this.scene, this.context, ghostDrawerOptions, this.resolution)
 				})
+
+				drawerOptions.clear = false
 			}
 
 			draw_time += DrawerCanvas.draw(this.scene, this.context, drawerOptions, this.resolution)
@@ -311,6 +312,29 @@ class DrawerCanvas extends Drawer<IDrawerCanvasOptions, IDrawerCanvasEvents> {
 		}
 
 		return draw_time
+	}
+
+	/**
+	 * Redraw
+	 *
+	 * @returns {void}
+	 * @memberof DrawerCanvas
+	 */
+	public redraw(): void {
+		if (!this.timeline.bSequenceStarted()) {
+			this.draw_id && cancelAnimationFrame(this.draw_id)
+			!this.drawerOptions.clear &&
+				(typeof this.drawerOptions.ghosts === undefined || this.drawerOptions.ghosts === 0) &&
+				this.timeline.stop()
+			this.draw_id = requestAnimationFrame(this.draw)
+		} else if (
+			!this.drawerOptions.clear &&
+			(typeof this.drawerOptions.ghosts === undefined || this.drawerOptions.ghosts === 0)
+		) {
+			this.stopAnimation()
+			this.redraw_id && cancelAnimationFrame(this.redraw_id)
+			this.redraw_id = requestAnimationFrame(this.startAnimation)
+		}
 	}
 
 	/**

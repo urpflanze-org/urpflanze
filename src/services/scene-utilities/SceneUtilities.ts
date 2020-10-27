@@ -21,7 +21,6 @@ import ShapeBuffer from '@core/shapes/ShapeBuffer'
 import Scene from '@core/Scene'
 import Group from '@core/Group'
 import ShapeBase from '@core/shapes/ShapeBase'
-import DrawerCanvas from '@services/drawers/drawer-canvas/DrawerCanvas'
 
 import SceneChildPropsData, { TSceneChildPropsDataKeys } from '@services/scene-utilities/SceneChildPropsData'
 import ScenePropUtilities from '@services/scene-utilities/ScenePropUtilities'
@@ -117,7 +116,12 @@ class SceneUtilities {
 	 * @returns {(SceneChild | null)}
 	 * @memberof SceneUtilities
 	 */
-	create(item: string | SceneChild, props?: TSceneChildProps, scene?: Scene, drawer?: Drawer<any, any>): SceneChild | null {
+	create(
+		item: string | SceneChild,
+		props?: TSceneChildProps,
+		scene?: Scene,
+		drawer?: Drawer<any, any>
+	): SceneChild | null {
 		scene = scene ? scene : typeof item !== 'string' ? item.scene : undefined
 
 		if (item instanceof SceneChild) {

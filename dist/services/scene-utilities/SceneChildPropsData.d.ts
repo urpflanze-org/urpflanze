@@ -1,4 +1,4 @@
-import { TDrawerTransformation } from "../types/drawer-canvas";
+import { TDrawerTransformation } from "../types/drawer";
 import { TSceneChildProps } from "../types/scene-utilities";
 export declare type TPropInputType = 'range' | 'multiple-range' | 'color' | 'select' | 'checkbox' | 'radio' | 'slider';
 export interface ISceneChildPropData {

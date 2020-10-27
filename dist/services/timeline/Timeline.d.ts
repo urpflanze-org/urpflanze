@@ -19,7 +19,7 @@ declare class Timeline extends Emitter<ITimelineEvents> {
     private paused_time;
     private start_time;
     private tick_time;
-    private accumulator;
+    private last_tick;
     private b_sequence_started;
     private sequence;
     /**

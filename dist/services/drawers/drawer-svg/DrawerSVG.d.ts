@@ -1,5 +1,5 @@
 import Scene from "../../../core/Scene";
-import { IDrawerSVGOptions } from "../../types/drawer-canvas";
+import { IDrawerSVGOptions } from "../../types/drawer";
 import Drawer from "../Drawer";
 declare class DrawerSVG extends Drawer<IDrawerSVGOptions, {}> {
     private container;

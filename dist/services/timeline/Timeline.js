@@ -54,8 +54,8 @@ var Timeline = /** @class */ (function (_super) {
         _this.current_frame = 0;
         _this.current_time = 0;
         // this.paused_time = 0
+        _this.last_tick = 0;
         _this.start_time = 0;
-        _this.accumulator = 0;
         _this.calculateTickAndSequence();
         return _this;
     }
@@ -157,7 +157,6 @@ var Timeline = /** @class */ (function (_super) {
             // this.current_time = now() - this.paused_time
             this.start_time = this.paused_time;
             this.current_time = 0;
-            this.accumulator = 0;
             this.dispatch('timeline:change_status', Timeline.START);
         }
     };
@@ -203,19 +202,15 @@ var Timeline = /** @class */ (function (_super) {
         if (this.b_sequence_started) {
             if (!this.start_time) {
                 this.start_time = timestamp;
-                this.accumulator = this.tick_time;
+                this.last_tick = -this.tick_time;
             }
             var currentTime = timestamp - this.start_time;
-            var deltaTime = currentTime - this.current_time;
-            this.accumulator += deltaTime;
-            // if (deltaTime >= this.tick_time) {
-            if (this.accumulator >= this.tick_time) {
-                this.calculateFPS(1 / (deltaTime / 1000));
-                // this.current_time = currentTime - (deltaTime % this.tick_time)
-                this.current_time = currentTime;
-                this.current_frame = this.getFrameAtTime(currentTime);
-                // this.current_frame = (this.current_frame + 1) % this.sequence.frames
-                this.accumulator -= this.tick_time;
+            var elapsed = currentTime - this.last_tick;
+            if (elapsed >= this.tick_time) {
+                this.calculateFPS(1 / (elapsed / 1000));
+                this.last_tick = currentTime;
+                this.current_time = (currentTime - (elapsed % this.tick_time)) % this.sequence.durate;
+                this.current_frame = this.getFrameAtTime(this.current_time);
                 this.dispatch('timeline:progress', {
                     current_frame: this.current_frame,
                     current_time: this.current_time,

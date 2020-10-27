@@ -2,7 +2,6 @@ export interface IDrawerOptions {
 	time?: number
 	noBackground?: boolean
 	ghosts?: number
-	clear?: boolean
 	ghost_skip_time?: number
 	ghost_skip_function?: (ghost_index: number) => number
 }
@@ -16,6 +15,7 @@ export interface IDrawerSVGOptions extends IDrawerOptions {
  */
 export interface IDrawerCanvasOptions extends IDrawerOptions {
 	scale?: number
+	clear?: boolean
 	translate?: Array<number>
 	simmetricLines?: number
 	fixedLineWidth?: boolean

@@ -1,6 +1,6 @@
 import { EShapePrimitiveAdaptMode } from "../../core/types/shape-base";
 import { IShapeLoopAnimation, IVertexCallbackAnimation, TAnimation, TCallableValue } from "./animation";
-import { ISceneChildDrawerData, TDrawerValue } from "./drawer-canvas";
+import { ISceneChildDrawerData, TDrawerValue } from "./drawer";
 import { TSceneChildProps } from "./scene-utilities";
 /**
  * @category Services.Export/Import

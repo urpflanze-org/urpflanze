@@ -1,6 +1,6 @@
 import Scene from "../../../core/Scene";
 import FrameBuffer from "./FrameBuffer";
-import { IDrawerCanvasEvents, IDrawerCanvasOptions } from "../../types/drawer-canvas";
+import { IDrawerCanvasEvents, IDrawerCanvasOptions } from "../../types/drawer";
 import Drawer from "../Drawer";
 /**
  *
@@ -72,6 +72,13 @@ declare class DrawerCanvas extends Drawer<IDrawerCanvasOptions, IDrawerCanvasEve
      * @memberof DrawerCanvas
      */
     draw(): number;
+    /**
+     * Redraw
+     *
+     * @returns {void}
+     * @memberof DrawerCanvas
+     */
+    redraw(): void;
     /**
      * Static draw scene
      *

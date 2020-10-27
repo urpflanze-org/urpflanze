@@ -24,7 +24,7 @@ class Timeline extends Emitter<ITimelineEvents> {
 	private paused_time: number
 	private start_time: number
 	private tick_time: number
-	private accumulator: number
+	private last_tick: number
 
 	private b_sequence_started: boolean
 
@@ -55,8 +55,8 @@ class Timeline extends Emitter<ITimelineEvents> {
 		this.current_time = 0
 
 		// this.paused_time = 0
+		this.last_tick = 0
 		this.start_time = 0
-		this.accumulator = 0
 
 		this.calculateTickAndSequence()
 	}
@@ -174,7 +174,6 @@ class Timeline extends Emitter<ITimelineEvents> {
 			// this.current_time = now() - this.paused_time
 			this.start_time = this.paused_time
 			this.current_time = 0
-			this.accumulator = 0
 
 			this.dispatch('timeline:change_status', Timeline.START)
 		}
@@ -227,23 +226,18 @@ class Timeline extends Emitter<ITimelineEvents> {
 		if (this.b_sequence_started) {
 			if (!this.start_time) {
 				this.start_time = timestamp
-				this.accumulator = this.tick_time
+				this.last_tick = -this.tick_time
 			}
 
 			const currentTime = timestamp - this.start_time
+			const elapsed = currentTime - this.last_tick
 
-			const deltaTime = currentTime - this.current_time
-			this.accumulator += deltaTime
+			if (elapsed >= this.tick_time) {
+				this.calculateFPS(1 / (elapsed / 1000))
 
-			// if (deltaTime >= this.tick_time) {
-			if (this.accumulator >= this.tick_time) {
-				this.calculateFPS(1 / (deltaTime / 1000))
-
-				// this.current_time = currentTime - (deltaTime % this.tick_time)
-				this.current_time = currentTime
-				this.current_frame = this.getFrameAtTime(currentTime)
-				// this.current_frame = (this.current_frame + 1) % this.sequence.frames
-				this.accumulator -= this.tick_time
+				this.last_tick = currentTime
+				this.current_time = (currentTime - (elapsed % this.tick_time)) % this.sequence.durate
+				this.current_frame = this.getFrameAtTime(this.current_time)
 
 				this.dispatch('timeline:progress', {
 					current_frame: this.current_frame,

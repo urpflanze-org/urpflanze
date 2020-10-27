@@ -3,7 +3,7 @@ import { TSceneChildPropsDataKeys } from "./SceneChildPropsData";
 import { IShapeLoopAnimation, TAnimation } from "../types/animation";
 import { IShapeLoopGenerator } from "../../core/types/shape-primitive";
 import { TVertexCallback } from "../../core/types/shape-base";
-import { TDrawerTransformation, TDrawerValue } from "../types/drawer-canvas";
+import { TDrawerTransformation, TDrawerValue } from "../types/drawer";
 import Drawer from "../drawers/Drawer";
 /**
  *

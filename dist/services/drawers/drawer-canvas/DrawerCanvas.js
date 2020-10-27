@@ -260,8 +260,12 @@ var DrawerCanvas = /** @class */ (function (_super) {
         else {
             if (drawerOptions.ghosts) {
                 Drawer.eachGhosts(drawerOptions, timeline, function (ghostDrawerOptions) {
+                    ;
+                    ghostDrawerOptions.clear =
+                        drawerOptions.clear && ghostDrawerOptions.ghost_index === 1;
                     draw_time += DrawerCanvas.draw(_this.scene, _this.context, ghostDrawerOptions, _this.resolution);
                 });
+                drawerOptions.clear = false;
             }
             draw_time += DrawerCanvas.draw(this.scene, this.context, drawerOptions, this.resolution);
             if (this.bBuffering && this.context) {
@@ -272,6 +276,27 @@ var DrawerCanvas = /** @class */ (function (_super) {
             }
         }
         return draw_time;
+    };
+    /**
+     * Redraw
+     *
+     * @returns {void}
+     * @memberof DrawerCanvas
+     */
+    DrawerCanvas.prototype.redraw = function () {
+        if (!this.timeline.bSequenceStarted()) {
+            this.draw_id && cancelAnimationFrame(this.draw_id);
+            !this.drawerOptions.clear &&
+                (typeof this.drawerOptions.ghosts === undefined || this.drawerOptions.ghosts === 0) &&
+                this.timeline.stop();
+            this.draw_id = requestAnimationFrame(this.draw);
+        }
+        else if (!this.drawerOptions.clear &&
+            (typeof this.drawerOptions.ghosts === undefined || this.drawerOptions.ghosts === 0)) {
+            this.stopAnimation();
+            this.redraw_id && cancelAnimationFrame(this.redraw_id);
+            this.redraw_id = requestAnimationFrame(this.startAnimation);
+        }
     };
     /**
      * Static draw scene

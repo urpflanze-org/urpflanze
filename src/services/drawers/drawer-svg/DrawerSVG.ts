@@ -1,9 +1,8 @@
 import Scene from '@core/Scene'
 
 import SceneChild from '@core/SceneChild'
-import { IDrawerSVGOptions } from '@services/types/drawer-canvas'
+import { IDrawerSVGOptions } from '@services/types/drawer'
 import { now } from 'src/Utilites'
-import { vec2 } from 'gl-matrix'
 import Drawer from '@services/drawers/Drawer'
 
 class DrawerSVG extends Drawer<IDrawerSVGOptions, {}> {
@@ -22,7 +21,6 @@ class DrawerSVG extends Drawer<IDrawerSVGOptions, {}> {
 
 		this.drawerOptions = {
 			time: drawerOptions.time ?? 0,
-			clear: drawerOptions.clear ?? true,
 			decimals: drawerOptions.decimals || 2,
 			noBackground: drawerOptions.noBackground ?? false,
 			ghosts: drawerOptions.ghosts || 0,
@@ -45,7 +43,6 @@ class DrawerSVG extends Drawer<IDrawerSVGOptions, {}> {
 		const drawerOptions: IDrawerSVGOptions & { ghost_index: number | undefined } = {
 			...this.drawerOptions,
 			ghost_index: undefined,
-			clear: this.drawerOptions.clear || timeline.getCurrentFrame() <= 0,
 			time: drawAtTime,
 		}
 

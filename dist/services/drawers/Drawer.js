@@ -222,13 +222,11 @@ var Drawer = /** @class */ (function (_super) {
     Drawer.prototype.redraw = function () {
         if (!this.timeline.bSequenceStarted()) {
             this.draw_id && cancelAnimationFrame(this.draw_id);
-            !this.drawerOptions.clear &&
-                (typeof this.drawerOptions.ghosts === undefined || this.drawerOptions.ghosts === 0) &&
+            if (typeof this.drawerOptions.ghosts === undefined || this.drawerOptions.ghosts === 0)
                 this.timeline.stop();
             this.draw_id = requestAnimationFrame(this.draw);
         }
-        else if (!this.drawerOptions.clear &&
-            (typeof this.drawerOptions.ghosts === undefined || this.drawerOptions.ghosts === 0)) {
+        else if (typeof this.drawerOptions.ghosts === undefined || this.drawerOptions.ghosts === 0) {
             this.stopAnimation();
             this.redraw_id && cancelAnimationFrame(this.redraw_id);
             this.redraw_id = requestAnimationFrame(this.startAnimation);
@@ -244,12 +242,10 @@ var Drawer = /** @class */ (function (_super) {
                     (drawerOptions.ghost_skip_function
                         ? drawerOptions.ghost_skip_function(i)
                         : i * drawerOptions.ghost_skip_time);
-                ghostDrawerOptions.clear = drawerOptions.clear && i === 1;
                 ghostDrawerOptions.ghost_index = i;
                 ghostDrawerOptions.time = (ghostTime + sequenceDurate) % sequenceDurate;
                 ghostCallback(ghostDrawerOptions);
             }
-            drawerOptions.clear = false;
         }
     };
     Drawer.ghostifyColor = function (color, ghostMultiplier) {
