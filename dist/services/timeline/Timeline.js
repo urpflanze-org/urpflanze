@@ -25,6 +25,8 @@ var __assign = (this && this.__assign) || function () {
 import Emitter from "../events/Emitter";
 import { now } from "../../Utilites";
 /**
+ * Is used for sequence time management.
+ * It is necessary to set the duration and the number of frames per second (frame rate).
  *
  * @category Services.Timeline
  * @class Timeline
@@ -32,31 +34,25 @@ import { now } from "../../Utilites";
  */
 var Timeline = /** @class */ (function (_super) {
     __extends(Timeline, _super);
-    /**
-     * Class used for time and rendering managment
-     *
-     * @memberof Timeline
-     */
     function Timeline(durate, framerate) {
         if (durate === void 0) { durate = 60000; }
         if (framerate === void 0) { framerate = 60; }
         var _this = _super.call(this) || this;
-        _this.sequence = {
-            durate: durate,
-            framerate: framerate,
-            frames: Math.round(((durate - 0) / 1000) * framerate),
-        };
-        _this.fps = _this.sequence.framerate;
         _this.fps_samples_size = 30;
         _this.fps_samples = [];
         _this.fps_samples_index = 0;
+        _this.sequence = {
+            durate: durate,
+            framerate: framerate,
+            frames: Math.round((durate / 1000) * framerate),
+        };
+        _this.tick_time = 1000 / _this.sequence.framerate;
+        _this.fps = _this.sequence.framerate;
         _this.b_sequence_started = false;
         _this.current_frame = 0;
         _this.current_time = 0;
-        // this.paused_time = 0
         _this.last_tick = 0;
         _this.start_time = 0;
-        _this.calculateTickAndSequence();
         return _this;
     }
     //#region sequence meta
@@ -64,40 +60,35 @@ var Timeline = /** @class */ (function (_super) {
      * Return the sequence
      *
      * @returns {Sequence}
-     * @memberof Timeline
      */
     Timeline.prototype.getSequence = function () {
         return __assign({}, this.sequence);
     };
     /**
-     * Set sequence
+     * Set Sequence
      *
      * @param {number} durate
      * @param {number} framerate
-     * @memberof Timeline
      */
     Timeline.prototype.setSequence = function (durate, framerate) {
         this.sequence.durate = durate;
         this.sequence.framerate = framerate;
-        this.calculateTickAndSequence();
+        this.tick_time = 1000 / this.sequence.framerate;
+        this.sequence.frames = Math.round((this.sequence.durate / 1000) * this.sequence.framerate);
         this.dispatch('timeline:update_sequence', this.getSequence());
     };
     /**
      * Set durate of timeline
      *
      * @param {number} framerate
-     * @memberof Timeline
      */
     Timeline.prototype.setDurate = function (durate) {
-        this.sequence.durate = durate;
-        this.calculateTickAndSequence();
-        this.dispatch('timeline:update_sequence', this.getSequence());
+        this.setSequence(durate, this.sequence.framerate);
     };
     /**
-     * Get animation durate
+     * Get timeline duration
      *
      * @returns {number}
-     * @memberof Timeline
      */
     Timeline.prototype.getDurate = function () {
         return this.sequence.durate;
@@ -106,37 +97,22 @@ var Timeline = /** @class */ (function (_super) {
      * Return framerate
      *
      * @returns {number}
-     * @memberof Timeline
      */
     Timeline.prototype.getFramerate = function () {
         return this.sequence.framerate;
     };
     /**
-     * Set a framerate of animation
+     * Set a framerate
      *
      * @param {number} framerate
-     * @memberof Timeline
      */
     Timeline.prototype.setFramerate = function (framerate) {
-        this.sequence.framerate = framerate;
-        this.calculateTickAndSequence();
-        this.dispatch('timeline:update_sequence', this.getSequence());
+        this.setSequence(this.sequence.durate, framerate);
     };
     /**
-     * Set the number of frames based on the sequence
-     *
-     * @private
-     * @memberof Timeline
-     */
-    Timeline.prototype.calculateTickAndSequence = function () {
-        this.tick_time = 1000 / this.sequence.framerate;
-        this.sequence.frames = Math.round((this.sequence.durate / 1000) * this.sequence.framerate);
-    };
-    /**
-     * Get number of frames of animation
+     * Get number of frames based on duration and framerate
      *
      * @returns {number}
-     * @memberof Timeline
      */
     Timeline.prototype.getFramesCount = function () {
         return this.sequence.frames;
@@ -149,21 +125,17 @@ var Timeline = /** @class */ (function (_super) {
     /**
      * Start the sequence
      *
-     * @memberof Timeline
      */
     Timeline.prototype.start = function () {
         if (!this.b_sequence_started) {
             this.b_sequence_started = true;
-            // this.current_time = now() - this.paused_time
             this.start_time = this.paused_time;
-            this.current_time = 0;
             this.dispatch('timeline:change_status', Timeline.START);
         }
     };
     /**
      * Pause the sequence
      *
-     * @memberof Timeline
      */
     Timeline.prototype.pause = function () {
         if (this.b_sequence_started) {
@@ -175,19 +147,14 @@ var Timeline = /** @class */ (function (_super) {
     /**
      * Stop the sequence and reset
      *
-     * @memberof Timeline
      */
     Timeline.prototype.stop = function () {
         if (this.b_sequence_started) {
             this.b_sequence_started = false;
+            this.current_time = 0;
             this.current_frame = 0;
             this.start_time = 0;
             this.paused_time = 0;
-            // this.dispatch('timeline:progress', {
-            // 	current_frame: this.current_frame,
-            // 	current_time: 0,
-            // 	fps: this.fps,
-            // })
             this.dispatch('timeline:change_status', Timeline.STOP);
         }
     };
@@ -196,7 +163,6 @@ var Timeline = /** @class */ (function (_super) {
      *
      * @param {number} timestamp current timestamp
      * @returns {boolean}
-     * @memberof Timeline
      */
     Timeline.prototype.tick = function (timestamp) {
         if (this.b_sequence_started) {
@@ -226,7 +192,6 @@ var Timeline = /** @class */ (function (_super) {
      *
      * @private
      * @param {number} currentFPS
-     * @memberof Timeline
      */
     Timeline.prototype.calculateFPS = function (currentFPS) {
         var samples = this.fps_samples.length;
@@ -245,7 +210,6 @@ var Timeline = /** @class */ (function (_super) {
      * Return current animation frame
      *
      * @returns {number}
-     * @memberof Timeline
      */
     Timeline.prototype.getCurrentFrame = function () {
         return this.current_frame;
@@ -255,10 +219,9 @@ var Timeline = /** @class */ (function (_super) {
      *
      * @param {number} frame
      * @returns {number}
-     * @memberof Timeline
      */
     Timeline.prototype.getFrameTime = function (frame) {
-        frame = frame < 0 ? this.sequence.frames - (frame % this.sequence.frames) : frame % this.sequence.frames;
+        frame = frame < 0 ? this.sequence.frames - (Math.abs(frame) % this.sequence.frames) : frame % this.sequence.frames;
         return (frame * this.tick_time) % this.sequence.durate;
     };
     /**
@@ -266,7 +229,6 @@ var Timeline = /** @class */ (function (_super) {
      *
      * @param {number} time
      * @returns {number}
-     * @memberof Timeline
      */
     Timeline.prototype.getFrameAtTime = function (time) {
         return Math.round((time % this.sequence.durate) / this.tick_time);
@@ -275,7 +237,6 @@ var Timeline = /** @class */ (function (_super) {
      * set current frame
      *
      * @param {number} frame
-     * @memberof Timeline
      */
     Timeline.prototype.setFrame = function (frame) {
         this.current_frame = frame;
@@ -285,7 +246,6 @@ var Timeline = /** @class */ (function (_super) {
      * Return tick time (based on framerate)
      *
      * @returns {number}
-     * @memberof Timeline
      */
     Timeline.prototype.getTickTime = function () {
         return this.tick_time;
@@ -294,7 +254,6 @@ var Timeline = /** @class */ (function (_super) {
      * Return the current time
      *
      * @returns {number}
-     * @memberof Timeline
      */
     Timeline.prototype.getTime = function () {
         return this.current_time;
@@ -303,20 +262,23 @@ var Timeline = /** @class */ (function (_super) {
      * Set animation at time
      *
      * @param {number} time
-     * @memberof Timeline
      */
     Timeline.prototype.setTime = function (time) {
         time = (time + this.sequence.durate) % this.sequence.durate;
         this.current_time = time;
         this.current_frame = this.getFrameAtTime(time);
-        this.dispatch('timeline:progress', {
-            current_frame: this.current_frame,
-            current_time: time,
-            fps: this.fps,
-        });
     };
+    /**
+     * Animation status started
+     */
     Timeline.START = 'start';
+    /**
+     * Animation status paused
+     */
     Timeline.PAUSE = 'pause';
+    /**
+     * Animation status stop
+     */
     Timeline.STOP = 'stop';
     return Timeline;
 }(Emitter));

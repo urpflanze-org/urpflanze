@@ -28,7 +28,7 @@ import ScenePropUtilities from "./ScenePropUtilities";
 import Animation from "../animation/Animation";
 /**
  *
- * @category Services.SceneUtilities
+ * @category Services.Scene Utilities
  * @class SceneUtilities
  */
 var SceneUtilities = /** @class */ (function () {
@@ -204,12 +204,11 @@ var SceneUtilities = /** @class */ (function () {
                     copiedChild && copied.add(copiedChild);
                 });
             }
-            else if (sceneChild instanceof Shape && sceneChild.shape) {
+            else if (sceneChild instanceof Shape && copied instanceof Shape && sceneChild.shape) {
                 var copiedShape = this.copy(sceneChild.shape, scene, drawer);
                 copiedShape && (copied.shape = copiedShape);
             }
-            else if (sceneChild instanceof ShapeBuffer && sceneChild.shape) {
-                ;
+            else if (sceneChild instanceof ShapeBuffer && copied instanceof ShapeBuffer && sceneChild.shape) {
                 copied.setShape(new Float32Array(sceneChild.shape));
             }
             return copied;
@@ -500,12 +499,12 @@ var SceneUtilities = /** @class */ (function () {
                     sceneChild.bUseParent = value;
                 break;
             case 'bCloseShape':
-                ;
-                sceneChild.setClosed(value);
+                if (sceneChild instanceof ShapePrimitive)
+                    sceneChild.setClosed(value);
                 break;
             case 'bAdaptBuffer':
-                ;
-                sceneChild.adapt(value);
+                if (sceneChild instanceof ShapePrimitive)
+                    sceneChild.adapt(value);
                 break;
             default:
                 // loop

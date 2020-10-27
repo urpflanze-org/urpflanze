@@ -13,6 +13,9 @@ var OptionSpiralType = [
     { key: 'LITUUS', value: Spiral.types.LITUUS },
     { key: 'LOGARITHMIC', value: Spiral.types.LOGARITHMIC },
 ];
+/**
+ * @category Services.Scene Utilities
+ */
 var SceneChildPropsData = {
     repetitions: {
         animable: true,

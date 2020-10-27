@@ -6,6 +6,16 @@ import SceneUtilities from '@services/scene-utilities/SceneUtilities'
 import Emitter from '@services/events/Emitter'
 import { IDrawerOptions } from '@services/types/drawer'
 
+/**
+ * Abstract Drawer
+ *
+ * @category Services.Drawer
+ * @abstract
+ * @class Drawer
+ * @extends {Emitter<IDrawerEvents>}
+ * @template IADrawerOptions
+ * @template IDrawerEvents
+ */
 abstract class Drawer<IADrawerOptions extends IDrawerOptions, IDrawerEvents> extends Emitter<IDrawerEvents> {
 	protected scene: Scene
 
@@ -19,10 +29,16 @@ abstract class Drawer<IADrawerOptions extends IDrawerOptions, IDrawerEvents> ext
 
 	protected timeline: Timeline
 
-	constructor(scene: Scene | undefined = undefined, ratio: number | undefined = undefined, resolution = 0) {
+	constructor(
+		scene: Scene | undefined = undefined,
+		ratio: number | undefined = undefined,
+		resolution = 0,
+		duration?: number,
+		framerate?: number
+	) {
 		super()
 
-		this.timeline = new Timeline()
+		this.timeline = new Timeline(duration, framerate)
 		this.resolution = resolution || (scene && scene.width ? scene.width : 0)
 		this.ratio = ratio || (scene && scene.width && scene.height ? scene.width / scene.height : 1)
 
@@ -46,6 +62,7 @@ abstract class Drawer<IADrawerOptions extends IDrawerOptions, IDrawerEvents> ext
 	/**
 	 * Set scene
 	 *
+	 * @param {Scene} scene
 	 */
 	public setScene(scene: Scene): void {
 		this.scene = scene
@@ -53,10 +70,20 @@ abstract class Drawer<IADrawerOptions extends IDrawerOptions, IDrawerEvents> ext
 		if (!this.resolution && this.scene.width) this.resolution = this.scene.width
 	}
 
+	/**
+	 * Return scene
+	 *
+	 * @return {*}  {Scene}
+	 */
 	public getScene(): Scene {
 		return this.scene
 	}
 
+	/**
+	 * Return timeline
+	 *
+	 * @return {*}  {Timeline}
+	 */
 	public getTimeline(): Timeline {
 		return this.timeline
 	}
@@ -103,7 +130,6 @@ abstract class Drawer<IADrawerOptions extends IDrawerOptions, IDrawerEvents> ext
 
 	/**
 	 * Return drawer ratio
-	 *
 	 */
 	public getRatio(): number {
 		return this.ratio
@@ -111,7 +137,6 @@ abstract class Drawer<IADrawerOptions extends IDrawerOptions, IDrawerEvents> ext
 
 	/**
 	 * Get resolution
-	 *
 	 */
 	public getResolution(): number {
 		return this.resolution
@@ -119,7 +144,6 @@ abstract class Drawer<IADrawerOptions extends IDrawerOptions, IDrawerEvents> ext
 
 	/**
 	 * Get resolution of drawer
-	 *
 	 */
 	public setResolution(resolution: number) {
 		this.resize(this.scene.width, this.scene.height, this.ratio, resolution)
@@ -164,7 +188,7 @@ abstract class Drawer<IADrawerOptions extends IDrawerOptions, IDrawerEvents> ext
 	}
 
 	/**
-	 *
+	 * Return option valie or default
 	 *
 	 * @template K
 	 * @param {K} name
@@ -175,8 +199,7 @@ abstract class Drawer<IADrawerOptions extends IDrawerOptions, IDrawerEvents> ext
 	}
 
 	/**
-	 *
-	 *
+	 * Return all options
 	 */
 	public getOptions(): IADrawerOptions {
 		return this.drawerOptions
@@ -184,7 +207,6 @@ abstract class Drawer<IADrawerOptions extends IDrawerOptions, IDrawerEvents> ext
 
 	/**
 	 * Internal tick animation
-	 *
 	 */
 	private animate(timestamp: number): void {
 		if (this.timeline.bSequenceStarted()) {
@@ -258,8 +280,17 @@ abstract class Drawer<IADrawerOptions extends IDrawerOptions, IDrawerEvents> ext
 		}
 	}
 
+	/**
+	 * Each ghosts index and create drawerOptions to pass at the draw method
+	 *
+	 * @static
+	 * @template T
+	 * @param {T} drawerOptions
+	 * @param {Timeline} timeline
+	 * @param {((ghostDrawerOptions: T & { ghost_index?: number }) => any)} ghostCallback
+	 */
 	static eachGhosts<T extends IDrawerOptions>(
-		drawerOptions: IDrawerOptions,
+		drawerOptions: T,
 		timeline: Timeline,
 		ghostCallback: (ghostDrawerOptions: T & { ghost_index?: number }) => any
 	): void {
@@ -285,6 +316,14 @@ abstract class Drawer<IADrawerOptions extends IDrawerOptions, IDrawerEvents> ext
 		}
 	}
 
+	/**
+	 * Create color based on ghostMultiplier
+	 *
+	 * @static
+	 * @param {string} color
+	 * @param {number} ghostMultiplier
+	 * @return {*}  {(string | undefined)}
+	 */
 	static ghostifyColor(color: string, ghostMultiplier: number): string | undefined {
 		const match = /\((.+),(.+),(.+),(.+)?\)/g.exec(color)
 

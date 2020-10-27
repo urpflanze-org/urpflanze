@@ -30,7 +30,7 @@ declare class Scene {
     /**
      * Default ScenePrimitive stroke color (white)
      */
-    mainColor: string;
+    color: string;
     /**
      * Current time
      */

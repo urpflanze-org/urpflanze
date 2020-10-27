@@ -1,21 +1,31 @@
 import Scene from '@core/Scene'
 
 import SceneChild from '@core/SceneChild'
-import { IDrawerSVGOptions } from '@services/types/drawer'
+import { IDrawerSVGEvents, IDrawerSVGOptions } from '@services/types/drawer'
 import { now } from 'src/Utilites'
 import Drawer from '@services/drawers/Drawer'
 
-class DrawerSVG extends Drawer<IDrawerSVGOptions, {}> {
+/**
+ * Abstract drawer
+ *
+ * @category Services.Drawer
+ * @class DrawerSVG
+ * @extends {Drawer<IDrawerSVGOptions, IDrawerSVGEvents>}
+ */
+class DrawerSVG extends Drawer<IDrawerSVGOptions, IDrawerSVGEvents> {
 	private container: HTMLElement
+	private svgElement: SVGElement
 
 	constructor(
 		scene: Scene | undefined,
 		container: HTMLElement,
 		drawerOptions: IDrawerSVGOptions = {},
 		ratio: number | undefined = undefined,
-		resolution = 0
+		resolution = 0,
+		duration?: number,
+		framerate?: number
 	) {
-		super(scene, ratio, resolution)
+		super(scene, ratio, resolution, duration, framerate)
 
 		this.container = container
 
@@ -46,15 +56,22 @@ class DrawerSVG extends Drawer<IDrawerSVGOptions, {}> {
 			time: drawAtTime,
 		}
 
+		const current_frame = timeline.getFrameAtTime(drawAtTime)
+
+		this.dispatch('drawer-svg:before_draw', {
+			current_frame: current_frame,
+			current_time: drawAtTime,
+		})
+
 		const paths: Array<SVGPathElement> = []
 
 		if (drawerOptions.ghosts) {
 			Drawer.eachGhosts(drawerOptions, timeline, ghostDrawerOptions => {
-				draw_time += DrawerSVG.draw(this.scene, paths, ghostDrawerOptions, this.resolution)
+				draw_time += DrawerSVG.draw(this.scene, paths, ghostDrawerOptions)
 			})
 		}
 
-		draw_time += DrawerSVG.draw(this.scene, paths, drawerOptions, this.resolution)
+		draw_time += DrawerSVG.draw(this.scene, paths, drawerOptions)
 
 		this.appendSVGFromPaths(paths, drawerOptions)
 
@@ -92,8 +109,7 @@ class DrawerSVG extends Drawer<IDrawerSVGOptions, {}> {
 	public static draw(
 		scene: Scene,
 		paths: Array<SVGPathElement>,
-		options: IDrawerSVGOptions & { ghost_index?: number },
-		resolution?: number
+		options: IDrawerSVGOptions & { ghost_index?: number }
 	): number {
 		const start_time = now()
 
@@ -107,10 +123,6 @@ class DrawerSVG extends Drawer<IDrawerSVGOptions, {}> {
 		const ghostMultiplier: number = bGhost
 			? 1 - (options.ghost_index as number) / ((options.ghosts as number) + 0.5)
 			: 0
-
-		const width: number = scene.width
-		const height: number = scene.height
-		resolution = resolution || width
 
 		let logFillColorWarn = false
 		let logStrokeColorWarn = false

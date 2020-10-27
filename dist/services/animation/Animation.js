@@ -11,6 +11,11 @@ var __assign = (this && this.__assign) || function () {
 };
 import ScenePropUtilities from "../scene-utilities/ScenePropUtilities";
 import Simple from "./Simple";
+/**
+ * @ignore
+ * @internal
+ * @category Services.Animation
+ */
 var Animation = {
     composeAnimation: function (drawer, prop_name, animation) {
         switch (animation.type) {

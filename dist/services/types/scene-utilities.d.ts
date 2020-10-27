@@ -3,7 +3,7 @@ import SceneChild from "../../core/SceneChild";
 import { ILissajousSettings, IRegularPolygonSettings, IRoseSettings, IShapeBufferSettings, IShapeLoopSettings, ISpiralSettings } from "../../core/types/shape-primitive";
 import { IShapeSettings } from "../../core/types/shape-base";
 /**
- * @category Services.SceneUtilities
+ * @category Services.Scene Utilities
  */
 export declare type TSceneChildProps = Omit<(IShapeLoopSettings & IShapeBufferSettings & IShapeSettings & IRegularPolygonSettings & ILissajousSettings & ISpiralSettings & IRoseSettings) & {
     id?: number | string;

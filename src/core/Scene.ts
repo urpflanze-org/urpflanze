@@ -38,7 +38,7 @@ class Scene {
 	/**
 	 * Default ScenePrimitive stroke color (white)
 	 */
-	public mainColor = 'hsla(0, 0%, 100%, 1)'
+	public color = 'hsla(0, 0%, 100%, 1)'
 
 	/**
 	 * Current time
@@ -61,7 +61,7 @@ class Scene {
 		if (typeof settings.height !== 'undefined') this.height = settings.height
 
 		if (typeof settings.background !== 'undefined') this.background = settings.background
-		if (typeof settings.mainColor !== 'undefined') this.mainColor = settings.mainColor
+		if (typeof settings.color !== 'undefined') this.color = settings.color
 
 		this.children = []
 

@@ -3,7 +3,7 @@
  */
 export interface ITimelineEvents {
 	'timeline:update_sequence': ISequenceMeta
-	'timeline:change_status': string
+	'timeline:change_status': 'start' | 'stop' | 'pause'
 	'timeline:progress': {
 		current_frame: number
 		current_time: number
@@ -15,8 +15,6 @@ export interface ITimelineEvents {
  * @category Services.Timeline
  */
 export interface ISequenceMeta {
-	// start: number
-	// end: number
 	durate: number
 	frames: number
 	framerate: number

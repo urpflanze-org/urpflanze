@@ -28,6 +28,6 @@ export interface ISceneSettings {
      * Default stroke color of shapes
      * @order 4
      */
-    mainColor?: string;
+    color?: string;
 }
 //# sourceMappingURL=scene.d.ts.map

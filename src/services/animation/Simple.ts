@@ -5,11 +5,15 @@ import {
 	TSimpleAnimationLoop,
 	TSimpleAnimationUncontrolledLoop,
 	TSimpleAnimationStatic,
+	TEasing,
 } from '@services/types/animation'
-import Easings, { TEasing } from '@services/animation/Easings'
+import Easings from '@services/animation/Easings'
 import { toArray } from 'src/Utilites'
 import { ISceneChildPropArguments, TSceneChildProp } from '@core/types/scene-child'
 
+/**
+ * @category Services.Animation
+ */
 const Simple = {
 	loop: (props: TSimpleAnimationLoop): TSceneChildProp<string | number | Array<number> | Float32Array> =>
 		Simple.compose({ mode: 'sinusoidal', mode_function: 'cos', ...props, type: 'loop', delay: undefined }),

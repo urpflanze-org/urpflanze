@@ -9,8 +9,7 @@ import Drawer from '../Drawer'
 
 /**
  *
- * @category Services
- * @class DrawerCanvas
+ * @category Services.Drawer
  * @extends {Emitter<DrawerCanvasEvents>}
  */
 class DrawerCanvas extends Drawer<IDrawerCanvasOptions, IDrawerCanvasEvents> {
@@ -28,9 +27,11 @@ class DrawerCanvas extends Drawer<IDrawerCanvasOptions, IDrawerCanvasEvents> {
 		drawerOptions: IDrawerCanvasOptions = {},
 		ratio: number | undefined = undefined,
 		resolution = 0,
+		duration?: number,
+		framerate?: number,
 		bBuffering = false
 	) {
-		super(scene, ratio, resolution)
+		super(scene, ratio, resolution, duration, framerate)
 
 		this.bBuffering = bBuffering
 
@@ -405,7 +406,7 @@ class DrawerCanvas extends Drawer<IDrawerCanvasOptions, IDrawerCanvasEvents> {
 					height,
 					final_scale,
 					final_translate,
-					scene.mainColor
+					scene.color
 				)
 			}
 
@@ -446,7 +447,7 @@ class DrawerCanvas extends Drawer<IDrawerCanvasOptions, IDrawerCanvasEvents> {
 
 							if (shapeData && shapeData.highlighted) {
 								context.lineWidth = (streamCallback.lineWidth || 1) * 3 * scale
-								context.strokeStyle = scene.mainColor
+								context.strokeStyle = scene.color
 								context.stroke()
 
 								return

@@ -664,7 +664,7 @@ abstract class ShapeBase extends SceneChild {
 				const strokeColor = current_indexing.shape.getProp(
 					'strokeColor' as keyof ISceneChildProps,
 					prop_arguments,
-					typeof fillColor !== 'undefined' ? undefined : this.scene.mainColor
+					typeof fillColor !== 'undefined' ? undefined : this.scene.color
 				)
 
 				const lineWidth = current_indexing.shape.getProp(

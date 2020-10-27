@@ -4,7 +4,7 @@ import { cancelablePromise, now, ICancelablePromise } from 'src/Utilites'
 
 import Emitter from '@services/events/Emitter'
 
-import { IRenderEvents, IRenderSettings, IRenderStart, TRenderImageType, TRenderType } from '@services/types/renedrer'
+import { IRenderEvents, IRenderSettings, IRenderStart, TRenderImageType, TRenderType } from '@services/types/renderer'
 
 import Capturer from '@services/renderer/Capturer'
 import DrawerCanvas from '@services/drawers/drawer-canvas/DrawerCanvas'
@@ -154,8 +154,6 @@ class Renderer extends Emitter<IRenderEvents> {
 		this.capturer.start(frame_count)
 
 		const timeline = drawer.getTimeline()
-		const sequence = timeline.getSequence()
-		const tick_time = timeline.getTickTime()
 
 		let lastRenderTime = 0
 

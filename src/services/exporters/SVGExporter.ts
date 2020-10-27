@@ -1,7 +1,7 @@
 import Drawer from '@services/drawers/Drawer'
 import DrawerSVG from '@services/drawers/drawer-svg/DrawerSVG'
 import { IDrawerSVGOptions } from '@services/types/drawer'
-import { IRenderSettings } from '@services/types/renedrer'
+import { IRenderSettings } from '@services/types/renderer'
 
 const DEFAULT_SETTINGS = {
 	size: 1080,
@@ -12,7 +12,7 @@ const DEFAULT_SETTINGS = {
 
 /**
  *
- * @category Services
+ * @category Services.Export/Import
  * @class SVGExporter
  */
 class SVGExporter {

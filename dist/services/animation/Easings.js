@@ -1,3 +1,8 @@
+/**
+ * Easing functions
+ *
+ * @category Services.Animation
+ */
 var Easings = {
     /**
      * @param {number} time current time

@@ -1,27 +1,8 @@
-export type TEasing =
-	| 'linear'
-	| 'quadraticIn'
-	| 'quadraticOut'
-	| 'quadraticInOut'
-	| 'cubicIn'
-	| 'cubicOut'
-	| 'cubicInOut'
-	| 'quarticIn'
-	| 'quarticOut'
-	| 'quarticInOut'
-	| 'quinticIn'
-	| 'quinticOut'
-	| 'quinticInOut'
-	| 'sinusoidalIn'
-	| 'sinusoidalOut'
-	| 'sinusoidalInOut'
-	| 'exponentialIn'
-	| 'exponentialOut'
-	| 'exponentialInOut'
-	| 'circularIn'
-	| 'circularOut'
-	| 'circularInOut'
-
+/**
+ * Easing functions
+ *
+ * @category Services.Animation
+ */
 const Easings = {
 	/**
 	 * @param {number} time current time

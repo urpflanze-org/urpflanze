@@ -1,5 +1,8 @@
 import { ISimpleAnimation, TSimpleAnimationLoop, TSimpleAnimationUncontrolledLoop, TSimpleAnimationStatic } from "../types/animation";
 import { TSceneChildProp } from "../../core/types/scene-child";
+/**
+ * @category Services.Animation
+ */
 declare const Simple: {
     loop: (props: TSimpleAnimationLoop) => TSceneChildProp<string | number | Array<number> | Float32Array>;
     uncontrolledLoop: (props: TSimpleAnimationUncontrolledLoop) => TSceneChildProp<string | number | Array<number> | Float32Array>;

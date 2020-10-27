@@ -1,4 +1,5 @@
 /**
+ * Class used for emit and dispatch events
  *
  * @category Services.Emitter
  * @abstract
@@ -7,7 +8,6 @@
  */
 var Emitter = /** @class */ (function () {
     function Emitter() {
-        //@ts-ignore
         this.callbacks = {};
     }
     /**

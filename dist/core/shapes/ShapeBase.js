@@ -443,7 +443,7 @@ var ShapeBase = /** @class */ (function (_super) {
                     data: current_indexing.shape.data,
                 };
                 var fillColor = current_indexing.shape.getProp('fillColor', prop_arguments);
-                var strokeColor = current_indexing.shape.getProp('strokeColor', prop_arguments, typeof fillColor !== 'undefined' ? undefined : this.scene.mainColor);
+                var strokeColor = current_indexing.shape.getProp('strokeColor', prop_arguments, typeof fillColor !== 'undefined' ? undefined : this.scene.color);
                 var lineWidth = current_indexing.shape.getProp('lineWidth', prop_arguments, typeof fillColor !== 'undefined' && typeof strokeColor === 'undefined' ? undefined : 1);
                 var streamArguments = {
                     buffer: this.buffer,

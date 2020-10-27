@@ -17,7 +17,7 @@ import { ISceneChildProps } from '@core/types/scene-child'
 
 /**
  *
- * @category Services.Exporters
+ * @category Services.Export/Import
  * @class JSONExporter
  */
 class JSONExporter {
@@ -39,7 +39,7 @@ class JSONExporter {
 		project.width = scene.width
 		project.height = scene.height
 		project.resolution = drawer.getResolution()
-		project.mainColor = scene.mainColor
+		project.color = scene.color
 		project.background = scene.background
 
 		project.clear = drawer.getOption('clear', true) as boolean

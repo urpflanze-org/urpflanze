@@ -1,8 +1,8 @@
 import Drawer from "../drawers/Drawer";
-import { IRenderSettings } from "../types/renedrer";
+import { IRenderSettings } from "../types/renderer";
 /**
  *
- * @category Services
+ * @category Services.Export/Import
  * @class SVGExporter
  */
 declare class SVGExporter {

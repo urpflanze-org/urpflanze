@@ -1,9 +1,17 @@
 import Scene from "../../../core/Scene";
-import { IDrawerSVGOptions } from "../../types/drawer";
+import { IDrawerSVGEvents, IDrawerSVGOptions } from "../../types/drawer";
 import Drawer from "../Drawer";
-declare class DrawerSVG extends Drawer<IDrawerSVGOptions, {}> {
+/**
+ * Abstract drawer
+ *
+ * @category Services.Drawer
+ * @class DrawerSVG
+ * @extends {Drawer<IDrawerSVGOptions, IDrawerSVGEvents>}
+ */
+declare class DrawerSVG extends Drawer<IDrawerSVGOptions, IDrawerSVGEvents> {
     private container;
-    constructor(scene: Scene | undefined, container: HTMLElement, drawerOptions?: IDrawerSVGOptions, ratio?: number | undefined, resolution?: number);
+    private svgElement;
+    constructor(scene: Scene | undefined, container: HTMLElement, drawerOptions?: IDrawerSVGOptions, ratio?: number | undefined, resolution?: number, duration?: number, framerate?: number);
     /**
      * Draw current scene
      *
@@ -14,7 +22,7 @@ declare class DrawerSVG extends Drawer<IDrawerSVGOptions, {}> {
     protected appendSVGFromPaths(paths: Array<SVGPathElement>, drawerOptions: IDrawerSVGOptions): void;
     static draw(scene: Scene, paths: Array<SVGPathElement>, options: IDrawerSVGOptions & {
         ghost_index?: number;
-    }, resolution?: number): number;
+    }): number;
 }
 export default DrawerSVG;
 //# sourceMappingURL=DrawerSVG.d.ts.map

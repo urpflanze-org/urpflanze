@@ -17,8 +17,8 @@ export interface IProjectSequence {
 export interface IProject {
 	id: string
 	name: string
-	mainColor: string
 	background: string
+	color: string
 
 	width?: number
 	height?: number
@@ -36,14 +36,9 @@ export interface IProject {
 	sequence: IProjectSequence
 
 	// Scene
-	scene: IProjectScene
-}
-
-/**
- * @category Services.Export/Import
- */
-export interface IProjectScene {
-	[key: string]: IProjectSceneChild
+	scene: {
+		[key: string]: IProjectSceneChild
+	}
 }
 
 /**
@@ -58,7 +53,7 @@ export interface IProjectSceneChildData extends ISceneChildDrawerData {
 /**
  * @category Services.Export/Import
  */
-export type IProjectSceneChildDataProps = {
+export type IProjectSceneChildProps = {
 	[k in keyof Omit<
 		TSceneChildProps,
 		'id' | 'name' | 'order' | 'data' | 'adaptMode' | 'bCloseShape' | 'shape' | 'loop' | 'vertexCallback'
@@ -86,7 +81,7 @@ export interface IProjectSceneChild {
 	bPrimitive: boolean
 	depth: number
 
-	props: IProjectSceneChildDataProps
+	props: IProjectSceneChildProps
 	parent_id?: string | number
 	children?: Array<IProjectSceneChild>
 }

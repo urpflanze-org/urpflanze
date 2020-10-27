@@ -2,6 +2,16 @@ import Scene from "../../core/Scene";
 import Timeline from "../timeline/Timeline";
 import Emitter from "../events/Emitter";
 import { IDrawerOptions } from "../types/drawer";
+/**
+ * Abstract Drawer
+ *
+ * @category Services.Drawer
+ * @abstract
+ * @class Drawer
+ * @extends {Emitter<IDrawerEvents>}
+ * @template IADrawerOptions
+ * @template IDrawerEvents
+ */
 declare abstract class Drawer<IADrawerOptions extends IDrawerOptions, IDrawerEvents> extends Emitter<IDrawerEvents> {
     protected scene: Scene;
     protected resolution: number;
@@ -11,13 +21,24 @@ declare abstract class Drawer<IADrawerOptions extends IDrawerOptions, IDrawerEve
     protected redraw_id: number | null;
     protected drawerOptions: IADrawerOptions;
     protected timeline: Timeline;
-    constructor(scene?: Scene | undefined, ratio?: number | undefined, resolution?: number);
+    constructor(scene?: Scene | undefined, ratio?: number | undefined, resolution?: number, duration?: number, framerate?: number);
     /**
      * Set scene
      *
+     * @param {Scene} scene
      */
     setScene(scene: Scene): void;
+    /**
+     * Return scene
+     *
+     * @return {*}  {Scene}
+     */
     getScene(): Scene;
+    /**
+     * Return timeline
+     *
+     * @return {*}  {Timeline}
+     */
     getTimeline(): Timeline;
     /**
      * Resize scene and canvas
@@ -34,17 +55,14 @@ declare abstract class Drawer<IADrawerOptions extends IDrawerOptions, IDrawerEve
     setRatio(ratio: number): void;
     /**
      * Return drawer ratio
-     *
      */
     getRatio(): number;
     /**
      * Get resolution
-     *
      */
     getResolution(): number;
     /**
      * Get resolution of drawer
-     *
      */
     setResolution(resolution: number): void;
     /**
@@ -67,7 +85,7 @@ declare abstract class Drawer<IADrawerOptions extends IDrawerOptions, IDrawerEve
      */
     setOption<K extends keyof IADrawerOptions>(name: K | IADrawerOptions, value?: Required<IADrawerOptions>[K]): void;
     /**
-     *
+     * Return option valie or default
      *
      * @template K
      * @param {K} name
@@ -75,13 +93,11 @@ declare abstract class Drawer<IADrawerOptions extends IDrawerOptions, IDrawerEve
      */
     getOption<K extends keyof IADrawerOptions>(name: K, default_value: IADrawerOptions[K]): IADrawerOptions[K];
     /**
-     *
-     *
+     * Return all options
      */
     getOptions(): IADrawerOptions;
     /**
      * Internal tick animation
-     *
      */
     private animate;
     /**
@@ -113,9 +129,26 @@ declare abstract class Drawer<IADrawerOptions extends IDrawerOptions, IDrawerEve
      * @memberof DrawerCanvas
      */
     redraw(): void;
-    static eachGhosts(drawerOptions: IDrawerOptions, timeline: Timeline, ghostCallback: (ghostDrawerOptions: IDrawerOptions & {
+    /**
+     * Each ghosts index and create drawerOptions to pass at the draw method
+     *
+     * @static
+     * @template T
+     * @param {T} drawerOptions
+     * @param {Timeline} timeline
+     * @param {((ghostDrawerOptions: T & { ghost_index?: number }) => any)} ghostCallback
+     */
+    static eachGhosts<T extends IDrawerOptions>(drawerOptions: T, timeline: Timeline, ghostCallback: (ghostDrawerOptions: T & {
         ghost_index?: number;
     }) => any): void;
+    /**
+     * Create color based on ghostMultiplier
+     *
+     * @static
+     * @param {string} color
+     * @param {number} ghostMultiplier
+     * @return {*}  {(string | undefined)}
+     */
     static ghostifyColor(color: string, ghostMultiplier: number): string | undefined;
 }
 export default Drawer;

@@ -24,14 +24,21 @@ var __assign = (this && this.__assign) || function () {
 };
 import { now } from "../../../Utilites";
 import Drawer from "../Drawer";
+/**
+ * Abstract drawer
+ *
+ * @category Services.Drawer
+ * @class DrawerSVG
+ * @extends {Drawer<IDrawerSVGOptions, IDrawerSVGEvents>}
+ */
 var DrawerSVG = /** @class */ (function (_super) {
     __extends(DrawerSVG, _super);
-    function DrawerSVG(scene, container, drawerOptions, ratio, resolution) {
+    function DrawerSVG(scene, container, drawerOptions, ratio, resolution, duration, framerate) {
         if (drawerOptions === void 0) { drawerOptions = {}; }
         if (ratio === void 0) { ratio = undefined; }
         if (resolution === void 0) { resolution = 0; }
         var _a, _b, _c;
-        var _this = _super.call(this, scene, ratio, resolution) || this;
+        var _this = _super.call(this, scene, ratio, resolution, duration, framerate) || this;
         _this.container = container;
         _this.drawerOptions = {
             time: (_a = drawerOptions.time) !== null && _a !== void 0 ? _a : 0,
@@ -55,13 +62,18 @@ var DrawerSVG = /** @class */ (function (_super) {
         var timeline = this.timeline;
         var drawAtTime = timeline.getTime();
         var drawerOptions = __assign(__assign({}, this.drawerOptions), { ghost_index: undefined, time: drawAtTime });
+        var current_frame = timeline.getFrameAtTime(drawAtTime);
+        this.dispatch('drawer-svg:before_draw', {
+            current_frame: current_frame,
+            current_time: drawAtTime,
+        });
         var paths = [];
         if (drawerOptions.ghosts) {
             Drawer.eachGhosts(drawerOptions, timeline, function (ghostDrawerOptions) {
-                draw_time += DrawerSVG.draw(_this.scene, paths, ghostDrawerOptions, _this.resolution);
+                draw_time += DrawerSVG.draw(_this.scene, paths, ghostDrawerOptions);
             });
         }
-        draw_time += DrawerSVG.draw(this.scene, paths, drawerOptions, this.resolution);
+        draw_time += DrawerSVG.draw(this.scene, paths, drawerOptions);
         this.appendSVGFromPaths(paths, drawerOptions);
         return draw_time;
     };
@@ -86,7 +98,7 @@ var DrawerSVG = /** @class */ (function (_super) {
             this.container.appendChild(svg_1);
         }
     };
-    DrawerSVG.draw = function (scene, paths, options, resolution) {
+    DrawerSVG.draw = function (scene, paths, options) {
         var _a;
         var start_time = now();
         var time = (_a = options.time) !== null && _a !== void 0 ? _a : 0;
@@ -98,9 +110,6 @@ var DrawerSVG = /** @class */ (function (_super) {
         var ghostMultiplier = bGhost
             ? 1 - options.ghost_index / (options.ghosts + 0.5)
             : 0;
-        var width = scene.width;
-        var height = scene.height;
-        resolution = resolution || width;
         var logFillColorWarn = false;
         var logStrokeColorWarn = false;
         scene.current_time = time;

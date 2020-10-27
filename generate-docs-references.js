@@ -17,7 +17,7 @@ exec(`npx typedoc --json ${filename}`, (error, stdout, stderr) => {
 
 	const data = generate(JSON.parse(fs.readFileSync(filename)))
 
-	fs.unlinkSync(filename)
+	// fs.unlinkSync(filename)
 
 	const references = `${JSON.stringify(data, null, '\t')}`
 	fs.writeFileSync(dest_name, references)
@@ -137,6 +137,10 @@ function findOrder(item, def = 9999) {
 				return parseFloat(tag.text)
 			}
 		}
+	} else if (item.signatures && item.signatures[0] && item.signatures[0].comment && item.signatures[0].comment.tags) {
+		for (tag of item.signatures[0].comment.tags) {
+			if (tag.tag === 'order') return parseFloat(tag.text)
+		}
 	}
 
 	return def
@@ -250,12 +254,18 @@ function parseClass(item) {
 
 	let properties = findKind(item, 'Property')
 	if (properties && properties.length > 0) {
-		result.properties = properties.filter(property => typeof property.inheritedFrom === 'undefined').map(parseProperty)
+		result.properties = properties
+			.filter(property => typeof property.inheritedFrom === 'undefined')
+			.map(parseProperty)
+			.sort((a, b) => a.order - b.order)
 	}
 
 	let methods = findKind(item, 'Method')
 	if (methods && methods.length > 0) {
-		result.methods = methods.filter(method => typeof method.inheritedFrom === 'undefined').map(parseMethod)
+		result.methods = methods
+			.filter(method => typeof method.inheritedFrom === 'undefined')
+			.map(parseMethod)
+			.sort((a, b) => a.order - b.order)
 	}
 
 	return result
@@ -308,6 +318,7 @@ function parseMethod(method) {
 			examples: findExamples(method),
 			typeParameter: method.signatures[0].typeParameter,
 			return_type,
+			order: findOrder(method),
 			defaultValue: method.defaultValue,
 		}
 

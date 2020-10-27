@@ -3,7 +3,7 @@ import DrawerCanvas from "../drawers/drawer-canvas/DrawerCanvas";
 import { IProject, IProjectSceneChild } from "../types/project";
 /**
  *
- * @category Services.Exporters
+ * @category Services.Export/Import
  * @class JSONExporter
  */
 declare class JSONExporter {

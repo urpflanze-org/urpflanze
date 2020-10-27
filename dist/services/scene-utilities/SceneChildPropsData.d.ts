@@ -1,6 +1,12 @@
 import { TDrawerTransformation } from "../types/drawer";
 import { TSceneChildProps } from "../types/scene-utilities";
+/**
+ * @category Services.Scene Utilities
+ */
 export declare type TPropInputType = 'range' | 'multiple-range' | 'color' | 'select' | 'checkbox' | 'radio' | 'slider';
+/**
+ * @category Services.Scene Utilities
+ */
 export interface ISceneChildPropData {
     label: string;
     name: string;
@@ -19,10 +25,16 @@ export interface ISceneChildPropData {
     animable?: boolean;
     type_value?: 'float' | 'int';
 }
+/**
+ * @category Services.Scene Utilities
+ */
 export declare type TSceneChildPropsDataKeys = Exclude<keyof TSceneChildProps | 'loop.start' | 'loop.end' | 'loop.inc', 'shapeLoopPropsDependencies' | 'vertexCallback' | 'loop' | 'name' | 'order' | 'type' | 'data' | 'shape' | 'id'>;
 declare type TSceneChildUtilityProps = {
     [key in TSceneChildPropsDataKeys]: ISceneChildPropData;
 };
+/**
+ * @category Services.Scene Utilities
+ */
 declare const SceneChildPropsData: TSceneChildUtilityProps;
 export default SceneChildPropsData;
 //# sourceMappingURL=SceneChildPropsData.d.ts.map

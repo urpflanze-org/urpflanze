@@ -3,14 +3,14 @@ import SceneChild from '@core/SceneChild'
 
 import DrawerCanvas from '@services/drawers/drawer-canvas/DrawerCanvas'
 
-import { IProject, IProjectSceneChild, IProjectSceneChildDataProps } from '@services/types/project'
+import { IProject, IProjectSceneChild, IProjectSceneChildProps } from '@services/types/project'
 import { parseFunction } from 'src/Utilites'
 import SceneUtilities from '@services/scene-utilities/SceneUtilities'
 import { v1 as uuidv1 } from 'uuid'
 
 /**
  *
- * @category Services
+ * @category Services.Export/Import
  * @class JSONImporter
  */
 class JSONImporter {
@@ -23,7 +23,7 @@ class JSONImporter {
 			height: 600,
 			resolution: 600,
 			background: '#000',
-			mainColor: '#fff',
+			color: '#fff',
 
 			clear: true,
 			ghosts: 0,
@@ -55,7 +55,7 @@ class JSONImporter {
 			height: parsed.height ?? emptyProject.height,
 			resolution: parsed.resolution ?? emptyProject.resolution,
 			background: parsed.background ?? emptyProject.background,
-			mainColor: parsed.mainColor ?? emptyProject.mainColor,
+			color: parsed.color ?? emptyProject.color,
 
 			clear: parsed.clear ?? emptyProject.clear,
 			ghosts: parsed.ghosts ?? emptyProject.ghosts,
@@ -75,7 +75,7 @@ class JSONImporter {
 		}
 
 		const scene = new Scene({
-			mainColor: project.mainColor,
+			color: project.color,
 			background: project.background,
 			width: project.width,
 			height: project.height,
@@ -113,12 +113,13 @@ class JSONImporter {
 			shape: shape,
 		}
 
-		const props: IProjectSceneChildDataProps = { ...projectSceneChild.props }
+		const props: IProjectSceneChildProps = { ...projectSceneChild.props }
 
 		const sceneChild = SceneUtilities.create(projectSceneChild.type, settings)
 
 		if (sceneChild) {
-			;(Object.keys(props) as Array<keyof IProjectSceneChildDataProps>).forEach(propKey => {
+			const propKeys = Object.keys(props) as Array<keyof IProjectSceneChildProps>
+			propKeys.forEach(propKey => {
 				SceneUtilities.setProp(sceneChild, propKey as string, parseFunction.unparse(props[propKey]), drawer)
 			})
 
@@ -132,7 +133,7 @@ class JSONImporter {
 			return sceneChild
 		}
 
-		console.warn(`JSONImporter: can't import`, [projectSceneChild])
+		console.warn(`[Urpflanze:JSONImporter] can't import`, projectSceneChild)
 
 		return null
 	}

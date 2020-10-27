@@ -1,3 +1,6 @@
+/**
+ * @category Services.Drawer
+ */
 export interface IDrawerOptions {
     time?: number;
     noBackground?: boolean;
@@ -5,11 +8,14 @@ export interface IDrawerOptions {
     ghost_skip_time?: number;
     ghost_skip_function?: (ghost_index: number) => number;
 }
+/**
+ * @category Services.Drawer
+ */
 export interface IDrawerSVGOptions extends IDrawerOptions {
     decimals?: number;
 }
 /**
- * @category Services.DrawerCanvas
+ * @category Services.Drawer
  */
 export interface IDrawerCanvasOptions extends IDrawerOptions {
     scale?: number;
@@ -20,7 +26,7 @@ export interface IDrawerCanvasOptions extends IDrawerOptions {
     backgroundImage?: CanvasImageSource;
 }
 /**
- * @category Services.DrawerCanvas
+ * @category Services.Drawer
  */
 export interface IDrawerCanvasEvents {
     'drawer-canvas:before_draw': {
@@ -32,18 +38,27 @@ export interface IDrawerCanvasEvents {
     'drawer-canvas:resize': void;
 }
 /**
- * @category Services.DrawerCanvas
+ * @category Services.Drawer
+ */
+export interface IDrawerSVGEvents {
+    'drawer-svg:before_draw': {
+        current_frame: number;
+        current_time: number;
+    };
+}
+/**
+ * @category Services.Drawer
  */
 export declare type TDrawerTransformation = 'none' | 'angle' | 'resolution-based' | 'resolution-scaled-based';
 /**
- * @category Services.DrawerCanvas
+ * @category Services.Drawer
  */
 export declare type TDrawerValue = {
     type: 'drawer-transformation';
     value: any;
 };
 /**
- * @category Services.DrawerCanvas
+ * @category Services.Drawer
  */
 export interface ISceneChildDrawerData {
     highlighted: boolean;

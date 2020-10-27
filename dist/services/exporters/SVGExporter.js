@@ -18,7 +18,7 @@ var DEFAULT_SETTINGS = {
 };
 /**
  *
- * @category Services
+ * @category Services.Export/Import
  * @class SVGExporter
  */
 var SVGExporter = /** @class */ (function () {

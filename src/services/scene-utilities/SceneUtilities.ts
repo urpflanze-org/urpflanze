@@ -30,11 +30,11 @@ import { ISceneChildProps } from '@core/types/scene-child'
 import { IShapeLoopAnimation } from '@services/types/animation'
 import Drawer from '@services/drawers/Drawer'
 
-export type SceneChildInstance = new (props: any) => SceneChild
+type SceneChildInstance = new (props: any) => SceneChild
 
 /**
  *
- * @category Services.SceneUtilities
+ * @category Services.Scene Utilities
  * @class SceneUtilities
  */
 class SceneUtilities {
@@ -235,11 +235,11 @@ class SceneUtilities {
 					const copiedChild: SceneChild | null = this.copy(child, scene, drawer)
 					copiedChild && (copied as Group).add(copiedChild)
 				})
-			} else if (sceneChild instanceof Shape && sceneChild.shape) {
+			} else if (sceneChild instanceof Shape && copied instanceof Shape && sceneChild.shape) {
 				const copiedShape: SceneChild | null = this.copy(sceneChild.shape, scene, drawer)
-				copiedShape && ((copied as Shape).shape = copiedShape)
-			} else if (sceneChild instanceof ShapeBuffer && sceneChild.shape) {
-				;(copied as ShapeBuffer).setShape(new Float32Array(sceneChild.shape))
+				copiedShape && (copied.shape = copiedShape)
+			} else if (sceneChild instanceof ShapeBuffer && copied instanceof ShapeBuffer && sceneChild.shape) {
+				copied.setShape(new Float32Array(sceneChild.shape))
 			}
 
 			return copied
@@ -565,10 +565,10 @@ class SceneUtilities {
 				if (sceneChild instanceof ShapeBase) sceneChild.bUseParent = value
 				break
 			case 'bCloseShape':
-				;(sceneChild as ShapePrimitive).setClosed(value)
+				if (sceneChild instanceof ShapePrimitive) sceneChild.setClosed(value)
 				break
 			case 'bAdaptBuffer':
-				;(sceneChild as ShapePrimitive).adapt(value)
+				if (sceneChild instanceof ShapePrimitive) sceneChild.adapt(value)
 				break
 			default:
 				// loop

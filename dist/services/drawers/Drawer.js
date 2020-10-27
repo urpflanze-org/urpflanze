@@ -26,14 +26,24 @@ import Scene from "../../core/Scene";
 import Timeline from "../timeline/Timeline";
 import SceneUtilities from "../scene-utilities/SceneUtilities";
 import Emitter from "../events/Emitter";
+/**
+ * Abstract Drawer
+ *
+ * @category Services.Drawer
+ * @abstract
+ * @class Drawer
+ * @extends {Emitter<IDrawerEvents>}
+ * @template IADrawerOptions
+ * @template IDrawerEvents
+ */
 var Drawer = /** @class */ (function (_super) {
     __extends(Drawer, _super);
-    function Drawer(scene, ratio, resolution) {
+    function Drawer(scene, ratio, resolution, duration, framerate) {
         if (scene === void 0) { scene = undefined; }
         if (ratio === void 0) { ratio = undefined; }
         if (resolution === void 0) { resolution = 0; }
         var _this = _super.call(this) || this;
-        _this.timeline = new Timeline();
+        _this.timeline = new Timeline(duration, framerate);
         _this.resolution = resolution || (scene && scene.width ? scene.width : 0);
         _this.ratio = ratio || (scene && scene.width && scene.height ? scene.width / scene.height : 1);
         if (scene) {
@@ -53,15 +63,26 @@ var Drawer = /** @class */ (function (_super) {
     /**
      * Set scene
      *
+     * @param {Scene} scene
      */
     Drawer.prototype.setScene = function (scene) {
         this.scene = scene;
         if (!this.resolution && this.scene.width)
             this.resolution = this.scene.width;
     };
+    /**
+     * Return scene
+     *
+     * @return {*}  {Scene}
+     */
     Drawer.prototype.getScene = function () {
         return this.scene;
     };
+    /**
+     * Return timeline
+     *
+     * @return {*}  {Timeline}
+     */
     Drawer.prototype.getTimeline = function () {
         return this.timeline;
     };
@@ -100,21 +121,18 @@ var Drawer = /** @class */ (function (_super) {
     };
     /**
      * Return drawer ratio
-     *
      */
     Drawer.prototype.getRatio = function () {
         return this.ratio;
     };
     /**
      * Get resolution
-     *
      */
     Drawer.prototype.getResolution = function () {
         return this.resolution;
     };
     /**
      * Get resolution of drawer
-     *
      */
     Drawer.prototype.setResolution = function (resolution) {
         this.resize(this.scene.width, this.scene.height, this.ratio, resolution);
@@ -145,7 +163,6 @@ var Drawer = /** @class */ (function (_super) {
         if (typeof name == 'object') {
             var keys = Object.keys(name);
             for (var i = 0, len = keys.length; i < len; i++) {
-                // @ts-ignore
                 this.drawerOptions[keys[i]] = name[keys[i]];
             }
         }
@@ -154,7 +171,7 @@ var Drawer = /** @class */ (function (_super) {
         }
     };
     /**
-     *
+     * Return option valie or default
      *
      * @template K
      * @param {K} name
@@ -165,15 +182,13 @@ var Drawer = /** @class */ (function (_super) {
         return (_a = this.drawerOptions[name]) !== null && _a !== void 0 ? _a : default_value;
     };
     /**
-     *
-     *
+     * Return all options
      */
     Drawer.prototype.getOptions = function () {
         return this.drawerOptions;
     };
     /**
      * Internal tick animation
-     *
      */
     Drawer.prototype.animate = function (timestamp) {
         if (this.timeline.bSequenceStarted()) {
@@ -232,6 +247,15 @@ var Drawer = /** @class */ (function (_super) {
             this.redraw_id = requestAnimationFrame(this.startAnimation);
         }
     };
+    /**
+     * Each ghosts index and create drawerOptions to pass at the draw method
+     *
+     * @static
+     * @template T
+     * @param {T} drawerOptions
+     * @param {Timeline} timeline
+     * @param {((ghostDrawerOptions: T & { ghost_index?: number }) => any)} ghostCallback
+     */
     Drawer.eachGhosts = function (drawerOptions, timeline, ghostCallback) {
         if (drawerOptions.ghosts) {
             var ghostDrawerOptions = __assign({}, drawerOptions);
@@ -248,6 +272,14 @@ var Drawer = /** @class */ (function (_super) {
             }
         }
     };
+    /**
+     * Create color based on ghostMultiplier
+     *
+     * @static
+     * @param {string} color
+     * @param {number} ghostMultiplier
+     * @return {*}  {(string | undefined)}
+     */
     Drawer.ghostifyColor = function (color, ghostMultiplier) {
         var match = /\((.+),(.+),(.+),(.+)?\)/g.exec(color);
         if (match) {

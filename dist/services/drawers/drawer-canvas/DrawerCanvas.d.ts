@@ -4,8 +4,7 @@ import { IDrawerCanvasEvents, IDrawerCanvasOptions } from "../../types/drawer";
 import Drawer from "../Drawer";
 /**
  *
- * @category Services
- * @class DrawerCanvas
+ * @category Services.Drawer
  * @extends {Emitter<DrawerCanvasEvents>}
  */
 declare class DrawerCanvas extends Drawer<IDrawerCanvasOptions, IDrawerCanvasEvents> {
@@ -13,7 +12,7 @@ declare class DrawerCanvas extends Drawer<IDrawerCanvasOptions, IDrawerCanvasEve
     private context;
     private bBuffering;
     buffer: FrameBuffer;
-    constructor(scene?: Scene, canvasOrContainer?: HTMLElement | HTMLCanvasElement | OffscreenCanvas, drawerOptions?: IDrawerCanvasOptions, ratio?: number | undefined, resolution?: number, bBuffering?: boolean);
+    constructor(scene?: Scene, canvasOrContainer?: HTMLElement | HTMLCanvasElement | OffscreenCanvas, drawerOptions?: IDrawerCanvasOptions, ratio?: number | undefined, resolution?: number, duration?: number, framerate?: number, bBuffering?: boolean);
     setBuffering(bBuffering: boolean): void;
     getBBuffering(): boolean;
     /**

@@ -10,8 +10,11 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 import ColorManager from '@pups/core/build/Models/Color/ColorManager';
-import Easings, { TEasing } from "./Easings";
+import Easings from "./Easings";
 import { toArray } from "../../Utilites";
+/**
+ * @category Services.Animation
+ */
 var Simple = {
     loop: function (props) {
         return Simple.compose(__assign(__assign({ mode: 'sinusoidal', mode_function: 'cos' }, props), { type: 'loop', delay: undefined }));

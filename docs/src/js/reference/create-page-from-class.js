@@ -9,8 +9,8 @@ import {
 export default function createPageFromClass(ref) {
 	// const properties = ref.properties ? ref.properties.filter(p => !p.bPrivate) : []
 	// const methods = ref.methods ? ref.methods.filter(p => !p.bPrivate) : []
-	const properties = ref.properties ? ref.properties.filter(p => p.bPublic) : []
-	const methods = ref.methods ? ref.methods.filter(p => p.bPublic) : []
+	const properties = ref.properties ? ref.properties.filter(p => !p.bProtected && !p.bPrivate) : []
+	const methods = ref.methods ? ref.methods.filter(p => !p.bProtected && !p.bPrivate) : []
 
 	function getContructorTemplate() {
 		if (ref.constructor_ref) {

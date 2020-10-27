@@ -5,6 +5,11 @@ import Simple from '@services/animation/Simple'
 import { TSceneChildProp } from '@core/types/scene-child'
 import Drawer from '@services/drawers/Drawer'
 
+/**
+ * @ignore
+ * @internal
+ * @category Services.Animation
+ */
 const Animation = {
 	composeAnimation: (drawer: Drawer<any, any>, prop_name: string, animation: TAnimation): TSceneChildProp<any> => {
 		switch (animation.type) {

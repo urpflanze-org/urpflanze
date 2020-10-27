@@ -3,19 +3,32 @@ import { ISequenceMeta, ITimelineEvents } from '@services/types/timeline'
 import { now } from 'src/Utilites'
 
 /**
+ * Is used for sequence time management.
+ * It is necessary to set the duration and the number of frames per second (frame rate).
  *
  * @category Services.Timeline
  * @class Timeline
  * @extends {Emitter<ITimelineEvents>}
  */
 class Timeline extends Emitter<ITimelineEvents> {
-	static START = 'start'
-	static PAUSE = 'pause'
-	static STOP = 'stop'
+	/**
+	 * Animation status started
+	 */
+	public static readonly START = 'start'
 
-	private fps_samples_size: number
-	private fps_samples: Array<number>
-	private fps_samples_index: number
+	/**
+	 * Animation status paused
+	 */
+	public static readonly PAUSE = 'pause'
+
+	/**
+	 * Animation status stop
+	 */
+	public static readonly STOP = 'stop'
+
+	private readonly fps_samples_size: number = 30
+	private fps_samples: Array<number> = []
+	private fps_samples_index = 0
 	private fps: number
 
 	private current_frame: number
@@ -30,35 +43,25 @@ class Timeline extends Emitter<ITimelineEvents> {
 
 	private sequence: ISequenceMeta
 
-	/**
-	 * Class used for time and rendering managment
-	 *
-	 * @memberof Timeline
-	 */
-	constructor(durate: number = 60000, framerate: number = 60) {
+	constructor(durate = 60000, framerate = 60) {
 		super()
 
 		this.sequence = {
 			durate,
 			framerate,
-			frames: Math.round(((durate - 0) / 1000) * framerate),
+			frames: Math.round((durate / 1000) * framerate),
 		}
 
+		this.tick_time = 1000 / this.sequence.framerate
 		this.fps = this.sequence.framerate
-		this.fps_samples_size = 30
-		this.fps_samples = []
-		this.fps_samples_index = 0
 
 		this.b_sequence_started = false
 
 		this.current_frame = 0
 		this.current_time = 0
 
-		// this.paused_time = 0
 		this.last_tick = 0
 		this.start_time = 0
-
-		this.calculateTickAndSequence()
 	}
 
 	//#region sequence meta
@@ -67,23 +70,23 @@ class Timeline extends Emitter<ITimelineEvents> {
 	 * Return the sequence
 	 *
 	 * @returns {Sequence}
-	 * @memberof Timeline
 	 */
 	public getSequence(): ISequenceMeta {
 		return { ...this.sequence }
 	}
 
 	/**
-	 * Set sequence
+	 * Set Sequence
 	 *
 	 * @param {number} durate
 	 * @param {number} framerate
-	 * @memberof Timeline
 	 */
 	public setSequence(durate: number, framerate: number) {
 		this.sequence.durate = durate
 		this.sequence.framerate = framerate
-		this.calculateTickAndSequence()
+
+		this.tick_time = 1000 / this.sequence.framerate
+		this.sequence.frames = Math.round((this.sequence.durate / 1000) * this.sequence.framerate)
 
 		this.dispatch('timeline:update_sequence', this.getSequence())
 	}
@@ -92,20 +95,15 @@ class Timeline extends Emitter<ITimelineEvents> {
 	 * Set durate of timeline
 	 *
 	 * @param {number} framerate
-	 * @memberof Timeline
 	 */
 	public setDurate(durate: number) {
-		this.sequence.durate = durate
-		this.calculateTickAndSequence()
-
-		this.dispatch('timeline:update_sequence', this.getSequence())
+		this.setSequence(durate, this.sequence.framerate)
 	}
 
 	/**
-	 * Get animation durate
+	 * Get timeline duration
 	 *
 	 * @returns {number}
-	 * @memberof Timeline
 	 */
 	public getDurate(): number {
 		return this.sequence.durate
@@ -115,41 +113,24 @@ class Timeline extends Emitter<ITimelineEvents> {
 	 * Return framerate
 	 *
 	 * @returns {number}
-	 * @memberof Timeline
 	 */
 	public getFramerate(): number {
 		return this.sequence.framerate
 	}
 
 	/**
-	 * Set a framerate of animation
+	 * Set a framerate
 	 *
 	 * @param {number} framerate
-	 * @memberof Timeline
 	 */
 	public setFramerate(framerate: number) {
-		this.sequence.framerate = framerate
-		this.calculateTickAndSequence()
-
-		this.dispatch('timeline:update_sequence', this.getSequence())
+		this.setSequence(this.sequence.durate, framerate)
 	}
 
 	/**
-	 * Set the number of frames based on the sequence
-	 *
-	 * @private
-	 * @memberof Timeline
-	 */
-	private calculateTickAndSequence(): void {
-		this.tick_time = 1000 / this.sequence.framerate
-		this.sequence.frames = Math.round((this.sequence.durate / 1000) * this.sequence.framerate)
-	}
-
-	/**
-	 * Get number of frames of animation
+	 * Get number of frames based on duration and framerate
 	 *
 	 * @returns {number}
-	 * @memberof Timeline
 	 */
 	public getFramesCount(): number {
 		return this.sequence.frames
@@ -166,14 +147,11 @@ class Timeline extends Emitter<ITimelineEvents> {
 	/**
 	 * Start the sequence
 	 *
-	 * @memberof Timeline
 	 */
 	public start(): void {
 		if (!this.b_sequence_started) {
 			this.b_sequence_started = true
-			// this.current_time = now() - this.paused_time
 			this.start_time = this.paused_time
-			this.current_time = 0
 
 			this.dispatch('timeline:change_status', Timeline.START)
 		}
@@ -182,7 +160,6 @@ class Timeline extends Emitter<ITimelineEvents> {
 	/**
 	 * Pause the sequence
 	 *
-	 * @memberof Timeline
 	 */
 	public pause(): void {
 		if (this.b_sequence_started) {
@@ -196,20 +173,14 @@ class Timeline extends Emitter<ITimelineEvents> {
 	/**
 	 * Stop the sequence and reset
 	 *
-	 * @memberof Timeline
 	 */
 	public stop(): void {
 		if (this.b_sequence_started) {
 			this.b_sequence_started = false
+			this.current_time = 0
 			this.current_frame = 0
 			this.start_time = 0
 			this.paused_time = 0
-
-			// this.dispatch('timeline:progress', {
-			// 	current_frame: this.current_frame,
-			// 	current_time: 0,
-			// 	fps: this.fps,
-			// })
 
 			this.dispatch('timeline:change_status', Timeline.STOP)
 		}
@@ -220,7 +191,6 @@ class Timeline extends Emitter<ITimelineEvents> {
 	 *
 	 * @param {number} timestamp current timestamp
 	 * @returns {boolean}
-	 * @memberof Timeline
 	 */
 	public tick(timestamp: number): boolean {
 		if (this.b_sequence_started) {
@@ -234,8 +204,8 @@ class Timeline extends Emitter<ITimelineEvents> {
 
 			if (elapsed >= this.tick_time) {
 				this.calculateFPS(1 / (elapsed / 1000))
-
 				this.last_tick = currentTime
+
 				this.current_time = (currentTime - (elapsed % this.tick_time)) % this.sequence.durate
 				this.current_frame = this.getFrameAtTime(this.current_time)
 
@@ -257,7 +227,6 @@ class Timeline extends Emitter<ITimelineEvents> {
 	 *
 	 * @private
 	 * @param {number} currentFPS
-	 * @memberof Timeline
 	 */
 	private calculateFPS(currentFPS: number): void {
 		const samples = this.fps_samples.length
@@ -282,7 +251,6 @@ class Timeline extends Emitter<ITimelineEvents> {
 	 * Return current animation frame
 	 *
 	 * @returns {number}
-	 * @memberof Timeline
 	 */
 	public getCurrentFrame(): number {
 		return this.current_frame
@@ -293,10 +261,9 @@ class Timeline extends Emitter<ITimelineEvents> {
 	 *
 	 * @param {number} frame
 	 * @returns {number}
-	 * @memberof Timeline
 	 */
 	public getFrameTime(frame: number): number {
-		frame = frame < 0 ? this.sequence.frames - (frame % this.sequence.frames) : frame % this.sequence.frames
+		frame = frame < 0 ? this.sequence.frames - (Math.abs(frame) % this.sequence.frames) : frame % this.sequence.frames
 		return (frame * this.tick_time) % this.sequence.durate
 	}
 
@@ -305,7 +272,6 @@ class Timeline extends Emitter<ITimelineEvents> {
 	 *
 	 * @param {number} time
 	 * @returns {number}
-	 * @memberof Timeline
 	 */
 	public getFrameAtTime(time: number): number {
 		return Math.round((time % this.sequence.durate) / this.tick_time)
@@ -315,7 +281,6 @@ class Timeline extends Emitter<ITimelineEvents> {
 	 * set current frame
 	 *
 	 * @param {number} frame
-	 * @memberof Timeline
 	 */
 	public setFrame(frame: number): void {
 		this.current_frame = frame
@@ -326,7 +291,6 @@ class Timeline extends Emitter<ITimelineEvents> {
 	 * Return tick time (based on framerate)
 	 *
 	 * @returns {number}
-	 * @memberof Timeline
 	 */
 	public getTickTime(): number {
 		return this.tick_time
@@ -336,7 +300,6 @@ class Timeline extends Emitter<ITimelineEvents> {
 	 * Return the current time
 	 *
 	 * @returns {number}
-	 * @memberof Timeline
 	 */
 	public getTime(): number {
 		return this.current_time
@@ -346,19 +309,12 @@ class Timeline extends Emitter<ITimelineEvents> {
 	 * Set animation at time
 	 *
 	 * @param {number} time
-	 * @memberof Timeline
 	 */
 	public setTime(time: number) {
 		time = (time + this.sequence.durate) % this.sequence.durate
 
 		this.current_time = time
 		this.current_frame = this.getFrameAtTime(time)
-
-		this.dispatch('timeline:progress', {
-			current_frame: this.current_frame,
-			current_time: time,
-			fps: this.fps,
-		})
 	}
 
 	//#endregion

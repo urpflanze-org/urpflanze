@@ -12,7 +12,7 @@ import {
 import { IShapeSettings } from '@core/types/shape-base'
 
 /**
- * @category Services.SceneUtilities
+ * @category Services.Scene Utilities
  */
 export type TSceneChildProps = Omit<
 	(IShapeLoopSettings &

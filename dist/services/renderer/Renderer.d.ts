@@ -1,6 +1,6 @@
 import { ICancelablePromise } from "../../Utilites";
 import Emitter from "../events/Emitter";
-import { IRenderEvents, IRenderSettings } from "../types/renedrer";
+import { IRenderEvents, IRenderSettings } from "../types/renderer";
 import Capturer from "./Capturer";
 import DrawerCanvas from "../drawers/drawer-canvas/DrawerCanvas";
 /**

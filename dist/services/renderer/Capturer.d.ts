@@ -1,4 +1,4 @@
-import { TRenderImageType, TRenderType } from "../types/renedrer";
+import { TRenderImageType, TRenderType } from "../types/renderer";
 interface ICapturerSettings {
     type?: TRenderType;
     quality?: number;

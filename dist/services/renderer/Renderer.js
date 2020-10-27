@@ -183,7 +183,7 @@ var Renderer = /** @class */ (function (_super) {
     };
     Renderer.prototype.renderAnimationPart = function (drawer, settings, frame_from, frame_count, part, total_frames, total_parts) {
         return __awaiter(this, void 0, void 0, function () {
-            var timeline, sequence, tick_time, lastRenderTime, i, current_frame, measure_start, measure_end, chunks, zip, i, len, frame_number, frameName, j, result;
+            var timeline, lastRenderTime, i, current_frame, measure_start, measure_end, chunks, zip, i, len, frame_number, frameName, j, result;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -191,8 +191,6 @@ var Renderer = /** @class */ (function (_super) {
                         this.capturer.stop();
                         this.capturer.start(frame_count);
                         timeline = drawer.getTimeline();
-                        sequence = timeline.getSequence();
-                        tick_time = timeline.getTickTime();
                         lastRenderTime = 0;
                         i = 0;
                         _a.label = 1;

@@ -39,6 +39,7 @@
 	}
 	#content {
 		max-width: 100%;
+		padding: 1rem;
 	}
 
 	.code-desc {
@@ -76,7 +77,11 @@
 	.hierarchy {
 		max-width: 600px;
 	}
-	#content ul.details {
-		padding: 0 1rem;
+	#content {
+		padding: 1.618rem;
+
+		ul.details {
+			padding: 0 1rem;
+		}
 	}
 }

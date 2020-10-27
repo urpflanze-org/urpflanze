@@ -2,10 +2,10 @@ import SceneChild from "../../core/SceneChild";
 import Scene from "../../core/Scene";
 import { TSceneChildProps } from "../types/scene-utilities";
 import Drawer from "../drawers/Drawer";
-export declare type SceneChildInstance = new (props: any) => SceneChild;
+declare type SceneChildInstance = new (props: any) => SceneChild;
 /**
  *
- * @category Services.SceneUtilities
+ * @category Services.Scene Utilities
  * @class SceneUtilities
  */
 declare class SceneUtilities {

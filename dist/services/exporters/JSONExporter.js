@@ -19,7 +19,7 @@ import JSONImporter from "../importers/JSONImporter";
 import SceneUtilities from "../scene-utilities/SceneUtilities";
 /**
  *
- * @category Services.Exporters
+ * @category Services.Export/Import
  * @class JSONExporter
  */
 var JSONExporter = /** @class */ (function () {
@@ -41,7 +41,7 @@ var JSONExporter = /** @class */ (function () {
         project.width = scene.width;
         project.height = scene.height;
         project.resolution = drawer.getResolution();
-        project.mainColor = scene.mainColor;
+        project.color = scene.color;
         project.background = scene.background;
         project.clear = drawer.getOption('clear', true);
         project.ghosts = drawer.getOption('ghosts', 0);

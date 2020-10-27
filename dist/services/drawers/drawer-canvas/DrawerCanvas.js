@@ -28,19 +28,18 @@ import { vec2 } from 'gl-matrix';
 import Drawer from "../Drawer";
 /**
  *
- * @category Services
- * @class DrawerCanvas
+ * @category Services.Drawer
  * @extends {Emitter<DrawerCanvasEvents>}
  */
 var DrawerCanvas = /** @class */ (function (_super) {
     __extends(DrawerCanvas, _super);
-    function DrawerCanvas(scene, canvasOrContainer, drawerOptions, ratio, resolution, bBuffering) {
+    function DrawerCanvas(scene, canvasOrContainer, drawerOptions, ratio, resolution, duration, framerate, bBuffering) {
         if (drawerOptions === void 0) { drawerOptions = {}; }
         if (ratio === void 0) { ratio = undefined; }
         if (resolution === void 0) { resolution = 0; }
         if (bBuffering === void 0) { bBuffering = false; }
         var _a, _b, _c, _d, _e, _f, _g, _h;
-        var _this = _super.call(this, scene, ratio, resolution) || this;
+        var _this = _super.call(this, scene, ratio, resolution, duration, framerate) || this;
         _this.bBuffering = false;
         _this.bBuffering = bBuffering;
         _this.buffer = new FrameBuffer();
@@ -260,9 +259,7 @@ var DrawerCanvas = /** @class */ (function (_super) {
         else {
             if (drawerOptions.ghosts) {
                 Drawer.eachGhosts(drawerOptions, timeline, function (ghostDrawerOptions) {
-                    ;
-                    ghostDrawerOptions.clear =
-                        drawerOptions.clear && ghostDrawerOptions.ghost_index === 1;
+                    ghostDrawerOptions.clear = drawerOptions.clear && ghostDrawerOptions.ghost_index === 1;
                     draw_time += DrawerCanvas.draw(_this.scene, _this.context, ghostDrawerOptions, _this.resolution);
                 });
                 drawerOptions.clear = false;
@@ -348,7 +345,7 @@ var DrawerCanvas = /** @class */ (function (_super) {
                 }
             }
             if (simmetricLines > 0) {
-                DrawerCanvas.drawSimmetricLines(context, simmetricLines, width_1, height_1, final_scale_1, final_translate_1, scene.mainColor);
+                DrawerCanvas.drawSimmetricLines(context, simmetricLines, width_1, height_1, final_scale_1, final_translate_1, scene.color);
             }
             {
                 var logFillColorWarn_1 = false;
@@ -374,7 +371,7 @@ var DrawerCanvas = /** @class */ (function (_super) {
                             streamCallback.shape.isClosed() && context.closePath();
                             if (shapeData && shapeData.highlighted) {
                                 context.lineWidth = (streamCallback.lineWidth || 1) * 3 * scale_1;
-                                context.strokeStyle = scene.mainColor;
+                                context.strokeStyle = scene.color;
                                 context.stroke();
                                 return;
                             }

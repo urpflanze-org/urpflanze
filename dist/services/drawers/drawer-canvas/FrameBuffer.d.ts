@@ -1,6 +1,6 @@
 /**
  *
- * @category Services.DrawerCanvas
+ * @category Services.Drawer
  * @class FrameBuffer
  */
 declare class FrameBuffer {

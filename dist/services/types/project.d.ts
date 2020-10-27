@@ -15,8 +15,8 @@ export interface IProjectSequence {
 export interface IProject {
     id: string;
     name: string;
-    mainColor: string;
     background: string;
+    color: string;
     width?: number;
     height?: number;
     resolution?: number;
@@ -27,13 +27,9 @@ export interface IProject {
     ghost_skip_time?: number;
     ghost_skip_function?: number | string | CallableFunction;
     sequence: IProjectSequence;
-    scene: IProjectScene;
-}
-/**
- * @category Services.Export/Import
- */
-export interface IProjectScene {
-    [key: string]: IProjectSceneChild;
+    scene: {
+        [key: string]: IProjectSceneChild;
+    };
 }
 /**
  * @category Services.Export/Import
@@ -56,7 +52,7 @@ export interface IProjectSceneChildData extends ISceneChildDrawerData {
 /**
  * @category Services.Export/Import
  */
-export declare type IProjectSceneChildDataProps = {
+export declare type IProjectSceneChildProps = {
     [k in keyof Omit<TSceneChildProps, 'id' | 'name' | 'order' | 'data' | 'adaptMode' | 'bCloseShape' | 'shape' | 'loop' | 'vertexCallback'>]: TAnimation | TCallableValue<number | Array<number> | string> | TDrawerValue;
 } & {
     loop?: IShapeLoopAnimation;
@@ -78,7 +74,7 @@ export interface IProjectSceneChild {
     shape?: Float32Array;
     bPrimitive: boolean;
     depth: number;
-    props: IProjectSceneChildDataProps;
+    props: IProjectSceneChildProps;
     parent_id?: string | number;
     children?: Array<IProjectSceneChild>;
 }

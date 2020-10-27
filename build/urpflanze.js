@@ -745,7 +745,7 @@ var Scene = /** @class */ (function () {
         /**
          * Default ScenePrimitive stroke color (white)
          */
-        this.mainColor = 'hsla(0, 0%, 100%, 1)';
+        this.color = 'hsla(0, 0%, 100%, 1)';
         /**
          * Current time
          */
@@ -756,8 +756,8 @@ var Scene = /** @class */ (function () {
             this.height = settings.height;
         if (typeof settings.background !== 'undefined')
             this.background = settings.background;
-        if (typeof settings.mainColor !== 'undefined')
-            this.mainColor = settings.mainColor;
+        if (typeof settings.color !== 'undefined')
+            this.color = settings.color;
         this.children = [];
         this.center = [this.width / 2, this.height / 2];
     }
@@ -1497,7 +1497,7 @@ var Shape = /** @class */ (function (_super) {
             _this.shape = settings.shape;
         }
         else {
-            console.warn('[Urpflanze:Shape] requires the shape property to be instance of SceneChild,\nYou passed:', settings.shape);
+            console.warn("[Urpflanze:Shape] requires the 'shape' property to be instance of SceneChild,\nYou passed:", settings.shape);
         }
         _this.bStatic = _this.isStatic();
         _this.bStaticIndexed = _this.isStaticIndexed();
@@ -2117,7 +2117,7 @@ var ShapeBase = /** @class */ (function (_super) {
                     data: current_indexing.shape.data,
                 };
                 var fillColor = current_indexing.shape.getProp('fillColor', prop_arguments);
-                var strokeColor = current_indexing.shape.getProp('strokeColor', prop_arguments, typeof fillColor !== 'undefined' ? undefined : this.scene.mainColor);
+                var strokeColor = current_indexing.shape.getProp('strokeColor', prop_arguments, typeof fillColor !== 'undefined' ? undefined : this.scene.color);
                 var lineWidth = current_indexing.shape.getProp('lineWidth', prop_arguments, typeof fillColor !== 'undefined' && typeof strokeColor === 'undefined' ? undefined : 1);
                 var streamArguments = {
                     buffer: this.buffer,
@@ -2450,6 +2450,9 @@ var ShapeLoop = /** @class */ (function (_super) {
         _this = _super.call(this, settings) || this;
         _this.shapeLoopPropsDependencies = (settings.shapeLoopPropsDependencies || []).concat('bAdaptBuffer');
         _this.props.loop = settings.loop;
+        if (typeof settings.loop === 'undefined') {
+            console.warn("[Urpflanze:ShapeLoop] requires the 'loop' property");
+        }
         if (!bPreventGeneration) {
             _this.loop = {
                 start: 0,
@@ -3832,7 +3835,7 @@ var EShapePrimitiveAdaptMode;
 /*! export Animation [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/services/animation/Simple.js .default */
 /*! export Circle [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/Circle.js .default */
 /*! export Context [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/Context.js .default */
-/*! export DrawerCanvas [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/services/drawer-canvas/DrawerCanvas.js .default */
+/*! export DrawerCanvas [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/services/drawers/drawer-canvas/DrawerCanvas.js .default */
 /*! export Group [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/Group.js .default */
 /*! export Line [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/Line.js .default */
 /*! export Lissajous [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/Lissajous.js .default */
@@ -3880,7 +3883,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "toRadians": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_15__.toRadians,
 /* harmony export */   "Vec2": () => /* reexport safe */ _core_math_Vec2__WEBPACK_IMPORTED_MODULE_16__.default,
 /* harmony export */   "Context": () => /* reexport safe */ _core_Context__WEBPACK_IMPORTED_MODULE_17__.default,
-/* harmony export */   "DrawerCanvas": () => /* reexport safe */ _services_drawer_canvas_DrawerCanvas__WEBPACK_IMPORTED_MODULE_18__.default,
+/* harmony export */   "DrawerCanvas": () => /* reexport safe */ _services_drawers_drawer_canvas_DrawerCanvas__WEBPACK_IMPORTED_MODULE_18__.default,
 /* harmony export */   "Animation": () => /* reexport safe */ _services_animation_Simple__WEBPACK_IMPORTED_MODULE_19__.default
 /* harmony export */ });
 /* harmony import */ var _core_Scene__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./core/Scene */ "./dist/core/Scene.js");
@@ -3901,7 +3904,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./Utilites */ "./dist/Utilites.js");
 /* harmony import */ var _core_math_Vec2__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./core/math/Vec2 */ "./dist/core/math/Vec2.js");
 /* harmony import */ var _core_Context__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./core/Context */ "./dist/core/Context.js");
-/* harmony import */ var _services_drawer_canvas_DrawerCanvas__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./services/drawer-canvas/DrawerCanvas */ "./dist/services/drawer-canvas/DrawerCanvas.js");
+/* harmony import */ var _services_drawers_drawer_canvas_DrawerCanvas__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./services/drawers/drawer-canvas/DrawerCanvas */ "./dist/services/drawers/drawer-canvas/DrawerCanvas.js");
 /* harmony import */ var _services_animation_Simple__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./services/animation/Simple */ "./dist/services/animation/Simple.js");
 /**
  * Core
@@ -3943,7 +3946,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! export Animation [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/services/animation/Simple.js .default */
 /*! export Circle [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/Circle.js .default */
 /*! export Context [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/core/Context.js .default */
-/*! export DrawerCanvas [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/services/drawer-canvas/DrawerCanvas.js .default */
+/*! export DrawerCanvas [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/services/drawers/drawer-canvas/DrawerCanvas.js .default */
+/*! export DrawerSVG [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/services/drawers/drawer-svg/DrawerSVG.js .default */
 /*! export ERepetitionType [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/core/types/scene-child.js .ERepetitionType */
 /*! export EShapePrimitiveAdaptMode [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/core/types/shape-base.js .EShapePrimitiveAdaptMode */
 /*! export Group [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/core/Group.js .default */
@@ -4003,22 +4007,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "toDegrees": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_2__.toDegrees,
 /* harmony export */   "toRadians": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_2__.toRadians,
 /* harmony export */   "SceneUtilities": () => /* reexport safe */ _services_scene_utilities_SceneUtilities__WEBPACK_IMPORTED_MODULE_3__.default,
-/* harmony export */   "Renderer": () => /* reexport safe */ _services_renderer_Renderer__WEBPACK_IMPORTED_MODULE_4__.default,
-/* harmony export */   "JSONImporter": () => /* reexport safe */ _services_importers_JSONImporter__WEBPACK_IMPORTED_MODULE_5__.default,
-/* harmony export */   "JSONExporter": () => /* reexport safe */ _services_exporters_JSONExporter__WEBPACK_IMPORTED_MODULE_6__.default,
-/* harmony export */   "SVGExporter": () => /* reexport safe */ _services_exporters_SVGExporter__WEBPACK_IMPORTED_MODULE_7__.default
+/* harmony export */   "DrawerSVG": () => /* reexport safe */ _services_drawers_drawer_svg_DrawerSVG__WEBPACK_IMPORTED_MODULE_4__.default,
+/* harmony export */   "Renderer": () => /* reexport safe */ _services_renderer_Renderer__WEBPACK_IMPORTED_MODULE_5__.default,
+/* harmony export */   "JSONImporter": () => /* reexport safe */ _services_importers_JSONImporter__WEBPACK_IMPORTED_MODULE_6__.default,
+/* harmony export */   "JSONExporter": () => /* reexport safe */ _services_exporters_JSONExporter__WEBPACK_IMPORTED_MODULE_7__.default,
+/* harmony export */   "SVGExporter": () => /* reexport safe */ _services_exporters_SVGExporter__WEBPACK_IMPORTED_MODULE_8__.default
 /* harmony export */ });
 /* harmony import */ var _core_types_scene_child__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./core/types/scene-child */ "./dist/core/types/scene-child.js");
 /* harmony import */ var _core_types_shape_base__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./core/types/shape-base */ "./dist/core/types/shape-base.js");
 /* harmony import */ var _index_light__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./index-light */ "./dist/index-light.js");
 /* harmony import */ var _services_scene_utilities_SceneUtilities__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./services/scene-utilities/SceneUtilities */ "./dist/services/scene-utilities/SceneUtilities.js");
-/* harmony import */ var _services_renderer_Renderer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./services/renderer/Renderer */ "./dist/services/renderer/Renderer.js");
-/* harmony import */ var _services_importers_JSONImporter__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./services/importers/JSONImporter */ "./dist/services/importers/JSONImporter.js");
-/* harmony import */ var _services_exporters_JSONExporter__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./services/exporters/JSONExporter */ "./dist/services/exporters/JSONExporter.js");
-/* harmony import */ var _services_exporters_SVGExporter__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./services/exporters/SVGExporter */ "./dist/services/exporters/SVGExporter.js");
+/* harmony import */ var _services_drawers_drawer_svg_DrawerSVG__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./services/drawers/drawer-svg/DrawerSVG */ "./dist/services/drawers/drawer-svg/DrawerSVG.js");
+/* harmony import */ var _services_renderer_Renderer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./services/renderer/Renderer */ "./dist/services/renderer/Renderer.js");
+/* harmony import */ var _services_importers_JSONImporter__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./services/importers/JSONImporter */ "./dist/services/importers/JSONImporter.js");
+/* harmony import */ var _services_exporters_JSONExporter__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./services/exporters/JSONExporter */ "./dist/services/exporters/JSONExporter.js");
+/* harmony import */ var _services_exporters_SVGExporter__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./services/exporters/SVGExporter */ "./dist/services/exporters/SVGExporter.js");
 /**
  * Types & Intterface
  */
+
 
 
 
@@ -4063,6 +4070,11 @@ var __assign = (undefined && undefined.__assign) || function () {
 };
 
 
+/**
+ * @ignore
+ * @internal
+ * @category Services.Animation
+ */
 var Animation = {
     composeAnimation: function (drawer, prop_name, animation) {
         switch (animation.type) {
@@ -4103,6 +4115,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
+/**
+ * Easing functions
+ *
+ * @category Services.Animation
+ */
 var Easings = {
     /**
      * @param {number} time current time
@@ -4577,6 +4594,9 @@ var __assign = (undefined && undefined.__assign) || function () {
 
 
 
+/**
+ * @category Services.Animation
+ */
 var Simple = {
     loop: function (props) {
         return Simple.compose(__assign(__assign({ mode: 'sinusoidal', mode_function: 'cos' }, props), { type: 'loop', delay: undefined }));
@@ -4710,10 +4730,10 @@ function interpolateColorHSL(start, end, v) {
 
 /***/ }),
 
-/***/ "./dist/services/drawer-canvas/DrawerCanvas.js":
-/*!*****************************************************!*\
-  !*** ./dist/services/drawer-canvas/DrawerCanvas.js ***!
-  \*****************************************************/
+/***/ "./dist/services/drawers/Drawer.js":
+/*!*****************************************!*\
+  !*** ./dist/services/drawers/Drawer.js ***!
+  \*****************************************/
 /*! namespace exports */
 /*! export default [provided] [no usage info] [missing usage info prevents renaming] */
 /*! other exports [not provided] [no usage info] */
@@ -4728,10 +4748,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _core_Scene__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../core/Scene */ "./dist/core/Scene.js");
 /* harmony import */ var _timeline_Timeline__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../timeline/Timeline */ "./dist/services/timeline/Timeline.js");
 /* harmony import */ var _scene_utilities_SceneUtilities__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../scene-utilities/SceneUtilities */ "./dist/services/scene-utilities/SceneUtilities.js");
-/* harmony import */ var _FrameBuffer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./FrameBuffer */ "./dist/services/drawer-canvas/FrameBuffer.js");
-/* harmony import */ var _events_Emitter__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../events/Emitter */ "./dist/services/events/Emitter.js");
-/* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../Utilites */ "./dist/Utilites.js");
-/* harmony import */ var gl_matrix__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! gl-matrix */ "./node_modules/gl-matrix/esm/vec2.js");
+/* harmony import */ var _events_Emitter__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../events/Emitter */ "./dist/services/events/Emitter.js");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -4760,36 +4777,340 @@ var __assign = (undefined && undefined.__assign) || function () {
 
 
 
-
-
-
 /**
+ * Abstract Drawer
  *
- * @category Services
- * @class DrawerCanvas
- * @extends {Emitter<DrawerCanvasEvents>}
+ * @category Services.Drawer
+ * @abstract
+ * @class Drawer
+ * @extends {Emitter<IDrawerEvents>}
+ * @template IADrawerOptions
+ * @template IDrawerEvents
  */
-var DrawerCanvas = /** @class */ (function (_super) {
-    __extends(DrawerCanvas, _super);
-    function DrawerCanvas(scene, canvasOrContainer, drawOptions, ratio, resolution, bBuffering) {
-        if (drawOptions === void 0) { drawOptions = {}; }
+var Drawer = /** @class */ (function (_super) {
+    __extends(Drawer, _super);
+    function Drawer(scene, ratio, resolution, duration, framerate) {
+        if (scene === void 0) { scene = undefined; }
         if (ratio === void 0) { ratio = undefined; }
         if (resolution === void 0) { resolution = 0; }
-        if (bBuffering === void 0) { bBuffering = false; }
-        var _a, _b, _c, _d, _e, _f, _g;
         var _this = _super.call(this) || this;
-        _this.bBuffering = false;
-        _this.timeline = new _timeline_Timeline__WEBPACK_IMPORTED_MODULE_1__.default();
+        _this.timeline = new _timeline_Timeline__WEBPACK_IMPORTED_MODULE_1__.default(duration, framerate);
         _this.resolution = resolution || (scene && scene.width ? scene.width : 0);
         _this.ratio = ratio || (scene && scene.width && scene.height ? scene.width / scene.height : 1);
-        _this.bBuffering = bBuffering;
-        _this.buffer = new _FrameBuffer__WEBPACK_IMPORTED_MODULE_3__.default();
         if (scene) {
             var width = _this.ratio >= 1 ? scene.width : scene.width * _this.ratio;
             var height = _this.ratio >= 1 ? scene.height / _this.ratio : scene.height;
             scene.resize(width, height);
             _this.setScene(scene);
         }
+        _this.draw_id = null;
+        _this.redraw_id = null;
+        _this.animation_id = null;
+        _this.draw = _this.draw.bind(_this);
+        _this.animate = _this.animate.bind(_this);
+        _this.startAnimation = _this.startAnimation.bind(_this);
+        return _this;
+    }
+    /**
+     * Set scene
+     *
+     * @param {Scene} scene
+     */
+    Drawer.prototype.setScene = function (scene) {
+        this.scene = scene;
+        if (!this.resolution && this.scene.width)
+            this.resolution = this.scene.width;
+    };
+    /**
+     * Return scene
+     *
+     * @return {*}  {Scene}
+     */
+    Drawer.prototype.getScene = function () {
+        return this.scene;
+    };
+    /**
+     * Return timeline
+     *
+     * @return {*}  {Timeline}
+     */
+    Drawer.prototype.getTimeline = function () {
+        return this.timeline;
+    };
+    /**
+     * Resize scene and canvas
+     *
+     * @param {number} width
+     * @param {number} height
+     * @param {number} [ratio]
+     */
+    Drawer.prototype.resize = function (width, height, ratio, resolution) {
+        var _this = this;
+        ratio = ratio || this.ratio || width / height;
+        var size = Math.max(width, height);
+        width = ratio >= 1 ? size : size * ratio;
+        height = ratio >= 1 ? size / ratio : size;
+        this.ratio = ratio;
+        if (this.scene)
+            this.scene.resize(width, height);
+        if (resolution && resolution !== this.resolution && this.scene) {
+            this.resolution = resolution;
+            _core_Scene__WEBPACK_IMPORTED_MODULE_0__.default.walk(function (sceneChild) {
+                var props = sceneChild.data.props;
+                Object.keys(props).forEach(function (name) {
+                    _scene_utilities_SceneUtilities__WEBPACK_IMPORTED_MODULE_2__.default.setProp(sceneChild, name, props[name], _this);
+                });
+            }, this.scene);
+        }
+    };
+    /**
+     * Resize by ratio
+     *
+     */
+    Drawer.prototype.setRatio = function (ratio) {
+        this.resize(this.scene.width, this.scene.height, ratio);
+    };
+    /**
+     * Return drawer ratio
+     */
+    Drawer.prototype.getRatio = function () {
+        return this.ratio;
+    };
+    /**
+     * Get resolution
+     */
+    Drawer.prototype.getResolution = function () {
+        return this.resolution;
+    };
+    /**
+     * Get resolution of drawer
+     */
+    Drawer.prototype.setResolution = function (resolution) {
+        this.resize(this.scene.width, this.scene.height, this.ratio, resolution);
+    };
+    /**
+     * Get scene value scaled based on resolution
+     *
+     * @param {number} value
+     */
+    Drawer.prototype.getValueFromResolution = function (value) {
+        return (value * this.resolution) / 200;
+    };
+    /**
+     * Get scene value scaled based on resolution
+     *
+     * @param {number} value
+     */
+    Drawer.prototype.getValueFromResolutionScaled = function (value) {
+        return (value * 200) / this.resolution;
+    };
+    /**
+     * Set draw option
+     *
+     * @template K
+     * @param {(K | IADrawerOptions)} name
+     */
+    Drawer.prototype.setOption = function (name, value) {
+        if (typeof name == 'object') {
+            var keys = Object.keys(name);
+            for (var i = 0, len = keys.length; i < len; i++) {
+                this.drawerOptions[keys[i]] = name[keys[i]];
+            }
+        }
+        else {
+            this.drawerOptions[name] = value;
+        }
+    };
+    /**
+     * Return option valie or default
+     *
+     * @template K
+     * @param {K} name
+     * @param {IADrawerOptions[K]} default_value
+     */
+    Drawer.prototype.getOption = function (name, default_value) {
+        var _a;
+        return (_a = this.drawerOptions[name]) !== null && _a !== void 0 ? _a : default_value;
+    };
+    /**
+     * Return all options
+     */
+    Drawer.prototype.getOptions = function () {
+        return this.drawerOptions;
+    };
+    /**
+     * Internal tick animation
+     */
+    Drawer.prototype.animate = function (timestamp) {
+        if (this.timeline.bSequenceStarted()) {
+            this.animation_id = requestAnimationFrame(this.animate);
+            if (this.timeline.tick(timestamp))
+                this.draw();
+        }
+    };
+    /**
+     * Start animation drawing
+     */
+    Drawer.prototype.startAnimation = function () {
+        this.stopAnimation();
+        this.timeline.start();
+        this.animation_id = requestAnimationFrame(this.animate);
+    };
+    /**
+     * Stop animation drawing
+     */
+    Drawer.prototype.stopAnimation = function () {
+        this.timeline.stop();
+        if (this.animation_id)
+            cancelAnimationFrame(this.animation_id);
+    };
+    /**
+     * Pause animation drawing
+     */
+    Drawer.prototype.pauseAnimation = function () {
+        this.timeline.pause();
+        if (this.animation_id)
+            cancelAnimationFrame(this.animation_id);
+    };
+    /**
+     * Play animation drawing
+     */
+    Drawer.prototype.playAnimation = function () {
+        this.timeline.start();
+        requestAnimationFrame(this.animate);
+    };
+    /**
+     * Redraw
+     *
+     * @returns {void}
+     * @memberof DrawerCanvas
+     */
+    Drawer.prototype.redraw = function () {
+        if (!this.timeline.bSequenceStarted()) {
+            this.draw_id && cancelAnimationFrame(this.draw_id);
+            if (typeof this.drawerOptions.ghosts === undefined || this.drawerOptions.ghosts === 0)
+                this.timeline.stop();
+            this.draw_id = requestAnimationFrame(this.draw);
+        }
+        else if (typeof this.drawerOptions.ghosts === undefined || this.drawerOptions.ghosts === 0) {
+            this.stopAnimation();
+            this.redraw_id && cancelAnimationFrame(this.redraw_id);
+            this.redraw_id = requestAnimationFrame(this.startAnimation);
+        }
+    };
+    /**
+     * Each ghosts index and create drawerOptions to pass at the draw method
+     *
+     * @static
+     * @template T
+     * @param {T} drawerOptions
+     * @param {Timeline} timeline
+     * @param {((ghostDrawerOptions: T & { ghost_index?: number }) => any)} ghostCallback
+     */
+    Drawer.eachGhosts = function (drawerOptions, timeline, ghostCallback) {
+        if (drawerOptions.ghosts) {
+            var ghostDrawerOptions = __assign({}, drawerOptions);
+            var drawAtTime = timeline.getTime();
+            var sequenceDurate = timeline.getDurate();
+            for (var i = 1; i <= drawerOptions.ghosts; i++) {
+                var ghostTime = drawAtTime -
+                    (drawerOptions.ghost_skip_function
+                        ? drawerOptions.ghost_skip_function(i)
+                        : i * drawerOptions.ghost_skip_time);
+                ghostDrawerOptions.ghost_index = i;
+                ghostDrawerOptions.time = (ghostTime + sequenceDurate) % sequenceDurate;
+                ghostCallback(ghostDrawerOptions);
+            }
+        }
+    };
+    /**
+     * Create color based on ghostMultiplier
+     *
+     * @static
+     * @param {string} color
+     * @param {number} ghostMultiplier
+     * @return {*}  {(string | undefined)}
+     */
+    Drawer.ghostifyColor = function (color, ghostMultiplier) {
+        var match = /\((.+),(.+),(.+),(.+)?\)/g.exec(color);
+        if (match) {
+            var _a = match, a = _a[1], b = _a[2], c = _a[3], o = _a[4];
+            var alpha = o ? parseFloat(o) : 1;
+            var ghostAlpha = alpha <= 0 ? 0 : alpha * ghostMultiplier;
+            return color.indexOf('rgb') >= 0 ? "rgba(" + a + "," + b + "," + c + "," + ghostAlpha + ")" : "hsla(" + a + "," + b + "," + c + "," + ghostAlpha + ")";
+        }
+    };
+    return Drawer;
+}(_events_Emitter__WEBPACK_IMPORTED_MODULE_3__.default));
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Drawer);
+//# sourceMappingURL=Drawer.js.map
+
+/***/ }),
+
+/***/ "./dist/services/drawers/drawer-canvas/DrawerCanvas.js":
+/*!*************************************************************!*\
+  !*** ./dist/services/drawers/drawer-canvas/DrawerCanvas.js ***!
+  \*************************************************************/
+/*! namespace exports */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony import */ var _FrameBuffer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FrameBuffer */ "./dist/services/drawers/drawer-canvas/FrameBuffer.js");
+/* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../Utilites */ "./dist/Utilites.js");
+/* harmony import */ var gl_matrix__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! gl-matrix */ "./node_modules/gl-matrix/esm/vec2.js");
+/* harmony import */ var _Drawer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Drawer */ "./dist/services/drawers/Drawer.js");
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __assign = (undefined && undefined.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+
+
+
+
+/**
+ *
+ * @category Services.Drawer
+ * @extends {Emitter<DrawerCanvasEvents>}
+ */
+var DrawerCanvas = /** @class */ (function (_super) {
+    __extends(DrawerCanvas, _super);
+    function DrawerCanvas(scene, canvasOrContainer, drawerOptions, ratio, resolution, duration, framerate, bBuffering) {
+        if (drawerOptions === void 0) { drawerOptions = {}; }
+        if (ratio === void 0) { ratio = undefined; }
+        if (resolution === void 0) { resolution = 0; }
+        if (bBuffering === void 0) { bBuffering = false; }
+        var _a, _b, _c, _d, _e, _f, _g, _h;
+        var _this = _super.call(this, scene, ratio, resolution, duration, framerate) || this;
+        _this.bBuffering = false;
+        _this.bBuffering = bBuffering;
+        _this.buffer = new _FrameBuffer__WEBPACK_IMPORTED_MODULE_0__.default();
         if ((typeof HTMLCanvasElement !== 'undefined' && canvasOrContainer instanceof HTMLCanvasElement) ||
             (typeof OffscreenCanvas !== 'undefined' && canvasOrContainer instanceof OffscreenCanvas)) {
             var canvas = canvasOrContainer;
@@ -4801,25 +5122,19 @@ var DrawerCanvas = /** @class */ (function (_super) {
             container.appendChild(canvas);
             _this.setCanvas(canvas);
         }
-        _this.drawOptions = {
-            scale: (_a = drawOptions.scale) !== null && _a !== void 0 ? _a : 1,
-            translate: (_b = drawOptions.translate) !== null && _b !== void 0 ? _b : [0, 0],
-            time: (_c = drawOptions.time) !== null && _c !== void 0 ? _c : 0,
-            simmetricLine: (_d = drawOptions.simmetricLine) !== null && _d !== void 0 ? _d : 0,
-            clearCanvas: (_e = drawOptions.clearCanvas) !== null && _e !== void 0 ? _e : true,
-            fixedLineWidth: (_f = drawOptions.fixedLineWidth) !== null && _f !== void 0 ? _f : false,
-            noBackground: (_g = drawOptions.noBackground) !== null && _g !== void 0 ? _g : false,
-            ghosts: drawOptions.ghosts || 0,
-            ghost_skip_time: drawOptions.ghost_skip_time || 0,
-            ghost_skip_function: drawOptions.ghost_skip_function,
-            backgroundImage: drawOptions.backgroundImage,
+        _this.drawerOptions = {
+            scale: (_a = drawerOptions.scale) !== null && _a !== void 0 ? _a : 1,
+            translate: (_b = drawerOptions.translate) !== null && _b !== void 0 ? _b : [0, 0],
+            time: (_c = drawerOptions.time) !== null && _c !== void 0 ? _c : 0,
+            simmetricLines: (_d = drawerOptions.simmetricLines) !== null && _d !== void 0 ? _d : 0,
+            clear: (_e = drawerOptions.clear) !== null && _e !== void 0 ? _e : true,
+            fixedLineWidth: (_f = drawerOptions.fixedLineWidth) !== null && _f !== void 0 ? _f : false,
+            noBackground: (_g = drawerOptions.noBackground) !== null && _g !== void 0 ? _g : false,
+            ghosts: drawerOptions.ghosts || 0,
+            ghost_skip_time: (_h = drawerOptions.ghost_skip_time) !== null && _h !== void 0 ? _h : 30,
+            ghost_skip_function: drawerOptions.ghost_skip_function,
+            backgroundImage: drawerOptions.backgroundImage,
         };
-        _this.draw_id = null;
-        _this.redraw_id = null;
-        _this.animation_id = null;
-        _this.draw = _this.draw.bind(_this);
-        _this.animate = _this.animate.bind(_this);
-        _this.startAnimation = _this.startAnimation.bind(_this);
         return _this;
     }
     DrawerCanvas.prototype.setBuffering = function (bBuffering) {
@@ -4836,18 +5151,10 @@ var DrawerCanvas = /** @class */ (function (_super) {
      * @memberof CanvasDrawer
      */
     DrawerCanvas.prototype.setScene = function (scene) {
-        this.scene = scene;
-        if (!this.resolution && this.scene.width)
-            this.resolution = this.scene.width;
+        _super.prototype.setScene.call(this, scene);
         if (this.canvas) {
             this.setCanvas(this.canvas); // and flush
         }
-    };
-    DrawerCanvas.prototype.getScene = function () {
-        return this.scene;
-    };
-    DrawerCanvas.prototype.getTimeline = function () {
-        return this.timeline;
     };
     /**
      * Set the canvas or append to container
@@ -4908,32 +5215,14 @@ var DrawerCanvas = /** @class */ (function (_super) {
      * @memberof DrawerCanvas
      */
     DrawerCanvas.prototype.resize = function (width, height, ratio, resolution) {
-        var _this = this;
-        // const dpi = typeof devicePixelRatio !== 'undefined' ? devicePixelRatio : 1
-        var dpi = 1;
-        ratio = ratio || this.ratio || width / height;
-        var size = Math.max(width, height);
-        width = ratio >= 1 ? size : size * ratio;
-        height = ratio >= 1 ? size / ratio : size;
-        this.ratio = ratio;
-        if (this.scene)
-            this.scene.resize(width, height);
+        _super.prototype.resize.call(this, width, height, ratio, resolution);
         if (this.canvas) {
-            this.canvas.width = width * dpi;
-            this.canvas.height = height * dpi;
+            this.canvas.width = this.scene.width;
+            this.canvas.height = this.scene.height;
             if (typeof HTMLCanvasElement !== 'undefined' && this.canvas instanceof HTMLCanvasElement) {
-                this.canvas.style.width = width + 'px';
-                this.canvas.style.height = height + 'px';
+                this.canvas.style.width = this.scene.width + 'px';
+                this.canvas.style.height = this.scene.height + 'px';
             }
-        }
-        if (resolution && resolution != this.resolution && this.scene) {
-            this.resolution = resolution;
-            _core_Scene__WEBPACK_IMPORTED_MODULE_0__.default.walk(function (sceneChild) {
-                var props = sceneChild.data.props;
-                Object.keys(props).forEach(function (name) {
-                    _scene_utilities_SceneUtilities__WEBPACK_IMPORTED_MODULE_2__.default.setProp(sceneChild, name, props[name], _this);
-                });
-            }, this.scene);
         }
         this.flushBuffer();
         this.dispatch('drawer-canvas:resize');
@@ -4951,155 +5240,16 @@ var DrawerCanvas = /** @class */ (function (_super) {
         return [];
     };
     /**
-     * Resize by ratio
-     *
-     * @param {number} ratio
-     * @memberof DrawerCanvas
-     */
-    DrawerCanvas.prototype.setRatio = function (ratio) {
-        this.resize(this.scene.width, this.scene.height, ratio);
-    };
-    /**
-     * Return drawer ratio
-     *
-     * @returns {number}
-     * @memberof DrawerCanvas
-     */
-    DrawerCanvas.prototype.getRatio = function () {
-        return this.ratio;
-    };
-    /**
-     * Get resolution
-     *
-     * @returns {number}
-     * @memberof DrawerCanvas
-     */
-    DrawerCanvas.prototype.getResolution = function () {
-        return this.resolution;
-    };
-    /**
-     * Get resolution of drawer
-     *
-     * @param {number} resolution
-     * @memberof DrawerCanvas
-     */
-    DrawerCanvas.prototype.setResolution = function (resolution) {
-        this.resize(this.scene.width, this.scene.height, this.ratio, resolution);
-    };
-    /**
-     * Get scene value scaled based on resolution
-     *
-     * @param {number} value
-     * @returns
-     * @memberof DrawerCanvas
-     */
-    DrawerCanvas.prototype.getValueFromResolution = function (value) {
-        return (value * this.resolution) / 200;
-    };
-    /**
-     * Get scene value scaled based on resolution
-     *
-     * @param {number} value
-     * @returns
-     * @memberof DrawerCanvas
-     */
-    DrawerCanvas.prototype.getValueFromResolutionScaled = function (value) {
-        return (value * 200) / this.resolution;
-    };
-    /**
      * Set draw option
      *
      * @template K
-     * @param {(K | IDrawOptions)} name
-     * @param {Required<IDrawOptions>[K]} [value]
+     * @param {(K | IDrawerOptions)} name
+     * @param {Required<IDrawerOptions>[K]} [value]
      * @memberof CanvasDrawer
      */
     DrawerCanvas.prototype.setOption = function (name, value) {
-        if (typeof name == 'object') {
-            var keys = Object.keys(name);
-            for (var i = 0, len = keys.length; i < len; i++) {
-                // @ts-ignore
-                this.drawOptions[keys[i]] = name[keys[i]];
-            }
-        }
-        else {
-            this.drawOptions[name] = value;
-        }
+        _super.prototype.setOption.call(this, name, value);
         this.flushBuffer();
-    };
-    /**
-     *
-     *
-     * @template K
-     * @param {K} name
-     * @param {IDrawOptions[K]} default_value
-     * @returns {IDrawOptions[K]}
-     * @memberof DrawerCanvas
-     */
-    DrawerCanvas.prototype.getOption = function (name, default_value) {
-        var _a;
-        return (_a = this.drawOptions[name]) !== null && _a !== void 0 ? _a : default_value;
-    };
-    /**
-     *
-     *
-     * @returns {DrawOptions}
-     * @memberof DrawerCanvas
-     */
-    DrawerCanvas.prototype.getOptions = function () {
-        return this.drawOptions;
-    };
-    /**
-     * Internal tick animation
-     *
-     * @private
-     * @memberof CanvasDrawer
-     */
-    DrawerCanvas.prototype.animate = function (timestamp) {
-        if (this.timeline.bSequenceStarted()) {
-            this.animation_id = requestAnimationFrame(this.animate);
-            if (this.timeline.tick(timestamp))
-                this.draw();
-        }
-    };
-    /**
-     * Start animation drawing
-     *
-     * @memberof CanvasDrawer
-     */
-    DrawerCanvas.prototype.startAnimation = function () {
-        this.stopAnimation();
-        this.timeline.start();
-        this.animation_id = requestAnimationFrame(this.animate);
-    };
-    /**
-     * Stop animation drawing
-     *
-     * @memberof CanvasDrawer
-     */
-    DrawerCanvas.prototype.stopAnimation = function () {
-        this.timeline.stop();
-        if (this.animation_id)
-            cancelAnimationFrame(this.animation_id);
-    };
-    /**
-     * Pause animation drawing
-     *
-     * @memberof CanvasDrawer
-     */
-    DrawerCanvas.prototype.pauseAnimation = function () {
-        this.timeline.pause();
-        if (this.animation_id)
-            cancelAnimationFrame(this.animation_id);
-    };
-    /**
-     * Play animation drawing
-     *
-     * @memberof CanvasDrawer
-     */
-    DrawerCanvas.prototype.playAnimation = function () {
-        this.timeline.start();
-        requestAnimationFrame(this.animate);
     };
     // public preload(): Promise<boolean> {
     // 	if (this.bBuffering && this.scene) {
@@ -5118,30 +5268,30 @@ var DrawerCanvas = /** @class */ (function (_super) {
     // 				desynchronized: false,
     // 			})
     // 			if (!context) reject('Create context error')
-    // 			const drawOptions = { ...this.drawOptions }
+    // 			const drawerOptions = { ...this.drawerOptions }
     // 			const sequenceEndTime = this.timeline.getSequenceEndTime()
     // 			for (let i = 0; i < sequence.frames; i++) {
     // 				// requestAnimationFrame(() => {
     // 				const time = this.timeline.getFrameTime(i)
-    // 				drawOptions.clearCanvas = this.drawOptions.clearCanvas || i === 0
-    // 				drawOptions.time = time
-    // 				DrawerCanvas.draw(this.scene, context, drawOptions, this.resolution)
-    // 				if (drawOptions.ghosts) {
-    // 					for (let gi = 1; gi <= drawOptions.ghosts; gi++) {
+    // 				drawerOptions.clear = this.drawerOptions.clear || i === 0
+    // 				drawerOptions.time = time
+    // 				DrawerCanvas.draw(this.scene, context, drawerOptions, this.resolution)
+    // 				if (drawerOptions.ghosts) {
+    // 					for (let gi = 1; gi <= drawerOptions.ghosts; gi++) {
     // 						const ghostTime =
     // 							time -
-    // 							(drawOptions.ghost_skip_function
-    // 								? drawOptions.ghost_skip_function(gi)
-    // 								: gi * (drawOptions.ghost_skip_time ?? 30))
-    // 						drawOptions.clearCanvas = false
-    // 						drawOptions.ghost_index = gi
-    // 						drawOptions.time =
+    // 							(drawerOptions.ghost_skip_function
+    // 								? drawerOptions.ghost_skip_function(gi)
+    // 								: gi * (drawerOptions.ghost_skip_time ?? 30))
+    // 						drawerOptions.clear = false
+    // 						drawerOptions.ghost_index = gi
+    // 						drawerOptions.time =
     // 							ghostTime < 0
     // 								? ghostTime + sequenceEndTime
     // 								: ghostTime > sequenceEndTime
     // 								? ghostTime % sequenceEndTime
     // 								: ghostTime
-    // 						DrawerCanvas.draw(this.scene, context, drawOptions, this.resolution)
+    // 						DrawerCanvas.draw(this.scene, context, drawerOptions, this.resolution)
     // 					}
     // 				}
     // 				this.buffer.push(i, context as CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D)
@@ -5160,44 +5310,29 @@ var DrawerCanvas = /** @class */ (function (_super) {
      * @memberof DrawerCanvas
      */
     DrawerCanvas.prototype.draw = function () {
-        var _a, _b;
+        var _this = this;
+        var _a;
         var draw_time = 0;
-        var drawOptions = __assign({}, this.drawOptions);
-        drawOptions.ghost_index = undefined;
-        var clearCanvas = this.drawOptions.clearCanvas || this.timeline.getCurrentFrame() <= 0;
-        drawOptions.clearCanvas = clearCanvas;
-        drawOptions.time = this.timeline.getTime();
-        var current_frame = this.timeline.getFrameAtTime(drawOptions.time);
+        var timeline = this.timeline;
+        var drawAtTime = timeline.getTime();
+        var drawerOptions = __assign(__assign({}, this.drawerOptions), { ghost_index: undefined, clear: this.drawerOptions.clear || timeline.getCurrentFrame() <= 0, time: drawAtTime });
+        var current_frame = timeline.getFrameAtTime(drawAtTime);
         this.dispatch('drawer-canvas:before_draw', {
             current_frame: current_frame,
-            current_time: drawOptions.time,
+            current_time: drawAtTime,
         });
         if (this.bBuffering && this.buffer.exist(current_frame)) {
             (_a = this.context) === null || _a === void 0 ? void 0 : _a.putImageData(this.buffer.get(current_frame), 0, 0);
         }
         else {
-            if (drawOptions.ghosts) {
-                var ghostDrawOptions = __assign({}, drawOptions);
-                var time = this.timeline.getTime();
-                var sequenceEndTime = this.timeline.getSequenceEndTime();
-                for (var i = 1; i <= ghostDrawOptions.ghosts; i++) {
-                    var ghostTime = time -
-                        (drawOptions.ghost_skip_function
-                            ? drawOptions.ghost_skip_function(i)
-                            : i * ((_b = drawOptions.ghost_skip_time) !== null && _b !== void 0 ? _b : 30));
-                    ghostDrawOptions.clearCanvas = clearCanvas && i === 1;
-                    ghostDrawOptions.ghost_index = i;
-                    ghostDrawOptions.time =
-                        ghostTime < 0
-                            ? ghostTime + sequenceEndTime
-                            : ghostTime > sequenceEndTime
-                                ? ghostTime % sequenceEndTime
-                                : ghostTime;
-                    draw_time += DrawerCanvas.draw(this.scene, this.context, ghostDrawOptions, this.resolution);
-                }
-                drawOptions.clearCanvas = false;
+            if (drawerOptions.ghosts) {
+                _Drawer__WEBPACK_IMPORTED_MODULE_2__.default.eachGhosts(drawerOptions, timeline, function (ghostDrawerOptions) {
+                    ghostDrawerOptions.clear = drawerOptions.clear && ghostDrawerOptions.ghost_index === 1;
+                    draw_time += DrawerCanvas.draw(_this.scene, _this.context, ghostDrawerOptions, _this.resolution);
+                });
+                drawerOptions.clear = false;
             }
-            draw_time += DrawerCanvas.draw(this.scene, this.context, drawOptions, this.resolution);
+            draw_time += DrawerCanvas.draw(this.scene, this.context, drawerOptions, this.resolution);
             if (this.bBuffering && this.context) {
                 this.buffer.push(current_frame, this.context);
                 if (this.buffer.count() >= this.timeline.getFramesCount()) {
@@ -5216,16 +5351,14 @@ var DrawerCanvas = /** @class */ (function (_super) {
     DrawerCanvas.prototype.redraw = function () {
         if (!this.timeline.bSequenceStarted()) {
             this.draw_id && cancelAnimationFrame(this.draw_id);
-            !this.drawOptions.clearCanvas &&
-                (typeof this.drawOptions.ghosts == undefined || this.drawOptions.ghosts == 0) &&
+            !this.drawerOptions.clear &&
+                (typeof this.drawerOptions.ghosts === undefined || this.drawerOptions.ghosts === 0) &&
                 this.timeline.stop();
             this.draw_id = requestAnimationFrame(this.draw);
         }
-        else if (!this.drawOptions.clearCanvas &&
-            (typeof this.drawOptions.ghosts == undefined || this.drawOptions.ghosts == 0)) {
+        else if (!this.drawerOptions.clear &&
+            (typeof this.drawerOptions.ghosts === undefined || this.drawerOptions.ghosts === 0)) {
             this.stopAnimation();
-            // this.redraw_id && clearTimeout(this.redraw_id)
-            // this.redraw_id = setTimeout(() => this.startAnimation(), 100)
             this.redraw_id && cancelAnimationFrame(this.redraw_id);
             this.redraw_id = requestAnimationFrame(this.startAnimation);
         }
@@ -5236,20 +5369,20 @@ var DrawerCanvas = /** @class */ (function (_super) {
      * @static
      * @param {Scene} scene
      * @param {(CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D | null)} context
-     * @param {DrawOptions} options
+     * @param {DrawerOptions} options
      * @returns {number}
      * @memberof DrawerCanvas
      */
     DrawerCanvas.draw = function (scene, context, options, resolution) {
         var _a, _b, _c, _d;
-        var start_time = (0,_Utilites__WEBPACK_IMPORTED_MODULE_5__.now)();
+        var start_time = (0,_Utilites__WEBPACK_IMPORTED_MODULE_1__.now)();
         if (context) {
             var scale_1 = (_a = options.scale) !== null && _a !== void 0 ? _a : 1;
             var translate = (_b = options.translate) !== null && _b !== void 0 ? _b : [0, 0];
             var time_1 = (_c = options.time) !== null && _c !== void 0 ? _c : 0;
-            var simmetricLine = (_d = options.simmetricLine) !== null && _d !== void 0 ? _d : 0;
+            var simmetricLines = (_d = options.simmetricLines) !== null && _d !== void 0 ? _d : 0;
             var fixedLineWidth_1 = options.fixedLineWidth;
-            var clearCanvas = options.clearCanvas;
+            var clear = options.clear;
             var noBackground = options.noBackground;
             var backgroundImage = options.backgroundImage;
             var bGhost_1 = typeof options.ghosts !== 'undefined' &&
@@ -5258,7 +5391,7 @@ var DrawerCanvas = /** @class */ (function (_super) {
                 options.ghost_index > 0;
             var ghostMultiplier_1 = bGhost_1
                 ? 1 - options.ghost_index / (options.ghosts + 0.5)
-                : 1;
+                : 0;
             var width_1 = scene.width;
             var height_1 = scene.height;
             var ratio_x = width_1 > height_1 ? 1 : height_1 / width_1;
@@ -5269,14 +5402,7 @@ var DrawerCanvas = /** @class */ (function (_super) {
                 width_1 / 2 - (scale_1 > 1 ? (translate[0] * width_1) / (1 / ((scale_1 - 1) / 2)) : 0),
                 height_1 / 2 - (scale_1 > 1 ? (translate[1] * height_1) / (1 / ((scale_1 - 1) / 2)) : 0),
             ];
-            scene.current_time = time_1;
-            scene.getChildren().forEach(function (sceneChild) {
-                if (!sceneChild.data ||
-                    !(sceneChild.data.visible === false) ||
-                    !(bGhost_1 && sceneChild.data.disableGhost === true))
-                    sceneChild.generate(time_1, true);
-            });
-            if (clearCanvas) {
+            if (clear) {
                 if (noBackground) {
                     context.clearRect(0, 0, width_1, height_1);
                 }
@@ -5286,107 +5412,104 @@ var DrawerCanvas = /** @class */ (function (_super) {
                     backgroundImage && context.drawImage(backgroundImage, 0, 0, width_1, height_1);
                 }
             }
-            if (simmetricLine > 0) {
-                var offset = Math.PI / simmetricLine;
-                var size = Math.max(width_1, height_1) / 2;
-                var center = gl_matrix__WEBPACK_IMPORTED_MODULE_6__.fromValues(size / 2, size / 2);
-                for (var i = 0; i < simmetricLine; i++) {
-                    var a = gl_matrix__WEBPACK_IMPORTED_MODULE_6__.fromValues(-size, -size);
-                    var b = gl_matrix__WEBPACK_IMPORTED_MODULE_6__.fromValues(size * 2, size * 2);
-                    var rotate = i * offset + Math.PI / 4;
-                    gl_matrix__WEBPACK_IMPORTED_MODULE_6__.rotate(a, a, center, rotate);
-                    gl_matrix__WEBPACK_IMPORTED_MODULE_6__.rotate(b, b, center, rotate);
-                    context.beginPath();
-                    context.strokeStyle = scene.mainColor;
-                    context.lineWidth = 1;
-                    context.moveTo((a[0] - size / 2) * final_scale_1[0] + final_translate_1[0], (a[1] - size / 2) * final_scale_1[1] + final_translate_1[1]);
-                    context.lineTo((b[0] - size / 2) * final_scale_1[0] + final_translate_1[0], (b[1] - size / 2) * final_scale_1[1] + final_translate_1[1]);
-                    context.stroke();
-                }
+            if (simmetricLines > 0) {
+                DrawerCanvas.drawSimmetricLines(context, simmetricLines, width_1, height_1, final_scale_1, final_translate_1, scene.color);
             }
-            var logFillColorWarn_1 = false;
-            var logStrokeColorWarn_1 = false;
-            context.globalCompositeOperation = 'source-over';
-            scene.stream(function (_a) {
-                var lineWidth = _a.lineWidth, strokeColor = _a.strokeColor, fillColor = _a.fillColor, shape = _a.shape, buffer = _a.buffer, frame_length = _a.frame_length, frame_buffer_index = _a.frame_buffer_index;
-                if (shape.data && (shape.data.visible === false || (bGhost_1 && shape.data.disableGhost === true)))
-                    return;
-                if (shape.data && shape.data.composite) {
-                    context.globalCompositeOperation = shape.data.composite;
-                }
-                context.beginPath();
-                context.moveTo((buffer[frame_buffer_index] - width_1 / 2) * final_scale_1[0] + final_translate_1[0], (buffer[frame_buffer_index + 1] - height_1 / 2) * final_scale_1[1] + final_translate_1[1]);
-                for (var i = 2; i < frame_length; i += 2) {
-                    context.lineTo((buffer[frame_buffer_index + i] - width_1 / 2) * final_scale_1[0] + final_translate_1[0], (buffer[frame_buffer_index + i + 1] - height_1 / 2) * final_scale_1[1] + final_translate_1[1]);
-                }
-                shape && shape.isClosed() && context.closePath();
-                if (shape && shape.data && shape.data.highlighted) {
-                    context.lineWidth = (lineWidth || 1) * 3 * scale_1;
-                    context.strokeStyle = scene.mainColor;
-                    context.stroke();
-                    return;
-                }
-                if (fillColor) {
-                    if (bGhost_1) {
-                        var color = /\((.+),(.+),(.+),(.+)?\)/g.exec(fillColor);
-                        if (color) {
-                            var _b = color, a = _b[1], b = _b[2], c = _b[3], o = _b[4];
-                            var alpha = o ? parseFloat(o) : 1;
-                            var ghostAlpha = alpha <= 0 ? 0 : alpha * ghostMultiplier_1;
-                            fillColor =
-                                fillColor.indexOf('rgb') >= 0
-                                    ? "rgba(" + a + "," + b + "," + c + "," + ghostAlpha + ")"
-                                    : "hsla(" + a + "," + b + "," + c + "," + ghostAlpha + ")";
-                        }
-                        else if (!logFillColorWarn_1) {
-                            console.warn("[Urpflanze:DrawerCanvas] Unable ghost fill color '" + fillColor + "', \n\t\t\t\t\t\t\tplease enter a rgba or hsla color");
-                            logFillColorWarn_1 = true;
-                        }
+            {
+                var logFillColorWarn_1 = false;
+                var logStrokeColorWarn_1 = false;
+                scene.current_time = time_1;
+                scene.getChildren().forEach(function (sceneChild) {
+                    if (!sceneChild.data ||
+                        !(sceneChild.data.visible === false) ||
+                        !(bGhost_1 && sceneChild.data.disableGhost === true)) {
+                        sceneChild.generate(time_1, true);
+                        sceneChild.stream(function (streamCallback) {
+                            var shapeData = streamCallback.shape.data;
+                            context.globalCompositeOperation = shapeData && shapeData.composite ? shapeData.composite : 'source-over';
+                            context.beginPath();
+                            context.moveTo((streamCallback.buffer[streamCallback.frame_buffer_index] - width_1 / 2) * final_scale_1[0] +
+                                final_translate_1[0], (streamCallback.buffer[streamCallback.frame_buffer_index + 1] - height_1 / 2) * final_scale_1[1] +
+                                final_translate_1[1]);
+                            for (var i = 2; i < streamCallback.frame_length; i += 2) {
+                                context.lineTo((streamCallback.buffer[streamCallback.frame_buffer_index + i] - width_1 / 2) * final_scale_1[0] +
+                                    final_translate_1[0], (streamCallback.buffer[streamCallback.frame_buffer_index + i + 1] - height_1 / 2) * final_scale_1[1] +
+                                    final_translate_1[1]);
+                            }
+                            streamCallback.shape.isClosed() && context.closePath();
+                            if (shapeData && shapeData.highlighted) {
+                                context.lineWidth = (streamCallback.lineWidth || 1) * 3 * scale_1;
+                                context.strokeStyle = scene.color;
+                                context.stroke();
+                                return;
+                            }
+                            if (streamCallback.fillColor) {
+                                if (bGhost_1) {
+                                    var color = _Drawer__WEBPACK_IMPORTED_MODULE_2__.default.ghostifyColor(streamCallback.fillColor, ghostMultiplier_1);
+                                    if (color) {
+                                        streamCallback.fillColor = color;
+                                    }
+                                    else if (!logFillColorWarn_1) {
+                                        console.warn("[Urpflanze:DrawerCanvas] Unable ghost fill color '" + streamCallback.fillColor + "', \n\t\t\t\t\t\t\t\t\tplease enter a rgba or hsla color");
+                                        logFillColorWarn_1 = true;
+                                    }
+                                }
+                                context.fillStyle = streamCallback.fillColor;
+                                context.fill();
+                            }
+                            if (streamCallback.strokeColor) {
+                                if (bGhost_1) {
+                                    var color = _Drawer__WEBPACK_IMPORTED_MODULE_2__.default.ghostifyColor(streamCallback.strokeColor, ghostMultiplier_1);
+                                    if (color) {
+                                        streamCallback.strokeColor = color;
+                                    }
+                                    else if (!logStrokeColorWarn_1) {
+                                        console.warn("[Urpflanze:DrawerCanvas] Unable ghost stroke color '" + streamCallback.strokeColor + "', \n\t\t\t\t\t\t\t\t\tplease enter a rgba or hsla color");
+                                        logStrokeColorWarn_1 = true;
+                                    }
+                                    streamCallback.lineWidth *= ghostMultiplier_1;
+                                }
+                                context.lineWidth = fixedLineWidth_1 ? streamCallback.lineWidth : streamCallback.lineWidth * scale_1;
+                                context.strokeStyle = streamCallback.strokeColor;
+                                context.stroke();
+                            }
+                        });
                     }
-                    context.fillStyle = fillColor;
-                    context.fill();
-                }
-                if (strokeColor && lineWidth) {
-                    if (bGhost_1) {
-                        var color = /\((.+),(.+),(.+),(.+)?\)/g.exec(strokeColor);
-                        if (color) {
-                            var _c = color, a = _c[1], b = _c[2], c = _c[3], o = _c[4];
-                            var alpha = o ? parseFloat(o) : 1;
-                            var ghostAlpha = alpha <= 0 ? 0 : alpha * ghostMultiplier_1;
-                            strokeColor =
-                                strokeColor.indexOf('rgb') >= 0
-                                    ? "rgba(" + a + "," + b + "," + c + "," + ghostAlpha + ")"
-                                    : "hsla(" + a + "," + b + "," + c + "," + ghostAlpha + ")";
-                        }
-                        else if (!logStrokeColorWarn_1) {
-                            console.warn("[Urpflanze:DrawerCanvas] Unable ghost stroke color '" + fillColor + "', \n\t\t\t\t\t\t\tplease enter a rgba or hsla color");
-                            logStrokeColorWarn_1 = true;
-                        }
-                        lineWidth *= ghostMultiplier_1;
-                    }
-                    context.lineWidth = fixedLineWidth_1 ? lineWidth : lineWidth * scale_1;
-                    context.strokeStyle = strokeColor;
-                    context.stroke();
-                }
-                if (shape.data && shape.data.composite) {
-                    context.globalCompositeOperation = 'source-over';
-                }
-            });
+                });
+            }
         }
-        var end_time = (0,_Utilites__WEBPACK_IMPORTED_MODULE_5__.now)();
+        var end_time = (0,_Utilites__WEBPACK_IMPORTED_MODULE_1__.now)();
         return end_time - start_time;
     };
+    DrawerCanvas.drawSimmetricLines = function (context, simmetricLines, width, height, scale, translate, color) {
+        var offset = Math.PI / simmetricLines;
+        var size = Math.max(width, height) / 2;
+        var center = gl_matrix__WEBPACK_IMPORTED_MODULE_3__.fromValues(size / 2, size / 2);
+        for (var i = 0; i < simmetricLines; i++) {
+            var a = gl_matrix__WEBPACK_IMPORTED_MODULE_3__.fromValues(-size, -size);
+            var b = gl_matrix__WEBPACK_IMPORTED_MODULE_3__.fromValues(size * 2, size * 2);
+            var rotate = i * offset + Math.PI / 4;
+            gl_matrix__WEBPACK_IMPORTED_MODULE_3__.rotate(a, a, center, rotate);
+            gl_matrix__WEBPACK_IMPORTED_MODULE_3__.rotate(b, b, center, rotate);
+            context.beginPath();
+            context.strokeStyle = color;
+            context.lineWidth = 1;
+            context.moveTo((a[0] - size / 2) * scale[0] + translate[0], (a[1] - size / 2) * scale[1] + translate[1]);
+            context.lineTo((b[0] - size / 2) * scale[0] + translate[0], (b[1] - size / 2) * scale[1] + translate[1]);
+            context.stroke();
+        }
+    };
     return DrawerCanvas;
-}(_events_Emitter__WEBPACK_IMPORTED_MODULE_4__.default));
+}(_Drawer__WEBPACK_IMPORTED_MODULE_2__.default));
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (DrawerCanvas);
 //# sourceMappingURL=DrawerCanvas.js.map
 
 /***/ }),
 
-/***/ "./dist/services/drawer-canvas/FrameBuffer.js":
-/*!****************************************************!*\
-  !*** ./dist/services/drawer-canvas/FrameBuffer.js ***!
-  \****************************************************/
+/***/ "./dist/services/drawers/drawer-canvas/FrameBuffer.js":
+/*!************************************************************!*\
+  !*** ./dist/services/drawers/drawer-canvas/FrameBuffer.js ***!
+  \************************************************************/
 /*! namespace exports */
 /*! export default [provided] [no usage info] [missing usage info prevents renaming] */
 /*! other exports [not provided] [no usage info] */
@@ -5400,7 +5523,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /**
  *
- * @category Services.DrawerCanvas
+ * @category Services.Drawer
  * @class FrameBuffer
  */
 var FrameBuffer = /** @class */ (function () {
@@ -5432,6 +5555,196 @@ var FrameBuffer = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./dist/services/drawers/drawer-svg/DrawerSVG.js":
+/*!*******************************************************!*\
+  !*** ./dist/services/drawers/drawer-svg/DrawerSVG.js ***!
+  \*******************************************************/
+/*! namespace exports */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../Utilites */ "./dist/Utilites.js");
+/* harmony import */ var _Drawer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Drawer */ "./dist/services/drawers/Drawer.js");
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __assign = (undefined && undefined.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+
+
+/**
+ * Abstract drawer
+ *
+ * @category Services.Drawer
+ * @class DrawerSVG
+ * @extends {Drawer<IDrawerSVGOptions, IDrawerSVGEvents>}
+ */
+var DrawerSVG = /** @class */ (function (_super) {
+    __extends(DrawerSVG, _super);
+    function DrawerSVG(scene, container, drawerOptions, ratio, resolution, duration, framerate) {
+        if (drawerOptions === void 0) { drawerOptions = {}; }
+        if (ratio === void 0) { ratio = undefined; }
+        if (resolution === void 0) { resolution = 0; }
+        var _a, _b, _c;
+        var _this = _super.call(this, scene, ratio, resolution, duration, framerate) || this;
+        _this.container = container;
+        _this.drawerOptions = {
+            time: (_a = drawerOptions.time) !== null && _a !== void 0 ? _a : 0,
+            decimals: drawerOptions.decimals || 2,
+            noBackground: (_b = drawerOptions.noBackground) !== null && _b !== void 0 ? _b : false,
+            ghosts: drawerOptions.ghosts || 0,
+            ghost_skip_time: (_c = drawerOptions.ghost_skip_time) !== null && _c !== void 0 ? _c : 30,
+            ghost_skip_function: drawerOptions.ghost_skip_function,
+        };
+        return _this;
+    }
+    /**
+     * Draw current scene
+     *
+     * @returns {number}
+     * @memberof DrawerCanvas
+     */
+    DrawerSVG.prototype.draw = function () {
+        var _this = this;
+        var draw_time = 0;
+        var timeline = this.timeline;
+        var drawAtTime = timeline.getTime();
+        var drawerOptions = __assign(__assign({}, this.drawerOptions), { ghost_index: undefined, time: drawAtTime });
+        var current_frame = timeline.getFrameAtTime(drawAtTime);
+        this.dispatch('drawer-svg:before_draw', {
+            current_frame: current_frame,
+            current_time: drawAtTime,
+        });
+        var paths = [];
+        if (drawerOptions.ghosts) {
+            _Drawer__WEBPACK_IMPORTED_MODULE_1__.default.eachGhosts(drawerOptions, timeline, function (ghostDrawerOptions) {
+                draw_time += DrawerSVG.draw(_this.scene, paths, ghostDrawerOptions);
+            });
+        }
+        draw_time += DrawerSVG.draw(this.scene, paths, drawerOptions);
+        this.appendSVGFromPaths(paths, drawerOptions);
+        return draw_time;
+    };
+    DrawerSVG.prototype.appendSVGFromPaths = function (paths, drawerOptions) {
+        if (this.scene && this.container) {
+            while (this.container.lastChild)
+                this.container.removeChild(this.container.lastChild);
+            var svg_1 = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            svg_1.setAttribute('width', this.scene.width + '');
+            svg_1.setAttribute('height', this.scene.height + '');
+            svg_1.setAttribute('viewBox', "0 0 " + this.scene.width + " " + this.scene.height);
+            var comm = document.createComment('Created with Urpflanze.js');
+            svg_1.appendChild(comm);
+            if (!drawerOptions.noBackground) {
+                var background = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+                background.setAttribute('width', this.scene.width + '');
+                background.setAttribute('height', this.scene.height + '');
+                background.setAttribute('fill', this.scene.background);
+                svg_1.appendChild(background);
+            }
+            paths.forEach(function (path) { return svg_1.appendChild(path); });
+            this.container.appendChild(svg_1);
+        }
+    };
+    DrawerSVG.draw = function (scene, paths, options) {
+        var _a;
+        var start_time = (0,_Utilites__WEBPACK_IMPORTED_MODULE_0__.now)();
+        var time = (_a = options.time) !== null && _a !== void 0 ? _a : 0;
+        var decimals = options.decimals;
+        var bGhost = typeof options.ghosts !== 'undefined' &&
+            options.ghosts > 0 &&
+            typeof options.ghost_index !== 'undefined' &&
+            options.ghost_index > 0;
+        var ghostMultiplier = bGhost
+            ? 1 - options.ghost_index / (options.ghosts + 0.5)
+            : 0;
+        var logFillColorWarn = false;
+        var logStrokeColorWarn = false;
+        scene.current_time = time;
+        scene.getChildren().forEach(function (sceneChild) {
+            if (!sceneChild.data ||
+                !(sceneChild.data.visible === false) ||
+                !(bGhost && sceneChild.data.disableGhost === true)) {
+                sceneChild.generate(time, true);
+                sceneChild.stream(function (streamCallback) {
+                    var tempPath = [];
+                    for (var i = 0; i < streamCallback.frame_length; i += 2) {
+                        tempPath.push(streamCallback.buffer[streamCallback.frame_buffer_index + i].toFixed(decimals) +
+                            ' ' +
+                            streamCallback.buffer[streamCallback.frame_buffer_index + i + 1].toFixed(decimals));
+                    }
+                    if (streamCallback.fillColor) {
+                        if (bGhost) {
+                            var color = _Drawer__WEBPACK_IMPORTED_MODULE_1__.default.ghostifyColor(streamCallback.fillColor, ghostMultiplier);
+                            if (color) {
+                                streamCallback.fillColor = color;
+                            }
+                            else if (!logFillColorWarn) {
+                                console.warn("[Urpflanze:DrawerCanvas] Unable ghost fill color '" + streamCallback.fillColor + "', \n                            please enter a rgba or hsla color");
+                                logFillColorWarn = true;
+                            }
+                        }
+                    }
+                    if (streamCallback.strokeColor) {
+                        if (bGhost) {
+                            var color = _Drawer__WEBPACK_IMPORTED_MODULE_1__.default.ghostifyColor(streamCallback.strokeColor, ghostMultiplier);
+                            if (color) {
+                                streamCallback.strokeColor = color;
+                            }
+                            else if (!logStrokeColorWarn) {
+                                console.warn("[Urpflanze:DrawerCanvas] Unable ghost stroke color '" + streamCallback.strokeColor + "', \n                            please enter a rgba or hsla color");
+                                logStrokeColorWarn = true;
+                            }
+                            streamCallback.lineWidth *= ghostMultiplier;
+                        }
+                    }
+                    var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                    path.setAttribute('d', "M" + tempPath.join(' L') + " " + (streamCallback.shape.isClosed() ? 'Z' : ''));
+                    path.setAttribute('fill', streamCallback.fillColor || 'none');
+                    if (streamCallback.strokeColor) {
+                        path.setAttribute('stroke', streamCallback.strokeColor);
+                        path.setAttribute('stroke-width', (streamCallback.lineWidth || 1) + '');
+                    }
+                    paths.push(path);
+                });
+            }
+        });
+        var end_time = (0,_Utilites__WEBPACK_IMPORTED_MODULE_0__.now)();
+        return end_time - start_time;
+    };
+    return DrawerSVG;
+}(_Drawer__WEBPACK_IMPORTED_MODULE_1__.default));
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (DrawerSVG);
+//# sourceMappingURL=DrawerSVG.js.map
+
+/***/ }),
+
 /***/ "./dist/services/events/Emitter.js":
 /*!*****************************************!*\
   !*** ./dist/services/events/Emitter.js ***!
@@ -5448,15 +5761,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
 /**
+ * Class used for emit and dispatch events
  *
- * @category Services
+ * @category Services.Emitter
  * @abstract
  * @class Emitter
  * @template EventTypes
  */
 var Emitter = /** @class */ (function () {
     function Emitter() {
-        //@ts-ignore
         this.callbacks = {};
     }
     /**
@@ -5552,20 +5865,20 @@ var __assign = (undefined && undefined.__assign) || function () {
 
 /**
  *
- * @category Services
+ * @category Services.Export/Import
  * @class JSONExporter
  */
 var JSONExporter = /** @class */ (function () {
     function JSONExporter() {
     }
-    JSONExporter.prototype.parse = function (drawer, name) {
+    JSONExporter.parse = function (drawer, name) {
         if (name === void 0) { name = 'EmptyProject'; }
-        return this.toString(this.parseAsProject(drawer, name));
+        return JSONExporter.toString(JSONExporter.parseAsProject(drawer, name));
     };
-    JSONExporter.prototype.toString = function (project) {
+    JSONExporter.toString = function (project) {
         return JSON.stringify(project);
     };
-    JSONExporter.prototype.parseAsProject = function (drawer, name) {
+    JSONExporter.parseAsProject = function (drawer, name) {
         if (name === void 0) { name = 'EmptyProject'; }
         var scene = drawer.getScene();
         var timeline = drawer.getTimeline();
@@ -5574,22 +5887,22 @@ var JSONExporter = /** @class */ (function () {
         project.width = scene.width;
         project.height = scene.height;
         project.resolution = drawer.getResolution();
-        project.mainColor = scene.mainColor;
+        project.color = scene.color;
         project.background = scene.background;
-        project.clearCanvas = drawer.getOption('clearCanvas', true);
+        project.clear = drawer.getOption('clear', true);
         project.ghosts = drawer.getOption('ghosts', 0);
         project.ghost_skip_time = _Utilites__WEBPACK_IMPORTED_MODULE_5__.parseFunction.parse(drawer.getOption('ghost_skip_time', 30));
         project.ratio = drawer.getRatio();
-        var _a = timeline.getSequence(), start = _a.start, end = _a.end, framerate = _a.framerate;
-        project.sequence = { start: start, end: end, framerate: framerate, durate: end - start };
+        var _a = timeline.getSequence(), durate = _a.durate, framerate = _a.framerate;
+        project.sequence = { durate: durate, framerate: framerate };
         project.scene = {};
         var sceneChilds = scene.getChildren();
         for (var i = 0, len = sceneChilds.length; i < len; i++) {
-            project.scene[sceneChilds[i].id] = this.parseSceneChild(sceneChilds[i]);
+            project.scene[sceneChilds[i].id] = JSONExporter.parseSceneChild(sceneChilds[i]);
         }
         return project;
     };
-    JSONExporter.prototype.parseSceneChild = function (sceneChild, parent_id, depth) {
+    JSONExporter.parseSceneChild = function (sceneChild, parent_id, depth) {
         if (depth === void 0) { depth = 0; }
         var projectSceneChild = {
             id: sceneChild.id + '',
@@ -5622,7 +5935,7 @@ var JSONExporter = /** @class */ (function () {
             var children = [];
             var shapeChildren = _scene_utilities_SceneUtilities__WEBPACK_IMPORTED_MODULE_7__.default.getChildren(sceneChild);
             for (var i = 0; i < shapeChildren.length; i++)
-                children.push(this.parseSceneChild(shapeChildren[i], sceneChild.id, depth + 1));
+                children.push(JSONExporter.parseSceneChild(shapeChildren[i], sceneChild.id, depth + 1));
             projectSceneChild.children = children;
         }
         return projectSceneChild;
@@ -5641,7 +5954,7 @@ var JSONExporter = /** @class */ (function () {
 /*! namespace exports */
 /*! export default [provided] [no usage info] [missing usage info prevents renaming] */
 /*! other exports [not provided] [no usage info] */
-/*! runtime requirements: __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
+/*! runtime requirements: __webpack_require__, __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -5649,6 +5962,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
+/* harmony import */ var _drawers_drawer_svg_DrawerSVG__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../drawers/drawer-svg/DrawerSVG */ "./dist/services/drawers/drawer-svg/DrawerSVG.js");
 var __assign = (undefined && undefined.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -5660,6 +5974,7 @@ var __assign = (undefined && undefined.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+
 var DEFAULT_SETTINGS = {
     size: 1080,
     quality: 1,
@@ -5668,138 +5983,28 @@ var DEFAULT_SETTINGS = {
 };
 /**
  *
- * @category Services
+ * @category Services.Export/Import
  * @class SVGExporter
  */
 var SVGExporter = /** @class */ (function () {
     function SVGExporter() {
     }
-    SVGExporter.prototype.parse = function (drawer, settings) {
+    SVGExporter.parse = function (drawer, settings) {
+        settings = __assign(__assign({}, DEFAULT_SETTINGS), settings);
+        var svg = this.parseAsSVG(drawer, settings);
+        return svg.outerHTML;
+    };
+    SVGExporter.parseAsSVG = function (drawer, settings) {
         settings = __assign(__assign({}, DEFAULT_SETTINGS), settings);
         var scene = drawer.getScene();
-        var timeline = drawer.getTimeline();
-        var decimals = Math.floor(settings.quality * 4);
-        var all_parts = [];
-        var drawOptions = __assign({}, drawer.getOptions());
-        if (drawOptions.ghosts) {
-            var time = timeline.getTime();
-            var sequenceEndTime = timeline.getSequenceEndTime();
-            for (var i = 1; i <= drawOptions.ghosts; i++) {
-                var ghostTime = time -
-                    (drawOptions.ghost_skip_function
-                        ? drawOptions.ghost_skip_function(i)
-                        : i * (drawOptions.ghost_skip_time || 30));
-                drawOptions.clearCanvas = i == 1;
-                drawOptions.ghost_index = i;
-                drawOptions.time =
-                    ghostTime < 0
-                        ? ghostTime + sequenceEndTime
-                        : ghostTime > sequenceEndTime
-                            ? ghostTime % sequenceEndTime
-                            : ghostTime;
-                all_parts.push(SVGExporter.draw(scene, drawOptions, drawer.getResolution(), decimals));
-            }
-            drawOptions.clearCanvas = false;
-            drawOptions.ghost_index = undefined;
-            drawOptions.time = timeline.getTime();
-            all_parts.push(SVGExporter.draw(scene, drawOptions, drawer.getResolution(), decimals));
-        }
-        else {
-            if (!drawOptions.clearCanvas) {
-                var sequence = timeline.getSequence();
-                var needFrame = settings.time >= sequence.end ? sequence.frames : timeline.getFrameAtTime(settings.time);
-                for (var i = 0; i <= needFrame; i++) {
-                    timeline.setFrame(i);
-                    drawOptions.time = timeline.getTime();
-                    all_parts.push(SVGExporter.draw(scene, drawOptions, drawer.getResolution(), decimals));
-                }
-            }
-            else {
-                drawOptions.time = timeline.getTime();
-                drawOptions.clearCanvas = drawOptions.clearCanvas || timeline.getCurrentFrame() <= 0;
-                all_parts.push(SVGExporter.draw(scene, drawOptions, drawer.getResolution(), decimals));
-            }
-        }
-        var result = [];
-        result.push("<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 " + scene.width.toFixed(decimals) + " " + scene.height.toFixed(decimals) + "\" width=\"" + scene.width.toFixed(decimals) + "\" height=\"" + scene.height.toFixed(decimals) + "\">");
-        if (!settings.noBackground)
-            result.push("\t<rect width=\"" + scene.width.toFixed(decimals) + "\" height=\"" + scene.height.toFixed(decimals) + "\" fill=\"" + scene.background + "\" />");
-        result.push(all_parts.map(function (paths) { return "<g>" + paths.join('\t\t') + "</g>"; }).join('\t'));
-        result.push("</svg>");
-        return result.join('\n');
-    };
-    SVGExporter.draw = function (scene, options, resolution, decimals) {
-        var _a, _b, _c;
-        var scale = (_a = options.scale) !== null && _a !== void 0 ? _a : 1;
-        var translate = (_b = options.translate) !== null && _b !== void 0 ? _b : [0, 0];
-        var time = (_c = options.time) !== null && _c !== void 0 ? _c : 0;
-        var bGhost = typeof options.ghosts !== 'undefined' &&
-            options.ghosts > 0 &&
-            typeof options.ghost_index !== 'undefined' &&
-            options.ghost_index > 0;
-        var ghostMultiplier = bGhost
-            ? 1 - options.ghost_index / (options.ghosts + 0.5)
-            : 1;
-        var width = scene.width;
-        var height = scene.height;
-        var ratio_x = width > height ? 1 : height / width;
-        var ratio_y = width > height ? width / height : 1;
-        resolution = resolution || width;
-        var final_scale = [(width / (resolution / ratio_x)) * scale, (height / (resolution / ratio_y)) * scale];
-        var final_translate = [
-            width / 2 - (scale > 1 ? (translate[0] * width) / (1 / ((scale - 1) / 2)) : 0),
-            height / 2 - (scale > 1 ? (translate[1] * height) / (1 / ((scale - 1) / 2)) : 0),
-        ];
-        scene.current_time = time;
-        scene.getChildren().forEach(function (sceneChild) {
-            var _a, _b;
-            if (!(((_a = sceneChild === null || sceneChild === void 0 ? void 0 : sceneChild.data) === null || _a === void 0 ? void 0 : _a.visible) === false || (bGhost && ((_b = sceneChild === null || sceneChild === void 0 ? void 0 : sceneChild.data) === null || _b === void 0 ? void 0 : _b.disableGhost) === true)))
-                sceneChild.generate(time, true);
-        });
-        var Paths = [];
-        scene.stream(function (_a) {
-            var _b, _c;
-            var lineWidth = _a.lineWidth, strokeColor = _a.strokeColor, fillColor = _a.fillColor, shape = _a.shape, buffer = _a.buffer, frame_length = _a.frame_length, frame_buffer_index = _a.frame_buffer_index;
-            if (((_b = shape === null || shape === void 0 ? void 0 : shape.data) === null || _b === void 0 ? void 0 : _b.visible) == false || (bGhost && ((_c = shape === null || shape === void 0 ? void 0 : shape.data) === null || _c === void 0 ? void 0 : _c.disableGhost) == true))
-                return;
-            var temp = [];
-            for (var i = 0; i < frame_length; i += 2) {
-                var x = (buffer[frame_buffer_index + i] - width / 2) * final_scale[0] + final_translate[0];
-                var y = (buffer[frame_buffer_index + i + 1] - height / 2) * final_scale[1] + final_translate[1];
-                temp.push(x.toFixed(decimals) + ' ' + y.toFixed(decimals));
-            }
-            if (fillColor) {
-                if (bGhost) {
-                    var color = /\((.+),(.+),(.+),(.+)\)/g.exec(fillColor);
-                    if (color) {
-                        var _d = color, a = _d[1], b = _d[2], c = _d[3], o = _d[4];
-                        var alpha = o ? parseFloat(o) : 1;
-                        var ghostAlpha = alpha <= 0 ? 0 : alpha * ghostMultiplier;
-                        fillColor =
-                            fillColor.indexOf('rgb') >= 0
-                                ? "rgba(" + a + "," + b + "," + c + "," + ghostAlpha + ")"
-                                : "hsla(" + a + "," + b + "," + c + "," + ghostAlpha + ")";
-                    }
-                }
-            }
-            if (strokeColor && lineWidth) {
-                if (bGhost) {
-                    var color = /\((.+),(.+),(.+),(.+)\)/g.exec(strokeColor);
-                    if (color) {
-                        var _e = color, a = _e[1], b = _e[2], c = _e[3], o = _e[4];
-                        var alpha = o ? parseFloat(o) : 1;
-                        var ghostAlpha = alpha <= 0 ? 0 : alpha * ghostMultiplier;
-                        strokeColor =
-                            strokeColor.indexOf('rgb') >= 0
-                                ? "rgba(" + a + "," + b + "," + c + "," + ghostAlpha + ")"
-                                : "hsla(" + a + "," + b + "," + c + "," + ghostAlpha + ")";
-                    }
-                    lineWidth *= ghostMultiplier;
-                }
-            }
-            Paths.push("<path fill=\"" + (fillColor || 'none') + "\" " + (strokeColor ? "stroke=\"" + strokeColor + "\"" : '') + " " + (lineWidth ? "stroke-width=\"" + lineWidth + "\"" : '') + " " + ("d=\"M" + temp.join(' L') + " " + (shape && shape.isClosed() ? 'Z' : '') + "\" />"));
-        });
-        return Paths;
+        var drawerOptions = __assign(__assign({}, drawer.getOptions()), { time: settings.time, decimals: Math.floor(settings.quality * 4), noBackground: settings.noBackground });
+        var container = document.createElement('div');
+        var tmp = new _drawers_drawer_svg_DrawerSVG__WEBPACK_IMPORTED_MODULE_0__.default(scene, container, drawerOptions, drawer.getRatio(), drawer.getResolution());
+        var tmpTimeline = tmp.getTimeline();
+        tmpTimeline.setDurate(drawer.getTimeline().getDurate());
+        tmpTimeline.setTime(drawerOptions.time || 0);
+        tmp.draw();
+        return container.firstChild;
     };
     return SVGExporter;
 }());
@@ -5824,7 +6029,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
 /* harmony import */ var _core_Scene__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../core/Scene */ "./dist/core/Scene.js");
-/* harmony import */ var _drawer_canvas_DrawerCanvas__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../drawer-canvas/DrawerCanvas */ "./dist/services/drawer-canvas/DrawerCanvas.js");
+/* harmony import */ var _drawers_drawer_canvas_DrawerCanvas__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../drawers/drawer-canvas/DrawerCanvas */ "./dist/services/drawers/drawer-canvas/DrawerCanvas.js");
 /* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Utilites */ "./dist/Utilites.js");
 /* harmony import */ var _scene_utilities_SceneUtilities__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../scene-utilities/SceneUtilities */ "./dist/services/scene-utilities/SceneUtilities.js");
 /* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/v1.js");
@@ -5846,7 +6051,7 @@ var __assign = (undefined && undefined.__assign) || function () {
 
 /**
  *
- * @category Services
+ * @category Services.Export/Import
  * @class JSONImporter
  */
 var JSONImporter = /** @class */ (function () {
@@ -5867,8 +6072,8 @@ var JSONImporter = /** @class */ (function () {
             height: (_d = parsed.height) !== null && _d !== void 0 ? _d : emptyProject.height,
             resolution: (_e = parsed.resolution) !== null && _e !== void 0 ? _e : emptyProject.resolution,
             background: (_f = parsed.background) !== null && _f !== void 0 ? _f : emptyProject.background,
-            mainColor: (_g = parsed.mainColor) !== null && _g !== void 0 ? _g : emptyProject.mainColor,
-            clearCanvas: (_h = parsed.clearCanvas) !== null && _h !== void 0 ? _h : emptyProject.clearCanvas,
+            color: (_g = parsed.color) !== null && _g !== void 0 ? _g : emptyProject.color,
+            clear: (_h = parsed.clear) !== null && _h !== void 0 ? _h : emptyProject.clear,
             ghosts: (_j = parsed.ghosts) !== null && _j !== void 0 ? _j : emptyProject.ghosts,
             ghost_skip_time: (_k = parsed.ghost_skip_time) !== null && _k !== void 0 ? _k : emptyProject.ghost_skip_time,
             ghost_skip_function: (_l = parsed.ghost_skip_function) !== null && _l !== void 0 ? _l : emptyProject.ghost_skip_function,
@@ -5876,21 +6081,20 @@ var JSONImporter = /** @class */ (function () {
             scene: parsed.scene || emptyProject.scene,
             sequence: __assign(__assign({}, emptyProject.sequence), parsed.sequence),
         };
-        project.sequence.durate = project.sequence.end - project.sequence.start;
         var drawOptions = {
-            clearCanvas: project.clearCanvas,
+            clear: project.clear,
             ghosts: project.ghosts,
             ghost_skip_time: _Utilites__WEBPACK_IMPORTED_MODULE_2__.parseFunction.unparse(project.ghost_skip_time),
         };
         var scene = new _core_Scene__WEBPACK_IMPORTED_MODULE_0__.default({
-            mainColor: project.mainColor,
+            color: project.color,
             background: project.background,
             width: project.width,
             height: project.height,
         });
-        var drawer = new _drawer_canvas_DrawerCanvas__WEBPACK_IMPORTED_MODULE_1__.default(scene, undefined, drawOptions, project.ratio, project.resolution);
+        var drawer = new _drawers_drawer_canvas_DrawerCanvas__WEBPACK_IMPORTED_MODULE_1__.default(scene, undefined, drawOptions, project.ratio, project.resolution);
         var timeline = drawer.getTimeline();
-        timeline.setSequence(project.sequence.start, project.sequence.end, project.sequence.framerate);
+        timeline.setSequence(project.sequence.durate, project.sequence.framerate);
         var sceneChilds = Object.values(project.scene || []);
         for (var i = 0, len = sceneChilds.length; i < len; i++) {
             var sceneChild = this.parseSceneChild(sceneChilds[i], drawer);
@@ -5916,8 +6120,8 @@ var JSONImporter = /** @class */ (function () {
         var props = __assign({}, projectSceneChild.props);
         var sceneChild = _scene_utilities_SceneUtilities__WEBPACK_IMPORTED_MODULE_3__.default.create(projectSceneChild.type, settings);
         if (sceneChild) {
-            ;
-            Object.keys(props).forEach(function (propKey) {
+            var propKeys = Object.keys(props);
+            propKeys.forEach(function (propKey) {
                 _scene_utilities_SceneUtilities__WEBPACK_IMPORTED_MODULE_3__.default.setProp(sceneChild, propKey, _Utilites__WEBPACK_IMPORTED_MODULE_2__.parseFunction.unparse(props[propKey]), drawer);
             });
             if (projectSceneChild.children && projectSceneChild.children.length > 0) {
@@ -5928,7 +6132,7 @@ var JSONImporter = /** @class */ (function () {
             }
             return sceneChild;
         }
-        console.warn("JSONImporter: can't import", [projectSceneChild]);
+        console.warn("[Urpflanze:JSONImporter] can't import", projectSceneChild);
         return null;
     };
     JSONImporter.createEmptyProject = function () {
@@ -5939,15 +6143,13 @@ var JSONImporter = /** @class */ (function () {
             height: 600,
             resolution: 600,
             background: '#000',
-            mainColor: '#fff',
-            clearCanvas: true,
+            color: '#fff',
+            clear: true,
             ghosts: 0,
             ghost_skip_time: 30,
             ratio: 1,
             scene: {},
             sequence: {
-                start: 0,
-                end: 6000,
                 durate: 6000,
                 framerate: 60,
             },
@@ -6166,11 +6368,11 @@ var Renderer = /** @class */ (function (_super) {
         this.capturer.stop();
         this.capturer.start(1);
         var promise = new Promise(function (resolve, reject) {
-            var bClearCanvas = drawer.getOption('clearCanvas', true);
+            var bClear = drawer.getOption('clear', true);
             var timeline = drawer.getTimeline();
             var sequence = timeline.getSequence();
-            if (!bClearCanvas) {
-                var needFrame = settings.time >= sequence.end ? sequence.frames : timeline.getFrameAtTime(settings.time);
+            if (!bClear) {
+                var needFrame = settings.time >= sequence.durate ? sequence.frames : timeline.getFrameAtTime(settings.time);
                 for (var i = 0; i <= needFrame; i++) {
                     timeline.setFrame(i);
                     drawer.draw();
@@ -6278,7 +6480,7 @@ var Renderer = /** @class */ (function (_super) {
     };
     Renderer.prototype.renderAnimationPart = function (drawer, settings, frame_from, frame_count, part, total_frames, total_parts) {
         return __awaiter(this, void 0, void 0, function () {
-            var timeline, sequence, tick_time, lastRenderTime, i, current_frame, measure_start, measure_end, chunks, zip, i, len, frame_number, frameName, j, result;
+            var timeline, lastRenderTime, i, current_frame, measure_start, measure_end, chunks, zip, i, len, frame_number, frameName, j, result;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -6286,8 +6488,6 @@ var Renderer = /** @class */ (function (_super) {
                         this.capturer.stop();
                         this.capturer.start(frame_count);
                         timeline = drawer.getTimeline();
-                        sequence = timeline.getSequence();
-                        tick_time = timeline.getTickTime();
                         lastRenderTime = 0;
                         i = 0;
                         _a.label = 1;
@@ -6297,7 +6497,7 @@ var Renderer = /** @class */ (function (_super) {
                             return [2 /*return*/, undefined];
                         current_frame = i + frame_from;
                         measure_start = (0,_Utilites__WEBPACK_IMPORTED_MODULE_1__.now)();
-                        timeline.setTime((sequence.start + current_frame * tick_time) % sequence.end);
+                        timeline.setFrame(current_frame);
                         drawer.draw();
                         return [4 /*yield*/, this.capturer.capture(drawer.getCanvas(), i)];
                     case 2:
@@ -6380,6 +6580,9 @@ var OptionSpiralType = [
     { key: 'LITUUS', value: _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_0__.default.types.LITUUS },
     { key: 'LOGARITHMIC', value: _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_0__.default.types.LOGARITHMIC },
 ];
+/**
+ * @category Services.Scene Utilities
+ */
 var SceneChildPropsData = {
     repetitions: {
         animable: true,
@@ -6997,7 +7200,7 @@ var __spreadArrays = (undefined && undefined.__spreadArrays) || function () {
 
 /**
  *
- * @category Services.SceneUtilities
+ * @category Services.Scene Utilities
  * @class SceneUtilities
  */
 var SceneUtilities = /** @class */ (function () {
@@ -7173,12 +7376,11 @@ var SceneUtilities = /** @class */ (function () {
                     copiedChild && copied.add(copiedChild);
                 });
             }
-            else if (sceneChild instanceof _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_9__.default && sceneChild.shape) {
-                var copiedShape = sceneChild.shape instanceof Float32Array ? sceneChild.shape : this.copy(sceneChild.shape, scene, drawer);
+            else if (sceneChild instanceof _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_9__.default && copied instanceof _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_9__.default && sceneChild.shape) {
+                var copiedShape = this.copy(sceneChild.shape, scene, drawer);
                 copiedShape && (copied.shape = copiedShape);
             }
-            else if (sceneChild instanceof _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_12__.default && sceneChild.shape) {
-                ;
+            else if (sceneChild instanceof _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_12__.default && copied instanceof _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_12__.default && sceneChild.shape) {
                 copied.setShape(new Float32Array(sceneChild.shape));
             }
             return copied;
@@ -7469,12 +7671,12 @@ var SceneUtilities = /** @class */ (function () {
                     sceneChild.bUseParent = value;
                 break;
             case 'bCloseShape':
-                ;
-                sceneChild.setClosed(value);
+                if (sceneChild instanceof _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_10__.default)
+                    sceneChild.setClosed(value);
                 break;
             case 'bAdaptBuffer':
-                ;
-                sceneChild.adapt(value);
+                if (sceneChild instanceof _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_10__.default)
+                    sceneChild.adapt(value);
                 break;
             default:
                 // loop
@@ -7538,6 +7740,8 @@ var __assign = (undefined && undefined.__assign) || function () {
 
 
 /**
+ * Is used for sequence time management.
+ * It is necessary to set the duration and the number of frames per second (frame rate).
  *
  * @category Services.Timeline
  * @class Timeline
@@ -7545,31 +7749,25 @@ var __assign = (undefined && undefined.__assign) || function () {
  */
 var Timeline = /** @class */ (function (_super) {
     __extends(Timeline, _super);
-    /**
-     * Class used for time and rendering managment
-     *
-     * @memberof Timeline
-     */
-    function Timeline() {
+    function Timeline(durate, framerate) {
+        if (durate === void 0) { durate = 60000; }
+        if (framerate === void 0) { framerate = 60; }
         var _this = _super.call(this) || this;
-        _this.sequence = {
-            start: 0,
-            end: 60000,
-            durate: 60000,
-            framerate: 60,
-            frames: ((6000 - 0) / 1000) * 60,
-        };
-        _this.fps = _this.sequence.framerate;
         _this.fps_samples_size = 30;
         _this.fps_samples = [];
         _this.fps_samples_index = 0;
+        _this.sequence = {
+            durate: durate,
+            framerate: framerate,
+            frames: Math.round((durate / 1000) * framerate),
+        };
+        _this.tick_time = 1000 / _this.sequence.framerate;
+        _this.fps = _this.sequence.framerate;
         _this.b_sequence_started = false;
-        _this.current_frame = -1;
-        // this.paused_time = 0
-        _this.start_time = 0;
+        _this.current_frame = 0;
+        _this.current_time = 0;
         _this.last_tick = 0;
-        _this.accumulator = 0;
-        _this.calculateTickAndSequence();
+        _this.start_time = 0;
         return _this;
     }
     //#region sequence meta
@@ -7577,136 +7775,82 @@ var Timeline = /** @class */ (function (_super) {
      * Return the sequence
      *
      * @returns {Sequence}
-     * @memberof Timeline
      */
     Timeline.prototype.getSequence = function () {
         return __assign({}, this.sequence);
     };
     /**
-     * Set sequence
+     * Set Sequence
      *
-     * @param {number} start
-     * @param {number} end
+     * @param {number} durate
      * @param {number} framerate
-     * @memberof Timeline
      */
-    Timeline.prototype.setSequence = function (start, end, framerate) {
-        this.sequence.start = start;
-        this.sequence.end = end;
+    Timeline.prototype.setSequence = function (durate, framerate) {
+        this.sequence.durate = durate;
         this.sequence.framerate = framerate;
-        this.calculateTickAndSequence();
+        this.tick_time = 1000 / this.sequence.framerate;
+        this.sequence.frames = Math.round((this.sequence.durate / 1000) * this.sequence.framerate);
         this.dispatch('timeline:update_sequence', this.getSequence());
+    };
+    /**
+     * Set durate of timeline
+     *
+     * @param {number} framerate
+     */
+    Timeline.prototype.setDurate = function (durate) {
+        this.setSequence(durate, this.sequence.framerate);
+    };
+    /**
+     * Get timeline duration
+     *
+     * @returns {number}
+     */
+    Timeline.prototype.getDurate = function () {
+        return this.sequence.durate;
     };
     /**
      * Return framerate
      *
      * @returns {number}
-     * @memberof Timeline
      */
     Timeline.prototype.getFramerate = function () {
         return this.sequence.framerate;
     };
     /**
-     * Set a framerate of animation
+     * Set a framerate
      *
      * @param {number} framerate
-     * @memberof Timeline
      */
     Timeline.prototype.setFramerate = function (framerate) {
-        this.sequence.framerate = framerate;
-        this.calculateTickAndSequence();
-        this.dispatch('timeline:update_sequence', this.getSequence());
+        this.setSequence(this.sequence.durate, framerate);
     };
     /**
-     * Set the number of frames based on the sequence
-     *
-     * @private
-     * @memberof Timeline
-     */
-    Timeline.prototype.calculateTickAndSequence = function () {
-        this.tick_time = 1000 / this.sequence.framerate;
-        this.sequence.frames = Math.floor(((this.sequence.end - this.sequence.start) / 1000) * this.sequence.framerate);
-        this.sequence.durate = this.sequence.end - this.sequence.start;
-    };
-    /**
-     * Get animation start time
+     * Get number of frames based on duration and framerate
      *
      * @returns {number}
-     * @memberof Timeline
-     */
-    Timeline.prototype.getSequenceStartTime = function () {
-        return this.sequence.start;
-    };
-    /**
-     * Set animation start time
-     *
-     * @param {number} start_time
-     * @memberof Timeline
-     */
-    Timeline.prototype.setSequenceStartTime = function (start_time) {
-        this.sequence.start = start_time;
-        this.calculateTickAndSequence();
-        this.dispatch('timeline:update_sequence', this.getSequence());
-    };
-    /**
-     * Get a aniamtion end time
-     *
-     * @returns {number}
-     * @memberof Timeline
-     */
-    Timeline.prototype.getSequenceEndTime = function () {
-        return this.sequence.end;
-    };
-    /**
-     * Set animation end time
-     *
-     * @param {number} end_time
-     * @memberof Timeline
-     */
-    Timeline.prototype.setSequenceEndTime = function (end_time) {
-        this.sequence.end = end_time;
-        this.calculateTickAndSequence();
-        this.dispatch('timeline:update_sequence', this.getSequence());
-    };
-    /**
-     * Get animation durate
-     *
-     * @returns {number}
-     * @memberof Timeline
-     */
-    Timeline.prototype.getSequenceDuration = function () {
-        return this.sequence.end - this.sequence.start;
-    };
-    /**
-     * Get number of frames of animation
-     *
-     * @returns {number}
-     * @memberof Timeline
      */
     Timeline.prototype.getFramesCount = function () {
         return this.sequence.frames;
     };
     //#endregion meta
     //#region change status
+    Timeline.prototype.bSequenceStarted = function () {
+        return this.b_sequence_started;
+    };
     /**
      * Start the sequence
      *
-     * @memberof Timeline
      */
     Timeline.prototype.start = function () {
         if (!this.b_sequence_started) {
             this.b_sequence_started = true;
-            // this.last_tick = now() - this.paused_time
             this.start_time = this.paused_time;
-            this.last_tick = 0;
-            this.accumulator = 0;
             this.dispatch('timeline:change_status', Timeline.START);
         }
     };
     /**
      * Pause the sequence
      *
-     * @memberof Timeline
      */
     Timeline.prototype.pause = function () {
         if (this.b_sequence_started) {
@@ -7718,19 +7862,14 @@ var Timeline = /** @class */ (function (_super) {
     /**
      * Stop the sequence and reset
      *
-     * @memberof Timeline
      */
     Timeline.prototype.stop = function () {
-        if (this.current_frame != 1 || this.b_sequence_started) {
+        if (this.b_sequence_started) {
             this.b_sequence_started = false;
-            this.current_frame = -1;
+            this.current_time = 0;
+            this.current_frame = 0;
             this.start_time = 0;
             this.paused_time = 0;
-            this.dispatch('timeline:progress', {
-                current_frame: this.current_frame,
-                current_time: 0,
-                fps: this.fps,
-            });
             this.dispatch('timeline:change_status', Timeline.STOP);
         }
     };
@@ -7739,29 +7878,23 @@ var Timeline = /** @class */ (function (_super) {
      *
      * @param {number} timestamp current timestamp
      * @returns {boolean}
-     * @memberof Timeline
      */
     Timeline.prototype.tick = function (timestamp) {
         if (this.b_sequence_started) {
             if (!this.start_time) {
                 this.start_time = timestamp;
-                this.accumulator = this.tick_time;
+                this.last_tick = -this.tick_time;
             }
             var currentTime = timestamp - this.start_time;
             var elapsed = currentTime - this.last_tick;
-            this.accumulator += elapsed;
-            // if (elapsed >= this.tick_time) {
-            if (this.accumulator >= this.tick_time) {
-                var delta = (currentTime - this.last_tick) / 1000;
-                this.calculateFPS(1 / delta);
-                // this.last_tick = currentTime - (elapsed % this.tick_time)
+            if (elapsed >= this.tick_time) {
+                this.calculateFPS(1 / (elapsed / 1000));
                 this.last_tick = currentTime;
-                this.current_frame = this.getFrameAtTime(this.last_tick);
-                // this.current_frame = (this.current_frame + 1) % this.sequence.frames
-                this.accumulator -= this.tick_time;
+                this.current_time = (currentTime - (elapsed % this.tick_time)) % this.sequence.durate;
+                this.current_frame = this.getFrameAtTime(this.current_time);
                 this.dispatch('timeline:progress', {
                     current_frame: this.current_frame,
-                    current_time: this.last_tick,
+                    current_time: this.current_time,
                     fps: this.fps,
                 });
                 return true;
@@ -7774,7 +7907,6 @@ var Timeline = /** @class */ (function (_super) {
      *
      * @private
      * @param {number} currentFPS
-     * @memberof Timeline
      */
     Timeline.prototype.calculateFPS = function (currentFPS) {
         var samples = this.fps_samples.length;
@@ -7788,15 +7920,11 @@ var Timeline = /** @class */ (function (_super) {
         this.fps_samples_index = (this.fps_samples_index + 1) % this.fps_samples_size;
     };
     //#endregion
-    //#region animation meta
-    Timeline.prototype.bSequenceStarted = function () {
-        return this.b_sequence_started;
-    };
+    //#region Frame and Time
     /**
      * Return current animation frame
      *
      * @returns {number}
-     * @memberof Timeline
      */
     Timeline.prototype.getCurrentFrame = function () {
         return this.current_frame;
@@ -7806,66 +7934,66 @@ var Timeline = /** @class */ (function (_super) {
      *
      * @param {number} frame
      * @returns {number}
-     * @memberof Timeline
      */
     Timeline.prototype.getFrameTime = function (frame) {
-        frame = frame < 0 ? this.sequence.frames - (frame % this.sequence.frames) : frame % this.sequence.frames;
-        return (this.sequence.start + frame * this.tick_time) % this.sequence.end;
+        frame = frame < 0 ? this.sequence.frames - (Math.abs(frame) % this.sequence.frames) : frame % this.sequence.frames;
+        return (frame * this.tick_time) % this.sequence.durate;
     };
     /**
      * Return frame number at time
      *
      * @param {number} time
      * @returns {number}
-     * @memberof Timeline
      */
     Timeline.prototype.getFrameAtTime = function (time) {
-        return Math.round(((this.sequence.start + time) % this.sequence.end) / this.tick_time);
+        return Math.round((time % this.sequence.durate) / this.tick_time);
     };
     /**
      * set current frame
      *
      * @param {number} frame
-     * @memberof Timeline
      */
     Timeline.prototype.setFrame = function (frame) {
-        this.current_frame = frame - 1;
+        this.current_frame = frame;
+        this.current_time = this.getFrameTime(frame);
     };
     /**
      * Return tick time (based on framerate)
      *
      * @returns {number}
-     * @memberof Timeline
      */
     Timeline.prototype.getTickTime = function () {
         return this.tick_time;
     };
     /**
-     * Return the current time based on current frame
+     * Return the current time
      *
      * @returns {number}
-     * @memberof Timeline
      */
     Timeline.prototype.getTime = function () {
-        return ((this.sequence.start + (this.current_frame <= 0 ? 0 : this.current_frame) * this.tick_time) % this.sequence.end);
+        return this.current_time;
     };
     /**
      * Set animation at time
      *
      * @param {number} time
-     * @memberof Timeline
      */
     Timeline.prototype.setTime = function (time) {
-        time = time <= this.sequence.start ? this.sequence.start : time >= this.sequence.end ? this.sequence.end : time;
-        this.current_frame = Math.floor(time / this.tick_time) - 1;
-        this.dispatch('timeline:progress', {
-            current_frame: this.current_frame,
-            current_time: time,
-            fps: this.fps,
-        });
+        time = (time + this.sequence.durate) % this.sequence.durate;
+        this.current_time = time;
+        this.current_frame = this.getFrameAtTime(time);
     };
+    /**
+     * Animation status started
+     */
     Timeline.START = 'start';
+    /**
+     * Animation status paused
+     */
     Timeline.PAUSE = 'pause';
+    /**
+     * Animation status stop
+     */
     Timeline.STOP = 'stop';
     return Timeline;
 }(_events_Emitter__WEBPACK_IMPORTED_MODULE_0__.default));

@@ -3,8 +3,14 @@ import { EShapePrimitiveAdaptMode } from '@core/types/shape-base'
 import { TDrawerTransformation } from '@services/types/drawer'
 import { TSceneChildProps } from '@services/types/scene-utilities'
 
+/**
+ * @category Services.Scene Utilities
+ */
 export type TPropInputType = 'range' | 'multiple-range' | 'color' | 'select' | 'checkbox' | 'radio' | 'slider'
 
+/**
+ * @category Services.Scene Utilities
+ */
 export interface ISceneChildPropData {
 	label: string
 	name: string
@@ -21,6 +27,9 @@ export interface ISceneChildPropData {
 	type_value?: 'float' | 'int'
 }
 
+/**
+ * @category Services.Scene Utilities
+ */
 export type TSceneChildPropsDataKeys = Exclude<
 	keyof TSceneChildProps | 'loop.start' | 'loop.end' | 'loop.inc',
 	'shapeLoopPropsDependencies' | 'vertexCallback' | 'loop' | 'name' | 'order' | 'type' | 'data' | 'shape' | 'id'
@@ -45,6 +54,9 @@ const OptionSpiralType = [
 	{ key: 'LOGARITHMIC', value: Spiral.types.LOGARITHMIC },
 ]
 
+/**
+ * @category Services.Scene Utilities
+ */
 const SceneChildPropsData: TSceneChildUtilityProps = {
 	repetitions: {
 		animable: true,

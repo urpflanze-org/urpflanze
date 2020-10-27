@@ -1,16 +1,27 @@
 import Emitter from "../events/Emitter";
 import { ISequenceMeta, ITimelineEvents } from "../types/timeline";
 /**
+ * Is used for sequence time management.
+ * It is necessary to set the duration and the number of frames per second (frame rate).
  *
  * @category Services.Timeline
  * @class Timeline
  * @extends {Emitter<ITimelineEvents>}
  */
 declare class Timeline extends Emitter<ITimelineEvents> {
-    static START: string;
-    static PAUSE: string;
-    static STOP: string;
-    private fps_samples_size;
+    /**
+     * Animation status started
+     */
+    static readonly START = "start";
+    /**
+     * Animation status paused
+     */
+    static readonly PAUSE = "pause";
+    /**
+     * Animation status stop
+     */
+    static readonly STOP = "stop";
+    private readonly fps_samples_size;
     private fps_samples;
     private fps_samples_index;
     private fps;
@@ -22,86 +33,64 @@ declare class Timeline extends Emitter<ITimelineEvents> {
     private last_tick;
     private b_sequence_started;
     private sequence;
-    /**
-     * Class used for time and rendering managment
-     *
-     * @memberof Timeline
-     */
     constructor(durate?: number, framerate?: number);
     /**
      * Return the sequence
      *
      * @returns {Sequence}
-     * @memberof Timeline
      */
     getSequence(): ISequenceMeta;
     /**
-     * Set sequence
+     * Set Sequence
      *
      * @param {number} durate
      * @param {number} framerate
-     * @memberof Timeline
      */
     setSequence(durate: number, framerate: number): void;
     /**
      * Set durate of timeline
      *
      * @param {number} framerate
-     * @memberof Timeline
      */
     setDurate(durate: number): void;
     /**
-     * Get animation durate
+     * Get timeline duration
      *
      * @returns {number}
-     * @memberof Timeline
      */
     getDurate(): number;
     /**
      * Return framerate
      *
      * @returns {number}
-     * @memberof Timeline
      */
     getFramerate(): number;
     /**
-     * Set a framerate of animation
+     * Set a framerate
      *
      * @param {number} framerate
-     * @memberof Timeline
      */
     setFramerate(framerate: number): void;
     /**
-     * Set the number of frames based on the sequence
-     *
-     * @private
-     * @memberof Timeline
-     */
-    private calculateTickAndSequence;
-    /**
-     * Get number of frames of animation
+     * Get number of frames based on duration and framerate
      *
      * @returns {number}
-     * @memberof Timeline
      */
     getFramesCount(): number;
     bSequenceStarted(): boolean;
     /**
      * Start the sequence
      *
-     * @memberof Timeline
      */
     start(): void;
     /**
      * Pause the sequence
      *
-     * @memberof Timeline
      */
     pause(): void;
     /**
      * Stop the sequence and reset
      *
-     * @memberof Timeline
      */
     stop(): void;
     /**
@@ -109,7 +98,6 @@ declare class Timeline extends Emitter<ITimelineEvents> {
      *
      * @param {number} timestamp current timestamp
      * @returns {boolean}
-     * @memberof Timeline
      */
     tick(timestamp: number): boolean;
     /**
@@ -117,14 +105,12 @@ declare class Timeline extends Emitter<ITimelineEvents> {
      *
      * @private
      * @param {number} currentFPS
-     * @memberof Timeline
      */
     private calculateFPS;
     /**
      * Return current animation frame
      *
      * @returns {number}
-     * @memberof Timeline
      */
     getCurrentFrame(): number;
     /**
@@ -132,7 +118,6 @@ declare class Timeline extends Emitter<ITimelineEvents> {
      *
      * @param {number} frame
      * @returns {number}
-     * @memberof Timeline
      */
     getFrameTime(frame: number): number;
     /**
@@ -140,35 +125,30 @@ declare class Timeline extends Emitter<ITimelineEvents> {
      *
      * @param {number} time
      * @returns {number}
-     * @memberof Timeline
      */
     getFrameAtTime(time: number): number;
     /**
      * set current frame
      *
      * @param {number} frame
-     * @memberof Timeline
      */
     setFrame(frame: number): void;
     /**
      * Return tick time (based on framerate)
      *
      * @returns {number}
-     * @memberof Timeline
      */
     getTickTime(): number;
     /**
      * Return the current time
      *
      * @returns {number}
-     * @memberof Timeline
      */
     getTime(): number;
     /**
      * Set animation at time
      *
      * @param {number} time
-     * @memberof Timeline
      */
     setTime(time: number): void;
 }

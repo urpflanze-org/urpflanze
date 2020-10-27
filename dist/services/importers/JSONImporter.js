@@ -16,7 +16,7 @@ import SceneUtilities from "../scene-utilities/SceneUtilities";
 import { v1 as uuidv1 } from 'uuid';
 /**
  *
- * @category Services
+ * @category Services.Export/Import
  * @class JSONImporter
  */
 var JSONImporter = /** @class */ (function () {
@@ -37,7 +37,7 @@ var JSONImporter = /** @class */ (function () {
             height: (_d = parsed.height) !== null && _d !== void 0 ? _d : emptyProject.height,
             resolution: (_e = parsed.resolution) !== null && _e !== void 0 ? _e : emptyProject.resolution,
             background: (_f = parsed.background) !== null && _f !== void 0 ? _f : emptyProject.background,
-            mainColor: (_g = parsed.mainColor) !== null && _g !== void 0 ? _g : emptyProject.mainColor,
+            color: (_g = parsed.color) !== null && _g !== void 0 ? _g : emptyProject.color,
             clear: (_h = parsed.clear) !== null && _h !== void 0 ? _h : emptyProject.clear,
             ghosts: (_j = parsed.ghosts) !== null && _j !== void 0 ? _j : emptyProject.ghosts,
             ghost_skip_time: (_k = parsed.ghost_skip_time) !== null && _k !== void 0 ? _k : emptyProject.ghost_skip_time,
@@ -52,7 +52,7 @@ var JSONImporter = /** @class */ (function () {
             ghost_skip_time: parseFunction.unparse(project.ghost_skip_time),
         };
         var scene = new Scene({
-            mainColor: project.mainColor,
+            color: project.color,
             background: project.background,
             width: project.width,
             height: project.height,
@@ -85,8 +85,8 @@ var JSONImporter = /** @class */ (function () {
         var props = __assign({}, projectSceneChild.props);
         var sceneChild = SceneUtilities.create(projectSceneChild.type, settings);
         if (sceneChild) {
-            ;
-            Object.keys(props).forEach(function (propKey) {
+            var propKeys = Object.keys(props);
+            propKeys.forEach(function (propKey) {
                 SceneUtilities.setProp(sceneChild, propKey, parseFunction.unparse(props[propKey]), drawer);
             });
             if (projectSceneChild.children && projectSceneChild.children.length > 0) {
@@ -97,7 +97,7 @@ var JSONImporter = /** @class */ (function () {
             }
             return sceneChild;
         }
-        console.warn("JSONImporter: can't import", [projectSceneChild]);
+        console.warn("[Urpflanze:JSONImporter] can't import", projectSceneChild);
         return null;
     };
     JSONImporter.createEmptyProject = function () {
@@ -108,7 +108,7 @@ var JSONImporter = /** @class */ (function () {
             height: 600,
             resolution: 600,
             background: '#000',
-            mainColor: '#fff',
+            color: '#fff',
             clear: true,
             ghosts: 0,
             ghost_skip_time: 30,

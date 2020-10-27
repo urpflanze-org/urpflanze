@@ -1,4 +1,11 @@
+/**
+ * @category Services.Renderer
+ */
 export type TRenderImageType = 'image/png' | 'image/jpeg'
+
+/**
+ * @category Services.Renderer
+ */
 export type TRenderType = TRenderImageType | 'image/svg+xml'
 
 /**

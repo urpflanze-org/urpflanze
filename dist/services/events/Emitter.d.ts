@@ -1,4 +1,5 @@
 /**
+ * Class used for emit and dispatch events
  *
  * @category Services.Emitter
  * @abstract
