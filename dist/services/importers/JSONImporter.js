@@ -10,7 +10,7 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 import Scene from "../../core/Scene";
-import DrawerCanvas from "../drawer-canvas/DrawerCanvas";
+import DrawerCanvas from "../drawers/drawer-canvas/DrawerCanvas";
 import { parseFunction } from "../../Utilites";
 import SceneUtilities from "../scene-utilities/SceneUtilities";
 import { v1 as uuidv1 } from 'uuid';
@@ -38,7 +38,7 @@ var JSONImporter = /** @class */ (function () {
             resolution: (_e = parsed.resolution) !== null && _e !== void 0 ? _e : emptyProject.resolution,
             background: (_f = parsed.background) !== null && _f !== void 0 ? _f : emptyProject.background,
             mainColor: (_g = parsed.mainColor) !== null && _g !== void 0 ? _g : emptyProject.mainColor,
-            clearCanvas: (_h = parsed.clearCanvas) !== null && _h !== void 0 ? _h : emptyProject.clearCanvas,
+            clear: (_h = parsed.clear) !== null && _h !== void 0 ? _h : emptyProject.clear,
             ghosts: (_j = parsed.ghosts) !== null && _j !== void 0 ? _j : emptyProject.ghosts,
             ghost_skip_time: (_k = parsed.ghost_skip_time) !== null && _k !== void 0 ? _k : emptyProject.ghost_skip_time,
             ghost_skip_function: (_l = parsed.ghost_skip_function) !== null && _l !== void 0 ? _l : emptyProject.ghost_skip_function,
@@ -46,9 +46,8 @@ var JSONImporter = /** @class */ (function () {
             scene: parsed.scene || emptyProject.scene,
             sequence: __assign(__assign({}, emptyProject.sequence), parsed.sequence),
         };
-        project.sequence.durate = project.sequence.end - project.sequence.start;
         var drawOptions = {
-            clearCanvas: project.clearCanvas,
+            clear: project.clear,
             ghosts: project.ghosts,
             ghost_skip_time: parseFunction.unparse(project.ghost_skip_time),
         };
@@ -60,7 +59,7 @@ var JSONImporter = /** @class */ (function () {
         });
         var drawer = new DrawerCanvas(scene, undefined, drawOptions, project.ratio, project.resolution);
         var timeline = drawer.getTimeline();
-        timeline.setSequence(project.sequence.start, project.sequence.end, project.sequence.framerate);
+        timeline.setSequence(project.sequence.durate, project.sequence.framerate);
         var sceneChilds = Object.values(project.scene || []);
         for (var i = 0, len = sceneChilds.length; i < len; i++) {
             var sceneChild = this.parseSceneChild(sceneChilds[i], drawer);
@@ -110,14 +109,12 @@ var JSONImporter = /** @class */ (function () {
             resolution: 600,
             background: '#000',
             mainColor: '#fff',
-            clearCanvas: true,
+            clear: true,
             ghosts: 0,
             ghost_skip_time: 30,
             ratio: 1,
             scene: {},
             sequence: {
-                start: 0,
-                end: 6000,
                 durate: 6000,
                 framerate: 60,
             },

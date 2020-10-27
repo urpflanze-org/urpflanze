@@ -71,11 +71,11 @@ var Renderer = /** @class */ (function (_super) {
         this.capturer.stop();
         this.capturer.start(1);
         var promise = new Promise(function (resolve, reject) {
-            var bClearCanvas = drawer.getOption('clearCanvas', true);
+            var bClear = drawer.getOption('clear', true);
             var timeline = drawer.getTimeline();
             var sequence = timeline.getSequence();
-            if (!bClearCanvas) {
-                var needFrame = settings.time >= sequence.end ? sequence.frames : timeline.getFrameAtTime(settings.time);
+            if (!bClear) {
+                var needFrame = settings.time >= sequence.durate ? sequence.frames : timeline.getFrameAtTime(settings.time);
                 for (var i = 0; i <= needFrame; i++) {
                     timeline.setFrame(i);
                     drawer.draw();
@@ -202,7 +202,7 @@ var Renderer = /** @class */ (function (_super) {
                             return [2 /*return*/, undefined];
                         current_frame = i + frame_from;
                         measure_start = now();
-                        timeline.setTime((sequence.start + current_frame * tick_time) % sequence.end);
+                        timeline.setFrame(current_frame);
                         drawer.draw();
                         return [4 /*yield*/, this.capturer.capture(drawer.getCanvas(), i)];
                     case 2:

@@ -1,6 +1,6 @@
 /**
  *
- * @category Services
+ * @category Services.Emitter
  * @abstract
  * @class Emitter
  * @template EventTypes
@@ -9,8 +9,7 @@ abstract class Emitter<EventTypes> {
 	private callbacks: Record<keyof EventTypes, Array<(args: EventTypes[keyof EventTypes]) => any>>
 
 	constructor() {
-		//@ts-ignore
-		this.callbacks = {}
+		this.callbacks = {} as Record<keyof EventTypes, Array<(args: EventTypes[keyof EventTypes]) => any>>
 	}
 
 	/**

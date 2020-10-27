@@ -1,6 +1,6 @@
 import { toRadians, toDegrees } from 'src/Utilites'
 
-import DrawerCanvas from '@services/drawer-canvas/DrawerCanvas'
+import DrawerCanvas from '@services/drawers/drawer-canvas/DrawerCanvas'
 import SceneChildPropsData, {
 	ISceneChildPropData,
 	TSceneChildPropsDataKeys,
@@ -8,7 +8,8 @@ import SceneChildPropsData, {
 import { IShapeLoopAnimation, TAnimation } from '@services/types/animation'
 import { IShapeLoopGenerator, TShapeLoopGeneratorFormula } from '@core/types/shape-primitive'
 import { TVertexCallback } from '@core/types/shape-base'
-import { TDrawerTransformation, TDrawerValue } from '@services/types/drawer-canvas'
+import { TDrawerTransformation, TDrawerValue } from '@services/types/drawer'
+import Drawer from '@services/drawers/Drawer'
 
 /**
  *
@@ -126,7 +127,7 @@ class ScenePropUtilities {
 		return sceneChildProp && sceneChildProp.transformation !== 'none' ? sceneChildProp.transformation : null
 	}
 
-	static getTransformedValue(drawer: DrawerCanvas, name: string, value: any): string | number | Array<number> {
+	static getTransformedValue(drawer: Drawer<any, any>, name: string, value: any): string | number | Array<number> {
 		const sceneChildProp = SceneChildPropsData[name as TSceneChildPropsDataKeys]
 
 		if (ScenePropUtilities.bPropTransformable(name, value)) {

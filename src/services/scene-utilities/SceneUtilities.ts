@@ -21,7 +21,6 @@ import ShapeBuffer from '@core/shapes/ShapeBuffer'
 import Scene from '@core/Scene'
 import Group from '@core/Group'
 import ShapeBase from '@core/shapes/ShapeBase'
-import DrawerCanvas from '@services/drawer-canvas/DrawerCanvas'
 
 import SceneChildPropsData, { TSceneChildPropsDataKeys } from '@services/scene-utilities/SceneChildPropsData'
 import ScenePropUtilities from '@services/scene-utilities/ScenePropUtilities'
@@ -29,6 +28,7 @@ import Animation from '@services/animation/Animation'
 import { TSceneChildProps } from '@services/types/scene-utilities'
 import { ISceneChildProps } from '@core/types/scene-child'
 import { IShapeLoopAnimation } from '@services/types/animation'
+import Drawer from '@services/drawers/Drawer'
 
 export type SceneChildInstance = new (props: any) => SceneChild
 
@@ -116,7 +116,12 @@ class SceneUtilities {
 	 * @returns {(SceneChild | null)}
 	 * @memberof SceneUtilities
 	 */
-	create(item: string | SceneChild, props?: TSceneChildProps, scene?: Scene, drawer?: DrawerCanvas): SceneChild | null {
+	create(
+		item: string | SceneChild,
+		props?: TSceneChildProps,
+		scene?: Scene,
+		drawer?: Drawer<any, any>
+	): SceneChild | null {
 		scene = scene ? scene : typeof item !== 'string' ? item.scene : undefined
 
 		if (item instanceof SceneChild) {
@@ -189,7 +194,7 @@ class SceneUtilities {
 	 * @returns {(SceneChild | null)}
 	 * @memberof SceneUtilities
 	 */
-	copy(sceneChild: SceneChild, scene?: Scene, drawer?: DrawerCanvas, strict = false): SceneChild | null {
+	copy(sceneChild: SceneChild, scene?: Scene, drawer?: Drawer<any, any>, strict = false): SceneChild | null {
 		// copy only props, without name, id
 		const props: TSceneChildProps = sceneChild.getProps()
 
@@ -231,8 +236,7 @@ class SceneUtilities {
 					copiedChild && (copied as Group).add(copiedChild)
 				})
 			} else if (sceneChild instanceof Shape && sceneChild.shape) {
-				const copiedShape: SceneChild | null =
-					sceneChild.shape instanceof Float32Array ? sceneChild.shape : this.copy(sceneChild.shape, scene, drawer)
+				const copiedShape: SceneChild | null = this.copy(sceneChild.shape, scene, drawer)
 				copiedShape && ((copied as Shape).shape = copiedShape)
 			} else if (sceneChild instanceof ShapeBuffer && sceneChild.shape) {
 				;(copied as ShapeBuffer).setShape(new Float32Array(sceneChild.shape))
@@ -504,7 +508,7 @@ class SceneUtilities {
 	 * @param {DrawerCanvas} drawer
 	 * @memberof SceneUtilities
 	 */
-	setProp(sceneChild: SceneChild, name: string, value: any, drawer: DrawerCanvas): void {
+	setProp(sceneChild: SceneChild, name: string, value: any, drawer: Drawer<any, any>): void {
 		if (ScenePropUtilities.bValueAnimation(value)) {
 			sceneChild.data.props[name] = value
 			sceneChild.setProp(name as keyof ISceneChildProps, Animation.composeAnimation(drawer, name, value))

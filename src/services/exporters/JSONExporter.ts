@@ -8,7 +8,7 @@ import ShapePrimitive from '@core/shapes/ShapePrimitive'
 
 import { parseFunction } from 'src/Utilites'
 
-import DrawerCanvas from '@services/drawer-canvas/DrawerCanvas'
+import DrawerCanvas from '@services/drawers/drawer-canvas/DrawerCanvas'
 import JSONImporter from '@services/importers/JSONImporter'
 import Timeline from '@services/timeline/Timeline'
 import { IProject, IProjectSceneChild } from '@services/types/project'
@@ -17,19 +17,19 @@ import { ISceneChildProps } from '@core/types/scene-child'
 
 /**
  *
- * @category Services
+ * @category Services.Exporters
  * @class JSONExporter
  */
 class JSONExporter {
-	parse(drawer: DrawerCanvas, name = 'EmptyProject'): string {
-		return this.toString(this.parseAsProject(drawer, name))
+	static parse(drawer: DrawerCanvas, name = 'EmptyProject'): string {
+		return JSONExporter.toString(JSONExporter.parseAsProject(drawer, name))
 	}
 
-	toString(project: IProject): string {
+	static toString(project: IProject): string {
 		return JSON.stringify(project)
 	}
 
-	parseAsProject(drawer: DrawerCanvas, name = 'EmptyProject'): IProject {
+	static parseAsProject(drawer: DrawerCanvas, name = 'EmptyProject'): IProject {
 		const scene: Scene = drawer.getScene()
 		const timeline: Timeline = drawer.getTimeline()
 
@@ -42,27 +42,27 @@ class JSONExporter {
 		project.mainColor = scene.mainColor
 		project.background = scene.background
 
-		project.clearCanvas = drawer.getOption('clearCanvas', true) as boolean
+		project.clear = drawer.getOption('clear', true) as boolean
 		project.ghosts = drawer.getOption('ghosts', 0) as number
 		project.ghost_skip_time = parseFunction.parse(drawer.getOption('ghost_skip_time', 30) as number | string)
 
 		project.ratio = drawer.getRatio()
 
-		const { start, end, framerate } = timeline.getSequence()
-		project.sequence = { start, end, framerate, durate: end - start }
+		const { durate, framerate } = timeline.getSequence()
+		project.sequence = { durate, framerate }
 
 		project.scene = {}
 
 		const sceneChilds: Array<SceneChild> = scene.getChildren()
 
 		for (let i = 0, len = sceneChilds.length; i < len; i++) {
-			project.scene[sceneChilds[i].id] = this.parseSceneChild(sceneChilds[i])
+			project.scene[sceneChilds[i].id] = JSONExporter.parseSceneChild(sceneChilds[i])
 		}
 
 		return project
 	}
 
-	parseSceneChild(sceneChild: SceneChild, parent_id?: string | number, depth = 0): IProjectSceneChild {
+	static parseSceneChild(sceneChild: SceneChild, parent_id?: string | number, depth = 0): IProjectSceneChild {
 		const projectSceneChild: IProjectSceneChild = {
 			id: sceneChild.id + '',
 			type: sceneChild.type,
@@ -99,7 +99,7 @@ class JSONExporter {
 			const shapeChildren = SceneUtilities.getChildren(sceneChild)
 
 			for (let i = 0; i < shapeChildren.length; i++)
-				children.push(this.parseSceneChild(shapeChildren[i], sceneChild.id, depth + 1))
+				children.push(JSONExporter.parseSceneChild(shapeChildren[i], sceneChild.id, depth + 1))
 
 			projectSceneChild.children = children
 		}

@@ -47,7 +47,7 @@ var Shape = /** @class */ (function (_super) {
             _this.shape = settings.shape;
         }
         else {
-            console.warn('[Urpflanze:Shape] requires the shape property to be instance of SceneChild,\nYou passed:', settings.shape);
+            console.warn("[Urpflanze:Shape] requires the 'shape' property to be instance of SceneChild,\nYou passed:", settings.shape);
         }
         _this.bStatic = _this.isStatic();
         _this.bStaticIndexed = _this.isStaticIndexed();

@@ -2,7 +2,7 @@ import { ICancelablePromise } from "../../Utilites";
 import Emitter from "../events/Emitter";
 import { IRenderEvents, IRenderSettings } from "../types/renedrer";
 import Capturer from "./Capturer";
-import DrawerCanvas from "../drawer-canvas/DrawerCanvas";
+import DrawerCanvas from "../drawers/drawer-canvas/DrawerCanvas";
 /**
  *
  * @category Services.Renderer

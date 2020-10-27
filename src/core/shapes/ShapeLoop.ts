@@ -98,6 +98,10 @@ class ShapeLoop extends ShapePrimitive {
 
 		this.props.loop = settings.loop
 
+		if (typeof settings.loop === 'undefined') {
+			console.warn("[Urpflanze:ShapeLoop] requires the 'loop' property")
+		}
+
 		if (!bPreventGeneration) {
 			this.loop = {
 				start: 0,

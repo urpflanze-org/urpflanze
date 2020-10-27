@@ -1,6 +1,4 @@
-import Scene from "../../core/Scene";
-import DrawerCanvas from "../drawer-canvas/DrawerCanvas";
-import { IDrawOptions } from "../types/drawer-canvas";
+import Drawer from "../drawers/Drawer";
 import { IRenderSettings } from "../types/renedrer";
 /**
  *
@@ -8,8 +6,8 @@ import { IRenderSettings } from "../types/renedrer";
  * @class SVGExporter
  */
 declare class SVGExporter {
-    parse(drawer: DrawerCanvas, settings: IRenderSettings): string;
-    static draw(scene: Scene, options: IDrawOptions, resolution: number, decimals: number): Array<string>;
+    static parse(drawer: Drawer<any, any>, settings: IRenderSettings): string;
+    static parseAsSVG(drawer: Drawer<any, any>, settings: IRenderSettings): SVGElement;
 }
 export default SVGExporter;
 //# sourceMappingURL=SVGExporter.d.ts.map

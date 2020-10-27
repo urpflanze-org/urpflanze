@@ -33,7 +33,7 @@ class Shape extends ShapeBase {
 			this.shape = settings.shape
 		} else {
 			console.warn(
-				'[Urpflanze:Shape] requires the shape property to be instance of SceneChild,\nYou passed:',
+				"[Urpflanze:Shape] requires the 'shape' property to be instance of SceneChild,\nYou passed:",
 				settings.shape
 			)
 		}

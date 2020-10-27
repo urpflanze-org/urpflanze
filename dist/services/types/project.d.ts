@@ -1,13 +1,11 @@
 import { EShapePrimitiveAdaptMode } from "../../core/types/shape-base";
 import { IShapeLoopAnimation, IVertexCallbackAnimation, TAnimation, TCallableValue } from "./animation";
-import { ISceneChildDrawerData, TDrawerValue } from "./drawer-canvas";
+import { ISceneChildDrawerData, TDrawerValue } from "./drawer";
 import { TSceneChildProps } from "./scene-utilities";
 /**
  * @category Services.Export/Import
  */
 export interface IProjectSequence {
-    start: number;
-    end: number;
     durate: number;
     framerate: number;
 }
@@ -24,7 +22,7 @@ export interface IProject {
     resolution?: number;
     ratio: number;
     backgroundImage?: string;
-    clearCanvas: boolean;
+    clear: boolean;
     ghosts: number;
     ghost_skip_time?: number;
     ghost_skip_function?: number | string | CallableFunction;

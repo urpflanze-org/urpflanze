@@ -1,6 +1,6 @@
 import Spiral from '@core/shapes/primitives/Spiral'
 import { EShapePrimitiveAdaptMode } from '@core/types/shape-base'
-import { TDrawerTransformation } from '@services/types/drawer-canvas'
+import { TDrawerTransformation } from '@services/types/drawer'
 import { TSceneChildProps } from '@services/types/scene-utilities'
 
 export type TPropInputType = 'range' | 'multiple-range' | 'color' | 'select' | 'checkbox' | 'radio' | 'slider'
