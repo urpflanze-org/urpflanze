@@ -1,7 +1,7 @@
 {
-	"name": "@genbs/urpflanze",
+	"name": "urpflanze",
 	"version": "0.0.0-beta.1",
-	"description": "Play with the repetition and encapsulation of primitive forms",
+	"description": "Play with the repetition and encapsulation of primitive shapes",
 	"license": "MIT",
 	"author": {
 		"name": "Gennaro Bosone",
@@ -12,7 +12,7 @@
 		"type": "git",
 		"url": "https://github.com/genbs/urpflanze.git"
 	},
-	"homepage": "https://github.com/genbs/urpflanze#readme",
+	"homepage": "https://genbs.github.io/urpflanze/",
 	"bugs": {
 		"url": "https://github.com/genbs/urpflanze/issues",
 		"email": "gennaro.bs@gmail.com"
@@ -22,7 +22,6 @@
 	"files": [
 		"build",
 		"dist",
-		"docs",
 		"package.json",
 		"README.md",
 		"LICENSE"
