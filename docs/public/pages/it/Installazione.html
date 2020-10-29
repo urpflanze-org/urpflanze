@@ -35,23 +35,18 @@ Se sei agli inizi e non hai bisogno di tutte le funzionalità puoi scaricare la 
 Se lo preferisci, puoi utilizzare una versione hostata online.
 
 <pre class="prettyprint">
-<code translate="no" class="language-html">&lt;!-- Link customizzabile --&gt;
+<code translate="no" class="language-html">&lt;!-- Link all'ultima versione completa minificata --&gt;
+&lt;script src=https://cdn.jsdelivr.net/npm/urpflanze/build/urpflanze.js"&gt;&lt;/script&gt;</code>
+&lt;!-- Link customizzabile --&gt;
 &lt;script src=https://cdn.jsdelivr.net/npm/urpflanze[@version]/build/urpflanze[-light][.min].js"&gt;&lt;/script&gt;</code>
 </pre>
 
 <h2>Installazione tramite npm</h2>
 
-Siccome la libreria è hostata nei registry di Github, prima di installarla bisognerà creare un file nella directory
-contenente il file <mark>package.json</mark> denominato <mark>.npmrc</mark> ed aggiungere la seguente riga
+Per installarla basterà lanciare il comando:
 
 <pre class="prettyprint">
-<code translate="no" class="language-text">registry=https://npm.pkg.github.com/genbs</code>
-</pre>
-
-Dopo la creazione sarà possibile per <mark>npm</mark> trovare la libreria. Per installarla basterà lanciare il comando:
-
-<pre class="prettyprint">
-<code translate="no" class="language-text">npm i --save @genbs/urpflanze</code>
+<code translate="no" class="language-text">npm i --save urpflanze</code>
 </pre>
 
 Al termine potai includere Urpflanze nel tuo codice
@@ -59,19 +54,19 @@ Al termine potai includere Urpflanze nel tuo codice
 <code translate="no" class="language-js">/**
  * Importazione completa
  */
-import * as Urpflanze from '@genbs/urpflanze'
+import * as Urpflanze from 'urpflanze'
 
 const scene = new Urpflanze.Scene()
 
 /**
  * Importazione selettiva
  */
-import { Scene } from '@genbs/urpflanze'
+import { Scene } from 'urpflanze'
 
 const scene = new Scene()</code>
 </pre>
 <div class="code-desc">
-	<div>Per includere la versione light utilizza <i>@genbs/urpflanze/dist/index-light</i></div>
+	<div>Per includere la versione light utilizza <i>urpflanze/dist/index-light</i></div>
 </div>
 
 <div class="next-page">

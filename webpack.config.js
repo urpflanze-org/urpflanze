@@ -12,7 +12,6 @@ module.exports = (env, argv) => ({
 		library: 'Urpflanze',
 		libraryTarget: 'umd',
 		globalObject: 'window',
-		// libraryExport: 'default',
 	},
 	plugins: [
 		new webpack.DefinePlugin({
@@ -24,7 +23,7 @@ module.exports = (env, argv) => ({
 			stream: false,
 		},
 	},
-	devtool: 'source-map',
+	devtool: argv.mode == 'production' ? undefined : 'source-map',
 	mode: argv.mode,
 	watch: argv.watch,
 })

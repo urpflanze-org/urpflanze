@@ -54,7 +54,7 @@ module.exports = (env, argv) => {
 
 		devServer: {
 			contentBase: path.join(__dirname, '.'),
-			watchContentBase: true,
+			// watchContentBase: true,
 			host: '0.0.0.0',
 			port: 8888,
 		},
