@@ -14,6 +14,7 @@ export function bindNavigation(lang, search) {
 	const _wiki = createList(wiki[lang], search)
 	const _doc = createList(NavReferences, search)
 	nav.append(_wiki)
+
 	nav.append(_doc)
 }
 

@@ -24,7 +24,9 @@ module.exports = (env, argv) => {
 				baseUrl: bProduction ? '/urpflanze/public/' : '/docs/public/',
 			}),
 
-			new webpack.DefinePlugin({}),
+			new webpack.DefinePlugin({
+				VERSION: JSON.stringify(require('./package.json').version),
+			}),
 		],
 		module: {
 			rules: [
@@ -51,9 +53,10 @@ module.exports = (env, argv) => {
 		watch: argv.watch,
 
 		devServer: {
-			contentBase: path.join(__dirname, './docs/public'),
+			contentBase: path.join(__dirname, '.'),
+			watchContentBase: true,
 			host: '0.0.0.0',
-			port: 8080,
+			port: 8888,
 		},
 	}
 }

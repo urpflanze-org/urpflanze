@@ -151,7 +151,6 @@ abstract class ShapePrimitive extends ShapeBase {
 	 */
 	public getBounding(bDirectSceneChild: boolean): IShapeBounding {
 		return bDirectSceneChild ? this.single_bounding : this.bounding
-		// return this.single_bounding
 	}
 
 	/**

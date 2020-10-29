@@ -69,7 +69,7 @@ declare class Shape extends ShapeBase {
      * @returns {IShapeBounding}
      * @memberof Shape
      */
-    getBounding(): IShapeBounding;
+    getBounding(bDirectSceneChild: boolean): IShapeBounding;
     protected addIndex(frame_length: number, repetition: IRepetition): void;
     /**
      * Set shape

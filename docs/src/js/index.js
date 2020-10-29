@@ -11,4 +11,6 @@ document.querySelector('#search').addEventListener('keyup', e => {
 	bindNavigation(lang, e.target.value)
 })
 
+document.querySelector('#version').textContent = VERSION
+
 bindRouting()

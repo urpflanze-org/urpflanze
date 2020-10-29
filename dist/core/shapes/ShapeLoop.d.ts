@@ -153,12 +153,12 @@ declare class ShapeLoop extends ShapePrimitive {
     /**
      * Return information about a client loop gnerator
      *
-     * @public
+     * @private
      * @param {ISceneChildPropArguments} prop_arguments
      * @returns {ShapeLoopInformation}
      * @memberof ShapeBase
      */
-    getLoop(prop_arguments?: ISceneChildPropArguments): ILoopMeta;
+    private getLoop;
     /**
      * Set shape from loop generator
      *

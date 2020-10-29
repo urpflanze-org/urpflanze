@@ -248,7 +248,7 @@ var ShapeLoop = /** @class */ (function (_super) {
     /**
      * Return information about a client loop gnerator
      *
-     * @public
+     * @private
      * @param {ISceneChildPropArguments} prop_arguments
      * @returns {ShapeLoopInformation}
      * @memberof ShapeBase

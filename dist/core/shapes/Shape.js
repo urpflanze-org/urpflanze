@@ -121,8 +121,8 @@ var Shape = /** @class */ (function (_super) {
      * @returns {IShapeBounding}
      * @memberof Shape
      */
-    Shape.prototype.getBounding = function () {
-        if (this.shape) {
+    Shape.prototype.getBounding = function (bDirectSceneChild) {
+        if (bDirectSceneChild && this.shape) {
             return this.shape.getBounding(false);
         }
         return this.bounding;

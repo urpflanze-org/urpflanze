@@ -332,12 +332,12 @@ class ShapeLoop extends ShapePrimitive {
 	/**
 	 * Return information about a client loop gnerator
 	 *
-	 * @public
+	 * @private
 	 * @param {ISceneChildPropArguments} prop_arguments
 	 * @returns {ShapeLoopInformation}
 	 * @memberof ShapeBase
 	 */
-	public getLoop(prop_arguments: ISceneChildPropArguments = ShapeBase.EMPTY_PROP_ARGUMENTS): ILoopMeta {
+	private getLoop(prop_arguments: ISceneChildPropArguments = ShapeBase.EMPTY_PROP_ARGUMENTS): ILoopMeta {
 		prop_arguments.time = this.scene?.current_time || 0
 
 		let start = this.props.loop?.start ?? this.loop.start

@@ -1,7 +1,7 @@
 {
 	"name": "@genbs/urpflanze",
-	"version": "0.0.1",
-	"description": "",
+	"version": "0.0.0-beta.1",
+	"description": "Play with the repetition and encapsulation of primitive forms",
 	"license": "MIT",
 	"author": {
 		"name": "Gennaro Bosone",
@@ -22,6 +22,7 @@
 	"files": [
 		"build",
 		"dist",
+		"docs",
 		"package.json",
 		"README.md",
 		"LICENSE"
@@ -34,29 +35,28 @@
 		"prepublishOnly": "ttsc & npm run build-library & npm run build-library-min & npm run build-docs",
 		"watch": "ttsc --watch",
 		"generate-docs-references": "node generate-docs-references.js",
-		"watch-docs": "webpack --config webpack.config.docs.js --watch",
+		"serve-docs": "webpack serve --config webpack.config.docs.js",
 		"build-docs": "npm run generate-docs-references & npx webpack --config webpack.config.docs.js --mode production"
 	},
-	"publishConfig": {
-		"registry": "https://npm.pkg.github.com/"
-	},
+	"publishConfig": {},
 	"devDependencies": {
 		"@types/uuid": "^8.3.0",
-		"@typescript-eslint/eslint-plugin": "^4.5.0",
-		"@typescript-eslint/parser": "^4.5.0",
+		"@typescript-eslint/eslint-plugin": "^4.6.0",
+		"@typescript-eslint/parser": "^4.6.0",
 		"css-loader": "^5.0.0",
-		"eslint": "^7.11.0",
-		"eslint-config-prettier": "^6.13.0",
+		"eslint": "^7.12.1",
+		"eslint-config-prettier": "^6.15.0",
 		"html-webpack-plugin": "^4.5.0",
-		"sass": "^1.27.0",
+		"sass": "^1.27.1",
 		"sass-loader": "^10.0.4",
 		"style-loader": "^2.0.0",
 		"ttypescript": "^1.5.12",
 		"typedoc": "^0.19.2",
 		"typescript": "^4.0.5",
 		"typescript-transform-paths": "^1.1.15",
-		"webpack": "^5.1.3",
-		"webpack-cli": "^4.1.0"
+		"webpack": "^5.3.1",
+		"webpack-cli": "^4.1.0",
+		"webpack-dev-server": "^3.11.0"
 	},
 	"dependencies": {
 		"@pups/core": "0.0.0-b23",

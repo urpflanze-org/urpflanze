@@ -107,7 +107,6 @@ var ShapePrimitive = /** @class */ (function (_super) {
      */
     ShapePrimitive.prototype.getBounding = function (bDirectSceneChild) {
         return bDirectSceneChild ? this.single_bounding : this.bounding;
-        // return this.single_bounding
     };
     /**
      * Add this to indexed_buffer

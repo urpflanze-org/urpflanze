@@ -118,8 +118,8 @@ class Shape extends ShapeBase {
 	 * @returns {IShapeBounding}
 	 * @memberof Shape
 	 */
-	public getBounding(): IShapeBounding {
-		if (this.shape) {
+	public getBounding(bDirectSceneChild: boolean): IShapeBounding {
+		if (bDirectSceneChild && this.shape) {
 			return this.shape.getBounding(false)
 		}
 		return this.bounding

@@ -1626,8 +1626,8 @@ var Shape = /** @class */ (function (_super) {
      * @returns {IShapeBounding}
      * @memberof Shape
      */
-    Shape.prototype.getBounding = function () {
-        if (this.shape) {
+    Shape.prototype.getBounding = function (bDirectSceneChild) {
+        if (bDirectSceneChild && this.shape) {
             return this.shape.getBounding(false);
         }
         return this.bounding;
@@ -1716,17 +1716,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-/* harmony import */ var gl_matrix__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! gl-matrix */ "./node_modules/gl-matrix/esm/common.js");
-/* harmony import */ var gl_matrix__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! gl-matrix */ "./node_modules/gl-matrix/esm/mat4.js");
-/* harmony import */ var gl_matrix__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! gl-matrix */ "./node_modules/gl-matrix/esm/vec2.js");
+/* harmony import */ var gl_matrix__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! gl-matrix */ "./node_modules/gl-matrix/esm/common.js");
+/* harmony import */ var gl_matrix__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! gl-matrix */ "./node_modules/gl-matrix/esm/mat4.js");
+/* harmony import */ var gl_matrix__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! gl-matrix */ "./node_modules/gl-matrix/esm/vec2.js");
 /* harmony import */ var gl_matrix__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! gl-matrix */ "./node_modules/gl-matrix/esm/vec3.js");
 /* harmony import */ var _types_scene_child__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../types/scene-child */ "./dist/core/types/scene-child.js");
 /* harmony import */ var _SceneChild__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../SceneChild */ "./dist/core/SceneChild.js");
 /* harmony import */ var _Context__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Context */ "./dist/core/Context.js");
-/* harmony import */ var _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../math/gl-matrix-extensions */ "./dist/core/math/gl-matrix-extensions.js");
-/* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../Utilites */ "./dist/Utilites.js");
-/* harmony import */ var _math_Vec2__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../math/Vec2 */ "./dist/core/math/Vec2.js");
-/* harmony import */ var _math_bounding__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../math/bounding */ "./dist/core/math/bounding.js");
+/* harmony import */ var _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../math/gl-matrix-extensions */ "./dist/core/math/gl-matrix-extensions.js");
+/* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../Utilites */ "./dist/Utilites.js");
+/* harmony import */ var _math_Vec2__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../math/Vec2 */ "./dist/core/math/Vec2.js");
+/* harmony import */ var _math_bounding__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../math/bounding */ "./dist/core/math/bounding.js");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -1759,11 +1759,11 @@ var __assign = (undefined && undefined.__assign) || function () {
 
 
 
-gl_matrix__WEBPACK_IMPORTED_MODULE_6__.setMatrixArrayType(Array);
-var tmp_matrix = gl_matrix__WEBPACK_IMPORTED_MODULE_7__.create();
-var transform_matrix = gl_matrix__WEBPACK_IMPORTED_MODULE_7__.create();
-var perspective_matrix = gl_matrix__WEBPACK_IMPORTED_MODULE_7__.create();
-var repetition_matrix = gl_matrix__WEBPACK_IMPORTED_MODULE_7__.create();
+gl_matrix__WEBPACK_IMPORTED_MODULE_7__.setMatrixArrayType(Array);
+var tmp_matrix = gl_matrix__WEBPACK_IMPORTED_MODULE_8__.create();
+var transform_matrix = gl_matrix__WEBPACK_IMPORTED_MODULE_8__.create();
+var perspective_matrix = gl_matrix__WEBPACK_IMPORTED_MODULE_8__.create();
+var repetition_matrix = gl_matrix__WEBPACK_IMPORTED_MODULE_8__.create();
 /**
  * Main class for shape generation
  *
@@ -1970,7 +1970,7 @@ var ShapeBase = /** @class */ (function (_super) {
         var total_buffer_length = 0;
         var buffers = [];
         var current_index = 0;
-        var center_matrix = gl_matrix__WEBPACK_IMPORTED_MODULE_8__.fromValues((repetition_col_count - 1) / 2, (repetition_row_count - 1) / 2);
+        var center_matrix = gl_matrix__WEBPACK_IMPORTED_MODULE_9__.fromValues((repetition_col_count - 1) / 2, (repetition_row_count - 1) / 2);
         var sceneCenter = [this.scene.center[0], this.scene.center[1], 0];
         var tmp_bounding = [undefined, undefined, undefined, undefined];
         for (var current_row_repetition = 0; current_row_repetition < repetition_row_count; current_row_repetition++) {
@@ -1990,10 +1990,10 @@ var ShapeBase = /** @class */ (function (_super) {
                 buffers[current_index] = new Float32Array(buffer_length);
                 total_buffer_length += buffer_length;
                 {
-                    var distance = _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_9__.toVec2(this.getProp('distance', prop_arguments, _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_9__.VEC2_ZERO));
+                    var distance = _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_3__.toVec2(this.getProp('distance', prop_arguments, _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_3__.VEC2_ZERO));
                     var displace = this.getProp('displace', prop_arguments, 0);
-                    var scale = _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_9__.toVec3(this.getProp('scale', prop_arguments, _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_9__.VEC2_ONE), 1);
-                    var translate = _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_9__.toVec3(this.getProp('translate', prop_arguments, _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_9__.VEC2_ZERO), 0);
+                    var scale = _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_3__.toVec3(this.getProp('scale', prop_arguments, _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_3__.VEC2_ONE), 1);
+                    var translate = _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_3__.toVec3(this.getProp('translate', prop_arguments, _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_3__.VEC2_ZERO), 0);
                     var skewX = this.getProp('skewX', prop_arguments, 0);
                     var skewY = this.getProp('skewY', prop_arguments, 0);
                     var squeezeX = this.getProp('squeezeX', prop_arguments, 0);
@@ -2001,14 +2001,14 @@ var ShapeBase = /** @class */ (function (_super) {
                     var rotateX = this.getProp('rotateX', prop_arguments, 0);
                     var rotateY = this.getProp('rotateY', prop_arguments, 0);
                     var rotateZ = this.getProp('rotateZ', prop_arguments, 0);
-                    var perspectiveProp = (0,_Utilites__WEBPACK_IMPORTED_MODULE_3__.clamp)(0, 1, this.getProp('perspective', prop_arguments, 0));
-                    var perspectiveOrigin = _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_9__.toVec3(this.getProp('perspectiveOrigin', prop_arguments, _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_9__.VEC2_ZERO), 0);
-                    var transformOrigin = _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_9__.toVec3(this.getProp('transformOrigin', prop_arguments, _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_9__.VEC2_ZERO), 0);
+                    var perspectiveProp = (0,_Utilites__WEBPACK_IMPORTED_MODULE_4__.clamp)(0, 1, this.getProp('perspective', prop_arguments, 0));
+                    var perspectiveOrigin = _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_3__.toVec3(this.getProp('perspectiveOrigin', prop_arguments, _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_3__.VEC2_ZERO), 0);
+                    var transformOrigin = _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_3__.toVec3(this.getProp('transformOrigin', prop_arguments, _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_3__.VEC2_ZERO), 0);
                     var offset = void 0;
                     switch (repetition_type) {
                         case _types_scene_child__WEBPACK_IMPORTED_MODULE_0__.ERepetitionType.Ring:
                             offset = gl_matrix__WEBPACK_IMPORTED_MODULE_10__.fromValues(distance[0], 0, 0);
-                            gl_matrix__WEBPACK_IMPORTED_MODULE_10__.rotateZ(offset, offset, _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_9__.VEC3_ZERO, repetition.angle + displace);
+                            gl_matrix__WEBPACK_IMPORTED_MODULE_10__.rotateZ(offset, offset, _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_3__.VEC3_ZERO, repetition.angle + displace);
                             break;
                         case _types_scene_child__WEBPACK_IMPORTED_MODULE_0__.ERepetitionType.Matrix:
                             offset = gl_matrix__WEBPACK_IMPORTED_MODULE_10__.fromValues(distance[0] * (current_col_repetition - center_matrix[0]), distance[1] * (current_row_repetition - center_matrix[1]), 0);
@@ -2027,39 +2027,39 @@ var ShapeBase = /** @class */ (function (_super) {
                      * Create Transformation matrix
                      */
                     {
-                        gl_matrix__WEBPACK_IMPORTED_MODULE_7__.identity(transform_matrix);
+                        gl_matrix__WEBPACK_IMPORTED_MODULE_8__.identity(transform_matrix);
                         // transform origin
-                        bTransformOrigin && gl_matrix__WEBPACK_IMPORTED_MODULE_7__.translate(transform_matrix, transform_matrix, transformOrigin);
+                        bTransformOrigin && gl_matrix__WEBPACK_IMPORTED_MODULE_8__.translate(transform_matrix, transform_matrix, transformOrigin);
                         // scale
                         if (scale[0] !== 1 || scale[1] !== 1)
-                            gl_matrix__WEBPACK_IMPORTED_MODULE_7__.scale(transform_matrix, transform_matrix, scale);
+                            gl_matrix__WEBPACK_IMPORTED_MODULE_8__.scale(transform_matrix, transform_matrix, scale);
                         // skew
                         if (skewX !== 0 || skewY !== 0) {
-                            _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_9__.fromSkew(tmp_matrix, [skewX, skewY]);
-                            gl_matrix__WEBPACK_IMPORTED_MODULE_7__.multiply(transform_matrix, transform_matrix, tmp_matrix);
+                            _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_3__.fromSkew(tmp_matrix, [skewX, skewY]);
+                            gl_matrix__WEBPACK_IMPORTED_MODULE_8__.multiply(transform_matrix, transform_matrix, tmp_matrix);
                         }
                         // rotateX
-                        rotateX !== 0 && gl_matrix__WEBPACK_IMPORTED_MODULE_7__.rotateX(transform_matrix, transform_matrix, rotateX);
+                        rotateX !== 0 && gl_matrix__WEBPACK_IMPORTED_MODULE_8__.rotateX(transform_matrix, transform_matrix, rotateX);
                         //rotateY
-                        rotateY !== 0 && gl_matrix__WEBPACK_IMPORTED_MODULE_7__.rotateY(transform_matrix, transform_matrix, rotateY);
+                        rotateY !== 0 && gl_matrix__WEBPACK_IMPORTED_MODULE_8__.rotateY(transform_matrix, transform_matrix, rotateY);
                         //rotateZ
-                        rotateZ !== 0 && gl_matrix__WEBPACK_IMPORTED_MODULE_7__.rotateZ(transform_matrix, transform_matrix, rotateZ);
+                        rotateZ !== 0 && gl_matrix__WEBPACK_IMPORTED_MODULE_8__.rotateZ(transform_matrix, transform_matrix, rotateZ);
                         // reset origin
                         bTransformOrigin &&
-                            gl_matrix__WEBPACK_IMPORTED_MODULE_7__.translate(transform_matrix, transform_matrix, gl_matrix__WEBPACK_IMPORTED_MODULE_10__.scale(transformOrigin, transformOrigin, -1));
+                            gl_matrix__WEBPACK_IMPORTED_MODULE_8__.translate(transform_matrix, transform_matrix, gl_matrix__WEBPACK_IMPORTED_MODULE_10__.scale(transformOrigin, transformOrigin, -1));
                         // translation
                         if (translate[0] !== 0 || translate[1] !== 0)
-                            gl_matrix__WEBPACK_IMPORTED_MODULE_7__.translate(transform_matrix, transform_matrix, translate);
+                            gl_matrix__WEBPACK_IMPORTED_MODULE_8__.translate(transform_matrix, transform_matrix, translate);
                         /**
                          * Create Repetition matrix
                          */
-                        gl_matrix__WEBPACK_IMPORTED_MODULE_7__.identity(repetition_matrix);
-                        gl_matrix__WEBPACK_IMPORTED_MODULE_7__.translate(repetition_matrix, repetition_matrix, offset);
+                        gl_matrix__WEBPACK_IMPORTED_MODULE_8__.identity(repetition_matrix);
+                        gl_matrix__WEBPACK_IMPORTED_MODULE_8__.translate(repetition_matrix, repetition_matrix, offset);
                         if (bDirectSceneChild) {
-                            gl_matrix__WEBPACK_IMPORTED_MODULE_7__.translate(repetition_matrix, repetition_matrix, sceneCenter);
+                            gl_matrix__WEBPACK_IMPORTED_MODULE_8__.translate(repetition_matrix, repetition_matrix, sceneCenter);
                         }
                         if (repetition_type === _types_scene_child__WEBPACK_IMPORTED_MODULE_0__.ERepetitionType.Ring)
-                            gl_matrix__WEBPACK_IMPORTED_MODULE_7__.rotateZ(repetition_matrix, repetition_matrix, repetition.angle + displace);
+                            gl_matrix__WEBPACK_IMPORTED_MODULE_8__.rotateZ(repetition_matrix, repetition_matrix, repetition.angle + displace);
                         /**
                          * Create Perspective matrix
                          */
@@ -2069,7 +2069,7 @@ var ShapeBase = /** @class */ (function (_super) {
                                 perspectiveOrigin[1] *= bounding.height / 2;
                                 perspectiveOrigin[2] = 0;
                             }
-                            gl_matrix__WEBPACK_IMPORTED_MODULE_7__.perspective(perspective_matrix, -Math.PI / 2, 1, 0, Infinity);
+                            gl_matrix__WEBPACK_IMPORTED_MODULE_8__.perspective(perspective_matrix, -Math.PI / 2, 1, 0, Infinity);
                         }
                     }
                     // Apply matrices on vertex
@@ -2077,8 +2077,8 @@ var ShapeBase = /** @class */ (function (_super) {
                         var vertex = [buffer[buffer_index], buffer[buffer_index + 1], perspective];
                         {
                             gl_matrix__WEBPACK_IMPORTED_MODULE_10__.transformMat4(vertex, vertex, transform_matrix);
-                            squeezeX !== 0 && _math_Vec2__WEBPACK_IMPORTED_MODULE_4__.default.squeezeX(vertex, squeezeX);
-                            squeezeY !== 0 && _math_Vec2__WEBPACK_IMPORTED_MODULE_4__.default.squeezeY(vertex, squeezeY);
+                            squeezeX !== 0 && _math_Vec2__WEBPACK_IMPORTED_MODULE_5__.default.squeezeX(vertex, squeezeX);
+                            squeezeY !== 0 && _math_Vec2__WEBPACK_IMPORTED_MODULE_5__.default.squeezeY(vertex, squeezeY);
                             if (perspective > 0) {
                                 bPerspectiveOrigin && gl_matrix__WEBPACK_IMPORTED_MODULE_10__.add(vertex, vertex, perspectiveOrigin);
                                 gl_matrix__WEBPACK_IMPORTED_MODULE_10__.transformMat4(vertex, vertex, perspective_matrix);
@@ -2098,7 +2098,7 @@ var ShapeBase = /** @class */ (function (_super) {
                         }
                         buffers[current_index][buffer_index] = vertex[0];
                         buffers[current_index][buffer_index + 1] = vertex[1];
-                        _math_bounding__WEBPACK_IMPORTED_MODULE_5__.default.add(tmp_bounding, vertex[0], vertex[1]);
+                        _math_bounding__WEBPACK_IMPORTED_MODULE_6__.default.add(tmp_bounding, vertex[0], vertex[1]);
                     }
                 }
                 // After buffer creation, add a frame into indexed_buffer if not static
@@ -2107,7 +2107,7 @@ var ShapeBase = /** @class */ (function (_super) {
                 }
             }
         }
-        _math_bounding__WEBPACK_IMPORTED_MODULE_5__.default.bind(this.bounding, tmp_bounding);
+        _math_bounding__WEBPACK_IMPORTED_MODULE_6__.default.bind(this.bounding, tmp_bounding);
         this.buffer = new Float32Array(total_buffer_length);
         for (var i = 0, offset = 0, len = buffers.length; i < len; offset += buffers[i].length, i++)
             this.buffer.set(buffers[i], offset);
@@ -2683,7 +2683,7 @@ var ShapeLoop = /** @class */ (function (_super) {
     /**
      * Return information about a client loop gnerator
      *
-     * @public
+     * @private
      * @param {ISceneChildPropArguments} prop_arguments
      * @returns {ShapeLoopInformation}
      * @memberof ShapeBase
@@ -2736,8 +2736,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _ShapeBase__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ShapeBase */ "./dist/core/shapes/ShapeBase.js");
 /* harmony import */ var _types_shape_base__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../types/shape-base */ "./dist/core/types/shape-base.js");
-/* harmony import */ var _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../math/gl-matrix-extensions */ "./dist/core/math/gl-matrix-extensions.js");
-/* harmony import */ var _math_bounding__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../math/bounding */ "./dist/core/math/bounding.js");
+/* harmony import */ var _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../math/gl-matrix-extensions */ "./dist/core/math/gl-matrix-extensions.js");
+/* harmony import */ var _math_bounding__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../math/bounding */ "./dist/core/math/bounding.js");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -2831,7 +2831,7 @@ var ShapePrimitive = /** @class */ (function (_super) {
      * @memberof ShapePrimitive
      */
     ShapePrimitive.prototype.bindSideLength = function (prop_arguments) {
-        var sideLength = (0,_math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_3__.toVec2)(this.getProp('sideLength', prop_arguments, [50, 50]));
+        var sideLength = (0,_math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_2__.toVec2)(this.getProp('sideLength', prop_arguments, [50, 50]));
         if (this.sideLength[0] !== sideLength[0] && this.sideLength[1] !== sideLength[1]) {
             this.sideLength = sideLength;
             return true;
@@ -2847,7 +2847,6 @@ var ShapePrimitive = /** @class */ (function (_super) {
      */
     ShapePrimitive.prototype.getBounding = function (bDirectSceneChild) {
         return bDirectSceneChild ? this.single_bounding : this.bounding;
-        // return this.single_bounding
     };
     /**
      * Add this to indexed_buffer
@@ -2931,9 +2930,9 @@ var ShapePrimitive = /** @class */ (function (_super) {
             bounding = __assign({}, ShapePrimitive.EMPTY_BOUNDING);
         var tmp_bounding = [undefined, undefined, undefined, undefined];
         for (var i = 0, len = buffer.length; i < len; i += 2) {
-            _math_bounding__WEBPACK_IMPORTED_MODULE_2__.default.add(tmp_bounding, buffer[i], buffer[i + 1]);
+            _math_bounding__WEBPACK_IMPORTED_MODULE_3__.default.add(tmp_bounding, buffer[i], buffer[i + 1]);
         }
-        _math_bounding__WEBPACK_IMPORTED_MODULE_2__.default.bind(bounding, tmp_bounding);
+        _math_bounding__WEBPACK_IMPORTED_MODULE_3__.default.bind(bounding, tmp_bounding);
         return bounding;
     };
     /**
@@ -3777,6 +3776,22 @@ var ERepetitionType;
 
 /***/ }),
 
+/***/ "./dist/core/types/scene.js":
+/*!**********************************!*\
+  !*** ./dist/core/types/scene.js ***!
+  \**********************************/
+/*! namespace exports */
+/*! exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__.r, __webpack_exports__, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+
+//# sourceMappingURL=scene.js.map
+
+/***/ }),
+
 /***/ "./dist/core/types/shape-base.js":
 /*!***************************************!*\
   !*** ./dist/core/types/shape-base.js ***!
@@ -3821,6 +3836,22 @@ var EShapePrimitiveAdaptMode;
     EShapePrimitiveAdaptMode[EShapePrimitiveAdaptMode["Fill"] = 8] = "Fill";
 })(EShapePrimitiveAdaptMode || (EShapePrimitiveAdaptMode = {}));
 //# sourceMappingURL=shape-base.js.map
+
+/***/ }),
+
+/***/ "./dist/core/types/shape-primitive.js":
+/*!********************************************!*\
+  !*** ./dist/core/types/shape-primitive.js ***!
+  \********************************************/
+/*! namespace exports */
+/*! exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__.r, __webpack_exports__, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+
+//# sourceMappingURL=shape-primitive.js.map
 
 /***/ }),
 
@@ -3978,47 +4009,49 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "ERepetitionType": () => /* reexport safe */ _core_types_scene_child__WEBPACK_IMPORTED_MODULE_0__.ERepetitionType,
-/* harmony export */   "EShapePrimitiveAdaptMode": () => /* reexport safe */ _core_types_shape_base__WEBPACK_IMPORTED_MODULE_1__.EShapePrimitiveAdaptMode,
-/* harmony export */   "Animation": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_2__.Animation,
-/* harmony export */   "Circle": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_2__.Circle,
-/* harmony export */   "Context": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_2__.Context,
-/* harmony export */   "DrawerCanvas": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_2__.DrawerCanvas,
-/* harmony export */   "Group": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_2__.Group,
-/* harmony export */   "Line": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_2__.Line,
-/* harmony export */   "Lissajous": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_2__.Lissajous,
-/* harmony export */   "Rect": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_2__.Rect,
-/* harmony export */   "RegularPolygon": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_2__.RegularPolygon,
-/* harmony export */   "Rose": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_2__.Rose,
-/* harmony export */   "Scene": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_2__.Scene,
-/* harmony export */   "SceneChild": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_2__.SceneChild,
-/* harmony export */   "Shape": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_2__.Shape,
-/* harmony export */   "ShapeBuffer": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_2__.ShapeBuffer,
-/* harmony export */   "ShapeLoop": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_2__.ShapeLoop,
-/* harmony export */   "ShapePrimitive": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_2__.ShapePrimitive,
-/* harmony export */   "Spiral": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_2__.Spiral,
-/* harmony export */   "Triangle": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_2__.Triangle,
-/* harmony export */   "Vec2": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_2__.Vec2,
-/* harmony export */   "clamp": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_2__.clamp,
-/* harmony export */   "relativeClamp": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_2__.relativeClamp,
-/* harmony export */   "toDegrees": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_2__.toDegrees,
-/* harmony export */   "toRadians": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_2__.toRadians,
-/* harmony export */   "SceneUtilities": () => /* reexport safe */ _services_scene_utilities_SceneUtilities__WEBPACK_IMPORTED_MODULE_3__.default,
-/* harmony export */   "DrawerSVG": () => /* reexport safe */ _services_drawers_drawer_svg_DrawerSVG__WEBPACK_IMPORTED_MODULE_4__.default,
-/* harmony export */   "Renderer": () => /* reexport safe */ _services_renderer_Renderer__WEBPACK_IMPORTED_MODULE_5__.default,
-/* harmony export */   "JSONImporter": () => /* reexport safe */ _services_importers_JSONImporter__WEBPACK_IMPORTED_MODULE_6__.default,
-/* harmony export */   "JSONExporter": () => /* reexport safe */ _services_exporters_JSONExporter__WEBPACK_IMPORTED_MODULE_7__.default,
-/* harmony export */   "SVGExporter": () => /* reexport safe */ _services_exporters_SVGExporter__WEBPACK_IMPORTED_MODULE_8__.default
+/* harmony export */   "ERepetitionType": () => /* reexport safe */ _core_types_scene_child__WEBPACK_IMPORTED_MODULE_1__.ERepetitionType,
+/* harmony export */   "EShapePrimitiveAdaptMode": () => /* reexport safe */ _core_types_shape_base__WEBPACK_IMPORTED_MODULE_2__.EShapePrimitiveAdaptMode,
+/* harmony export */   "Animation": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.Animation,
+/* harmony export */   "Circle": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.Circle,
+/* harmony export */   "Context": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.Context,
+/* harmony export */   "DrawerCanvas": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.DrawerCanvas,
+/* harmony export */   "Group": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.Group,
+/* harmony export */   "Line": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.Line,
+/* harmony export */   "Lissajous": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.Lissajous,
+/* harmony export */   "Rect": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.Rect,
+/* harmony export */   "RegularPolygon": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.RegularPolygon,
+/* harmony export */   "Rose": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.Rose,
+/* harmony export */   "Scene": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.Scene,
+/* harmony export */   "SceneChild": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.SceneChild,
+/* harmony export */   "Shape": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.Shape,
+/* harmony export */   "ShapeBuffer": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.ShapeBuffer,
+/* harmony export */   "ShapeLoop": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.ShapeLoop,
+/* harmony export */   "ShapePrimitive": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.ShapePrimitive,
+/* harmony export */   "Spiral": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.Spiral,
+/* harmony export */   "Triangle": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.Triangle,
+/* harmony export */   "Vec2": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.Vec2,
+/* harmony export */   "clamp": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.clamp,
+/* harmony export */   "relativeClamp": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.relativeClamp,
+/* harmony export */   "toDegrees": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.toDegrees,
+/* harmony export */   "toRadians": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.toRadians,
+/* harmony export */   "SceneUtilities": () => /* reexport safe */ _services_scene_utilities_SceneUtilities__WEBPACK_IMPORTED_MODULE_5__.default,
+/* harmony export */   "DrawerSVG": () => /* reexport safe */ _services_drawers_drawer_svg_DrawerSVG__WEBPACK_IMPORTED_MODULE_6__.default,
+/* harmony export */   "Renderer": () => /* reexport safe */ _services_renderer_Renderer__WEBPACK_IMPORTED_MODULE_7__.default,
+/* harmony export */   "JSONImporter": () => /* reexport safe */ _services_importers_JSONImporter__WEBPACK_IMPORTED_MODULE_8__.default,
+/* harmony export */   "JSONExporter": () => /* reexport safe */ _services_exporters_JSONExporter__WEBPACK_IMPORTED_MODULE_9__.default,
+/* harmony export */   "SVGExporter": () => /* reexport safe */ _services_exporters_SVGExporter__WEBPACK_IMPORTED_MODULE_10__.default
 /* harmony export */ });
-/* harmony import */ var _core_types_scene_child__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./core/types/scene-child */ "./dist/core/types/scene-child.js");
-/* harmony import */ var _core_types_shape_base__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./core/types/shape-base */ "./dist/core/types/shape-base.js");
-/* harmony import */ var _index_light__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./index-light */ "./dist/index-light.js");
-/* harmony import */ var _services_scene_utilities_SceneUtilities__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./services/scene-utilities/SceneUtilities */ "./dist/services/scene-utilities/SceneUtilities.js");
-/* harmony import */ var _services_drawers_drawer_svg_DrawerSVG__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./services/drawers/drawer-svg/DrawerSVG */ "./dist/services/drawers/drawer-svg/DrawerSVG.js");
-/* harmony import */ var _services_renderer_Renderer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./services/renderer/Renderer */ "./dist/services/renderer/Renderer.js");
-/* harmony import */ var _services_importers_JSONImporter__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./services/importers/JSONImporter */ "./dist/services/importers/JSONImporter.js");
-/* harmony import */ var _services_exporters_JSONExporter__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./services/exporters/JSONExporter */ "./dist/services/exporters/JSONExporter.js");
-/* harmony import */ var _services_exporters_SVGExporter__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./services/exporters/SVGExporter */ "./dist/services/exporters/SVGExporter.js");
+/* harmony import */ var _core_types_scene__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./core/types/scene */ "./dist/core/types/scene.js");
+/* harmony import */ var _core_types_scene_child__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./core/types/scene-child */ "./dist/core/types/scene-child.js");
+/* harmony import */ var _core_types_shape_base__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./core/types/shape-base */ "./dist/core/types/shape-base.js");
+/* harmony import */ var _core_types_shape_primitive__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./core/types/shape-primitive */ "./dist/core/types/shape-primitive.js");
+/* harmony import */ var _index_light__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./index-light */ "./dist/index-light.js");
+/* harmony import */ var _services_scene_utilities_SceneUtilities__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./services/scene-utilities/SceneUtilities */ "./dist/services/scene-utilities/SceneUtilities.js");
+/* harmony import */ var _services_drawers_drawer_svg_DrawerSVG__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./services/drawers/drawer-svg/DrawerSVG */ "./dist/services/drawers/drawer-svg/DrawerSVG.js");
+/* harmony import */ var _services_renderer_Renderer__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./services/renderer/Renderer */ "./dist/services/renderer/Renderer.js");
+/* harmony import */ var _services_importers_JSONImporter__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./services/importers/JSONImporter */ "./dist/services/importers/JSONImporter.js");
+/* harmony import */ var _services_exporters_JSONExporter__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./services/exporters/JSONExporter */ "./dist/services/exporters/JSONExporter.js");
+/* harmony import */ var _services_exporters_SVGExporter__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./services/exporters/SVGExporter */ "./dist/services/exporters/SVGExporter.js");
 /**
  * Types & Intterface
  */

@@ -1,3 +1,4 @@
+const webpack = require('webpack')
 const path = require('path')
 
 module.exports = (env, argv) => ({
@@ -13,6 +14,11 @@ module.exports = (env, argv) => ({
 		globalObject: 'window',
 		// libraryExport: 'default',
 	},
+	plugins: [
+		new webpack.DefinePlugin({
+			VERSION: JSON.stringify(require('./package.json').version),
+		}),
+	],
 	resolve: {
 		fallback: {
 			stream: false,
