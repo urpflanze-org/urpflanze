@@ -1,3 +1,4 @@
+import { now } from "../../Utilites";
 /**
  *
  * @category Services.Renderer
@@ -62,8 +63,8 @@ var Capturer = /** @class */ (function () {
         return Promise.reject('not started');
     };
     Capturer.getRenderTime = function (canvas, type, quality) {
-        var startTime = performance.now();
-        return Capturer.render(canvas, type, quality).then(function () { return performance.now() - startTime; });
+        var startTime = now();
+        return Capturer.render(canvas, type, quality).then(function () { return now() - startTime; });
     };
     Capturer.getBlob = function (canvas, type, quality) {
         return new Promise(function (resolve, reject) {

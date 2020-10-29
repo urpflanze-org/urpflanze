@@ -13,7 +13,7 @@ export interface ILoopMeta {
     start: number;
     end: number;
     inc: number;
-    repetition: number;
+    count: number;
 }
 /**
  * Shape Loop

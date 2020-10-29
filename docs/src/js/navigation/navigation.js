@@ -7,14 +7,14 @@ document.getElementById('menu_btn').addEventListener('click', openMenu, { passiv
 document.getElementById('aside-bg').addEventListener('click', closeMenu, { passive: true })
 
 export function bindNavigation(lang, search) {
-	const root = { ...wiki[lang], ...NavReferences }
-
-	const list = createList(root, search)
-
 	const nav = document.querySelector('#nav')
 
 	nav.innerHTML = ''
-	nav.append(list)
+
+	const _wiki = createList(wiki[lang], search)
+	const _doc = createList(NavReferences, search)
+	nav.append(_wiki)
+	nav.append(_doc)
 }
 
 export function openMenu() {

@@ -10,10 +10,14 @@ function createList(root, search) {
 		const firstLevelItem = root[firstLevelKey]
 
 		const h2title = document.createElement('h2')
+
+		const keys = Object.keys(firstLevelItem)
+		if (keys.length === 0 || (keys.length === 1 && Object.keys(firstLevelItem[keys[0]]).length === 0)) return
+
 		h2title.innerText = firstLevelKey
 		const content = document.createElement('div')
 
-		Object.keys(firstLevelItem).forEach(secondLevelKey => {
+		keys.forEach(secondLevelKey => {
 			const h3title = document.createElement('h3')
 			h3title.innerText = secondLevelKey
 

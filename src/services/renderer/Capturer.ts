@@ -1,4 +1,5 @@
 import { TRenderImageType, TRenderType } from '@services/types/renderer'
+import { now } from 'src/Utilites'
 
 interface ICapturerSettings {
 	type?: TRenderType
@@ -93,8 +94,8 @@ class Capturer {
 		type: TRenderImageType,
 		quality: number
 	): Promise<number> {
-		const startTime = performance.now()
-		return Capturer.render(canvas, type, quality).then(() => performance.now() - startTime)
+		const startTime = now()
+		return Capturer.render(canvas, type, quality).then(() => now() - startTime)
 	}
 
 	static getBlob(canvas: HTMLCanvasElement | OffscreenCanvas, type: TRenderType, quality: number): Promise<Blob> {

@@ -132,6 +132,9 @@ export function resolveType(type) {
 		if (type.type === 'tuple' && type.elements) {
 			return `[${type.elements.map(resolveType).join(', ')}]`
 		}
+		if (type.type === 'intersection' && type.types) {
+			return `${type.types.map(resolveType).join(' & ')}`
+		}
 
 		console.warn('cant resolve type', type)
 	}

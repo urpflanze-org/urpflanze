@@ -17,7 +17,7 @@ exec(`npx typedoc --json ${filename}`, (error, stdout, stderr) => {
 
 	const data = generate(JSON.parse(fs.readFileSync(filename)))
 
-	// fs.unlinkSync(filename)
+	fs.unlinkSync(filename)
 
 	const references = `${JSON.stringify(data, null, '\t')}`
 	fs.writeFileSync(dest_name, references)
@@ -284,7 +284,11 @@ function parseProperty(property) {
 		type,
 		value: property.value,
 		defaultValue: property.defaultValue,
-		declaration: property.declaration ? parseMethod(property.declaration) : undefined,
+		declaration: property.declaration
+			? property.declaration.signatures
+				? parseMethod(property.declaration)
+				: property.declaration
+			: undefined,
 		typeArguments: property.typeArguments,
 		operator: property.operator,
 		examples: findExamples(property),

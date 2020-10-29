@@ -309,6 +309,7 @@ var DrawerCanvas = /** @class */ (function (_super) {
         var _a, _b, _c, _d;
         var start_time = now();
         if (context) {
+            context.globalCompositeOperation = 'source-over';
             var scale_1 = (_a = options.scale) !== null && _a !== void 0 ? _a : 1;
             var translate = (_b = options.translate) !== null && _b !== void 0 ? _b : [0, 0];
             var time_1 = (_c = options.time) !== null && _c !== void 0 ? _c : 0;

@@ -357,6 +357,8 @@ class DrawerCanvas extends Drawer<IDrawerCanvasOptions, IDrawerCanvasEvents> {
 		const start_time = now()
 
 		if (context) {
+			context.globalCompositeOperation = 'source-over'
+
 			const scale: number = options.scale ?? 1
 			const translate: Array<number> = options.translate ?? [0, 0]
 			const time: number = options.time ?? 0
@@ -415,6 +417,7 @@ class DrawerCanvas extends Drawer<IDrawerCanvasOptions, IDrawerCanvasEvents> {
 				let logStrokeColorWarn = false
 
 				scene.current_time = time
+
 				scene.getChildren().forEach((sceneChild: SceneChild) => {
 					if (
 						!sceneChild.data ||

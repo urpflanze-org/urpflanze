@@ -18,6 +18,7 @@ import * as glme from '@core/math/gl-matrix-extensions'
 import ShapePrimitive from './ShapePrimitive'
 import { clamp } from 'src/Utilites'
 import Vec2 from '@core/math/Vec2'
+import Bounding, { TTempBounding } from '@core/math/bounding'
 
 glMatrix.setMatrixArrayType(Array)
 
@@ -355,11 +356,6 @@ abstract class ShapeBase extends SceneChild {
 
 		if (!this.bStaticIndexed || !this.bIndexed) this.indexed_buffer = []
 
-		let minX = Number.MAX_VALUE,
-			minY = Number.MAX_VALUE,
-			maxX = Number.MIN_VALUE,
-			maxY = Number.MIN_VALUE
-
 		const repetition: IRepetition = ShapeBase.getEmptyRepetition()
 
 		const repetitions: Array<number> | number = this.getProp(
@@ -401,6 +397,8 @@ abstract class ShapeBase extends SceneChild {
 		const center_matrix = vec2.fromValues((repetition_col_count - 1) / 2, (repetition_row_count - 1) / 2)
 		const sceneCenter: vec3 = [this.scene.center[0], this.scene.center[1], 0]
 
+		const tmp_bounding: TTempBounding = [undefined, undefined, undefined, undefined]
+
 		for (let current_row_repetition = 0; current_row_repetition < repetition_row_count; current_row_repetition++) {
 			for (
 				let current_col_repetition = 0;
@@ -421,7 +419,7 @@ abstract class ShapeBase extends SceneChild {
 				const buffer: Float32Array = this.generateBuffer(generate_id, prop_arguments)
 				const buffer_length = buffer.length
 
-				const bounding = this.getBounding(bDirectSceneChild)
+				const bounding = this.getBounding(true)
 
 				buffers[current_index] = new Float32Array(buffer_length)
 				total_buffer_length += buffer_length
@@ -549,11 +547,7 @@ abstract class ShapeBase extends SceneChild {
 						buffers[current_index][buffer_index] = vertex[0]
 						buffers[current_index][buffer_index + 1] = vertex[1]
 
-						if (vertex[0] >= maxX) maxX = vertex[0]
-						else if (vertex[0] <= minX) minX = vertex[0]
-
-						if (vertex[1] >= maxY) maxY = vertex[1]
-						else if (vertex[1] <= minY) minY = vertex[1]
+						Bounding.add(tmp_bounding, vertex[0], vertex[1])
 					}
 				}
 
@@ -564,12 +558,7 @@ abstract class ShapeBase extends SceneChild {
 			}
 		}
 
-		this.bounding.x = minX
-		this.bounding.y = minY
-		this.bounding.width = maxX - minX
-		this.bounding.height = maxY - minY
-		this.bounding.cx = this.bounding.x - this.bounding.width / 2
-		this.bounding.cy = this.bounding.y - this.bounding.height / 2
+		Bounding.bind(this.bounding, tmp_bounding)
 
 		this.buffer = new Float32Array(total_buffer_length)
 		for (let i = 0, offset = 0, len = buffers.length; i < len; offset += buffers[i].length, i++)

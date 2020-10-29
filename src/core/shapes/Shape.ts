@@ -105,12 +105,24 @@ class Shape extends ShapeBase {
 		if (this.shape) {
 			this.shape.generate(generate_id, false, prop_arguments)
 
-			// this.bounding = this.shape.getBounding()
-
 			return this.shape.getBuffer() || Shape.EMPTY_BUFFER
 		}
 
 		return Shape.EMPTY_BUFFER
+	}
+
+	/**
+	 * Return bounding
+	 *
+	 * @param {boolean} bDirectSceneChild
+	 * @returns {IShapeBounding}
+	 * @memberof Shape
+	 */
+	public getBounding(): IShapeBounding {
+		if (this.shape) {
+			return this.shape.getBounding(false)
+		}
+		return this.bounding
 	}
 
 	protected addIndex(frame_length: number, repetition: IRepetition) {
@@ -179,20 +191,6 @@ class Shape extends ShapeBase {
 
 			this.shape.clearBuffer(true, true)
 		}
-	}
-
-	/**
-	 * Return bounding
-	 *
-	 * @param {boolean} bDirectSceneChild
-	 * @returns {IShapeBounding}
-	 * @memberof Shape
-	 */
-	public getBounding(): IShapeBounding {
-		if (this.shape) {
-			return this.shape.getBounding(false)
-		}
-		return this.bounding
 	}
 }
 

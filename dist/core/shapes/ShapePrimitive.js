@@ -25,6 +25,7 @@ var __assign = (this && this.__assign) || function () {
 import ShapeBase from "./ShapeBase";
 import { EShapePrimitiveAdaptMode, IShapeBounding, IShapePrimitiveProps, IShapePrimitiveSettings, } from "../types/shape-base";
 import { toVec2 } from "../math/gl-matrix-extensions";
+import Bounding, { TTempBounding } from "../math/bounding";
 /**
  * @category Core.Abstract
  */
@@ -106,6 +107,7 @@ var ShapePrimitive = /** @class */ (function (_super) {
      */
     ShapePrimitive.prototype.getBounding = function (bDirectSceneChild) {
         return bDirectSceneChild ? this.single_bounding : this.bounding;
+        // return this.single_bounding
     };
     /**
      * Add this to indexed_buffer
@@ -187,25 +189,11 @@ var ShapePrimitive = /** @class */ (function (_super) {
     ShapePrimitive.getBounding = function (buffer, bounding) {
         if (typeof bounding === 'undefined')
             bounding = __assign({}, ShapePrimitive.EMPTY_BOUNDING);
-        var minX = Number.MAX_VALUE, minY = Number.MAX_VALUE, maxX = Number.MIN_VALUE, maxY = Number.MIN_VALUE;
+        var tmp_bounding = [undefined, undefined, undefined, undefined];
         for (var i = 0, len = buffer.length; i < len; i += 2) {
-            var x = buffer[i];
-            var y = buffer[i + 1];
-            if (x > maxX)
-                maxX = x;
-            else if (x < minX)
-                minX = x;
-            if (y > maxY)
-                maxY = y;
-            else if (y < minY)
-                minY = y;
+            Bounding.add(tmp_bounding, buffer[i], buffer[i + 1]);
         }
-        bounding.x = minX;
-        bounding.y = minY;
-        bounding.width = maxX - minX;
-        bounding.height = maxY - minY;
-        bounding.cx = bounding.x - bounding.width / 2;
-        bounding.cy = bounding.y - bounding.height / 2;
+        Bounding.bind(bounding, tmp_bounding);
         return bounding;
     };
     /**

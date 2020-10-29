@@ -8,6 +8,7 @@ import {
 	TShapeLoopGeneratorFormula,
 } from '@core/types/shape-primitive'
 import { EShapePrimitiveAdaptMode, IShapePrimitiveProps } from '@core/types/shape-base'
+import Bounding, { TTempBounding } from '@core/math/bounding'
 
 /**
  *
@@ -21,7 +22,7 @@ export interface ILoopMeta {
 	start: number
 	end: number
 	inc: number
-	repetition: number
+	count: number
 }
 
 /**
@@ -97,10 +98,6 @@ class ShapeLoop extends ShapePrimitive {
 		this.shapeLoopPropsDependencies = (settings.shapeLoopPropsDependencies || []).concat('bAdaptBuffer')
 
 		this.props.loop = settings.loop
-
-		if (typeof settings.loop === 'undefined') {
-			console.warn("[Urpflanze:ShapeLoop] requires the 'loop' property")
-		}
 
 		if (!bPreventGeneration) {
 			this.loop = {
@@ -234,9 +231,9 @@ class ShapeLoop extends ShapePrimitive {
 		if (this.bStaticLoop && this.loop_buffer && this.loop_buffer.length > 0)
 			return this.loop_buffer.length * this.getRepetitionCount()
 
-		const { repetition } = this.getLoop(prop_arguments)
+		const { count } = this.getLoop(prop_arguments)
 
-		return this.getRepetitionCount() * repetition * 2 // vec3
+		return this.getRepetitionCount() * count * 2 // vec3
 	}
 
 	/**
@@ -266,7 +263,7 @@ class ShapeLoop extends ShapePrimitive {
 	 * @memberof ShapeLoop
 	 */
 	private generateLoopBuffer(prop_arguments: ISceneChildPropArguments): Float32Array {
-		const { start, end, inc, repetition } = this.getLoop(prop_arguments)
+		const { start, end, inc, count } = this.getLoop(prop_arguments)
 
 		const getVertex = (this.props.loop && this.props.loop.vertex
 			? this.props.loop.vertex
@@ -276,7 +273,7 @@ class ShapeLoop extends ShapePrimitive {
 			index: 0,
 			offset: 0,
 			angle: 0,
-			count: repetition,
+			count: count,
 		}
 
 		const vertex_length = shape_loop.count
@@ -285,10 +282,7 @@ class ShapeLoop extends ShapePrimitive {
 
 		const bNoAdapt = this.adaptMode === EShapePrimitiveAdaptMode.None
 
-		let minX = Number.MAX_VALUE,
-			minY = Number.MAX_VALUE,
-			maxX = Number.MIN_VALUE,
-			maxY = Number.MIN_VALUE
+		const tmp_bounding: TTempBounding = [undefined, undefined, undefined, undefined]
 
 		for (let i = 0, j = 0; i < vertex_length; i++, j += 2) {
 			const angle = start + inc * i
@@ -307,19 +301,10 @@ class ShapeLoop extends ShapePrimitive {
 				loop_buffer[j + 1] *= this.sideLength[1]
 			}
 
-			if (loop_buffer[j] >= maxX) maxX = loop_buffer[j]
-			else if (loop_buffer[j] <= minX) minX = loop_buffer[j]
-
-			if (loop_buffer[j + 1] >= maxY) maxY = loop_buffer[j + 1]
-			else if (loop_buffer[j + 1] <= minY) minY = loop_buffer[j + 1]
+			Bounding.add(tmp_bounding, loop_buffer[j], loop_buffer[j + 1])
 		}
 
-		this.single_bounding.x = minX
-		this.single_bounding.y = minY
-		this.single_bounding.width = maxX - minX
-		this.single_bounding.height = maxY - minY
-		this.single_bounding.cx = this.single_bounding.x + this.single_bounding.width / 2
-		this.single_bounding.cy = this.single_bounding.y + this.single_bounding.height / 2
+		Bounding.bind(this.single_bounding, tmp_bounding)
 
 		if (!bNoAdapt) {
 			/**
@@ -327,24 +312,16 @@ class ShapeLoop extends ShapePrimitive {
 			 */
 			const buffer = ShapePrimitive.adaptBuffer(loop_buffer, this.adaptMode as EShapePrimitiveAdaptMode)
 
-			minX = minY = Number.MAX_VALUE
-			maxX = maxY = Number.MIN_VALUE
+			Bounding.clear(tmp_bounding)
 
 			for (let i = 0; i < buffer_length; i += 2) {
 				buffer[i] = buffer[i] * this.sideLength[0]
 				buffer[i + 1] = buffer[i + 1] * this.sideLength[1]
 
-				if (buffer[i] >= maxX) maxX = buffer[i]
-				else if (buffer[i] <= minX) minX = buffer[i]
-				if (buffer[i + 1] >= maxY) maxY = buffer[i + 1]
-				else if (buffer[i + 1] <= minY) minY = buffer[i + 1]
+				Bounding.add(tmp_bounding, buffer[i], buffer[i + 1])
 			}
-			this.single_bounding.x = minX
-			this.single_bounding.y = minY
-			this.single_bounding.width = maxX - minX
-			this.single_bounding.height = maxY - minY
-			this.single_bounding.cx = this.single_bounding.x + this.single_bounding.width / 2
-			this.single_bounding.cy = this.single_bounding.y + this.single_bounding.height / 2
+
+			Bounding.bind(this.single_bounding, tmp_bounding)
 
 			return buffer
 		}
@@ -371,9 +348,9 @@ class ShapeLoop extends ShapePrimitive {
 		end = (typeof end === 'function' ? end(prop_arguments) : end) as number
 		inc = (typeof inc === 'function' ? inc(prop_arguments) : inc) as number
 
-		const shape_loop_repetition = Math.ceil((end - start) / inc)
+		const count = Math.ceil((end - start) / inc)
 
-		return { start, end, inc, repetition: shape_loop_repetition < 0 ? 0 : shape_loop_repetition }
+		return { start, end, inc, count: count <= 0 ? 0 : count }
 	}
 
 	/**

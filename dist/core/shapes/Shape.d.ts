@@ -62,14 +62,6 @@ declare class Shape extends ShapeBase {
      * @memberof ShapeBase
      */
     protected generateBuffer(generate_id: number, prop_arguments: ISceneChildPropArguments): Float32Array;
-    protected addIndex(frame_length: number, repetition: IRepetition): void;
-    /**
-     * Set shape
-     *
-     * @param {(SceneChild | undefined)} [shape]
-     * @memberof ShapeBase
-     */
-    setShape(shape: SceneChild | undefined): void;
     /**
      * Return bounding
      *
@@ -78,6 +70,14 @@ declare class Shape extends ShapeBase {
      * @memberof Shape
      */
     getBounding(): IShapeBounding;
+    protected addIndex(frame_length: number, repetition: IRepetition): void;
+    /**
+     * Set shape
+     *
+     * @param {(SceneChild | undefined)} [shape]
+     * @memberof ShapeBase
+     */
+    setShape(shape: SceneChild | undefined): void;
 }
 export default Shape;
 //# sourceMappingURL=Shape.d.ts.map

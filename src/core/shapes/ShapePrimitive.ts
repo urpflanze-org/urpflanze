@@ -10,6 +10,7 @@ import { IRepetition, ISceneChildPropArguments, ISceneChildProps } from '@core/t
 import { IBufferIndex } from '@core/types/shape-base'
 import { vec2 } from 'gl-matrix'
 import { toVec2 } from '@core/math/gl-matrix-extensions'
+import Bounding, { TTempBounding } from '@core/math/bounding'
 
 /**
  * @category Core.Abstract
@@ -150,6 +151,7 @@ abstract class ShapePrimitive extends ShapeBase {
 	 */
 	public getBounding(bDirectSceneChild: boolean): IShapeBounding {
 		return bDirectSceneChild ? this.single_bounding : this.bounding
+		// return this.single_bounding
 	}
 
 	/**
@@ -237,29 +239,13 @@ abstract class ShapePrimitive extends ShapeBase {
 	 */
 	public static getBounding(buffer: Float32Array, bounding?: IShapeBounding): IShapeBounding {
 		if (typeof bounding === 'undefined') bounding = { ...ShapePrimitive.EMPTY_BOUNDING }
-
-		let minX = Number.MAX_VALUE,
-			minY = Number.MAX_VALUE,
-			maxX = Number.MIN_VALUE,
-			maxY = Number.MIN_VALUE
+		const tmp_bounding: TTempBounding = [undefined, undefined, undefined, undefined]
 
 		for (let i = 0, len = buffer.length; i < len; i += 2) {
-			const x = buffer[i]
-			const y = buffer[i + 1]
-
-			if (x > maxX) maxX = x
-			else if (x < minX) minX = x
-
-			if (y > maxY) maxY = y
-			else if (y < minY) minY = y
+			Bounding.add(tmp_bounding, buffer[i], buffer[i + 1])
 		}
 
-		bounding.x = minX
-		bounding.y = minY
-		bounding.width = maxX - minX
-		bounding.height = maxY - minY
-		bounding.cx = bounding.x - bounding.width / 2
-		bounding.cy = bounding.y - bounding.height / 2
+		Bounding.bind(bounding, tmp_bounding)
 
 		return bounding
 	}

@@ -15,7 +15,7 @@
 					"name": "settings",
 					"type": {
 						"type": "reference",
-						"id": 729,
+						"id": 744,
 						"name": "ISceneSettings"
 					},
 					"defaultValue": "{}",
@@ -390,7 +390,7 @@
 						"name": "callback",
 						"type": {
 							"type": "reference",
-							"id": 734,
+							"id": 749,
 							"name": "TStreamCallback"
 						},
 						"order": 9999
@@ -470,7 +470,7 @@
 										},
 										{
 											"type": "reference",
-											"id": 941,
+											"id": 956,
 											"name": "Scene"
 										}
 									]
@@ -498,7 +498,7 @@
 										},
 										{
 											"type": "reference",
-											"id": 941,
+											"id": 956,
 											"name": "Scene"
 										}
 									]
@@ -532,7 +532,7 @@
 						"name": "scene",
 						"type": {
 							"type": "reference",
-							"id": 941,
+							"id": 956,
 							"name": "Scene"
 						},
 						"order": 9999
@@ -554,7 +554,7 @@
 						"type": {
 							"type": "reflection",
 							"declaration": {
-								"id": 998,
+								"id": 1013,
 								"name": "__type",
 								"kind": 65536,
 								"kindString": "Type literal",
@@ -563,14 +563,14 @@
 								},
 								"signatures": [
 									{
-										"id": 999,
+										"id": 1014,
 										"name": "__call",
 										"kind": 4096,
 										"kindString": "Call signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 1000,
+												"id": 1015,
 												"name": "sceneChild",
 												"kind": 32768,
 												"kindString": "Parameter",
@@ -663,7 +663,7 @@
 					"name": "settings",
 					"type": {
 						"type": "reference",
-						"id": 682,
+						"id": 697,
 						"name": "ISceneChildSettings"
 					},
 					"order": 9999
@@ -728,7 +728,7 @@
 				"description": "The basic properties",
 				"type": {
 					"type": "reference",
-					"id": 666,
+					"id": 681,
 					"name": "ISceneChildProps"
 				},
 				"order": 9999,
@@ -739,7 +739,7 @@
 				"description": "Reference of the scene to which it is attached",
 				"type": {
 					"type": "reference",
-					"id": 941,
+					"id": 956,
 					"name": "Scene"
 				},
 				"order": 9999,
@@ -849,7 +849,7 @@
 						"name": "parent_prop_arguments",
 						"type": {
 							"type": "reference",
-							"id": 703,
+							"id": 718,
 							"name": "ISceneChildPropArguments"
 						},
 						"order": 9999,
@@ -910,7 +910,7 @@
 						"name": "prop_arguments",
 						"type": {
 							"type": "reference",
-							"id": 703,
+							"id": 718,
 							"name": "ISceneChildPropArguments"
 						},
 						"order": 9999,
@@ -961,7 +961,7 @@
 							"operator": "keyof",
 							"target": {
 								"type": "reference",
-								"id": 666,
+								"id": 681,
 								"name": "ISceneChildProps"
 							}
 						},
@@ -971,7 +971,7 @@
 						"name": "prop_arguments",
 						"type": {
 							"type": "reference",
-							"id": 703,
+							"id": 718,
 							"name": "ISceneChildPropArguments"
 						},
 						"order": 9999,
@@ -1000,7 +1000,7 @@
 				"parameters": [],
 				"return_type": {
 					"type": "reference",
-					"id": 666,
+					"id": 681,
 					"name": "ISceneChildProps"
 				},
 				"order": 9999,
@@ -1063,7 +1063,7 @@
 									"operator": "keyof",
 									"target": {
 										"type": "reference",
-										"id": 666,
+										"id": 681,
 										"name": "ISceneChildProps"
 									}
 								}
@@ -1115,7 +1115,7 @@
 							"operator": "keyof",
 							"target": {
 								"type": "reference",
-								"id": 666,
+								"id": 681,
 								"name": "ISceneChildProps"
 							}
 						}
@@ -1180,7 +1180,7 @@
 						"name": "callback",
 						"type": {
 							"type": "reference",
-							"id": 734,
+							"id": 749,
 							"name": "TStreamCallback"
 						},
 						"order": 9999
@@ -1217,7 +1217,7 @@
 					"name": "settings",
 					"type": {
 						"type": "reference",
-						"id": 682,
+						"id": 697,
 						"name": "ISceneChildSettings"
 					},
 					"defaultValue": "{}",
@@ -1345,7 +1345,7 @@
 						"name": "parent_prop_arguments",
 						"type": {
 							"type": "reference",
-							"id": 703,
+							"id": 718,
 							"name": "ISceneChildPropArguments"
 						},
 						"order": 9999,
@@ -1437,7 +1437,7 @@
 						"name": "prop_arguments",
 						"type": {
 							"type": "reference",
-							"id": 703,
+							"id": 718,
 							"name": "ISceneChildPropArguments"
 						},
 						"order": 9999,
@@ -1694,7 +1694,7 @@
 						"name": "callback",
 						"type": {
 							"type": "reference",
-							"id": 734,
+							"id": 749,
 							"name": "TStreamCallback"
 						},
 						"order": 9999
@@ -1716,7 +1716,7 @@
 		"order": 4,
 		"source": {
 			"fileName": "src/core/shapes/ShapeBase.ts",
-			"line": 38,
+			"line": 39,
 			"character": 24
 		},
 		"extends": [
@@ -1785,7 +1785,7 @@
 						"name": "current_repetition",
 						"type": {
 							"type": "reference",
-							"id": 658,
+							"id": 673,
 							"name": "IRepetition"
 						},
 						"order": 9999
@@ -1854,7 +1854,7 @@
 						"name": "parent_prop_arguments",
 						"type": {
 							"type": "reference",
-							"id": 703,
+							"id": 718,
 							"name": "ISceneChildPropArguments"
 						},
 						"order": 9999,
@@ -1884,7 +1884,7 @@
 						"name": "prop_arguments",
 						"type": {
 							"type": "reference",
-							"id": 703,
+							"id": 718,
 							"name": "ISceneChildPropArguments"
 						},
 						"order": 9999
@@ -1955,7 +1955,7 @@
 							"operator": "keyof",
 							"target": {
 								"type": "reference",
-								"id": 666,
+								"id": 681,
 								"name": "ISceneChildProps"
 							}
 						},
@@ -1965,7 +1965,7 @@
 						"name": "prop_arguments",
 						"type": {
 							"type": "reference",
-							"id": 703,
+							"id": 718,
 							"name": "ISceneChildPropArguments"
 						},
 						"order": 9999,
@@ -2103,7 +2103,7 @@
 						"name": "callback",
 						"type": {
 							"type": "reference",
-							"id": 734,
+							"id": 749,
 							"name": "TStreamCallback"
 						},
 						"order": 9999
@@ -2305,7 +2305,7 @@
 						"name": "repetition",
 						"type": {
 							"type": "reference",
-							"id": 658,
+							"id": 673,
 							"name": "IRepetition"
 						},
 						"order": 9999
@@ -2334,7 +2334,7 @@
 						"name": "repetition",
 						"type": {
 							"type": "reference",
-							"id": 658,
+							"id": 673,
 							"name": "IRepetition"
 						},
 						"order": 9999
@@ -2363,7 +2363,7 @@
 						"name": "repetition",
 						"type": {
 							"type": "reference",
-							"id": 658,
+							"id": 673,
 							"name": "IRepetition"
 						},
 						"order": 9999
@@ -3286,7 +3286,7 @@
 						"name": "repetition",
 						"type": {
 							"type": "reference",
-							"id": 658,
+							"id": 673,
 							"name": "IRepetition"
 						},
 						"order": 9999
@@ -3356,7 +3356,7 @@
 						"name": "prop_arguments",
 						"type": {
 							"type": "reference",
-							"id": 703,
+							"id": 718,
 							"name": "ISceneChildPropArguments"
 						},
 						"order": 9999
@@ -3389,7 +3389,7 @@
 						"name": "prop_arguments",
 						"type": {
 							"type": "reference",
-							"id": 703,
+							"id": 718,
 							"name": "ISceneChildPropArguments"
 						},
 						"order": 9999
@@ -3464,7 +3464,7 @@
 		"order": 9999,
 		"source": {
 			"fileName": "src/core/shapes/ShapeBuffer.ts",
-			"line": 9,
+			"line": 10,
 			"character": 17
 		},
 		"extends": [
@@ -3476,7 +3476,7 @@
 					"name": "settings",
 					"type": {
 						"type": "reference",
-						"id": 1027,
+						"id": 1042,
 						"name": "IShapeBufferSettings"
 					},
 					"defaultValue": "{}",
@@ -3565,7 +3565,7 @@
 						"name": "prop_arguments",
 						"type": {
 							"type": "reference",
-							"id": 703,
+							"id": 718,
 							"name": "ISceneChildPropArguments"
 						},
 						"order": 9999
@@ -3669,7 +3669,7 @@
 		"order": 9999,
 		"source": {
 			"fileName": "src/core/shapes/ShapeLoop.ts",
-			"line": 35,
+			"line": 36,
 			"character": 15
 		},
 		"extends": [
@@ -3682,7 +3682,7 @@
 					"name": "settings",
 					"type": {
 						"type": "reference",
-						"id": 1083,
+						"id": 1098,
 						"name": "IShapeLoopSettings"
 					},
 					"defaultValue": "{}",
@@ -3716,7 +3716,7 @@
 				"description": "Loop generator",
 				"type": {
 					"type": "reference",
-					"id": 1057,
+					"id": 1072,
 					"name": "IShapeLoopGenerator"
 				},
 				"order": 9999,
@@ -3738,7 +3738,7 @@
 				"description": "Shape loop props",
 				"type": {
 					"type": "reference",
-					"id": 1062,
+					"id": 1077,
 					"name": "IShapeLoopProps"
 				},
 				"order": 9999,
@@ -3845,7 +3845,7 @@
 						"name": "prop_arguments",
 						"type": {
 							"type": "reference",
-							"id": 703,
+							"id": 718,
 							"name": "ISceneChildPropArguments"
 						},
 						"order": 9999
@@ -3866,7 +3866,7 @@
 						"name": "prop_arguments",
 						"type": {
 							"type": "reference",
-							"id": 703,
+							"id": 718,
 							"name": "ISceneChildPropArguments"
 						},
 						"order": 9999
@@ -3887,7 +3887,7 @@
 						"name": "prop_arguments",
 						"type": {
 							"type": "reference",
-							"id": 703,
+							"id": 718,
 							"name": "ISceneChildPropArguments"
 						},
 						"order": 9999
@@ -3908,7 +3908,7 @@
 						"name": "prop_arguments",
 						"type": {
 							"type": "reference",
-							"id": 703,
+							"id": 718,
 							"name": "ISceneChildPropArguments"
 						},
 						"defaultValue": "ShapeBase.EMPTY_PROP_ARGUMENTS",
@@ -3933,7 +3933,7 @@
 							"operator": "keyof",
 							"target": {
 								"type": "reference",
-								"id": 1062,
+								"id": 1077,
 								"name": "IShapeLoopProps"
 							}
 						},
@@ -3943,7 +3943,7 @@
 						"name": "prop_arguments",
 						"type": {
 							"type": "reference",
-							"id": 703,
+							"id": 718,
 							"name": "ISceneChildPropArguments"
 						},
 						"order": 9999,
@@ -4052,7 +4052,7 @@
 						"name": "loop",
 						"type": {
 							"type": "reference",
-							"id": 1057,
+							"id": 1072,
 							"name": "IShapeLoopGenerator"
 						},
 						"order": 9999
@@ -4074,7 +4074,7 @@
 		"order": 9999,
 		"source": {
 			"fileName": "src/core/shapes/ShapePrimitive.ts",
-			"line": 17,
+			"line": 18,
 			"character": 29
 		},
 		"extends": [
@@ -4177,7 +4177,7 @@
 						"name": "repetition",
 						"type": {
 							"type": "reference",
-							"id": 658,
+							"id": 673,
 							"name": "IRepetition"
 						},
 						"order": 9999
@@ -4198,7 +4198,7 @@
 						"name": "prop_arguments",
 						"type": {
 							"type": "reference",
-							"id": 703,
+							"id": 718,
 							"name": "ISceneChildPropArguments"
 						},
 						"order": 9999
@@ -4265,7 +4265,7 @@
 						"name": "prop_arguments",
 						"type": {
 							"type": "reference",
-							"id": 703,
+							"id": 718,
 							"name": "ISceneChildPropArguments"
 						},
 						"order": 9999,
@@ -4423,7 +4423,7 @@
 					"name": "settings",
 					"type": {
 						"type": "reference",
-						"id": 1083,
+						"id": 1098,
 						"name": "IShapeLoopSettings"
 					},
 					"defaultValue": "{}",
@@ -4454,7 +4454,7 @@
 					"name": "settings",
 					"type": {
 						"type": "reference",
-						"id": 1027,
+						"id": 1042,
 						"name": "IShapeBufferSettings"
 					},
 					"defaultValue": "{}",
@@ -4486,7 +4486,7 @@
 					"name": "settings",
 					"type": {
 						"type": "reference",
-						"id": 1306,
+						"id": 1321,
 						"name": "ILissajousSettings"
 					},
 					"defaultValue": "{}",
@@ -4500,7 +4500,7 @@
 				"name": "props",
 				"type": {
 					"type": "reference",
-					"id": 1282,
+					"id": 1297,
 					"name": "ILissajousProps"
 				},
 				"order": 9999,
@@ -4519,7 +4519,7 @@
 							"operator": "keyof",
 							"target": {
 								"type": "reference",
-								"id": 1282,
+								"id": 1297,
 								"name": "ILissajousProps"
 							}
 						},
@@ -4529,7 +4529,7 @@
 						"name": "prop_arguments",
 						"type": {
 							"type": "reference",
-							"id": 703,
+							"id": 718,
 							"name": "ISceneChildPropArguments"
 						},
 						"order": 9999,
@@ -4618,7 +4618,7 @@
 					"name": "settings",
 					"type": {
 						"type": "reference",
-						"id": 1027,
+						"id": 1042,
 						"name": "IShapeBufferSettings"
 					},
 					"defaultValue": "{}",
@@ -4650,7 +4650,7 @@
 					"name": "settings",
 					"type": {
 						"type": "reference",
-						"id": 1136,
+						"id": 1151,
 						"name": "IRegularPolygonSettings"
 					},
 					"defaultValue": "{}",
@@ -4663,7 +4663,7 @@
 				"name": "props",
 				"type": {
 					"type": "reference",
-					"id": 1114,
+					"id": 1129,
 					"name": "IRegularPolygonProps"
 				},
 				"order": 9999,
@@ -4682,7 +4682,7 @@
 							"operator": "keyof",
 							"target": {
 								"type": "reference",
-								"id": 1114,
+								"id": 1129,
 								"name": "IRegularPolygonProps"
 							}
 						},
@@ -4692,7 +4692,7 @@
 						"name": "prop_arguments",
 						"type": {
 							"type": "reference",
-							"id": 703,
+							"id": 718,
 							"name": "ISceneChildPropArguments"
 						},
 						"order": 9999,
@@ -4782,7 +4782,7 @@
 					"name": "settings",
 					"type": {
 						"type": "reference",
-						"id": 1191,
+						"id": 1206,
 						"name": "IRoseSettings"
 					},
 					"defaultValue": "{}",
@@ -4796,7 +4796,7 @@
 				"name": "props",
 				"type": {
 					"type": "reference",
-					"id": 1168,
+					"id": 1183,
 					"name": "IRoseProps"
 				},
 				"order": 9999,
@@ -4815,7 +4815,7 @@
 							"operator": "keyof",
 							"target": {
 								"type": "reference",
-								"id": 1168,
+								"id": 1183,
 								"name": "IRoseProps"
 							}
 						},
@@ -4825,7 +4825,7 @@
 						"name": "prop_arguments",
 						"type": {
 							"type": "reference",
-							"id": 703,
+							"id": 718,
 							"name": "ISceneChildPropArguments"
 						},
 						"order": 9999,
@@ -4943,7 +4943,7 @@
 					"name": "settings",
 					"type": {
 						"type": "reference",
-						"id": 1248,
+						"id": 1263,
 						"name": "ISpiralSettings"
 					},
 					"defaultValue": "{}",
@@ -4957,7 +4957,7 @@
 				"name": "props",
 				"type": {
 					"type": "reference",
-					"id": 1224,
+					"id": 1239,
 					"name": "ISpiralProps"
 				},
 				"order": 9999,
@@ -4976,7 +4976,7 @@
 							"operator": "keyof",
 							"target": {
 								"type": "reference",
-								"id": 1224,
+								"id": 1239,
 								"name": "ISpiralProps"
 							}
 						},
@@ -4986,7 +4986,7 @@
 						"name": "prop_arguments",
 						"type": {
 							"type": "reference",
-							"id": 703,
+							"id": 718,
 							"name": "ISceneChildPropArguments"
 						},
 						"order": 9999,
@@ -5062,7 +5062,7 @@
 						"name": "spiral",
 						"type": {
 							"type": "reference",
-							"id": 1345,
+							"id": 1360,
 							"name": "TSpiralType"
 						},
 						"order": 9999
@@ -5105,7 +5105,7 @@
 					"name": "settings",
 					"type": {
 						"type": "reference",
-						"id": 1027,
+						"id": 1042,
 						"name": "IShapeBufferSettings"
 					},
 					"defaultValue": "{}",
@@ -5230,7 +5230,7 @@
 			"type": {
 				"type": "reflection",
 				"declaration": {
-					"id": 735,
+					"id": 750,
 					"name": "__type",
 					"kind": 65536,
 					"kindString": "Type literal",
@@ -5239,7 +5239,7 @@
 					},
 					"signatures": [
 						{
-							"id": 736,
+							"id": 751,
 							"name": "__call",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -5248,7 +5248,7 @@
 							},
 							"parameters": [
 								{
-									"id": 737,
+									"id": 752,
 									"name": "stream_arguments",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -5257,7 +5257,7 @@
 									},
 									"type": {
 										"type": "reference",
-										"id": 710,
+										"id": 725,
 										"name": "ISceneChildStreamArguments"
 									}
 								}
@@ -5403,7 +5403,7 @@
 				"description": "Define the type of repetition",
 				"type": {
 					"type": "reference",
-					"id": 646,
+					"id": 661,
 					"name": "ERepetitionType"
 				},
 				"order": 5
@@ -5413,7 +5413,7 @@
 				"description": "Information about rows of matrix repetition",
 				"type": {
 					"type": "reference",
-					"id": 649,
+					"id": 664,
 					"name": "IBaseRepetition"
 				},
 				"order": 6
@@ -5423,7 +5423,7 @@
 				"description": "Information about columns of matrix repetition",
 				"type": {
 					"type": "reference",
-					"id": 649,
+					"id": 664,
 					"name": "IBaseRepetition"
 				},
 				"order": 7
@@ -5470,7 +5470,7 @@
 					"typeArguments": [
 						{
 							"type": "reference",
-							"id": 703,
+							"id": 718,
 							"name": "ISceneChildPropArguments"
 						}
 					],
@@ -5483,7 +5483,7 @@
 				"name": "repetition",
 				"type": {
 					"type": "reference",
-					"id": 658,
+					"id": 673,
 					"name": "IRepetition"
 				},
 				"order": 9999
@@ -5492,7 +5492,7 @@
 				"name": "shape",
 				"type": {
 					"type": "reference",
-					"id": 512,
+					"id": 527,
 					"name": "ShapeBase"
 				},
 				"order": 9999,
@@ -5525,7 +5525,7 @@
 				"description": "It defines the type of repetition.\nIf a number is passed the repetition will be Ring.\nIf an array (1) is passed the repetition will be nxn,\nif an array (2) the repetition will be nxm",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -5557,7 +5557,7 @@
 				"description": "If the repeat is Ring, pass a numerical value\nreferring to the distance from the center.\nIf the repeat is Matrix, pass an array (2) which refers\nto the distance between columns and rows.",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -5589,7 +5589,7 @@
 				"description": "For Ring repeats, define the starting angle of the repeat",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -5606,7 +5606,7 @@
 				"description": "skewX transformation.",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -5623,7 +5623,7 @@
 				"description": "skewY transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -5640,7 +5640,7 @@
 				"description": "squeezeX transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -5657,7 +5657,7 @@
 				"description": "squeezeY transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -5674,7 +5674,7 @@
 				"description": "scale transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -5706,7 +5706,7 @@
 				"description": "tranlsate transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -5738,7 +5738,7 @@
 				"description": "rotateX transformation in degeress",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -5755,7 +5755,7 @@
 				"description": "rotateY transformation in degeress",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -5772,7 +5772,7 @@
 				"description": "rotateZ transformation in degeress",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -5789,7 +5789,7 @@
 				"description": "Origin of transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -5806,7 +5806,7 @@
 				"description": "perspective of rotation between 0 and 1",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -5823,7 +5823,7 @@
 				"description": "perspective origin between [-1, -1] and [1, 1]",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -5965,7 +5965,7 @@
 				"description": "It defines the type of repetition.\nIf a number is passed the repetition will be Ring.\nIf an array (1) is passed the repetition will be nxn,\nif an array (2) the repetition will be nxm",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -5997,7 +5997,7 @@
 				"description": "If the repeat is Ring, pass a numerical value\nreferring to the distance from the center.\nIf the repeat is Matrix, pass an array (2) which refers\nto the distance between columns and rows.",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -6029,7 +6029,7 @@
 				"description": "For Ring repeats, define the starting angle of the repeat",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -6046,7 +6046,7 @@
 				"description": "skewX transformation.",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -6063,7 +6063,7 @@
 				"description": "skewY transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -6080,7 +6080,7 @@
 				"description": "squeezeX transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -6097,7 +6097,7 @@
 				"description": "squeezeY transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -6114,7 +6114,7 @@
 				"description": "scale transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -6146,7 +6146,7 @@
 				"description": "tranlsate transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -6178,7 +6178,7 @@
 				"description": "rotateX transformation in degeress",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -6195,7 +6195,7 @@
 				"description": "rotateY transformation in degeress",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -6212,7 +6212,7 @@
 				"description": "rotateZ transformation in degeress",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -6229,7 +6229,7 @@
 				"description": "Origin of transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -6246,7 +6246,7 @@
 				"description": "perspective of rotation between 0 and 1",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -6263,7 +6263,7 @@
 				"description": "perspective origin between [-1, -1] and [1, 1]",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -6308,7 +6308,7 @@
 				"name": "shape",
 				"type": {
 					"type": "reference",
-					"id": 275,
+					"id": 290,
 					"name": "ShapePrimitive"
 				},
 				"order": 1
@@ -6402,7 +6402,7 @@
 				"description": "repetition of current generated shape",
 				"type": {
 					"type": "reference",
-					"id": 658,
+					"id": 673,
 					"name": "IRepetition"
 				},
 				"order": 12
@@ -6492,7 +6492,7 @@
 									"name": "prop_arguments",
 									"type": {
 										"type": "reference",
-										"id": 703,
+										"id": 718,
 										"name": "ISceneChildPropArguments"
 									},
 									"order": 9999
@@ -6512,7 +6512,7 @@
 		},
 		"typeParameters": [
 			{
-				"id": 724,
+				"id": 739,
 				"name": "T",
 				"kind": 131072,
 				"kindString": "Type parameter",
@@ -6595,7 +6595,7 @@
 				"description": "Current repetition reference oof frame",
 				"type": {
 					"type": "reference",
-					"id": 658,
+					"id": 673,
 					"name": "IRepetition"
 				},
 				"order": 9999
@@ -6605,7 +6605,7 @@
 				"description": "Reference to shape",
 				"type": {
 					"type": "reference",
-					"id": 512,
+					"id": 527,
 					"name": "ShapeBase"
 				},
 				"order": 9999
@@ -6763,7 +6763,7 @@
 				"description": "It defines the type of repetition.\nIf a number is passed the repetition will be Ring.\nIf an array (1) is passed the repetition will be nxn,\nif an array (2) the repetition will be nxm",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -6795,7 +6795,7 @@
 				"description": "If the repeat is Ring, pass a numerical value\nreferring to the distance from the center.\nIf the repeat is Matrix, pass an array (2) which refers\nto the distance between columns and rows.",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -6827,7 +6827,7 @@
 				"description": "For Ring repeats, define the starting angle of the repeat",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -6844,7 +6844,7 @@
 				"description": "skewX transformation.",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -6861,7 +6861,7 @@
 				"description": "skewY transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -6878,7 +6878,7 @@
 				"description": "squeezeX transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -6895,7 +6895,7 @@
 				"description": "squeezeY transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -6912,7 +6912,7 @@
 				"description": "scale transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -6944,7 +6944,7 @@
 				"description": "tranlsate transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -6976,7 +6976,7 @@
 				"description": "rotateX transformation in degeress",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -6993,7 +6993,7 @@
 				"description": "rotateY transformation in degeress",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -7010,7 +7010,7 @@
 				"description": "rotateZ transformation in degeress",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -7027,7 +7027,7 @@
 				"description": "Origin of transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -7044,7 +7044,7 @@
 				"description": "perspective of rotation between 0 and 1",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -7061,7 +7061,7 @@
 				"description": "perspective origin between [-1, -1] and [1, 1]",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -7171,7 +7171,7 @@
 				"description": "scalar that multiplies the buffer or loop",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -7203,7 +7203,7 @@
 				"description": "fill color of the shape, hsl or rgb is preferred",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -7229,7 +7229,7 @@
 				"description": "stroke color oh the shape, hsl or rgb is preferred",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -7255,7 +7255,7 @@
 				"description": "stroke dimension",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -7272,7 +7272,7 @@
 				"description": "It defines the type of repetition.\nIf a number is passed the repetition will be Ring.\nIf an array (1) is passed the repetition will be nxn,\nif an array (2) the repetition will be nxm",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -7304,7 +7304,7 @@
 				"description": "If the repeat is Ring, pass a numerical value\nreferring to the distance from the center.\nIf the repeat is Matrix, pass an array (2) which refers\nto the distance between columns and rows.",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -7336,7 +7336,7 @@
 				"description": "For Ring repeats, define the starting angle of the repeat",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -7353,7 +7353,7 @@
 				"description": "skewX transformation.",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -7370,7 +7370,7 @@
 				"description": "skewY transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -7387,7 +7387,7 @@
 				"description": "squeezeX transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -7404,7 +7404,7 @@
 				"description": "squeezeY transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -7421,7 +7421,7 @@
 				"description": "scale transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -7453,7 +7453,7 @@
 				"description": "tranlsate transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -7485,7 +7485,7 @@
 				"description": "rotateX transformation in degeress",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -7502,7 +7502,7 @@
 				"description": "rotateY transformation in degeress",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -7519,7 +7519,7 @@
 				"description": "rotateZ transformation in degeress",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -7536,7 +7536,7 @@
 				"description": "Origin of transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -7553,7 +7553,7 @@
 				"description": "perspective of rotation between 0 and 1",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -7570,7 +7570,7 @@
 				"description": "perspective origin between [-1, -1] and [1, 1]",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -7619,7 +7619,7 @@
 				"description": "scalar that multiplies the buffer or loop",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -7651,7 +7651,7 @@
 				"description": "fill color of the shape, hsl or rgb is preferred",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -7677,7 +7677,7 @@
 				"description": "stroke color oh the shape, hsl or rgb is preferred",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -7703,7 +7703,7 @@
 				"description": "stroke dimension",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -7888,7 +7888,7 @@
 				"description": "It defines the type of repetition.\nIf a number is passed the repetition will be Ring.\nIf an array (1) is passed the repetition will be nxn,\nif an array (2) the repetition will be nxm",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -7920,7 +7920,7 @@
 				"description": "If the repeat is Ring, pass a numerical value\nreferring to the distance from the center.\nIf the repeat is Matrix, pass an array (2) which refers\nto the distance between columns and rows.",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -7952,7 +7952,7 @@
 				"description": "For Ring repeats, define the starting angle of the repeat",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -7969,7 +7969,7 @@
 				"description": "skewX transformation.",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -7986,7 +7986,7 @@
 				"description": "skewY transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -8003,7 +8003,7 @@
 				"description": "squeezeX transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -8020,7 +8020,7 @@
 				"description": "squeezeY transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -8037,7 +8037,7 @@
 				"description": "scale transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -8069,7 +8069,7 @@
 				"description": "tranlsate transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -8101,7 +8101,7 @@
 				"description": "rotateX transformation in degeress",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -8118,7 +8118,7 @@
 				"description": "rotateY transformation in degeress",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -8135,7 +8135,7 @@
 				"description": "rotateZ transformation in degeress",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -8152,7 +8152,7 @@
 				"description": "Origin of transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -8169,7 +8169,7 @@
 				"description": "perspective of rotation between 0 and 1",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -8186,7 +8186,7 @@
 				"description": "perspective origin between [-1, -1] and [1, 1]",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -8377,7 +8377,7 @@
 				"description": "It defines the type of repetition.\nIf a number is passed the repetition will be Ring.\nIf an array (1) is passed the repetition will be nxn,\nif an array (2) the repetition will be nxm",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -8409,7 +8409,7 @@
 				"description": "If the repeat is Ring, pass a numerical value\nreferring to the distance from the center.\nIf the repeat is Matrix, pass an array (2) which refers\nto the distance between columns and rows.",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -8441,7 +8441,7 @@
 				"description": "For Ring repeats, define the starting angle of the repeat",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -8458,7 +8458,7 @@
 				"description": "skewX transformation.",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -8475,7 +8475,7 @@
 				"description": "skewY transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -8492,7 +8492,7 @@
 				"description": "squeezeX transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -8509,7 +8509,7 @@
 				"description": "squeezeY transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -8526,7 +8526,7 @@
 				"description": "scale transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -8558,7 +8558,7 @@
 				"description": "tranlsate transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -8590,7 +8590,7 @@
 				"description": "rotateX transformation in degeress",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -8607,7 +8607,7 @@
 				"description": "rotateY transformation in degeress",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -8624,7 +8624,7 @@
 				"description": "rotateZ transformation in degeress",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -8641,7 +8641,7 @@
 				"description": "Origin of transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -8658,7 +8658,7 @@
 				"description": "perspective of rotation between 0 and 1",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -8675,7 +8675,7 @@
 				"description": "perspective origin between [-1, -1] and [1, 1]",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -8774,7 +8774,7 @@
 									},
 									"type": {
 										"type": "reference",
-										"id": 703,
+										"id": 718,
 										"name": "ISceneChildPropArguments"
 									}
 								},
@@ -8788,7 +8788,7 @@
 									},
 									"type": {
 										"type": "reference",
-										"id": 649,
+										"id": 664,
 										"name": "IBaseRepetition"
 									}
 								}
@@ -8831,7 +8831,7 @@
 				"description": "wx coefficient",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -8848,7 +8848,7 @@
 				"description": "wy coefficient",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -8865,7 +8865,7 @@
 				"description": "wz coefficient",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -8882,7 +8882,7 @@
 				"description": "<a href=\"#/ref/IShapeLoopGenerator\">IShapeLoopGenerator</a> for more details",
 				"type": {
 					"type": "reference",
-					"id": 1057,
+					"id": 1072,
 					"name": "IShapeLoopGenerator"
 				},
 				"order": -30,
@@ -8893,7 +8893,7 @@
 				"description": "scalar that multiplies the buffer or loop",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -8925,7 +8925,7 @@
 				"description": "fill color of the shape, hsl or rgb is preferred",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -8951,7 +8951,7 @@
 				"description": "stroke color oh the shape, hsl or rgb is preferred",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -8977,7 +8977,7 @@
 				"description": "stroke dimension",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -8994,7 +8994,7 @@
 				"description": "It defines the type of repetition.\nIf a number is passed the repetition will be Ring.\nIf an array (1) is passed the repetition will be nxn,\nif an array (2) the repetition will be nxm",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -9026,7 +9026,7 @@
 				"description": "If the repeat is Ring, pass a numerical value\nreferring to the distance from the center.\nIf the repeat is Matrix, pass an array (2) which refers\nto the distance between columns and rows.",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -9058,7 +9058,7 @@
 				"description": "For Ring repeats, define the starting angle of the repeat",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -9075,7 +9075,7 @@
 				"description": "skewX transformation.",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -9092,7 +9092,7 @@
 				"description": "skewY transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -9109,7 +9109,7 @@
 				"description": "squeezeX transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -9126,7 +9126,7 @@
 				"description": "squeezeY transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -9143,7 +9143,7 @@
 				"description": "scale transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -9175,7 +9175,7 @@
 				"description": "tranlsate transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -9207,7 +9207,7 @@
 				"description": "rotateX transformation in degeress",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -9224,7 +9224,7 @@
 				"description": "rotateY transformation in degeress",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -9241,7 +9241,7 @@
 				"description": "rotateZ transformation in degeress",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -9258,7 +9258,7 @@
 				"description": "Origin of transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -9275,7 +9275,7 @@
 				"description": "perspective of rotation between 0 and 1",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -9292,7 +9292,7 @@
 				"description": "perspective origin between [-1, -1] and [1, 1]",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -9341,7 +9341,7 @@
 				"description": "wx coefficient",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -9358,7 +9358,7 @@
 				"description": "wy coefficient",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -9375,7 +9375,7 @@
 				"description": "wz coefficient",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -9392,7 +9392,7 @@
 				"description": "<a href=\"#/ref/IShapeLoopGenerator\">IShapeLoopGenerator</a> for more details",
 				"type": {
 					"type": "reference",
-					"id": 1057,
+					"id": 1072,
 					"name": "IShapeLoopGenerator"
 				},
 				"order": -30,
@@ -9432,7 +9432,7 @@
 				"description": "scalar that multiplies the buffer or loop",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -9464,7 +9464,7 @@
 				"description": "fill color of the shape, hsl or rgb is preferred",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -9490,7 +9490,7 @@
 				"description": "stroke color oh the shape, hsl or rgb is preferred",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -9516,7 +9516,7 @@
 				"description": "stroke dimension",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -9701,7 +9701,7 @@
 				"description": "It defines the type of repetition.\nIf a number is passed the repetition will be Ring.\nIf an array (1) is passed the repetition will be nxn,\nif an array (2) the repetition will be nxm",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -9733,7 +9733,7 @@
 				"description": "If the repeat is Ring, pass a numerical value\nreferring to the distance from the center.\nIf the repeat is Matrix, pass an array (2) which refers\nto the distance between columns and rows.",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -9765,7 +9765,7 @@
 				"description": "For Ring repeats, define the starting angle of the repeat",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -9782,7 +9782,7 @@
 				"description": "skewX transformation.",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -9799,7 +9799,7 @@
 				"description": "skewY transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -9816,7 +9816,7 @@
 				"description": "squeezeX transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -9833,7 +9833,7 @@
 				"description": "squeezeY transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -9850,7 +9850,7 @@
 				"description": "scale transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -9882,7 +9882,7 @@
 				"description": "tranlsate transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -9914,7 +9914,7 @@
 				"description": "rotateX transformation in degeress",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -9931,7 +9931,7 @@
 				"description": "rotateY transformation in degeress",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -9948,7 +9948,7 @@
 				"description": "rotateZ transformation in degeress",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -9965,7 +9965,7 @@
 				"description": "Origin of transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -9982,7 +9982,7 @@
 				"description": "perspective of rotation between 0 and 1",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -9999,7 +9999,7 @@
 				"description": "perspective origin between [-1, -1] and [1, 1]",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -10047,7 +10047,7 @@
 				"description": "sideNumber / segments",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -10064,7 +10064,7 @@
 				"description": "<a href=\"#/ref/IShapeLoopGenerator\">IShapeLoopGenerator</a> for more details",
 				"type": {
 					"type": "reference",
-					"id": 1057,
+					"id": 1072,
 					"name": "IShapeLoopGenerator"
 				},
 				"order": -30,
@@ -10075,7 +10075,7 @@
 				"description": "scalar that multiplies the buffer or loop",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -10107,7 +10107,7 @@
 				"description": "fill color of the shape, hsl or rgb is preferred",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -10133,7 +10133,7 @@
 				"description": "stroke color oh the shape, hsl or rgb is preferred",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -10159,7 +10159,7 @@
 				"description": "stroke dimension",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -10176,7 +10176,7 @@
 				"description": "It defines the type of repetition.\nIf a number is passed the repetition will be Ring.\nIf an array (1) is passed the repetition will be nxn,\nif an array (2) the repetition will be nxm",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -10208,7 +10208,7 @@
 				"description": "If the repeat is Ring, pass a numerical value\nreferring to the distance from the center.\nIf the repeat is Matrix, pass an array (2) which refers\nto the distance between columns and rows.",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -10240,7 +10240,7 @@
 				"description": "For Ring repeats, define the starting angle of the repeat",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -10257,7 +10257,7 @@
 				"description": "skewX transformation.",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -10274,7 +10274,7 @@
 				"description": "skewY transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -10291,7 +10291,7 @@
 				"description": "squeezeX transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -10308,7 +10308,7 @@
 				"description": "squeezeY transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -10325,7 +10325,7 @@
 				"description": "scale transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -10357,7 +10357,7 @@
 				"description": "tranlsate transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -10389,7 +10389,7 @@
 				"description": "rotateX transformation in degeress",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -10406,7 +10406,7 @@
 				"description": "rotateY transformation in degeress",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -10423,7 +10423,7 @@
 				"description": "rotateZ transformation in degeress",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -10440,7 +10440,7 @@
 				"description": "Origin of transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -10457,7 +10457,7 @@
 				"description": "perspective of rotation between 0 and 1",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -10474,7 +10474,7 @@
 				"description": "perspective origin between [-1, -1] and [1, 1]",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -10523,7 +10523,7 @@
 				"description": "sideNumber / segments",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -10540,7 +10540,7 @@
 				"description": "<a href=\"#/ref/IShapeLoopGenerator\">IShapeLoopGenerator</a> for more details",
 				"type": {
 					"type": "reference",
-					"id": 1057,
+					"id": 1072,
 					"name": "IShapeLoopGenerator"
 				},
 				"order": -30,
@@ -10580,7 +10580,7 @@
 				"description": "scalar that multiplies the buffer or loop",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -10612,7 +10612,7 @@
 				"description": "fill color of the shape, hsl or rgb is preferred",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -10638,7 +10638,7 @@
 				"description": "stroke color oh the shape, hsl or rgb is preferred",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -10664,7 +10664,7 @@
 				"description": "stroke dimension",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -10849,7 +10849,7 @@
 				"description": "It defines the type of repetition.\nIf a number is passed the repetition will be Ring.\nIf an array (1) is passed the repetition will be nxn,\nif an array (2) the repetition will be nxm",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -10881,7 +10881,7 @@
 				"description": "If the repeat is Ring, pass a numerical value\nreferring to the distance from the center.\nIf the repeat is Matrix, pass an array (2) which refers\nto the distance between columns and rows.",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -10913,7 +10913,7 @@
 				"description": "For Ring repeats, define the starting angle of the repeat",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -10930,7 +10930,7 @@
 				"description": "skewX transformation.",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -10947,7 +10947,7 @@
 				"description": "skewY transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -10964,7 +10964,7 @@
 				"description": "squeezeX transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -10981,7 +10981,7 @@
 				"description": "squeezeY transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -10998,7 +10998,7 @@
 				"description": "scale transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -11030,7 +11030,7 @@
 				"description": "tranlsate transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -11062,7 +11062,7 @@
 				"description": "rotateX transformation in degeress",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -11079,7 +11079,7 @@
 				"description": "rotateY transformation in degeress",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -11096,7 +11096,7 @@
 				"description": "rotateZ transformation in degeress",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -11113,7 +11113,7 @@
 				"description": "Origin of transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -11130,7 +11130,7 @@
 				"description": "perspective of rotation between 0 and 1",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -11147,7 +11147,7 @@
 				"description": "perspective origin between [-1, -1] and [1, 1]",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -11196,7 +11196,7 @@
 				"description": "n coefficient",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -11213,7 +11213,7 @@
 				"description": "d coefficient",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -11230,7 +11230,7 @@
 				"description": "<a href=\"#/ref/IShapeLoopGenerator\">IShapeLoopGenerator</a> for more details",
 				"type": {
 					"type": "reference",
-					"id": 1057,
+					"id": 1072,
 					"name": "IShapeLoopGenerator"
 				},
 				"order": -30,
@@ -11241,7 +11241,7 @@
 				"description": "scalar that multiplies the buffer or loop",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -11273,7 +11273,7 @@
 				"description": "fill color of the shape, hsl or rgb is preferred",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -11299,7 +11299,7 @@
 				"description": "stroke color oh the shape, hsl or rgb is preferred",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -11325,7 +11325,7 @@
 				"description": "stroke dimension",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -11342,7 +11342,7 @@
 				"description": "It defines the type of repetition.\nIf a number is passed the repetition will be Ring.\nIf an array (1) is passed the repetition will be nxn,\nif an array (2) the repetition will be nxm",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -11374,7 +11374,7 @@
 				"description": "If the repeat is Ring, pass a numerical value\nreferring to the distance from the center.\nIf the repeat is Matrix, pass an array (2) which refers\nto the distance between columns and rows.",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -11406,7 +11406,7 @@
 				"description": "For Ring repeats, define the starting angle of the repeat",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -11423,7 +11423,7 @@
 				"description": "skewX transformation.",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -11440,7 +11440,7 @@
 				"description": "skewY transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -11457,7 +11457,7 @@
 				"description": "squeezeX transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -11474,7 +11474,7 @@
 				"description": "squeezeY transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -11491,7 +11491,7 @@
 				"description": "scale transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -11523,7 +11523,7 @@
 				"description": "tranlsate transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -11555,7 +11555,7 @@
 				"description": "rotateX transformation in degeress",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -11572,7 +11572,7 @@
 				"description": "rotateY transformation in degeress",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -11589,7 +11589,7 @@
 				"description": "rotateZ transformation in degeress",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -11606,7 +11606,7 @@
 				"description": "Origin of transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -11623,7 +11623,7 @@
 				"description": "perspective of rotation between 0 and 1",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -11640,7 +11640,7 @@
 				"description": "perspective origin between [-1, -1] and [1, 1]",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -11689,7 +11689,7 @@
 				"description": "n coefficient",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -11706,7 +11706,7 @@
 				"description": "d coefficient",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -11723,7 +11723,7 @@
 				"description": "<a href=\"#/ref/IShapeLoopGenerator\">IShapeLoopGenerator</a> for more details",
 				"type": {
 					"type": "reference",
-					"id": 1057,
+					"id": 1072,
 					"name": "IShapeLoopGenerator"
 				},
 				"order": -30,
@@ -11763,7 +11763,7 @@
 				"description": "scalar that multiplies the buffer or loop",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -11795,7 +11795,7 @@
 				"description": "fill color of the shape, hsl or rgb is preferred",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -11821,7 +11821,7 @@
 				"description": "stroke color oh the shape, hsl or rgb is preferred",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -11847,7 +11847,7 @@
 				"description": "stroke dimension",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -12032,7 +12032,7 @@
 				"description": "It defines the type of repetition.\nIf a number is passed the repetition will be Ring.\nIf an array (1) is passed the repetition will be nxn,\nif an array (2) the repetition will be nxm",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -12064,7 +12064,7 @@
 				"description": "If the repeat is Ring, pass a numerical value\nreferring to the distance from the center.\nIf the repeat is Matrix, pass an array (2) which refers\nto the distance between columns and rows.",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -12096,7 +12096,7 @@
 				"description": "For Ring repeats, define the starting angle of the repeat",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -12113,7 +12113,7 @@
 				"description": "skewX transformation.",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -12130,7 +12130,7 @@
 				"description": "skewY transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -12147,7 +12147,7 @@
 				"description": "squeezeX transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -12164,7 +12164,7 @@
 				"description": "squeezeY transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -12181,7 +12181,7 @@
 				"description": "scale transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -12213,7 +12213,7 @@
 				"description": "tranlsate transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -12245,7 +12245,7 @@
 				"description": "rotateX transformation in degeress",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -12262,7 +12262,7 @@
 				"description": "rotateY transformation in degeress",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -12279,7 +12279,7 @@
 				"description": "rotateZ transformation in degeress",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -12296,7 +12296,7 @@
 				"description": "Origin of transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -12313,7 +12313,7 @@
 				"description": "perspective of rotation between 0 and 1",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -12330,7 +12330,7 @@
 				"description": "perspective origin between [-1, -1] and [1, 1]",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -12378,7 +12378,7 @@
 				"description": "scalar that multiplies the buffer or loop",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -12410,7 +12410,7 @@
 				"description": "fill color of the shape, hsl or rgb is preferred",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -12436,7 +12436,7 @@
 				"description": "stroke color oh the shape, hsl or rgb is preferred",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -12462,7 +12462,7 @@
 				"description": "stroke dimension",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -12479,7 +12479,7 @@
 				"description": "It defines the type of repetition.\nIf a number is passed the repetition will be Ring.\nIf an array (1) is passed the repetition will be nxn,\nif an array (2) the repetition will be nxm",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -12511,7 +12511,7 @@
 				"description": "If the repeat is Ring, pass a numerical value\nreferring to the distance from the center.\nIf the repeat is Matrix, pass an array (2) which refers\nto the distance between columns and rows.",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -12543,7 +12543,7 @@
 				"description": "For Ring repeats, define the starting angle of the repeat",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -12560,7 +12560,7 @@
 				"description": "skewX transformation.",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -12577,7 +12577,7 @@
 				"description": "skewY transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -12594,7 +12594,7 @@
 				"description": "squeezeX transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -12611,7 +12611,7 @@
 				"description": "squeezeY transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -12628,7 +12628,7 @@
 				"description": "scale transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -12660,7 +12660,7 @@
 				"description": "tranlsate transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -12692,7 +12692,7 @@
 				"description": "rotateX transformation in degeress",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -12709,7 +12709,7 @@
 				"description": "rotateY transformation in degeress",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -12726,7 +12726,7 @@
 				"description": "rotateZ transformation in degeress",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -12743,7 +12743,7 @@
 				"description": "Origin of transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -12760,7 +12760,7 @@
 				"description": "perspective of rotation between 0 and 1",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -12777,7 +12777,7 @@
 				"description": "perspective origin between [-1, -1] and [1, 1]",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -12853,7 +12853,7 @@
 				"description": "scalar that multiplies the buffer or loop",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -12885,7 +12885,7 @@
 				"description": "fill color of the shape, hsl or rgb is preferred",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -12911,7 +12911,7 @@
 				"description": "stroke color oh the shape, hsl or rgb is preferred",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -12937,7 +12937,7 @@
 				"description": "stroke dimension",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -13122,7 +13122,7 @@
 				"description": "It defines the type of repetition.\nIf a number is passed the repetition will be Ring.\nIf an array (1) is passed the repetition will be nxn,\nif an array (2) the repetition will be nxm",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -13154,7 +13154,7 @@
 				"description": "If the repeat is Ring, pass a numerical value\nreferring to the distance from the center.\nIf the repeat is Matrix, pass an array (2) which refers\nto the distance between columns and rows.",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -13186,7 +13186,7 @@
 				"description": "For Ring repeats, define the starting angle of the repeat",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -13203,7 +13203,7 @@
 				"description": "skewX transformation.",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -13220,7 +13220,7 @@
 				"description": "skewY transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -13237,7 +13237,7 @@
 				"description": "squeezeX transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -13254,7 +13254,7 @@
 				"description": "squeezeY transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -13271,7 +13271,7 @@
 				"description": "scale transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -13303,7 +13303,7 @@
 				"description": "tranlsate transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -13335,7 +13335,7 @@
 				"description": "rotateX transformation in degeress",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -13352,7 +13352,7 @@
 				"description": "rotateY transformation in degeress",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -13369,7 +13369,7 @@
 				"description": "rotateZ transformation in degeress",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -13386,7 +13386,7 @@
 				"description": "Origin of transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -13403,7 +13403,7 @@
 				"description": "perspective of rotation between 0 and 1",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -13420,7 +13420,7 @@
 				"description": "perspective origin between [-1, -1] and [1, 1]",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -13465,7 +13465,7 @@
 				"name": "end",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -13481,7 +13481,7 @@
 				"name": "inc",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -13497,7 +13497,7 @@
 				"name": "start",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -13513,7 +13513,7 @@
 				"name": "vertex",
 				"type": {
 					"type": "reference",
-					"id": 1340,
+					"id": 1355,
 					"name": "TShapeLoopGeneratorFormula"
 				},
 				"order": 9999,
@@ -13540,7 +13540,7 @@
 				"description": "<a href=\"#/ref/IShapeLoopGenerator\">IShapeLoopGenerator</a> for more details",
 				"type": {
 					"type": "reference",
-					"id": 1057,
+					"id": 1072,
 					"name": "IShapeLoopGenerator"
 				},
 				"order": -30,
@@ -13551,7 +13551,7 @@
 				"description": "scalar that multiplies the buffer or loop",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -13583,7 +13583,7 @@
 				"description": "fill color of the shape, hsl or rgb is preferred",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -13609,7 +13609,7 @@
 				"description": "stroke color oh the shape, hsl or rgb is preferred",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -13635,7 +13635,7 @@
 				"description": "stroke dimension",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -13652,7 +13652,7 @@
 				"description": "It defines the type of repetition.\nIf a number is passed the repetition will be Ring.\nIf an array (1) is passed the repetition will be nxn,\nif an array (2) the repetition will be nxm",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -13684,7 +13684,7 @@
 				"description": "If the repeat is Ring, pass a numerical value\nreferring to the distance from the center.\nIf the repeat is Matrix, pass an array (2) which refers\nto the distance between columns and rows.",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -13716,7 +13716,7 @@
 				"description": "For Ring repeats, define the starting angle of the repeat",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -13733,7 +13733,7 @@
 				"description": "skewX transformation.",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -13750,7 +13750,7 @@
 				"description": "skewY transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -13767,7 +13767,7 @@
 				"description": "squeezeX transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -13784,7 +13784,7 @@
 				"description": "squeezeY transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -13801,7 +13801,7 @@
 				"description": "scale transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -13833,7 +13833,7 @@
 				"description": "tranlsate transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -13865,7 +13865,7 @@
 				"description": "rotateX transformation in degeress",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -13882,7 +13882,7 @@
 				"description": "rotateY transformation in degeress",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -13899,7 +13899,7 @@
 				"description": "rotateZ transformation in degeress",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -13916,7 +13916,7 @@
 				"description": "Origin of transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -13933,7 +13933,7 @@
 				"description": "perspective of rotation between 0 and 1",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -13950,7 +13950,7 @@
 				"description": "perspective origin between [-1, -1] and [1, 1]",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -13999,7 +13999,7 @@
 				"description": "<a href=\"#/ref/IShapeLoopGenerator\">IShapeLoopGenerator</a> for more details",
 				"type": {
 					"type": "reference",
-					"id": 1057,
+					"id": 1072,
 					"name": "IShapeLoopGenerator"
 				},
 				"order": -30,
@@ -14039,7 +14039,7 @@
 				"description": "scalar that multiplies the buffer or loop",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -14071,7 +14071,7 @@
 				"description": "fill color of the shape, hsl or rgb is preferred",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -14097,7 +14097,7 @@
 				"description": "stroke color oh the shape, hsl or rgb is preferred",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -14123,7 +14123,7 @@
 				"description": "stroke dimension",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -14308,7 +14308,7 @@
 				"description": "It defines the type of repetition.\nIf a number is passed the repetition will be Ring.\nIf an array (1) is passed the repetition will be nxn,\nif an array (2) the repetition will be nxm",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -14340,7 +14340,7 @@
 				"description": "If the repeat is Ring, pass a numerical value\nreferring to the distance from the center.\nIf the repeat is Matrix, pass an array (2) which refers\nto the distance between columns and rows.",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -14372,7 +14372,7 @@
 				"description": "For Ring repeats, define the starting angle of the repeat",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -14389,7 +14389,7 @@
 				"description": "skewX transformation.",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -14406,7 +14406,7 @@
 				"description": "skewY transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -14423,7 +14423,7 @@
 				"description": "squeezeX transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -14440,7 +14440,7 @@
 				"description": "squeezeY transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -14457,7 +14457,7 @@
 				"description": "scale transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -14489,7 +14489,7 @@
 				"description": "tranlsate transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -14521,7 +14521,7 @@
 				"description": "rotateX transformation in degeress",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -14538,7 +14538,7 @@
 				"description": "rotateY transformation in degeress",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -14555,7 +14555,7 @@
 				"description": "rotateZ transformation in degeress",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -14572,7 +14572,7 @@
 				"description": "Origin of transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -14589,7 +14589,7 @@
 				"description": "perspective of rotation between 0 and 1",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -14606,7 +14606,7 @@
 				"description": "perspective origin between [-1, -1] and [1, 1]",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -14654,7 +14654,7 @@
 				"description": "type of spiral",
 				"type": {
 					"type": "reference",
-					"id": 1345,
+					"id": 1360,
 					"name": "TSpiralType"
 				},
 				"order": -35,
@@ -14665,7 +14665,7 @@
 				"description": "number of twists",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -14682,7 +14682,7 @@
 				"description": "twist start",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -14699,7 +14699,7 @@
 				"description": "<a href=\"#/ref/IShapeLoopGenerator\">IShapeLoopGenerator</a> for more details",
 				"type": {
 					"type": "reference",
-					"id": 1057,
+					"id": 1072,
 					"name": "IShapeLoopGenerator"
 				},
 				"order": -30,
@@ -14710,7 +14710,7 @@
 				"description": "scalar that multiplies the buffer or loop",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -14742,7 +14742,7 @@
 				"description": "fill color of the shape, hsl or rgb is preferred",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -14768,7 +14768,7 @@
 				"description": "stroke color oh the shape, hsl or rgb is preferred",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -14794,7 +14794,7 @@
 				"description": "stroke dimension",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -14811,7 +14811,7 @@
 				"description": "It defines the type of repetition.\nIf a number is passed the repetition will be Ring.\nIf an array (1) is passed the repetition will be nxn,\nif an array (2) the repetition will be nxm",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -14843,7 +14843,7 @@
 				"description": "If the repeat is Ring, pass a numerical value\nreferring to the distance from the center.\nIf the repeat is Matrix, pass an array (2) which refers\nto the distance between columns and rows.",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -14875,7 +14875,7 @@
 				"description": "For Ring repeats, define the starting angle of the repeat",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -14892,7 +14892,7 @@
 				"description": "skewX transformation.",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -14909,7 +14909,7 @@
 				"description": "skewY transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -14926,7 +14926,7 @@
 				"description": "squeezeX transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -14943,7 +14943,7 @@
 				"description": "squeezeY transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -14960,7 +14960,7 @@
 				"description": "scale transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -14992,7 +14992,7 @@
 				"description": "tranlsate transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -15024,7 +15024,7 @@
 				"description": "rotateX transformation in degeress",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -15041,7 +15041,7 @@
 				"description": "rotateY transformation in degeress",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -15058,7 +15058,7 @@
 				"description": "rotateZ transformation in degeress",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -15075,7 +15075,7 @@
 				"description": "Origin of transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -15092,7 +15092,7 @@
 				"description": "perspective of rotation between 0 and 1",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -15109,7 +15109,7 @@
 				"description": "perspective origin between [-1, -1] and [1, 1]",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -15158,7 +15158,7 @@
 				"description": "type of spiral",
 				"type": {
 					"type": "reference",
-					"id": 1345,
+					"id": 1360,
 					"name": "TSpiralType"
 				},
 				"order": -35,
@@ -15169,7 +15169,7 @@
 				"description": "number of twists",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -15186,7 +15186,7 @@
 				"description": "twist start",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -15203,7 +15203,7 @@
 				"description": "<a href=\"#/ref/IShapeLoopGenerator\">IShapeLoopGenerator</a> for more details",
 				"type": {
 					"type": "reference",
-					"id": 1057,
+					"id": 1072,
 					"name": "IShapeLoopGenerator"
 				},
 				"order": -30,
@@ -15243,7 +15243,7 @@
 				"description": "scalar that multiplies the buffer or loop",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -15275,7 +15275,7 @@
 				"description": "fill color of the shape, hsl or rgb is preferred",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -15301,7 +15301,7 @@
 				"description": "stroke color oh the shape, hsl or rgb is preferred",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -15327,7 +15327,7 @@
 				"description": "stroke dimension",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -15512,7 +15512,7 @@
 				"description": "It defines the type of repetition.\nIf a number is passed the repetition will be Ring.\nIf an array (1) is passed the repetition will be nxn,\nif an array (2) the repetition will be nxm",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -15544,7 +15544,7 @@
 				"description": "If the repeat is Ring, pass a numerical value\nreferring to the distance from the center.\nIf the repeat is Matrix, pass an array (2) which refers\nto the distance between columns and rows.",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -15576,7 +15576,7 @@
 				"description": "For Ring repeats, define the starting angle of the repeat",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -15593,7 +15593,7 @@
 				"description": "skewX transformation.",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -15610,7 +15610,7 @@
 				"description": "skewY transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -15627,7 +15627,7 @@
 				"description": "squeezeX transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -15644,7 +15644,7 @@
 				"description": "squeezeY transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -15661,7 +15661,7 @@
 				"description": "scale transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -15693,7 +15693,7 @@
 				"description": "tranlsate transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -15725,7 +15725,7 @@
 				"description": "rotateX transformation in degeress",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -15742,7 +15742,7 @@
 				"description": "rotateY transformation in degeress",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -15759,7 +15759,7 @@
 				"description": "rotateZ transformation in degeress",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -15776,7 +15776,7 @@
 				"description": "Origin of transformation",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -15793,7 +15793,7 @@
 				"description": "perspective of rotation between 0 and 1",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -15810,7 +15810,7 @@
 				"description": "perspective origin between [-1, -1] and [1, 1]",
 				"type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -15854,7 +15854,7 @@
 			"type": {
 				"type": "reflection",
 				"declaration": {
-					"id": 1341,
+					"id": 1356,
 					"name": "__type",
 					"kind": 65536,
 					"kindString": "Type literal",
@@ -15863,7 +15863,7 @@
 					},
 					"signatures": [
 						{
-							"id": 1342,
+							"id": 1357,
 							"name": "__call",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -15872,7 +15872,7 @@
 							},
 							"parameters": [
 								{
-									"id": 1343,
+									"id": 1358,
 									"name": "shape_loop_repetition",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -15881,12 +15881,12 @@
 									},
 									"type": {
 										"type": "reference",
-										"id": 653,
+										"id": 668,
 										"name": "IShapeLoopRepetition"
 									}
 								},
 								{
-									"id": 1344,
+									"id": 1359,
 									"name": "prop_arguments",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -15895,7 +15895,7 @@
 									},
 									"type": {
 										"type": "reference",
-										"id": 703,
+										"id": 718,
 										"name": "ISceneChildPropArguments"
 									}
 								}
@@ -17490,7 +17490,7 @@
 						"name": "simpleAnimation",
 						"type": {
 							"type": "reference",
-							"id": 3310,
+							"id": 3325,
 							"name": "ISimpleAnimation"
 						},
 						"order": 9999
@@ -17498,7 +17498,7 @@
 				],
 				"return_type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -17539,7 +17539,7 @@
 						"name": "props",
 						"type": {
 							"type": "reference",
-							"id": 3330,
+							"id": 3345,
 							"name": "TSimpleAnimationLoop"
 						},
 						"order": 9999
@@ -17547,7 +17547,7 @@
 				],
 				"return_type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -17588,7 +17588,7 @@
 						"name": "props",
 						"type": {
 							"type": "reference",
-							"id": 3332,
+							"id": 3347,
 							"name": "TSimpleAnimationStatic"
 						},
 						"order": 9999
@@ -17596,7 +17596,7 @@
 				],
 				"return_type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -17637,7 +17637,7 @@
 						"name": "props",
 						"type": {
 							"type": "reference",
-							"id": 3331,
+							"id": 3346,
 							"name": "TSimpleAnimationUncontrolledLoop"
 						},
 						"order": 9999
@@ -17645,7 +17645,7 @@
 				],
 				"return_type": {
 					"type": "reference",
-					"id": 723,
+					"id": 738,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -17836,7 +17836,7 @@
 					"name": "IADrawerOptions",
 					"constraint": {
 						"type": "reference",
-						"id": 3103,
+						"id": 3118,
 						"name": "IDrawerOptions"
 					}
 				},
@@ -17885,7 +17885,7 @@
 				"name": "scene",
 				"type": {
 					"type": "reference",
-					"id": 941,
+					"id": 956,
 					"name": "Scene"
 				},
 				"order": 9999,
@@ -17895,7 +17895,7 @@
 				"name": "timeline",
 				"type": {
 					"type": "reference",
-					"id": 3201,
+					"id": 3216,
 					"name": "Timeline"
 				},
 				"order": 9999,
@@ -17950,7 +17950,7 @@
 									"name": "IADrawerOptions",
 									"constraint": {
 										"type": "reference",
-										"id": 3103,
+										"id": 3118,
 										"name": "IDrawerOptions"
 									}
 								}
@@ -17974,7 +17974,7 @@
 										"name": "IADrawerOptions",
 										"constraint": {
 											"type": "reference",
-											"id": 3103,
+											"id": 3118,
 											"name": "IDrawerOptions"
 										}
 									}
@@ -17985,7 +17985,7 @@
 								"name": "IADrawerOptions",
 								"constraint": {
 									"type": "reference",
-									"id": 3103,
+									"id": 3118,
 									"name": "IDrawerOptions"
 								}
 							}
@@ -17995,7 +17995,7 @@
 				],
 				"typeParameter": [
 					{
-						"id": 4214,
+						"id": 4229,
 						"name": "K",
 						"kind": 131072,
 						"kindString": "Type parameter",
@@ -18009,7 +18009,7 @@
 								"name": "IADrawerOptions",
 								"constraint": {
 									"type": "reference",
-									"id": 3103,
+									"id": 3118,
 									"name": "IDrawerOptions"
 								}
 							}
@@ -18029,7 +18029,7 @@
 								"name": "IADrawerOptions",
 								"constraint": {
 									"type": "reference",
-									"id": 3103,
+									"id": 3118,
 									"name": "IDrawerOptions"
 								}
 							}
@@ -18040,7 +18040,7 @@
 						"name": "IADrawerOptions",
 						"constraint": {
 							"type": "reference",
-							"id": 3103,
+							"id": 3118,
 							"name": "IDrawerOptions"
 						}
 					}
@@ -18057,7 +18057,7 @@
 					"name": "IADrawerOptions",
 					"constraint": {
 						"type": "reference",
-						"id": 3103,
+						"id": 3118,
 						"name": "IDrawerOptions"
 					}
 				},
@@ -18092,7 +18092,7 @@
 				"parameters": [],
 				"return_type": {
 					"type": "reference",
-					"id": 941,
+					"id": 956,
 					"name": "Scene"
 				},
 				"order": 9999,
@@ -18104,7 +18104,7 @@
 				"parameters": [],
 				"return_type": {
 					"type": "reference",
-					"id": 3201,
+					"id": 3216,
 					"name": "Timeline"
 				},
 				"order": 9999,
@@ -18292,7 +18292,7 @@
 										"name": "IADrawerOptions",
 										"constraint": {
 											"type": "reference",
-											"id": 3103,
+											"id": 3118,
 											"name": "IDrawerOptions"
 										}
 									}
@@ -18306,7 +18306,7 @@
 										"name": "IADrawerOptions",
 										"constraint": {
 											"type": "reference",
-											"id": 3103,
+											"id": 3118,
 											"name": "IDrawerOptions"
 										}
 									}
@@ -18320,7 +18320,7 @@
 				],
 				"typeParameter": [
 					{
-						"id": 4209,
+						"id": 4224,
 						"name": "K",
 						"kind": 131072,
 						"kindString": "Type parameter",
@@ -18334,7 +18334,7 @@
 								"name": "IADrawerOptions",
 								"constraint": {
 									"type": "reference",
-									"id": 3103,
+									"id": 3118,
 									"name": "IDrawerOptions"
 								}
 							}
@@ -18397,7 +18397,7 @@
 						"description": "\n",
 						"type": {
 							"type": "reference",
-							"id": 941,
+							"id": 956,
 							"name": "Scene"
 						},
 						"order": 9999
@@ -18443,7 +18443,7 @@
 							"name": "T",
 							"constraint": {
 								"type": "reference",
-								"id": 3103,
+								"id": 3118,
 								"name": "IDrawerOptions"
 							}
 						},
@@ -18453,7 +18453,7 @@
 						"name": "timeline",
 						"type": {
 							"type": "reference",
-							"id": 3201,
+							"id": 3216,
 							"name": "Timeline"
 						},
 						"order": 9999
@@ -18463,7 +18463,7 @@
 						"type": {
 							"type": "reflection",
 							"declaration": {
-								"id": 4240,
+								"id": 4255,
 								"name": "__type",
 								"kind": 65536,
 								"kindString": "Type literal",
@@ -18472,14 +18472,14 @@
 								},
 								"signatures": [
 									{
-										"id": 4241,
+										"id": 4256,
 										"name": "__call",
 										"kind": 4096,
 										"kindString": "Call signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 4242,
+												"id": 4257,
 												"name": "ghostDrawerOptions",
 												"kind": 32768,
 												"kindString": "Parameter",
@@ -18492,21 +18492,21 @@
 															"name": "T",
 															"constraint": {
 																"type": "reference",
-																"id": 3103,
+																"id": 3118,
 																"name": "IDrawerOptions"
 															}
 														},
 														{
 															"type": "reflection",
 															"declaration": {
-																"id": 4243,
+																"id": 4258,
 																"name": "__type",
 																"kind": 65536,
 																"kindString": "Type literal",
 																"flags": {},
 																"children": [
 																	{
-																		"id": 4244,
+																		"id": 4259,
 																		"name": "ghost_index",
 																		"kind": 32,
 																		"kindString": "Variable",
@@ -18540,7 +18540,7 @@
 																		"title": "Variables",
 																		"kind": 32,
 																		"children": [
-																			4244
+																			4259
 																		]
 																	}
 																],
@@ -18577,7 +18577,7 @@
 				],
 				"typeParameter": [
 					{
-						"id": 4236,
+						"id": 4251,
 						"name": "T",
 						"kind": 131072,
 						"kindString": "Type parameter",
@@ -18585,7 +18585,7 @@
 						"comment": {},
 						"type": {
 							"type": "reference",
-							"id": 3103,
+							"id": 3118,
 							"name": "IDrawerOptions"
 						}
 					}
@@ -18655,7 +18655,7 @@
 					"name": "scene",
 					"type": {
 						"type": "reference",
-						"id": 941,
+						"id": 956,
 						"name": "Scene"
 					},
 					"order": 9999,
@@ -18690,7 +18690,7 @@
 					"name": "drawerOptions",
 					"type": {
 						"type": "reference",
-						"id": 3122,
+						"id": 3137,
 						"name": "IDrawerCanvasOptions"
 					},
 					"defaultValue": "{}",
@@ -18791,7 +18791,7 @@
 				"name": "buffer",
 				"type": {
 					"type": "reference",
-					"id": 3081,
+					"id": 3096,
 					"name": "FrameBuffer"
 				},
 				"order": 9999,
@@ -19104,7 +19104,7 @@
 									"operator": "keyof",
 									"target": {
 										"type": "reference",
-										"id": 3122,
+										"id": 3137,
 										"name": "IDrawerCanvasOptions"
 									}
 								}
@@ -19126,7 +19126,7 @@
 				],
 				"typeParameter": [
 					{
-						"id": 4310,
+						"id": 4325,
 						"name": "K",
 						"kind": 131072,
 						"kindString": "Type parameter",
@@ -19137,7 +19137,7 @@
 							"operator": "keyof",
 							"target": {
 								"type": "reference",
-								"id": 3122,
+								"id": 3137,
 								"name": "IDrawerCanvasOptions"
 							}
 						}
@@ -19158,7 +19158,7 @@
 						"name": "scene",
 						"type": {
 							"type": "reference",
-							"id": 941,
+							"id": 956,
 							"name": "Scene"
 						},
 						"order": 9999
@@ -19179,7 +19179,7 @@
 						"name": "scene",
 						"type": {
 							"type": "reference",
-							"id": 941,
+							"id": 956,
 							"name": "Scene"
 						},
 						"order": 9999
@@ -19220,6 +19220,60 @@
 								},
 								{
 									"type": "reflection",
+									"declaration": {
+										"id": 4337,
+										"name": "__type",
+										"kind": 65536,
+										"kindString": "Type literal",
+										"flags": {},
+										"children": [
+											{
+												"id": 4338,
+												"name": "ghost_index",
+												"kind": 32,
+												"kindString": "Variable",
+												"flags": {
+													"isOptional": true
+												},
+												"sources": [
+													{
+														"fileName": "src/services/drawers/drawer-canvas/DrawerCanvas.ts",
+														"line": 354,
+														"character": 47
+													}
+												],
+												"type": {
+													"type": "union",
+													"types": [
+														{
+															"type": "intrinsic",
+															"name": "undefined"
+														},
+														{
+															"type": "intrinsic",
+															"name": "number"
+														}
+													]
+												}
+											}
+										],
+										"groups": [
+											{
+												"title": "Variables",
+												"kind": 32,
+												"children": [
+													4338
+												]
+											}
+										],
+										"sources": [
+											{
+												"fileName": "src/services/drawers/drawer-canvas/DrawerCanvas.ts",
+												"line": 354,
+												"character": 33
+											}
+										]
+									},
 									"order": 9999
 								}
 							]
@@ -19363,7 +19417,7 @@
 				"type": {
 					"type": "reflection",
 					"declaration": {
-						"id": 3083,
+						"id": 3098,
 						"name": "__type",
 						"kind": 65536,
 						"kindString": "Type literal",
@@ -19372,14 +19426,14 @@
 						},
 						"indexSignature": [
 							{
-								"id": 3084,
+								"id": 3099,
 								"name": "__index",
 								"kind": 8192,
 								"kindString": "Index signature",
 								"flags": {},
 								"parameters": [
 									{
-										"id": 3085,
+										"id": 3100,
 										"name": "frameNumber",
 										"kind": 32768,
 										"kindString": "Parameter",
@@ -19580,7 +19634,7 @@
 					"name": "drawerOptions",
 					"type": {
 						"type": "reference",
-						"id": 3112,
+						"id": 3127,
 						"name": "IDrawerSVGOptions"
 					},
 					"defaultValue": "{}",
@@ -19699,7 +19753,7 @@
 						"name": "drawerOptions",
 						"type": {
 							"type": "reference",
-							"id": 3112,
+							"id": 3127,
 							"name": "IDrawerSVGOptions"
 						},
 						"order": 9999
@@ -19730,7 +19784,7 @@
 						"name": "scene",
 						"type": {
 							"type": "reference",
-							"id": 941,
+							"id": 956,
 							"name": "Scene"
 						},
 						"order": 9999
@@ -19761,6 +19815,60 @@
 								},
 								{
 									"type": "reflection",
+									"declaration": {
+										"id": 4473,
+										"name": "__type",
+										"kind": 65536,
+										"kindString": "Type literal",
+										"flags": {},
+										"children": [
+											{
+												"id": 4474,
+												"name": "ghost_index",
+												"kind": 32,
+												"kindString": "Variable",
+												"flags": {
+													"isOptional": true
+												},
+												"sources": [
+													{
+														"fileName": "src/services/drawers/drawer-svg/DrawerSVG.ts",
+														"line": 112,
+														"character": 44
+													}
+												],
+												"type": {
+													"type": "union",
+													"types": [
+														{
+															"type": "intrinsic",
+															"name": "undefined"
+														},
+														{
+															"type": "intrinsic",
+															"name": "number"
+														}
+													]
+												}
+											}
+										],
+										"groups": [
+											{
+												"title": "Variables",
+												"kind": 32,
+												"children": [
+													4474
+												]
+											}
+										],
+										"sources": [
+											{
+												"fileName": "src/services/drawers/drawer-svg/DrawerSVG.ts",
+												"line": 112,
+												"character": 30
+											}
+										]
+									},
 									"order": 9999
 								}
 							]
@@ -19809,21 +19917,21 @@
 								{
 									"type": "reflection",
 									"declaration": {
-										"id": 3164,
+										"id": 3179,
 										"name": "__type",
 										"kind": 65536,
 										"kindString": "Type literal",
 										"flags": {},
 										"signatures": [
 											{
-												"id": 3165,
+												"id": 3180,
 												"name": "__call",
 												"kind": 4096,
 												"kindString": "Call signature",
 												"flags": {},
 												"parameters": [
 													{
-														"id": 3166,
+														"id": 3181,
 														"name": "args",
 														"kind": 32768,
 														"kindString": "Parameter",
@@ -19892,7 +20000,7 @@
 						"type": {
 							"type": "reflection",
 							"declaration": {
-								"id": 3173,
+								"id": 3188,
 								"name": "__type",
 								"kind": 65536,
 								"kindString": "Type literal",
@@ -19901,14 +20009,14 @@
 								},
 								"signatures": [
 									{
-										"id": 3174,
+										"id": 3189,
 										"name": "__call",
 										"kind": 4096,
 										"kindString": "Call signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 3175,
+												"id": 3190,
 												"name": "value",
 												"kind": 32768,
 												"kindString": "Parameter",
@@ -19976,7 +20084,7 @@
 						"type": {
 							"type": "reflection",
 							"declaration": {
-								"id": 3180,
+								"id": 3195,
 								"name": "__type",
 								"kind": 65536,
 								"kindString": "Type literal",
@@ -19985,14 +20093,14 @@
 								},
 								"signatures": [
 									{
-										"id": 3181,
+										"id": 3196,
 										"name": "__call",
 										"kind": 4096,
 										"kindString": "Call signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 3182,
+												"id": 3197,
 												"name": "value",
 												"kind": 32768,
 												"kindString": "Parameter",
@@ -20104,7 +20212,7 @@
 						"name": "drawer",
 						"type": {
 							"type": "reference",
-							"id": 4268,
+							"id": 4283,
 							"name": "DrawerCanvas"
 						},
 						"order": 9999
@@ -20133,7 +20241,7 @@
 						"name": "drawer",
 						"type": {
 							"type": "reference",
-							"id": 4268,
+							"id": 4283,
 							"name": "DrawerCanvas"
 						},
 						"order": 9999
@@ -20150,7 +20258,7 @@
 				],
 				"return_type": {
 					"type": "reference",
-					"id": 3337,
+					"id": 3352,
 					"name": "IProject"
 				},
 				"order": 9999,
@@ -20200,7 +20308,7 @@
 				],
 				"return_type": {
 					"type": "reference",
-					"id": 3374,
+					"id": 3389,
 					"name": "IProjectSceneChild"
 				},
 				"order": 9999,
@@ -20213,7 +20321,7 @@
 						"name": "project",
 						"type": {
 							"type": "reference",
-							"id": 3337,
+							"id": 3352,
 							"name": "IProject"
 						},
 						"order": 9999
@@ -20246,7 +20354,7 @@
 						"name": "drawer",
 						"type": {
 							"type": "reference",
-							"id": 4160,
+							"id": 4175,
 							"typeArguments": [
 								{
 									"type": "intrinsic",
@@ -20265,7 +20373,7 @@
 						"name": "settings",
 						"type": {
 							"type": "reference",
-							"id": 4553,
+							"id": 4568,
 							"name": "IRenderSettings"
 						},
 						"order": 9999
@@ -20285,7 +20393,7 @@
 						"name": "drawer",
 						"type": {
 							"type": "reference",
-							"id": 4160,
+							"id": 4175,
 							"typeArguments": [
 								{
 									"type": "intrinsic",
@@ -20304,7 +20412,7 @@
 						"name": "settings",
 						"type": {
 							"type": "reference",
-							"id": 4553,
+							"id": 4568,
 							"name": "IRenderSettings"
 						},
 						"order": 9999
@@ -20347,7 +20455,7 @@
 					"types": [
 						{
 							"type": "reference",
-							"id": 4268,
+							"id": 4283,
 							"name": "DrawerCanvas"
 						},
 						{
@@ -20365,7 +20473,7 @@
 						"name": "projectSceneChild",
 						"type": {
 							"type": "reference",
-							"id": 3374,
+							"id": 3389,
 							"name": "IProjectSceneChild"
 						},
 						"order": 9999
@@ -20374,7 +20482,7 @@
 						"name": "drawer",
 						"type": {
 							"type": "reference",
-							"id": 4268,
+							"id": 4283,
 							"name": "DrawerCanvas"
 						},
 						"order": 9999
@@ -20401,7 +20509,7 @@
 				"parameters": [],
 				"return_type": {
 					"type": "reference",
-					"id": 3337,
+					"id": 3352,
 					"name": "IProject"
 				},
 				"order": 9999,
@@ -20416,7 +20524,7 @@
 		"order": 9999,
 		"source": {
 			"fileName": "src/services/renderer/Capturer.ts",
-			"line": 13,
+			"line": 14,
 			"character": 14
 		},
 		"constructor_ref": {
@@ -20425,7 +20533,7 @@
 					"name": "settings",
 					"type": {
 						"type": "reference",
-						"id": 4577,
+						"id": 4592,
 						"name": "ICapturerSettings"
 					},
 					"defaultValue": "{}",
@@ -20526,7 +20634,7 @@
 				"name": "type",
 				"type": {
 					"type": "reference",
-					"id": 4575,
+					"id": 4590,
 					"name": "TRenderType"
 				},
 				"order": 9999
@@ -20604,7 +20712,7 @@
 						"name": "settings",
 						"type": {
 							"type": "reference",
-							"id": 4577,
+							"id": 4592,
 							"name": "ICapturerSettings"
 						},
 						"order": 9999
@@ -20669,7 +20777,7 @@
 						"name": "type",
 						"type": {
 							"type": "reference",
-							"id": 4575,
+							"id": 4590,
 							"name": "TRenderType"
 						},
 						"order": 9999
@@ -20722,7 +20830,7 @@
 						"name": "type",
 						"type": {
 							"type": "reference",
-							"id": 4574,
+							"id": 4589,
 							"name": "TRenderImageType"
 						},
 						"order": 9999
@@ -20775,7 +20883,7 @@
 						"name": "type",
 						"type": {
 							"type": "reference",
-							"id": 4575,
+							"id": 4590,
 							"name": "TRenderType"
 						},
 						"order": 9999
@@ -20822,7 +20930,7 @@
 				"name": "capturer",
 				"type": {
 					"type": "reference",
-					"id": 4580,
+					"id": 4595,
 					"name": "Capturer"
 				},
 				"order": 9999
@@ -20881,7 +20989,7 @@
 						"name": "drawer",
 						"type": {
 							"type": "reference",
-							"id": 4268,
+							"id": 4283,
 							"name": "DrawerCanvas"
 						},
 						"order": 9999
@@ -20890,7 +20998,7 @@
 						"name": "settings",
 						"type": {
 							"type": "reference",
-							"id": 4553,
+							"id": 4568,
 							"name": "IRenderSettings"
 						},
 						"order": 9999
@@ -20901,7 +21009,7 @@
 					"typeArguments": [
 						{
 							"type": "reference",
-							"id": 4559,
+							"id": 4574,
 							"name": "IRenderStart"
 						}
 					],
@@ -20917,7 +21025,7 @@
 						"name": "drawer",
 						"type": {
 							"type": "reference",
-							"id": 4268,
+							"id": 4283,
 							"name": "DrawerCanvas"
 						},
 						"order": 9999
@@ -20926,7 +21034,7 @@
 						"name": "settings",
 						"type": {
 							"type": "reference",
-							"id": 4553,
+							"id": 4568,
 							"name": "IRenderSettings"
 						},
 						"order": 9999
@@ -20958,7 +21066,7 @@
 						"name": "drawer",
 						"type": {
 							"type": "reference",
-							"id": 4268,
+							"id": 4283,
 							"name": "DrawerCanvas"
 						},
 						"order": 9999
@@ -20967,7 +21075,7 @@
 						"name": "settings",
 						"type": {
 							"type": "reference",
-							"id": 4553,
+							"id": 4568,
 							"name": "IRenderSettings"
 						},
 						"order": 9999
@@ -21042,7 +21150,7 @@
 						"name": "drawer",
 						"type": {
 							"type": "reference",
-							"id": 4268,
+							"id": 4283,
 							"name": "DrawerCanvas"
 						},
 						"order": 9999
@@ -21051,7 +21159,7 @@
 						"name": "settings",
 						"type": {
 							"type": "reference",
-							"id": 4553,
+							"id": 4568,
 							"name": "IRenderSettings"
 						},
 						"order": 9999
@@ -21224,7 +21332,7 @@
 						{
 							"type": "reflection",
 							"declaration": {
-								"id": 3413,
+								"id": 3428,
 								"name": "__type",
 								"kind": 65536,
 								"kindString": "Type literal",
@@ -21233,7 +21341,7 @@
 								},
 								"children": [
 									{
-										"id": 3414,
+										"id": 3429,
 										"name": "key",
 										"kind": 32,
 										"kindString": "Variable",
@@ -21253,7 +21361,7 @@
 										}
 									},
 									{
-										"id": 3415,
+										"id": 3430,
 										"name": "value",
 										"kind": 32,
 										"kindString": "Variable",
@@ -21278,8 +21386,8 @@
 										"title": "Variables",
 										"kind": 32,
 										"children": [
-											3414,
-											3415
+											3429,
+											3430
 										]
 									}
 								],
@@ -21322,7 +21430,7 @@
 				"name": "transformation",
 				"type": {
 					"type": "reference",
-					"id": 3155,
+					"id": 3170,
 					"name": "TDrawerTransformation"
 				},
 				"order": 9999
@@ -21331,7 +21439,7 @@
 				"name": "type",
 				"type": {
 					"type": "reference",
-					"id": 3422,
+					"id": 3437,
 					"name": "TPropInputType"
 				},
 				"order": 9999
@@ -21436,7 +21544,7 @@
 								"operator": "keyof",
 								"target": {
 									"type": "reference",
-									"id": 3396,
+									"id": 3411,
 									"name": "TSceneChildProps"
 								}
 							},
@@ -21681,7 +21789,7 @@
 						"name": "loop",
 						"type": {
 							"type": "reference",
-							"id": 3294,
+							"id": 3309,
 							"name": "IShapeLoopAnimation"
 						},
 						"order": 9999
@@ -21689,7 +21797,7 @@
 				],
 				"return_type": {
 					"type": "reference",
-					"id": 1057,
+					"id": 1072,
 					"name": "IShapeLoopGenerator"
 				},
 				"order": 9999,
@@ -21731,7 +21839,7 @@
 						"name": "drawer",
 						"type": {
 							"type": "reference",
-							"id": 4160,
+							"id": 4175,
 							"typeArguments": [
 								{
 									"type": "intrinsic",
@@ -21796,7 +21904,7 @@
 						"name": "drawer",
 						"type": {
 							"type": "reference",
-							"id": 4268,
+							"id": 4283,
 							"name": "DrawerCanvas"
 						},
 						"order": 9999
@@ -21805,7 +21913,7 @@
 						"name": "name",
 						"type": {
 							"type": "reference",
-							"id": 3423,
+							"id": 3438,
 							"name": "TSceneChildPropsDataKeys"
 						},
 						"order": 9999
@@ -21858,7 +21966,7 @@
 					"types": [
 						{
 							"type": "reference",
-							"id": 3155,
+							"id": 3170,
 							"name": "TDrawerTransformation"
 						},
 						{
@@ -21888,7 +21996,7 @@
 				"type": {
 					"type": "reflection",
 					"declaration": {
-						"id": 4067,
+						"id": 4082,
 						"name": "__type",
 						"kind": 65536,
 						"kindString": "Type literal",
@@ -21897,14 +22005,14 @@
 						},
 						"indexSignature": [
 							{
-								"id": 4068,
+								"id": 4083,
 								"name": "__index",
 								"kind": 8192,
 								"kindString": "Index signature",
 								"flags": {},
 								"parameters": [
 									{
-										"id": 4069,
+										"id": 4084,
 										"name": "type",
 										"kind": 32768,
 										"kindString": "Parameter",
@@ -21917,7 +22025,7 @@
 								],
 								"type": {
 									"type": "reference",
-									"id": 4157,
+									"id": 4172,
 									"name": "SceneChildInstance"
 								}
 							}
@@ -21982,7 +22090,7 @@
 						"name": "props",
 						"type": {
 							"type": "reference",
-							"id": 3396,
+							"id": 3411,
 							"name": "TSceneChildProps"
 						},
 						"order": 9999,
@@ -21992,7 +22100,7 @@
 						"name": "scene",
 						"type": {
 							"type": "reference",
-							"id": 941,
+							"id": 956,
 							"name": "Scene"
 						},
 						"order": 9999,
@@ -22032,7 +22140,7 @@
 						"name": "scene",
 						"type": {
 							"type": "reference",
-							"id": 941,
+							"id": 956,
 							"name": "Scene"
 						},
 						"order": 9999,
@@ -22042,7 +22150,7 @@
 						"name": "drawer",
 						"type": {
 							"type": "reference",
-							"id": 4160,
+							"id": 4175,
 							"typeArguments": [
 								{
 									"type": "intrinsic",
@@ -22111,7 +22219,7 @@
 						"name": "props",
 						"type": {
 							"type": "reference",
-							"id": 3396,
+							"id": 3411,
 							"name": "TSceneChildProps"
 						},
 						"order": 9999,
@@ -22121,7 +22229,7 @@
 						"name": "scene",
 						"type": {
 							"type": "reference",
-							"id": 941,
+							"id": 956,
 							"name": "Scene"
 						},
 						"order": 9999,
@@ -22131,7 +22239,7 @@
 						"name": "drawer",
 						"type": {
 							"type": "reference",
-							"id": 4160,
+							"id": 4175,
 							"typeArguments": [
 								{
 									"type": "intrinsic",
@@ -22226,7 +22334,7 @@
 						"name": "scene",
 						"type": {
 							"type": "reference",
-							"id": 941,
+							"id": 956,
 							"name": "Scene"
 						},
 						"order": 9999
@@ -22254,7 +22362,7 @@
 						"name": "scene",
 						"type": {
 							"type": "reference",
-							"id": 941,
+							"id": 956,
 							"name": "Scene"
 						},
 						"order": 9999
@@ -22521,7 +22629,7 @@
 						"name": "ref",
 						"type": {
 							"type": "reference",
-							"id": 4157,
+							"id": 4172,
 							"name": "SceneChildInstance"
 						},
 						"order": 9999
@@ -22597,7 +22705,7 @@
 						"name": "drawer",
 						"type": {
 							"type": "reference",
-							"id": 4160,
+							"id": 4175,
 							"typeArguments": [
 								{
 									"type": "intrinsic",
@@ -22657,7 +22765,7 @@
 						"type": {
 							"type": "reflection",
 							"declaration": {
-								"id": 4133,
+								"id": 4148,
 								"name": "__type",
 								"kind": 65536,
 								"kindString": "Type literal",
@@ -22666,14 +22774,14 @@
 								},
 								"signatures": [
 									{
-										"id": 4134,
+										"id": 4149,
 										"name": "__call",
 										"kind": 4096,
 										"kindString": "Call signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 4135,
+												"id": 4150,
 												"name": "child",
 												"kind": 32768,
 												"kindString": "Parameter",
@@ -22843,7 +22951,7 @@
 				"name": "sequence",
 				"type": {
 					"type": "reference",
-					"id": 3196,
+					"id": 3211,
 					"name": "ISequenceMeta"
 				},
 				"order": 9999,
@@ -23029,7 +23137,7 @@
 				"parameters": [],
 				"return_type": {
 					"type": "reference",
-					"id": 3196,
+					"id": 3211,
 					"name": "ISequenceMeta"
 				},
 				"order": 9999,
@@ -23256,7 +23364,7 @@
 		],
 		"typeParameters": [
 			{
-				"id": 3291,
+				"id": 3306,
 				"name": "T",
 				"kind": 131072,
 				"kindString": "Type parameter",
@@ -23325,7 +23433,7 @@
 				"name": "end",
 				"type": {
 					"type": "reference",
-					"id": 3325,
+					"id": 3340,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -23340,7 +23448,7 @@
 				"name": "inc",
 				"type": {
 					"type": "reference",
-					"id": 3325,
+					"id": 3340,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -23355,7 +23463,7 @@
 				"name": "start",
 				"type": {
 					"type": "reference",
-					"id": 3325,
+					"id": 3340,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -23370,7 +23478,7 @@
 				"name": "vertex",
 				"type": {
 					"type": "reference",
-					"id": 3290,
+					"id": 3305,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -23519,7 +23627,7 @@
 				"name": "mode_function",
 				"type": {
 					"type": "reference",
-					"id": 3328,
+					"id": 3343,
 					"name": "TModeFunction"
 				},
 				"order": 9999,
@@ -23559,7 +23667,7 @@
 				"name": "type",
 				"type": {
 					"type": "reference",
-					"id": 3329,
+					"id": 3344,
 					"name": "TSimpleAnimationType"
 				},
 				"order": 9999
@@ -23694,7 +23802,7 @@
 		},
 		"typeParameters": [
 			{
-				"id": 3326,
+				"id": 3341,
 				"name": "T",
 				"kind": 131072,
 				"kindString": "Type parameter",
@@ -23886,7 +23994,7 @@
 				"typeArguments": [
 					{
 						"type": "reference",
-						"id": 3310,
+						"id": 3325,
 						"name": "ISimpleAnimation"
 					},
 					{
@@ -23925,7 +24033,7 @@
 				"typeArguments": [
 					{
 						"type": "reference",
-						"id": 3310,
+						"id": 3325,
 						"name": "ISimpleAnimation"
 					},
 					{
@@ -23990,7 +24098,7 @@
 				"typeArguments": [
 					{
 						"type": "reference",
-						"id": 3310,
+						"id": 3325,
 						"name": "ISimpleAnimation"
 					},
 					{
@@ -24019,7 +24127,7 @@
 				"type": {
 					"type": "reflection",
 					"declaration": {
-						"id": 3139,
+						"id": 3154,
 						"name": "__type",
 						"kind": 65536,
 						"kindString": "Type literal",
@@ -24028,7 +24136,7 @@
 						},
 						"children": [
 							{
-								"id": 3140,
+								"id": 3155,
 								"name": "current_frame",
 								"kind": 32,
 								"kindString": "Variable",
@@ -24048,7 +24156,7 @@
 								}
 							},
 							{
-								"id": 3141,
+								"id": 3156,
 								"name": "current_time",
 								"kind": 32,
 								"kindString": "Variable",
@@ -24073,8 +24181,8 @@
 								"title": "Variables",
 								"kind": 32,
 								"children": [
-									3140,
-									3141
+									3155,
+									3156
 								]
 							}
 						],
@@ -24518,7 +24626,7 @@
 				"type": {
 					"type": "reflection",
 					"declaration": {
-						"id": 3147,
+						"id": 3162,
 						"name": "__type",
 						"kind": 65536,
 						"kindString": "Type literal",
@@ -24527,7 +24635,7 @@
 						},
 						"children": [
 							{
-								"id": 3148,
+								"id": 3163,
 								"name": "current_frame",
 								"kind": 32,
 								"kindString": "Variable",
@@ -24547,7 +24655,7 @@
 								}
 							},
 							{
-								"id": 3149,
+								"id": 3164,
 								"name": "current_time",
 								"kind": 32,
 								"kindString": "Variable",
@@ -24572,8 +24680,8 @@
 								"title": "Variables",
 								"kind": 32,
 								"children": [
-									3148,
-									3149
+									3163,
+									3164
 								]
 							}
 						],
@@ -24979,7 +25087,7 @@
 			"type": {
 				"type": "reflection",
 				"declaration": {
-					"id": 3157,
+					"id": 3172,
 					"name": "__type",
 					"kind": 65536,
 					"kindString": "Type literal",
@@ -24988,7 +25096,7 @@
 					},
 					"children": [
 						{
-							"id": 3158,
+							"id": 3173,
 							"name": "type",
 							"kind": 32,
 							"kindString": "Variable",
@@ -25008,7 +25116,7 @@
 							}
 						},
 						{
-							"id": 3159,
+							"id": 3174,
 							"name": "value",
 							"kind": 32,
 							"kindString": "Variable",
@@ -25033,8 +25141,8 @@
 							"title": "Variables",
 							"kind": 32,
 							"children": [
-								3158,
-								3159
+								3173,
+								3174
 							]
 						}
 					],
@@ -25227,7 +25335,7 @@
 				"type": {
 					"type": "reflection",
 					"declaration": {
-						"id": 3353,
+						"id": 3368,
 						"name": "__type",
 						"kind": 65536,
 						"kindString": "Type literal",
@@ -25236,7 +25344,7 @@
 						},
 						"indexSignature": [
 							{
-								"id": 3354,
+								"id": 3369,
 								"name": "__index",
 								"kind": 8192,
 								"kindString": "Index signature",
@@ -25245,7 +25353,7 @@
 								},
 								"parameters": [
 									{
-										"id": 3355,
+										"id": 3370,
 										"name": "key",
 										"kind": 32768,
 										"kindString": "Parameter",
@@ -25260,7 +25368,7 @@
 								],
 								"type": {
 									"type": "reference",
-									"id": 3374,
+									"id": 3389,
 									"name": "IProjectSceneChild"
 								}
 							}
@@ -25280,7 +25388,7 @@
 				"name": "sequence",
 				"type": {
 					"type": "reference",
-					"id": 3334,
+					"id": 3349,
 					"name": "IProjectSequence"
 				},
 				"order": 9999
@@ -25393,7 +25501,7 @@
 					"typeArguments": [
 						{
 							"type": "reference",
-							"id": 3374,
+							"id": 3389,
 							"name": "IProjectSceneChild"
 						}
 					],
@@ -25406,7 +25514,7 @@
 				"name": "data",
 				"type": {
 					"type": "reference",
-					"id": 3356,
+					"id": 3371,
 					"name": "IProjectSceneChildData"
 				},
 				"order": 9999
@@ -25467,7 +25575,7 @@
 				"name": "props",
 				"type": {
 					"type": "reference",
-					"id": 3390,
+					"id": 3405,
 					"name": "IProjectSceneChildProps"
 				},
 				"order": 9999
@@ -25684,6 +25792,109 @@
 						},
 						{
 							"type": "reflection",
+							"declaration": {
+								"id": 3374,
+								"name": "__type",
+								"kind": 65536,
+								"kindString": "Type literal",
+								"flags": {
+									"isExported": true
+								},
+								"children": [
+									{
+										"id": 3378,
+										"name": "a",
+										"kind": 32,
+										"kindString": "Variable",
+										"flags": {
+											"isExported": true
+										},
+										"sources": [
+											{
+												"fileName": "src/services/types/project.ts",
+												"line": 49,
+												"character": 49
+											}
+										],
+										"type": {
+											"type": "intrinsic",
+											"name": "number"
+										}
+									},
+									{
+										"id": 3377,
+										"name": "b",
+										"kind": 32,
+										"kindString": "Variable",
+										"flags": {
+											"isExported": true
+										},
+										"sources": [
+											{
+												"fileName": "src/services/types/project.ts",
+												"line": 49,
+												"character": 38
+											}
+										],
+										"type": {
+											"type": "intrinsic",
+											"name": "number"
+										}
+									},
+									{
+										"id": 3376,
+										"name": "g",
+										"kind": 32,
+										"kindString": "Variable",
+										"flags": {
+											"isExported": true
+										},
+										"sources": [
+											{
+												"fileName": "src/services/types/project.ts",
+												"line": 49,
+												"character": 27
+											}
+										],
+										"type": {
+											"type": "intrinsic",
+											"name": "number"
+										}
+									},
+									{
+										"id": 3375,
+										"name": "r",
+										"kind": 32,
+										"kindString": "Variable",
+										"flags": {
+											"isExported": true
+										},
+										"sources": [
+											{
+												"fileName": "src/services/types/project.ts",
+												"line": 49,
+												"character": 16
+											}
+										],
+										"type": {
+											"type": "intrinsic",
+											"name": "number"
+										}
+									}
+								],
+								"groups": [
+									{
+										"title": "Variables",
+										"kind": 32,
+										"children": [
+											3378,
+											3377,
+											3376,
+											3375
+										]
+									}
+								]
+							},
 							"order": 9999
 						}
 					]
@@ -25736,6 +25947,109 @@
 						},
 						{
 							"type": "reflection",
+							"declaration": {
+								"id": 3380,
+								"name": "__type",
+								"kind": 65536,
+								"kindString": "Type literal",
+								"flags": {
+									"isExported": true
+								},
+								"children": [
+									{
+										"id": 3384,
+										"name": "a",
+										"kind": 32,
+										"kindString": "Variable",
+										"flags": {
+											"isExported": true
+										},
+										"sources": [
+											{
+												"fileName": "src/services/types/project.ts",
+												"line": 50,
+												"character": 51
+											}
+										],
+										"type": {
+											"type": "intrinsic",
+											"name": "number"
+										}
+									},
+									{
+										"id": 3383,
+										"name": "b",
+										"kind": 32,
+										"kindString": "Variable",
+										"flags": {
+											"isExported": true
+										},
+										"sources": [
+											{
+												"fileName": "src/services/types/project.ts",
+												"line": 50,
+												"character": 40
+											}
+										],
+										"type": {
+											"type": "intrinsic",
+											"name": "number"
+										}
+									},
+									{
+										"id": 3382,
+										"name": "g",
+										"kind": 32,
+										"kindString": "Variable",
+										"flags": {
+											"isExported": true
+										},
+										"sources": [
+											{
+												"fileName": "src/services/types/project.ts",
+												"line": 50,
+												"character": 29
+											}
+										],
+										"type": {
+											"type": "intrinsic",
+											"name": "number"
+										}
+									},
+									{
+										"id": 3381,
+										"name": "r",
+										"kind": 32,
+										"kindString": "Variable",
+										"flags": {
+											"isExported": true
+										},
+										"sources": [
+											{
+												"fileName": "src/services/types/project.ts",
+												"line": 50,
+												"character": 18
+											}
+										],
+										"type": {
+											"type": "intrinsic",
+											"name": "number"
+										}
+									}
+								],
+								"groups": [
+									{
+										"title": "Variables",
+										"kind": 32,
+										"children": [
+											3384,
+											3383,
+											3382,
+											3381
+										]
+									}
+								]
+							},
 							"order": 9999
 						}
 					]
@@ -25799,10 +26113,98 @@
 				"types": [
 					{
 						"type": "reflection",
+						"declaration": {
+							"id": 3406,
+							"name": "__type",
+							"kind": 65536,
+							"kindString": "Type literal",
+							"flags": {
+								"isExported": true
+							},
+							"sources": [
+								{
+									"fileName": "src/services/types/project.ts",
+									"line": 56,
+									"character": 37
+								}
+							]
+						},
 						"order": 9999
 					},
 					{
 						"type": "reflection",
+						"declaration": {
+							"id": 3407,
+							"name": "__type",
+							"kind": 65536,
+							"kindString": "Type literal",
+							"flags": {
+								"isExported": true
+							},
+							"children": [
+								{
+									"id": 3408,
+									"name": "loop",
+									"kind": 32,
+									"kindString": "Variable",
+									"flags": {
+										"isExported": true,
+										"isOptional": true
+									},
+									"sources": [
+										{
+											"fileName": "src/services/types/project.ts",
+											"line": 62,
+											"character": 5
+										}
+									],
+									"type": {
+										"type": "reference",
+										"id": 3309,
+										"name": "IShapeLoopAnimation"
+									}
+								},
+								{
+									"id": 3409,
+									"name": "vertexCallback",
+									"kind": 32,
+									"kindString": "Variable",
+									"flags": {
+										"isExported": true,
+										"isOptional": true
+									},
+									"sources": [
+										{
+											"fileName": "src/services/types/project.ts",
+											"line": 63,
+											"character": 15
+										}
+									],
+									"type": {
+										"type": "reference",
+										"id": 3315,
+										"name": "IVertexCallbackAnimation"
+									}
+								}
+							],
+							"groups": [
+								{
+									"title": "Variables",
+									"kind": 32,
+									"children": [
+										3408,
+										3409
+									]
+								}
+							],
+							"sources": [
+								{
+									"fileName": "src/services/types/project.ts",
+									"line": 61,
+									"character": 3
+								}
+							]
+						},
 						"order": 9999
 					}
 				]
@@ -25825,7 +26227,7 @@
 				"name": "renderer:render-frame",
 				"type": {
 					"type": "reference",
-					"id": 4564,
+					"id": 4579,
 					"name": "IRenderFrame"
 				},
 				"order": 9999
@@ -25834,7 +26236,7 @@
 				"name": "renderer:start",
 				"type": {
 					"type": "reference",
-					"id": 4559,
+					"id": 4574,
 					"name": "IRenderStart"
 				},
 				"order": 9999
@@ -25949,7 +26351,7 @@
 				"name": "type",
 				"type": {
 					"type": "reference",
-					"id": 4575,
+					"id": 4590,
 					"name": "TRenderType"
 				},
 				"order": 9999
@@ -26088,12 +26490,12 @@
 										"types": [
 											{
 												"type": "reference",
-												"id": 1083,
+												"id": 1098,
 												"name": "IShapeLoopSettings"
 											},
 											{
 												"type": "reference",
-												"id": 1027,
+												"id": 1042,
 												"name": "IShapeBufferSettings"
 											},
 											{
@@ -26103,22 +26505,22 @@
 											},
 											{
 												"type": "reference",
-												"id": 1136,
+												"id": 1151,
 												"name": "IRegularPolygonSettings"
 											},
 											{
 												"type": "reference",
-												"id": 1306,
+												"id": 1321,
 												"name": "ILissajousSettings"
 											},
 											{
 												"type": "reference",
-												"id": 1248,
+												"id": 1263,
 												"name": "ISpiralSettings"
 											},
 											{
 												"type": "reference",
-												"id": 1191,
+												"id": 1206,
 												"name": "IRoseSettings"
 											}
 										]
@@ -26126,7 +26528,7 @@
 									{
 										"type": "reflection",
 										"declaration": {
-											"id": 3397,
+											"id": 3412,
 											"name": "__type",
 											"kind": 65536,
 											"kindString": "Type literal",
@@ -26135,7 +26537,7 @@
 											},
 											"children": [
 												{
-													"id": 3401,
+													"id": 3416,
 													"name": "data",
 													"kind": 32,
 													"kindString": "Variable",
@@ -26152,12 +26554,12 @@
 													],
 													"type": {
 														"type": "reference",
-														"id": 3356,
+														"id": 3371,
 														"name": "IProjectSceneChildData"
 													}
 												},
 												{
-													"id": 3398,
+													"id": 3413,
 													"name": "id",
 													"kind": 32,
 													"kindString": "Variable",
@@ -26187,7 +26589,7 @@
 													}
 												},
 												{
-													"id": 3399,
+													"id": 3414,
 													"name": "name",
 													"kind": 32,
 													"kindString": "Variable",
@@ -26217,7 +26619,7 @@
 													}
 												},
 												{
-													"id": 3400,
+													"id": 3415,
 													"name": "order",
 													"kind": 32,
 													"kindString": "Variable",
@@ -26252,10 +26654,10 @@
 													"title": "Variables",
 													"kind": 32,
 													"children": [
-														3401,
-														3398,
-														3399,
-														3400
+														3416,
+														3413,
+														3414,
+														3415
 													]
 												}
 											],
@@ -26279,6 +26681,74 @@
 					},
 					{
 						"type": "reflection",
+						"declaration": {
+							"id": 3417,
+							"name": "__type",
+							"kind": 65536,
+							"kindString": "Type literal",
+							"flags": {
+								"isExported": true
+							},
+							"children": [
+								{
+									"id": 3418,
+									"name": "shape",
+									"kind": 32,
+									"kindString": "Variable",
+									"flags": {
+										"isExported": true,
+										"isOptional": true
+									},
+									"sources": [
+										{
+											"fileName": "src/services/types/scene-utilities.ts",
+											"line": 32,
+											"character": 6
+										}
+									],
+									"type": {
+										"type": "union",
+										"types": [
+											{
+												"type": "reference",
+												"name": "Float32Array"
+											},
+											{
+												"type": "reference",
+												"typeArguments": [
+													{
+														"type": "intrinsic",
+														"name": "number"
+													}
+												],
+												"name": "Array"
+											},
+											{
+												"type": "reference",
+												"id": 50,
+												"name": "SceneChild"
+											}
+										]
+									}
+								}
+							],
+							"groups": [
+								{
+									"title": "Variables",
+									"kind": 32,
+									"children": [
+										3418
+									]
+								}
+							],
+							"sources": [
+								{
+									"fileName": "src/services/types/scene-utilities.ts",
+									"line": 31,
+									"character": 3
+								}
+							]
+						},
 						"order": 9999
 					}
 				]
@@ -26363,7 +26833,7 @@
 				"type": {
 					"type": "reflection",
 					"declaration": {
-						"id": 3192,
+						"id": 3207,
 						"name": "__type",
 						"kind": 65536,
 						"kindString": "Type literal",
@@ -26372,7 +26842,7 @@
 						},
 						"children": [
 							{
-								"id": 3193,
+								"id": 3208,
 								"name": "current_frame",
 								"kind": 32,
 								"kindString": "Variable",
@@ -26392,7 +26862,7 @@
 								}
 							},
 							{
-								"id": 3194,
+								"id": 3209,
 								"name": "current_time",
 								"kind": 32,
 								"kindString": "Variable",
@@ -26412,7 +26882,7 @@
 								}
 							},
 							{
-								"id": 3195,
+								"id": 3210,
 								"name": "fps",
 								"kind": 32,
 								"kindString": "Variable",
@@ -26437,9 +26907,9 @@
 								"title": "Variables",
 								"kind": 32,
 								"children": [
-									3193,
-									3194,
-									3195
+									3208,
+									3209,
+									3210
 								]
 							}
 						],
@@ -26458,7 +26928,7 @@
 				"name": "timeline:update_sequence",
 				"type": {
 					"type": "reference",
-					"id": 3196,
+					"id": 3211,
 					"name": "ISequenceMeta"
 				},
 				"order": 9999

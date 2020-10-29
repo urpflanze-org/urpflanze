@@ -110,10 +110,22 @@ var Shape = /** @class */ (function (_super) {
     Shape.prototype.generateBuffer = function (generate_id, prop_arguments) {
         if (this.shape) {
             this.shape.generate(generate_id, false, prop_arguments);
-            // this.bounding = this.shape.getBounding()
             return this.shape.getBuffer() || Shape.EMPTY_BUFFER;
         }
         return Shape.EMPTY_BUFFER;
+    };
+    /**
+     * Return bounding
+     *
+     * @param {boolean} bDirectSceneChild
+     * @returns {IShapeBounding}
+     * @memberof Shape
+     */
+    Shape.prototype.getBounding = function () {
+        if (this.shape) {
+            return this.shape.getBounding(false);
+        }
+        return this.bounding;
     };
     Shape.prototype.addIndex = function (frame_length, repetition) {
         if (this.shape) {
@@ -176,19 +188,6 @@ var Shape = /** @class */ (function (_super) {
             this.shape = shape;
             this.shape.clearBuffer(true, true);
         }
-    };
-    /**
-     * Return bounding
-     *
-     * @param {boolean} bDirectSceneChild
-     * @returns {IShapeBounding}
-     * @memberof Shape
-     */
-    Shape.prototype.getBounding = function () {
-        if (this.shape) {
-            return this.shape.getBounding(false);
-        }
-        return this.bounding;
     };
     return Shape;
 }(ShapeBase));

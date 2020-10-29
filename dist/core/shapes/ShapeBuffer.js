@@ -11,6 +11,7 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+import Bounding, { TTempBounding } from "../math/bounding";
 import ShapePrimitive from "./ShapePrimitive";
 import { EShapePrimitiveAdaptMode } from "../types/shape-base";
 /**
@@ -66,25 +67,13 @@ var ShapeBuffer = /** @class */ (function (_super) {
         var shape_buffer = this.adaptMode !== EShapePrimitiveAdaptMode.None
             ? ShapePrimitive.adaptBuffer(this.shape, this.adaptMode)
             : Float32Array.from(this.shape);
-        var minX = Number.MAX_VALUE, minY = Number.MAX_VALUE, maxX = Number.MIN_VALUE, maxY = Number.MIN_VALUE;
+        var tmp_bounding = [undefined, undefined, undefined, undefined];
         for (var i = 0, len = shape_buffer.length; i < len; i += 2) {
             shape_buffer[i] *= this.sideLength[0];
             shape_buffer[i + 1] *= this.sideLength[1];
-            if (shape_buffer[i] >= maxX)
-                maxX = shape_buffer[i];
-            else if (shape_buffer[i] <= minX)
-                minX = shape_buffer[i];
-            if (shape_buffer[i + 1] >= maxY)
-                maxY = shape_buffer[i + 1];
-            else if (shape_buffer[i + 1] <= minY)
-                minY = shape_buffer[i + 1];
+            Bounding.add(tmp_bounding, shape_buffer[i], shape_buffer[i + 1]);
         }
-        this.single_bounding.x = minX;
-        this.single_bounding.y = minY;
-        this.single_bounding.width = maxX - minX;
-        this.single_bounding.height = maxY - minY;
-        this.single_bounding.cx = this.single_bounding.x + this.single_bounding.width / 2;
-        this.single_bounding.cy = this.single_bounding.y + this.single_bounding.height / 2;
+        Bounding.bind(this.single_bounding, tmp_bounding);
         this.shape_buffer = shape_buffer;
     };
     /**

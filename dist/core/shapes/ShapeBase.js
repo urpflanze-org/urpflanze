@@ -29,6 +29,7 @@ import Context from "../Context";
 import * as glme from "../math/gl-matrix-extensions";
 import { clamp } from "../../Utilites";
 import Vec2 from "../math/Vec2";
+import Bounding, { TTempBounding } from "../math/bounding";
 glMatrix.setMatrixArrayType(Array);
 var tmp_matrix = mat4.create();
 var transform_matrix = mat4.create();
@@ -213,7 +214,6 @@ var ShapeBase = /** @class */ (function (_super) {
         this.generate_id = generate_id;
         if (!this.bStaticIndexed || !this.bIndexed)
             this.indexed_buffer = [];
-        var minX = Number.MAX_VALUE, minY = Number.MAX_VALUE, maxX = Number.MIN_VALUE, maxY = Number.MIN_VALUE;
         var repetition = ShapeBase.getEmptyRepetition();
         var repetitions = this.getProp('repetitions', { parent: parent_prop_arguments, repetition: repetition, time: 1, context: Context }, 1);
         var repetition_type = Array.isArray(repetitions) ? ERepetitionType.Matrix : ERepetitionType.Ring;
@@ -243,6 +243,7 @@ var ShapeBase = /** @class */ (function (_super) {
         var current_index = 0;
         var center_matrix = vec2.fromValues((repetition_col_count - 1) / 2, (repetition_row_count - 1) / 2);
         var sceneCenter = [this.scene.center[0], this.scene.center[1], 0];
+        var tmp_bounding = [undefined, undefined, undefined, undefined];
         for (var current_row_repetition = 0; current_row_repetition < repetition_row_count; current_row_repetition++) {
             for (var current_col_repetition = 0; current_col_repetition < repetition_col_count; current_col_repetition++, current_index++) {
                 repetition.index = current_index + 1;
@@ -256,7 +257,7 @@ var ShapeBase = /** @class */ (function (_super) {
                 // Generate primitives buffer recursively
                 var buffer = this.generateBuffer(generate_id, prop_arguments);
                 var buffer_length = buffer.length;
-                var bounding = this.getBounding(bDirectSceneChild);
+                var bounding = this.getBounding(true);
                 buffers[current_index] = new Float32Array(buffer_length);
                 total_buffer_length += buffer_length;
                 {
@@ -368,14 +369,7 @@ var ShapeBase = /** @class */ (function (_super) {
                         }
                         buffers[current_index][buffer_index] = vertex[0];
                         buffers[current_index][buffer_index + 1] = vertex[1];
-                        if (vertex[0] >= maxX)
-                            maxX = vertex[0];
-                        else if (vertex[0] <= minX)
-                            minX = vertex[0];
-                        if (vertex[1] >= maxY)
-                            maxY = vertex[1];
-                        else if (vertex[1] <= minY)
-                            minY = vertex[1];
+                        Bounding.add(tmp_bounding, vertex[0], vertex[1]);
                     }
                 }
                 // After buffer creation, add a frame into indexed_buffer if not static
@@ -384,12 +378,7 @@ var ShapeBase = /** @class */ (function (_super) {
                 }
             }
         }
-        this.bounding.x = minX;
-        this.bounding.y = minY;
-        this.bounding.width = maxX - minX;
-        this.bounding.height = maxY - minY;
-        this.bounding.cx = this.bounding.x - this.bounding.width / 2;
-        this.bounding.cy = this.bounding.y - this.bounding.height / 2;
+        Bounding.bind(this.bounding, tmp_bounding);
         this.buffer = new Float32Array(total_buffer_length);
         for (var i = 0, offset = 0, len = buffers.length; i < len; offset += buffers[i].length, i++)
             this.buffer.set(buffers[i], offset);

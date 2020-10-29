@@ -25,6 +25,7 @@ var __assign = (this && this.__assign) || function () {
 import ShapePrimitive from "./ShapePrimitive";
 import ShapeBase from "./ShapeBase";
 import { EShapePrimitiveAdaptMode, IShapePrimitiveProps } from "../types/shape-base";
+import Bounding, { TTempBounding } from "../math/bounding";
 /**
  * Shape Loop
  *
@@ -50,9 +51,6 @@ var ShapeLoop = /** @class */ (function (_super) {
         _this = _super.call(this, settings) || this;
         _this.shapeLoopPropsDependencies = (settings.shapeLoopPropsDependencies || []).concat('bAdaptBuffer');
         _this.props.loop = settings.loop;
-        if (typeof settings.loop === 'undefined') {
-            console.warn("[Urpflanze:ShapeLoop] requires the 'loop' property");
-        }
         if (!bPreventGeneration) {
             _this.loop = {
                 start: 0,
@@ -172,8 +170,8 @@ var ShapeLoop = /** @class */ (function (_super) {
             return this.buffer.length;
         if (this.bStaticLoop && this.loop_buffer && this.loop_buffer.length > 0)
             return this.loop_buffer.length * this.getRepetitionCount();
-        var repetition = this.getLoop(prop_arguments).repetition;
-        return this.getRepetitionCount() * repetition * 2; // vec3
+        var count = this.getLoop(prop_arguments).count;
+        return this.getRepetitionCount() * count * 2; // vec3
     };
     /**
      * Return a buffer of children shape or loop generated buffer
@@ -201,7 +199,7 @@ var ShapeLoop = /** @class */ (function (_super) {
      * @memberof ShapeLoop
      */
     ShapeLoop.prototype.generateLoopBuffer = function (prop_arguments) {
-        var _a = this.getLoop(prop_arguments), start = _a.start, end = _a.end, inc = _a.inc, repetition = _a.repetition;
+        var _a = this.getLoop(prop_arguments), start = _a.start, end = _a.end, inc = _a.inc, count = _a.count;
         var getVertex = (this.props.loop && this.props.loop.vertex
             ? this.props.loop.vertex
             : this.loop.vertex);
@@ -209,13 +207,13 @@ var ShapeLoop = /** @class */ (function (_super) {
             index: 0,
             offset: 0,
             angle: 0,
-            count: repetition,
+            count: count,
         };
         var vertex_length = shape_loop.count;
         var buffer_length = vertex_length * 2;
         var loop_buffer = new Float32Array(buffer_length);
         var bNoAdapt = this.adaptMode === EShapePrimitiveAdaptMode.None;
-        var minX = Number.MAX_VALUE, minY = Number.MAX_VALUE, maxX = Number.MIN_VALUE, maxY = Number.MIN_VALUE;
+        var tmp_bounding = [undefined, undefined, undefined, undefined];
         for (var i = 0, j = 0; i < vertex_length; i++, j += 2) {
             var angle = start + inc * i;
             shape_loop.angle = angle >= end ? end : angle;
@@ -228,46 +226,21 @@ var ShapeLoop = /** @class */ (function (_super) {
                 loop_buffer[j] *= this.sideLength[0];
                 loop_buffer[j + 1] *= this.sideLength[1];
             }
-            if (loop_buffer[j] >= maxX)
-                maxX = loop_buffer[j];
-            else if (loop_buffer[j] <= minX)
-                minX = loop_buffer[j];
-            if (loop_buffer[j + 1] >= maxY)
-                maxY = loop_buffer[j + 1];
-            else if (loop_buffer[j + 1] <= minY)
-                minY = loop_buffer[j + 1];
+            Bounding.add(tmp_bounding, loop_buffer[j], loop_buffer[j + 1]);
         }
-        this.single_bounding.x = minX;
-        this.single_bounding.y = minY;
-        this.single_bounding.width = maxX - minX;
-        this.single_bounding.height = maxY - minY;
-        this.single_bounding.cx = this.single_bounding.x + this.single_bounding.width / 2;
-        this.single_bounding.cy = this.single_bounding.y + this.single_bounding.height / 2;
+        Bounding.bind(this.single_bounding, tmp_bounding);
         if (!bNoAdapt) {
             /**
              * Adapt and apply side length
              */
             var buffer = ShapePrimitive.adaptBuffer(loop_buffer, this.adaptMode);
-            minX = minY = Number.MAX_VALUE;
-            maxX = maxY = Number.MIN_VALUE;
+            Bounding.clear(tmp_bounding);
             for (var i = 0; i < buffer_length; i += 2) {
                 buffer[i] = buffer[i] * this.sideLength[0];
                 buffer[i + 1] = buffer[i + 1] * this.sideLength[1];
-                if (buffer[i] >= maxX)
-                    maxX = buffer[i];
-                else if (buffer[i] <= minX)
-                    minX = buffer[i];
-                if (buffer[i + 1] >= maxY)
-                    maxY = buffer[i + 1];
-                else if (buffer[i + 1] <= minY)
-                    minY = buffer[i + 1];
+                Bounding.add(tmp_bounding, buffer[i], buffer[i + 1]);
             }
-            this.single_bounding.x = minX;
-            this.single_bounding.y = minY;
-            this.single_bounding.width = maxX - minX;
-            this.single_bounding.height = maxY - minY;
-            this.single_bounding.cx = this.single_bounding.x + this.single_bounding.width / 2;
-            this.single_bounding.cy = this.single_bounding.y + this.single_bounding.height / 2;
+            Bounding.bind(this.single_bounding, tmp_bounding);
             return buffer;
         }
         return loop_buffer;
@@ -290,8 +263,8 @@ var ShapeLoop = /** @class */ (function (_super) {
         start = (typeof start === 'function' ? start(prop_arguments) : start);
         end = (typeof end === 'function' ? end(prop_arguments) : end);
         inc = (typeof inc === 'function' ? inc(prop_arguments) : inc);
-        var shape_loop_repetition = Math.ceil((end - start) / inc);
-        return { start: start, end: end, inc: inc, repetition: shape_loop_repetition < 0 ? 0 : shape_loop_repetition };
+        var count = Math.ceil((end - start) / inc);
+        return { start: start, end: end, inc: inc, count: count <= 0 ? 0 : count };
     };
     /**
      * Set shape from loop generator
