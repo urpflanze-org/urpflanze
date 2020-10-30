@@ -42,8 +42,8 @@ export interface IBufferIndex {
  */
 export type TVertexCallback = (
 	vertex: [number, number, number],
-	prop_arguments: ISceneChildPropArguments,
-	vertex_repetition: IBaseRepetition
+	vertex_repetition: IBaseRepetition,
+	prop_arguments: ISceneChildPropArguments
 ) => void
 
 /**

@@ -2085,16 +2085,17 @@ var ShapeBase = /** @class */ (function (_super) {
                                 gl_matrix__WEBPACK_IMPORTED_MODULE_10__.scale(vertex, vertex, perspective);
                                 bPerspectiveOrigin && gl_matrix__WEBPACK_IMPORTED_MODULE_10__.sub(vertex, vertex, perspectiveOrigin);
                             }
-                            gl_matrix__WEBPACK_IMPORTED_MODULE_10__.transformMat4(vertex, vertex, repetition_matrix);
                             if (this.vertexCallback) {
                                 var index = buffer_index / 2 + 1;
                                 var count = buffer_length / 2;
-                                this.vertexCallback(vertex, prop_arguments, {
+                                var vertexRepetition = {
                                     index: index,
                                     count: count,
                                     offset: index / count,
-                                });
+                                };
+                                this.vertexCallback(vertex, vertexRepetition, prop_arguments);
                             }
+                            gl_matrix__WEBPACK_IMPORTED_MODULE_10__.transformMat4(vertex, vertex, repetition_matrix);
                         }
                         buffers[current_index][buffer_index] = vertex[0];
                         buffers[current_index][buffer_index + 1] = vertex[1];

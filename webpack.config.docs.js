@@ -4,7 +4,6 @@ const path = require('path')
 
 module.exports = (env, argv) => {
 	const bProduction = argv.mode
-
 	return {
 		entry: path.join(__dirname, './docs/src/js/index.js'),
 		output: {
@@ -53,9 +52,13 @@ module.exports = (env, argv) => {
 		watch: argv.watch,
 
 		devServer: {
+			openPage: '/docs/public',
 			contentBase: path.join(__dirname, '.'),
-			// watchContentBase: true,
+			publicPath: '/docs/public',
+			watchContentBase: true,
 			host: '0.0.0.0',
+			hot: true,
+			hotOnly: true,
 			port: 8888,
 		},
 	}

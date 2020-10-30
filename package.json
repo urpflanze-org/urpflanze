@@ -30,7 +30,7 @@
 		"lint": "eslint src --ext .ts",
 		"build": "ttsc",
 		"build-library": "webpack --config ./webpack.config.js --mode development & npx webpack --config ./webpack.config.js --mode production",
-		"prepublishOnly": "ttsc & npm run build-library & npm run build-library-min",
+		"prepublishOnly": "ttsc & npm run build-library & num run build-docs",
 		"watch": "ttsc --watch",
 		"generate-docs-references": "node generate-docs-references.js",
 		"serve-docs": "webpack serve --config webpack.config.docs.js",

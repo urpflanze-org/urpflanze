@@ -8775,20 +8775,6 @@
 								},
 								{
 									"id": 226,
-									"name": "prop_arguments",
-									"kind": 32768,
-									"kindString": "Parameter",
-									"flags": {
-										"isExported": true
-									},
-									"type": {
-										"type": "reference",
-										"id": 718,
-										"name": "ISceneChildPropArguments"
-									}
-								},
-								{
-									"id": 227,
 									"name": "vertex_repetition",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -8799,6 +8785,20 @@
 										"type": "reference",
 										"id": 664,
 										"name": "IBaseRepetition"
+									}
+								},
+								{
+									"id": 227,
+									"name": "prop_arguments",
+									"kind": 32768,
+									"kindString": "Parameter",
+									"flags": {
+										"isExported": true
+									},
+									"type": {
+										"type": "reference",
+										"id": 718,
+										"name": "ISceneChildPropArguments"
 									}
 								}
 							],

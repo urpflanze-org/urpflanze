@@ -356,16 +356,17 @@ var ShapeBase = /** @class */ (function (_super) {
                                 vec3.scale(vertex, vertex, perspective);
                                 bPerspectiveOrigin && vec3.sub(vertex, vertex, perspectiveOrigin);
                             }
-                            vec3.transformMat4(vertex, vertex, repetition_matrix);
                             if (this.vertexCallback) {
                                 var index = buffer_index / 2 + 1;
                                 var count = buffer_length / 2;
-                                this.vertexCallback(vertex, prop_arguments, {
+                                var vertexRepetition = {
                                     index: index,
                                     count: count,
                                     offset: index / count,
-                                });
+                                };
+                                this.vertexCallback(vertex, vertexRepetition, prop_arguments);
                             }
+                            vec3.transformMat4(vertex, vertex, repetition_matrix);
                         }
                         buffers[current_index][buffer_index] = vertex[0];
                         buffers[current_index][buffer_index + 1] = vertex[1];

@@ -2,8 +2,6 @@
  * Mobile
  */
 @media (max-width: 660px) {
-	.wrapper {
-	}
 	main {
 		flex-direction: column;
 	}
@@ -16,7 +14,7 @@
 		width: 100%;
 		top: 0;
 		z-index: 1000;
-		background: #111413;
+		background: $dark;
 		box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2);
 	}
 
@@ -28,11 +26,10 @@
 		position: fixed;
 		top: 0;
 		right: -60%;
-		max-width: 80%;
+		width: 80%;
 		height: 100%;
 		z-index: 1000;
 		opacity: 0;
-		background: #111413;
 		transition: all 0.3s;
 		pointer-events: none;
 	}
@@ -42,8 +39,18 @@
 		opacity: 1;
 	}
 
+	footer {
+		border-left: 1px solid $dark-light;
+		gap: 0.618rem;
+
+		.follow > div,
+		.support {
+			gap: 0.618rem;
+		}
+	}
+
 	.aside-content {
-		border-left: 1px solid lighten(#111413, 10%);
+		border-left: 1px solid $dark-light;
 	}
 
 	#aside-bg {
@@ -63,7 +70,7 @@
 	}
 
 	#nav {
-		max-height: calc(100% - 3.2rem);
+		max-height: calc(100% - #{$searchHeight});
 
 		ul li {
 			overflow: hidden;
@@ -84,21 +91,23 @@
  * Desktop
  */
 @media (min-width: 660px) {
-	.wrapper {
-	}
 	section.first-section {
 		position: fixed;
 		height: 100%;
-		width: 400px;
+		width: $asideWidth;
 	}
 	section.dynamic-container {
-		margin-left: 400px;
-		width: calc(100% - 400px);
+		margin-left: $asideWidth;
+		width: calc(100% - $asideWidth);
 	}
 
 	header,
 	aside {
-		border-right: 1px solid lighten(#111413, 10%);
+		border-right: 1px solid $dark-light;
+	}
+
+	aside {
+		height: calc(100% - #{$headerHeight});
 	}
 
 	#menu_btn {
@@ -114,7 +123,7 @@
 	}
 
 	#nav {
-		max-height: calc(100% - 6.4rem);
+		max-height: calc(100% - #{$searchHeight});
 	}
 
 	#content {

@@ -39,8 +39,8 @@ select {
 html,
 body {
 	margin: 0;
-	background: #111413;
-	color: rgba(255, 255, 255, 0.8);
+	background: $dark;
+	color: $textColor;
 	line-height: 1.618;
 	font-size: 16px;
 	overflow-x: hidden;

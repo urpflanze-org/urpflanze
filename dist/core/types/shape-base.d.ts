@@ -29,7 +29,7 @@ export interface IBufferIndex {
  *
  * @category Core.Types
  */
-export declare type TVertexCallback = (vertex: [number, number, number], prop_arguments: ISceneChildPropArguments, vertex_repetition: IBaseRepetition) => void;
+export declare type TVertexCallback = (vertex: [number, number, number], vertex_repetition: IBaseRepetition, prop_arguments: ISceneChildPropArguments) => void;
 /**
  * ShapeBaseSettings
  *

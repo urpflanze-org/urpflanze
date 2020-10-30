@@ -531,17 +531,20 @@ abstract class ShapeBase extends SceneChild {
 								vec3.scale(vertex, vertex, perspective)
 								bPerspectiveOrigin && vec3.sub(vertex, vertex, perspectiveOrigin)
 							}
-							vec3.transformMat4(vertex, vertex, repetition_matrix)
 
 							if (this.vertexCallback) {
 								const index = buffer_index / 2 + 1
 								const count = buffer_length / 2
-								this.vertexCallback(vertex, prop_arguments, {
+								const vertexRepetition = {
 									index,
 									count,
 									offset: index / count,
-								})
+								}
+
+								this.vertexCallback(vertex, vertexRepetition, prop_arguments)
 							}
+
+							vec3.transformMat4(vertex, vertex, repetition_matrix)
 						}
 
 						buffers[current_index][buffer_index] = vertex[0]
