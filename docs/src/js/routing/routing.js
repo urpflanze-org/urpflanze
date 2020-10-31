@@ -15,6 +15,8 @@ export function bindRouting() {
  * Dynamic content
  */
 export function goto(page) {
+	const content = document.getElementById('content')
+
 	if (page.length === 0) {
 		page = document.querySelector('#nav a').getAttribute('href')
 	}
@@ -44,6 +46,8 @@ export function goto(page) {
  * Bind any when content load
  */
 function onLoadContent() {
+	const content = document.getElementById('content')
+
 	window.scrollTo({
 		top: 0,
 		behavior: 'smooth',
@@ -52,7 +56,7 @@ function onLoadContent() {
 	// scripts
 	const scripts = content.getElementsByClassName('runnable-script')
 
-	for (var i = 0; i < scripts.length; i++) {
+	for (let i = 0; i < scripts.length; i++) {
 		const script_container = document.createElement('div')
 		const script_id = scripts[i].getAttribute('id')
 		let script = scripts[i].innerHTML
@@ -76,7 +80,7 @@ function onLoadContent() {
 	const h2 = content.getElementsByTagName('h2')
 	const ul = document.createElement('ul')
 	ul.className = 'page-navigation'
-	for (var i = 0; i < h2.length; i++) {
+	for (let i = 0; i < h2.length; i++) {
 		const li = document.createElement('li')
 		const ch2 = h2[i]
 		li.innerText = ch2.innerText

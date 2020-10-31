@@ -12,7 +12,7 @@ export function bindNavigation(lang, search) {
 	nav.innerHTML = ''
 
 	const _wiki = createList(wiki[lang], search)
-	const _doc = createList(NavReferences, search)
+	const _doc = createList(NavReferences, search, lang)
 	nav.append(_wiki)
 
 	nav.append(_doc)

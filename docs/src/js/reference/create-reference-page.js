@@ -13,6 +13,7 @@ import {
 function loadReference(refName) {
 	const ref = References[refName]
 
+	const content = document.getElementById('content')
 	console.log(ref)
 
 	if (ref) {

@@ -3,7 +3,7 @@ import { areSimilar } from '../utilities'
 /**
  * Create Navigation
  */
-function createList(root, search) {
+function createList(root, search, lang) {
 	const fragment = document.createDocumentFragment()
 
 	Object.keys(root).forEach(firstLevelKey => {
