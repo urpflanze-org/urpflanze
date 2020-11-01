@@ -144,16 +144,16 @@ var Group = /** @class */ (function (_super) {
     /**
      * Find scene child from id or name
      *
-     * @param {number | string} id_or_name
+     * @param {number | string} idOrName
      * @returns {(SceneChild | null)}
      * @memberof Group
      */
-    Group.prototype.find = function (id_or_name) {
-        if (this.id === id_or_name || this.name === id_or_name)
+    Group.prototype.find = function (idOrName) {
+        if (this.id === idOrName || this.name === idOrName)
             return this;
         var children = this.getChildren();
         for (var i = 0, len = children.length; i < len; i++) {
-            var result = children[i].find(id_or_name);
+            var result = children[i].find(idOrName);
             if (result !== null)
                 return result;
         }
@@ -201,15 +201,21 @@ var Group = /** @class */ (function (_super) {
     /**
      * Generate children buffers
      *
-     * @param {number} indexing_id
+     * @param {number} generateId
      * @param {boolean} [bDirectSceneChild=false]
-     * @param {ISceneChildPropArguments} [parent_prop_arguments]
+     * @param {ISceneChildPropArguments} [parentPropArguments]
      * @memberof Group
      */
-    Group.prototype.generate = function (indexing_id, bDirectSceneChild, parent_prop_arguments) {
+    Group.prototype.generate = function (generateId, bDirectSceneChild, parentPropArguments) {
         if (bDirectSceneChild === void 0) { bDirectSceneChild = false; }
-        this.children.forEach(function (item) { return item.generate(indexing_id, bDirectSceneChild, parent_prop_arguments); });
+        this.children.forEach(function (item) { return item.generate(generateId, bDirectSceneChild, parentPropArguments); });
     };
+    /**
+     * Sum the children bounding
+     *
+     * @param {boolean} bDirectSceneChild
+     * @return {*}  {IShapeBounding}
+     */
     Group.prototype.getBounding = function (bDirectSceneChild) {
         var boundings = [];
         var bounding = __assign({}, ShapePrimitive.EMPTY_BOUNDING);
@@ -281,12 +287,12 @@ var Group = /** @class */ (function (_super) {
     /**
      * Return length of buffer
      *
-     * @param {ISceneChildPropArguments} prop_arguments
+     * @param {ISceneChildPropArguments} propArguments
      * @returns {number}
      * @memberof Group
      */
-    Group.prototype.getBufferLength = function (prop_arguments) {
-        return this.children.map(function (sceneChild) { return sceneChild.getBufferLength(prop_arguments); }).reduce(function (p, c) { return p + c; }, 0);
+    Group.prototype.getBufferLength = function (propArguments) {
+        return this.children.map(function (sceneChild) { return sceneChild.getBufferLength(propArguments); }).reduce(function (p, c) { return p + c; }, 0);
     };
     /**
      * return a single buffer binded from children
@@ -298,7 +304,7 @@ var Group = /** @class */ (function (_super) {
         var buffers = this.children
             .map(function (item) { return item.getBuffer(); })
             .filter(function (b) { return b !== undefined; });
-        var size = buffers.reduce(function (curr_value, buffer) { return curr_value + buffer.length; }, 0);
+        var size = buffers.reduce(function (currLength, buffer) { return currLength + buffer.length; }, 0);
         if (size > 0) {
             var result = new Float32Array(size);
             result.set(buffers[0], 0);

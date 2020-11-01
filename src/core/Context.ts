@@ -22,7 +22,7 @@ const noises: {
  * @example
  * ```javascript
  * const circle = new Urpflanze.Circle({
- * 	distance: ({ context, repetition }) => context.noise('seed', repetition.current_index) * 200
+ * 	distance: ({ context, repetition }) => context.noise('seed', repetition.index) * 200
  * })
  * ```
  */
@@ -57,16 +57,16 @@ const Context = {
 	 */
 	angle: (repetition: IRepetition, offsetFromCenter: vec2 = [0, 0]): number => {
 		if (repetition.type == ERepetitionType.Matrix) {
-			const center_matrix = vec2.fromValues(
+			const centerMatrix = vec2.fromValues(
 				((repetition.col.count as number) - 1) / 2,
 				((repetition.row.count as number) - 1) / 2
 			)
 
-			center_matrix[0] += center_matrix[0] * offsetFromCenter[0]
-			center_matrix[1] += center_matrix[1] * offsetFromCenter[1]
+			centerMatrix[0] += centerMatrix[0] * offsetFromCenter[0]
+			centerMatrix[1] += centerMatrix[1] * offsetFromCenter[1]
 
-			const x = (repetition.col.index as number) - 1 - center_matrix[0]
-			const y = (repetition.row.index as number) - 1 - center_matrix[1]
+			const x = (repetition.col.index as number) - 1 - centerMatrix[0]
+			const y = (repetition.row.index as number) - 1 - centerMatrix[1]
 
 			return x === 0 ? 0 : Math.atan(y / x)
 		}
@@ -85,16 +85,16 @@ const Context = {
 	 */
 	angle2: (repetition: IRepetition, offsetFromCenter: vec2 = [0, 0]): number => {
 		if (repetition.type == ERepetitionType.Matrix) {
-			const center_matrix = vec2.fromValues(
+			const centerMatrix = vec2.fromValues(
 				((repetition.col.count as number) - 1) / 2,
 				((repetition.row.count as number) - 1) / 2
 			)
 
-			center_matrix[0] += center_matrix[0] * offsetFromCenter[0]
-			center_matrix[1] += center_matrix[1] * offsetFromCenter[1]
+			centerMatrix[0] += centerMatrix[0] * offsetFromCenter[0]
+			centerMatrix[1] += centerMatrix[1] * offsetFromCenter[1]
 
-			const x = (repetition.col.index as number) - 1 - center_matrix[0]
-			const y = (repetition.col.index as number) - 1 - center_matrix[1]
+			const x = (repetition.col.index as number) - 1 - centerMatrix[0]
+			const y = (repetition.col.index as number) - 1 - centerMatrix[1]
 
 			return x === 0 ? 0 : Math.atan2(y, x)
 		}
@@ -112,17 +112,17 @@ const Context = {
 	 */
 	distance: (repetition: IRepetition, offsetFromCenter: vec2 = [0, 0]): number => {
 		if (repetition.type == ERepetitionType.Matrix) {
-			const center_matrix = vec2.fromValues(0.5, 0.5)
+			const centerMatrix = vec2.fromValues(0.5, 0.5)
 
-			center_matrix[0] += center_matrix[0] * offsetFromCenter[0]
-			center_matrix[1] += center_matrix[1] * offsetFromCenter[1]
+			centerMatrix[0] += centerMatrix[0] * offsetFromCenter[0]
+			centerMatrix[1] += centerMatrix[1] * offsetFromCenter[1]
 
 			const current = vec2.fromValues(
 				repetition.col.offset - 0.5 / repetition.col.count,
 				repetition.row.offset - 0.5 / repetition.row.count
 			)
 
-			return vec2.distance(current, center_matrix)
+			return vec2.distance(current, centerMatrix)
 		}
 
 		return 1

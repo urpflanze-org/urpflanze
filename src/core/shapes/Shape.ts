@@ -65,14 +65,14 @@ class Shape extends ShapeBase {
 	/**
 	 * Find shape by id or name
 	 *
-	 * @param {number | string} id_or_name
+	 * @param {number | string} idOrName
 	 * @returns {(SceneChild | null)}
 	 * @memberof Shape
 	 */
-	public find(id_or_name: number | string): SceneChild | null {
-		if (this.id === id_or_name || this.name === id_or_name) return this
+	public find(idOrName: number | string): SceneChild | null {
+		if (this.id === idOrName || this.name === idOrName) return this
 
-		if (this.shape) return this.shape.find(id_or_name)
+		if (this.shape) return this.shape.find(idOrName)
 
 		return null
 	}
@@ -80,30 +80,30 @@ class Shape extends ShapeBase {
 	/**
 	 * Return length of buffer
 	 *
-	 * @param {ISceneChildPropArguments} prop_arguments
+	 * @param {ISceneChildPropArguments} propArguments
 	 * @returns {number}
 	 * @memberof Shape
 	 */
-	public getBufferLength(prop_arguments: ISceneChildPropArguments): number {
+	public getBufferLength(propArguments: ISceneChildPropArguments): number {
 		if (this.bStatic && this.buffer && this.buffer.length > 0) return this.buffer.length
 
-		const child_buffer_length = this.shape ? this.shape.getBufferLength(prop_arguments) : 0
+		const childBufferLength = this.shape ? this.shape.getBufferLength(propArguments) : 0
 
-		return child_buffer_length * this.getRepetitionCount()
+		return childBufferLength * this.getRepetitionCount()
 	}
 
 	/**
 	 * Return a buffer of children shape or loop generated buffer
 	 *
 	 * @protected
-	 * @param {number} generate_id
-	 * @param {ISceneChildPropArguments} prop_arguments
+	 * @param {number} generateId
+	 * @param {ISceneChildPropArguments} propArguments
 	 * @returns {Float32Array}
 	 * @memberof ShapeBase
 	 */
-	protected generateBuffer(generate_id: number, prop_arguments: ISceneChildPropArguments): Float32Array {
+	protected generateBuffer(generateId: number, propArguments: ISceneChildPropArguments): Float32Array {
 		if (this.shape) {
-			this.shape.generate(generate_id, false, prop_arguments)
+			this.shape.generate(generateId, false, propArguments)
 
 			return this.shape.getBuffer() || Shape.EMPTY_BUFFER
 		}
@@ -125,13 +125,13 @@ class Shape extends ShapeBase {
 		return this.bounding
 	}
 
-	protected addIndex(frame_length: number, repetition: IRepetition) {
+	protected addIndex(frameLength: number, repetition: IRepetition) {
 		if (this.shape) {
-			const indexed_buffer = this.indexed_buffer as Array<IBufferIndex>
-			const child_indexed_buffer = this.shape.getIndexedBuffer() || []
+			const indexedBuffer = this.indexedBuffer as Array<IBufferIndex>
+			const childIndexedBuffer = this.shape.getIndexedBuffer() || []
 			const parent = {
 				shape: this,
-				frame_length,
+				frameLength,
 				repetition: {
 					type: repetition.type,
 					angle: repetition.angle,
@@ -155,21 +155,21 @@ class Shape extends ShapeBase {
 				return {
 					shape: f.shape,
 					repetition: f.repetition,
-					frame_length: f.frame_length,
+					frameLength: f.frameLength,
 					parent: f.parent ? buildParent(f.parent, parent) : parent,
 				}
 			}
 
-			for (let i = 0, len = child_indexed_buffer.length; i < len; i++) {
-				const current_indexed = { ...child_indexed_buffer[i] }
+			for (let i = 0, len = childIndexedBuffer.length; i < len; i++) {
+				const currentIndexed = { ...childIndexedBuffer[i] }
 
-				if (current_indexed.parent) {
-					current_indexed.parent = buildParent(current_indexed.parent, parent)
+				if (currentIndexed.parent) {
+					currentIndexed.parent = buildParent(currentIndexed.parent, parent)
 				} else {
-					current_indexed.parent = parent
+					currentIndexed.parent = parent
 				}
 
-				indexed_buffer.push(current_indexed)
+				indexedBuffer.push(currentIndexed)
 			}
 		}
 	}

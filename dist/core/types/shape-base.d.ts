@@ -18,7 +18,7 @@ export interface IBufferIndex {
     /**
      * Frame length
      */
-    frame_length: number;
+    frameLength: number;
     /**
      * Current repetition reference oof frame
      */
@@ -29,7 +29,7 @@ export interface IBufferIndex {
  *
  * @category Core.Types
  */
-export declare type TVertexCallback = (vertex: [number, number, number], vertex_repetition: IBaseRepetition, prop_arguments: ISceneChildPropArguments) => void;
+export declare type TVertexCallback = (vertex: [number, number, number], vertexRepetition: IBaseRepetition, propArguments: ISceneChildPropArguments) => void;
 /**
  * ShapeBaseSettings
  *

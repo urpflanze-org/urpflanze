@@ -44,7 +44,8 @@ class JSONExporter {
 
 		project.clear = drawer.getOption('clear', true) as boolean
 		project.ghosts = drawer.getOption('ghosts', 0) as number
-		project.ghost_skip_time = parseFunction.parse(drawer.getOption('ghost_skip_time', 30) as number | string)
+		project.ghostSkipTime = drawer.getOption('ghostSkipTime', undefined)
+		project.ghostSkipFunction = parseFunction.parse(drawer.getOption('ghostSkipFunction', undefined))
 
 		project.ratio = drawer.getRatio()
 
@@ -62,7 +63,7 @@ class JSONExporter {
 		return project
 	}
 
-	static parseSceneChild(sceneChild: SceneChild, parent_id?: string | number, depth = 0): IProjectSceneChild {
+	static parseSceneChild(sceneChild: SceneChild, parentId?: string | number, depth = 0): IProjectSceneChild {
 		const projectSceneChild: IProjectSceneChild = {
 			id: sceneChild.id + '',
 			type: sceneChild.type,
@@ -72,7 +73,7 @@ class JSONExporter {
 			depth,
 			bPrimitive: sceneChild instanceof ShapePrimitive,
 			props: {},
-			parent_id,
+			parentId,
 		}
 
 		const props = sceneChild.getProps()

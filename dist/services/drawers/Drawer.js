@@ -175,11 +175,11 @@ var Drawer = /** @class */ (function (_super) {
      *
      * @template K
      * @param {K} name
-     * @param {IADrawerOptions[K]} default_value
+     * @param {IADrawerOptions[K]} defaultValue
      */
-    Drawer.prototype.getOption = function (name, default_value) {
+    Drawer.prototype.getOption = function (name, defaultValue) {
         var _a;
-        return (_a = this.drawerOptions[name]) !== null && _a !== void 0 ? _a : default_value;
+        return (_a = this.drawerOptions[name]) !== null && _a !== void 0 ? _a : defaultValue;
     };
     /**
      * Return all options
@@ -263,9 +263,9 @@ var Drawer = /** @class */ (function (_super) {
             var sequenceDurate = timeline.getDurate();
             for (var i = 1; i <= drawerOptions.ghosts; i++) {
                 var ghostTime = drawAtTime -
-                    (drawerOptions.ghost_skip_function
-                        ? drawerOptions.ghost_skip_function(i)
-                        : i * drawerOptions.ghost_skip_time);
+                    (drawerOptions.ghostSkipFunction
+                        ? drawerOptions.ghostSkipFunction(i)
+                        : i * drawerOptions.ghostSkipTime);
                 ghostDrawerOptions.ghost_index = i;
                 ghostDrawerOptions.time = (ghostTime + sequenceDurate) % sequenceDurate;
                 ghostCallback(ghostDrawerOptions);

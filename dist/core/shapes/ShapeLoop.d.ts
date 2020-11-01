@@ -58,7 +58,7 @@ declare class ShapeLoop extends ShapePrimitive {
      * @type {Float32Array}
      * @memberof ShapeLoop
      */
-    protected loop_buffer?: Float32Array;
+    protected currentOrSingleLoopBuffer?: Float32Array;
     /**
      * list of prop has impact on shape loop generation
      *
@@ -66,7 +66,7 @@ declare class ShapeLoop extends ShapePrimitive {
      * @type {Array<string>}
      * @memberof ShapeLoop
      */
-    shapeLoopPropsDependencies: Array<'vertexCallback' | 'prop_arguments' | string>;
+    shapeLoopPropsDependencies: Array<'vertexCallback' | 'propArguments' | string>;
     /**
      * Creates an instance of ShapeLoop.
      *
@@ -76,7 +76,7 @@ declare class ShapeLoop extends ShapePrimitive {
      */
     constructor(settings?: IShapeLoopSettings, bPreventGeneration?: boolean);
     /**
-     * Check if loop_buffer is static
+     * Check if currentOrSingleLoopBuffer is static
      *
      * @returns {boolean}
      * @memberof ShapeLoop
@@ -117,35 +117,35 @@ declare class ShapeLoop extends ShapePrimitive {
      * Get prop
      *
      * @param {keyof IShapeLoopProps} key
-     * @param {ISceneChildPropArguments} [prop_arguments]
-     * @param {*} [default_value]
+     * @param {ISceneChildPropArguments} [propArguments]
+     * @param {*} [defaultValue]
      * @returns {*}
      * @memberof ShapeLoop
      */
-    getProp(key: keyof IShapeLoopProps, prop_arguments?: ISceneChildPropArguments, default_value?: any): any;
+    getProp(key: keyof IShapeLoopProps, propArguments?: ISceneChildPropArguments, defaultValue?: any): any;
     /**
      * Return length of buffer
      *
-     * @param {ISceneChildPropArguments} [prop_arguments]
+     * @param {ISceneChildPropArguments} [propArguments]
      * @returns {number}
      * @memberof ShapeBase
      */
-    getBufferLength(prop_arguments: ISceneChildPropArguments): number;
+    getBufferLength(propArguments: ISceneChildPropArguments): number;
     /**
      * Return a buffer of children shape or loop generated buffer
      *
      * @protected
-     * @param {number} generate_id
-     * @param {ISceneChildPropArguments} prop_arguments
+     * @param {number} generateId
+     * @param {ISceneChildPropArguments} propArguments
      * @returns {Float32Array}
      * @memberof ShapeBase
      */
-    protected generateBuffer(generate_id: number, prop_arguments: ISceneChildPropArguments): Float32Array;
+    protected generateBuffer(generateId: number, propArguments: ISceneChildPropArguments): Float32Array;
     /**
      * Generate loop buffer
      *
      * @private
-     * @param {ISceneChildPropArguments} prop_arguments
+     * @param {ISceneChildPropArguments} propArguments
      * @returns {Float32Array}
      * @memberof ShapeLoop
      */
@@ -154,7 +154,7 @@ declare class ShapeLoop extends ShapePrimitive {
      * Return information about a client loop gnerator
      *
      * @private
-     * @param {ISceneChildPropArguments} prop_arguments
+     * @param {ISceneChildPropArguments} propArguments
      * @returns {ShapeLoopInformation}
      * @memberof ShapeBase
      */

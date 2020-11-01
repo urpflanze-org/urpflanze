@@ -25,9 +25,9 @@ class RegularPolygon extends ShapeLoop {
 		this.loop = {
 			start: 0,
 			end: ShapeLoop.PI2,
-			inc: (prop_arguments: ISceneChildPropArguments) => ShapeLoop.PI2 / this.getProp('sideNumber', prop_arguments, 5),
-			vertex: shape_loop_repetition => {
-				return [Math.cos(shape_loop_repetition.angle), Math.sin(shape_loop_repetition.angle)]
+			inc: (propArguments: ISceneChildPropArguments) => ShapeLoop.PI2 / this.getProp('sideNumber', propArguments, 5),
+			vertex: shapeLoopRepetition => {
+				return [Math.cos(shapeLoopRepetition.angle), Math.sin(shapeLoopRepetition.angle)]
 			},
 		}
 
@@ -40,13 +40,13 @@ class RegularPolygon extends ShapeLoop {
 	 * Get property value
 	 *
 	 * @param {keyof IRegularPolygonProps} key
-	 * @param {ISceneChildPropArguments} [prop_arguments]
-	 * @param {*} [default_value]
+	 * @param {ISceneChildPropArguments} [propArguments]
+	 * @param {*} [defaultValue]
 	 * @returns {*}
 	 * @memberof IRegularPolygonProps
 	 */
-	public getProp(key: keyof IRegularPolygonProps, prop_arguments?: ISceneChildPropArguments, default_value?: any): any {
-		return super.getProp(key as keyof IShapeLoopProps, prop_arguments, default_value)
+	public getProp(key: keyof IRegularPolygonProps, propArguments?: ISceneChildPropArguments, defaultValue?: any): any {
+		return super.getProp(key as keyof IShapeLoopProps, propArguments, defaultValue)
 	}
 
 	/**

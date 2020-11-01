@@ -45,12 +45,12 @@ declare abstract class ShapePrimitive extends ShapeBase {
      */
     sideLength: vec2;
     /**
-     * Shape bounding
+     * Contain the bounding of the last generated buffer
      *
      * @type {IShapeBounding}
      * @memberof ShapePrimitive
      */
-    single_bounding: IShapeBounding;
+    currentGenerationPrimitiveBounding: IShapeBounding;
     /**
      * Creates an instance of ShapePrimitive.
      *
@@ -69,20 +69,20 @@ declare abstract class ShapePrimitive extends ShapeBase {
      * Get prop
      *
      * @param {keyof IShapePrimitiveProps} key
-     * @param {ISceneChildPropArguments} [prop_arguments]
-     * @param {*} [default_value]
+     * @param {ISceneChildPropArguments} [propArguments]
+     * @param {*} [defaultValue]
      * @returns {*}
      * @memberof ShapePrimitive
      */
-    getProp(key: keyof IShapePrimitiveProps, prop_arguments?: ISceneChildPropArguments, default_value?: any): any;
+    getProp(key: keyof IShapePrimitiveProps, propArguments?: ISceneChildPropArguments, defaultValue?: any): any;
     /**
      * set side length when generate a buffer into shape loop or shape buffer
      *
      * @protected
-     * @param {ISceneChildPropArguments} prop_arguments
+     * @param {ISceneChildPropArguments} propArguments
      * @memberof ShapePrimitive
      */
-    protected bindSideLength(prop_arguments: ISceneChildPropArguments): boolean;
+    protected bindSideLength(propArguments: ISceneChildPropArguments): boolean;
     /**
      * Return a bounding of generated buffer if is direct scene child
      *
@@ -92,14 +92,14 @@ declare abstract class ShapePrimitive extends ShapeBase {
      */
     getBounding(bDirectSceneChild: boolean): IShapeBounding;
     /**
-     * Add this to indexed_buffer
+     * Add this to indexedBuffer
      *
      * @protected
-     * @param {number} frame_length
+     * @param {number} frameLength
      * @param {IRepetition} repetition
      * @memberof ShapePrimitive
      */
-    protected addIndex(frame_length: number, repetition: IRepetition): void;
+    protected addIndex(frameLength: number, repetition: IRepetition): void;
     /**
      * Return bCloseShape
      *

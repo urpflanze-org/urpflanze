@@ -46,19 +46,19 @@ var Lissajous = /** @class */ (function (_super) {
         _this.loop = {
             start: 0,
             end: ShapeLoop.PI2,
-            inc: function (prop_arguments) {
-                var wx = _this.getProp('wx', prop_arguments);
-                var wy = _this.getProp('wy', prop_arguments);
+            inc: function (propArguments) {
+                var wx = _this.getProp('wx', propArguments);
+                var wy = _this.getProp('wy', propArguments);
                 var ratio = wx == wy ? ShapeLoop.PId2 : 0.5 - Math.min(49, wx + wy) * 0.01;
                 return (1 / Math.pow(_this.sideLength[0] * _this.sideLength[1], 0.25)) * ratio;
             },
-            vertex: function (shape_loop_repetition, prop_arguments) {
-                var wx = _this.getProp('wx', prop_arguments);
-                var wy = _this.getProp('wy', prop_arguments);
-                var wz = _this.getProp('wz', prop_arguments, 0);
+            vertex: function (shapeLoopRepetition, propArguments) {
+                var wx = _this.getProp('wx', propArguments);
+                var wy = _this.getProp('wy', propArguments);
+                var wz = _this.getProp('wz', propArguments, 0);
                 return wx == wy
-                    ? [Math.cos(shape_loop_repetition.angle + wz), Math.sin(shape_loop_repetition.angle)]
-                    : [Math.cos(wx * shape_loop_repetition.angle + wz), Math.sin(wy * shape_loop_repetition.angle)];
+                    ? [Math.cos(shapeLoopRepetition.angle + wz), Math.sin(shapeLoopRepetition.angle)]
+                    : [Math.cos(wx * shapeLoopRepetition.angle + wz), Math.sin(wy * shapeLoopRepetition.angle)];
             },
         };
         _this.bStaticLoop = _this.isStaticLoop();
@@ -70,13 +70,13 @@ var Lissajous = /** @class */ (function (_super) {
      * Get property value
      *
      * @param {keyof ILissajousProps} key
-     * @param {ISceneChildPropArguments} [prop_arguments]
-     * @param {*} [default_value]
+     * @param {ISceneChildPropArguments} [propArguments]
+     * @param {*} [defaultValue]
      * @returns {*}
      * @memberof Lissajous
      */
-    Lissajous.prototype.getProp = function (key, prop_arguments, default_value) {
-        return _super.prototype.getProp.call(this, key, prop_arguments, default_value);
+    Lissajous.prototype.getProp = function (key, propArguments, defaultValue) {
+        return _super.prototype.getProp.call(this, key, propArguments, defaultValue);
     };
     /**
      * Set single or multiple props

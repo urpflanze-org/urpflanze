@@ -31,10 +31,10 @@ import { clamp } from "../../Utilites";
 import Vec2 from "../math/Vec2";
 import Bounding, { TTempBounding } from "../math/bounding";
 glMatrix.setMatrixArrayType(Array);
-var tmp_matrix = mat4.create();
-var transform_matrix = mat4.create();
-var perspective_matrix = mat4.create();
-var repetition_matrix = mat4.create();
+var tmpMatrix = mat4.create();
+var transformMatrix = mat4.create();
+var perspectiveMatrix = mat4.create();
+var repetitionMatrix = mat4.create();
 /**
  * Main class for shape generation
  *
@@ -62,14 +62,19 @@ var ShapeBase = /** @class */ (function (_super) {
          * @internal
          * @ignore
          */
-        _this.generate_id = -1;
+        _this.generateId = -1;
         /**
-         * Flag used to determine if indexed_buffer has been generated
+         * Flag used to determine if indexedBuffer has been generated
          *
          * @internal
          * @ignore
          */
         _this.bIndexed = false;
+        /**
+         * The bounding inside the scene
+         *
+         * @type {IShapeBounding}
+         */
         _this.bounding = {
             cx: 0,
             cy: 0,
@@ -122,7 +127,7 @@ var ShapeBase = /** @class */ (function (_super) {
             typeof props.transformOrigin !== 'function');
     };
     /**
-     * Check if the indexed_buffer array needs to be recreated every time,
+     * Check if the indexedBuffer array needs to be recreated every time,
      * this can happen when a shape generates an array of vertices different in length at each repetition
      *
      * @returns {boolean}
@@ -135,22 +140,22 @@ var ShapeBase = /** @class */ (function (_super) {
      * Return a prop value
      *
      * @param {keyof ISceneChildProps} key
-     * @param {ISceneChildPropArguments} [prop_arguments]
-     * @param {*} [default_value]
+     * @param {ISceneChildPropArguments} [propArguments]
+     * @param {*} [defaultValue]
      * @returns {*}
      * @memberof ShapeBase
      */
-    ShapeBase.prototype.getProp = function (key, prop_arguments, default_value) {
+    ShapeBase.prototype.getProp = function (key, propArguments, defaultValue) {
         var _a;
         var attribute = this.props[key];
         if (typeof attribute == 'function') {
-            prop_arguments = prop_arguments || ShapeBase.EMPTY_PROP_ARGUMENTS;
-            if (typeof prop_arguments.shape === 'undefined')
-                prop_arguments.shape = this;
-            prop_arguments.time = ((_a = this.scene) === null || _a === void 0 ? void 0 : _a.current_time) || 0;
-            attribute = attribute(prop_arguments);
+            propArguments = propArguments || ShapeBase.EMPTY_PROP_ARGUMENTS;
+            if (typeof propArguments.shape === 'undefined')
+                propArguments.shape = this;
+            propArguments.time = ((_a = this.scene) === null || _a === void 0 ? void 0 : _a.currentTime) || 0;
+            attribute = attribute(propArguments);
         }
-        return typeof attribute === 'undefined' || Number.isNaN(attribute) ? default_value : attribute;
+        return typeof attribute === 'undefined' || Number.isNaN(attribute) ? defaultValue : attribute;
     };
     /**
      * Set a single or multiple props
@@ -198,91 +203,91 @@ var ShapeBase = /** @class */ (function (_super) {
         }
     };
     /**
-     * Update the vertex array if the shape is not static and update the indexed_buffer if it is also not static
+     * Update the vertex array if the shape is not static and update the indexedBuffer if it is also not static
      *
-     * @param {number} generate_id generation id
+     * @param {number} generateId generation id
      * @param {boolean} [bDirectSceneChild=false] adjust shape of center of scene
-     * @param {ISceneChildPropArguments} [parent_prop_arguments]
+     * @param {ISceneChildPropArguments} [parentPropArguments]
      * @memberof ShapeBase
      */
-    ShapeBase.prototype.generate = function (generate_id, bDirectSceneChild, parent_prop_arguments) {
+    ShapeBase.prototype.generate = function (generateId, bDirectSceneChild, parentPropArguments) {
         var _a, _b, _c;
         if (bDirectSceneChild === void 0) { bDirectSceneChild = false; }
-        if (!this.scene || (this.buffer && (this.bStatic || (generate_id === this.generate_id && !this.bUseParent)))) {
+        if (!this.scene || (this.buffer && (this.bStatic || (generateId === this.generateId && !this.bUseParent)))) {
             return;
         }
-        this.generate_id = generate_id;
+        this.generateId = generateId;
         if (!this.bStaticIndexed || !this.bIndexed)
-            this.indexed_buffer = [];
+            this.indexedBuffer = [];
         var repetition = ShapeBase.getEmptyRepetition();
-        var repetitions = this.getProp('repetitions', { parent: parent_prop_arguments, repetition: repetition, time: 1, context: Context }, 1);
-        var repetition_type = Array.isArray(repetitions) ? ERepetitionType.Matrix : ERepetitionType.Ring;
-        var repetition_count = Array.isArray(repetitions)
+        var repetitions = this.getProp('repetitions', { parent: parentPropArguments, repetition: repetition, time: 1, context: Context }, 1);
+        var repetitionType = Array.isArray(repetitions) ? ERepetitionType.Matrix : ERepetitionType.Ring;
+        var repetitionCount = Array.isArray(repetitions)
             ? repetitions[0] * ((_a = repetitions[1]) !== null && _a !== void 0 ? _a : repetitions[0])
             : repetitions;
-        var repetition_col_count = Array.isArray(repetitions) ? repetitions[0] : repetition_count;
-        var repetition_row_count = Array.isArray(repetitions) ? (_b = repetitions[1]) !== null && _b !== void 0 ? _b : repetitions[0] : 1;
-        var col_repetition = repetition.col;
-        col_repetition.count = repetition_col_count;
-        var row_repetition = repetition.row;
-        row_repetition.count = repetition_row_count;
-        repetition.count = repetition_count;
-        repetition.col.count = repetition_col_count;
-        repetition.row.count = repetition_row_count;
-        repetition.type = repetition_type;
-        var prop_arguments = {
+        var repetitionColCount = Array.isArray(repetitions) ? repetitions[0] : repetitionCount;
+        var repetitionRowCount = Array.isArray(repetitions) ? (_b = repetitions[1]) !== null && _b !== void 0 ? _b : repetitions[0] : 1;
+        var colRepetition = repetition.col;
+        colRepetition.count = repetitionColCount;
+        var rowRepetition = repetition.row;
+        rowRepetition.count = repetitionRowCount;
+        repetition.count = repetitionCount;
+        repetition.col.count = repetitionColCount;
+        repetition.row.count = repetitionRowCount;
+        repetition.type = repetitionType;
+        var propArguments = {
             repetition: repetition,
             context: Context,
-            time: ((_c = this.scene) === null || _c === void 0 ? void 0 : _c.current_time) || 0,
+            time: ((_c = this.scene) === null || _c === void 0 ? void 0 : _c.currentTime) || 0,
             shape: this,
             data: this.data,
-            parent: parent_prop_arguments,
+            parent: parentPropArguments,
         };
-        var total_buffer_length = 0;
+        var totalBufferLength = 0;
         var buffers = [];
-        var current_index = 0;
-        var center_matrix = vec2.fromValues((repetition_col_count - 1) / 2, (repetition_row_count - 1) / 2);
+        var currentIndex = 0;
+        var centerMatrix = vec2.fromValues((repetitionColCount - 1) / 2, (repetitionRowCount - 1) / 2);
         var sceneCenter = [this.scene.center[0], this.scene.center[1], 0];
-        var tmp_bounding = [undefined, undefined, undefined, undefined];
-        for (var current_row_repetition = 0; current_row_repetition < repetition_row_count; current_row_repetition++) {
-            for (var current_col_repetition = 0; current_col_repetition < repetition_col_count; current_col_repetition++, current_index++) {
-                repetition.index = current_index + 1;
-                repetition.offset = repetition.index / repetition.count;
+        var tmpBounding = [undefined, undefined, undefined, undefined];
+        for (var currentRowRepetition = 0; currentRowRepetition < repetitionRowCount; currentRowRepetition++) {
+            for (var currentColRepetition = 0; currentColRepetition < repetitionColCount; currentColRepetition++, currentIndex++) {
+                repetition.index = currentIndex + 1;
+                repetition.offset = currentIndex / (repetitionCount - 1);
                 repetition.angle =
-                    repetition_type === ERepetitionType.Ring ? ((Math.PI * 2) / repetition_count) * current_index : 0;
-                col_repetition.index = current_col_repetition + 1;
-                col_repetition.offset = col_repetition.index / col_repetition.count;
-                row_repetition.index = current_row_repetition + 1;
-                row_repetition.offset = row_repetition.index / row_repetition.count;
+                    repetitionType === ERepetitionType.Ring ? ((Math.PI * 2) / repetitionCount) * currentIndex : 0;
+                colRepetition.index = currentColRepetition + 1;
+                colRepetition.offset = currentColRepetition / (repetitionColCount - 1);
+                rowRepetition.index = currentRowRepetition + 1;
+                rowRepetition.offset = currentRowRepetition / (repetitionRowCount - 1);
                 // Generate primitives buffer recursively
-                var buffer = this.generateBuffer(generate_id, prop_arguments);
-                var buffer_length = buffer.length;
+                var buffer = this.generateBuffer(generateId, propArguments);
+                var bufferLength = buffer.length;
                 var bounding = this.getBounding(true);
-                buffers[current_index] = new Float32Array(buffer_length);
-                total_buffer_length += buffer_length;
+                buffers[currentIndex] = new Float32Array(bufferLength);
+                totalBufferLength += bufferLength;
                 {
-                    var distance = glme.toVec2(this.getProp('distance', prop_arguments, glme.VEC2_ZERO));
-                    var displace = this.getProp('displace', prop_arguments, 0);
-                    var scale = glme.toVec3(this.getProp('scale', prop_arguments, glme.VEC2_ONE), 1);
-                    var translate = glme.toVec3(this.getProp('translate', prop_arguments, glme.VEC2_ZERO), 0);
-                    var skewX = this.getProp('skewX', prop_arguments, 0);
-                    var skewY = this.getProp('skewY', prop_arguments, 0);
-                    var squeezeX = this.getProp('squeezeX', prop_arguments, 0);
-                    var squeezeY = this.getProp('squeezeY', prop_arguments, 0);
-                    var rotateX = this.getProp('rotateX', prop_arguments, 0);
-                    var rotateY = this.getProp('rotateY', prop_arguments, 0);
-                    var rotateZ = this.getProp('rotateZ', prop_arguments, 0);
-                    var perspectiveProp = clamp(0, 1, this.getProp('perspective', prop_arguments, 0));
-                    var perspectiveOrigin = glme.toVec3(this.getProp('perspectiveOrigin', prop_arguments, glme.VEC2_ZERO), 0);
-                    var transformOrigin = glme.toVec3(this.getProp('transformOrigin', prop_arguments, glme.VEC2_ZERO), 0);
+                    var distance = glme.toVec2(this.getProp('distance', propArguments, glme.VEC2_ZERO));
+                    var displace = this.getProp('displace', propArguments, 0);
+                    var scale = glme.toVec3(this.getProp('scale', propArguments, glme.VEC2_ONE), 1);
+                    var translate = glme.toVec3(this.getProp('translate', propArguments, glme.VEC2_ZERO), 0);
+                    var skewX = this.getProp('skewX', propArguments, 0);
+                    var skewY = this.getProp('skewY', propArguments, 0);
+                    var squeezeX = this.getProp('squeezeX', propArguments, 0);
+                    var squeezeY = this.getProp('squeezeY', propArguments, 0);
+                    var rotateX = this.getProp('rotateX', propArguments, 0);
+                    var rotateY = this.getProp('rotateY', propArguments, 0);
+                    var rotateZ = this.getProp('rotateZ', propArguments, 0);
+                    var perspectiveProp = clamp(0, 1, this.getProp('perspective', propArguments, 0));
+                    var perspectiveOrigin = glme.toVec3(this.getProp('perspectiveOrigin', propArguments, glme.VEC2_ZERO), 0);
+                    var transformOrigin = glme.toVec3(this.getProp('transformOrigin', propArguments, glme.VEC2_ZERO), 0);
                     var offset = void 0;
-                    switch (repetition_type) {
+                    switch (repetitionType) {
                         case ERepetitionType.Ring:
                             offset = vec3.fromValues(distance[0], 0, 0);
                             vec3.rotateZ(offset, offset, glme.VEC3_ZERO, repetition.angle + displace);
                             break;
                         case ERepetitionType.Matrix:
-                            offset = vec3.fromValues(distance[0] * (current_col_repetition - center_matrix[0]), distance[1] * (current_row_repetition - center_matrix[1]), 0);
+                            offset = vec3.fromValues(distance[0] * (currentColRepetition - centerMatrix[0]), distance[1] * (currentRowRepetition - centerMatrix[1]), 0);
                             break;
                     }
                     var perspectiveSize = perspectiveProp > 0 ? Math.max(bounding.width, bounding.height) / 2 : 1;
@@ -298,39 +303,39 @@ var ShapeBase = /** @class */ (function (_super) {
                      * Create Transformation matrix
                      */
                     {
-                        mat4.identity(transform_matrix);
+                        mat4.identity(transformMatrix);
                         // transform origin
-                        bTransformOrigin && mat4.translate(transform_matrix, transform_matrix, transformOrigin);
+                        bTransformOrigin && mat4.translate(transformMatrix, transformMatrix, transformOrigin);
                         // scale
                         if (scale[0] !== 1 || scale[1] !== 1)
-                            mat4.scale(transform_matrix, transform_matrix, scale);
+                            mat4.scale(transformMatrix, transformMatrix, scale);
                         // skew
                         if (skewX !== 0 || skewY !== 0) {
-                            glme.fromSkew(tmp_matrix, [skewX, skewY]);
-                            mat4.multiply(transform_matrix, transform_matrix, tmp_matrix);
+                            glme.fromSkew(tmpMatrix, [skewX, skewY]);
+                            mat4.multiply(transformMatrix, transformMatrix, tmpMatrix);
                         }
                         // rotateX
-                        rotateX !== 0 && mat4.rotateX(transform_matrix, transform_matrix, rotateX);
+                        rotateX !== 0 && mat4.rotateX(transformMatrix, transformMatrix, rotateX);
                         //rotateY
-                        rotateY !== 0 && mat4.rotateY(transform_matrix, transform_matrix, rotateY);
+                        rotateY !== 0 && mat4.rotateY(transformMatrix, transformMatrix, rotateY);
                         //rotateZ
-                        rotateZ !== 0 && mat4.rotateZ(transform_matrix, transform_matrix, rotateZ);
+                        rotateZ !== 0 && mat4.rotateZ(transformMatrix, transformMatrix, rotateZ);
                         // reset origin
                         bTransformOrigin &&
-                            mat4.translate(transform_matrix, transform_matrix, vec3.scale(transformOrigin, transformOrigin, -1));
+                            mat4.translate(transformMatrix, transformMatrix, vec3.scale(transformOrigin, transformOrigin, -1));
                         // translation
                         if (translate[0] !== 0 || translate[1] !== 0)
-                            mat4.translate(transform_matrix, transform_matrix, translate);
+                            mat4.translate(transformMatrix, transformMatrix, translate);
                         /**
                          * Create Repetition matrix
                          */
-                        mat4.identity(repetition_matrix);
-                        mat4.translate(repetition_matrix, repetition_matrix, offset);
+                        mat4.identity(repetitionMatrix);
+                        mat4.translate(repetitionMatrix, repetitionMatrix, offset);
                         if (bDirectSceneChild) {
-                            mat4.translate(repetition_matrix, repetition_matrix, sceneCenter);
+                            mat4.translate(repetitionMatrix, repetitionMatrix, sceneCenter);
                         }
-                        if (repetition_type === ERepetitionType.Ring)
-                            mat4.rotateZ(repetition_matrix, repetition_matrix, repetition.angle + displace);
+                        if (repetitionType === ERepetitionType.Ring)
+                            mat4.rotateZ(repetitionMatrix, repetitionMatrix, repetition.angle + displace);
                         /**
                          * Create Perspective matrix
                          */
@@ -340,47 +345,47 @@ var ShapeBase = /** @class */ (function (_super) {
                                 perspectiveOrigin[1] *= bounding.height / 2;
                                 perspectiveOrigin[2] = 0;
                             }
-                            mat4.perspective(perspective_matrix, -Math.PI / 2, 1, 0, Infinity);
+                            mat4.perspective(perspectiveMatrix, -Math.PI / 2, 1, 0, Infinity);
                         }
                     }
                     // Apply matrices on vertex
-                    for (var buffer_index = 0; buffer_index < buffer_length; buffer_index += 2) {
-                        var vertex = [buffer[buffer_index], buffer[buffer_index + 1], perspective];
+                    for (var bufferIndex = 0; bufferIndex < bufferLength; bufferIndex += 2) {
+                        var vertex = [buffer[bufferIndex], buffer[bufferIndex + 1], perspective];
                         {
-                            vec3.transformMat4(vertex, vertex, transform_matrix);
+                            vec3.transformMat4(vertex, vertex, transformMatrix);
                             squeezeX !== 0 && Vec2.squeezeX(vertex, squeezeX);
                             squeezeY !== 0 && Vec2.squeezeY(vertex, squeezeY);
                             if (perspective > 0) {
                                 bPerspectiveOrigin && vec3.add(vertex, vertex, perspectiveOrigin);
-                                vec3.transformMat4(vertex, vertex, perspective_matrix);
+                                vec3.transformMat4(vertex, vertex, perspectiveMatrix);
                                 vec3.scale(vertex, vertex, perspective);
                                 bPerspectiveOrigin && vec3.sub(vertex, vertex, perspectiveOrigin);
                             }
                             if (this.vertexCallback) {
-                                var index = buffer_index / 2 + 1;
-                                var count = buffer_length / 2;
+                                var index = bufferIndex / 2 + 1;
+                                var count = bufferLength / 2;
                                 var vertexRepetition = {
                                     index: index,
                                     count: count,
                                     offset: index / count,
                                 };
-                                this.vertexCallback(vertex, vertexRepetition, prop_arguments);
+                                this.vertexCallback(vertex, vertexRepetition, propArguments);
                             }
-                            vec3.transformMat4(vertex, vertex, repetition_matrix);
+                            vec3.transformMat4(vertex, vertex, repetitionMatrix);
                         }
-                        buffers[current_index][buffer_index] = vertex[0];
-                        buffers[current_index][buffer_index + 1] = vertex[1];
-                        Bounding.add(tmp_bounding, vertex[0], vertex[1]);
+                        buffers[currentIndex][bufferIndex] = vertex[0];
+                        buffers[currentIndex][bufferIndex + 1] = vertex[1];
+                        Bounding.add(tmpBounding, vertex[0], vertex[1]);
                     }
                 }
-                // After buffer creation, add a frame into indexed_buffer if not static
+                // After buffer creation, add a frame into indexedBuffer if not static
                 if (!this.bStaticIndexed || !this.bIndexed) {
-                    this.addIndex(buffer_length, repetition);
+                    this.addIndex(bufferLength, repetition);
                 }
             }
         }
-        Bounding.bind(this.bounding, tmp_bounding);
-        this.buffer = new Float32Array(total_buffer_length);
+        Bounding.bind(this.bounding, tmpBounding);
+        this.buffer = new Float32Array(totalBufferLength);
         for (var i = 0, offset = 0, len = buffers.length; i < len; offset += buffers[i].length, i++)
             this.buffer.set(buffers[i], offset);
         this.bIndexed = true;
@@ -412,7 +417,7 @@ var ShapeBase = /** @class */ (function (_super) {
      * @memberof ShapeBase
      */
     ShapeBase.prototype.getIndexedBuffer = function () {
-        return this.indexed_buffer;
+        return this.indexedBuffer;
     };
     /**
      * Stream buffer
@@ -421,34 +426,34 @@ var ShapeBase = /** @class */ (function (_super) {
      * @memberof ShapeBase
      */
     ShapeBase.prototype.stream = function (callback) {
-        if (this.scene && this.buffer && this.indexed_buffer) {
-            for (var i = 0, j = 0, len = this.indexed_buffer.length; i < len; i++) {
-                var current_indexing = this.indexed_buffer[i];
-                var prop_arguments = {
-                    shape: current_indexing.shape,
-                    repetition: current_indexing.repetition,
+        if (this.scene && this.buffer && this.indexedBuffer) {
+            for (var i = 0, j = 0, len = this.indexedBuffer.length; i < len; i++) {
+                var currentIndexing = this.indexedBuffer[i];
+                var propArguments = {
+                    shape: currentIndexing.shape,
+                    repetition: currentIndexing.repetition,
                     context: Context,
                     time: 0,
-                    parent: current_indexing.parent,
-                    data: current_indexing.shape.data,
+                    parent: currentIndexing.parent,
+                    data: currentIndexing.shape.data,
                 };
-                var fillColor = current_indexing.shape.getProp('fillColor', prop_arguments);
-                var strokeColor = current_indexing.shape.getProp('strokeColor', prop_arguments, typeof fillColor !== 'undefined' ? undefined : this.scene.color);
-                var lineWidth = current_indexing.shape.getProp('lineWidth', prop_arguments, typeof fillColor !== 'undefined' && typeof strokeColor === 'undefined' ? undefined : 1);
+                var fillColor = currentIndexing.shape.getProp('fillColor', propArguments);
+                var strokeColor = currentIndexing.shape.getProp('strokeColor', propArguments, typeof fillColor !== 'undefined' ? undefined : this.scene.color);
+                var lineWidth = currentIndexing.shape.getProp('lineWidth', propArguments, typeof fillColor !== 'undefined' && typeof strokeColor === 'undefined' ? undefined : 1);
                 var streamArguments = {
                     buffer: this.buffer,
-                    frame_length: current_indexing.frame_length,
-                    frame_buffer_index: j,
-                    shape: current_indexing.shape,
-                    repetition: current_indexing.repetition,
-                    current_shape_index: i,
-                    total_shapes: len,
+                    frameLength: currentIndexing.frameLength,
+                    frameBufferIndex: j,
+                    shape: currentIndexing.shape,
+                    repetition: currentIndexing.repetition,
+                    currentShapeIndex: i,
+                    totalShapes: len,
                     lineWidth: lineWidth,
                     strokeColor: strokeColor,
                     fillColor: fillColor,
                 };
                 callback(streamArguments);
-                j += current_indexing.frame_length;
+                j += currentIndexing.frameLength;
             }
         }
     };

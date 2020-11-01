@@ -34,7 +34,7 @@ declare class Scene {
     /**
      * Current time
      */
-    current_time: number;
+    currentTime: number;
     /**
      * A list of children added to scene
      *
@@ -57,10 +57,10 @@ declare class Scene {
     /**
      * Update all children, generate a streamable buffer for drawing
      *
-     * @param {number} [at_time] time in ms
+     * @param {number} [atTime] time in ms
      * @memberof Scene
      */
-    update(at_time: number): void;
+    update(atTime: number): void;
     /**
      * Traverse the child buffer and use it with callback
      *
@@ -92,11 +92,11 @@ declare class Scene {
     /**
      * Find sceneChild from id or name in the whole scene
      *
-     * @param {string | number} id_or_name
+     * @param {string | number} idOrName
      * @returns {(SceneChild | null)}
      * @memberof Scene
      */
-    find(id_or_name: string | number): SceneChild | null;
+    find(idOrName: string | number): SceneChild | null;
     /**
      * Get shape by index
      *
@@ -121,10 +121,10 @@ declare class Scene {
     /**
      * Remove sceneChild by id or name
      *
-     * @param {number | number} id_or_name
+     * @param {number | number} idOrName
      * @memberof Scene
      */
-    removeFromId(id_or_name: number | string): void;
+    removeFromId(idOrName: number | string): void;
     /**
      * Return true if sceneChild is direct children
      *

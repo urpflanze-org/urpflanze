@@ -25,8 +25,8 @@ export interface IShapeBufferSettings extends IShapeBufferProps, IShapePrimitive
  * @category Core.Types
  */
 export type TShapeLoopGeneratorFormula = (
-	shape_loop_repetition: IShapeLoopRepetition,
-	prop_arguments: ISceneChildPropArguments
+	shapeLoopRepetition: IShapeLoopRepetition,
+	propArguments: ISceneChildPropArguments
 ) => vec2
 
 /**
@@ -78,7 +78,7 @@ export interface IShapeLoopSettings extends IShapeLoopProps, IShapePrimitiveSett
 	 * for example the circle varies the number of points based on the radius (sideLength)
 	 * @order -30
 	 */
-	shapeLoopPropsDependencies?: Array<'vertexCallback' | 'prop_arguments' | string>
+	shapeLoopPropsDependencies?: Array<'vertexCallback' | 'propArguments' | string>
 }
 
 //////
@@ -153,7 +153,7 @@ export interface ISpiralProps extends IShapeLoopProps {
 	 * twist start
 	 * @order -33
 	 */
-	twists_start?: TSceneChildProp<number>
+	twistsStart?: TSceneChildProp<number>
 }
 
 /**

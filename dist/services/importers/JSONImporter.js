@@ -40,8 +40,8 @@ var JSONImporter = /** @class */ (function () {
             color: (_g = parsed.color) !== null && _g !== void 0 ? _g : emptyProject.color,
             clear: (_h = parsed.clear) !== null && _h !== void 0 ? _h : emptyProject.clear,
             ghosts: (_j = parsed.ghosts) !== null && _j !== void 0 ? _j : emptyProject.ghosts,
-            ghost_skip_time: (_k = parsed.ghost_skip_time) !== null && _k !== void 0 ? _k : emptyProject.ghost_skip_time,
-            ghost_skip_function: (_l = parsed.ghost_skip_function) !== null && _l !== void 0 ? _l : emptyProject.ghost_skip_function,
+            ghostSkipTime: (_k = parsed.ghostSkipTime) !== null && _k !== void 0 ? _k : emptyProject.ghostSkipTime,
+            ghostSkipFunction: (_l = parsed.ghostSkipFunction) !== null && _l !== void 0 ? _l : emptyProject.ghostSkipFunction,
             ratio: (_m = parsed.ratio) !== null && _m !== void 0 ? _m : emptyProject.ratio,
             scene: parsed.scene || emptyProject.scene,
             sequence: __assign(__assign({}, emptyProject.sequence), parsed.sequence),
@@ -49,7 +49,7 @@ var JSONImporter = /** @class */ (function () {
         var drawOptions = {
             clear: project.clear,
             ghosts: project.ghosts,
-            ghost_skip_time: parseFunction.unparse(project.ghost_skip_time),
+            ghostSkipTime: parseFunction.unparse(project.ghostSkipTime),
         };
         var scene = new Scene({
             color: project.color,
@@ -111,7 +111,7 @@ var JSONImporter = /** @class */ (function () {
             color: '#fff',
             clear: true,
             ghosts: 0,
-            ghost_skip_time: 30,
+            ghostSkipTime: 30,
             ratio: 1,
             scene: {},
             sequence: {

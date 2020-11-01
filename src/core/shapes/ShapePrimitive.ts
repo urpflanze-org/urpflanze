@@ -67,12 +67,12 @@ abstract class ShapePrimitive extends ShapeBase {
 	public sideLength: vec2
 
 	/**
-	 * Shape bounding
+	 * Contain the bounding of the last generated buffer
 	 *
 	 * @type {IShapeBounding}
 	 * @memberof ShapePrimitive
 	 */
-	public single_bounding: IShapeBounding = { ...ShapePrimitive.EMPTY_BOUNDING }
+	public currentGenerationPrimitiveBounding: IShapeBounding = { ...ShapePrimitive.EMPTY_BOUNDING }
 
 	/**
 	 * Creates an instance of ShapePrimitive.
@@ -115,24 +115,24 @@ abstract class ShapePrimitive extends ShapeBase {
 	 * Get prop
 	 *
 	 * @param {keyof IShapePrimitiveProps} key
-	 * @param {ISceneChildPropArguments} [prop_arguments]
-	 * @param {*} [default_value]
+	 * @param {ISceneChildPropArguments} [propArguments]
+	 * @param {*} [defaultValue]
 	 * @returns {*}
 	 * @memberof ShapePrimitive
 	 */
-	public getProp(key: keyof IShapePrimitiveProps, prop_arguments?: ISceneChildPropArguments, default_value?: any): any {
-		return super.getProp(key as keyof ISceneChildProps, prop_arguments, default_value)
+	public getProp(key: keyof IShapePrimitiveProps, propArguments?: ISceneChildPropArguments, defaultValue?: any): any {
+		return super.getProp(key as keyof ISceneChildProps, propArguments, defaultValue)
 	}
 
 	/**
 	 * set side length when generate a buffer into shape loop or shape buffer
 	 *
 	 * @protected
-	 * @param {ISceneChildPropArguments} prop_arguments
+	 * @param {ISceneChildPropArguments} propArguments
 	 * @memberof ShapePrimitive
 	 */
-	protected bindSideLength(prop_arguments: ISceneChildPropArguments): boolean {
-		const sideLength = toVec2(this.getProp('sideLength', prop_arguments, [50, 50]))
+	protected bindSideLength(propArguments: ISceneChildPropArguments): boolean {
+		const sideLength = toVec2(this.getProp('sideLength', propArguments, [50, 50]))
 
 		if (this.sideLength[0] !== sideLength[0] && this.sideLength[1] !== sideLength[1]) {
 			this.sideLength = sideLength
@@ -150,22 +150,22 @@ abstract class ShapePrimitive extends ShapeBase {
 	 * @memberof ShapePrimitive
 	 */
 	public getBounding(bDirectSceneChild: boolean): IShapeBounding {
-		return bDirectSceneChild ? this.single_bounding : this.bounding
+		return bDirectSceneChild ? this.currentGenerationPrimitiveBounding : this.bounding
 	}
 
 	/**
-	 * Add this to indexed_buffer
+	 * Add this to indexedBuffer
 	 *
 	 * @protected
-	 * @param {number} frame_length
+	 * @param {number} frameLength
 	 * @param {IRepetition} repetition
 	 * @memberof ShapePrimitive
 	 */
-	protected addIndex(frame_length: number, repetition: IRepetition) {
-		const indexed_buffer = this.indexed_buffer as Array<IBufferIndex>
-		indexed_buffer.push({
+	protected addIndex(frameLength: number, repetition: IRepetition) {
+		const indexedBuffer = this.indexedBuffer as Array<IBufferIndex>
+		indexedBuffer.push({
 			shape: this,
-			frame_length,
+			frameLength,
 			repetition: {
 				type: repetition.type,
 				angle: repetition.angle,

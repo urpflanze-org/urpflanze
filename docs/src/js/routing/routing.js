@@ -71,7 +71,7 @@ function onLoadContent() {
 			</div>
 		`
 		scripts[i].before(script_container)
-		script = script.replaceAll('document.body', `document.getElementById('${script_id}')`)
+		script = script.replace(/document\.body/gi, `document.getElementById('${script_id}')`)
 		scripts[i].innerHTML = script
 		eval(script)
 	}

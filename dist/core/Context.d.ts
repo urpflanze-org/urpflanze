@@ -8,7 +8,7 @@ import { vec2 } from 'gl-matrix';
  * @example
  * ```javascript
  * const circle = new Urpflanze.Circle({
- * 	distance: ({ context, repetition }) => context.noise('seed', repetition.current_index) * 200
+ * 	distance: ({ context, repetition }) => context.noise('seed', repetition.index) * 200
  * })
  * ```
  */

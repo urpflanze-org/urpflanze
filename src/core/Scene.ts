@@ -43,7 +43,7 @@ class Scene {
 	/**
 	 * Current time
 	 */
-	public current_time = 0
+	public currentTime = 0
 
 	/**
 	 * A list of children added to scene
@@ -86,12 +86,12 @@ class Scene {
 	/**
 	 * Update all children, generate a streamable buffer for drawing
 	 *
-	 * @param {number} [at_time] time in ms
+	 * @param {number} [atTime] time in ms
 	 * @memberof Scene
 	 */
-	public update(at_time: number): void {
-		this.current_time = at_time
-		this.children.forEach((child: SceneChild) => child.generate(this.current_time, true))
+	public update(atTime: number): void {
+		this.currentTime = atTime
+		this.children.forEach((child: SceneChild) => child.generate(this.currentTime, true))
 	}
 
 	/**
@@ -164,15 +164,15 @@ class Scene {
 	/**
 	 * Find sceneChild from id or name in the whole scene
 	 *
-	 * @param {string | number} id_or_name
+	 * @param {string | number} idOrName
 	 * @returns {(SceneChild | null)}
 	 * @memberof Scene
 	 */
-	public find(id_or_name: string | number): SceneChild | null {
+	public find(idOrName: string | number): SceneChild | null {
 		const children: Array<SceneChild> = this.getChildren()
 
 		for (let i = 0, len = children.length; i < len; i++) {
-			const result: SceneChild | null = children[i].find(id_or_name)
+			const result: SceneChild | null = children[i].find(idOrName)
 
 			if (result !== null) return result
 		}
@@ -213,12 +213,12 @@ class Scene {
 	/**
 	 * Remove sceneChild by id or name
 	 *
-	 * @param {number | number} id_or_name
+	 * @param {number | number} idOrName
 	 * @memberof Scene
 	 */
-	public removeFromId(id_or_name: number | string): void {
+	public removeFromId(idOrName: number | string): void {
 		for (let i = 0, len = this.children.length; i < len; i++)
-			if (this.children[i].id === id_or_name || this.children[i].name === id_or_name) {
+			if (this.children[i].id === idOrName || this.children[i].name === idOrName) {
 				this.children.splice(i, 1)
 				return
 			}
@@ -278,9 +278,9 @@ class Scene {
 			if (current.id == sceneChild.id) return parents
 
 			if (current instanceof Shape && current.shape) {
-				const tmp_parents = parents.slice()
-				tmp_parents.push(current)
-				if ((result = Scene.getParentsOfSceneChild(current.shape, sceneChild, tmp_parents))) return result
+				const tmpParents = parents.slice()
+				tmpParents.push(current)
+				if ((result = Scene.getParentsOfSceneChild(current.shape, sceneChild, tmpParents))) return result
 			}
 		}
 

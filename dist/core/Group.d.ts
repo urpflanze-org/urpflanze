@@ -77,11 +77,11 @@ declare class Group extends SceneChild {
     /**
      * Find scene child from id or name
      *
-     * @param {number | string} id_or_name
+     * @param {number | string} idOrName
      * @returns {(SceneChild | null)}
      * @memberof Group
      */
-    find(id_or_name: number | string): SceneChild | null;
+    find(idOrName: number | string): SceneChild | null;
     /**
      * Get item from group
      *
@@ -108,12 +108,18 @@ declare class Group extends SceneChild {
     /**
      * Generate children buffers
      *
-     * @param {number} indexing_id
+     * @param {number} generateId
      * @param {boolean} [bDirectSceneChild=false]
-     * @param {ISceneChildPropArguments} [parent_prop_arguments]
+     * @param {ISceneChildPropArguments} [parentPropArguments]
      * @memberof Group
      */
-    generate(indexing_id: number, bDirectSceneChild?: boolean, parent_prop_arguments?: ISceneChildPropArguments): void;
+    generate(generateId: number, bDirectSceneChild?: boolean, parentPropArguments?: ISceneChildPropArguments): void;
+    /**
+     * Sum the children bounding
+     *
+     * @param {boolean} bDirectSceneChild
+     * @return {*}  {IShapeBounding}
+     */
     getBounding(bDirectSceneChild: boolean): IShapeBounding;
     /**
      * Chear children buffer
@@ -143,11 +149,11 @@ declare class Group extends SceneChild {
     /**
      * Return length of buffer
      *
-     * @param {ISceneChildPropArguments} prop_arguments
+     * @param {ISceneChildPropArguments} propArguments
      * @returns {number}
      * @memberof Group
      */
-    getBufferLength(prop_arguments?: ISceneChildPropArguments): number;
+    getBufferLength(propArguments?: ISceneChildPropArguments): number;
     /**
      * return a single buffer binded from children
      *

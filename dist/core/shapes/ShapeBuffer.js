@@ -55,7 +55,7 @@ var ShapeBuffer = /** @class */ (function (_super) {
         if (bPropagateToParents === void 0) { bPropagateToParents = true; }
         _super.prototype.clearBuffer.call(this, bClearIndexed, bPropagateToParents);
         this.bindBuffer();
-        // this.shape_buffer = ShapeBuffer.buffer2Dto3D(this.shape_buffer)
+        // this.shapeBuffer = ShapeBuffer.buffer2Dto3D(this.shapeBuffer)
     };
     /**
      * Apply sideLength on <mark>.shape</mark> buffer and calculate bounding
@@ -64,17 +64,17 @@ var ShapeBuffer = /** @class */ (function (_super) {
      * @memberof ShapeBuffer
      */
     ShapeBuffer.prototype.bindBuffer = function () {
-        var shape_buffer = this.adaptMode !== EShapePrimitiveAdaptMode.None
+        var shapeBuffer = this.adaptMode !== EShapePrimitiveAdaptMode.None
             ? ShapePrimitive.adaptBuffer(this.shape, this.adaptMode)
             : Float32Array.from(this.shape);
-        var tmp_bounding = [undefined, undefined, undefined, undefined];
-        for (var i = 0, len = shape_buffer.length; i < len; i += 2) {
-            shape_buffer[i] *= this.sideLength[0];
-            shape_buffer[i + 1] *= this.sideLength[1];
-            Bounding.add(tmp_bounding, shape_buffer[i], shape_buffer[i + 1]);
+        var tmpBounding = [undefined, undefined, undefined, undefined];
+        for (var i = 0, len = shapeBuffer.length; i < len; i += 2) {
+            shapeBuffer[i] *= this.sideLength[0];
+            shapeBuffer[i + 1] *= this.sideLength[1];
+            Bounding.add(tmpBounding, shapeBuffer[i], shapeBuffer[i + 1]);
         }
-        Bounding.bind(this.single_bounding, tmp_bounding);
-        this.shape_buffer = shape_buffer;
+        Bounding.bind(this.currentGenerationPrimitiveBounding, tmpBounding);
+        this.shapeBuffer = shapeBuffer;
     };
     /**
      * Return length of buffer
@@ -85,22 +85,22 @@ var ShapeBuffer = /** @class */ (function (_super) {
     ShapeBuffer.prototype.getBufferLength = function () {
         if (this.buffer && this.buffer.length > 0)
             return this.buffer.length;
-        return this.shape_buffer.length * this.getRepetitionCount();
+        return this.shapeBuffer.length * this.getRepetitionCount();
     };
     /**
      * Return a buffer of children shape or loop generated buffer
      *
      * @protected
-     * @param {number} generate_id
-     * @param {ISceneChildPropArguments} prop_arguments
+     * @param {number} generateId
+     * @param {ISceneChildPropArguments} propArguments
      * @returns {Float32Array}
      * @memberof ShapeBase
      */
-    ShapeBuffer.prototype.generateBuffer = function (generate_id, prop_arguments) {
-        if (this.bindSideLength(prop_arguments)) {
+    ShapeBuffer.prototype.generateBuffer = function (generateId, propArguments) {
+        if (this.bindSideLength(propArguments)) {
             this.bindBuffer();
         }
-        return this.shape_buffer;
+        return this.shapeBuffer;
     };
     /**
      * Set shape
@@ -138,9 +138,9 @@ var ShapeBuffer = /** @class */ (function (_super) {
      */
     ShapeBuffer.subdivide = function (shape, bClosed) {
         if (bClosed === void 0) { bClosed = true; }
-        var shape_len = shape.length;
-        var subdivided = new Float32Array(shape_len * 2 - (bClosed ? 0 : 2));
-        for (var i = 0; i < shape_len; i += 2) {
+        var shapeLength = shape.length;
+        var subdivided = new Float32Array(shapeLength * 2 - (bClosed ? 0 : 2));
+        for (var i = 0; i < shapeLength; i += 2) {
             if (i === 0) {
                 subdivided[0] = shape[0];
                 subdivided[1] = shape[1];
@@ -159,8 +159,8 @@ var ShapeBuffer = /** @class */ (function (_super) {
             }
         }
         if (bClosed) {
-            subdivided[(shape_len - 1) * 2] = (shape[0] + shape[shape_len - 2]) / 2;
-            subdivided[(shape_len - 1) * 2 + 1] = (shape[1] + shape[shape_len - 1]) / 2;
+            subdivided[(shapeLength - 1) * 2] = (shape[0] + shape[shapeLength - 2]) / 2;
+            subdivided[(shapeLength - 1) * 2 + 1] = (shape[1] + shape[shapeLength - 1]) / 2;
         }
         return subdivided;
     };

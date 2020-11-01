@@ -144,17 +144,17 @@ class Group extends SceneChild {
 	/**
 	 * Find scene child from id or name
 	 *
-	 * @param {number | string} id_or_name
+	 * @param {number | string} idOrName
 	 * @returns {(SceneChild | null)}
 	 * @memberof Group
 	 */
-	public find(id_or_name: number | string): SceneChild | null {
-		if (this.id === id_or_name || this.name === id_or_name) return this
+	public find(idOrName: number | string): SceneChild | null {
+		if (this.id === idOrName || this.name === idOrName) return this
 
 		const children: Array<SceneChild> = this.getChildren()
 
 		for (let i = 0, len = children.length; i < len; i++) {
-			const result: SceneChild | null = children[i].find(id_or_name)
+			const result: SceneChild | null = children[i].find(idOrName)
 
 			if (result !== null) return result
 		}
@@ -209,19 +209,21 @@ class Group extends SceneChild {
 	/**
 	 * Generate children buffers
 	 *
-	 * @param {number} indexing_id
+	 * @param {number} generateId
 	 * @param {boolean} [bDirectSceneChild=false]
-	 * @param {ISceneChildPropArguments} [parent_prop_arguments]
+	 * @param {ISceneChildPropArguments} [parentPropArguments]
 	 * @memberof Group
 	 */
-	public generate(
-		indexing_id: number,
-		bDirectSceneChild = false,
-		parent_prop_arguments?: ISceneChildPropArguments
-	): void {
-		this.children.forEach(item => item.generate(indexing_id, bDirectSceneChild, parent_prop_arguments))
+	public generate(generateId: number, bDirectSceneChild = false, parentPropArguments?: ISceneChildPropArguments): void {
+		this.children.forEach(item => item.generate(generateId, bDirectSceneChild, parentPropArguments))
 	}
 
+	/**
+	 * Sum the children bounding
+	 *
+	 * @param {boolean} bDirectSceneChild
+	 * @return {*}  {IShapeBounding}
+	 */
 	public getBounding(bDirectSceneChild: boolean): IShapeBounding {
 		const boundings: Array<IShapeBounding> = []
 		const bounding: IShapeBounding = { ...ShapePrimitive.EMPTY_BOUNDING }
@@ -303,12 +305,12 @@ class Group extends SceneChild {
 	/**
 	 * Return length of buffer
 	 *
-	 * @param {ISceneChildPropArguments} prop_arguments
+	 * @param {ISceneChildPropArguments} propArguments
 	 * @returns {number}
 	 * @memberof Group
 	 */
-	public getBufferLength(prop_arguments?: ISceneChildPropArguments): number {
-		return this.children.map(sceneChild => sceneChild.getBufferLength(prop_arguments)).reduce((p, c) => p + c, 0)
+	public getBufferLength(propArguments?: ISceneChildPropArguments): number {
+		return this.children.map(sceneChild => sceneChild.getBufferLength(propArguments)).reduce((p, c) => p + c, 0)
 	}
 
 	/**
@@ -322,7 +324,7 @@ class Group extends SceneChild {
 			.map(item => item.getBuffer())
 			.filter(b => b !== undefined) as Array<Float32Array>
 
-		const size = buffers.reduce((curr_value: number, buffer: Float32Array) => curr_value + buffer.length, 0)
+		const size = buffers.reduce((currLength: number, buffer: Float32Array) => currLength + buffer.length, 0)
 
 		if (size > 0) {
 			const result = new Float32Array(size)

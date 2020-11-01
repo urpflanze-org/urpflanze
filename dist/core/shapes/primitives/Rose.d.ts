@@ -21,12 +21,12 @@ declare class Rose extends ShapeLoop {
      * Get property value
      *
      * @param {keyof RoseProps} key
-     * @param {ISceneChildPropArguments} [prop_arguments]
-     * @param {*} [default_value]
+     * @param {ISceneChildPropArguments} [propArguments]
+     * @param {*} [defaultValue]
      * @returns {*}
      * @memberof Rose
      */
-    getProp(key: keyof IRoseProps, prop_arguments?: ISceneChildPropArguments, default_value?: any): any;
+    getProp(key: keyof IRoseProps, propArguments?: ISceneChildPropArguments, defaultValue?: any): any;
     /**
      * Set single or multiple props
      *

@@ -3,31 +3,31 @@
  * @ignore
  */
 var Bounding = {
-    clear: function (tmp_bounding) {
-        tmp_bounding[0] = undefined;
-        tmp_bounding[1] = undefined;
-        tmp_bounding[2] = undefined;
-        tmp_bounding[3] = undefined;
+    clear: function (tmpBounding) {
+        tmpBounding[0] = undefined;
+        tmpBounding[1] = undefined;
+        tmpBounding[2] = undefined;
+        tmpBounding[3] = undefined;
     },
-    add: function (tmp_bounding, x, y) {
-        if (typeof tmp_bounding[0] === 'undefined' || x < tmp_bounding[0])
-            tmp_bounding[0] = x;
-        if (typeof tmp_bounding[2] === 'undefined' || x > tmp_bounding[2])
-            tmp_bounding[2] = x;
-        if (typeof tmp_bounding[1] === 'undefined' || y < tmp_bounding[1])
-            tmp_bounding[1] = y;
-        if (typeof tmp_bounding[3] === 'undefined' || y > tmp_bounding[3])
-            tmp_bounding[3] = y;
+    add: function (tmpBounding, x, y) {
+        if (typeof tmpBounding[0] === 'undefined' || x < tmpBounding[0])
+            tmpBounding[0] = x;
+        if (typeof tmpBounding[2] === 'undefined' || x > tmpBounding[2])
+            tmpBounding[2] = x;
+        if (typeof tmpBounding[1] === 'undefined' || y < tmpBounding[1])
+            tmpBounding[1] = y;
+        if (typeof tmpBounding[3] === 'undefined' || y > tmpBounding[3])
+            tmpBounding[3] = y;
     },
-    bind: function (bounding, tmp_bounding) {
-        if (typeof tmp_bounding[0] !== 'undefined' &&
-            typeof tmp_bounding[1] !== 'undefined' &&
-            typeof tmp_bounding[2] !== 'undefined' &&
-            typeof tmp_bounding[3] !== 'undefined') {
-            bounding.x = tmp_bounding[0];
-            bounding.y = tmp_bounding[1];
-            bounding.width = tmp_bounding[2] - tmp_bounding[0];
-            bounding.height = tmp_bounding[3] - tmp_bounding[1];
+    bind: function (bounding, tmpBounding) {
+        if (typeof tmpBounding[0] !== 'undefined' &&
+            typeof tmpBounding[1] !== 'undefined' &&
+            typeof tmpBounding[2] !== 'undefined' &&
+            typeof tmpBounding[3] !== 'undefined') {
+            bounding.x = tmpBounding[0];
+            bounding.y = tmpBounding[1];
+            bounding.width = tmpBounding[2] - tmpBounding[0];
+            bounding.height = tmpBounding[3] - tmpBounding[1];
             bounding.cx = bounding.x + bounding.width / 2;
             bounding.cy = bounding.y + bounding.height / 2;
         }

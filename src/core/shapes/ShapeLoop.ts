@@ -73,7 +73,7 @@ class ShapeLoop extends ShapePrimitive {
 	 * @type {Float32Array}
 	 * @memberof ShapeLoop
 	 */
-	protected loop_buffer?: Float32Array
+	protected currentOrSingleLoopBuffer?: Float32Array
 
 	/**
 	 * list of prop has impact on shape loop generation
@@ -82,7 +82,7 @@ class ShapeLoop extends ShapePrimitive {
 	 * @type {Array<string>}
 	 * @memberof ShapeLoop
 	 */
-	public shapeLoopPropsDependencies: Array<'vertexCallback' | 'prop_arguments' | string>
+	public shapeLoopPropsDependencies: Array<'vertexCallback' | 'propArguments' | string>
 
 	/**
 	 * Creates an instance of ShapeLoop.
@@ -114,7 +114,7 @@ class ShapeLoop extends ShapePrimitive {
 	}
 
 	/**
-	 * Check if loop_buffer is static
+	 * Check if currentOrSingleLoopBuffer is static
 	 *
 	 * @returns {boolean}
 	 * @memberof ShapeLoop
@@ -124,7 +124,7 @@ class ShapeLoop extends ShapePrimitive {
 		if (this.shapeLoopPropsDependencies.includes('vertexCallback') && typeof this.vertexCallback === 'function')
 			return false
 
-		if (this.shapeLoopPropsDependencies.includes('prop_arguments')) return false
+		if (this.shapeLoopPropsDependencies.includes('propArguments')) return false
 
 		for (let i = 0, len = this.shapeLoopPropsDependencies.length; i < len; i++)
 			if (typeof this.props[this.shapeLoopPropsDependencies[i] as keyof IShapeLoopProps] === 'function') return false
@@ -173,7 +173,7 @@ class ShapeLoop extends ShapePrimitive {
 		this.bStaticLoop = this.isStaticLoop()
 
 		if (bClearIndexed) {
-			this.loop_buffer = undefined
+			this.currentOrSingleLoopBuffer = undefined
 		}
 	}
 
@@ -209,29 +209,29 @@ class ShapeLoop extends ShapePrimitive {
 	 * Get prop
 	 *
 	 * @param {keyof IShapeLoopProps} key
-	 * @param {ISceneChildPropArguments} [prop_arguments]
-	 * @param {*} [default_value]
+	 * @param {ISceneChildPropArguments} [propArguments]
+	 * @param {*} [defaultValue]
 	 * @returns {*}
 	 * @memberof ShapeLoop
 	 */
-	public getProp(key: keyof IShapeLoopProps, prop_arguments?: ISceneChildPropArguments, default_value?: any): any {
-		return super.getProp(key as keyof IShapePrimitiveProps, prop_arguments, default_value)
+	public getProp(key: keyof IShapeLoopProps, propArguments?: ISceneChildPropArguments, defaultValue?: any): any {
+		return super.getProp(key as keyof IShapePrimitiveProps, propArguments, defaultValue)
 	}
 
 	/**
 	 * Return length of buffer
 	 *
-	 * @param {ISceneChildPropArguments} [prop_arguments]
+	 * @param {ISceneChildPropArguments} [propArguments]
 	 * @returns {number}
 	 * @memberof ShapeBase
 	 */
-	public getBufferLength(prop_arguments: ISceneChildPropArguments): number {
+	public getBufferLength(propArguments: ISceneChildPropArguments): number {
 		if (this.bStatic && this.buffer && this.buffer.length > 0) return this.buffer.length
 
-		if (this.bStaticLoop && this.loop_buffer && this.loop_buffer.length > 0)
-			return this.loop_buffer.length * this.getRepetitionCount()
+		if (this.bStaticLoop && this.currentOrSingleLoopBuffer && this.currentOrSingleLoopBuffer.length > 0)
+			return this.currentOrSingleLoopBuffer.length * this.getRepetitionCount()
 
-		const { count } = this.getLoop(prop_arguments)
+		const { count } = this.getLoop(propArguments)
 
 		return this.getRepetitionCount() * count * 2 // vec3
 	}
@@ -240,113 +240,114 @@ class ShapeLoop extends ShapePrimitive {
 	 * Return a buffer of children shape or loop generated buffer
 	 *
 	 * @protected
-	 * @param {number} generate_id
-	 * @param {ISceneChildPropArguments} prop_arguments
+	 * @param {number} generateId
+	 * @param {ISceneChildPropArguments} propArguments
 	 * @returns {Float32Array}
 	 * @memberof ShapeBase
 	 */
-	protected generateBuffer(generate_id: number, prop_arguments: ISceneChildPropArguments): Float32Array {
-		this.bindSideLength(prop_arguments)
+	protected generateBuffer(generateId: number, propArguments: ISceneChildPropArguments): Float32Array {
+		this.bindSideLength(propArguments)
 
-		if (!this.bStaticLoop) return this.generateLoopBuffer(prop_arguments)
-		else if (typeof this.loop_buffer === 'undefined') this.loop_buffer = this.generateLoopBuffer(prop_arguments)
+		if (!this.bStaticLoop) return this.generateLoopBuffer(propArguments)
+		else if (typeof this.currentOrSingleLoopBuffer === 'undefined')
+			this.currentOrSingleLoopBuffer = this.generateLoopBuffer(propArguments)
 
-		return this.loop_buffer
+		return this.currentOrSingleLoopBuffer
 	}
 
 	/**
 	 * Generate loop buffer
 	 *
 	 * @private
-	 * @param {ISceneChildPropArguments} prop_arguments
+	 * @param {ISceneChildPropArguments} propArguments
 	 * @returns {Float32Array}
 	 * @memberof ShapeLoop
 	 */
-	private generateLoopBuffer(prop_arguments: ISceneChildPropArguments): Float32Array {
-		const { start, end, inc, count } = this.getLoop(prop_arguments)
+	private generateLoopBuffer(propArguments: ISceneChildPropArguments): Float32Array {
+		const { start, end, inc, count } = this.getLoop(propArguments)
 
 		const getVertex = (this.props.loop && this.props.loop.vertex
 			? this.props.loop.vertex
 			: this.loop.vertex) as TShapeLoopGeneratorFormula
 
-		const shape_loop: IShapeLoopRepetition = {
+		const shapeLoop: IShapeLoopRepetition = {
 			index: 0,
 			offset: 0,
 			angle: 0,
 			count: count,
 		}
 
-		const vertex_length = shape_loop.count
-		const buffer_length = vertex_length * 2
-		const loop_buffer = new Float32Array(buffer_length)
+		const vertexLength = shapeLoop.count
+		const bufferLength = vertexLength * 2
+		const currentOrSingleLoopBuffer = new Float32Array(bufferLength)
 
 		const bNoAdapt = this.adaptMode === EShapePrimitiveAdaptMode.None
 
-		const tmp_bounding: TTempBounding = [undefined, undefined, undefined, undefined]
+		const tmpBounding: TTempBounding = [undefined, undefined, undefined, undefined]
 
-		for (let i = 0, j = 0; i < vertex_length; i++, j += 2) {
+		for (let i = 0, j = 0; i < vertexLength; i++, j += 2) {
 			const angle = start + inc * i
 
-			shape_loop.angle = angle >= end ? end : angle
-			shape_loop.index = i + 1
-			shape_loop.offset = shape_loop.index / shape_loop.count
+			shapeLoop.angle = angle >= end ? end : angle
+			shapeLoop.index = i + 1
+			shapeLoop.offset = shapeLoop.index / shapeLoop.count
 
-			const vertex = Float32Array.from(getVertex(shape_loop, prop_arguments))
+			const vertex = Float32Array.from(getVertex(shapeLoop, propArguments))
 
-			loop_buffer[j] = vertex[0]
-			loop_buffer[j + 1] = vertex[1]
+			currentOrSingleLoopBuffer[j] = vertex[0]
+			currentOrSingleLoopBuffer[j + 1] = vertex[1]
 
 			if (bNoAdapt) {
-				loop_buffer[j] *= this.sideLength[0]
-				loop_buffer[j + 1] *= this.sideLength[1]
+				currentOrSingleLoopBuffer[j] *= this.sideLength[0]
+				currentOrSingleLoopBuffer[j + 1] *= this.sideLength[1]
 			}
 
-			Bounding.add(tmp_bounding, loop_buffer[j], loop_buffer[j + 1])
+			Bounding.add(tmpBounding, currentOrSingleLoopBuffer[j], currentOrSingleLoopBuffer[j + 1])
 		}
 
-		Bounding.bind(this.single_bounding, tmp_bounding)
+		Bounding.bind(this.currentGenerationPrimitiveBounding, tmpBounding)
 
 		if (!bNoAdapt) {
 			/**
 			 * Adapt and apply side length
 			 */
-			const buffer = ShapePrimitive.adaptBuffer(loop_buffer, this.adaptMode as EShapePrimitiveAdaptMode)
+			const buffer = ShapePrimitive.adaptBuffer(currentOrSingleLoopBuffer, this.adaptMode as EShapePrimitiveAdaptMode)
 
-			Bounding.clear(tmp_bounding)
+			Bounding.clear(tmpBounding)
 
-			for (let i = 0; i < buffer_length; i += 2) {
+			for (let i = 0; i < bufferLength; i += 2) {
 				buffer[i] = buffer[i] * this.sideLength[0]
 				buffer[i + 1] = buffer[i + 1] * this.sideLength[1]
 
-				Bounding.add(tmp_bounding, buffer[i], buffer[i + 1])
+				Bounding.add(tmpBounding, buffer[i], buffer[i + 1])
 			}
 
-			Bounding.bind(this.single_bounding, tmp_bounding)
+			Bounding.bind(this.currentGenerationPrimitiveBounding, tmpBounding)
 
 			return buffer
 		}
 
-		return loop_buffer
+		return currentOrSingleLoopBuffer
 	}
 
 	/**
 	 * Return information about a client loop gnerator
 	 *
 	 * @private
-	 * @param {ISceneChildPropArguments} prop_arguments
+	 * @param {ISceneChildPropArguments} propArguments
 	 * @returns {ShapeLoopInformation}
 	 * @memberof ShapeBase
 	 */
-	private getLoop(prop_arguments: ISceneChildPropArguments = ShapeBase.EMPTY_PROP_ARGUMENTS): ILoopMeta {
-		prop_arguments.time = this.scene?.current_time || 0
+	private getLoop(propArguments: ISceneChildPropArguments = ShapeBase.EMPTY_PROP_ARGUMENTS): ILoopMeta {
+		propArguments.time = this.scene?.currentTime || 0
 
 		let start = this.props.loop?.start ?? this.loop.start
 		let end = this.props.loop?.end ?? this.loop.end
 		let inc = this.props.loop?.inc ?? this.loop.inc
 
-		start = (typeof start === 'function' ? start(prop_arguments) : start) as number
-		end = (typeof end === 'function' ? end(prop_arguments) : end) as number
-		inc = (typeof inc === 'function' ? inc(prop_arguments) : inc) as number
+		start = (typeof start === 'function' ? start(propArguments) : start) as number
+		end = (typeof end === 'function' ? end(propArguments) : end) as number
+		inc = (typeof inc === 'function' ? inc(propArguments) : inc) as number
 
 		const count = Math.ceil((end - start) / inc)
 

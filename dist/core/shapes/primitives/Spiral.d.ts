@@ -31,12 +31,12 @@ declare class Spiral extends ShapeLoop {
      * Get property value
      *
      * @param {keyof ISpiralProps} key
-     * @param {ISceneChildPropArguments} [prop_arguments]
-     * @param {any} [default_value]
+     * @param {ISceneChildPropArguments} [propArguments]
+     * @param {any} [defaultValue]
      * @returns {*}
      * @memberof Spiral
      */
-    getProp(key: keyof ISpiralProps, prop_arguments?: ISceneChildPropArguments, default_value?: any): any;
+    getProp(key: keyof ISpiralProps, propArguments?: ISceneChildPropArguments, defaultValue?: any): any;
     /**
      * Set single or multiple props
      *

@@ -50,8 +50,28 @@ main {
 }
 
 header {
+	height: $headerHeight;
+	padding: 0 1rem;
 	display: flex;
+	align-items: center;
 	justify-content: space-between;
+	font-size: 0.6rem;
+
+	a {
+		text-decoration: none;
+		color: inherit;
+	}
+
+	#version_string {
+		display: inline-block;
+		vertical-align: sub;
+	}
+
+	#logo {
+		display: inline-block;
+		vertical-align: middle;
+		height: 1.2rem;
+	}
 }
 
 .first-section {

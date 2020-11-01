@@ -524,9 +524,9 @@ class SceneUtilities {
 
 				if (dynamic !== realDynamic) {
 					const dependencies = [...(sceneChild as ShapeLoop).shapeLoopPropsDependencies]
-					if (dynamic) !(dependencies.indexOf('prop_argumens') >= 0) && dependencies.push('prop_arguments')
+					if (dynamic) !(dependencies.indexOf('prop_argumens') >= 0) && dependencies.push('propArguments')
 					else
-						dependencies.indexOf('prop_argumens') >= 0 && dependencies.splice(dependencies.indexOf('prop_arguments', 1))
+						dependencies.indexOf('prop_argumens') >= 0 && dependencies.splice(dependencies.indexOf('propArguments', 1))
 					;(sceneChild as ShapeLoop).shapeLoopPropsDependencies = dependencies
 				}
 				sceneChild.clearBuffer(true, true)

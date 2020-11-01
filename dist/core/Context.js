@@ -15,7 +15,7 @@ var noises = {
  * @example
  * ```javascript
  * const circle = new Urpflanze.Circle({
- * 	distance: ({ context, repetition }) => context.noise('seed', repetition.current_index) * 200
+ * 	distance: ({ context, repetition }) => context.noise('seed', repetition.index) * 200
  * })
  * ```
  */
@@ -53,11 +53,11 @@ var Context = {
     angle: function (repetition, offsetFromCenter) {
         if (offsetFromCenter === void 0) { offsetFromCenter = [0, 0]; }
         if (repetition.type == ERepetitionType.Matrix) {
-            var center_matrix = vec2.fromValues((repetition.col.count - 1) / 2, (repetition.row.count - 1) / 2);
-            center_matrix[0] += center_matrix[0] * offsetFromCenter[0];
-            center_matrix[1] += center_matrix[1] * offsetFromCenter[1];
-            var x = repetition.col.index - 1 - center_matrix[0];
-            var y = repetition.row.index - 1 - center_matrix[1];
+            var centerMatrix = vec2.fromValues((repetition.col.count - 1) / 2, (repetition.row.count - 1) / 2);
+            centerMatrix[0] += centerMatrix[0] * offsetFromCenter[0];
+            centerMatrix[1] += centerMatrix[1] * offsetFromCenter[1];
+            var x = repetition.col.index - 1 - centerMatrix[0];
+            var y = repetition.row.index - 1 - centerMatrix[1];
             return x === 0 ? 0 : Math.atan(y / x);
         }
         return repetition.angle;
@@ -74,11 +74,11 @@ var Context = {
     angle2: function (repetition, offsetFromCenter) {
         if (offsetFromCenter === void 0) { offsetFromCenter = [0, 0]; }
         if (repetition.type == ERepetitionType.Matrix) {
-            var center_matrix = vec2.fromValues((repetition.col.count - 1) / 2, (repetition.row.count - 1) / 2);
-            center_matrix[0] += center_matrix[0] * offsetFromCenter[0];
-            center_matrix[1] += center_matrix[1] * offsetFromCenter[1];
-            var x = repetition.col.index - 1 - center_matrix[0];
-            var y = repetition.col.index - 1 - center_matrix[1];
+            var centerMatrix = vec2.fromValues((repetition.col.count - 1) / 2, (repetition.row.count - 1) / 2);
+            centerMatrix[0] += centerMatrix[0] * offsetFromCenter[0];
+            centerMatrix[1] += centerMatrix[1] * offsetFromCenter[1];
+            var x = repetition.col.index - 1 - centerMatrix[0];
+            var y = repetition.col.index - 1 - centerMatrix[1];
             return x === 0 ? 0 : Math.atan2(y, x);
         }
         return repetition.angle;
@@ -94,11 +94,11 @@ var Context = {
     distance: function (repetition, offsetFromCenter) {
         if (offsetFromCenter === void 0) { offsetFromCenter = [0, 0]; }
         if (repetition.type == ERepetitionType.Matrix) {
-            var center_matrix = vec2.fromValues(0.5, 0.5);
-            center_matrix[0] += center_matrix[0] * offsetFromCenter[0];
-            center_matrix[1] += center_matrix[1] * offsetFromCenter[1];
+            var centerMatrix = vec2.fromValues(0.5, 0.5);
+            centerMatrix[0] += centerMatrix[0] * offsetFromCenter[0];
+            centerMatrix[1] += centerMatrix[1] * offsetFromCenter[1];
             var current = vec2.fromValues(repetition.col.offset - 0.5 / repetition.col.count, repetition.row.offset - 0.5 / repetition.row.count);
-            return vec2.distance(current, center_matrix);
+            return vec2.distance(current, centerMatrix);
         }
         return 1;
     },

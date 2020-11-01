@@ -29,8 +29,8 @@ export interface IProject {
 	backgroundImage?: string
 	clear: boolean
 	ghosts: number
-	ghost_skip_time?: number
-	ghost_skip_function?: number | string | CallableFunction
+	ghostSkipTime?: number
+	ghostSkipFunction?: number | string | CallableFunction
 
 	// Timeline
 	sequence: IProjectSequence
@@ -82,6 +82,6 @@ export interface IProjectSceneChild {
 	depth: number
 
 	props: IProjectSceneChildProps
-	parent_id?: string | number
+	parentId?: string | number
 	children?: Array<IProjectSceneChild>
 }

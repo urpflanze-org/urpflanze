@@ -27,7 +27,7 @@ class JSONImporter {
 
 			clear: true,
 			ghosts: 0,
-			ghost_skip_time: 30,
+			ghostSkipTime: 30,
 			ratio: 1,
 
 			scene: {},
@@ -59,8 +59,8 @@ class JSONImporter {
 
 			clear: parsed.clear ?? emptyProject.clear,
 			ghosts: parsed.ghosts ?? emptyProject.ghosts,
-			ghost_skip_time: parsed.ghost_skip_time ?? emptyProject.ghost_skip_time,
-			ghost_skip_function: parsed.ghost_skip_function ?? emptyProject.ghost_skip_function,
+			ghostSkipTime: parsed.ghostSkipTime ?? emptyProject.ghostSkipTime,
+			ghostSkipFunction: parsed.ghostSkipFunction ?? emptyProject.ghostSkipFunction,
 			ratio: parsed.ratio ?? emptyProject.ratio,
 
 			scene: parsed.scene || emptyProject.scene,
@@ -71,7 +71,7 @@ class JSONImporter {
 		const drawOptions = {
 			clear: project.clear,
 			ghosts: project.ghosts,
-			ghost_skip_time: parseFunction.unparse(project.ghost_skip_time),
+			ghostSkipTime: parseFunction.unparse(project.ghostSkipTime),
 		}
 
 		const scene = new Scene({

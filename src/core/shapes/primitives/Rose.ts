@@ -32,11 +32,11 @@ class Rose extends ShapeLoop {
 
 		this.loop = {
 			start: 0,
-			end: (prop_arguments: ISceneChildPropArguments) =>
-				Rose.getFinalAngleFromK(this.getProp('n', prop_arguments), this.getProp('d', prop_arguments)),
-			inc: (prop_arguments: ISceneChildPropArguments) => {
-				const n = this.getProp('n', prop_arguments)
-				const d = this.getProp('d', prop_arguments)
+			end: (propArguments: ISceneChildPropArguments) =>
+				Rose.getFinalAngleFromK(this.getProp('n', propArguments), this.getProp('d', propArguments)),
+			inc: (propArguments: ISceneChildPropArguments) => {
+				const n = this.getProp('n', propArguments)
+				const d = this.getProp('d', propArguments)
 
 				const sides = Math.pow(this.sideLength[0] * this.sideLength[1], 0.45)
 				const k = d < n ? n / d : 1.5
@@ -44,11 +44,11 @@ class Rose extends ShapeLoop {
 				return ShapeLoop.PI2 / (sides * k)
 			},
 
-			vertex: (shape_loop_repetition: IShapeLoopRepetition, prop_arguments?: ISceneChildPropArguments): vec2 => {
-				const k = this.getProp('n', prop_arguments) / this.getProp('d', prop_arguments)
-				const f = Math.cos(k * shape_loop_repetition.angle)
+			vertex: (shapeLoopRepetition: IShapeLoopRepetition, propArguments?: ISceneChildPropArguments): vec2 => {
+				const k = this.getProp('n', propArguments) / this.getProp('d', propArguments)
+				const f = Math.cos(k * shapeLoopRepetition.angle)
 
-				return [f * Math.cos(shape_loop_repetition.angle), f * Math.sin(shape_loop_repetition.angle)]
+				return [f * Math.cos(shapeLoopRepetition.angle), f * Math.sin(shapeLoopRepetition.angle)]
 			},
 		}
 
@@ -61,13 +61,13 @@ class Rose extends ShapeLoop {
 	 * Get property value
 	 *
 	 * @param {keyof RoseProps} key
-	 * @param {ISceneChildPropArguments} [prop_arguments]
-	 * @param {*} [default_value]
+	 * @param {ISceneChildPropArguments} [propArguments]
+	 * @param {*} [defaultValue]
 	 * @returns {*}
 	 * @memberof Rose
 	 */
-	public getProp(key: keyof IRoseProps, prop_arguments?: ISceneChildPropArguments, default_value?: any): any {
-		return super.getProp(key as keyof IShapeLoopProps, prop_arguments, default_value)
+	public getProp(key: keyof IRoseProps, propArguments?: ISceneChildPropArguments, defaultValue?: any): any {
+		return super.getProp(key as keyof IShapeLoopProps, propArguments, defaultValue)
 	}
 
 	/**

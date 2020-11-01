@@ -15,12 +15,12 @@ declare class RegularPolygon extends ShapeLoop {
      * Get property value
      *
      * @param {keyof IRegularPolygonProps} key
-     * @param {ISceneChildPropArguments} [prop_arguments]
-     * @param {*} [default_value]
+     * @param {ISceneChildPropArguments} [propArguments]
+     * @param {*} [defaultValue]
      * @returns {*}
      * @memberof IRegularPolygonProps
      */
-    getProp(key: keyof IRegularPolygonProps, prop_arguments?: ISceneChildPropArguments, default_value?: any): any;
+    getProp(key: keyof IRegularPolygonProps, propArguments?: ISceneChildPropArguments, defaultValue?: any): any;
     /**
      * Set single or multiple props
      *

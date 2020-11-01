@@ -37,32 +37,32 @@ var Spiral = /** @class */ (function (_super) {
         settings.adaptMode = (_a = settings.adaptMode) !== null && _a !== void 0 ? _a : EShapePrimitiveAdaptMode.None;
         settings.shapeLoopPropsDependencies = (settings.shapeLoopPropsDependencies || []).concat([
             'twists',
-            'twists_start',
+            'twistsStart',
             'spiral',
             'sideLength',
         ]);
         _this = _super.call(this, settings, true) || this;
         _this.props.spiral = (_b = settings.spiral) !== null && _b !== void 0 ? _b : Spiral.types.ARCHIMEDE;
         _this.props.twists = (_c = settings.twists) !== null && _c !== void 0 ? _c : 2;
-        _this.props.twists_start = (_d = settings.twists_start) !== null && _d !== void 0 ? _d : 0;
+        _this.props.twistsStart = (_d = settings.twistsStart) !== null && _d !== void 0 ? _d : 0;
         _this.loop = {
-            start: function (prop_arguments) { return ShapeLoop.PI2 * _this.getProp('twists_start', prop_arguments); },
-            end: function (prop_arguments) {
-                return ShapeLoop.PI2 * (_this.getProp('twists_start', prop_arguments) + _this.getProp('twists', prop_arguments));
+            start: function (propArguments) { return ShapeLoop.PI2 * _this.getProp('twistsStart', propArguments); },
+            end: function (propArguments) {
+                return ShapeLoop.PI2 * (_this.getProp('twistsStart', propArguments) + _this.getProp('twists', propArguments));
             },
-            inc: function (prop_arguments) {
-                // const twists = this.getProp('twists', prop_arguments)
+            inc: function (propArguments) {
+                // const twists = this.getProp('twists', propArguments)
                 // const rep = ShapeLoop.PI2 * twists
                 // const radius = 2 * Math.sqrt(this.sideLength[0] * this.sideLength[1])
                 // return rep / (radius)
-                var twists = _this.getProp('twists', prop_arguments);
+                var twists = _this.getProp('twists', propArguments);
                 var rep = ShapeLoop.PI2 * twists;
                 var radius = 4 + Math.sqrt(_this.sideLength[0] * _this.sideLength[1]);
                 return rep / (radius * twists);
             },
-            vertex: function (shape_loop_repetition, prop_arguments) {
-                var r = Spiral.getRFromTSpiralType(_this.getProp('spiral', prop_arguments), shape_loop_repetition.angle);
-                return [r * Math.cos(shape_loop_repetition.angle), r * Math.sin(shape_loop_repetition.angle)];
+            vertex: function (shapeLoopRepetition, propArguments) {
+                var r = Spiral.getRFromTSpiralType(_this.getProp('spiral', propArguments), shapeLoopRepetition.angle);
+                return [r * Math.cos(shapeLoopRepetition.angle), r * Math.sin(shapeLoopRepetition.angle)];
             },
         };
         _this.bStaticLoop = _this.isStaticLoop();
@@ -74,13 +74,13 @@ var Spiral = /** @class */ (function (_super) {
      * Get property value
      *
      * @param {keyof ISpiralProps} key
-     * @param {ISceneChildPropArguments} [prop_arguments]
-     * @param {any} [default_value]
+     * @param {ISceneChildPropArguments} [propArguments]
+     * @param {any} [defaultValue]
      * @returns {*}
      * @memberof Spiral
      */
-    Spiral.prototype.getProp = function (key, prop_arguments, default_value) {
-        return _super.prototype.getProp.call(this, key, prop_arguments, default_value);
+    Spiral.prototype.getProp = function (key, propArguments, defaultValue) {
+        return _super.prototype.getProp.call(this, key, propArguments, defaultValue);
     };
     /**
      * Set single or multiple props
@@ -92,7 +92,7 @@ var Spiral = /** @class */ (function (_super) {
     Spiral.prototype.setProp = function (key, value) {
         var _a;
         key = typeof key === 'string' ? (_a = {}, _a[key] = value, _a) : key;
-        if (('twists' in key || 'twists_start' in key) && this.props.loop) {
+        if (('twists' in key || 'twistsStart' in key) && this.props.loop) {
             this.props.loop.start = undefined;
             this.props.loop.end = undefined;
         }

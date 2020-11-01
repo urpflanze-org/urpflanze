@@ -34,8 +34,8 @@ class DrawerSVG extends Drawer<IDrawerSVGOptions, IDrawerSVGEvents> {
 			decimals: drawerOptions.decimals || 2,
 			noBackground: drawerOptions.noBackground ?? false,
 			ghosts: drawerOptions.ghosts || 0,
-			ghost_skip_time: drawerOptions.ghost_skip_time ?? 30,
-			ghost_skip_function: drawerOptions.ghost_skip_function,
+			ghostSkipTime: drawerOptions.ghostSkipTime ?? 30,
+			ghostSkipFunction: drawerOptions.ghostSkipFunction,
 		}
 	}
 
@@ -46,36 +46,36 @@ class DrawerSVG extends Drawer<IDrawerSVGOptions, IDrawerSVGEvents> {
 	 * @memberof DrawerCanvas
 	 */
 	public draw(): number {
-		let draw_time = 0
+		let drawTime = 0
 
 		const timeline = this.timeline
 		const drawAtTime = timeline.getTime()
-		const drawerOptions: IDrawerSVGOptions & { ghost_index: number | undefined } = {
+		const drawerOptions: IDrawerSVGOptions & { ghostIndex: number | undefined } = {
 			...this.drawerOptions,
-			ghost_index: undefined,
+			ghostIndex: undefined,
 			time: drawAtTime,
 		}
 
-		const current_frame = timeline.getFrameAtTime(drawAtTime)
+		const currentFrame = timeline.getFrameAtTime(drawAtTime)
 
 		this.dispatch('drawer-svg:before_draw', {
-			current_frame: current_frame,
-			current_time: drawAtTime,
+			currentFrame: currentFrame,
+			currentTime: drawAtTime,
 		})
 
 		const paths: Array<SVGPathElement> = []
 
 		if (drawerOptions.ghosts) {
 			Drawer.eachGhosts(drawerOptions, timeline, ghostDrawerOptions => {
-				draw_time += DrawerSVG.draw(this.scene, paths, ghostDrawerOptions)
+				drawTime += DrawerSVG.draw(this.scene, paths, ghostDrawerOptions)
 			})
 		}
 
-		draw_time += DrawerSVG.draw(this.scene, paths, drawerOptions)
+		drawTime += DrawerSVG.draw(this.scene, paths, drawerOptions)
 
 		this.appendSVGFromPaths(paths, drawerOptions)
 
-		return draw_time
+		return drawTime
 	}
 
 	protected appendSVGFromPaths(paths: Array<SVGPathElement>, drawerOptions: IDrawerSVGOptions) {
@@ -109,7 +109,7 @@ class DrawerSVG extends Drawer<IDrawerSVGOptions, IDrawerSVGEvents> {
 	public static draw(
 		scene: Scene,
 		paths: Array<SVGPathElement>,
-		options: IDrawerSVGOptions & { ghost_index?: number }
+		options: IDrawerSVGOptions & { ghostIndex?: number }
 	): number {
 		const start_time = now()
 
@@ -118,16 +118,14 @@ class DrawerSVG extends Drawer<IDrawerSVGOptions, IDrawerSVGEvents> {
 		const bGhost: boolean =
 			typeof options.ghosts !== 'undefined' &&
 			options.ghosts > 0 &&
-			typeof options.ghost_index !== 'undefined' &&
-			options.ghost_index > 0
-		const ghostMultiplier: number = bGhost
-			? 1 - (options.ghost_index as number) / ((options.ghosts as number) + 0.5)
-			: 0
+			typeof options.ghostIndex !== 'undefined' &&
+			options.ghostIndex > 0
+		const ghostMultiplier: number = bGhost ? 1 - (options.ghostIndex as number) / ((options.ghosts as number) + 0.5) : 0
 
 		let logFillColorWarn = false
 		let logStrokeColorWarn = false
 
-		scene.current_time = time
+		scene.currentTime = time
 		scene.getChildren().forEach((sceneChild: SceneChild) => {
 			if (
 				!sceneChild.data ||
@@ -139,11 +137,11 @@ class DrawerSVG extends Drawer<IDrawerSVGOptions, IDrawerSVGEvents> {
 				sceneChild.stream(streamCallback => {
 					const tempPath = []
 
-					for (let i = 0; i < streamCallback.frame_length; i += 2) {
+					for (let i = 0; i < streamCallback.frameLength; i += 2) {
 						tempPath.push(
-							streamCallback.buffer[streamCallback.frame_buffer_index + i].toFixed(decimals) +
+							streamCallback.buffer[streamCallback.frameBufferIndex + i].toFixed(decimals) +
 								' ' +
-								streamCallback.buffer[streamCallback.frame_buffer_index + i + 1].toFixed(decimals)
+								streamCallback.buffer[streamCallback.frameBufferIndex + i + 1].toFixed(decimals)
 						)
 					}
 

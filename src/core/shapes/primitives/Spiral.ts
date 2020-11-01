@@ -42,7 +42,7 @@ class Spiral extends ShapeLoop {
 
 		settings.shapeLoopPropsDependencies = (settings.shapeLoopPropsDependencies || []).concat([
 			'twists',
-			'twists_start',
+			'twistsStart',
 			'spiral',
 			'sideLength',
 		])
@@ -51,28 +51,28 @@ class Spiral extends ShapeLoop {
 
 		this.props.spiral = settings.spiral ?? Spiral.types.ARCHIMEDE
 		this.props.twists = settings.twists ?? 2
-		this.props.twists_start = settings.twists_start ?? 0
+		this.props.twistsStart = settings.twistsStart ?? 0
 
 		this.loop = {
-			start: (prop_arguments: ISceneChildPropArguments) => ShapeLoop.PI2 * this.getProp('twists_start', prop_arguments),
-			end: (prop_arguments: ISceneChildPropArguments) =>
-				ShapeLoop.PI2 * (this.getProp('twists_start', prop_arguments) + this.getProp('twists', prop_arguments)),
-			inc: (prop_arguments: ISceneChildPropArguments) => {
-				// const twists = this.getProp('twists', prop_arguments)
+			start: (propArguments: ISceneChildPropArguments) => ShapeLoop.PI2 * this.getProp('twistsStart', propArguments),
+			end: (propArguments: ISceneChildPropArguments) =>
+				ShapeLoop.PI2 * (this.getProp('twistsStart', propArguments) + this.getProp('twists', propArguments)),
+			inc: (propArguments: ISceneChildPropArguments) => {
+				// const twists = this.getProp('twists', propArguments)
 				// const rep = ShapeLoop.PI2 * twists
 				// const radius = 2 * Math.sqrt(this.sideLength[0] * this.sideLength[1])
 
 				// return rep / (radius)
 
-				const twists = this.getProp('twists', prop_arguments)
+				const twists = this.getProp('twists', propArguments)
 				const rep = ShapeLoop.PI2 * twists
 				const radius = 4 + Math.sqrt(this.sideLength[0] * this.sideLength[1])
 
 				return rep / (radius * twists)
 			},
-			vertex: (shape_loop_repetition: IShapeLoopRepetition, prop_arguments?: ISceneChildPropArguments): vec2 => {
-				const r = Spiral.getRFromTSpiralType(this.getProp('spiral', prop_arguments), shape_loop_repetition.angle)
-				return [r * Math.cos(shape_loop_repetition.angle), r * Math.sin(shape_loop_repetition.angle)]
+			vertex: (shapeLoopRepetition: IShapeLoopRepetition, propArguments?: ISceneChildPropArguments): vec2 => {
+				const r = Spiral.getRFromTSpiralType(this.getProp('spiral', propArguments), shapeLoopRepetition.angle)
+				return [r * Math.cos(shapeLoopRepetition.angle), r * Math.sin(shapeLoopRepetition.angle)]
 			},
 		}
 
@@ -85,13 +85,13 @@ class Spiral extends ShapeLoop {
 	 * Get property value
 	 *
 	 * @param {keyof ISpiralProps} key
-	 * @param {ISceneChildPropArguments} [prop_arguments]
-	 * @param {any} [default_value]
+	 * @param {ISceneChildPropArguments} [propArguments]
+	 * @param {any} [defaultValue]
 	 * @returns {*}
 	 * @memberof Spiral
 	 */
-	public getProp(key: keyof ISpiralProps, prop_arguments?: ISceneChildPropArguments, default_value?: any): any {
-		return super.getProp(key as keyof IShapeLoopProps, prop_arguments, default_value)
+	public getProp(key: keyof ISpiralProps, propArguments?: ISceneChildPropArguments, defaultValue?: any): any {
+		return super.getProp(key as keyof IShapeLoopProps, propArguments, defaultValue)
 	}
 
 	/**
@@ -104,7 +104,7 @@ class Spiral extends ShapeLoop {
 	public setProp(key: keyof ISpiralProps | ISpiralProps, value?: any): void {
 		key = typeof key === 'string' ? { [key]: value } : key
 
-		if (('twists' in key || 'twists_start' in key) && this.props.loop) {
+		if (('twists' in key || 'twistsStart' in key) && this.props.loop) {
 			this.props.loop.start = undefined
 			this.props.loop.end = undefined
 		}

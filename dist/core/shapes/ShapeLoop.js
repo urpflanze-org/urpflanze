@@ -65,7 +65,7 @@ var ShapeLoop = /** @class */ (function (_super) {
         return _this;
     }
     /**
-     * Check if loop_buffer is static
+     * Check if currentOrSingleLoopBuffer is static
      *
      * @returns {boolean}
      * @memberof ShapeLoop
@@ -74,7 +74,7 @@ var ShapeLoop = /** @class */ (function (_super) {
         // if (typeof this.vertexCallback === 'function') return false
         if (this.shapeLoopPropsDependencies.includes('vertexCallback') && typeof this.vertexCallback === 'function')
             return false;
-        if (this.shapeLoopPropsDependencies.includes('prop_arguments'))
+        if (this.shapeLoopPropsDependencies.includes('propArguments'))
             return false;
         for (var i = 0, len = this.shapeLoopPropsDependencies.length; i < len; i++)
             if (typeof this.props[this.shapeLoopPropsDependencies[i]] === 'function')
@@ -118,7 +118,7 @@ var ShapeLoop = /** @class */ (function (_super) {
         _super.prototype.clearBuffer.call(this, bClearIndexed, bPropagateToParents);
         this.bStaticLoop = this.isStaticLoop();
         if (bClearIndexed) {
-            this.loop_buffer = undefined;
+            this.currentOrSingleLoopBuffer = undefined;
         }
     };
     /**
@@ -150,119 +150,119 @@ var ShapeLoop = /** @class */ (function (_super) {
      * Get prop
      *
      * @param {keyof IShapeLoopProps} key
-     * @param {ISceneChildPropArguments} [prop_arguments]
-     * @param {*} [default_value]
+     * @param {ISceneChildPropArguments} [propArguments]
+     * @param {*} [defaultValue]
      * @returns {*}
      * @memberof ShapeLoop
      */
-    ShapeLoop.prototype.getProp = function (key, prop_arguments, default_value) {
-        return _super.prototype.getProp.call(this, key, prop_arguments, default_value);
+    ShapeLoop.prototype.getProp = function (key, propArguments, defaultValue) {
+        return _super.prototype.getProp.call(this, key, propArguments, defaultValue);
     };
     /**
      * Return length of buffer
      *
-     * @param {ISceneChildPropArguments} [prop_arguments]
+     * @param {ISceneChildPropArguments} [propArguments]
      * @returns {number}
      * @memberof ShapeBase
      */
-    ShapeLoop.prototype.getBufferLength = function (prop_arguments) {
+    ShapeLoop.prototype.getBufferLength = function (propArguments) {
         if (this.bStatic && this.buffer && this.buffer.length > 0)
             return this.buffer.length;
-        if (this.bStaticLoop && this.loop_buffer && this.loop_buffer.length > 0)
-            return this.loop_buffer.length * this.getRepetitionCount();
-        var count = this.getLoop(prop_arguments).count;
+        if (this.bStaticLoop && this.currentOrSingleLoopBuffer && this.currentOrSingleLoopBuffer.length > 0)
+            return this.currentOrSingleLoopBuffer.length * this.getRepetitionCount();
+        var count = this.getLoop(propArguments).count;
         return this.getRepetitionCount() * count * 2; // vec3
     };
     /**
      * Return a buffer of children shape or loop generated buffer
      *
      * @protected
-     * @param {number} generate_id
-     * @param {ISceneChildPropArguments} prop_arguments
+     * @param {number} generateId
+     * @param {ISceneChildPropArguments} propArguments
      * @returns {Float32Array}
      * @memberof ShapeBase
      */
-    ShapeLoop.prototype.generateBuffer = function (generate_id, prop_arguments) {
-        this.bindSideLength(prop_arguments);
+    ShapeLoop.prototype.generateBuffer = function (generateId, propArguments) {
+        this.bindSideLength(propArguments);
         if (!this.bStaticLoop)
-            return this.generateLoopBuffer(prop_arguments);
-        else if (typeof this.loop_buffer === 'undefined')
-            this.loop_buffer = this.generateLoopBuffer(prop_arguments);
-        return this.loop_buffer;
+            return this.generateLoopBuffer(propArguments);
+        else if (typeof this.currentOrSingleLoopBuffer === 'undefined')
+            this.currentOrSingleLoopBuffer = this.generateLoopBuffer(propArguments);
+        return this.currentOrSingleLoopBuffer;
     };
     /**
      * Generate loop buffer
      *
      * @private
-     * @param {ISceneChildPropArguments} prop_arguments
+     * @param {ISceneChildPropArguments} propArguments
      * @returns {Float32Array}
      * @memberof ShapeLoop
      */
-    ShapeLoop.prototype.generateLoopBuffer = function (prop_arguments) {
-        var _a = this.getLoop(prop_arguments), start = _a.start, end = _a.end, inc = _a.inc, count = _a.count;
+    ShapeLoop.prototype.generateLoopBuffer = function (propArguments) {
+        var _a = this.getLoop(propArguments), start = _a.start, end = _a.end, inc = _a.inc, count = _a.count;
         var getVertex = (this.props.loop && this.props.loop.vertex
             ? this.props.loop.vertex
             : this.loop.vertex);
-        var shape_loop = {
+        var shapeLoop = {
             index: 0,
             offset: 0,
             angle: 0,
             count: count,
         };
-        var vertex_length = shape_loop.count;
-        var buffer_length = vertex_length * 2;
-        var loop_buffer = new Float32Array(buffer_length);
+        var vertexLength = shapeLoop.count;
+        var bufferLength = vertexLength * 2;
+        var currentOrSingleLoopBuffer = new Float32Array(bufferLength);
         var bNoAdapt = this.adaptMode === EShapePrimitiveAdaptMode.None;
-        var tmp_bounding = [undefined, undefined, undefined, undefined];
-        for (var i = 0, j = 0; i < vertex_length; i++, j += 2) {
+        var tmpBounding = [undefined, undefined, undefined, undefined];
+        for (var i = 0, j = 0; i < vertexLength; i++, j += 2) {
             var angle = start + inc * i;
-            shape_loop.angle = angle >= end ? end : angle;
-            shape_loop.index = i + 1;
-            shape_loop.offset = shape_loop.index / shape_loop.count;
-            var vertex = Float32Array.from(getVertex(shape_loop, prop_arguments));
-            loop_buffer[j] = vertex[0];
-            loop_buffer[j + 1] = vertex[1];
+            shapeLoop.angle = angle >= end ? end : angle;
+            shapeLoop.index = i + 1;
+            shapeLoop.offset = shapeLoop.index / shapeLoop.count;
+            var vertex = Float32Array.from(getVertex(shapeLoop, propArguments));
+            currentOrSingleLoopBuffer[j] = vertex[0];
+            currentOrSingleLoopBuffer[j + 1] = vertex[1];
             if (bNoAdapt) {
-                loop_buffer[j] *= this.sideLength[0];
-                loop_buffer[j + 1] *= this.sideLength[1];
+                currentOrSingleLoopBuffer[j] *= this.sideLength[0];
+                currentOrSingleLoopBuffer[j + 1] *= this.sideLength[1];
             }
-            Bounding.add(tmp_bounding, loop_buffer[j], loop_buffer[j + 1]);
+            Bounding.add(tmpBounding, currentOrSingleLoopBuffer[j], currentOrSingleLoopBuffer[j + 1]);
         }
-        Bounding.bind(this.single_bounding, tmp_bounding);
+        Bounding.bind(this.currentGenerationPrimitiveBounding, tmpBounding);
         if (!bNoAdapt) {
             /**
              * Adapt and apply side length
              */
-            var buffer = ShapePrimitive.adaptBuffer(loop_buffer, this.adaptMode);
-            Bounding.clear(tmp_bounding);
-            for (var i = 0; i < buffer_length; i += 2) {
+            var buffer = ShapePrimitive.adaptBuffer(currentOrSingleLoopBuffer, this.adaptMode);
+            Bounding.clear(tmpBounding);
+            for (var i = 0; i < bufferLength; i += 2) {
                 buffer[i] = buffer[i] * this.sideLength[0];
                 buffer[i + 1] = buffer[i + 1] * this.sideLength[1];
-                Bounding.add(tmp_bounding, buffer[i], buffer[i + 1]);
+                Bounding.add(tmpBounding, buffer[i], buffer[i + 1]);
             }
-            Bounding.bind(this.single_bounding, tmp_bounding);
+            Bounding.bind(this.currentGenerationPrimitiveBounding, tmpBounding);
             return buffer;
         }
-        return loop_buffer;
+        return currentOrSingleLoopBuffer;
     };
     /**
      * Return information about a client loop gnerator
      *
      * @private
-     * @param {ISceneChildPropArguments} prop_arguments
+     * @param {ISceneChildPropArguments} propArguments
      * @returns {ShapeLoopInformation}
      * @memberof ShapeBase
      */
-    ShapeLoop.prototype.getLoop = function (prop_arguments) {
+    ShapeLoop.prototype.getLoop = function (propArguments) {
         var _a, _b, _c, _d, _e, _f, _g;
-        if (prop_arguments === void 0) { prop_arguments = ShapeBase.EMPTY_PROP_ARGUMENTS; }
-        prop_arguments.time = ((_a = this.scene) === null || _a === void 0 ? void 0 : _a.current_time) || 0;
+        if (propArguments === void 0) { propArguments = ShapeBase.EMPTY_PROP_ARGUMENTS; }
+        propArguments.time = ((_a = this.scene) === null || _a === void 0 ? void 0 : _a.currentTime) || 0;
         var start = (_c = (_b = this.props.loop) === null || _b === void 0 ? void 0 : _b.start) !== null && _c !== void 0 ? _c : this.loop.start;
         var end = (_e = (_d = this.props.loop) === null || _d === void 0 ? void 0 : _d.end) !== null && _e !== void 0 ? _e : this.loop.end;
         var inc = (_g = (_f = this.props.loop) === null || _f === void 0 ? void 0 : _f.inc) !== null && _g !== void 0 ? _g : this.loop.inc;
-        start = (typeof start === 'function' ? start(prop_arguments) : start);
-        end = (typeof end === 'function' ? end(prop_arguments) : end);
-        inc = (typeof inc === 'function' ? inc(prop_arguments) : inc);
+        start = (typeof start === 'function' ? start(propArguments) : start);
+        end = (typeof end === 'function' ? end(propArguments) : end);
+        inc = (typeof inc === 'function' ? inc(propArguments) : inc);
         var count = Math.ceil((end - start) / inc);
         return { start: start, end: end, inc: inc, count: count <= 0 ? 0 : count };
     };

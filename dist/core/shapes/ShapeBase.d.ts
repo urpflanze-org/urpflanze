@@ -48,7 +48,7 @@ declare abstract class ShapeBase extends SceneChild {
      * @internal
      * @ignore
      */
-    private generate_id;
+    private generateId;
     /**
      * A final array of vertices to draw
      *
@@ -71,7 +71,7 @@ declare abstract class ShapeBase extends SceneChild {
      */
     protected bStaticIndexed: boolean;
     /**
-     * Flag used to determine if indexed_buffer has been generated
+     * Flag used to determine if indexedBuffer has been generated
      *
      * @internal
      * @ignore
@@ -91,11 +91,11 @@ declare abstract class ShapeBase extends SceneChild {
      *
      * const rose = new Urpflanze.Rose({
      * 	repetitions: 3,
-     * 	n: ({ parent }) => parent.repetition.current_index, // <- use parent
-     * 	d: ({ repetition }) => repetition.current_index,
+     * 	n: ({ parent }) => parent.repetition.index, // <- use parent
+     * 	d: ({ repetition }) => repetition.index,
      * 	sideLength: 20,
      * 	distance: 30,
-     * 	bUseParent: true // <- add this for use `parent` as prop_argument of `n` property
+     * 	bUseParent: true // <- add this for use `parent` as propArgument of `n` property
      * })
      *
      * const shape = new Urpflanze.Shape({
@@ -113,7 +113,7 @@ declare abstract class ShapeBase extends SceneChild {
      * @internal
      * @ignore
      */
-    protected indexed_buffer?: Array<IBufferIndex>;
+    protected indexedBuffer?: Array<IBufferIndex>;
     /**
      * Callback to apply transform at any vertex
      *
@@ -137,6 +137,11 @@ declare abstract class ShapeBase extends SceneChild {
      * ```
      */
     vertexCallback?: TVertexCallback;
+    /**
+     * The bounding inside the scene
+     *
+     * @type {IShapeBounding}
+     */
     bounding: IShapeBounding;
     /**
      * Creates an instance of ShapeBase
@@ -153,7 +158,7 @@ declare abstract class ShapeBase extends SceneChild {
      */
     isStatic(): boolean;
     /**
-     * Check if the indexed_buffer array needs to be recreated every time,
+     * Check if the indexedBuffer array needs to be recreated every time,
      * this can happen when a shape generates an array of vertices different in length at each repetition
      *
      * @returns {boolean}
@@ -164,12 +169,12 @@ declare abstract class ShapeBase extends SceneChild {
      * Return a prop value
      *
      * @param {keyof ISceneChildProps} key
-     * @param {ISceneChildPropArguments} [prop_arguments]
-     * @param {*} [default_value]
+     * @param {ISceneChildPropArguments} [propArguments]
+     * @param {*} [defaultValue]
      * @returns {*}
      * @memberof ShapeBase
      */
-    getProp(key: keyof ISceneChildProps, prop_arguments?: ISceneChildPropArguments, default_value?: any): any;
+    getProp(key: keyof ISceneChildProps, propArguments?: ISceneChildPropArguments, defaultValue?: any): any;
     /**
      * Set a single or multiple props
      *
@@ -189,24 +194,24 @@ declare abstract class ShapeBase extends SceneChild {
      */
     clearBuffer(bClearIndexed?: boolean, bPropagateToParents?: boolean): void;
     /**
-     * Update the vertex array if the shape is not static and update the indexed_buffer if it is also not static
+     * Update the vertex array if the shape is not static and update the indexedBuffer if it is also not static
      *
-     * @param {number} generate_id generation id
+     * @param {number} generateId generation id
      * @param {boolean} [bDirectSceneChild=false] adjust shape of center of scene
-     * @param {ISceneChildPropArguments} [parent_prop_arguments]
+     * @param {ISceneChildPropArguments} [parentPropArguments]
      * @memberof ShapeBase
      */
-    generate(generate_id: number, bDirectSceneChild?: boolean, parent_prop_arguments?: ISceneChildPropArguments): void;
+    generate(generateId: number, bDirectSceneChild?: boolean, parentPropArguments?: ISceneChildPropArguments): void;
     /**
-     * Add into indexed_buffer
+     * Add into indexedBuffer
      *
      * @protected
      * @abstract
-     * @param {number} frame_length
-     * @param {IRepetition} current_repetition
+     * @param {number} frameLength
+     * @param {IRepetition} currentRepetition
      * @memberof ShapeBase
      */
-    protected abstract addIndex(frame_length: number, current_repetition: IRepetition): void;
+    protected abstract addIndex(frameLength: number, currentRepetition: IRepetition): void;
     /**
      * Get number of repetitions
      *
@@ -218,18 +223,19 @@ declare abstract class ShapeBase extends SceneChild {
      * Return a buffer of children shape or loop generated buffer
      *
      * @protected
-     * @param {number} generate_id
-     * @param {ISceneChildPropArguments} prop_arguments
+     * @param {number} generateId
+     * @param {ISceneChildPropArguments} propArguments
      * @returns {Float32Array}
      * @memberof ShapeBase
      */
-    protected abstract generateBuffer(generate_id: number, prop_arguments: ISceneChildPropArguments): Float32Array;
+    protected abstract generateBuffer(generateId: number, propArguments: ISceneChildPropArguments): Float32Array;
     /**
-     * Set shape
      *
-     * @memberof ShapeBase
+     *
+     * @abstract
+     * @param {(any)} shapeOrLoopOrBuffer
      */
-    abstract setShape(shape_or_loop: any): void;
+    abstract setShape(shapeOrLoopOrBuffer: any): void;
     /**
      * Return buffer
      *

@@ -9,9 +9,9 @@ export declare type TTempBounding = [number | undefined, number | undefined, num
  * @ignore
  */
 declare const Bounding: {
-    clear: (tmp_bounding: TTempBounding) => void;
-    add: (tmp_bounding: TTempBounding, x: number, y: number) => void;
-    bind: (bounding: IShapeBounding, tmp_bounding: TTempBounding) => void;
+    clear: (tmpBounding: TTempBounding) => void;
+    add: (tmpBounding: TTempBounding, x: number, y: number) => void;
+    bind: (bounding: IShapeBounding, tmpBounding: TTempBounding) => void;
 };
 export default Bounding;
 //# sourceMappingURL=bounding.d.ts.map

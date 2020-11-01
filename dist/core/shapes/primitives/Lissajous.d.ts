@@ -21,12 +21,12 @@ declare class Lissajous extends ShapeLoop {
      * Get property value
      *
      * @param {keyof ILissajousProps} key
-     * @param {ISceneChildPropArguments} [prop_arguments]
-     * @param {*} [default_value]
+     * @param {ISceneChildPropArguments} [propArguments]
+     * @param {*} [defaultValue]
      * @returns {*}
      * @memberof Lissajous
      */
-    getProp(key: keyof ILissajousProps, prop_arguments?: ISceneChildPropArguments, default_value?: any): any;
+    getProp(key: keyof ILissajousProps, propArguments?: ISceneChildPropArguments, defaultValue?: any): any;
     /**
      * Set single or multiple props
      *

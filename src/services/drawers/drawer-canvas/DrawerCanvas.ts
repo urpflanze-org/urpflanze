@@ -59,8 +59,8 @@ class DrawerCanvas extends Drawer<IDrawerCanvasOptions, IDrawerCanvasEvents> {
 			fixedLineWidth: drawerOptions.fixedLineWidth ?? false,
 			noBackground: drawerOptions.noBackground ?? false,
 			ghosts: drawerOptions.ghosts || 0,
-			ghost_skip_time: drawerOptions.ghost_skip_time ?? 30,
-			ghost_skip_function: drawerOptions.ghost_skip_function,
+			ghostSkipTime: drawerOptions.ghostSkipTime ?? 30,
+			ghostSkipFunction: drawerOptions.ghostSkipFunction,
 			backgroundImage: drawerOptions.backgroundImage,
 		}
 	}
@@ -236,9 +236,9 @@ class DrawerCanvas extends Drawer<IDrawerCanvasOptions, IDrawerCanvasEvents> {
 	// 					for (let gi = 1; gi <= drawerOptions.ghosts; gi++) {
 	// 						const ghostTime =
 	// 							time -
-	// 							(drawerOptions.ghost_skip_function
-	// 								? drawerOptions.ghost_skip_function(gi)
-	// 								: gi * (drawerOptions.ghost_skip_time ?? 30))
+	// 							(drawerOptions.ghostSkipFunction
+	// 								? drawerOptions.ghostSkipFunction(gi)
+	// 								: gi * (drawerOptions.ghostSkipTime ?? 30))
 
 	// 						drawerOptions.clear = false
 	// 						drawerOptions.ghost_index = gi
@@ -282,15 +282,15 @@ class DrawerCanvas extends Drawer<IDrawerCanvasOptions, IDrawerCanvasEvents> {
 			time: drawAtTime,
 		}
 
-		const current_frame = timeline.getFrameAtTime(drawAtTime)
+		const currentFrame = timeline.getFrameAtTime(drawAtTime)
 
 		this.dispatch('drawer-canvas:before_draw', {
-			current_frame: current_frame,
-			current_time: drawAtTime,
+			currentFrame: currentFrame,
+			currentTime: drawAtTime,
 		})
 
-		if (this.bBuffering && this.buffer.exist(current_frame)) {
-			this.context?.putImageData(this.buffer.get(current_frame) as ImageData, 0, 0)
+		if (this.bBuffering && this.buffer.exist(currentFrame)) {
+			this.context?.putImageData(this.buffer.get(currentFrame) as ImageData, 0, 0)
 		} else {
 			if (drawerOptions.ghosts) {
 				Drawer.eachGhosts<IDrawerCanvasOptions>(drawerOptions, timeline, ghostDrawerOptions => {
@@ -304,7 +304,7 @@ class DrawerCanvas extends Drawer<IDrawerCanvasOptions, IDrawerCanvasEvents> {
 			draw_time += DrawerCanvas.draw(this.scene, this.context, drawerOptions, this.resolution)
 
 			if (this.bBuffering && this.context) {
-				this.buffer.push(current_frame, this.context)
+				this.buffer.push(currentFrame, this.context)
 
 				if (this.buffer.count() >= this.timeline.getFramesCount()) {
 					this.dispatch('drawer-canvas:buffer_loaded')
@@ -416,7 +416,7 @@ class DrawerCanvas extends Drawer<IDrawerCanvasOptions, IDrawerCanvasEvents> {
 				let logFillColorWarn = false
 				let logStrokeColorWarn = false
 
-				scene.current_time = time
+				scene.currentTime = time
 
 				scene.getChildren().forEach((sceneChild: SceneChild) => {
 					if (
@@ -431,17 +431,17 @@ class DrawerCanvas extends Drawer<IDrawerCanvasOptions, IDrawerCanvasEvents> {
 							context.globalCompositeOperation = shapeData && shapeData.composite ? shapeData.composite : 'source-over'
 							context.beginPath()
 							context.moveTo(
-								(streamCallback.buffer[streamCallback.frame_buffer_index] - width / 2) * final_scale[0] +
+								(streamCallback.buffer[streamCallback.frameBufferIndex] - width / 2) * final_scale[0] +
 									final_translate[0],
-								(streamCallback.buffer[streamCallback.frame_buffer_index + 1] - height / 2) * final_scale[1] +
+								(streamCallback.buffer[streamCallback.frameBufferIndex + 1] - height / 2) * final_scale[1] +
 									final_translate[1]
 							)
 
-							for (let i = 2; i < streamCallback.frame_length; i += 2) {
+							for (let i = 2; i < streamCallback.frameLength; i += 2) {
 								context.lineTo(
-									(streamCallback.buffer[streamCallback.frame_buffer_index + i] - width / 2) * final_scale[0] +
+									(streamCallback.buffer[streamCallback.frameBufferIndex + i] - width / 2) * final_scale[0] +
 										final_translate[0],
-									(streamCallback.buffer[streamCallback.frame_buffer_index + i + 1] - height / 2) * final_scale[1] +
+									(streamCallback.buffer[streamCallback.frameBufferIndex + i + 1] - height / 2) * final_scale[1] +
 										final_translate[1]
 								)
 							}

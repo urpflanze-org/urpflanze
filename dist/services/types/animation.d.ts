@@ -75,15 +75,62 @@ export declare type TSimpleAnimationType = 'loop' | 'uncontrolled-loop' | 'stati
  * @category Services.Animation
  */
 export interface ISimpleAnimation {
+    /**
+     * Supported color string format:
+     * rgba([0-255], [0-255], [0-255], 0-1)
+     * hsla([0-350], [0-100]%, [0-100]%, 0-1)
+     * @order 1
+     */
     from: number | Array<number> | string;
+    /**
+     * Supported color string format:
+     * rgba([0-255], [0-255], [0-255], 0-1)
+     * hsla([0-350], [0-100]%, [0-100]%, 0-1)
+     * @order 2
+     */
     to: number | Array<number> | string;
+    /**
+     * Duratin in millisecond
+     * @order 3
+     */
     durate: number;
+    /**
+     * Invert animation on odd repetition index
+     * @order 4
+     */
     invertOdd: boolean;
+    /**
+     * 'loop' | 'uncontrolled-loop' | 'static'
+     * @order 4
+     */
     type: TSimpleAnimationType;
+    /**
+     * type of animate value
+     * @order 5
+     */
     mode?: 'sinusoidal' | 'easing';
-    mode_function?: TModeFunction;
+    /**
+     * Is based on <mark>mode</mark> value.
+     * If mode is 'sinusoidal' the modeFunction value can be 'sin' | 'cos'
+     * If mode is 'easing' the modeFunction value can be <a href="[base_url]/TEasing">TEasing</a>
+     * @order 6
+     */
+    modeFunction?: TModeFunction;
+    /**
+     * @order 7
+     */
     delay?: number;
-    type_value?: 'int' | 'float';
+    /**
+     * Default is 'float', whit 'int' value, the numbers are rounded
+     * @order 8
+     */
+    typeValue?: 'int' | 'float';
+    /**
+     * With the 'rgb' value the color will vary linearly according to the mode and mode function,
+     * while with 'hue' they will be converted to hsla and then go through the color wheel
+     *
+     * @order 9
+     */
     colorTransitionMode?: 'hue' | 'rgb';
 }
 /**

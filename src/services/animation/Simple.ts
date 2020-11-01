@@ -16,15 +16,15 @@ import { ISceneChildPropArguments, TSceneChildProp } from '@core/types/scene-chi
  */
 const Simple = {
 	loop: (props: TSimpleAnimationLoop): TSceneChildProp<string | number | Array<number> | Float32Array> =>
-		Simple.compose({ mode: 'sinusoidal', mode_function: 'cos', ...props, type: 'loop', delay: undefined }),
+		Simple.compose({ mode: 'sinusoidal', modeFunction: 'cos', ...props, type: 'loop', delay: undefined }),
 
 	uncontrolledLoop: (
 		props: TSimpleAnimationUncontrolledLoop
 	): TSceneChildProp<string | number | Array<number> | Float32Array> =>
-		Simple.compose({ mode: 'easing', mode_function: 'linear', ...props, type: 'uncontrolled-loop' }),
+		Simple.compose({ mode: 'easing', modeFunction: 'linear', ...props, type: 'uncontrolled-loop' }),
 
 	static: (props: TSimpleAnimationStatic): TSceneChildProp<string | number | Array<number> | Float32Array> =>
-		Simple.compose({ mode: 'easing', mode_function: 'linear', ...props, type: 'static' }),
+		Simple.compose({ mode: 'easing', modeFunction: 'linear', ...props, type: 'static' }),
 
 	compose: (simpleAnimation: ISimpleAnimation): TSceneChildProp<string | number | Array<number> | Float32Array> => {
 		if (typeof simpleAnimation.from !== 'string' && typeof simpleAnimation.to !== 'string') {
@@ -38,7 +38,7 @@ const Simple = {
 						const a = (simpleAnimation.invertOdd && current_index % 2 == 1 ? to : from) as Array<number> | Float32Array
 						const b = (simpleAnimation.invertOdd && current_index % 2 == 1 ? from : to) as Array<number> | Float32Array
 
-						return simpleAnimation.type_value === 'int'
+						return simpleAnimation.typeValue === 'int'
 							? [Math.round(a[0] + v * (b[0] - a[0])), Math.round(a[1] + v * (b[1] - a[1]))]
 							: [a[0] + v * (b[0] - a[0]), a[1] + v * (b[1] - a[1])]
 				  }
@@ -46,7 +46,7 @@ const Simple = {
 						const a = (simpleAnimation.invertOdd && current_index % 2 == 1 ? to : from) as number
 						const b = (simpleAnimation.invertOdd && current_index % 2 == 1 ? from : to) as number
 
-						return simpleAnimation.type_value === 'int' ? Math.round(a + v * (b - a)) : a + v * (b - a)
+						return simpleAnimation.typeValue === 'int' ? Math.round(a + v * (b - a)) : a + v * (b - a)
 				  }
 
 			return createSimpleAnimationCallback<number | Array<number> | Float32Array>(simpleAnimation, (props, v) =>
@@ -71,7 +71,7 @@ function createSimpleAnimationCallback<T>(
 	animation: ISimpleAnimation,
 	value: (props: ISceneChildPropArguments, currentInterpolation: number) => T
 ): TSceneChildProp<T> {
-	const { durate, type, mode, mode_function, delay } = animation as Required<ISimpleAnimation>
+	const { durate, type, mode, modeFunction, delay } = animation as Required<ISimpleAnimation>
 
 	if (type === 'static') {
 		if (delay && delay > 0)
@@ -82,19 +82,19 @@ function createSimpleAnimationCallback<T>(
 						? 0
 						: props.time - delay >= durate
 						? 1
-						: Easings[mode_function as TEasing](props.time - delay, 0, 1, durate)
+						: Easings[modeFunction as TEasing](props.time - delay, 0, 1, durate)
 				)
 			}
 		else
 			return function SimpleAnimation(props: ISceneChildPropArguments) {
-				return value(props, props.time <= durate ? Easings[mode_function as TEasing](props.time, 0, 1 - 0, durate) : 1)
+				return value(props, props.time <= durate ? Easings[modeFunction as TEasing](props.time, 0, 1 - 0, durate) : 1)
 			}
 	} else {
 		if (type === 'loop') {
 			if (mode == 'sinusoidal') {
 				return function SimpleAnimation(props: ISceneChildPropArguments) {
 					const frequency = ((props.time || 0) * 2 * Math.PI) / durate
-					return value(props, 0.5 + Math[mode_function as Exclude<TModeFunction, TEasing>](frequency) * 0.5)
+					return value(props, 0.5 + Math[modeFunction as Exclude<TModeFunction, TEasing>](frequency) * 0.5)
 				}
 			} /* easing */ else {
 				return function SimpleAnimation(props: ISceneChildPropArguments) {
@@ -103,8 +103,8 @@ function createSimpleAnimationCallback<T>(
 					return value(
 						props,
 						t <= d2
-							? Easings[mode_function as TEasing](t, 0, 1, d2)
-							: Easings[mode_function as TEasing](d2 - (t - d2), 0, 1, d2)
+							? Easings[modeFunction as TEasing](t, 0, 1, d2)
+							: Easings[modeFunction as TEasing](d2 - (t - d2), 0, 1, d2)
 					)
 				}
 			}
@@ -115,7 +115,7 @@ function createSimpleAnimationCallback<T>(
 					let time = props.time % (durate + delay)
 					time = time <= delay ? 0 : time - delay
 					const frequency = ((time || 0) * 2 * Math.PI) / durate
-					return value(props, 0.5 + Math[mode_function as Exclude<TModeFunction, TEasing>](frequency) * 0.5)
+					return value(props, 0.5 + Math[modeFunction as Exclude<TModeFunction, TEasing>](frequency) * 0.5)
 				}
 			} else {
 				if (delay && delay > 0)
@@ -127,13 +127,13 @@ function createSimpleAnimationCallback<T>(
 								? 0
 								: time - delay >= durate
 								? 1
-								: Easings[mode_function as TEasing](time - delay, 0, 1, durate)
+								: Easings[modeFunction as TEasing](time - delay, 0, 1, durate)
 						)
 					}
 				else
 					return function SimpleAnimation(props: ISceneChildPropArguments) {
 						const time = props.time % durate
-						return value(props, time <= durate ? Easings[mode_function as TEasing](time, 0, 1 - 0, durate) : 1)
+						return value(props, time <= durate ? Easings[modeFunction as TEasing](time, 0, 1 - 0, durate) : 1)
 					}
 			}
 		}

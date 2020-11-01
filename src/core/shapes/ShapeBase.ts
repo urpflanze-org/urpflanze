@@ -19,13 +19,14 @@ import ShapePrimitive from './ShapePrimitive'
 import { clamp } from 'src/Utilites'
 import Vec2 from '@core/math/Vec2'
 import Bounding, { TTempBounding } from '@core/math/bounding'
+import { IShapeLoopGenerator } from '@core/types/shape-primitive'
 
 glMatrix.setMatrixArrayType(Array)
 
-const tmp_matrix = mat4.create()
-const transform_matrix = mat4.create()
-const perspective_matrix = mat4.create()
-const repetition_matrix = mat4.create()
+const tmpMatrix = mat4.create()
+const transformMatrix = mat4.create()
+const perspectiveMatrix = mat4.create()
+const repetitionMatrix = mat4.create()
 
 /**
  * Main class for shape generation
@@ -89,7 +90,7 @@ abstract class ShapeBase extends SceneChild {
 	 * @internal
 	 * @ignore
 	 */
-	private generate_id = -1
+	private generateId = -1
 
 	/**
 	 * A final array of vertices to draw
@@ -116,7 +117,7 @@ abstract class ShapeBase extends SceneChild {
 	protected bStaticIndexed: boolean
 
 	/**
-	 * Flag used to determine if indexed_buffer has been generated
+	 * Flag used to determine if indexedBuffer has been generated
 	 *
 	 * @internal
 	 * @ignore
@@ -137,11 +138,11 @@ abstract class ShapeBase extends SceneChild {
 	 *
 	 * const rose = new Urpflanze.Rose({
 	 * 	repetitions: 3,
-	 * 	n: ({ parent }) => parent.repetition.current_index, // <- use parent
-	 * 	d: ({ repetition }) => repetition.current_index,
+	 * 	n: ({ parent }) => parent.repetition.index, // <- use parent
+	 * 	d: ({ repetition }) => repetition.index,
 	 * 	sideLength: 20,
 	 * 	distance: 30,
-	 * 	bUseParent: true // <- add this for use `parent` as prop_argument of `n` property
+	 * 	bUseParent: true // <- add this for use `parent` as propArgument of `n` property
 	 * })
 	 *
 	 * const shape = new Urpflanze.Shape({
@@ -160,7 +161,7 @@ abstract class ShapeBase extends SceneChild {
 	 * @internal
 	 * @ignore
 	 */
-	protected indexed_buffer?: Array<IBufferIndex>
+	protected indexedBuffer?: Array<IBufferIndex>
 
 	/**
 	 * Callback to apply transform at any vertex
@@ -186,6 +187,11 @@ abstract class ShapeBase extends SceneChild {
 	 */
 	public vertexCallback?: TVertexCallback
 
+	/**
+	 * The bounding inside the scene
+	 *
+	 * @type {IShapeBounding}
+	 */
 	public bounding: IShapeBounding = {
 		cx: 0,
 		cy: 0,
@@ -255,7 +261,7 @@ abstract class ShapeBase extends SceneChild {
 	}
 
 	/**
-	 * Check if the indexed_buffer array needs to be recreated every time,
+	 * Check if the indexedBuffer array needs to be recreated every time,
 	 * this can happen when a shape generates an array of vertices different in length at each repetition
 	 *
 	 * @returns {boolean}
@@ -269,24 +275,24 @@ abstract class ShapeBase extends SceneChild {
 	 * Return a prop value
 	 *
 	 * @param {keyof ISceneChildProps} key
-	 * @param {ISceneChildPropArguments} [prop_arguments]
-	 * @param {*} [default_value]
+	 * @param {ISceneChildPropArguments} [propArguments]
+	 * @param {*} [defaultValue]
 	 * @returns {*}
 	 * @memberof ShapeBase
 	 */
-	public getProp(key: keyof ISceneChildProps, prop_arguments?: ISceneChildPropArguments, default_value?: any): any {
+	public getProp(key: keyof ISceneChildProps, propArguments?: ISceneChildPropArguments, defaultValue?: any): any {
 		let attribute: any = this.props[key] as any
 
 		if (typeof attribute == 'function') {
-			prop_arguments = prop_arguments || ShapeBase.EMPTY_PROP_ARGUMENTS
+			propArguments = propArguments || ShapeBase.EMPTY_PROP_ARGUMENTS
 
-			if (typeof prop_arguments.shape === 'undefined') prop_arguments.shape = this
-			prop_arguments.time = this.scene?.current_time || 0
+			if (typeof propArguments.shape === 'undefined') propArguments.shape = this
+			propArguments.time = this.scene?.currentTime || 0
 
-			attribute = attribute(prop_arguments)
+			attribute = attribute(propArguments)
 		}
 
-		return typeof attribute === 'undefined' || Number.isNaN(attribute) ? default_value : attribute
+		return typeof attribute === 'undefined' || Number.isNaN(attribute) ? defaultValue : attribute
 	}
 
 	/**
@@ -336,121 +342,117 @@ abstract class ShapeBase extends SceneChild {
 	}
 
 	/**
-	 * Update the vertex array if the shape is not static and update the indexed_buffer if it is also not static
+	 * Update the vertex array if the shape is not static and update the indexedBuffer if it is also not static
 	 *
-	 * @param {number} generate_id generation id
+	 * @param {number} generateId generation id
 	 * @param {boolean} [bDirectSceneChild=false] adjust shape of center of scene
-	 * @param {ISceneChildPropArguments} [parent_prop_arguments]
+	 * @param {ISceneChildPropArguments} [parentPropArguments]
 	 * @memberof ShapeBase
 	 */
-	public generate(
-		generate_id: number,
-		bDirectSceneChild = false,
-		parent_prop_arguments?: ISceneChildPropArguments
-	): void {
-		if (!this.scene || (this.buffer && (this.bStatic || (generate_id === this.generate_id && !this.bUseParent)))) {
+	public generate(generateId: number, bDirectSceneChild = false, parentPropArguments?: ISceneChildPropArguments): void {
+		if (!this.scene || (this.buffer && (this.bStatic || (generateId === this.generateId && !this.bUseParent)))) {
 			return
 		}
 
-		this.generate_id = generate_id
+		this.generateId = generateId
 
-		if (!this.bStaticIndexed || !this.bIndexed) this.indexed_buffer = []
+		if (!this.bStaticIndexed || !this.bIndexed) this.indexedBuffer = []
 
 		const repetition: IRepetition = ShapeBase.getEmptyRepetition()
 
 		const repetitions: Array<number> | number = this.getProp(
 			'repetitions',
-			{ parent: parent_prop_arguments, repetition, time: 1, context: Context },
+			{ parent: parentPropArguments, repetition, time: 1, context: Context },
 			1
 		)
 
-		const repetition_type = Array.isArray(repetitions) ? ERepetitionType.Matrix : ERepetitionType.Ring
-		const repetition_count = Array.isArray(repetitions)
+		const repetitionType = Array.isArray(repetitions) ? ERepetitionType.Matrix : ERepetitionType.Ring
+		const repetitionCount = Array.isArray(repetitions)
 			? repetitions[0] * (repetitions[1] ?? repetitions[0])
 			: repetitions
-		const repetition_col_count = Array.isArray(repetitions) ? repetitions[0] : repetition_count
-		const repetition_row_count = Array.isArray(repetitions) ? repetitions[1] ?? repetitions[0] : 1
+		const repetitionColCount = Array.isArray(repetitions) ? repetitions[0] : repetitionCount
+		const repetitionRowCount = Array.isArray(repetitions) ? repetitions[1] ?? repetitions[0] : 1
 
-		const col_repetition = repetition.col
-		col_repetition.count = repetition_col_count
-		const row_repetition = repetition.row
-		row_repetition.count = repetition_row_count
+		const colRepetition = repetition.col
+		colRepetition.count = repetitionColCount
+		const rowRepetition = repetition.row
+		rowRepetition.count = repetitionRowCount
 
-		repetition.count = repetition_count
-		repetition.col.count = repetition_col_count
-		repetition.row.count = repetition_row_count
-		repetition.type = repetition_type
+		repetition.count = repetitionCount
+		repetition.col.count = repetitionColCount
+		repetition.row.count = repetitionRowCount
+		repetition.type = repetitionType
 
-		const prop_arguments: ISceneChildPropArguments = {
+		const propArguments: ISceneChildPropArguments = {
 			repetition,
 			context: Context,
-			time: this.scene?.current_time || 0,
+			time: this.scene?.currentTime || 0,
 			shape: this,
 			data: this.data,
-			parent: parent_prop_arguments,
+			parent: parentPropArguments,
 		}
 
-		let total_buffer_length = 0
+		let totalBufferLength = 0
 
 		const buffers = []
-		let current_index = 0
-		const center_matrix = vec2.fromValues((repetition_col_count - 1) / 2, (repetition_row_count - 1) / 2)
+		let currentIndex = 0
+		const centerMatrix = vec2.fromValues((repetitionColCount - 1) / 2, (repetitionRowCount - 1) / 2)
 		const sceneCenter: vec3 = [this.scene.center[0], this.scene.center[1], 0]
 
-		const tmp_bounding: TTempBounding = [undefined, undefined, undefined, undefined]
+		const tmpBounding: TTempBounding = [undefined, undefined, undefined, undefined]
 
-		for (let current_row_repetition = 0; current_row_repetition < repetition_row_count; current_row_repetition++) {
+		for (let currentRowRepetition = 0; currentRowRepetition < repetitionRowCount; currentRowRepetition++) {
 			for (
-				let current_col_repetition = 0;
-				current_col_repetition < repetition_col_count;
-				current_col_repetition++, current_index++
+				let currentColRepetition = 0;
+				currentColRepetition < repetitionColCount;
+				currentColRepetition++, currentIndex++
 			) {
-				repetition.index = current_index + 1
-				repetition.offset = repetition.index / repetition.count
+				repetition.index = currentIndex + 1
+				repetition.offset = currentIndex / (repetitionCount - 1)
 
 				repetition.angle =
-					repetition_type === ERepetitionType.Ring ? ((Math.PI * 2) / repetition_count) * current_index : 0
-				col_repetition.index = current_col_repetition + 1
-				col_repetition.offset = col_repetition.index / col_repetition.count
-				row_repetition.index = current_row_repetition + 1
-				row_repetition.offset = row_repetition.index / row_repetition.count
+					repetitionType === ERepetitionType.Ring ? ((Math.PI * 2) / repetitionCount) * currentIndex : 0
+				colRepetition.index = currentColRepetition + 1
+				colRepetition.offset = currentColRepetition / (repetitionColCount - 1)
+				rowRepetition.index = currentRowRepetition + 1
+				rowRepetition.offset = currentRowRepetition / (repetitionRowCount - 1)
 
 				// Generate primitives buffer recursively
-				const buffer: Float32Array = this.generateBuffer(generate_id, prop_arguments)
-				const buffer_length = buffer.length
+				const buffer: Float32Array = this.generateBuffer(generateId, propArguments)
+				const bufferLength = buffer.length
 
 				const bounding = this.getBounding(true)
 
-				buffers[current_index] = new Float32Array(buffer_length)
-				total_buffer_length += buffer_length
+				buffers[currentIndex] = new Float32Array(bufferLength)
+				totalBufferLength += bufferLength
 
 				{
-					const distance = glme.toVec2(this.getProp('distance', prop_arguments, glme.VEC2_ZERO))
-					const displace = this.getProp('displace', prop_arguments, 0)
-					const scale = glme.toVec3(this.getProp('scale', prop_arguments, glme.VEC2_ONE), 1)
-					const translate = glme.toVec3(this.getProp('translate', prop_arguments, glme.VEC2_ZERO), 0)
-					const skewX = this.getProp('skewX', prop_arguments, 0)
-					const skewY = this.getProp('skewY', prop_arguments, 0)
-					const squeezeX = this.getProp('squeezeX', prop_arguments, 0)
-					const squeezeY = this.getProp('squeezeY', prop_arguments, 0)
-					const rotateX = this.getProp('rotateX', prop_arguments, 0)
-					const rotateY = this.getProp('rotateY', prop_arguments, 0)
-					const rotateZ = this.getProp('rotateZ', prop_arguments, 0)
-					const perspectiveProp = clamp(0, 1, this.getProp('perspective', prop_arguments, 0))
-					const perspectiveOrigin = glme.toVec3(this.getProp('perspectiveOrigin', prop_arguments, glme.VEC2_ZERO), 0)
-					const transformOrigin = glme.toVec3(this.getProp('transformOrigin', prop_arguments, glme.VEC2_ZERO), 0)
+					const distance = glme.toVec2(this.getProp('distance', propArguments, glme.VEC2_ZERO))
+					const displace = this.getProp('displace', propArguments, 0)
+					const scale = glme.toVec3(this.getProp('scale', propArguments, glme.VEC2_ONE), 1)
+					const translate = glme.toVec3(this.getProp('translate', propArguments, glme.VEC2_ZERO), 0)
+					const skewX = this.getProp('skewX', propArguments, 0)
+					const skewY = this.getProp('skewY', propArguments, 0)
+					const squeezeX = this.getProp('squeezeX', propArguments, 0)
+					const squeezeY = this.getProp('squeezeY', propArguments, 0)
+					const rotateX = this.getProp('rotateX', propArguments, 0)
+					const rotateY = this.getProp('rotateY', propArguments, 0)
+					const rotateZ = this.getProp('rotateZ', propArguments, 0)
+					const perspectiveProp = clamp(0, 1, this.getProp('perspective', propArguments, 0))
+					const perspectiveOrigin = glme.toVec3(this.getProp('perspectiveOrigin', propArguments, glme.VEC2_ZERO), 0)
+					const transformOrigin = glme.toVec3(this.getProp('transformOrigin', propArguments, glme.VEC2_ZERO), 0)
 
 					let offset: vec3
 
-					switch (repetition_type) {
+					switch (repetitionType) {
 						case ERepetitionType.Ring:
 							offset = vec3.fromValues(distance[0], 0, 0)
 							vec3.rotateZ(offset, offset, glme.VEC3_ZERO, repetition.angle + displace)
 							break
 						case ERepetitionType.Matrix:
 							offset = vec3.fromValues(
-								distance[0] * (current_col_repetition - center_matrix[0]),
-								distance[1] * (current_row_repetition - center_matrix[1]),
+								distance[0] * (currentColRepetition - centerMatrix[0]),
+								distance[1] * (currentRowRepetition - centerMatrix[1]),
 								0
 							)
 							break
@@ -471,39 +473,39 @@ abstract class ShapeBase extends SceneChild {
 					 * Create Transformation matrix
 					 */
 					{
-						mat4.identity(transform_matrix)
+						mat4.identity(transformMatrix)
 
 						// transform origin
-						bTransformOrigin && mat4.translate(transform_matrix, transform_matrix, transformOrigin)
+						bTransformOrigin && mat4.translate(transformMatrix, transformMatrix, transformOrigin)
 						// scale
-						if (scale[0] !== 1 || scale[1] !== 1) mat4.scale(transform_matrix, transform_matrix, scale)
+						if (scale[0] !== 1 || scale[1] !== 1) mat4.scale(transformMatrix, transformMatrix, scale)
 						// skew
 						if (skewX !== 0 || skewY !== 0) {
-							glme.fromSkew(tmp_matrix, [skewX, skewY])
-							mat4.multiply(transform_matrix, transform_matrix, tmp_matrix)
+							glme.fromSkew(tmpMatrix, [skewX, skewY])
+							mat4.multiply(transformMatrix, transformMatrix, tmpMatrix)
 						}
 						// rotateX
-						rotateX !== 0 && mat4.rotateX(transform_matrix, transform_matrix, rotateX)
+						rotateX !== 0 && mat4.rotateX(transformMatrix, transformMatrix, rotateX)
 						//rotateY
-						rotateY !== 0 && mat4.rotateY(transform_matrix, transform_matrix, rotateY)
+						rotateY !== 0 && mat4.rotateY(transformMatrix, transformMatrix, rotateY)
 						//rotateZ
-						rotateZ !== 0 && mat4.rotateZ(transform_matrix, transform_matrix, rotateZ)
+						rotateZ !== 0 && mat4.rotateZ(transformMatrix, transformMatrix, rotateZ)
 						// reset origin
 						bTransformOrigin &&
-							mat4.translate(transform_matrix, transform_matrix, vec3.scale(transformOrigin, transformOrigin, -1))
+							mat4.translate(transformMatrix, transformMatrix, vec3.scale(transformOrigin, transformOrigin, -1))
 						// translation
-						if (translate[0] !== 0 || translate[1] !== 0) mat4.translate(transform_matrix, transform_matrix, translate)
+						if (translate[0] !== 0 || translate[1] !== 0) mat4.translate(transformMatrix, transformMatrix, translate)
 
 						/**
 						 * Create Repetition matrix
 						 */
-						mat4.identity(repetition_matrix)
-						mat4.translate(repetition_matrix, repetition_matrix, offset)
+						mat4.identity(repetitionMatrix)
+						mat4.translate(repetitionMatrix, repetitionMatrix, offset)
 						if (bDirectSceneChild) {
-							mat4.translate(repetition_matrix, repetition_matrix, sceneCenter)
+							mat4.translate(repetitionMatrix, repetitionMatrix, sceneCenter)
 						}
-						if (repetition_type === ERepetitionType.Ring)
-							mat4.rotateZ(repetition_matrix, repetition_matrix, repetition.angle + displace)
+						if (repetitionType === ERepetitionType.Ring)
+							mat4.rotateZ(repetitionMatrix, repetitionMatrix, repetition.angle + displace)
 
 						/**
 						 * Create Perspective matrix
@@ -514,56 +516,56 @@ abstract class ShapeBase extends SceneChild {
 								perspectiveOrigin[1] *= bounding.height / 2
 								perspectiveOrigin[2] = 0
 							}
-							mat4.perspective(perspective_matrix, -Math.PI / 2, 1, 0, Infinity)
+							mat4.perspective(perspectiveMatrix, -Math.PI / 2, 1, 0, Infinity)
 						}
 					}
 					// Apply matrices on vertex
-					for (let buffer_index = 0; buffer_index < buffer_length; buffer_index += 2) {
-						const vertex: vec3 = [buffer[buffer_index], buffer[buffer_index + 1], perspective]
+					for (let bufferIndex = 0; bufferIndex < bufferLength; bufferIndex += 2) {
+						const vertex: vec3 = [buffer[bufferIndex], buffer[bufferIndex + 1], perspective]
 
 						{
-							vec3.transformMat4(vertex, vertex, transform_matrix)
+							vec3.transformMat4(vertex, vertex, transformMatrix)
 							squeezeX !== 0 && Vec2.squeezeX(vertex, squeezeX)
 							squeezeY !== 0 && Vec2.squeezeY(vertex, squeezeY)
 							if (perspective > 0) {
 								bPerspectiveOrigin && vec3.add(vertex, vertex, perspectiveOrigin)
-								vec3.transformMat4(vertex, vertex, perspective_matrix)
+								vec3.transformMat4(vertex, vertex, perspectiveMatrix)
 								vec3.scale(vertex, vertex, perspective)
 								bPerspectiveOrigin && vec3.sub(vertex, vertex, perspectiveOrigin)
 							}
 
 							if (this.vertexCallback) {
-								const index = buffer_index / 2 + 1
-								const count = buffer_length / 2
+								const index = bufferIndex / 2 + 1
+								const count = bufferLength / 2
 								const vertexRepetition = {
 									index,
 									count,
 									offset: index / count,
 								}
 
-								this.vertexCallback(vertex, vertexRepetition, prop_arguments)
+								this.vertexCallback(vertex, vertexRepetition, propArguments)
 							}
 
-							vec3.transformMat4(vertex, vertex, repetition_matrix)
+							vec3.transformMat4(vertex, vertex, repetitionMatrix)
 						}
 
-						buffers[current_index][buffer_index] = vertex[0]
-						buffers[current_index][buffer_index + 1] = vertex[1]
+						buffers[currentIndex][bufferIndex] = vertex[0]
+						buffers[currentIndex][bufferIndex + 1] = vertex[1]
 
-						Bounding.add(tmp_bounding, vertex[0], vertex[1])
+						Bounding.add(tmpBounding, vertex[0], vertex[1])
 					}
 				}
 
-				// After buffer creation, add a frame into indexed_buffer if not static
+				// After buffer creation, add a frame into indexedBuffer if not static
 				if (!this.bStaticIndexed || !this.bIndexed) {
-					this.addIndex(buffer_length, repetition)
+					this.addIndex(bufferLength, repetition)
 				}
 			}
 		}
 
-		Bounding.bind(this.bounding, tmp_bounding)
+		Bounding.bind(this.bounding, tmpBounding)
 
-		this.buffer = new Float32Array(total_buffer_length)
+		this.buffer = new Float32Array(totalBufferLength)
 		for (let i = 0, offset = 0, len = buffers.length; i < len; offset += buffers[i].length, i++)
 			this.buffer.set(buffers[i], offset)
 
@@ -571,15 +573,15 @@ abstract class ShapeBase extends SceneChild {
 	}
 
 	/**
-	 * Add into indexed_buffer
+	 * Add into indexedBuffer
 	 *
 	 * @protected
 	 * @abstract
-	 * @param {number} frame_length
-	 * @param {IRepetition} current_repetition
+	 * @param {number} frameLength
+	 * @param {IRepetition} currentRepetition
 	 * @memberof ShapeBase
 	 */
-	protected abstract addIndex(frame_length: number, current_repetition: IRepetition): void
+	protected abstract addIndex(frameLength: number, currentRepetition: IRepetition): void
 
 	/**
 	 * Get number of repetitions
@@ -597,19 +599,20 @@ abstract class ShapeBase extends SceneChild {
 	 * Return a buffer of children shape or loop generated buffer
 	 *
 	 * @protected
-	 * @param {number} generate_id
-	 * @param {ISceneChildPropArguments} prop_arguments
+	 * @param {number} generateId
+	 * @param {ISceneChildPropArguments} propArguments
 	 * @returns {Float32Array}
 	 * @memberof ShapeBase
 	 */
-	protected abstract generateBuffer(generate_id: number, prop_arguments: ISceneChildPropArguments): Float32Array
+	protected abstract generateBuffer(generateId: number, propArguments: ISceneChildPropArguments): Float32Array
 
 	/**
-	 * Set shape
 	 *
-	 * @memberof ShapeBase
+	 *
+	 * @abstract
+	 * @param {(any)} shapeOrLoopOrBuffer
 	 */
-	public abstract setShape(shape_or_loop: any): void
+	public abstract setShape(shapeOrLoopOrBuffer: any): void
 
 	/**
 	 * Return buffer
@@ -628,7 +631,7 @@ abstract class ShapeBase extends SceneChild {
 	 * @memberof ShapeBase
 	 */
 	public getIndexedBuffer(): Array<IBufferIndex> | undefined {
-		return this.indexed_buffer
+		return this.indexedBuffer
 	}
 
 	/**
@@ -638,42 +641,42 @@ abstract class ShapeBase extends SceneChild {
 	 * @memberof ShapeBase
 	 */
 	public stream(callback: TStreamCallback) {
-		if (this.scene && this.buffer && this.indexed_buffer) {
-			for (let i = 0, j = 0, len = this.indexed_buffer.length; i < len; i++) {
-				const current_indexing: IBufferIndex = this.indexed_buffer[i]
+		if (this.scene && this.buffer && this.indexedBuffer) {
+			for (let i = 0, j = 0, len = this.indexedBuffer.length; i < len; i++) {
+				const currentIndexing: IBufferIndex = this.indexedBuffer[i]
 
-				const prop_arguments: ISceneChildPropArguments = {
-					shape: current_indexing.shape,
-					repetition: current_indexing.repetition,
+				const propArguments: ISceneChildPropArguments = {
+					shape: currentIndexing.shape,
+					repetition: currentIndexing.repetition,
 					context: Context,
 					time: 0,
-					parent: current_indexing.parent,
-					data: current_indexing.shape.data,
+					parent: currentIndexing.parent,
+					data: currentIndexing.shape.data,
 				}
 
-				const fillColor = current_indexing.shape.getProp('fillColor' as keyof ISceneChildProps, prop_arguments)
+				const fillColor = currentIndexing.shape.getProp('fillColor' as keyof ISceneChildProps, propArguments)
 
-				const strokeColor = current_indexing.shape.getProp(
+				const strokeColor = currentIndexing.shape.getProp(
 					'strokeColor' as keyof ISceneChildProps,
-					prop_arguments,
+					propArguments,
 					typeof fillColor !== 'undefined' ? undefined : this.scene.color
 				)
 
-				const lineWidth = current_indexing.shape.getProp(
+				const lineWidth = currentIndexing.shape.getProp(
 					'lineWidth' as keyof ISceneChildProps,
-					prop_arguments,
+					propArguments,
 					typeof fillColor !== 'undefined' && typeof strokeColor === 'undefined' ? undefined : 1
 				)
 
 				const streamArguments: ISceneChildStreamArguments = {
 					buffer: this.buffer,
-					frame_length: current_indexing.frame_length,
-					frame_buffer_index: j,
+					frameLength: currentIndexing.frameLength,
+					frameBufferIndex: j,
 
-					shape: current_indexing.shape as ShapePrimitive,
-					repetition: current_indexing.repetition,
-					current_shape_index: i,
-					total_shapes: len,
+					shape: currentIndexing.shape as ShapePrimitive,
+					repetition: currentIndexing.repetition,
+					currentShapeIndex: i,
+					totalShapes: len,
 
 					lineWidth: lineWidth,
 					strokeColor: strokeColor,
@@ -682,7 +685,7 @@ abstract class ShapeBase extends SceneChild {
 
 				callback(streamArguments)
 
-				j += current_indexing.frame_length
+				j += currentIndexing.frameLength
 			}
 		}
 	}

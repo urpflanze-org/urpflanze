@@ -91,11 +91,11 @@ declare abstract class SceneChild {
      * Find this or form or children.
      * Overridden by classes that extend it
      *
-     * @param {string | number} id_or_name
+     * @param {string | number} idOrName
      * @returns {(SceneChild | null)}
      * @memberof SceneChild
      */
-    find(id_or_name: string | number): SceneChild | null;
+    find(idOrName: string | number): SceneChild | null;
     /**
      * Return the sceneChild properties
      *
@@ -107,12 +107,12 @@ declare abstract class SceneChild {
      * Return a sceneChild prop or default value
      *
      * @param {keyof ISceneChildProps} key
-     * @param {ISceneChildPropArguments} [prop_arguments]
-     * @param {*} [default_value]
+     * @param {ISceneChildPropArguments} [propArguments]
+     * @param {*} [defaultValue]
      * @returns {*}
      * @memberof SceneChild
      */
-    getProp(key: keyof ISceneChildProps, prop_arguments?: ISceneChildPropArguments, default_value?: any): any;
+    getProp(key: keyof ISceneChildProps, propArguments?: ISceneChildPropArguments, defaultValue?: any): any;
     /**
      * Set a single or multiple props and clear buffer if shape vertex depends from prop
      *
@@ -137,14 +137,12 @@ declare abstract class SceneChild {
      * Best explained in <a href="[base_url]/ShapeBase">ShapeBase</a>
      *
      * @abstract
-     * @param {number} generate_id
+     * @param {number} generateId
      * @param {boolean} bDirectSceneChild
-     * @param {ISceneChildPropArguments} parent_prop_arguments
-     * @param {Array<IBufferIndex>} indexed_buffer
-     * @param {IBufferIndex} [parent]
+     * @param {ISceneChildPropArguments} parentPropArguments
      * @memberof SceneChild
      */
-    abstract generate(generate_id: number, bDirectSceneChild: boolean, parent_prop_arguments?: ISceneChildPropArguments): void;
+    abstract generate(generateId: number, bDirectSceneChild: boolean, parentPropArguments?: ISceneChildPropArguments): void;
     /**
      * Get buffer bounding
      *
@@ -181,11 +179,11 @@ declare abstract class SceneChild {
      * Get length of buffer
      *
      * @abstract
-     * @param {ISceneChildPropArguments} [prop_arguments]
+     * @param {ISceneChildPropArguments} [propArguments]
      * @returns {number}
      * @memberof SceneChild
      */
-    abstract getBufferLength(prop_arguments?: ISceneChildPropArguments): number;
+    abstract getBufferLength(propArguments?: ISceneChildPropArguments): number;
     /**
      * Clear buffer
      *

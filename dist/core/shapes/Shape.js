@@ -74,42 +74,42 @@ var Shape = /** @class */ (function (_super) {
     /**
      * Find shape by id or name
      *
-     * @param {number | string} id_or_name
+     * @param {number | string} idOrName
      * @returns {(SceneChild | null)}
      * @memberof Shape
      */
-    Shape.prototype.find = function (id_or_name) {
-        if (this.id === id_or_name || this.name === id_or_name)
+    Shape.prototype.find = function (idOrName) {
+        if (this.id === idOrName || this.name === idOrName)
             return this;
         if (this.shape)
-            return this.shape.find(id_or_name);
+            return this.shape.find(idOrName);
         return null;
     };
     /**
      * Return length of buffer
      *
-     * @param {ISceneChildPropArguments} prop_arguments
+     * @param {ISceneChildPropArguments} propArguments
      * @returns {number}
      * @memberof Shape
      */
-    Shape.prototype.getBufferLength = function (prop_arguments) {
+    Shape.prototype.getBufferLength = function (propArguments) {
         if (this.bStatic && this.buffer && this.buffer.length > 0)
             return this.buffer.length;
-        var child_buffer_length = this.shape ? this.shape.getBufferLength(prop_arguments) : 0;
-        return child_buffer_length * this.getRepetitionCount();
+        var childBufferLength = this.shape ? this.shape.getBufferLength(propArguments) : 0;
+        return childBufferLength * this.getRepetitionCount();
     };
     /**
      * Return a buffer of children shape or loop generated buffer
      *
      * @protected
-     * @param {number} generate_id
-     * @param {ISceneChildPropArguments} prop_arguments
+     * @param {number} generateId
+     * @param {ISceneChildPropArguments} propArguments
      * @returns {Float32Array}
      * @memberof ShapeBase
      */
-    Shape.prototype.generateBuffer = function (generate_id, prop_arguments) {
+    Shape.prototype.generateBuffer = function (generateId, propArguments) {
         if (this.shape) {
-            this.shape.generate(generate_id, false, prop_arguments);
+            this.shape.generate(generateId, false, propArguments);
             return this.shape.getBuffer() || Shape.EMPTY_BUFFER;
         }
         return Shape.EMPTY_BUFFER;
@@ -127,13 +127,13 @@ var Shape = /** @class */ (function (_super) {
         }
         return this.bounding;
     };
-    Shape.prototype.addIndex = function (frame_length, repetition) {
+    Shape.prototype.addIndex = function (frameLength, repetition) {
         if (this.shape) {
-            var indexed_buffer = this.indexed_buffer;
-            var child_indexed_buffer = this.shape.getIndexedBuffer() || [];
+            var indexedBuffer = this.indexedBuffer;
+            var childIndexedBuffer = this.shape.getIndexedBuffer() || [];
             var parent_1 = {
                 shape: this,
-                frame_length: frame_length,
+                frameLength: frameLength,
                 repetition: {
                     type: repetition.type,
                     angle: repetition.angle,
@@ -156,19 +156,19 @@ var Shape = /** @class */ (function (_super) {
                 return {
                     shape: f.shape,
                     repetition: f.repetition,
-                    frame_length: f.frame_length,
+                    frameLength: f.frameLength,
                     parent: f.parent ? buildParent_1(f.parent, parent) : parent,
                 };
             };
-            for (var i = 0, len = child_indexed_buffer.length; i < len; i++) {
-                var current_indexed = __assign({}, child_indexed_buffer[i]);
-                if (current_indexed.parent) {
-                    current_indexed.parent = buildParent_1(current_indexed.parent, parent_1);
+            for (var i = 0, len = childIndexedBuffer.length; i < len; i++) {
+                var currentIndexed = __assign({}, childIndexedBuffer[i]);
+                if (currentIndexed.parent) {
+                    currentIndexed.parent = buildParent_1(currentIndexed.parent, parent_1);
                 }
                 else {
-                    current_indexed.parent = parent_1;
+                    currentIndexed.parent = parent_1;
                 }
-                indexed_buffer.push(current_indexed);
+                indexedBuffer.push(currentIndexed);
             }
         }
     };

@@ -45,8 +45,8 @@ var DrawerSVG = /** @class */ (function (_super) {
             decimals: drawerOptions.decimals || 2,
             noBackground: (_b = drawerOptions.noBackground) !== null && _b !== void 0 ? _b : false,
             ghosts: drawerOptions.ghosts || 0,
-            ghost_skip_time: (_c = drawerOptions.ghost_skip_time) !== null && _c !== void 0 ? _c : 30,
-            ghost_skip_function: drawerOptions.ghost_skip_function,
+            ghostSkipTime: (_c = drawerOptions.ghostSkipTime) !== null && _c !== void 0 ? _c : 30,
+            ghostSkipFunction: drawerOptions.ghostSkipFunction,
         };
         return _this;
     }
@@ -58,24 +58,24 @@ var DrawerSVG = /** @class */ (function (_super) {
      */
     DrawerSVG.prototype.draw = function () {
         var _this = this;
-        var draw_time = 0;
+        var drawTime = 0;
         var timeline = this.timeline;
         var drawAtTime = timeline.getTime();
-        var drawerOptions = __assign(__assign({}, this.drawerOptions), { ghost_index: undefined, time: drawAtTime });
-        var current_frame = timeline.getFrameAtTime(drawAtTime);
+        var drawerOptions = __assign(__assign({}, this.drawerOptions), { ghostIndex: undefined, time: drawAtTime });
+        var currentFrame = timeline.getFrameAtTime(drawAtTime);
         this.dispatch('drawer-svg:before_draw', {
-            current_frame: current_frame,
-            current_time: drawAtTime,
+            currentFrame: currentFrame,
+            currentTime: drawAtTime,
         });
         var paths = [];
         if (drawerOptions.ghosts) {
             Drawer.eachGhosts(drawerOptions, timeline, function (ghostDrawerOptions) {
-                draw_time += DrawerSVG.draw(_this.scene, paths, ghostDrawerOptions);
+                drawTime += DrawerSVG.draw(_this.scene, paths, ghostDrawerOptions);
             });
         }
-        draw_time += DrawerSVG.draw(this.scene, paths, drawerOptions);
+        drawTime += DrawerSVG.draw(this.scene, paths, drawerOptions);
         this.appendSVGFromPaths(paths, drawerOptions);
-        return draw_time;
+        return drawTime;
     };
     DrawerSVG.prototype.appendSVGFromPaths = function (paths, drawerOptions) {
         if (this.scene && this.container) {
@@ -105,14 +105,12 @@ var DrawerSVG = /** @class */ (function (_super) {
         var decimals = options.decimals;
         var bGhost = typeof options.ghosts !== 'undefined' &&
             options.ghosts > 0 &&
-            typeof options.ghost_index !== 'undefined' &&
-            options.ghost_index > 0;
-        var ghostMultiplier = bGhost
-            ? 1 - options.ghost_index / (options.ghosts + 0.5)
-            : 0;
+            typeof options.ghostIndex !== 'undefined' &&
+            options.ghostIndex > 0;
+        var ghostMultiplier = bGhost ? 1 - options.ghostIndex / (options.ghosts + 0.5) : 0;
         var logFillColorWarn = false;
         var logStrokeColorWarn = false;
-        scene.current_time = time;
+        scene.currentTime = time;
         scene.getChildren().forEach(function (sceneChild) {
             if (!sceneChild.data ||
                 !(sceneChild.data.visible === false) ||
@@ -120,10 +118,10 @@ var DrawerSVG = /** @class */ (function (_super) {
                 sceneChild.generate(time, true);
                 sceneChild.stream(function (streamCallback) {
                     var tempPath = [];
-                    for (var i = 0; i < streamCallback.frame_length; i += 2) {
-                        tempPath.push(streamCallback.buffer[streamCallback.frame_buffer_index + i].toFixed(decimals) +
+                    for (var i = 0; i < streamCallback.frameLength; i += 2) {
+                        tempPath.push(streamCallback.buffer[streamCallback.frameBufferIndex + i].toFixed(decimals) +
                             ' ' +
-                            streamCallback.buffer[streamCallback.frame_buffer_index + i + 1].toFixed(decimals));
+                            streamCallback.buffer[streamCallback.frameBufferIndex + i + 1].toFixed(decimals));
                     }
                     if (streamCallback.fillColor) {
                         if (bGhost) {

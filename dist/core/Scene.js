@@ -37,7 +37,7 @@ var Scene = /** @class */ (function () {
         /**
          * Current time
          */
-        this.current_time = 0;
+        this.currentTime = 0;
         if (typeof settings.width !== 'undefined')
             this.width = settings.width;
         if (typeof settings.height !== 'undefined')
@@ -66,13 +66,13 @@ var Scene = /** @class */ (function () {
     /**
      * Update all children, generate a streamable buffer for drawing
      *
-     * @param {number} [at_time] time in ms
+     * @param {number} [atTime] time in ms
      * @memberof Scene
      */
-    Scene.prototype.update = function (at_time) {
+    Scene.prototype.update = function (atTime) {
         var _this = this;
-        this.current_time = at_time;
-        this.children.forEach(function (child) { return child.generate(_this.current_time, true); });
+        this.currentTime = atTime;
+        this.children.forEach(function (child) { return child.generate(_this.currentTime, true); });
     };
     /**
      * Traverse the child buffer and use it with callback
@@ -133,14 +133,14 @@ var Scene = /** @class */ (function () {
     /**
      * Find sceneChild from id or name in the whole scene
      *
-     * @param {string | number} id_or_name
+     * @param {string | number} idOrName
      * @returns {(SceneChild | null)}
      * @memberof Scene
      */
-    Scene.prototype.find = function (id_or_name) {
+    Scene.prototype.find = function (idOrName) {
         var children = this.getChildren();
         for (var i = 0, len = children.length; i < len; i++) {
-            var result = children[i].find(id_or_name);
+            var result = children[i].find(idOrName);
             if (result !== null)
                 return result;
         }
@@ -176,12 +176,12 @@ var Scene = /** @class */ (function () {
     /**
      * Remove sceneChild by id or name
      *
-     * @param {number | number} id_or_name
+     * @param {number | number} idOrName
      * @memberof Scene
      */
-    Scene.prototype.removeFromId = function (id_or_name) {
+    Scene.prototype.removeFromId = function (idOrName) {
         for (var i = 0, len = this.children.length; i < len; i++)
-            if (this.children[i].id === id_or_name || this.children[i].name === id_or_name) {
+            if (this.children[i].id === idOrName || this.children[i].name === idOrName) {
                 this.children.splice(i, 1);
                 return;
             }
@@ -232,9 +232,9 @@ var Scene = /** @class */ (function () {
             if (current.id == sceneChild.id)
                 return parents;
             if (current instanceof Shape && current.shape) {
-                var tmp_parents = parents.slice();
-                tmp_parents.push(current);
-                if ((result = Scene.getParentsOfSceneChild(current.shape, sceneChild, tmp_parents)))
+                var tmpParents = parents.slice();
+                tmpParents.push(current);
+                if ((result = Scene.getParentsOfSceneChild(current.shape, sceneChild, tmpParents)))
                     return result;
             }
         }

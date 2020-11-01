@@ -63,8 +63,8 @@ var DrawerCanvas = /** @class */ (function (_super) {
             fixedLineWidth: (_f = drawerOptions.fixedLineWidth) !== null && _f !== void 0 ? _f : false,
             noBackground: (_g = drawerOptions.noBackground) !== null && _g !== void 0 ? _g : false,
             ghosts: drawerOptions.ghosts || 0,
-            ghost_skip_time: (_h = drawerOptions.ghost_skip_time) !== null && _h !== void 0 ? _h : 30,
-            ghost_skip_function: drawerOptions.ghost_skip_function,
+            ghostSkipTime: (_h = drawerOptions.ghostSkipTime) !== null && _h !== void 0 ? _h : 30,
+            ghostSkipFunction: drawerOptions.ghostSkipFunction,
             backgroundImage: drawerOptions.backgroundImage,
         };
         return _this;
@@ -212,9 +212,9 @@ var DrawerCanvas = /** @class */ (function (_super) {
     // 					for (let gi = 1; gi <= drawerOptions.ghosts; gi++) {
     // 						const ghostTime =
     // 							time -
-    // 							(drawerOptions.ghost_skip_function
-    // 								? drawerOptions.ghost_skip_function(gi)
-    // 								: gi * (drawerOptions.ghost_skip_time ?? 30))
+    // 							(drawerOptions.ghostSkipFunction
+    // 								? drawerOptions.ghostSkipFunction(gi)
+    // 								: gi * (drawerOptions.ghostSkipTime ?? 30))
     // 						drawerOptions.clear = false
     // 						drawerOptions.ghost_index = gi
     // 						drawerOptions.time =
@@ -248,13 +248,13 @@ var DrawerCanvas = /** @class */ (function (_super) {
         var timeline = this.timeline;
         var drawAtTime = timeline.getTime();
         var drawerOptions = __assign(__assign({}, this.drawerOptions), { ghost_index: undefined, clear: this.drawerOptions.clear || timeline.getCurrentFrame() <= 0, time: drawAtTime });
-        var current_frame = timeline.getFrameAtTime(drawAtTime);
+        var currentFrame = timeline.getFrameAtTime(drawAtTime);
         this.dispatch('drawer-canvas:before_draw', {
-            current_frame: current_frame,
-            current_time: drawAtTime,
+            currentFrame: currentFrame,
+            currentTime: drawAtTime,
         });
-        if (this.bBuffering && this.buffer.exist(current_frame)) {
-            (_a = this.context) === null || _a === void 0 ? void 0 : _a.putImageData(this.buffer.get(current_frame), 0, 0);
+        if (this.bBuffering && this.buffer.exist(currentFrame)) {
+            (_a = this.context) === null || _a === void 0 ? void 0 : _a.putImageData(this.buffer.get(currentFrame), 0, 0);
         }
         else {
             if (drawerOptions.ghosts) {
@@ -266,7 +266,7 @@ var DrawerCanvas = /** @class */ (function (_super) {
             }
             draw_time += DrawerCanvas.draw(this.scene, this.context, drawerOptions, this.resolution);
             if (this.bBuffering && this.context) {
-                this.buffer.push(current_frame, this.context);
+                this.buffer.push(currentFrame, this.context);
                 if (this.buffer.count() >= this.timeline.getFramesCount()) {
                     this.dispatch('drawer-canvas:buffer_loaded');
                 }
@@ -351,7 +351,7 @@ var DrawerCanvas = /** @class */ (function (_super) {
             {
                 var logFillColorWarn_1 = false;
                 var logStrokeColorWarn_1 = false;
-                scene.current_time = time_1;
+                scene.currentTime = time_1;
                 scene.getChildren().forEach(function (sceneChild) {
                     if (!sceneChild.data ||
                         !(sceneChild.data.visible === false) ||
@@ -361,12 +361,12 @@ var DrawerCanvas = /** @class */ (function (_super) {
                             var shapeData = streamCallback.shape.data;
                             context.globalCompositeOperation = shapeData && shapeData.composite ? shapeData.composite : 'source-over';
                             context.beginPath();
-                            context.moveTo((streamCallback.buffer[streamCallback.frame_buffer_index] - width_1 / 2) * final_scale_1[0] +
-                                final_translate_1[0], (streamCallback.buffer[streamCallback.frame_buffer_index + 1] - height_1 / 2) * final_scale_1[1] +
+                            context.moveTo((streamCallback.buffer[streamCallback.frameBufferIndex] - width_1 / 2) * final_scale_1[0] +
+                                final_translate_1[0], (streamCallback.buffer[streamCallback.frameBufferIndex + 1] - height_1 / 2) * final_scale_1[1] +
                                 final_translate_1[1]);
-                            for (var i = 2; i < streamCallback.frame_length; i += 2) {
-                                context.lineTo((streamCallback.buffer[streamCallback.frame_buffer_index + i] - width_1 / 2) * final_scale_1[0] +
-                                    final_translate_1[0], (streamCallback.buffer[streamCallback.frame_buffer_index + i + 1] - height_1 / 2) * final_scale_1[1] +
+                            for (var i = 2; i < streamCallback.frameLength; i += 2) {
+                                context.lineTo((streamCallback.buffer[streamCallback.frameBufferIndex + i] - width_1 / 2) * final_scale_1[0] +
+                                    final_translate_1[0], (streamCallback.buffer[streamCallback.frameBufferIndex + i + 1] - height_1 / 2) * final_scale_1[1] +
                                     final_translate_1[1]);
                             }
                             streamCallback.shape.isClosed() && context.closePath();

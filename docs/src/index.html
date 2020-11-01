@@ -20,9 +20,10 @@
 			<section class="first-section">
 				<header>
 					<div>
-						<img src="assets/images/logo.svg" alt="Urpflanze logo" id="logo" />
-						<span>Urpflanze</span>
-						<span id="version"></span>
+						<a href="<%= htmlWebpackPlugin.options.baseUrl %>">
+							<img src="assets/images/logo-full.svg" alt="Urpflanze logo" id="logo" />
+							<span id="version_string"><small>v</small><span id="version"></span> </span>
+						</a>
 					</div>
 					<div id="menu_btn">menu</div>
 				</header>

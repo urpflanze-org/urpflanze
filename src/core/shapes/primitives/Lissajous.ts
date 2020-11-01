@@ -39,22 +39,22 @@ class Lissajous extends ShapeLoop {
 		this.loop = {
 			start: 0,
 			end: ShapeLoop.PI2,
-			inc: prop_arguments => {
-				const wx = this.getProp('wx', prop_arguments)
-				const wy = this.getProp('wy', prop_arguments)
+			inc: propArguments => {
+				const wx = this.getProp('wx', propArguments)
+				const wy = this.getProp('wy', propArguments)
 
 				const ratio = wx == wy ? ShapeLoop.PId2 : 0.5 - Math.min(49, wx + wy) * 0.01
 
 				return (1 / Math.pow(this.sideLength[0] * this.sideLength[1], 0.25)) * ratio
 			},
-			vertex: (shape_loop_repetition: IShapeLoopRepetition, prop_arguments?: ISceneChildPropArguments): vec2 => {
-				const wx = this.getProp('wx', prop_arguments)
-				const wy = this.getProp('wy', prop_arguments)
-				const wz = this.getProp('wz', prop_arguments, 0)
+			vertex: (shapeLoopRepetition: IShapeLoopRepetition, propArguments?: ISceneChildPropArguments): vec2 => {
+				const wx = this.getProp('wx', propArguments)
+				const wy = this.getProp('wy', propArguments)
+				const wz = this.getProp('wz', propArguments, 0)
 
 				return wx == wy
-					? [Math.cos(shape_loop_repetition.angle + wz), Math.sin(shape_loop_repetition.angle)]
-					: [Math.cos(wx * shape_loop_repetition.angle + wz), Math.sin(wy * shape_loop_repetition.angle)]
+					? [Math.cos(shapeLoopRepetition.angle + wz), Math.sin(shapeLoopRepetition.angle)]
+					: [Math.cos(wx * shapeLoopRepetition.angle + wz), Math.sin(wy * shapeLoopRepetition.angle)]
 			},
 		}
 
@@ -67,13 +67,13 @@ class Lissajous extends ShapeLoop {
 	 * Get property value
 	 *
 	 * @param {keyof ILissajousProps} key
-	 * @param {ISceneChildPropArguments} [prop_arguments]
-	 * @param {*} [default_value]
+	 * @param {ISceneChildPropArguments} [propArguments]
+	 * @param {*} [defaultValue]
 	 * @returns {*}
 	 * @memberof Lissajous
 	 */
-	public getProp(key: keyof ILissajousProps, prop_arguments?: ISceneChildPropArguments, default_value?: any): any {
-		return super.getProp(key as keyof IShapeLoopProps, prop_arguments, default_value)
+	public getProp(key: keyof ILissajousProps, propArguments?: ISceneChildPropArguments, defaultValue?: any): any {
+		return super.getProp(key as keyof IShapeLoopProps, propArguments, defaultValue)
 	}
 
 	/**

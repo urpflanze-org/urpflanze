@@ -147,7 +147,7 @@ export function printVariables(variables) {
         ${variables.map(variable => `
             <li>
                 <div>${resolveMethodOrPropertyName(variable)}: <span class="reference__property__type">${resolveType(variable.type)}</span>${variable.defaultValue 
-					? `<span class="reference__property__default_value"> = ${variable.defaultValue}</span>` 
+					? `<span class="reference__property__defaultValue"> = ${variable.defaultValue}</span>` 
 					: ''
 				}</div>
 				<div class="reference__property__description">${printDescription(variable)}</div>
@@ -199,7 +199,7 @@ export  function printFunctions(functions) {
                 <div>
                     ${resolveMethodOrPropertyName(callable)}${resolveTypeParameter(callable)}(${parameters.map(parameter => 
 						`<span class="reference__method__property_name">${parameter.name}${parameter.bOptional ? '?' : ''}</span>: <span class="reference__method__property_type">${resolveType(parameter.type)}</span>${
-							parameter.defaultValue ? `<span class="reference__method__property_default_value"> = ${parameter.defaultValue}</span>` : ''
+							parameter.defaultValue ? `<span class="reference__method__property_defaultValue"> = ${parameter.defaultValue}</span>` : ''
 						}`
 					).join(', ')}): ${resolveType(callable.return_type)}
                 </div>

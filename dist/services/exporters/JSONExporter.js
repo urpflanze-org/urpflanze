@@ -45,7 +45,8 @@ var JSONExporter = /** @class */ (function () {
         project.background = scene.background;
         project.clear = drawer.getOption('clear', true);
         project.ghosts = drawer.getOption('ghosts', 0);
-        project.ghost_skip_time = parseFunction.parse(drawer.getOption('ghost_skip_time', 30));
+        project.ghostSkipTime = drawer.getOption('ghostSkipTime', undefined);
+        project.ghostSkipFunction = parseFunction.parse(drawer.getOption('ghostSkipFunction', undefined));
         project.ratio = drawer.getRatio();
         var _a = timeline.getSequence(), durate = _a.durate, framerate = _a.framerate;
         project.sequence = { durate: durate, framerate: framerate };
@@ -56,7 +57,7 @@ var JSONExporter = /** @class */ (function () {
         }
         return project;
     };
-    JSONExporter.parseSceneChild = function (sceneChild, parent_id, depth) {
+    JSONExporter.parseSceneChild = function (sceneChild, parentId, depth) {
         if (depth === void 0) { depth = 0; }
         var projectSceneChild = {
             id: sceneChild.id + '',
@@ -67,7 +68,7 @@ var JSONExporter = /** @class */ (function () {
             depth: depth,
             bPrimitive: sceneChild instanceof ShapePrimitive,
             props: {},
-            parent_id: parent_id,
+            parentId: parentId,
         };
         var props = sceneChild.getProps();
         var propsKeys = Object.keys(props);

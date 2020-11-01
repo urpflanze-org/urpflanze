@@ -25,7 +25,7 @@ class ShapeBuffer extends ShapePrimitive {
 	 * @type {Float32Array}
 	 * @memberof ShapeBuffer
 	 */
-	private shape_buffer: Float32Array
+	private shapeBuffer: Float32Array
 
 	/**
 	 * Creates an instance of ShapeBuffer.
@@ -61,7 +61,7 @@ class ShapeBuffer extends ShapePrimitive {
 		super.clearBuffer(bClearIndexed, bPropagateToParents)
 
 		this.bindBuffer()
-		// this.shape_buffer = ShapeBuffer.buffer2Dto3D(this.shape_buffer)
+		// this.shapeBuffer = ShapeBuffer.buffer2Dto3D(this.shapeBuffer)
 	}
 
 	/**
@@ -71,23 +71,23 @@ class ShapeBuffer extends ShapePrimitive {
 	 * @memberof ShapeBuffer
 	 */
 	private bindBuffer() {
-		const shape_buffer =
+		const shapeBuffer =
 			this.adaptMode !== EShapePrimitiveAdaptMode.None
 				? ShapePrimitive.adaptBuffer(this.shape, this.adaptMode)
 				: Float32Array.from(this.shape)
 
-		const tmp_bounding: TTempBounding = [undefined, undefined, undefined, undefined]
+		const tmpBounding: TTempBounding = [undefined, undefined, undefined, undefined]
 
-		for (let i = 0, len = shape_buffer.length; i < len; i += 2) {
-			shape_buffer[i] *= this.sideLength[0]
-			shape_buffer[i + 1] *= this.sideLength[1]
+		for (let i = 0, len = shapeBuffer.length; i < len; i += 2) {
+			shapeBuffer[i] *= this.sideLength[0]
+			shapeBuffer[i + 1] *= this.sideLength[1]
 
-			Bounding.add(tmp_bounding, shape_buffer[i], shape_buffer[i + 1])
+			Bounding.add(tmpBounding, shapeBuffer[i], shapeBuffer[i + 1])
 		}
 
-		Bounding.bind(this.single_bounding, tmp_bounding)
+		Bounding.bind(this.currentGenerationPrimitiveBounding, tmpBounding)
 
-		this.shape_buffer = shape_buffer
+		this.shapeBuffer = shapeBuffer
 	}
 
 	/**
@@ -99,24 +99,24 @@ class ShapeBuffer extends ShapePrimitive {
 	public getBufferLength(): number {
 		if (this.buffer && this.buffer.length > 0) return this.buffer.length
 
-		return this.shape_buffer.length * this.getRepetitionCount()
+		return this.shapeBuffer.length * this.getRepetitionCount()
 	}
 
 	/**
 	 * Return a buffer of children shape or loop generated buffer
 	 *
 	 * @protected
-	 * @param {number} generate_id
-	 * @param {ISceneChildPropArguments} prop_arguments
+	 * @param {number} generateId
+	 * @param {ISceneChildPropArguments} propArguments
 	 * @returns {Float32Array}
 	 * @memberof ShapeBase
 	 */
-	protected generateBuffer(generate_id: number, prop_arguments: ISceneChildPropArguments): Float32Array {
-		if (this.bindSideLength(prop_arguments)) {
+	protected generateBuffer(generateId: number, propArguments: ISceneChildPropArguments): Float32Array {
+		if (this.bindSideLength(propArguments)) {
 			this.bindBuffer()
 		}
 
-		return this.shape_buffer
+		return this.shapeBuffer
 	}
 
 	/**
@@ -157,10 +157,10 @@ class ShapeBuffer extends ShapePrimitive {
 	 * @memberof ShapeBuffer
 	 */
 	public static subdivide(shape: Float32Array, bClosed = true): Float32Array {
-		const shape_len = shape.length
-		const subdivided = new Float32Array(shape_len * 2 - (bClosed ? 0 : 2))
+		const shapeLength = shape.length
+		const subdivided = new Float32Array(shapeLength * 2 - (bClosed ? 0 : 2))
 
-		for (let i = 0; i < shape_len; i += 2) {
+		for (let i = 0; i < shapeLength; i += 2) {
 			if (i === 0) {
 				subdivided[0] = shape[0]
 				subdivided[1] = shape[1]
@@ -183,8 +183,8 @@ class ShapeBuffer extends ShapePrimitive {
 		}
 
 		if (bClosed) {
-			subdivided[(shape_len - 1) * 2] = (shape[0] + shape[shape_len - 2]) / 2
-			subdivided[(shape_len - 1) * 2 + 1] = (shape[1] + shape[shape_len - 1]) / 2
+			subdivided[(shapeLength - 1) * 2] = (shape[0] + shape[shapeLength - 2]) / 2
+			subdivided[(shapeLength - 1) * 2 + 1] = (shape[1] + shape[shapeLength - 1]) / 2
 		}
 
 		return subdivided

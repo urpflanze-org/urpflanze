@@ -39,29 +39,29 @@ declare class Shape extends ShapeBase {
     /**
      * Find shape by id or name
      *
-     * @param {number | string} id_or_name
+     * @param {number | string} idOrName
      * @returns {(SceneChild | null)}
      * @memberof Shape
      */
-    find(id_or_name: number | string): SceneChild | null;
+    find(idOrName: number | string): SceneChild | null;
     /**
      * Return length of buffer
      *
-     * @param {ISceneChildPropArguments} prop_arguments
+     * @param {ISceneChildPropArguments} propArguments
      * @returns {number}
      * @memberof Shape
      */
-    getBufferLength(prop_arguments: ISceneChildPropArguments): number;
+    getBufferLength(propArguments: ISceneChildPropArguments): number;
     /**
      * Return a buffer of children shape or loop generated buffer
      *
      * @protected
-     * @param {number} generate_id
-     * @param {ISceneChildPropArguments} prop_arguments
+     * @param {number} generateId
+     * @param {ISceneChildPropArguments} propArguments
      * @returns {Float32Array}
      * @memberof ShapeBase
      */
-    protected generateBuffer(generate_id: number, prop_arguments: ISceneChildPropArguments): Float32Array;
+    protected generateBuffer(generateId: number, propArguments: ISceneChildPropArguments): Float32Array;
     /**
      * Return bounding
      *
@@ -70,7 +70,7 @@ declare class Shape extends ShapeBase {
      * @memberof Shape
      */
     getBounding(bDirectSceneChild: boolean): IShapeBounding;
-    protected addIndex(frame_length: number, repetition: IRepetition): void;
+    protected addIndex(frameLength: number, repetition: IRepetition): void;
     /**
      * Set shape
      *

@@ -24,8 +24,8 @@ export interface IProject {
     backgroundImage?: string;
     clear: boolean;
     ghosts: number;
-    ghost_skip_time?: number;
-    ghost_skip_function?: number | string | CallableFunction;
+    ghostSkipTime?: number;
+    ghostSkipFunction?: number | string | CallableFunction;
     sequence: IProjectSequence;
     scene: {
         [key: string]: IProjectSceneChild;
@@ -75,7 +75,7 @@ export interface IProjectSceneChild {
     bPrimitive: boolean;
     depth: number;
     props: IProjectSceneChildProps;
-    parent_id?: string | number;
+    parentId?: string | number;
     children?: Array<IProjectSceneChild>;
 }
 //# sourceMappingURL=project.d.ts.map

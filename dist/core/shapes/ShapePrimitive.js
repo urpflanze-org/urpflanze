@@ -42,12 +42,12 @@ var ShapePrimitive = /** @class */ (function (_super) {
         var _a, _b;
         var _this = _super.call(this, settings) || this;
         /**
-         * Shape bounding
+         * Contain the bounding of the last generated buffer
          *
          * @type {IShapeBounding}
          * @memberof ShapePrimitive
          */
-        _this.single_bounding = __assign({}, ShapePrimitive.EMPTY_BOUNDING);
+        _this.currentGenerationPrimitiveBounding = __assign({}, ShapePrimitive.EMPTY_BOUNDING);
         var sideLength = typeof settings.sideLength === 'number'
             ? [settings.sideLength, settings.sideLength]
             : Array.isArray(settings.sideLength)
@@ -75,23 +75,23 @@ var ShapePrimitive = /** @class */ (function (_super) {
      * Get prop
      *
      * @param {keyof IShapePrimitiveProps} key
-     * @param {ISceneChildPropArguments} [prop_arguments]
-     * @param {*} [default_value]
+     * @param {ISceneChildPropArguments} [propArguments]
+     * @param {*} [defaultValue]
      * @returns {*}
      * @memberof ShapePrimitive
      */
-    ShapePrimitive.prototype.getProp = function (key, prop_arguments, default_value) {
-        return _super.prototype.getProp.call(this, key, prop_arguments, default_value);
+    ShapePrimitive.prototype.getProp = function (key, propArguments, defaultValue) {
+        return _super.prototype.getProp.call(this, key, propArguments, defaultValue);
     };
     /**
      * set side length when generate a buffer into shape loop or shape buffer
      *
      * @protected
-     * @param {ISceneChildPropArguments} prop_arguments
+     * @param {ISceneChildPropArguments} propArguments
      * @memberof ShapePrimitive
      */
-    ShapePrimitive.prototype.bindSideLength = function (prop_arguments) {
-        var sideLength = toVec2(this.getProp('sideLength', prop_arguments, [50, 50]));
+    ShapePrimitive.prototype.bindSideLength = function (propArguments) {
+        var sideLength = toVec2(this.getProp('sideLength', propArguments, [50, 50]));
         if (this.sideLength[0] !== sideLength[0] && this.sideLength[1] !== sideLength[1]) {
             this.sideLength = sideLength;
             return true;
@@ -106,21 +106,21 @@ var ShapePrimitive = /** @class */ (function (_super) {
      * @memberof ShapePrimitive
      */
     ShapePrimitive.prototype.getBounding = function (bDirectSceneChild) {
-        return bDirectSceneChild ? this.single_bounding : this.bounding;
+        return bDirectSceneChild ? this.currentGenerationPrimitiveBounding : this.bounding;
     };
     /**
-     * Add this to indexed_buffer
+     * Add this to indexedBuffer
      *
      * @protected
-     * @param {number} frame_length
+     * @param {number} frameLength
      * @param {IRepetition} repetition
      * @memberof ShapePrimitive
      */
-    ShapePrimitive.prototype.addIndex = function (frame_length, repetition) {
-        var indexed_buffer = this.indexed_buffer;
-        indexed_buffer.push({
+    ShapePrimitive.prototype.addIndex = function (frameLength, repetition) {
+        var indexedBuffer = this.indexedBuffer;
+        indexedBuffer.push({
             shape: this,
-            frame_length: frame_length,
+            frameLength: frameLength,
             repetition: {
                 type: repetition.type,
                 angle: repetition.angle,

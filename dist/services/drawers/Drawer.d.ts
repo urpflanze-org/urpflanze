@@ -89,9 +89,9 @@ declare abstract class Drawer<IADrawerOptions extends IDrawerOptions, IDrawerEve
      *
      * @template K
      * @param {K} name
-     * @param {IADrawerOptions[K]} default_value
+     * @param {IADrawerOptions[K]} defaultValue
      */
-    getOption<K extends keyof IADrawerOptions>(name: K, default_value: IADrawerOptions[K]): IADrawerOptions[K];
+    getOption<K extends keyof IADrawerOptions>(name: K, defaultValue: IADrawerOptions[K]): IADrawerOptions[K];
     /**
      * Return all options
      */

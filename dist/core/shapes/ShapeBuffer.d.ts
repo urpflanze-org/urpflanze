@@ -21,7 +21,7 @@ declare class ShapeBuffer extends ShapePrimitive {
      * @type {Float32Array}
      * @memberof ShapeBuffer
      */
-    private shape_buffer;
+    private shapeBuffer;
     /**
      * Creates an instance of ShapeBuffer.
      *
@@ -55,12 +55,12 @@ declare class ShapeBuffer extends ShapePrimitive {
      * Return a buffer of children shape or loop generated buffer
      *
      * @protected
-     * @param {number} generate_id
-     * @param {ISceneChildPropArguments} prop_arguments
+     * @param {number} generateId
+     * @param {ISceneChildPropArguments} propArguments
      * @returns {Float32Array}
      * @memberof ShapeBase
      */
-    protected generateBuffer(generate_id: number, prop_arguments: ISceneChildPropArguments): Float32Array;
+    protected generateBuffer(generateId: number, propArguments: ISceneChildPropArguments): Float32Array;
     /**
      * Set shape
      *

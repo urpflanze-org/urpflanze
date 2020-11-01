@@ -1,6 +1,6 @@
 {
 	"name": "urpflanze",
-	"version": "0.0.0-beta.1",
+	"version": "0.0.0-alpha.1",
 	"description": "Play with the repetition and encapsulation of primitive shapes",
 	"license": "MIT",
 	"author": {
@@ -19,6 +19,7 @@
 	},
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
+	"browser": "build/urpflanze.js",
 	"files": [
 		"build",
 		"dist",

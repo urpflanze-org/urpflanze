@@ -3,7 +3,7 @@ import { ISceneChildStreamArguments } from '@core/types/scene-child'
 /**
  * @category Core.Types
  */
-export type TStreamCallback = (stream_arguments: ISceneChildStreamArguments) => void
+export type TStreamCallback = (streamArguments: ISceneChildStreamArguments) => void
 
 /**
  * The object to pass as the argument of a new scene

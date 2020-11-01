@@ -21,7 +21,7 @@ declare class DrawerSVG extends Drawer<IDrawerSVGOptions, IDrawerSVGEvents> {
     draw(): number;
     protected appendSVGFromPaths(paths: Array<SVGPathElement>, drawerOptions: IDrawerSVGOptions): void;
     static draw(scene: Scene, paths: Array<SVGPathElement>, options: IDrawerSVGOptions & {
-        ghost_index?: number;
+        ghostIndex?: number;
     }): number;
 }
 export default DrawerSVG;

@@ -192,10 +192,10 @@ abstract class Drawer<IADrawerOptions extends IDrawerOptions, IDrawerEvents> ext
 	 *
 	 * @template K
 	 * @param {K} name
-	 * @param {IADrawerOptions[K]} default_value
+	 * @param {IADrawerOptions[K]} defaultValue
 	 */
-	public getOption<K extends keyof IADrawerOptions>(name: K, default_value: IADrawerOptions[K]): IADrawerOptions[K] {
-		return this.drawerOptions[name] ?? default_value
+	public getOption<K extends keyof IADrawerOptions>(name: K, defaultValue: IADrawerOptions[K]): IADrawerOptions[K] {
+		return this.drawerOptions[name] ?? defaultValue
 	}
 
 	/**
@@ -304,9 +304,9 @@ abstract class Drawer<IADrawerOptions extends IDrawerOptions, IDrawerEvents> ext
 			for (let i = 1; i <= drawerOptions.ghosts; i++) {
 				const ghostTime =
 					drawAtTime -
-					(drawerOptions.ghost_skip_function
-						? drawerOptions.ghost_skip_function(i)
-						: i * (drawerOptions.ghost_skip_time as number))
+					(drawerOptions.ghostSkipFunction
+						? drawerOptions.ghostSkipFunction(i)
+						: i * (drawerOptions.ghostSkipTime as number))
 
 				ghostDrawerOptions.ghost_index = i
 				ghostDrawerOptions.time = (ghostTime + sequenceDurate) % sequenceDurate

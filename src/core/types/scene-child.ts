@@ -65,7 +65,7 @@ export interface IShapeLoopRepetition extends IBaseRepetition {
 }
 
 /**
- * Information about prop_arguments repetition
+ * Information about propArguments repetition
  *
  * @category Core.Interfaces
  */
@@ -294,11 +294,11 @@ export interface ISceneChildPropArguments {
  *
  * @category Core.Types
  */
-export type TSceneChildProp<T> = T | { (prop_arguments: ISceneChildPropArguments): T }
+export type TSceneChildProp<T> = T | { (propArguments: ISceneChildPropArguments): T }
 
 /**
  * Object passed to the drawer where it is possible to draw the current frame
- * starting from frame_buffer_index up to frame_buffer_index + frame_length,
+ * starting from frameBufferIndex up to frameBuffeIndex + frameLength,
  * the fill or strtoke color of the frame is also present
  *
  * @category Core.Interfaces
@@ -335,20 +335,20 @@ export interface ISceneChildStreamArguments {
 	/**
 	 * @order 8
 	 */
-	frame_buffer_index: number
+	frameBufferIndex: number
 	/**
 	 * @order 9
 	 */
-	frame_length: number
+	frameLength: number
 	/**
 	 * @order 10
 	 */
-	current_shape_index: number
+	currentShapeIndex: number
 	/**
 	 * total primitives
 	 * @order 11
 	 */
-	total_shapes: number
+	totalShapes: number
 
 	/**
 	 * repetition of current generated shape

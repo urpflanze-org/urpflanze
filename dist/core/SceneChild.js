@@ -35,12 +35,12 @@ var SceneChild = /** @class */ (function () {
      * Find this or form or children.
      * Overridden by classes that extend it
      *
-     * @param {string | number} id_or_name
+     * @param {string | number} idOrName
      * @returns {(SceneChild | null)}
      * @memberof SceneChild
      */
-    SceneChild.prototype.find = function (id_or_name) {
-        if (this.id === id_or_name || this.name === id_or_name)
+    SceneChild.prototype.find = function (idOrName) {
+        if (this.id === idOrName || this.name === idOrName)
             return this;
         return null;
     };
@@ -57,14 +57,14 @@ var SceneChild = /** @class */ (function () {
      * Return a sceneChild prop or default value
      *
      * @param {keyof ISceneChildProps} key
-     * @param {ISceneChildPropArguments} [prop_arguments]
-     * @param {*} [default_value]
+     * @param {ISceneChildPropArguments} [propArguments]
+     * @param {*} [defaultValue]
      * @returns {*}
      * @memberof SceneChild
      */
-    SceneChild.prototype.getProp = function (key, prop_arguments, default_value) {
+    SceneChild.prototype.getProp = function (key, propArguments, defaultValue) {
         var _a;
-        return ((_a = this.props[key]) !== null && _a !== void 0 ? _a : default_value);
+        return ((_a = this.props[key]) !== null && _a !== void 0 ? _a : defaultValue);
     };
     /**
      * Set a single or multiple props

@@ -38,7 +38,7 @@ var Circle = /** @class */ (function (_super) {
             start: 0,
             end: ShapeLoop.PI2,
             inc: function () { return (1 / Math.pow(_this.sideLength[0] * _this.sideLength[1], 0.25)) * ShapeLoop.PId2; },
-            vertex: function (shape_loop_repetition) { return [Math.cos(shape_loop_repetition.angle), Math.sin(shape_loop_repetition.angle)]; },
+            vertex: function (shapeLoopRepetition) { return [Math.cos(shapeLoopRepetition.angle), Math.sin(shapeLoopRepetition.angle)]; },
         };
         return _this;
     }

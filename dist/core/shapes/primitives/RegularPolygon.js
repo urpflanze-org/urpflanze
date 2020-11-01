@@ -34,9 +34,9 @@ var RegularPolygon = /** @class */ (function (_super) {
         _this.loop = {
             start: 0,
             end: ShapeLoop.PI2,
-            inc: function (prop_arguments) { return ShapeLoop.PI2 / _this.getProp('sideNumber', prop_arguments, 5); },
-            vertex: function (shape_loop_repetition) {
-                return [Math.cos(shape_loop_repetition.angle), Math.sin(shape_loop_repetition.angle)];
+            inc: function (propArguments) { return ShapeLoop.PI2 / _this.getProp('sideNumber', propArguments, 5); },
+            vertex: function (shapeLoopRepetition) {
+                return [Math.cos(shapeLoopRepetition.angle), Math.sin(shapeLoopRepetition.angle)];
             },
         };
         _this.bStaticLoop = _this.isStaticLoop();
@@ -48,13 +48,13 @@ var RegularPolygon = /** @class */ (function (_super) {
      * Get property value
      *
      * @param {keyof IRegularPolygonProps} key
-     * @param {ISceneChildPropArguments} [prop_arguments]
-     * @param {*} [default_value]
+     * @param {ISceneChildPropArguments} [propArguments]
+     * @param {*} [defaultValue]
      * @returns {*}
      * @memberof IRegularPolygonProps
      */
-    RegularPolygon.prototype.getProp = function (key, prop_arguments, default_value) {
-        return _super.prototype.getProp.call(this, key, prop_arguments, default_value);
+    RegularPolygon.prototype.getProp = function (key, propArguments, defaultValue) {
+        return _super.prototype.getProp.call(this, key, propArguments, defaultValue);
     };
     /**
      * Set single or multiple props

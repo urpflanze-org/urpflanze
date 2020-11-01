@@ -119,12 +119,12 @@ abstract class SceneChild {
 	 * Find this or form or children.
 	 * Overridden by classes that extend it
 	 *
-	 * @param {string | number} id_or_name
+	 * @param {string | number} idOrName
 	 * @returns {(SceneChild | null)}
 	 * @memberof SceneChild
 	 */
-	find(id_or_name: string | number): SceneChild | null {
-		if (this.id === id_or_name || this.name === id_or_name) return this
+	find(idOrName: string | number): SceneChild | null {
+		if (this.id === idOrName || this.name === idOrName) return this
 
 		return null
 	}
@@ -143,13 +143,13 @@ abstract class SceneChild {
 	 * Return a sceneChild prop or default value
 	 *
 	 * @param {keyof ISceneChildProps} key
-	 * @param {ISceneChildPropArguments} [prop_arguments]
-	 * @param {*} [default_value]
+	 * @param {ISceneChildPropArguments} [propArguments]
+	 * @param {*} [defaultValue]
 	 * @returns {*}
 	 * @memberof SceneChild
 	 */
-	public getProp(key: keyof ISceneChildProps, prop_arguments?: ISceneChildPropArguments, default_value?: any): any {
-		return (this.props[key] ?? default_value) as any
+	public getProp(key: keyof ISceneChildProps, propArguments?: ISceneChildPropArguments, defaultValue?: any): any {
+		return (this.props[key] ?? defaultValue) as any
 	}
 
 	/**
@@ -189,17 +189,15 @@ abstract class SceneChild {
 	 * Best explained in <a href="[base_url]/ShapeBase">ShapeBase</a>
 	 *
 	 * @abstract
-	 * @param {number} generate_id
+	 * @param {number} generateId
 	 * @param {boolean} bDirectSceneChild
-	 * @param {ISceneChildPropArguments} parent_prop_arguments
-	 * @param {Array<IBufferIndex>} indexed_buffer
-	 * @param {IBufferIndex} [parent]
+	 * @param {ISceneChildPropArguments} parentPropArguments
 	 * @memberof SceneChild
 	 */
 	abstract generate(
-		generate_id: number,
+		generateId: number,
 		bDirectSceneChild: boolean,
-		parent_prop_arguments?: ISceneChildPropArguments
+		parentPropArguments?: ISceneChildPropArguments
 	): void
 
 	/**
@@ -242,11 +240,11 @@ abstract class SceneChild {
 	 * Get length of buffer
 	 *
 	 * @abstract
-	 * @param {ISceneChildPropArguments} [prop_arguments]
+	 * @param {ISceneChildPropArguments} [propArguments]
 	 * @returns {number}
 	 * @memberof SceneChild
 	 */
-	abstract getBufferLength(prop_arguments?: ISceneChildPropArguments): number
+	abstract getBufferLength(propArguments?: ISceneChildPropArguments): number
 
 	/**
 	 * Clear buffer

@@ -17,13 +17,13 @@ import { toArray } from "../../Utilites";
  */
 var Simple = {
     loop: function (props) {
-        return Simple.compose(__assign(__assign({ mode: 'sinusoidal', mode_function: 'cos' }, props), { type: 'loop', delay: undefined }));
+        return Simple.compose(__assign(__assign({ mode: 'sinusoidal', modeFunction: 'cos' }, props), { type: 'loop', delay: undefined }));
     },
     uncontrolledLoop: function (props) {
-        return Simple.compose(__assign(__assign({ mode: 'easing', mode_function: 'linear' }, props), { type: 'uncontrolled-loop' }));
+        return Simple.compose(__assign(__assign({ mode: 'easing', modeFunction: 'linear' }, props), { type: 'uncontrolled-loop' }));
     },
     static: function (props) {
-        return Simple.compose(__assign(__assign({ mode: 'easing', mode_function: 'linear' }, props), { type: 'static' }));
+        return Simple.compose(__assign(__assign({ mode: 'easing', modeFunction: 'linear' }, props), { type: 'static' }));
     },
     compose: function (simpleAnimation) {
         if (typeof simpleAnimation.from !== 'string' && typeof simpleAnimation.to !== 'string') {
@@ -34,14 +34,14 @@ var Simple = {
                 ? function (current_index, v) {
                     var a = (simpleAnimation.invertOdd && current_index % 2 == 1 ? to_1 : from_1);
                     var b = (simpleAnimation.invertOdd && current_index % 2 == 1 ? from_1 : to_1);
-                    return simpleAnimation.type_value === 'int'
+                    return simpleAnimation.typeValue === 'int'
                         ? [Math.round(a[0] + v * (b[0] - a[0])), Math.round(a[1] + v * (b[1] - a[1]))]
                         : [a[0] + v * (b[0] - a[0]), a[1] + v * (b[1] - a[1])];
                 }
                 : function (current_index, v) {
                     var a = (simpleAnimation.invertOdd && current_index % 2 == 1 ? to_1 : from_1);
                     var b = (simpleAnimation.invertOdd && current_index % 2 == 1 ? from_1 : to_1);
-                    return simpleAnimation.type_value === 'int' ? Math.round(a + v * (b - a)) : a + v * (b - a);
+                    return simpleAnimation.typeValue === 'int' ? Math.round(a + v * (b - a)) : a + v * (b - a);
                 };
             return createSimpleAnimationCallback(simpleAnimation, function (props, v) {
                 return vCallback_1(props.repetition.index, v);
@@ -60,7 +60,7 @@ var Simple = {
     },
 };
 function createSimpleAnimationCallback(animation, value) {
-    var _a = animation, durate = _a.durate, type = _a.type, mode = _a.mode, mode_function = _a.mode_function, delay = _a.delay;
+    var _a = animation, durate = _a.durate, type = _a.type, mode = _a.mode, modeFunction = _a.modeFunction, delay = _a.delay;
     if (type === 'static') {
         if (delay && delay > 0)
             return function SimpleAnimation(props) {
@@ -68,11 +68,11 @@ function createSimpleAnimationCallback(animation, value) {
                     ? 0
                     : props.time - delay >= durate
                         ? 1
-                        : Easings[mode_function](props.time - delay, 0, 1, durate));
+                        : Easings[modeFunction](props.time - delay, 0, 1, durate));
             };
         else
             return function SimpleAnimation(props) {
-                return value(props, props.time <= durate ? Easings[mode_function](props.time, 0, 1 - 0, durate) : 1);
+                return value(props, props.time <= durate ? Easings[modeFunction](props.time, 0, 1 - 0, durate) : 1);
             };
     }
     else {
@@ -80,7 +80,7 @@ function createSimpleAnimationCallback(animation, value) {
             if (mode == 'sinusoidal') {
                 return function SimpleAnimation(props) {
                     var frequency = ((props.time || 0) * 2 * Math.PI) / durate;
-                    return value(props, 0.5 + Math[mode_function](frequency) * 0.5);
+                    return value(props, 0.5 + Math[modeFunction](frequency) * 0.5);
                 };
             } /* easing */
             else {
@@ -88,8 +88,8 @@ function createSimpleAnimationCallback(animation, value) {
                     var d2 = durate / 2;
                     var t = props.time % durate;
                     return value(props, t <= d2
-                        ? Easings[mode_function](t, 0, 1, d2)
-                        : Easings[mode_function](d2 - (t - d2), 0, 1, d2));
+                        ? Easings[modeFunction](t, 0, 1, d2)
+                        : Easings[modeFunction](d2 - (t - d2), 0, 1, d2));
                 };
             }
         } // uncontrolled-loop
@@ -99,7 +99,7 @@ function createSimpleAnimationCallback(animation, value) {
                     var time = props.time % (durate + delay);
                     time = time <= delay ? 0 : time - delay;
                     var frequency = ((time || 0) * 2 * Math.PI) / durate;
-                    return value(props, 0.5 + Math[mode_function](frequency) * 0.5);
+                    return value(props, 0.5 + Math[modeFunction](frequency) * 0.5);
                 };
             }
             else {
@@ -110,12 +110,12 @@ function createSimpleAnimationCallback(animation, value) {
                             ? 0
                             : time - delay >= durate
                                 ? 1
-                                : Easings[mode_function](time - delay, 0, 1, durate));
+                                : Easings[modeFunction](time - delay, 0, 1, durate));
                     };
                 else
                     return function SimpleAnimation(props) {
                         var time = props.time % durate;
-                        return value(props, time <= durate ? Easings[mode_function](time, 0, 1 - 0, durate) : 1);
+                        return value(props, time <= durate ? Easings[modeFunction](time, 0, 1 - 0, durate) : 1);
                     };
             }
         }

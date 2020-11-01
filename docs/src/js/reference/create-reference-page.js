@@ -76,7 +76,7 @@ function loadReference(refName) {
 								parameter.bOptional ? '?' : ''
 							}</span>: <span class="reference__method__property_type">${resolveType(parameter.type)}</span>${
 								parameter.defaultValue
-									? `<span class="reference__method__property_default_value>" = ${parameter.defaultValue}</span>`
+									? `<span class="reference__method__property_defaultValue>" = ${parameter.defaultValue}</span>`
 									: ''
 							}`
 					)

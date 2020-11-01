@@ -411,7 +411,7 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 		default_animate: 3,
 		transformation: 'none',
 	},
-	twists_start: {
+	twistsStart: {
 		animable: true,
 		name: 'twists_start',
 		label: 'Twists start',

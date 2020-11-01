@@ -5,8 +5,8 @@ export interface IDrawerOptions {
 	time?: number
 	noBackground?: boolean
 	ghosts?: number
-	ghost_skip_time?: number
-	ghost_skip_function?: (ghost_index: number) => number
+	ghostSkipTime?: number
+	ghostSkipFunction?: (ghost_index: number) => number
 }
 
 /**
@@ -33,8 +33,8 @@ export interface IDrawerCanvasOptions extends IDrawerOptions {
  */
 export interface IDrawerCanvasEvents {
 	'drawer-canvas:before_draw': {
-		current_frame: number
-		current_time: number
+		currentFrame: number
+		currentTime: number
 	}
 	'drawer-canvas:buffer_loaded': void
 	'drawer-canvas:buffer_flush': void
@@ -46,8 +46,8 @@ export interface IDrawerCanvasEvents {
  */
 export interface IDrawerSVGEvents {
 	'drawer-svg:before_draw': {
-		current_frame: number
-		current_time: number
+		currentFrame: number
+		currentTime: number
 	}
 }
 
