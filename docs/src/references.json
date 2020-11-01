@@ -23394,7 +23394,7 @@
 		"order": 9999,
 		"source": {
 			"fileName": "src/services/types/animation.ts",
-			"line": 198,
+			"line": 202,
 			"character": 26
 		},
 		"extends": [
@@ -23671,6 +23671,7 @@
 			},
 			{
 				"name": "typeValue",
+				"description": "Default is 'float', whit 'int' value, the numbers are rounded",
 				"type": {
 					"type": "union",
 					"types": [
@@ -23691,6 +23692,7 @@
 			},
 			{
 				"name": "colorTransitionMode",
+				"description": "With the 'rgb' value the color will vary linearly according to the mode and mode function,\nwhile with 'hue' they will be converted to hsla and then go through the color wheel",
 				"type": {
 					"type": "union",
 					"types": [
@@ -24001,7 +24003,7 @@
 		"order": 9999,
 		"source": {
 			"fileName": "src/services/types/animation.ts",
-			"line": 183,
+			"line": 187,
 			"character": 32
 		},
 		"parameter": {
@@ -24040,7 +24042,7 @@
 		"order": 9999,
 		"source": {
 			"fileName": "src/services/types/animation.ts",
-			"line": 193,
+			"line": 197,
 			"character": 34
 		},
 		"parameter": {
@@ -24105,7 +24107,7 @@
 		"order": 9999,
 		"source": {
 			"fileName": "src/services/types/animation.ts",
-			"line": 188,
+			"line": 192,
 			"character": 44
 		},
 		"parameter": {
