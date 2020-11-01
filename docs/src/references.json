@@ -23394,7 +23394,7 @@
 		"order": 9999,
 		"source": {
 			"fileName": "src/services/types/animation.ts",
-			"line": 202,
+			"line": 205,
 			"character": 26
 		},
 		"extends": [
@@ -23560,7 +23560,7 @@
 			},
 			{
 				"name": "to",
-				"description": "Supported color string format:\nrgba([0-255], [0-255], [0-255], 0-1)\nhsla([0-350], [0-100]%, [0-100]%, 0-1)",
+				"description": "Supported color string format:\nrgba([0-255], [0-255], [0-255], 0-1)\nhsla([0-360], [0-100]%, [0-100]%, 0-1)",
 				"type": {
 					"type": "union",
 					"types": [
@@ -23651,6 +23651,7 @@
 			},
 			{
 				"name": "delay",
+				"description": "Delay of start animation, available for <mark>type</mark> 'uncontrolled-loop' | 'static'",
 				"type": {
 					"type": "union",
 					"types": [
@@ -23692,7 +23693,7 @@
 			},
 			{
 				"name": "colorTransitionMode",
-				"description": "With the 'rgb' value the color will vary linearly according to the mode and mode function,\nwhile with 'hue' they will be converted to hsla and then go through the color wheel",
+				"description": "With the 'rgb' value the color will vary linearly according to the <mark>mode</mark> and <mark>modeFunction</mark>,\nwhile with 'hue' they will be converted to hsla and then go through the color wheel",
 				"type": {
 					"type": "union",
 					"types": [
@@ -24003,7 +24004,7 @@
 		"order": 9999,
 		"source": {
 			"fileName": "src/services/types/animation.ts",
-			"line": 187,
+			"line": 190,
 			"character": 32
 		},
 		"parameter": {
@@ -24042,7 +24043,7 @@
 		"order": 9999,
 		"source": {
 			"fileName": "src/services/types/animation.ts",
-			"line": 197,
+			"line": 200,
 			"character": 34
 		},
 		"parameter": {
@@ -24107,7 +24108,7 @@
 		"order": 9999,
 		"source": {
 			"fileName": "src/services/types/animation.ts",
-			"line": 192,
+			"line": 195,
 			"character": 44
 		},
 		"parameter": {

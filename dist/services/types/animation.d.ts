@@ -85,7 +85,7 @@ export interface ISimpleAnimation {
     /**
      * Supported color string format:
      * rgba([0-255], [0-255], [0-255], 0-1)
-     * hsla([0-350], [0-100]%, [0-100]%, 0-1)
+     * hsla([0-360], [0-100]%, [0-100]%, 0-1)
      * @order 2
      */
     to: number | Array<number> | string;
@@ -117,16 +117,19 @@ export interface ISimpleAnimation {
      */
     modeFunction?: TModeFunction;
     /**
+     * Delay of start animation, available for <mark>type</mark> 'uncontrolled-loop' | 'static'
+     *
      * @order 7
      */
     delay?: number;
     /**
      * Default is 'float', whit 'int' value, the numbers are rounded
+     *
      * @order 8
      */
     typeValue?: 'int' | 'float';
     /**
-     * With the 'rgb' value the color will vary linearly according to the mode and mode function,
+     * With the 'rgb' value the color will vary linearly according to the <mark>mode</mark> and <mark>modeFunction</mark>,
      * while with 'hue' they will be converted to hsla and then go through the color wheel
      *
      * @order 9
