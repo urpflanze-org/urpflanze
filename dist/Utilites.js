@@ -104,6 +104,18 @@ export function toArray(t) {
     return Array.isArray(t) ? t : [t, t];
 }
 /**
+ * Linear interpolation from `a` when `i` as 0 an `b` when `i' as 1
+ *
+ * @category Utilities
+ * @param {number} a
+ * @param {number} b
+ * @param {number} i
+ * @returns {number}
+ */
+export function lerp(a, b, i) {
+    return (1 - i) * a + i * b;
+}
+/**
  * Return number between min and max
  *
  * @category Utilities

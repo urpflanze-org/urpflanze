@@ -28,7 +28,7 @@ export interface ISceneChildPropData {
 /**
  * @category Services.Scene Utilities
  */
-export declare type TSceneChildPropsDataKeys = Exclude<keyof TSceneChildProps | 'loop.start' | 'loop.end' | 'loop.inc', 'shapeLoopPropsDependencies' | 'vertexCallback' | 'loop' | 'name' | 'order' | 'type' | 'data' | 'shape' | 'id'>;
+export declare type TSceneChildPropsDataKeys = Exclude<keyof TSceneChildProps | 'loop.start' | 'loop.end' | 'loop.inc', 'loopDependencies' | 'vertexCallback' | 'loop' | 'name' | 'order' | 'type' | 'data' | 'shape' | 'id'>;
 declare type TSceneChildUtilityProps = {
     [key in TSceneChildPropsDataKeys]: ISceneChildPropData;
 };

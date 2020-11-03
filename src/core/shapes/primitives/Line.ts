@@ -21,7 +21,7 @@ class Line extends ShapeBuffer {
 		settings.shape = [-1, 0, 1, 0]
 		settings.adaptMode = EShapePrimitiveAdaptMode.None
 
-		settings.bCloseShape = false
+		settings.bClosed = false
 
 		super(settings)
 	}

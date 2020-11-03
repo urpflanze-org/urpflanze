@@ -123,7 +123,7 @@ var ShapeBuffer = /** @class */ (function (_super) {
         var subdivided = this.shape;
         if (subdivided && subdivided.length > 0) {
             for (var i = 0; i < level; i++)
-                subdivided = ShapeBuffer.subdivide(subdivided, this.bCloseShape);
+                subdivided = ShapeBuffer.subdivide(subdivided, this.bClosed);
             this.setShape(subdivided);
         }
     };

@@ -93,7 +93,7 @@ class JSONExporter {
 
 		if (sceneChild instanceof ShapePrimitive) {
 			projectSceneChild.adaptMode = sceneChild.adaptMode
-			projectSceneChild.bCloseShape = sceneChild.bCloseShape
+			projectSceneChild.bClosed = sceneChild.bClosed
 			projectSceneChild.vertexCallback = parseFunction.parse(sceneChild.vertexCallback)
 		} else if (sceneChild instanceof Shape || sceneChild instanceof Group) {
 			const children: Array<IProjectSceneChild> = []

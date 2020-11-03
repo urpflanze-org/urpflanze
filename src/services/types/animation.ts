@@ -61,7 +61,7 @@ export interface IShapeLoopAnimation {
 	end: TCallableValue<number>
 	inc: TCallableValue<number>
 	vertex: ICallableValue<Array<number> | Float32Array>
-	dynamyc: boolean // add 'propArguments' in shapeLoopPropsDependencies
+	dynamyc: boolean // add 'propArguments' in loopDependencies
 }
 
 //////////////////////////

@@ -33,9 +33,9 @@ var Spiral = /** @class */ (function (_super) {
         var _a, _b, _c, _d;
         var _this = this;
         settings.type = 'Spiral';
-        settings.bCloseShape = false;
+        settings.bClosed = false;
         settings.adaptMode = (_a = settings.adaptMode) !== null && _a !== void 0 ? _a : EShapePrimitiveAdaptMode.None;
-        settings.shapeLoopPropsDependencies = (settings.shapeLoopPropsDependencies || []).concat([
+        settings.loopDependencies = (settings.loopDependencies || []).concat([
             'twists',
             'twistsStart',
             'spiral',
@@ -51,10 +51,6 @@ var Spiral = /** @class */ (function (_super) {
                 return ShapeLoop.PI2 * (_this.getProp('twistsStart', propArguments) + _this.getProp('twists', propArguments));
             },
             inc: function (propArguments) {
-                // const twists = this.getProp('twists', propArguments)
-                // const rep = ShapeLoop.PI2 * twists
-                // const radius = 2 * Math.sqrt(this.sideLength[0] * this.sideLength[1])
-                // return rep / (radius)
                 var twists = _this.getProp('twists', propArguments);
                 var rep = ShapeLoop.PI2 * twists;
                 var radius = 4 + Math.sqrt(_this.sideLength[0] * _this.sideLength[1]);

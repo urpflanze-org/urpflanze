@@ -207,17 +207,17 @@ class SceneUtilities {
 		}
 
 		if (sceneChild instanceof ShapePrimitive) {
-			props.bCloseShape = sceneChild.bCloseShape
+			props.bClosed = sceneChild.bClosed
 			props.adaptMode = sceneChild.adaptMode
 			props.vertexCallback = sceneChild.vertexCallback
 		}
 
 		if (sceneChild instanceof ShapeLoop) {
-			props.shapeLoopPropsDependencies = sceneChild.shapeLoopPropsDependencies
+			props.loopDependencies = sceneChild.loopDependencies
 		}
 
 		if (sceneChild instanceof ShapeLoop) {
-			props.shapeLoopPropsDependencies = sceneChild.shapeLoopPropsDependencies
+			props.loopDependencies = sceneChild.loopDependencies
 		}
 
 		if (strict) {
@@ -520,14 +520,14 @@ class SceneUtilities {
 				sceneChild.data.props.loop = value
 				sceneChild.setProp('loop', ScenePropUtilities.composeLoop(value))
 				const dynamic = (value as IShapeLoopAnimation).dynamyc
-				const realDynamic = (sceneChild as ShapeLoop).shapeLoopPropsDependencies.indexOf('prop_argumens') >= 0
+				const realDynamic = (sceneChild as ShapeLoop).loopDependencies.indexOf('prop_argumens') >= 0
 
 				if (dynamic !== realDynamic) {
-					const dependencies = [...(sceneChild as ShapeLoop).shapeLoopPropsDependencies]
+					const dependencies = [...(sceneChild as ShapeLoop).loopDependencies]
 					if (dynamic) !(dependencies.indexOf('prop_argumens') >= 0) && dependencies.push('propArguments')
 					else
 						dependencies.indexOf('prop_argumens') >= 0 && dependencies.splice(dependencies.indexOf('propArguments', 1))
-					;(sceneChild as ShapeLoop).shapeLoopPropsDependencies = dependencies
+					;(sceneChild as ShapeLoop).loopDependencies = dependencies
 				}
 				sceneChild.clearBuffer(true, true)
 			}
@@ -564,7 +564,7 @@ class SceneUtilities {
 			case 'bUseParent':
 				if (sceneChild instanceof ShapeBase) sceneChild.bUseParent = value
 				break
-			case 'bCloseShape':
+			case 'bClosed':
 				if (sceneChild instanceof ShapePrimitive) sceneChild.setClosed(value)
 				break
 			case 'bAdaptBuffer':

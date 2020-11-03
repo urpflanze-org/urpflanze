@@ -33,7 +33,7 @@ var Rose = /** @class */ (function (_super) {
         var _a, _b, _c;
         var _this = this;
         settings.type = 'Rose';
-        settings.shapeLoopPropsDependencies = (settings.shapeLoopPropsDependencies || []).concat(['n', 'd', 'sideLength']);
+        settings.loopDependencies = (settings.loopDependencies || []).concat(['n', 'd', 'sideLength']);
         settings.adaptMode = (_a = settings.adaptMode) !== null && _a !== void 0 ? _a : EShapePrimitiveAdaptMode.Scale;
         _this = _super.call(this, settings, true) || this;
         _this.props.n = (_b = settings.n) !== null && _b !== void 0 ? _b : 1;

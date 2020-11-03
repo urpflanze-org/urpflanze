@@ -252,13 +252,13 @@ var ShapeBase = /** @class */ (function (_super) {
         for (var currentRowRepetition = 0; currentRowRepetition < repetitionRowCount; currentRowRepetition++) {
             for (var currentColRepetition = 0; currentColRepetition < repetitionColCount; currentColRepetition++, currentIndex++) {
                 repetition.index = currentIndex + 1;
-                repetition.offset = currentIndex / (repetitionCount - 1);
+                repetition.offset = repetitionCount > 1 ? currentIndex / (repetitionCount - 1) : 1;
                 repetition.angle =
                     repetitionType === ERepetitionType.Ring ? ((Math.PI * 2) / repetitionCount) * currentIndex : 0;
                 colRepetition.index = currentColRepetition + 1;
-                colRepetition.offset = currentColRepetition / (repetitionColCount - 1);
+                colRepetition.offset = repetitionColCount > 1 ? currentColRepetition / (repetitionColCount - 1) : 1;
                 rowRepetition.index = currentRowRepetition + 1;
-                rowRepetition.offset = currentRowRepetition / (repetitionRowCount - 1);
+                rowRepetition.offset = repetitionRowCount > 1 ? currentRowRepetition / (repetitionRowCount - 1) : 1;
                 // Generate primitives buffer recursively
                 var buffer = this.generateBuffer(generateId, propArguments);
                 var bufferLength = buffer.length;
@@ -367,7 +367,7 @@ var ShapeBase = /** @class */ (function (_super) {
                                 var vertexRepetition = {
                                     index: index + 1,
                                     count: count,
-                                    offset: index / (count - 1),
+                                    offset: count > 1 ? index / (count - 1) : 1,
                                 };
                                 this.vertexCallback(vertex, vertexRepetition, propArguments);
                             }

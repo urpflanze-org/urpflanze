@@ -24,7 +24,7 @@ export { default as ShapeLoop } from '@core/shapes/ShapeLoop'
 export { default as ShapeBuffer } from '@core/shapes/ShapeBuffer'
 
 // Utilities
-export { clamp, relativeClamp, toDegrees, toRadians } from 'src/Utilites'
+export { lerp, clamp, relativeClamp, toDegrees, toRadians } from 'src/Utilites'
 
 export { default as Vec2 } from '@core/math/Vec2'
 

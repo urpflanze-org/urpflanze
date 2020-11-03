@@ -78,7 +78,7 @@ var JSONImporter = /** @class */ (function () {
             data: projectSceneChild.data,
             bUseParent: projectSceneChild.bUseParent,
             adaptMode: projectSceneChild.adaptMode,
-            bCloseShape: projectSceneChild.bCloseShape,
+            bClosed: projectSceneChild.bClosed,
             vertexCallback: parseFunction.unparse(projectSceneChild.vertexCallback),
             shape: shape,
         };

@@ -39,7 +39,7 @@ abstract class ShapePrimitive extends ShapeBase {
 	 * @type {boolean}
 	 * @memberof ShapePrimitive
 	 */
-	public bCloseShape: boolean
+	public bClosed: boolean
 
 	/**
 	 * Empty buffer bounding
@@ -98,7 +98,7 @@ abstract class ShapePrimitive extends ShapeBase {
 		this.props.strokeColor = settings.strokeColor
 
 		this.adaptMode = settings.adaptMode ?? EShapePrimitiveAdaptMode.None
-		this.bCloseShape = settings.bCloseShape ?? true
+		this.bClosed = settings.bClosed ?? true
 	}
 
 	/**
@@ -187,23 +187,23 @@ abstract class ShapePrimitive extends ShapeBase {
 	}
 
 	/**
-	 * Return bCloseShape
+	 * Return bClosed
 	 *
 	 * @returns {boolean}
 	 * @memberof ShapePrimitive
 	 */
 	public isClosed(): boolean {
-		return this.bCloseShape
+		return this.bClosed
 	}
 
 	/**
-	 * Set bCloseShape
+	 * Set bClosed
 	 *
-	 * @param {boolean} bCloseShape
+	 * @param {boolean} bClosed
 	 * @memberof ShapePrimitive
 	 */
-	public setClosed(bCloseShape: boolean): void {
-		this.bCloseShape = bCloseShape
+	public setClosed(bClosed: boolean): void {
+		this.bClosed = bClosed
 	}
 
 	/**

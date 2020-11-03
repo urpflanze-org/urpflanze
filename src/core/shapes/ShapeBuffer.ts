@@ -141,7 +141,7 @@ class ShapeBuffer extends ShapePrimitive {
 		let subdivided: Float32Array | undefined = this.shape
 
 		if (subdivided && subdivided.length > 0) {
-			for (let i = 0; i < level; i++) subdivided = ShapeBuffer.subdivide(subdivided, this.bCloseShape)
+			for (let i = 0; i < level; i++) subdivided = ShapeBuffer.subdivide(subdivided, this.bClosed)
 
 			this.setShape(subdivided)
 		}

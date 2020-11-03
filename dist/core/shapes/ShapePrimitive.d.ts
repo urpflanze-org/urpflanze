@@ -27,7 +27,7 @@ declare abstract class ShapePrimitive extends ShapeBase {
      * @type {boolean}
      * @memberof ShapePrimitive
      */
-    bCloseShape: boolean;
+    bClosed: boolean;
     /**
      * Empty buffer bounding
      *
@@ -101,19 +101,19 @@ declare abstract class ShapePrimitive extends ShapeBase {
      */
     protected addIndex(frameLength: number, repetition: IRepetition): void;
     /**
-     * Return bCloseShape
+     * Return bClosed
      *
      * @returns {boolean}
      * @memberof ShapePrimitive
      */
     isClosed(): boolean;
     /**
-     * Set bCloseShape
+     * Set bClosed
      *
-     * @param {boolean} bCloseShape
+     * @param {boolean} bClosed
      * @memberof ShapePrimitive
      */
-    setClosed(bCloseShape: boolean): void;
+    setClosed(bClosed: boolean): void;
     /**
      * Return adaptMode
      *

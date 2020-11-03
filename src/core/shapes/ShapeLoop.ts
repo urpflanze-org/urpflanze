@@ -82,7 +82,7 @@ class ShapeLoop extends ShapePrimitive {
 	 * @type {Array<string>}
 	 * @memberof ShapeLoop
 	 */
-	public shapeLoopPropsDependencies: Array<'vertexCallback' | 'propArguments' | string>
+	public loopDependencies: Array<'vertexCallback' | 'propArguments' | string>
 
 	/**
 	 * Creates an instance of ShapeLoop.
@@ -95,7 +95,7 @@ class ShapeLoop extends ShapePrimitive {
 		settings.type = settings.type || 'ShapeLoop'
 		super(settings)
 
-		this.shapeLoopPropsDependencies = (settings.shapeLoopPropsDependencies || []).concat('bAdaptBuffer')
+		this.loopDependencies = (settings.loopDependencies || []).concat('bAdaptBuffer')
 
 		this.props.loop = settings.loop
 
@@ -121,13 +121,12 @@ class ShapeLoop extends ShapePrimitive {
 	 */
 	public isStaticLoop(): boolean {
 		// if (typeof this.vertexCallback === 'function') return false
-		if (this.shapeLoopPropsDependencies.includes('vertexCallback') && typeof this.vertexCallback === 'function')
-			return false
+		if (this.loopDependencies.includes('vertexCallback') && typeof this.vertexCallback === 'function') return false
 
-		if (this.shapeLoopPropsDependencies.includes('propArguments')) return false
+		if (this.loopDependencies.includes('propArguments')) return false
 
-		for (let i = 0, len = this.shapeLoopPropsDependencies.length; i < len; i++)
-			if (typeof this.props[this.shapeLoopPropsDependencies[i] as keyof IShapeLoopProps] === 'function') return false
+		for (let i = 0, len = this.loopDependencies.length; i < len; i++)
+			if (typeof this.props[this.loopDependencies[i] as keyof IShapeLoopProps] === 'function') return false
 
 		return true
 	}
@@ -189,8 +188,8 @@ class ShapeLoop extends ShapePrimitive {
 		let bClearIndexed = false
 		key = typeof key === 'string' ? { [key]: value } : key
 
-		for (let i = this.shapeLoopPropsDependencies.length - 1; i >= 0; i--) {
-			if (this.shapeLoopPropsDependencies[i] in key) {
+		for (let i = this.loopDependencies.length - 1; i >= 0; i--) {
+			if (this.loopDependencies[i] in key) {
 				// this.props.loop = undefined
 				bClearIndexed = true
 				break
@@ -290,7 +289,7 @@ class ShapeLoop extends ShapePrimitive {
 
 			shapeLoop.angle = angle >= end ? end : angle
 			shapeLoop.index = i + 1
-			shapeLoop.offset = shapeLoop.index / shapeLoop.count
+			shapeLoop.offset = shapeLoop.count > 1 ? i / (shapeLoop.count - 1) : 1
 
 			const vertex = Float32Array.from(getVertex(shapeLoop, propArguments))
 

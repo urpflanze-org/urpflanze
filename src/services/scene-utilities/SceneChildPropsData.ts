@@ -32,7 +32,7 @@ export interface ISceneChildPropData {
  */
 export type TSceneChildPropsDataKeys = Exclude<
 	keyof TSceneChildProps | 'loop.start' | 'loop.end' | 'loop.inc',
-	'shapeLoopPropsDependencies' | 'vertexCallback' | 'loop' | 'name' | 'order' | 'type' | 'data' | 'shape' | 'id'
+	'loopDependencies' | 'vertexCallback' | 'loop' | 'name' | 'order' | 'type' | 'data' | 'shape' | 'id'
 >
 
 type TSceneChildUtilityProps = {
@@ -291,7 +291,7 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 		transformation: 'none',
 	},
 
-	bCloseShape: { name: 'bCloseShape', label: 'Closed', type: 'checkbox', default: undefined, transformation: 'none' },
+	bClosed: { name: 'bClosed', label: 'Closed', type: 'checkbox', default: undefined, transformation: 'none' },
 	bUseParent: {
 		name: 'bbUseParent',
 		label: 'Use parent repetition',

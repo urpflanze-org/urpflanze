@@ -66,7 +66,7 @@ declare class ShapeLoop extends ShapePrimitive {
      * @type {Array<string>}
      * @memberof ShapeLoop
      */
-    shapeLoopPropsDependencies: Array<'vertexCallback' | 'propArguments' | string>;
+    loopDependencies: Array<'vertexCallback' | 'propArguments' | string>;
     /**
      * Creates an instance of ShapeLoop.
      *

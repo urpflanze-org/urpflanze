@@ -31,7 +31,7 @@ var Circle = /** @class */ (function (_super) {
         if (settings === void 0) { settings = {}; }
         var _this = this;
         settings.type = 'Circle';
-        settings.shapeLoopPropsDependencies = (settings.shapeLoopPropsDependencies || []).concat(['sideLength']);
+        settings.loopDependencies = (settings.loopDependencies || []).concat(['sideLength']);
         settings.adaptMode = EShapePrimitiveAdaptMode.None;
         _this = _super.call(this, settings) || this;
         _this.loop = {

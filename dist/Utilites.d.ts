@@ -68,6 +68,16 @@ export declare function toRadians(degrees: number): number;
  */
 export declare function toArray(t: number | Array<number>): Array<number>;
 /**
+ * Linear interpolation from `a` when `i` as 0 an `b` when `i' as 1
+ *
+ * @category Utilities
+ * @param {number} a
+ * @param {number} b
+ * @param {number} i
+ * @returns {number}
+ */
+export declare function lerp(a: number, b: number, i: number): number;
+/**
  * Return number between min and max
  *
  * @category Utilities

@@ -37,10 +37,10 @@ class Spiral extends ShapeLoop {
 	 */
 	constructor(settings: ISpiralSettings = {}) {
 		settings.type = 'Spiral'
-		settings.bCloseShape = false
+		settings.bClosed = false
 		settings.adaptMode = settings.adaptMode ?? EShapePrimitiveAdaptMode.None
 
-		settings.shapeLoopPropsDependencies = (settings.shapeLoopPropsDependencies || []).concat([
+		settings.loopDependencies = (settings.loopDependencies || []).concat([
 			'twists',
 			'twistsStart',
 			'spiral',
@@ -58,12 +58,6 @@ class Spiral extends ShapeLoop {
 			end: (propArguments: ISceneChildPropArguments) =>
 				ShapeLoop.PI2 * (this.getProp('twistsStart', propArguments) + this.getProp('twists', propArguments)),
 			inc: (propArguments: ISceneChildPropArguments) => {
-				// const twists = this.getProp('twists', propArguments)
-				// const rep = ShapeLoop.PI2 * twists
-				// const radius = 2 * Math.sqrt(this.sideLength[0] * this.sideLength[1])
-
-				// return rep / (radius)
-
 				const twists = this.getProp('twists', propArguments)
 				const rep = ShapeLoop.PI2 * twists
 				const radius = 4 + Math.sqrt(this.sideLength[0] * this.sideLength[1])

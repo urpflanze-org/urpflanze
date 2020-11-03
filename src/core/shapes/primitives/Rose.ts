@@ -22,7 +22,7 @@ class Rose extends ShapeLoop {
 	 */
 	constructor(settings: IRoseSettings = {}) {
 		settings.type = 'Rose'
-		settings.shapeLoopPropsDependencies = (settings.shapeLoopPropsDependencies || []).concat(['n', 'd', 'sideLength'])
+		settings.loopDependencies = (settings.loopDependencies || []).concat(['n', 'd', 'sideLength'])
 		settings.adaptMode = settings.adaptMode ?? EShapePrimitiveAdaptMode.Scale
 
 		super(settings, true)

@@ -129,7 +129,7 @@ export interface IShapePrimitiveSettings extends IShapePrimitiveProps, IShapeBas
      * Callback to apply transform at any vertex
      * @order -15
      */
-    bCloseShape?: boolean;
+    bClosed?: boolean;
 }
 /**
  * Size of a buffer and its position relative to the scene.

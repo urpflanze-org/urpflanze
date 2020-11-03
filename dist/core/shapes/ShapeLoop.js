@@ -49,7 +49,7 @@ var ShapeLoop = /** @class */ (function (_super) {
         var _this = this;
         settings.type = settings.type || 'ShapeLoop';
         _this = _super.call(this, settings) || this;
-        _this.shapeLoopPropsDependencies = (settings.shapeLoopPropsDependencies || []).concat('bAdaptBuffer');
+        _this.loopDependencies = (settings.loopDependencies || []).concat('bAdaptBuffer');
         _this.props.loop = settings.loop;
         if (!bPreventGeneration) {
             _this.loop = {
@@ -72,12 +72,12 @@ var ShapeLoop = /** @class */ (function (_super) {
      */
     ShapeLoop.prototype.isStaticLoop = function () {
         // if (typeof this.vertexCallback === 'function') return false
-        if (this.shapeLoopPropsDependencies.includes('vertexCallback') && typeof this.vertexCallback === 'function')
+        if (this.loopDependencies.includes('vertexCallback') && typeof this.vertexCallback === 'function')
             return false;
-        if (this.shapeLoopPropsDependencies.includes('propArguments'))
+        if (this.loopDependencies.includes('propArguments'))
             return false;
-        for (var i = 0, len = this.shapeLoopPropsDependencies.length; i < len; i++)
-            if (typeof this.props[this.shapeLoopPropsDependencies[i]] === 'function')
+        for (var i = 0, len = this.loopDependencies.length; i < len; i++)
+            if (typeof this.props[this.loopDependencies[i]] === 'function')
                 return false;
         return true;
     };
@@ -133,8 +133,8 @@ var ShapeLoop = /** @class */ (function (_super) {
         var _a;
         var bClearIndexed = false;
         key = typeof key === 'string' ? (_a = {}, _a[key] = value, _a) : key;
-        for (var i = this.shapeLoopPropsDependencies.length - 1; i >= 0; i--) {
-            if (this.shapeLoopPropsDependencies[i] in key) {
+        for (var i = this.loopDependencies.length - 1; i >= 0; i--) {
+            if (this.loopDependencies[i] in key) {
                 // this.props.loop = undefined
                 bClearIndexed = true;
                 break;
@@ -218,7 +218,7 @@ var ShapeLoop = /** @class */ (function (_super) {
             var angle = start + inc * i;
             shapeLoop.angle = angle >= end ? end : angle;
             shapeLoop.index = i + 1;
-            shapeLoop.offset = shapeLoop.index / shapeLoop.count;
+            shapeLoop.offset = shapeLoop.count > 1 ? i / (shapeLoop.count - 1) : 1;
             var vertex = Float32Array.from(getVertex(shapeLoop, propArguments));
             currentOrSingleLoopBuffer[j] = vertex[0];
             currentOrSingleLoopBuffer[j + 1] = vertex[1];

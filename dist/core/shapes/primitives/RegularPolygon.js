@@ -27,7 +27,7 @@ var RegularPolygon = /** @class */ (function (_super) {
         var _a;
         var _this = this;
         settings.type = settings.type || 'RegularPolygon';
-        settings.shapeLoopPropsDependencies = (settings.shapeLoopPropsDependencies || []).concat(['sideNumber']);
+        settings.loopDependencies = (settings.loopDependencies || []).concat(['sideNumber']);
         settings.adaptMode = (_a = settings.adaptMode) !== null && _a !== void 0 ? _a : EShapePrimitiveAdaptMode.None;
         _this = _super.call(this, settings, true) || this;
         _this.props.sideNumber = settings.sideNumber;

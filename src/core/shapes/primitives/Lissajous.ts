@@ -22,12 +22,7 @@ class Lissajous extends ShapeLoop {
 	 */
 	constructor(settings: ILissajousSettings = {}) {
 		settings.type = 'Lissajous'
-		settings.shapeLoopPropsDependencies = (settings.shapeLoopPropsDependencies || []).concat([
-			'wx',
-			'wy',
-			'wz',
-			'sideLength',
-		])
+		settings.loopDependencies = (settings.loopDependencies || []).concat(['wx', 'wy', 'wz', 'sideLength'])
 		settings.adaptMode = EShapePrimitiveAdaptMode.None
 
 		super(settings, true)

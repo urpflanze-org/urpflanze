@@ -33,7 +33,7 @@ var Line = /** @class */ (function (_super) {
         settings.type = 'Line';
         settings.shape = [-1, 0, 1, 0];
         settings.adaptMode = EShapePrimitiveAdaptMode.None;
-        settings.bCloseShape = false;
+        settings.bClosed = false;
         _this = _super.call(this, settings) || this;
         return _this;
     }

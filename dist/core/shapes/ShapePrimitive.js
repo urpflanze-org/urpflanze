@@ -59,7 +59,7 @@ var ShapePrimitive = /** @class */ (function (_super) {
         _this.props.lineWidth = settings.lineWidth;
         _this.props.strokeColor = settings.strokeColor;
         _this.adaptMode = (_a = settings.adaptMode) !== null && _a !== void 0 ? _a : EShapePrimitiveAdaptMode.None;
-        _this.bCloseShape = (_b = settings.bCloseShape) !== null && _b !== void 0 ? _b : true;
+        _this.bClosed = (_b = settings.bClosed) !== null && _b !== void 0 ? _b : true;
         return _this;
     }
     /**
@@ -141,22 +141,22 @@ var ShapePrimitive = /** @class */ (function (_super) {
         });
     };
     /**
-     * Return bCloseShape
+     * Return bClosed
      *
      * @returns {boolean}
      * @memberof ShapePrimitive
      */
     ShapePrimitive.prototype.isClosed = function () {
-        return this.bCloseShape;
+        return this.bClosed;
     };
     /**
-     * Set bCloseShape
+     * Set bClosed
      *
-     * @param {boolean} bCloseShape
+     * @param {boolean} bClosed
      * @memberof ShapePrimitive
      */
-    ShapePrimitive.prototype.setClosed = function (bCloseShape) {
-        this.bCloseShape = bCloseShape;
+    ShapePrimitive.prototype.setClosed = function (bClosed) {
+        this.bClosed = bClosed;
     };
     /**
      * Return adaptMode

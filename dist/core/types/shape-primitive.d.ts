@@ -70,7 +70,7 @@ export interface IShapeLoopSettings extends IShapeLoopProps, IShapePrimitiveSett
      * for example the circle varies the number of points based on the radius (sideLength)
      * @order -30
      */
-    shapeLoopPropsDependencies?: Array<'vertexCallback' | 'propArguments' | string>;
+    loopDependencies?: Array<'vertexCallback' | 'propArguments' | string>;
 }
 /**
  *

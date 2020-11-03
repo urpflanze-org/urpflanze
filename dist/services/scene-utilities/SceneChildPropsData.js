@@ -243,7 +243,7 @@ var SceneChildPropsData = {
         default_animate: 3,
         transformation: 'none',
     },
-    bCloseShape: { name: 'bCloseShape', label: 'Closed', type: 'checkbox', default: undefined, transformation: 'none' },
+    bClosed: { name: 'bClosed', label: 'Closed', type: 'checkbox', default: undefined, transformation: 'none' },
     bUseParent: {
         name: 'bbUseParent',
         label: 'Use parent repetition',

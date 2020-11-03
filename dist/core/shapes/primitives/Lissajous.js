@@ -32,12 +32,7 @@ var Lissajous = /** @class */ (function (_super) {
         if (settings === void 0) { settings = {}; }
         var _this = this;
         settings.type = 'Lissajous';
-        settings.shapeLoopPropsDependencies = (settings.shapeLoopPropsDependencies || []).concat([
-            'wx',
-            'wy',
-            'wz',
-            'sideLength',
-        ]);
+        settings.loopDependencies = (settings.loopDependencies || []).concat(['wx', 'wy', 'wz', 'sideLength']);
         settings.adaptMode = EShapePrimitiveAdaptMode.None;
         _this = _super.call(this, settings, true) || this;
         _this.props.wx = settings.wx || 1;

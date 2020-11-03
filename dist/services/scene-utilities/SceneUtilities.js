@@ -180,15 +180,15 @@ var SceneUtilities = /** @class */ (function () {
             props.shape = sceneChild.shape;
         }
         if (sceneChild instanceof ShapePrimitive) {
-            props.bCloseShape = sceneChild.bCloseShape;
+            props.bClosed = sceneChild.bClosed;
             props.adaptMode = sceneChild.adaptMode;
             props.vertexCallback = sceneChild.vertexCallback;
         }
         if (sceneChild instanceof ShapeLoop) {
-            props.shapeLoopPropsDependencies = sceneChild.shapeLoopPropsDependencies;
+            props.loopDependencies = sceneChild.loopDependencies;
         }
         if (sceneChild instanceof ShapeLoop) {
-            props.shapeLoopPropsDependencies = sceneChild.shapeLoopPropsDependencies;
+            props.loopDependencies = sceneChild.loopDependencies;
         }
         if (strict) {
             props.id = sceneChild.id;
@@ -459,14 +459,14 @@ var SceneUtilities = /** @class */ (function () {
                 sceneChild.data.props.loop = value;
                 sceneChild.setProp('loop', ScenePropUtilities.composeLoop(value));
                 var dynamic = value.dynamyc;
-                var realDynamic = sceneChild.shapeLoopPropsDependencies.indexOf('prop_argumens') >= 0;
+                var realDynamic = sceneChild.loopDependencies.indexOf('prop_argumens') >= 0;
                 if (dynamic !== realDynamic) {
-                    var dependencies = __spreadArrays(sceneChild.shapeLoopPropsDependencies);
+                    var dependencies = __spreadArrays(sceneChild.loopDependencies);
                     if (dynamic)
                         !(dependencies.indexOf('prop_argumens') >= 0) && dependencies.push('propArguments');
                     else
                         dependencies.indexOf('prop_argumens') >= 0 && dependencies.splice(dependencies.indexOf('propArguments', 1));
-                    sceneChild.shapeLoopPropsDependencies = dependencies;
+                    sceneChild.loopDependencies = dependencies;
                 }
                 sceneChild.clearBuffer(true, true);
             }
@@ -498,7 +498,7 @@ var SceneUtilities = /** @class */ (function () {
                 if (sceneChild instanceof ShapeBase)
                     sceneChild.bUseParent = value;
                 break;
-            case 'bCloseShape':
+            case 'bClosed':
                 if (sceneChild instanceof ShapePrimitive)
                     sceneChild.setClosed(value);
                 break;

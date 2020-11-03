@@ -18,6 +18,7 @@ return /******/ (() => { // webpackBootstrap
 /*! namespace exports */
 /*! export cancelablePromise [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export clamp [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export lerp [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export now [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export parseFunction [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export relativeClamp [provided] [no usage info] [missing usage info prevents renaming] */
@@ -37,6 +38,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "toDegrees": () => /* binding */ toDegrees,
 /* harmony export */   "toRadians": () => /* binding */ toRadians,
 /* harmony export */   "toArray": () => /* binding */ toArray,
+/* harmony export */   "lerp": () => /* binding */ lerp,
 /* harmony export */   "clamp": () => /* binding */ clamp,
 /* harmony export */   "relativeClamp": () => /* binding */ relativeClamp
 /* harmony export */ });
@@ -144,6 +146,18 @@ function toRadians(degrees) {
  */
 function toArray(t) {
     return Array.isArray(t) ? t : [t, t];
+}
+/**
+ * Linear interpolation from `a` when `i` as 0 an `b` when `i' as 1
+ *
+ * @category Utilities
+ * @param {number} a
+ * @param {number} b
+ * @param {number} i
+ * @returns {number}
+ */
+function lerp(a, b, i) {
+    return (1 - i) * a + i * b;
 }
 /**
  * Return number between min and max
@@ -1987,13 +2001,13 @@ var ShapeBase = /** @class */ (function (_super) {
         for (var currentRowRepetition = 0; currentRowRepetition < repetitionRowCount; currentRowRepetition++) {
             for (var currentColRepetition = 0; currentColRepetition < repetitionColCount; currentColRepetition++, currentIndex++) {
                 repetition.index = currentIndex + 1;
-                repetition.offset = currentIndex / (repetitionCount - 1);
+                repetition.offset = repetitionCount > 1 ? currentIndex / (repetitionCount - 1) : 1;
                 repetition.angle =
                     repetitionType === _types_scene_child__WEBPACK_IMPORTED_MODULE_0__.ERepetitionType.Ring ? ((Math.PI * 2) / repetitionCount) * currentIndex : 0;
                 colRepetition.index = currentColRepetition + 1;
-                colRepetition.offset = currentColRepetition / (repetitionColCount - 1);
+                colRepetition.offset = repetitionColCount > 1 ? currentColRepetition / (repetitionColCount - 1) : 1;
                 rowRepetition.index = currentRowRepetition + 1;
-                rowRepetition.offset = currentRowRepetition / (repetitionRowCount - 1);
+                rowRepetition.offset = repetitionRowCount > 1 ? currentRowRepetition / (repetitionRowCount - 1) : 1;
                 // Generate primitives buffer recursively
                 var buffer = this.generateBuffer(generateId, propArguments);
                 var bufferLength = buffer.length;
@@ -2097,12 +2111,12 @@ var ShapeBase = /** @class */ (function (_super) {
                                 bPerspectiveOrigin && gl_matrix__WEBPACK_IMPORTED_MODULE_10__.sub(vertex, vertex, perspectiveOrigin);
                             }
                             if (this.vertexCallback) {
-                                var index = bufferIndex / 2 + 1;
+                                var index = bufferIndex / 2;
                                 var count = bufferLength / 2;
                                 var vertexRepetition = {
-                                    index: index,
+                                    index: index + 1,
                                     count: count,
-                                    offset: bufferIndex / (count - 1),
+                                    offset: count > 1 ? index / (count - 1) : 1,
                                 };
                                 this.vertexCallback(vertex, vertexRepetition, propArguments);
                             }
@@ -2378,7 +2392,7 @@ var ShapeBuffer = /** @class */ (function (_super) {
         var subdivided = this.shape;
         if (subdivided && subdivided.length > 0) {
             for (var i = 0; i < level; i++)
-                subdivided = ShapeBuffer.subdivide(subdivided, this.bCloseShape);
+                subdivided = ShapeBuffer.subdivide(subdivided, this.bClosed);
             this.setShape(subdivided);
         }
     };
@@ -2496,7 +2510,7 @@ var ShapeLoop = /** @class */ (function (_super) {
         var _this = this;
         settings.type = settings.type || 'ShapeLoop';
         _this = _super.call(this, settings) || this;
-        _this.shapeLoopPropsDependencies = (settings.shapeLoopPropsDependencies || []).concat('bAdaptBuffer');
+        _this.loopDependencies = (settings.loopDependencies || []).concat('bAdaptBuffer');
         _this.props.loop = settings.loop;
         if (!bPreventGeneration) {
             _this.loop = {
@@ -2519,12 +2533,12 @@ var ShapeLoop = /** @class */ (function (_super) {
      */
     ShapeLoop.prototype.isStaticLoop = function () {
         // if (typeof this.vertexCallback === 'function') return false
-        if (this.shapeLoopPropsDependencies.includes('vertexCallback') && typeof this.vertexCallback === 'function')
+        if (this.loopDependencies.includes('vertexCallback') && typeof this.vertexCallback === 'function')
             return false;
-        if (this.shapeLoopPropsDependencies.includes('propArguments'))
+        if (this.loopDependencies.includes('propArguments'))
             return false;
-        for (var i = 0, len = this.shapeLoopPropsDependencies.length; i < len; i++)
-            if (typeof this.props[this.shapeLoopPropsDependencies[i]] === 'function')
+        for (var i = 0, len = this.loopDependencies.length; i < len; i++)
+            if (typeof this.props[this.loopDependencies[i]] === 'function')
                 return false;
         return true;
     };
@@ -2580,8 +2594,8 @@ var ShapeLoop = /** @class */ (function (_super) {
         var _a;
         var bClearIndexed = false;
         key = typeof key === 'string' ? (_a = {}, _a[key] = value, _a) : key;
-        for (var i = this.shapeLoopPropsDependencies.length - 1; i >= 0; i--) {
-            if (this.shapeLoopPropsDependencies[i] in key) {
+        for (var i = this.loopDependencies.length - 1; i >= 0; i--) {
+            if (this.loopDependencies[i] in key) {
                 // this.props.loop = undefined
                 bClearIndexed = true;
                 break;
@@ -2665,7 +2679,7 @@ var ShapeLoop = /** @class */ (function (_super) {
             var angle = start + inc * i;
             shapeLoop.angle = angle >= end ? end : angle;
             shapeLoop.index = i + 1;
-            shapeLoop.offset = shapeLoop.index / shapeLoop.count;
+            shapeLoop.offset = shapeLoop.count > 1 ? i / (shapeLoop.count - 1) : 1;
             var vertex = Float32Array.from(getVertex(shapeLoop, propArguments));
             currentOrSingleLoopBuffer[j] = vertex[0];
             currentOrSingleLoopBuffer[j + 1] = vertex[1];
@@ -2811,7 +2825,7 @@ var ShapePrimitive = /** @class */ (function (_super) {
         _this.props.lineWidth = settings.lineWidth;
         _this.props.strokeColor = settings.strokeColor;
         _this.adaptMode = (_a = settings.adaptMode) !== null && _a !== void 0 ? _a : _types_shape_base__WEBPACK_IMPORTED_MODULE_1__.EShapePrimitiveAdaptMode.None;
-        _this.bCloseShape = (_b = settings.bCloseShape) !== null && _b !== void 0 ? _b : true;
+        _this.bClosed = (_b = settings.bClosed) !== null && _b !== void 0 ? _b : true;
         return _this;
     }
     /**
@@ -2893,22 +2907,22 @@ var ShapePrimitive = /** @class */ (function (_super) {
         });
     };
     /**
-     * Return bCloseShape
+     * Return bClosed
      *
      * @returns {boolean}
      * @memberof ShapePrimitive
      */
     ShapePrimitive.prototype.isClosed = function () {
-        return this.bCloseShape;
+        return this.bClosed;
     };
     /**
-     * Set bCloseShape
+     * Set bClosed
      *
-     * @param {boolean} bCloseShape
+     * @param {boolean} bClosed
      * @memberof ShapePrimitive
      */
-    ShapePrimitive.prototype.setClosed = function (bCloseShape) {
-        this.bCloseShape = bCloseShape;
+    ShapePrimitive.prototype.setClosed = function (bClosed) {
+        this.bClosed = bClosed;
     };
     /**
      * Return adaptMode
@@ -3049,7 +3063,7 @@ var Circle = /** @class */ (function (_super) {
         if (settings === void 0) { settings = {}; }
         var _this = this;
         settings.type = 'Circle';
-        settings.shapeLoopPropsDependencies = (settings.shapeLoopPropsDependencies || []).concat(['sideLength']);
+        settings.loopDependencies = (settings.loopDependencies || []).concat(['sideLength']);
         settings.adaptMode = _types_shape_base__WEBPACK_IMPORTED_MODULE_1__.EShapePrimitiveAdaptMode.None;
         _this = _super.call(this, settings) || this;
         _this.loop = {
@@ -3119,7 +3133,7 @@ var Line = /** @class */ (function (_super) {
         settings.type = 'Line';
         settings.shape = [-1, 0, 1, 0];
         settings.adaptMode = _types_shape_base__WEBPACK_IMPORTED_MODULE_0__.EShapePrimitiveAdaptMode.None;
-        settings.bCloseShape = false;
+        settings.bClosed = false;
         _this = _super.call(this, settings) || this;
         return _this;
     }
@@ -3181,12 +3195,7 @@ var Lissajous = /** @class */ (function (_super) {
         if (settings === void 0) { settings = {}; }
         var _this = this;
         settings.type = 'Lissajous';
-        settings.shapeLoopPropsDependencies = (settings.shapeLoopPropsDependencies || []).concat([
-            'wx',
-            'wy',
-            'wz',
-            'sideLength',
-        ]);
+        settings.loopDependencies = (settings.loopDependencies || []).concat(['wx', 'wy', 'wz', 'sideLength']);
         settings.adaptMode = _types_shape_base__WEBPACK_IMPORTED_MODULE_1__.EShapePrimitiveAdaptMode.None;
         _this = _super.call(this, settings, true) || this;
         _this.props.wx = settings.wx || 1;
@@ -3352,7 +3361,7 @@ var RegularPolygon = /** @class */ (function (_super) {
         var _a;
         var _this = this;
         settings.type = settings.type || 'RegularPolygon';
-        settings.shapeLoopPropsDependencies = (settings.shapeLoopPropsDependencies || []).concat(['sideNumber']);
+        settings.loopDependencies = (settings.loopDependencies || []).concat(['sideNumber']);
         settings.adaptMode = (_a = settings.adaptMode) !== null && _a !== void 0 ? _a : _types_shape_base__WEBPACK_IMPORTED_MODULE_1__.EShapePrimitiveAdaptMode.None;
         _this = _super.call(this, settings, true) || this;
         _this.props.sideNumber = settings.sideNumber;
@@ -3450,7 +3459,7 @@ var Rose = /** @class */ (function (_super) {
         var _a, _b, _c;
         var _this = this;
         settings.type = 'Rose';
-        settings.shapeLoopPropsDependencies = (settings.shapeLoopPropsDependencies || []).concat(['n', 'd', 'sideLength']);
+        settings.loopDependencies = (settings.loopDependencies || []).concat(['n', 'd', 'sideLength']);
         settings.adaptMode = (_a = settings.adaptMode) !== null && _a !== void 0 ? _a : _types_shape_base__WEBPACK_IMPORTED_MODULE_1__.EShapePrimitiveAdaptMode.Scale;
         _this = _super.call(this, settings, true) || this;
         _this.props.n = (_b = settings.n) !== null && _b !== void 0 ? _b : 1;
@@ -3577,9 +3586,9 @@ var Spiral = /** @class */ (function (_super) {
         var _a, _b, _c, _d;
         var _this = this;
         settings.type = 'Spiral';
-        settings.bCloseShape = false;
+        settings.bClosed = false;
         settings.adaptMode = (_a = settings.adaptMode) !== null && _a !== void 0 ? _a : _types_shape_base__WEBPACK_IMPORTED_MODULE_1__.EShapePrimitiveAdaptMode.None;
-        settings.shapeLoopPropsDependencies = (settings.shapeLoopPropsDependencies || []).concat([
+        settings.loopDependencies = (settings.loopDependencies || []).concat([
             'twists',
             'twistsStart',
             'spiral',
@@ -3595,10 +3604,6 @@ var Spiral = /** @class */ (function (_super) {
                 return _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__.default.PI2 * (_this.getProp('twistsStart', propArguments) + _this.getProp('twists', propArguments));
             },
             inc: function (propArguments) {
-                // const twists = this.getProp('twists', propArguments)
-                // const rep = ShapeLoop.PI2 * twists
-                // const radius = 2 * Math.sqrt(this.sideLength[0] * this.sideLength[1])
-                // return rep / (radius)
                 var twists = _this.getProp('twists', propArguments);
                 var rep = _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__.default.PI2 * twists;
                 var radius = 4 + Math.sqrt(_this.sideLength[0] * _this.sideLength[1]);
@@ -3892,6 +3897,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! export Triangle [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/Triangle.js .default */
 /*! export Vec2 [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/math/Vec2.js .default */
 /*! export clamp [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .clamp */
+/*! export lerp [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .lerp */
 /*! export relativeClamp [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .relativeClamp */
 /*! export toDegrees [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .toDegrees */
 /*! export toRadians [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .toRadians */
@@ -3917,6 +3923,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "ShapePrimitive": () => /* reexport safe */ _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_12__.default,
 /* harmony export */   "ShapeLoop": () => /* reexport safe */ _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_13__.default,
 /* harmony export */   "ShapeBuffer": () => /* reexport safe */ _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_14__.default,
+/* harmony export */   "lerp": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_15__.lerp,
 /* harmony export */   "clamp": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_15__.clamp,
 /* harmony export */   "relativeClamp": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_15__.relativeClamp,
 /* harmony export */   "toDegrees": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_15__.toDegrees,
@@ -4011,6 +4018,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! export Triangle [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/Triangle.js .default */
 /*! export Vec2 [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/core/math/Vec2.js .default */
 /*! export clamp [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .clamp */
+/*! export lerp [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .lerp */
 /*! export relativeClamp [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .relativeClamp */
 /*! export toDegrees [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .toDegrees */
 /*! export toRadians [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .toRadians */
@@ -4043,6 +4051,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Triangle": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.Triangle,
 /* harmony export */   "Vec2": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.Vec2,
 /* harmony export */   "clamp": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.clamp,
+/* harmony export */   "lerp": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.lerp,
 /* harmony export */   "relativeClamp": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.relativeClamp,
 /* harmony export */   "toDegrees": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.toDegrees,
 /* harmony export */   "toRadians": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.toRadians,
@@ -5990,7 +5999,7 @@ var JSONExporter = /** @class */ (function () {
         }
         if (sceneChild instanceof _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_4__.default) {
             projectSceneChild.adaptMode = sceneChild.adaptMode;
-            projectSceneChild.bCloseShape = sceneChild.bCloseShape;
+            projectSceneChild.bClosed = sceneChild.bClosed;
             projectSceneChild.vertexCallback = _Utilites__WEBPACK_IMPORTED_MODULE_5__.parseFunction.parse(sceneChild.vertexCallback);
         }
         else if (sceneChild instanceof _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_1__.default || sceneChild instanceof _core_Group__WEBPACK_IMPORTED_MODULE_0__.default) {
@@ -6175,7 +6184,7 @@ var JSONImporter = /** @class */ (function () {
             data: projectSceneChild.data,
             bUseParent: projectSceneChild.bUseParent,
             adaptMode: projectSceneChild.adaptMode,
-            bCloseShape: projectSceneChild.bCloseShape,
+            bClosed: projectSceneChild.bClosed,
             vertexCallback: _Utilites__WEBPACK_IMPORTED_MODULE_2__.parseFunction.unparse(projectSceneChild.vertexCallback),
             shape: shape,
         };
@@ -6874,7 +6883,7 @@ var SceneChildPropsData = {
         default_animate: 3,
         transformation: 'none',
     },
-    bCloseShape: { name: 'bCloseShape', label: 'Closed', type: 'checkbox', default: undefined, transformation: 'none' },
+    bClosed: { name: 'bClosed', label: 'Closed', type: 'checkbox', default: undefined, transformation: 'none' },
     bUseParent: {
         name: 'bbUseParent',
         label: 'Use parent repetition',
@@ -7416,15 +7425,15 @@ var SceneUtilities = /** @class */ (function () {
             props.shape = sceneChild.shape;
         }
         if (sceneChild instanceof _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_10__.default) {
-            props.bCloseShape = sceneChild.bCloseShape;
+            props.bClosed = sceneChild.bClosed;
             props.adaptMode = sceneChild.adaptMode;
             props.vertexCallback = sceneChild.vertexCallback;
         }
         if (sceneChild instanceof _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_11__.default) {
-            props.shapeLoopPropsDependencies = sceneChild.shapeLoopPropsDependencies;
+            props.loopDependencies = sceneChild.loopDependencies;
         }
         if (sceneChild instanceof _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_11__.default) {
-            props.shapeLoopPropsDependencies = sceneChild.shapeLoopPropsDependencies;
+            props.loopDependencies = sceneChild.loopDependencies;
         }
         if (strict) {
             props.id = sceneChild.id;
@@ -7695,14 +7704,14 @@ var SceneUtilities = /** @class */ (function () {
                 sceneChild.data.props.loop = value;
                 sceneChild.setProp('loop', _ScenePropUtilities__WEBPACK_IMPORTED_MODULE_17__.default.composeLoop(value));
                 var dynamic = value.dynamyc;
-                var realDynamic = sceneChild.shapeLoopPropsDependencies.indexOf('prop_argumens') >= 0;
+                var realDynamic = sceneChild.loopDependencies.indexOf('prop_argumens') >= 0;
                 if (dynamic !== realDynamic) {
-                    var dependencies = __spreadArrays(sceneChild.shapeLoopPropsDependencies);
+                    var dependencies = __spreadArrays(sceneChild.loopDependencies);
                     if (dynamic)
                         !(dependencies.indexOf('prop_argumens') >= 0) && dependencies.push('propArguments');
                     else
                         dependencies.indexOf('prop_argumens') >= 0 && dependencies.splice(dependencies.indexOf('propArguments', 1));
-                    sceneChild.shapeLoopPropsDependencies = dependencies;
+                    sceneChild.loopDependencies = dependencies;
                 }
                 sceneChild.clearBuffer(true, true);
             }
@@ -7734,7 +7743,7 @@ var SceneUtilities = /** @class */ (function () {
                 if (sceneChild instanceof _core_shapes_ShapeBase__WEBPACK_IMPORTED_MODULE_15__.default)
                     sceneChild.bUseParent = value;
                 break;
-            case 'bCloseShape':
+            case 'bClosed':
                 if (sceneChild instanceof _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_10__.default)
                     sceneChild.setClosed(value);
                 break;
