@@ -136,10 +136,10 @@ declare abstract class Drawer<IADrawerOptions extends IDrawerOptions, IDrawerEve
      * @template T
      * @param {T} drawerOptions
      * @param {Timeline} timeline
-     * @param {((ghostDrawerOptions: T & { ghost_index?: number }) => any)} ghostCallback
+     * @param {((ghostDrawerOptions: T & { ghostIndex?: number }) => any)} ghostCallback
      */
     static eachGhosts<T extends IDrawerOptions>(drawerOptions: T, timeline: Timeline, ghostCallback: (ghostDrawerOptions: T & {
-        ghost_index?: number;
+        ghostIndex?: number;
     }) => any): void;
     /**
      * Create color based on ghostMultiplier

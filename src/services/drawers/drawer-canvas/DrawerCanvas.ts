@@ -62,6 +62,7 @@ class DrawerCanvas extends Drawer<IDrawerCanvasOptions, IDrawerCanvasEvents> {
 			ghostSkipTime: drawerOptions.ghostSkipTime ?? 30,
 			ghostSkipFunction: drawerOptions.ghostSkipFunction,
 			backgroundImage: drawerOptions.backgroundImage,
+			backgroundImageFit: drawerOptions.backgroundImageFit || 'cover',
 		}
 	}
 
@@ -241,7 +242,7 @@ class DrawerCanvas extends Drawer<IDrawerCanvasOptions, IDrawerCanvasEvents> {
 	// 								: gi * (drawerOptions.ghostSkipTime ?? 30))
 
 	// 						drawerOptions.clear = false
-	// 						drawerOptions.ghost_index = gi
+	// 						drawerOptions.ghostIndex = gi
 	// 						drawerOptions.time =
 	// 							ghostTime < 0
 	// 								? ghostTime + sequenceEndTime
@@ -275,9 +276,9 @@ class DrawerCanvas extends Drawer<IDrawerCanvasOptions, IDrawerCanvasEvents> {
 
 		const timeline = this.timeline
 		const drawAtTime = timeline.getTime()
-		const drawerOptions: IDrawerCanvasOptions & { ghost_index: number | undefined } = {
+		const drawerOptions: IDrawerCanvasOptions & { ghostIndex: number | undefined } = {
 			...this.drawerOptions,
-			ghost_index: undefined,
+			ghostIndex: undefined,
 			clear: this.drawerOptions.clear || timeline.getCurrentFrame() <= 0,
 			time: drawAtTime,
 		}
@@ -294,7 +295,7 @@ class DrawerCanvas extends Drawer<IDrawerCanvasOptions, IDrawerCanvasEvents> {
 		} else {
 			if (drawerOptions.ghosts) {
 				Drawer.eachGhosts<IDrawerCanvasOptions>(drawerOptions, timeline, ghostDrawerOptions => {
-					ghostDrawerOptions.clear = drawerOptions.clear && ghostDrawerOptions.ghost_index === 1
+					ghostDrawerOptions.clear = drawerOptions.clear && ghostDrawerOptions.ghostIndex === 1
 					draw_time += DrawerCanvas.draw(this.scene, this.context, ghostDrawerOptions, this.resolution)
 				})
 
@@ -351,7 +352,7 @@ class DrawerCanvas extends Drawer<IDrawerCanvasOptions, IDrawerCanvasEvents> {
 	public static draw(
 		scene: Scene,
 		context: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D | null,
-		options: IDrawerCanvasOptions & { ghost_index?: number },
+		options: IDrawerCanvasOptions & { ghostIndex?: number },
 		resolution?: number
 	): number {
 		const start_time = now()
@@ -370,14 +371,15 @@ class DrawerCanvas extends Drawer<IDrawerCanvasOptions, IDrawerCanvasEvents> {
 			const bGhost: boolean =
 				typeof options.ghosts !== 'undefined' &&
 				options.ghosts > 0 &&
-				typeof options.ghost_index !== 'undefined' &&
-				options.ghost_index > 0
+				typeof options.ghostIndex !== 'undefined' &&
+				options.ghostIndex > 0
 			const ghostMultiplier: number = bGhost
-				? 1 - (options.ghost_index as number) / ((options.ghosts as number) + 0.5)
+				? 1 - (options.ghostIndex as number) / ((options.ghosts as number) + 0.5)
 				: 0
 
 			const width: number = scene.width
 			const height: number = scene.height
+			const ratio = width / height
 			const ratio_x = width > height ? 1 : height / width
 			const ratio_y = width > height ? width / height : 1
 			resolution = resolution || width
@@ -396,7 +398,32 @@ class DrawerCanvas extends Drawer<IDrawerCanvasOptions, IDrawerCanvasEvents> {
 					context.fillStyle = scene.background
 					context.fillRect(0, 0, width, height)
 
-					backgroundImage && context.drawImage(backgroundImage, 0, 0, width, height)
+					if (backgroundImage) {
+						const sourceWidth =
+							backgroundImage instanceof SVGImageElement ? backgroundImage.width.baseVal.value : backgroundImage.width
+						const sourceHeight =
+							backgroundImage instanceof SVGImageElement ? backgroundImage.height.baseVal.value : backgroundImage.height
+						const sourceRatio = sourceWidth / sourceHeight
+
+						let x = 0,
+							y = 0,
+							bgWidth = width,
+							bgHeight = height
+						if (sourceRatio !== ratio) {
+							if (options.backgroundImageFit === 'contain') {
+								bgWidth = ratio > sourceRatio ? (sourceWidth * height) / sourceHeight : width
+								bgHeight = ratio > sourceRatio ? height : (sourceHeight * width) / sourceWidth
+							} else {
+								bgWidth = ratio < sourceRatio ? (sourceWidth * height) / sourceHeight : width
+								bgHeight = ratio < sourceRatio ? height : (sourceHeight * width) / sourceWidth
+							}
+
+							x = (width - bgWidth) / 2
+							y = (height - bgHeight) / 2
+						}
+
+						context.drawImage(backgroundImage, x, y, bgWidth, bgHeight)
+					}
 				}
 			}
 

@@ -254,7 +254,7 @@ var Drawer = /** @class */ (function (_super) {
      * @template T
      * @param {T} drawerOptions
      * @param {Timeline} timeline
-     * @param {((ghostDrawerOptions: T & { ghost_index?: number }) => any)} ghostCallback
+     * @param {((ghostDrawerOptions: T & { ghostIndex?: number }) => any)} ghostCallback
      */
     Drawer.eachGhosts = function (drawerOptions, timeline, ghostCallback) {
         if (drawerOptions.ghosts) {
@@ -266,7 +266,7 @@ var Drawer = /** @class */ (function (_super) {
                     (drawerOptions.ghostSkipFunction
                         ? drawerOptions.ghostSkipFunction(i)
                         : i * drawerOptions.ghostSkipTime);
-                ghostDrawerOptions.ghost_index = i;
+                ghostDrawerOptions.ghostIndex = i;
                 ghostDrawerOptions.time = (ghostTime + sequenceDurate) % sequenceDurate;
                 ghostCallback(ghostDrawerOptions);
             }

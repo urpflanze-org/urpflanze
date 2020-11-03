@@ -76,34 +76,34 @@ declare const Vec2: {
      *
      * @param {Array<number>} vec
      * @param {Array<number>} MATRIX
-     * @param {Array<number>} pointToRotate
+     * @param {Array<number>} fromPoint
      * @internal
      */
-    rotate: (vec: Array<number>, MATRIX: Array<number>, pointToRotate: Array<number>) => void;
+    rotate: (vec: Array<number>, MATRIX: Array<number>, fromPoint: Array<number>) => void;
     /**
      * RotateX point
      *
      * @param {Array<number>} vec
-     * @param {Array<number>} pointToRotate
+     * @param {Array<number>} fromPoint
      * @param {number} rad
      */
-    rotateX: (vec: Array<number>, pointToRotate: Array<number>, rad: number) => void;
+    rotateX: (vec: Array<number>, fromPoint: Array<number>, rad: number) => void;
     /**
      * RotateY point
      *
      * @param {Array<number>} vec
-     * @param {Array<number>} pointToRotate
+     * @param {Array<number>} fromPoint
      * @param {number} rad
      */
-    rotateY: (vec: Array<number>, pointToRotate: Array<number>, rad: number) => void;
+    rotateY: (vec: Array<number>, fromPoint: Array<number>, rad: number) => void;
     /**
      * RotateZ point
      *
      * @param {Array<number>} vec
-     * @param {Array<number>} pointToRotate
+     * @param {Array<number>} fromPoint
      * @param {number} rad
      */
-    rotateZ: (vec: Array<number>, pointToRotate: Array<number>, rad: number) => void;
+    rotateZ: (vec: Array<number>, fromPoint: Array<number>, rad: number) => void;
     /**
      * Translate vertex
      *

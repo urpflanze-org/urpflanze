@@ -89,7 +89,7 @@ declare class DrawerCanvas extends Drawer<IDrawerCanvasOptions, IDrawerCanvasEve
      * @memberof DrawerCanvas
      */
     static draw(scene: Scene, context: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D | null, options: IDrawerCanvasOptions & {
-        ghost_index?: number;
+        ghostIndex?: number;
     }, resolution?: number): number;
     static drawSimmetricLines(context: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D, simmetricLines: number, width: number, height: number, scale: Array<number>, translate: Array<number>, color: string): void;
 }

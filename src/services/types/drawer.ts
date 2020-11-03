@@ -6,7 +6,7 @@ export interface IDrawerOptions {
 	noBackground?: boolean
 	ghosts?: number
 	ghostSkipTime?: number
-	ghostSkipFunction?: (ghost_index: number) => number
+	ghostSkipFunction?: (ghostIndex: number) => number
 }
 
 /**
@@ -26,6 +26,7 @@ export interface IDrawerCanvasOptions extends IDrawerOptions {
 	simmetricLines?: number
 	fixedLineWidth?: boolean
 	backgroundImage?: CanvasImageSource
+	backgroundImageFit?: 'cover' | 'contain'
 }
 
 /**

@@ -535,12 +535,12 @@ abstract class ShapeBase extends SceneChild {
 							}
 
 							if (this.vertexCallback) {
-								const index = bufferIndex / 2 + 1
+								const index = bufferIndex / 2
 								const count = bufferLength / 2
 								const vertexRepetition = {
-									index,
+									index: index + 1,
 									count,
-									offset: index / count,
+									offset: index / (count - 1),
 								}
 
 								this.vertexCallback(vertex, vertexRepetition, propArguments)

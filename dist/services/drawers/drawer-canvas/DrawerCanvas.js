@@ -66,6 +66,7 @@ var DrawerCanvas = /** @class */ (function (_super) {
             ghostSkipTime: (_h = drawerOptions.ghostSkipTime) !== null && _h !== void 0 ? _h : 30,
             ghostSkipFunction: drawerOptions.ghostSkipFunction,
             backgroundImage: drawerOptions.backgroundImage,
+            backgroundImageFit: drawerOptions.backgroundImageFit || 'cover',
         };
         return _this;
     }
@@ -216,7 +217,7 @@ var DrawerCanvas = /** @class */ (function (_super) {
     // 								? drawerOptions.ghostSkipFunction(gi)
     // 								: gi * (drawerOptions.ghostSkipTime ?? 30))
     // 						drawerOptions.clear = false
-    // 						drawerOptions.ghost_index = gi
+    // 						drawerOptions.ghostIndex = gi
     // 						drawerOptions.time =
     // 							ghostTime < 0
     // 								? ghostTime + sequenceEndTime
@@ -247,7 +248,7 @@ var DrawerCanvas = /** @class */ (function (_super) {
         var draw_time = 0;
         var timeline = this.timeline;
         var drawAtTime = timeline.getTime();
-        var drawerOptions = __assign(__assign({}, this.drawerOptions), { ghost_index: undefined, clear: this.drawerOptions.clear || timeline.getCurrentFrame() <= 0, time: drawAtTime });
+        var drawerOptions = __assign(__assign({}, this.drawerOptions), { ghostIndex: undefined, clear: this.drawerOptions.clear || timeline.getCurrentFrame() <= 0, time: drawAtTime });
         var currentFrame = timeline.getFrameAtTime(drawAtTime);
         this.dispatch('drawer-canvas:before_draw', {
             currentFrame: currentFrame,
@@ -259,7 +260,7 @@ var DrawerCanvas = /** @class */ (function (_super) {
         else {
             if (drawerOptions.ghosts) {
                 Drawer.eachGhosts(drawerOptions, timeline, function (ghostDrawerOptions) {
-                    ghostDrawerOptions.clear = drawerOptions.clear && ghostDrawerOptions.ghost_index === 1;
+                    ghostDrawerOptions.clear = drawerOptions.clear && ghostDrawerOptions.ghostIndex === 1;
                     draw_time += DrawerCanvas.draw(_this.scene, _this.context, ghostDrawerOptions, _this.resolution);
                 });
                 drawerOptions.clear = false;
@@ -320,13 +321,14 @@ var DrawerCanvas = /** @class */ (function (_super) {
             var backgroundImage = options.backgroundImage;
             var bGhost_1 = typeof options.ghosts !== 'undefined' &&
                 options.ghosts > 0 &&
-                typeof options.ghost_index !== 'undefined' &&
-                options.ghost_index > 0;
+                typeof options.ghostIndex !== 'undefined' &&
+                options.ghostIndex > 0;
             var ghostMultiplier_1 = bGhost_1
-                ? 1 - options.ghost_index / (options.ghosts + 0.5)
+                ? 1 - options.ghostIndex / (options.ghosts + 0.5)
                 : 0;
             var width_1 = scene.width;
             var height_1 = scene.height;
+            var ratio = width_1 / height_1;
             var ratio_x = width_1 > height_1 ? 1 : height_1 / width_1;
             var ratio_y = width_1 > height_1 ? width_1 / height_1 : 1;
             resolution = resolution || width_1;
@@ -342,7 +344,25 @@ var DrawerCanvas = /** @class */ (function (_super) {
                 else {
                     context.fillStyle = scene.background;
                     context.fillRect(0, 0, width_1, height_1);
-                    backgroundImage && context.drawImage(backgroundImage, 0, 0, width_1, height_1);
+                    if (backgroundImage) {
+                        var sourceWidth = backgroundImage instanceof SVGImageElement ? backgroundImage.width.baseVal.value : backgroundImage.width;
+                        var sourceHeight = backgroundImage instanceof SVGImageElement ? backgroundImage.height.baseVal.value : backgroundImage.height;
+                        var sourceRatio = sourceWidth / sourceHeight;
+                        var x = 0, y = 0, bgWidth = width_1, bgHeight = height_1;
+                        if (sourceRatio !== ratio) {
+                            if (options.backgroundImageFit === 'contain') {
+                                bgWidth = ratio > sourceRatio ? (sourceWidth * height_1) / sourceHeight : width_1;
+                                bgHeight = ratio > sourceRatio ? height_1 : (sourceHeight * width_1) / sourceWidth;
+                            }
+                            else {
+                                bgWidth = ratio < sourceRatio ? (sourceWidth * height_1) / sourceHeight : width_1;
+                                bgHeight = ratio < sourceRatio ? height_1 : (sourceHeight * width_1) / sourceWidth;
+                            }
+                            x = (width_1 - bgWidth) / 2;
+                            y = (height_1 - bgHeight) / 2;
+                        }
+                        context.drawImage(backgroundImage, x, y, bgWidth, bgHeight);
+                    }
                 }
             }
             if (simmetricLines > 0) {

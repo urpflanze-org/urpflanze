@@ -287,15 +287,15 @@ abstract class Drawer<IADrawerOptions extends IDrawerOptions, IDrawerEvents> ext
 	 * @template T
 	 * @param {T} drawerOptions
 	 * @param {Timeline} timeline
-	 * @param {((ghostDrawerOptions: T & { ghost_index?: number }) => any)} ghostCallback
+	 * @param {((ghostDrawerOptions: T & { ghostIndex?: number }) => any)} ghostCallback
 	 */
 	static eachGhosts<T extends IDrawerOptions>(
 		drawerOptions: T,
 		timeline: Timeline,
-		ghostCallback: (ghostDrawerOptions: T & { ghost_index?: number }) => any
+		ghostCallback: (ghostDrawerOptions: T & { ghostIndex?: number }) => any
 	): void {
 		if (drawerOptions.ghosts) {
-			const ghostDrawerOptions: T & { ghost_index?: number } = {
+			const ghostDrawerOptions: T & { ghostIndex?: number } = {
 				...drawerOptions,
 			}
 			const drawAtTime = timeline.getTime()
@@ -308,7 +308,7 @@ abstract class Drawer<IADrawerOptions extends IDrawerOptions, IDrawerEvents> ext
 						? drawerOptions.ghostSkipFunction(i)
 						: i * (drawerOptions.ghostSkipTime as number))
 
-				ghostDrawerOptions.ghost_index = i
+				ghostDrawerOptions.ghostIndex = i
 				ghostDrawerOptions.time = (ghostTime + sequenceDurate) % sequenceDurate
 
 				ghostCallback(ghostDrawerOptions)

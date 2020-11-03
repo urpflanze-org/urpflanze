@@ -116,63 +116,63 @@ const Vec2 = {
 	 *
 	 * @param {Array<number>} vec
 	 * @param {Array<number>} MATRIX
-	 * @param {Array<number>} pointToRotate
+	 * @param {Array<number>} fromPoint
 	 * @internal
 	 */
-	rotate: (vec: Array<number>, MATRIX: Array<number>, pointToRotate: Array<number>): void => {
-		const p0 = vec[0] - pointToRotate[0]
-		const p1 = vec[1] - pointToRotate[1]
+	rotate: (vec: Array<number>, MATRIX: Array<number>, fromPoint: Array<number>): void => {
+		const p0 = vec[0] - fromPoint[0]
+		const p1 = vec[1] - fromPoint[1]
 
-		vec[0] = p0 * MATRIX[0] + p1 * MATRIX[1] + pointToRotate[0]
-		vec[1] = p0 * MATRIX[2] + p1 * MATRIX[3] + pointToRotate[1]
+		vec[0] = p0 * MATRIX[0] + p1 * MATRIX[1] + fromPoint[0]
+		vec[1] = p0 * MATRIX[2] + p1 * MATRIX[3] + fromPoint[1]
 	},
 
 	/**
 	 * RotateX point
 	 *
 	 * @param {Array<number>} vec
-	 * @param {Array<number>} pointToRotate
+	 * @param {Array<number>} fromPoint
 	 * @param {number} rad
 	 */
-	rotateX: (vec: Array<number>, pointToRotate: Array<number>, rad: number): void => {
+	rotateX: (vec: Array<number>, fromPoint: Array<number>, rad: number): void => {
 		MATRIX[0] = 1
 		MATRIX[1] = 0
 		MATRIX[2] = 0
 		MATRIX[3] = Math.cos(rad)
 
-		Vec2.rotate(vec, MATRIX, pointToRotate)
+		Vec2.rotate(vec, MATRIX, fromPoint)
 	},
 
 	/**
 	 * RotateY point
 	 *
 	 * @param {Array<number>} vec
-	 * @param {Array<number>} pointToRotate
+	 * @param {Array<number>} fromPoint
 	 * @param {number} rad
 	 */
-	rotateY: (vec: Array<number>, pointToRotate: Array<number>, rad: number): void => {
+	rotateY: (vec: Array<number>, fromPoint: Array<number>, rad: number): void => {
 		MATRIX[0] = Math.cos(rad)
 		MATRIX[1] = 0
 		MATRIX[2] = 0
 		MATRIX[3] = 1
 
-		Vec2.rotate(vec, MATRIX, pointToRotate)
+		Vec2.rotate(vec, MATRIX, fromPoint)
 	},
 
 	/**
 	 * RotateZ point
 	 *
 	 * @param {Array<number>} vec
-	 * @param {Array<number>} pointToRotate
+	 * @param {Array<number>} fromPoint
 	 * @param {number} rad
 	 */
-	rotateZ: (vec: Array<number>, pointToRotate: Array<number>, rad: number): void => {
+	rotateZ: (vec: Array<number>, fromPoint: Array<number>, rad: number): void => {
 		MATRIX[0] = Math.cos(rad)
 		MATRIX[1] = -Math.sin(rad)
 		MATRIX[2] = Math.sin(rad)
 		MATRIX[3] = Math.cos(rad)
 
-		Vec2.rotate(vec, MATRIX, pointToRotate)
+		Vec2.rotate(vec, MATRIX, fromPoint)
 	},
 
 	/**

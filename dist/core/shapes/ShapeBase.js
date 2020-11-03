@@ -362,12 +362,12 @@ var ShapeBase = /** @class */ (function (_super) {
                                 bPerspectiveOrigin && vec3.sub(vertex, vertex, perspectiveOrigin);
                             }
                             if (this.vertexCallback) {
-                                var index = bufferIndex / 2 + 1;
+                                var index = bufferIndex / 2;
                                 var count = bufferLength / 2;
                                 var vertexRepetition = {
-                                    index: index,
+                                    index: index + 1,
                                     count: count,
-                                    offset: index / count,
+                                    offset: index / (count - 1),
                                 };
                                 this.vertexCallback(vertex, vertexRepetition, propArguments);
                             }
