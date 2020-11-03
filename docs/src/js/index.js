@@ -2,7 +2,8 @@ import { bindNavigation } from './navigation/navigation'
 import { bindRouting } from './routing/routing'
 import '../scss/index.scss'
 
-const lang = localStorage.getItem('lang') || (navigator.language.match(/it/gi) ? 'it' : 'en')
+// const lang = localStorage.getItem('lang') || (navigator.language.match(/it/gi) ? 'it' : 'en')
+const lang = 'it' //localStorage.getItem('lang') || (navigator.language.match(/it/gi) ? 'it' : 'en')
 
 bindNavigation(lang)
 

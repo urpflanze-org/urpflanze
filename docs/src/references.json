@@ -1204,9 +1204,7 @@
 			"line": 33,
 			"character": 11
 		},
-		"extends": [
-			"SceneChild"
-		],
+		"extends": ["SceneChild"],
 		"description": "A SceneChild container, propagates properties to children",
 		"examples": [
 			"\n```javascript\n// Group example\n\nconst rect = new Urpflanze.Rect({\n\tdistance: 100 // <- if a property is set the group will not overwrite it\n})\nconst group = new Urpflanze.Group({\n\trepetitions: 3,\n\tdistance: 200\n})\n\ngroup.add(rect)\ngroup.add(new Urpflanze.Triangle())\n```"
@@ -1720,9 +1718,7 @@
 			"line": 40,
 			"character": 24
 		},
-		"extends": [
-			"SceneChild"
-		],
+		"extends": ["SceneChild"],
 		"description": "Main class for shape generation",
 		"constructor_ref": {
 			"parameters": [
@@ -2149,9 +2145,7 @@
 				"order": 9999
 			}
 		],
-		"examples": [
-			"\n```javascript\nUrpflanze.clamp(0, 1, 1.2) // 1\nUrpflanze.clamp(0, 1, -2) // 0\n```"
-		],
+		"examples": ["\n```javascript\nUrpflanze.clamp(0, 1, 1.2) // 1\nUrpflanze.clamp(0, 1, -2) // 0\n```"],
 		"return_type": {
 			"type": "intrinsic",
 			"name": "number"
@@ -2210,9 +2204,7 @@
 				"order": 9999
 			}
 		],
-		"examples": [
-			"\n```javascript\nUrpflanze.relativeClamp(0, 1, 0.5, 100, 200) // 150\n```\n"
-		],
+		"examples": ["\n```javascript\nUrpflanze.relativeClamp(0, 1, 0.5, 100, 200) // 150\n```\n"],
 		"return_type": {
 			"type": "intrinsic",
 			"name": "number"
@@ -2239,9 +2231,7 @@
 				"order": 9999
 			}
 		],
-		"examples": [
-			"\n```javascript\nUrpflanze.toDegrees(Math.PI) // 180\n```\n"
-		],
+		"examples": ["\n```javascript\nUrpflanze.toDegrees(Math.PI) // 180\n```\n"],
 		"return_type": {
 			"type": "intrinsic",
 			"name": "number"
@@ -2268,9 +2258,7 @@
 				"order": 9999
 			}
 		],
-		"examples": [
-			"\n```javascript\nUrpflanze.toRadians(180) // 3.141592653589793\n```\n"
-		],
+		"examples": ["\n```javascript\nUrpflanze.toRadians(180) // 3.141592653589793\n```\n"],
 		"return_type": {
 			"type": "intrinsic",
 			"name": "number"
@@ -2821,7 +2809,7 @@
 						"order": 9999
 					},
 					{
-						"name": "pointToRotate",
+						"name": "fromPoint",
 						"type": {
 							"type": "reference",
 							"typeArguments": [
@@ -2860,7 +2848,7 @@
 						"order": 9999
 					},
 					{
-						"name": "pointToRotate",
+						"name": "fromPoint",
 						"type": {
 							"type": "reference",
 							"typeArguments": [
@@ -2908,7 +2896,7 @@
 						"order": 9999
 					},
 					{
-						"name": "pointToRotate",
+						"name": "fromPoint",
 						"type": {
 							"type": "reference",
 							"typeArguments": [
@@ -2956,7 +2944,7 @@
 						"order": 9999
 					},
 					{
-						"name": "pointToRotate",
+						"name": "fromPoint",
 						"type": {
 							"type": "reference",
 							"typeArguments": [
@@ -3238,9 +3226,7 @@
 			"line": 13,
 			"character": 11
 		},
-		"extends": [
-			"ShapeBase"
-		],
+		"extends": ["ShapeBase"],
 		"description": "Container of ShapeBase or Group, it applies transformations on each repetition",
 		"constructor_ref": {
 			"parameters": [
@@ -3477,9 +3463,7 @@
 			"line": 10,
 			"character": 17
 		},
-		"extends": [
-			"ShapePrimitive"
-		],
+		"extends": ["ShapePrimitive"],
 		"constructor_ref": {
 			"parameters": [
 				{
@@ -3682,9 +3666,7 @@
 			"line": 36,
 			"character": 15
 		},
-		"extends": [
-			"ShapePrimitive"
-		],
+		"extends": ["ShapePrimitive"],
 		"description": "Shape Loop",
 		"constructor_ref": {
 			"parameters": [
@@ -3755,7 +3737,7 @@
 				"bProtected": true
 			},
 			{
-				"name": "shapeLoopPropsDependencies",
+				"name": "loopDependencies",
 				"description": "list of prop has impact on shape loop generation",
 				"type": {
 					"type": "reference",
@@ -4087,9 +4069,7 @@
 			"line": 18,
 			"character": 29
 		},
-		"extends": [
-			"ShapeBase"
-		],
+		"extends": ["ShapeBase"],
 		"constructor_ref": {
 			"parameters": [
 				{
@@ -4118,7 +4098,7 @@
 				"bPublic": true
 			},
 			{
-				"name": "bCloseShape",
+				"name": "bClosed",
 				"description": "Define shape is closed",
 				"type": {
 					"type": "intrinsic",
@@ -4300,7 +4280,7 @@
 			},
 			{
 				"name": "isClosed",
-				"description": "Return bCloseShape",
+				"description": "Return bClosed",
 				"parameters": [],
 				"return_type": {
 					"type": "intrinsic",
@@ -4322,10 +4302,10 @@
 			},
 			{
 				"name": "setClosed",
-				"description": "Set bCloseShape",
+				"description": "Set bClosed",
 				"parameters": [
 					{
-						"name": "bCloseShape",
+						"name": "bClosed",
 						"type": {
 							"type": "intrinsic",
 							"name": "boolean"
@@ -4424,9 +4404,7 @@
 			"line": 11,
 			"character": 12
 		},
-		"extends": [
-			"ShapeLoop"
-		],
+		"extends": ["ShapeLoop"],
 		"constructor_ref": {
 			"parameters": [
 				{
@@ -4455,9 +4433,7 @@
 			"line": 12,
 			"character": 10
 		},
-		"extends": [
-			"ShapeBuffer"
-		],
+		"extends": ["ShapeBuffer"],
 		"constructor_ref": {
 			"parameters": [
 				{
@@ -4486,9 +4462,7 @@
 			"line": 14,
 			"character": 15
 		},
-		"extends": [
-			"ShapeLoop"
-		],
+		"extends": ["ShapeLoop"],
 		"description": "Lissajous shape",
 		"constructor_ref": {
 			"parameters": [
@@ -4619,9 +4593,7 @@
 			"line": 11,
 			"character": 10
 		},
-		"extends": [
-			"ShapeBuffer"
-		],
+		"extends": ["ShapeBuffer"],
 		"constructor_ref": {
 			"parameters": [
 				{
@@ -4650,9 +4622,7 @@
 			"line": 13,
 			"character": 20
 		},
-		"extends": [
-			"ShapeLoop"
-		],
+		"extends": ["ShapeLoop"],
 		"description": "Polygon shape",
 		"constructor_ref": {
 			"parameters": [
@@ -4782,9 +4752,7 @@
 			"line": 14,
 			"character": 10
 		},
-		"extends": [
-			"ShapeLoop"
-		],
+		"extends": ["ShapeLoop"],
 		"description": "Rose shape",
 		"constructor_ref": {
 			"parameters": [
@@ -4943,9 +4911,7 @@
 			"line": 14,
 			"character": 12
 		},
-		"extends": [
-			"ShapeLoop"
-		],
+		"extends": ["ShapeLoop"],
 		"description": "Spiral shape",
 		"constructor_ref": {
 			"parameters": [
@@ -5105,9 +5071,7 @@
 			"line": 10,
 			"character": 14
 		},
-		"extends": [
-			"ShapeBuffer"
-		],
+		"extends": ["ShapeBuffer"],
 		"description": "Triangle ShapeBuffer",
 		"constructor_ref": {
 			"parameters": [
@@ -5367,9 +5331,7 @@
 			"line": 72,
 			"character": 28
 		},
-		"extends": [
-			"IShapeLoopRepetition"
-		],
+		"extends": ["IShapeLoopRepetition"],
 		"description": "Information about propArguments repetition",
 		"properties": [
 			{
@@ -5872,9 +5834,7 @@
 			"line": 245,
 			"character": 36
 		},
-		"extends": [
-			"ISceneChildProps"
-		],
+		"extends": ["ISceneChildProps"],
 		"properties": [
 			{
 				"name": "id",
@@ -6429,9 +6389,7 @@
 			"line": 58,
 			"character": 37
 		},
-		"extends": [
-			"IBaseRepetition"
-		],
+		"extends": ["IBaseRepetition"],
 		"properties": [
 			{
 				"name": "index",
@@ -6632,9 +6590,7 @@
 			"line": 54,
 			"character": 35
 		},
-		"extends": [
-			"ISceneChildSettings"
-		],
+		"extends": ["ISceneChildSettings"],
 		"description": "ShapeBaseSettings",
 		"properties": [
 			{
@@ -7172,9 +7128,7 @@
 			"line": 121,
 			"character": 37
 		},
-		"extends": [
-			"ISceneChildProps"
-		],
+		"extends": ["ISceneChildProps"],
 		"properties": [
 			{
 				"name": "sideLength",
@@ -7619,10 +7573,7 @@
 			"line": 151,
 			"character": 40
 		},
-		"extends": [
-			"IShapePrimitiveProps",
-			"IShapeBaseSettings"
-		],
+		"extends": ["IShapePrimitiveProps", "IShapeBaseSettings"],
 		"properties": [
 			{
 				"name": "sideLength",
@@ -7737,7 +7688,7 @@
 				"bOptional": true
 			},
 			{
-				"name": "bCloseShape",
+				"name": "bClosed",
 				"description": "Callback to apply transform at any vertex",
 				"type": {
 					"type": "union",
@@ -8235,9 +8186,7 @@
 			"line": 78,
 			"character": 31
 		},
-		"extends": [
-			"IShapeBaseSettings"
-		],
+		"extends": ["IShapeBaseSettings"],
 		"description": "Shape settings",
 		"properties": [
 			{
@@ -8831,9 +8780,7 @@
 			"line": 169,
 			"character": 32
 		},
-		"extends": [
-			"IShapeLoopProps"
-		],
+		"extends": ["IShapeLoopProps"],
 		"description": "For <mark>wx</mark>, <mark>wy</mark> and <mark>wx</mark> see Lissajous on <a target=\"_blank\" href=\"https://en.wikipedia.org/wiki/Lissajous_curve\">Wikipedia</a>",
 		"properties": [
 			{
@@ -9341,10 +9288,7 @@
 			"line": 193,
 			"character": 35
 		},
-		"extends": [
-			"ILissajousProps",
-			"IShapeLoopSettings"
-		],
+		"extends": ["ILissajousProps", "IShapeLoopSettings"],
 		"properties": [
 			{
 				"name": "wx",
@@ -9409,7 +9353,7 @@
 				"bOptional": true
 			},
 			{
-				"name": "shapeLoopPropsDependencies",
+				"name": "loopDependencies",
 				"description": "Array of properties on which shapeloop generation depends,\nfor example the circle varies the number of points based on the radius (sideLength)",
 				"type": {
 					"type": "reference",
@@ -9550,7 +9494,7 @@
 				"bOptional": true
 			},
 			{
-				"name": "bCloseShape",
+				"name": "bClosed",
 				"description": "Callback to apply transform at any vertex",
 				"type": {
 					"type": "union",
@@ -10048,9 +9992,7 @@
 			"line": 90,
 			"character": 37
 		},
-		"extends": [
-			"IShapeLoopProps"
-		],
+		"extends": ["IShapeLoopProps"],
 		"properties": [
 			{
 				"name": "sideNumber",
@@ -10523,10 +10465,7 @@
 			"line": 102,
 			"character": 40
 		},
-		"extends": [
-			"IRegularPolygonProps",
-			"IShapeLoopSettings"
-		],
+		"extends": ["IRegularPolygonProps", "IShapeLoopSettings"],
 		"properties": [
 			{
 				"name": "sideNumber",
@@ -10557,7 +10496,7 @@
 				"bOptional": true
 			},
 			{
-				"name": "shapeLoopPropsDependencies",
+				"name": "loopDependencies",
 				"description": "Array of properties on which shapeloop generation depends,\nfor example the circle varies the number of points based on the radius (sideLength)",
 				"type": {
 					"type": "reference",
@@ -10698,7 +10637,7 @@
 				"bOptional": true
 			},
 			{
-				"name": "bCloseShape",
+				"name": "bClosed",
 				"description": "Callback to apply transform at any vertex",
 				"type": {
 					"type": "union",
@@ -11196,9 +11135,7 @@
 			"line": 109,
 			"character": 27
 		},
-		"extends": [
-			"IShapeLoopProps"
-		],
+		"extends": ["IShapeLoopProps"],
 		"description": "For <mark>n</mark> and <mark>d</mark> see Rose on <a target=\"_blank\" href=\"https://en.wikipedia.org/wiki/Rose_(mathematics)\">Wikipedia</a>",
 		"properties": [
 			{
@@ -11689,10 +11626,7 @@
 			"line": 127,
 			"character": 30
 		},
-		"extends": [
-			"IRoseProps",
-			"IShapeLoopSettings"
-		],
+		"extends": ["IRoseProps", "IShapeLoopSettings"],
 		"properties": [
 			{
 				"name": "n",
@@ -11740,7 +11674,7 @@
 				"bOptional": true
 			},
 			{
-				"name": "shapeLoopPropsDependencies",
+				"name": "loopDependencies",
 				"description": "Array of properties on which shapeloop generation depends,\nfor example the circle varies the number of points based on the radius (sideLength)",
 				"type": {
 					"type": "reference",
@@ -11881,7 +11815,7 @@
 				"bOptional": true
 			},
 			{
-				"name": "bCloseShape",
+				"name": "bClosed",
 				"description": "Callback to apply transform at any vertex",
 				"type": {
 					"type": "union",
@@ -12379,9 +12313,7 @@
 			"line": 9,
 			"character": 34
 		},
-		"extends": [
-			"IShapePrimitiveProps"
-		],
+		"extends": ["IShapePrimitiveProps"],
 		"properties": [
 			{
 				"name": "sideLength",
@@ -12826,10 +12758,7 @@
 			"line": 15,
 			"character": 37
 		},
-		"extends": [
-			"IShapeBufferProps",
-			"IShapePrimitiveSettings"
-		],
+		"extends": ["IShapeBufferProps", "IShapePrimitiveSettings"],
 		"properties": [
 			{
 				"name": "shape",
@@ -12971,7 +12900,7 @@
 				"bOptional": true
 			},
 			{
-				"name": "bCloseShape",
+				"name": "bClosed",
 				"description": "Callback to apply transform at any vertex",
 				"type": {
 					"type": "union",
@@ -13541,9 +13470,7 @@
 			"line": 63,
 			"character": 32
 		},
-		"extends": [
-			"IShapePrimitiveProps"
-		],
+		"extends": ["IShapePrimitiveProps"],
 		"properties": [
 			{
 				"name": "loop",
@@ -13999,10 +13926,7 @@
 			"line": 75,
 			"character": 35
 		},
-		"extends": [
-			"IShapeLoopProps",
-			"IShapePrimitiveSettings"
-		],
+		"extends": ["IShapeLoopProps", "IShapePrimitiveSettings"],
 		"properties": [
 			{
 				"name": "loop",
@@ -14016,7 +13940,7 @@
 				"bOptional": true
 			},
 			{
-				"name": "shapeLoopPropsDependencies",
+				"name": "loopDependencies",
 				"description": "Array of properties on which shapeloop generation depends,\nfor example the circle varies the number of points based on the radius (sideLength)",
 				"type": {
 					"type": "reference",
@@ -14157,7 +14081,7 @@
 				"bOptional": true
 			},
 			{
-				"name": "bCloseShape",
+				"name": "bClosed",
 				"description": "Callback to apply transform at any vertex",
 				"type": {
 					"type": "union",
@@ -14655,9 +14579,7 @@
 			"line": 139,
 			"character": 29
 		},
-		"extends": [
-			"IShapeLoopProps"
-		],
+		"extends": ["IShapeLoopProps"],
 		"properties": [
 			{
 				"name": "spiral",
@@ -15158,10 +15080,7 @@
 			"line": 163,
 			"character": 32
 		},
-		"extends": [
-			"ISpiralProps",
-			"IShapeLoopSettings"
-		],
+		"extends": ["ISpiralProps", "IShapeLoopSettings"],
 		"properties": [
 			{
 				"name": "spiral",
@@ -15220,7 +15139,7 @@
 				"bOptional": true
 			},
 			{
-				"name": "shapeLoopPropsDependencies",
+				"name": "loopDependencies",
 				"description": "Array of properties on which shapeloop generation depends,\nfor example the circle varies the number of points based on the radius (sideLength)",
 				"type": {
 					"type": "reference",
@@ -15361,7 +15280,7 @@
 				"bOptional": true
 			},
 			{
-				"name": "bCloseShape",
+				"name": "bClosed",
 				"description": "Callback to apply transform at any vertex",
 				"type": {
 					"type": "union",
@@ -17500,7 +17419,7 @@
 						"name": "simpleAnimation",
 						"type": {
 							"type": "reference",
-							"id": 3311,
+							"id": 3312,
 							"name": "ISimpleAnimation"
 						},
 						"order": 9999
@@ -17549,7 +17468,7 @@
 						"name": "props",
 						"type": {
 							"type": "reference",
-							"id": 3331,
+							"id": 3332,
 							"name": "TSimpleAnimationLoop"
 						},
 						"order": 9999
@@ -17598,7 +17517,7 @@
 						"name": "props",
 						"type": {
 							"type": "reference",
-							"id": 3333,
+							"id": 3334,
 							"name": "TSimpleAnimationStatic"
 						},
 						"order": 9999
@@ -17647,7 +17566,7 @@
 						"name": "props",
 						"type": {
 							"type": "reference",
-							"id": 3332,
+							"id": 3333,
 							"name": "TSimpleAnimationUncontrolledLoop"
 						},
 						"order": 9999
@@ -17701,9 +17620,7 @@
 			"line": 19,
 			"character": 21
 		},
-		"extends": [
-			"Emitter"
-		],
+		"extends": ["Emitter"],
 		"description": "Abstract Drawer",
 		"constructor_ref": {
 			"parameters": [
@@ -17905,7 +17822,7 @@
 				"name": "timeline",
 				"type": {
 					"type": "reference",
-					"id": 3202,
+					"id": 3203,
 					"name": "Timeline"
 				},
 				"order": 9999,
@@ -18005,7 +17922,7 @@
 				],
 				"typeParameter": [
 					{
-						"id": 4215,
+						"id": 4216,
 						"name": "K",
 						"kind": 131072,
 						"kindString": "Type parameter",
@@ -18114,7 +18031,7 @@
 				"parameters": [],
 				"return_type": {
 					"type": "reference",
-					"id": 3202,
+					"id": 3203,
 					"name": "Timeline"
 				},
 				"order": 9999,
@@ -18330,7 +18247,7 @@
 				],
 				"typeParameter": [
 					{
-						"id": 4210,
+						"id": 4211,
 						"name": "K",
 						"kind": 131072,
 						"kindString": "Type parameter",
@@ -18463,7 +18380,7 @@
 						"name": "timeline",
 						"type": {
 							"type": "reference",
-							"id": 3202,
+							"id": 3203,
 							"name": "Timeline"
 						},
 						"order": 9999
@@ -18473,7 +18390,7 @@
 						"type": {
 							"type": "reflection",
 							"declaration": {
-								"id": 4241,
+								"id": 4242,
 								"name": "__type",
 								"kind": 65536,
 								"kindString": "Type literal",
@@ -18482,14 +18399,14 @@
 								},
 								"signatures": [
 									{
-										"id": 4242,
+										"id": 4243,
 										"name": "__call",
 										"kind": 4096,
 										"kindString": "Call signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 4243,
+												"id": 4244,
 												"name": "ghostDrawerOptions",
 												"kind": 32768,
 												"kindString": "Parameter",
@@ -18509,15 +18426,15 @@
 														{
 															"type": "reflection",
 															"declaration": {
-																"id": 4244,
+																"id": 4245,
 																"name": "__type",
 																"kind": 65536,
 																"kindString": "Type literal",
 																"flags": {},
 																"children": [
 																	{
-																		"id": 4245,
-																		"name": "ghost_index",
+																		"id": 4246,
+																		"name": "ghostIndex",
 																		"kind": 32,
 																		"kindString": "Variable",
 																		"flags": {
@@ -18527,7 +18444,7 @@
 																			{
 																				"fileName": "src/services/drawers/Drawer.ts",
 																				"line": 295,
-																				"character": 55
+																				"character": 54
 																			}
 																		],
 																		"type": {
@@ -18549,9 +18466,7 @@
 																	{
 																		"title": "Variables",
 																		"kind": 32,
-																		"children": [
-																			4245
-																		]
+																		"children": [4246]
 																	}
 																],
 																"sources": [
@@ -18587,7 +18502,7 @@
 				],
 				"typeParameter": [
 					{
-						"id": 4237,
+						"id": 4238,
 						"name": "T",
 						"kind": 131072,
 						"kindString": "Type parameter",
@@ -18656,9 +18571,7 @@
 			"line": 15,
 			"character": 18
 		},
-		"extends": [
-			"Drawer"
-		],
+		"extends": ["Drawer"],
 		"constructor_ref": {
 			"parameters": [
 				{
@@ -19136,7 +19049,7 @@
 				],
 				"typeParameter": [
 					{
-						"id": 4311,
+						"id": 4312,
 						"name": "K",
 						"kind": 131072,
 						"kindString": "Type parameter",
@@ -19231,15 +19144,15 @@
 								{
 									"type": "reflection",
 									"declaration": {
-										"id": 4323,
+										"id": 4324,
 										"name": "__type",
 										"kind": 65536,
 										"kindString": "Type literal",
 										"flags": {},
 										"children": [
 											{
-												"id": 4324,
-												"name": "ghost_index",
+												"id": 4325,
+												"name": "ghostIndex",
 												"kind": 32,
 												"kindString": "Variable",
 												"flags": {
@@ -19248,8 +19161,8 @@
 												"sources": [
 													{
 														"fileName": "src/services/drawers/drawer-canvas/DrawerCanvas.ts",
-														"line": 354,
-														"character": 47
+														"line": 355,
+														"character": 46
 													}
 												],
 												"type": {
@@ -19271,15 +19184,13 @@
 											{
 												"title": "Variables",
 												"kind": 32,
-												"children": [
-													4324
-												]
+												"children": [4325]
 											}
 										],
 										"sources": [
 											{
 												"fileName": "src/services/drawers/drawer-canvas/DrawerCanvas.ts",
-												"line": 354,
+												"line": 355,
 												"character": 33
 											}
 										]
@@ -19607,9 +19518,7 @@
 			"line": 15,
 			"character": 15
 		},
-		"extends": [
-			"Drawer"
-		],
+		"extends": ["Drawer"],
 		"description": "Abstract drawer",
 		"constructor_ref": {
 			"parameters": [
@@ -19826,14 +19735,14 @@
 								{
 									"type": "reflection",
 									"declaration": {
-										"id": 4459,
+										"id": 4460,
 										"name": "__type",
 										"kind": 65536,
 										"kindString": "Type literal",
 										"flags": {},
 										"children": [
 											{
-												"id": 4460,
+												"id": 4461,
 												"name": "ghostIndex",
 												"kind": 32,
 												"kindString": "Variable",
@@ -19866,9 +19775,7 @@
 											{
 												"title": "Variables",
 												"kind": 32,
-												"children": [
-													4460
-												]
+												"children": [4461]
 											}
 										],
 										"sources": [
@@ -19927,21 +19834,21 @@
 								{
 									"type": "reflection",
 									"declaration": {
-										"id": 3165,
+										"id": 3166,
 										"name": "__type",
 										"kind": 65536,
 										"kindString": "Type literal",
 										"flags": {},
 										"signatures": [
 											{
-												"id": 3166,
+												"id": 3167,
 												"name": "__call",
 												"kind": 4096,
 												"kindString": "Call signature",
 												"flags": {},
 												"parameters": [
 													{
-														"id": 3167,
+														"id": 3168,
 														"name": "args",
 														"kind": 32768,
 														"kindString": "Parameter",
@@ -20010,7 +19917,7 @@
 						"type": {
 							"type": "reflection",
 							"declaration": {
-								"id": 3174,
+								"id": 3175,
 								"name": "__type",
 								"kind": 65536,
 								"kindString": "Type literal",
@@ -20019,14 +19926,14 @@
 								},
 								"signatures": [
 									{
-										"id": 3175,
+										"id": 3176,
 										"name": "__call",
 										"kind": 4096,
 										"kindString": "Call signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 3176,
+												"id": 3177,
 												"name": "value",
 												"kind": 32768,
 												"kindString": "Parameter",
@@ -20094,7 +20001,7 @@
 						"type": {
 							"type": "reflection",
 							"declaration": {
-								"id": 3181,
+								"id": 3182,
 								"name": "__type",
 								"kind": 65536,
 								"kindString": "Type literal",
@@ -20103,14 +20010,14 @@
 								},
 								"signatures": [
 									{
-										"id": 3182,
+										"id": 3183,
 										"name": "__call",
 										"kind": 4096,
 										"kindString": "Call signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 3183,
+												"id": 3184,
 												"name": "value",
 												"kind": 32768,
 												"kindString": "Parameter",
@@ -20222,7 +20129,7 @@
 						"name": "drawer",
 						"type": {
 							"type": "reference",
-							"id": 4269,
+							"id": 4270,
 							"name": "DrawerCanvas"
 						},
 						"order": 9999
@@ -20251,7 +20158,7 @@
 						"name": "drawer",
 						"type": {
 							"type": "reference",
-							"id": 4269,
+							"id": 4270,
 							"name": "DrawerCanvas"
 						},
 						"order": 9999
@@ -20268,7 +20175,7 @@
 				],
 				"return_type": {
 					"type": "reference",
-					"id": 3338,
+					"id": 3339,
 					"name": "IProject"
 				},
 				"order": 9999,
@@ -20318,7 +20225,7 @@
 				],
 				"return_type": {
 					"type": "reference",
-					"id": 3375,
+					"id": 3376,
 					"name": "IProjectSceneChild"
 				},
 				"order": 9999,
@@ -20331,7 +20238,7 @@
 						"name": "project",
 						"type": {
 							"type": "reference",
-							"id": 3338,
+							"id": 3339,
 							"name": "IProject"
 						},
 						"order": 9999
@@ -20364,7 +20271,7 @@
 						"name": "drawer",
 						"type": {
 							"type": "reference",
-							"id": 4161,
+							"id": 4162,
 							"typeArguments": [
 								{
 									"type": "intrinsic",
@@ -20383,7 +20290,7 @@
 						"name": "settings",
 						"type": {
 							"type": "reference",
-							"id": 4554,
+							"id": 4555,
 							"name": "IRenderSettings"
 						},
 						"order": 9999
@@ -20403,7 +20310,7 @@
 						"name": "drawer",
 						"type": {
 							"type": "reference",
-							"id": 4161,
+							"id": 4162,
 							"typeArguments": [
 								{
 									"type": "intrinsic",
@@ -20422,7 +20329,7 @@
 						"name": "settings",
 						"type": {
 							"type": "reference",
-							"id": 4554,
+							"id": 4555,
 							"name": "IRenderSettings"
 						},
 						"order": 9999
@@ -20465,7 +20372,7 @@
 					"types": [
 						{
 							"type": "reference",
-							"id": 4269,
+							"id": 4270,
 							"name": "DrawerCanvas"
 						},
 						{
@@ -20483,7 +20390,7 @@
 						"name": "projectSceneChild",
 						"type": {
 							"type": "reference",
-							"id": 3375,
+							"id": 3376,
 							"name": "IProjectSceneChild"
 						},
 						"order": 9999
@@ -20492,7 +20399,7 @@
 						"name": "drawer",
 						"type": {
 							"type": "reference",
-							"id": 4269,
+							"id": 4270,
 							"name": "DrawerCanvas"
 						},
 						"order": 9999
@@ -20519,7 +20426,7 @@
 				"parameters": [],
 				"return_type": {
 					"type": "reference",
-					"id": 3338,
+					"id": 3339,
 					"name": "IProject"
 				},
 				"order": 9999,
@@ -20543,7 +20450,7 @@
 					"name": "settings",
 					"type": {
 						"type": "reference",
-						"id": 4578,
+						"id": 4579,
 						"name": "ICapturerSettings"
 					},
 					"defaultValue": "{}",
@@ -20644,7 +20551,7 @@
 				"name": "type",
 				"type": {
 					"type": "reference",
-					"id": 4576,
+					"id": 4577,
 					"name": "TRenderType"
 				},
 				"order": 9999
@@ -20722,7 +20629,7 @@
 						"name": "settings",
 						"type": {
 							"type": "reference",
-							"id": 4578,
+							"id": 4579,
 							"name": "ICapturerSettings"
 						},
 						"order": 9999
@@ -20787,7 +20694,7 @@
 						"name": "type",
 						"type": {
 							"type": "reference",
-							"id": 4576,
+							"id": 4577,
 							"name": "TRenderType"
 						},
 						"order": 9999
@@ -20840,7 +20747,7 @@
 						"name": "type",
 						"type": {
 							"type": "reference",
-							"id": 4575,
+							"id": 4576,
 							"name": "TRenderImageType"
 						},
 						"order": 9999
@@ -20893,7 +20800,7 @@
 						"name": "type",
 						"type": {
 							"type": "reference",
-							"id": 4576,
+							"id": 4577,
 							"name": "TRenderType"
 						},
 						"order": 9999
@@ -20932,15 +20839,13 @@
 			"line": 18,
 			"character": 14
 		},
-		"extends": [
-			"Emitter"
-		],
+		"extends": ["Emitter"],
 		"properties": [
 			{
 				"name": "capturer",
 				"type": {
 					"type": "reference",
-					"id": 4581,
+					"id": 4582,
 					"name": "Capturer"
 				},
 				"order": 9999
@@ -20999,7 +20904,7 @@
 						"name": "drawer",
 						"type": {
 							"type": "reference",
-							"id": 4269,
+							"id": 4270,
 							"name": "DrawerCanvas"
 						},
 						"order": 9999
@@ -21008,7 +20913,7 @@
 						"name": "settings",
 						"type": {
 							"type": "reference",
-							"id": 4554,
+							"id": 4555,
 							"name": "IRenderSettings"
 						},
 						"order": 9999
@@ -21019,7 +20924,7 @@
 					"typeArguments": [
 						{
 							"type": "reference",
-							"id": 4560,
+							"id": 4561,
 							"name": "IRenderStart"
 						}
 					],
@@ -21035,7 +20940,7 @@
 						"name": "drawer",
 						"type": {
 							"type": "reference",
-							"id": 4269,
+							"id": 4270,
 							"name": "DrawerCanvas"
 						},
 						"order": 9999
@@ -21044,7 +20949,7 @@
 						"name": "settings",
 						"type": {
 							"type": "reference",
-							"id": 4554,
+							"id": 4555,
 							"name": "IRenderSettings"
 						},
 						"order": 9999
@@ -21076,7 +20981,7 @@
 						"name": "drawer",
 						"type": {
 							"type": "reference",
-							"id": 4269,
+							"id": 4270,
 							"name": "DrawerCanvas"
 						},
 						"order": 9999
@@ -21085,7 +20990,7 @@
 						"name": "settings",
 						"type": {
 							"type": "reference",
-							"id": 4554,
+							"id": 4555,
 							"name": "IRenderSettings"
 						},
 						"order": 9999
@@ -21160,7 +21065,7 @@
 						"name": "drawer",
 						"type": {
 							"type": "reference",
-							"id": 4269,
+							"id": 4270,
 							"name": "DrawerCanvas"
 						},
 						"order": 9999
@@ -21169,7 +21074,7 @@
 						"name": "settings",
 						"type": {
 							"type": "reference",
-							"id": 4554,
+							"id": 4555,
 							"name": "IRenderSettings"
 						},
 						"order": 9999
@@ -21342,7 +21247,7 @@
 						{
 							"type": "reflection",
 							"declaration": {
-								"id": 3414,
+								"id": 3415,
 								"name": "__type",
 								"kind": 65536,
 								"kindString": "Type literal",
@@ -21351,7 +21256,7 @@
 								},
 								"children": [
 									{
-										"id": 3415,
+										"id": 3416,
 										"name": "key",
 										"kind": 32,
 										"kindString": "Variable",
@@ -21371,7 +21276,7 @@
 										}
 									},
 									{
-										"id": 3416,
+										"id": 3417,
 										"name": "value",
 										"kind": 32,
 										"kindString": "Variable",
@@ -21395,10 +21300,7 @@
 									{
 										"title": "Variables",
 										"kind": 32,
-										"children": [
-											3415,
-											3416
-										]
+										"children": [3416, 3417]
 									}
 								],
 								"sources": [
@@ -21440,7 +21342,7 @@
 				"name": "transformation",
 				"type": {
 					"type": "reference",
-					"id": 3156,
+					"id": 3157,
 					"name": "TDrawerTransformation"
 				},
 				"order": 9999
@@ -21449,7 +21351,7 @@
 				"name": "type",
 				"type": {
 					"type": "reference",
-					"id": 3423,
+					"id": 3424,
 					"name": "TPropInputType"
 				},
 				"order": 9999
@@ -21554,7 +21456,7 @@
 								"operator": "keyof",
 								"target": {
 									"type": "reference",
-									"id": 3397,
+									"id": 3398,
 									"name": "TSceneChildProps"
 								}
 							},
@@ -21577,7 +21479,7 @@
 						"types": [
 							{
 								"type": "stringLiteral",
-								"value": "shapeLoopPropsDependencies"
+								"value": "loopDependencies"
 							},
 							{
 								"type": "stringLiteral",
@@ -21799,7 +21701,7 @@
 						"name": "loop",
 						"type": {
 							"type": "reference",
-							"id": 3295,
+							"id": 3296,
 							"name": "IShapeLoopAnimation"
 						},
 						"order": 9999
@@ -21849,7 +21751,7 @@
 						"name": "drawer",
 						"type": {
 							"type": "reference",
-							"id": 4161,
+							"id": 4162,
 							"typeArguments": [
 								{
 									"type": "intrinsic",
@@ -21914,7 +21816,7 @@
 						"name": "drawer",
 						"type": {
 							"type": "reference",
-							"id": 4269,
+							"id": 4270,
 							"name": "DrawerCanvas"
 						},
 						"order": 9999
@@ -21923,7 +21825,7 @@
 						"name": "name",
 						"type": {
 							"type": "reference",
-							"id": 3424,
+							"id": 3425,
 							"name": "TSceneChildPropsDataKeys"
 						},
 						"order": 9999
@@ -21976,7 +21878,7 @@
 					"types": [
 						{
 							"type": "reference",
-							"id": 3156,
+							"id": 3157,
 							"name": "TDrawerTransformation"
 						},
 						{
@@ -22006,7 +21908,7 @@
 				"type": {
 					"type": "reflection",
 					"declaration": {
-						"id": 4068,
+						"id": 4069,
 						"name": "__type",
 						"kind": 65536,
 						"kindString": "Type literal",
@@ -22015,14 +21917,14 @@
 						},
 						"indexSignature": [
 							{
-								"id": 4069,
+								"id": 4070,
 								"name": "__index",
 								"kind": 8192,
 								"kindString": "Index signature",
 								"flags": {},
 								"parameters": [
 									{
-										"id": 4070,
+										"id": 4071,
 										"name": "type",
 										"kind": 32768,
 										"kindString": "Parameter",
@@ -22035,7 +21937,7 @@
 								],
 								"type": {
 									"type": "reference",
-									"id": 4158,
+									"id": 4159,
 									"name": "SceneChildInstance"
 								}
 							}
@@ -22100,7 +22002,7 @@
 						"name": "props",
 						"type": {
 							"type": "reference",
-							"id": 3397,
+							"id": 3398,
 							"name": "TSceneChildProps"
 						},
 						"order": 9999,
@@ -22160,7 +22062,7 @@
 						"name": "drawer",
 						"type": {
 							"type": "reference",
-							"id": 4161,
+							"id": 4162,
 							"typeArguments": [
 								{
 									"type": "intrinsic",
@@ -22229,7 +22131,7 @@
 						"name": "props",
 						"type": {
 							"type": "reference",
-							"id": 3397,
+							"id": 3398,
 							"name": "TSceneChildProps"
 						},
 						"order": 9999,
@@ -22249,7 +22151,7 @@
 						"name": "drawer",
 						"type": {
 							"type": "reference",
-							"id": 4161,
+							"id": 4162,
 							"typeArguments": [
 								{
 									"type": "intrinsic",
@@ -22639,7 +22541,7 @@
 						"name": "ref",
 						"type": {
 							"type": "reference",
-							"id": 4158,
+							"id": 4159,
 							"name": "SceneChildInstance"
 						},
 						"order": 9999
@@ -22715,7 +22617,7 @@
 						"name": "drawer",
 						"type": {
 							"type": "reference",
-							"id": 4161,
+							"id": 4162,
 							"typeArguments": [
 								{
 									"type": "intrinsic",
@@ -22775,7 +22677,7 @@
 						"type": {
 							"type": "reflection",
 							"declaration": {
-								"id": 4134,
+								"id": 4135,
 								"name": "__type",
 								"kind": 65536,
 								"kindString": "Type literal",
@@ -22784,14 +22686,14 @@
 								},
 								"signatures": [
 									{
-										"id": 4135,
+										"id": 4136,
 										"name": "__call",
 										"kind": 4096,
 										"kindString": "Call signature",
 										"flags": {},
 										"parameters": [
 											{
-												"id": 4136,
+												"id": 4137,
 												"name": "child",
 												"kind": 32768,
 												"kindString": "Parameter",
@@ -22839,9 +22741,7 @@
 			"line": 13,
 			"character": 14
 		},
-		"extends": [
-			"Emitter"
-		],
+		"extends": ["Emitter"],
 		"description": "Is used for sequence time management.\nIt is necessary to set the duration and the number of frames per second (frame rate).",
 		"constructor_ref": {
 			"parameters": [
@@ -22961,7 +22861,7 @@
 				"name": "sequence",
 				"type": {
 					"type": "reference",
-					"id": 3197,
+					"id": 3198,
 					"name": "ISequenceMeta"
 				},
 				"order": 9999,
@@ -23147,7 +23047,7 @@
 				"parameters": [],
 				"return_type": {
 					"type": "reference",
-					"id": 3197,
+					"id": 3198,
 					"name": "ISequenceMeta"
 				},
 				"order": 9999,
@@ -23374,7 +23274,7 @@
 		],
 		"typeParameters": [
 			{
-				"id": 3292,
+				"id": 3293,
 				"name": "T",
 				"kind": 131072,
 				"kindString": "Type parameter",
@@ -23397,9 +23297,7 @@
 			"line": 205,
 			"character": 26
 		},
-		"extends": [
-			"ICallableValue"
-		],
+		"extends": ["ICallableValue"],
 		"properties": [
 			{
 				"name": "raw",
@@ -23443,7 +23341,7 @@
 				"name": "end",
 				"type": {
 					"type": "reference",
-					"id": 3326,
+					"id": 3327,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -23458,7 +23356,7 @@
 				"name": "inc",
 				"type": {
 					"type": "reference",
-					"id": 3326,
+					"id": 3327,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -23473,7 +23371,7 @@
 				"name": "start",
 				"type": {
 					"type": "reference",
-					"id": 3326,
+					"id": 3327,
 					"typeArguments": [
 						{
 							"type": "intrinsic",
@@ -23488,7 +23386,7 @@
 				"name": "vertex",
 				"type": {
 					"type": "reference",
-					"id": 3291,
+					"id": 3292,
 					"typeArguments": [
 						{
 							"type": "union",
@@ -23612,7 +23510,7 @@
 				"description": "'loop' | 'uncontrolled-loop' | 'static'",
 				"type": {
 					"type": "reference",
-					"id": 3330,
+					"id": 3331,
 					"name": "TSimpleAnimationType"
 				},
 				"order": 4
@@ -23643,7 +23541,7 @@
 				"description": "Is based on <mark>mode</mark> value.\nIf mode is 'sinusoidal' the modeFunction value can be 'sin' | 'cos'\nIf mode is 'easing' the modeFunction value can be <a href=\"#/ref/TEasing\">TEasing</a>",
 				"type": {
 					"type": "reference",
-					"id": 3329,
+					"id": 3330,
 					"name": "TModeFunction"
 				},
 				"order": 6,
@@ -23724,9 +23622,7 @@
 			"line": 73,
 			"character": 41
 		},
-		"extends": [
-			"ICallableValue"
-		],
+		"extends": ["ICallableValue"],
 		"properties": [
 			{
 				"name": "dynamic",
@@ -23822,7 +23718,7 @@
 		},
 		"typeParameters": [
 			{
-				"id": 3327,
+				"id": 3328,
 				"name": "T",
 				"kind": 131072,
 				"kindString": "Type parameter",
@@ -24014,7 +23910,7 @@
 				"typeArguments": [
 					{
 						"type": "reference",
-						"id": 3311,
+						"id": 3312,
 						"name": "ISimpleAnimation"
 					},
 					{
@@ -24053,7 +23949,7 @@
 				"typeArguments": [
 					{
 						"type": "reference",
-						"id": 3311,
+						"id": 3312,
 						"name": "ISimpleAnimation"
 					},
 					{
@@ -24118,7 +24014,7 @@
 				"typeArguments": [
 					{
 						"type": "reference",
-						"id": 3311,
+						"id": 3312,
 						"name": "ISimpleAnimation"
 					},
 					{
@@ -24138,7 +24034,7 @@
 		"order": 9999,
 		"source": {
 			"fileName": "src/services/types/drawer.ts",
-			"line": 34,
+			"line": 35,
 			"character": 36
 		},
 		"properties": [
@@ -24147,7 +24043,7 @@
 				"type": {
 					"type": "reflection",
 					"declaration": {
-						"id": 3140,
+						"id": 3141,
 						"name": "__type",
 						"kind": 65536,
 						"kindString": "Type literal",
@@ -24156,7 +24052,7 @@
 						},
 						"children": [
 							{
-								"id": 3141,
+								"id": 3142,
 								"name": "currentFrame",
 								"kind": 32,
 								"kindString": "Variable",
@@ -24166,7 +24062,7 @@
 								"sources": [
 									{
 										"fileName": "src/services/types/drawer.ts",
-										"line": 36,
+										"line": 37,
 										"character": 14
 									}
 								],
@@ -24176,7 +24072,7 @@
 								}
 							},
 							{
-								"id": 3142,
+								"id": 3143,
 								"name": "currentTime",
 								"kind": 32,
 								"kindString": "Variable",
@@ -24186,7 +24082,7 @@
 								"sources": [
 									{
 										"fileName": "src/services/types/drawer.ts",
-										"line": 37,
+										"line": 38,
 										"character": 13
 									}
 								],
@@ -24200,16 +24096,13 @@
 							{
 								"title": "Variables",
 								"kind": 32,
-								"children": [
-									3141,
-									3142
-								]
+								"children": [3142, 3143]
 							}
 						],
 						"sources": [
 							{
 								"fileName": "src/services/types/drawer.ts",
-								"line": 35,
+								"line": 36,
 								"character": 29
 							}
 						]
@@ -24253,15 +24146,33 @@
 			"line": 22,
 			"character": 37
 		},
-		"extends": [
-			"IDrawerOptions"
-		],
+		"extends": ["IDrawerOptions"],
 		"properties": [
 			{
 				"name": "backgroundImage",
 				"type": {
 					"type": "reference",
 					"name": "CanvasImageSource"
+				},
+				"order": 9999,
+				"bOptional": true
+			},
+			{
+				"name": "backgroundImageFit",
+				"type": {
+					"type": "union",
+					"types": [
+						{
+							"type": "stringLiteral",
+							"value": "cover",
+							"order": 9999
+						},
+						{
+							"type": "stringLiteral",
+							"value": "contain",
+							"order": 9999
+						}
+					]
 				},
 				"order": 9999,
 				"bOptional": true
@@ -24332,7 +24243,7 @@
 								"name": "__type",
 								"parameters": [
 									{
-										"name": "ghost_index",
+										"name": "ghostIndex",
 										"type": {
 											"type": "intrinsic",
 											"name": "number"
@@ -24522,7 +24433,7 @@
 								"name": "__type",
 								"parameters": [
 									{
-										"name": "ghost_index",
+										"name": "ghostIndex",
 										"type": {
 											"type": "intrinsic",
 											"name": "number"
@@ -24637,7 +24548,7 @@
 		"order": 9999,
 		"source": {
 			"fileName": "src/services/types/drawer.ts",
-			"line": 47,
+			"line": 48,
 			"character": 33
 		},
 		"properties": [
@@ -24646,7 +24557,7 @@
 				"type": {
 					"type": "reflection",
 					"declaration": {
-						"id": 3148,
+						"id": 3149,
 						"name": "__type",
 						"kind": 65536,
 						"kindString": "Type literal",
@@ -24655,7 +24566,7 @@
 						},
 						"children": [
 							{
-								"id": 3149,
+								"id": 3150,
 								"name": "currentFrame",
 								"kind": 32,
 								"kindString": "Variable",
@@ -24665,7 +24576,7 @@
 								"sources": [
 									{
 										"fileName": "src/services/types/drawer.ts",
-										"line": 49,
+										"line": 50,
 										"character": 14
 									}
 								],
@@ -24675,7 +24586,7 @@
 								}
 							},
 							{
-								"id": 3150,
+								"id": 3151,
 								"name": "currentTime",
 								"kind": 32,
 								"kindString": "Variable",
@@ -24685,7 +24596,7 @@
 								"sources": [
 									{
 										"fileName": "src/services/types/drawer.ts",
-										"line": 50,
+										"line": 51,
 										"character": 13
 									}
 								],
@@ -24699,16 +24610,13 @@
 							{
 								"title": "Variables",
 								"kind": 32,
-								"children": [
-									3149,
-									3150
-								]
+								"children": [3150, 3151]
 							}
 						],
 						"sources": [
 							{
 								"fileName": "src/services/types/drawer.ts",
-								"line": 48,
+								"line": 49,
 								"character": 26
 							}
 						]
@@ -24728,9 +24636,7 @@
 			"line": 15,
 			"character": 34
 		},
-		"extends": [
-			"IDrawerOptions"
-		],
+		"extends": ["IDrawerOptions"],
 		"properties": [
 			{
 				"name": "decimals",
@@ -24768,7 +24674,7 @@
 								"name": "__type",
 								"parameters": [
 									{
-										"name": "ghost_index",
+										"name": "ghostIndex",
 										"type": {
 											"type": "intrinsic",
 											"name": "number"
@@ -24883,7 +24789,7 @@
 		"order": 9999,
 		"source": {
 			"fileName": "src/services/types/drawer.ts",
-			"line": 70,
+			"line": 71,
 			"character": 38
 		},
 		"properties": [
@@ -25059,7 +24965,7 @@
 		"order": 9999,
 		"source": {
 			"fileName": "src/services/types/drawer.ts",
-			"line": 57,
+			"line": 58,
 			"character": 33
 		},
 		"parameter": {
@@ -25099,7 +25005,7 @@
 		"order": 9999,
 		"source": {
 			"fileName": "src/services/types/drawer.ts",
-			"line": 62,
+			"line": 63,
 			"character": 24
 		},
 		"parameter": {
@@ -25107,7 +25013,7 @@
 			"type": {
 				"type": "reflection",
 				"declaration": {
-					"id": 3158,
+					"id": 3159,
 					"name": "__type",
 					"kind": 65536,
 					"kindString": "Type literal",
@@ -25116,7 +25022,7 @@
 					},
 					"children": [
 						{
-							"id": 3159,
+							"id": 3160,
 							"name": "type",
 							"kind": 32,
 							"kindString": "Variable",
@@ -25126,7 +25032,7 @@
 							"sources": [
 								{
 									"fileName": "src/services/types/drawer.ts",
-									"line": 63,
+									"line": 64,
 									"character": 5
 								}
 							],
@@ -25136,7 +25042,7 @@
 							}
 						},
 						{
-							"id": 3160,
+							"id": 3161,
 							"name": "value",
 							"kind": 32,
 							"kindString": "Variable",
@@ -25146,7 +25052,7 @@
 							"sources": [
 								{
 									"fileName": "src/services/types/drawer.ts",
-									"line": 64,
+									"line": 65,
 									"character": 6
 								}
 							],
@@ -25160,16 +25066,13 @@
 						{
 							"title": "Variables",
 							"kind": 32,
-							"children": [
-								3159,
-								3160
-							]
+							"children": [3160, 3161]
 						}
 					],
 					"sources": [
 						{
 							"fileName": "src/services/types/drawer.ts",
-							"line": 62,
+							"line": 63,
 							"character": 26
 						}
 					]
@@ -25355,7 +25258,7 @@
 				"type": {
 					"type": "reflection",
 					"declaration": {
-						"id": 3354,
+						"id": 3355,
 						"name": "__type",
 						"kind": 65536,
 						"kindString": "Type literal",
@@ -25364,7 +25267,7 @@
 						},
 						"indexSignature": [
 							{
-								"id": 3355,
+								"id": 3356,
 								"name": "__index",
 								"kind": 8192,
 								"kindString": "Index signature",
@@ -25373,7 +25276,7 @@
 								},
 								"parameters": [
 									{
-										"id": 3356,
+										"id": 3357,
 										"name": "key",
 										"kind": 32768,
 										"kindString": "Parameter",
@@ -25388,7 +25291,7 @@
 								],
 								"type": {
 									"type": "reference",
-									"id": 3375,
+									"id": 3376,
 									"name": "IProjectSceneChild"
 								}
 							}
@@ -25408,7 +25311,7 @@
 				"name": "sequence",
 				"type": {
 					"type": "reference",
-					"id": 3335,
+					"id": 3336,
 					"name": "IProjectSequence"
 				},
 				"order": 9999
@@ -25457,7 +25360,7 @@
 				"bOptional": true
 			},
 			{
-				"name": "bCloseShape",
+				"name": "bClosed",
 				"type": {
 					"type": "union",
 					"types": [
@@ -25521,7 +25424,7 @@
 					"typeArguments": [
 						{
 							"type": "reference",
-							"id": 3375,
+							"id": 3376,
 							"name": "IProjectSceneChild"
 						}
 					],
@@ -25534,7 +25437,7 @@
 				"name": "data",
 				"type": {
 					"type": "reference",
-					"id": 3357,
+					"id": 3358,
 					"name": "IProjectSceneChildData"
 				},
 				"order": 9999
@@ -25595,7 +25498,7 @@
 				"name": "props",
 				"type": {
 					"type": "reference",
-					"id": 3391,
+					"id": 3392,
 					"name": "IProjectSceneChildProps"
 				},
 				"order": 9999
@@ -25649,9 +25552,7 @@
 			"line": 47,
 			"character": 39
 		},
-		"extends": [
-			"ISceneChildDrawerData"
-		],
+		"extends": ["ISceneChildDrawerData"],
 		"properties": [
 			{
 				"name": "composite",
@@ -25813,7 +25714,7 @@
 						{
 							"type": "reflection",
 							"declaration": {
-								"id": 3360,
+								"id": 3361,
 								"name": "__type",
 								"kind": 65536,
 								"kindString": "Type literal",
@@ -25822,7 +25723,7 @@
 								},
 								"children": [
 									{
-										"id": 3364,
+										"id": 3365,
 										"name": "a",
 										"kind": 32,
 										"kindString": "Variable",
@@ -25842,7 +25743,7 @@
 										}
 									},
 									{
-										"id": 3363,
+										"id": 3364,
 										"name": "b",
 										"kind": 32,
 										"kindString": "Variable",
@@ -25862,7 +25763,7 @@
 										}
 									},
 									{
-										"id": 3362,
+										"id": 3363,
 										"name": "g",
 										"kind": 32,
 										"kindString": "Variable",
@@ -25882,7 +25783,7 @@
 										}
 									},
 									{
-										"id": 3361,
+										"id": 3362,
 										"name": "r",
 										"kind": 32,
 										"kindString": "Variable",
@@ -25906,12 +25807,7 @@
 									{
 										"title": "Variables",
 										"kind": 32,
-										"children": [
-											3364,
-											3363,
-											3362,
-											3361
-										]
+										"children": [3365, 3364, 3363, 3362]
 									}
 								]
 							},
@@ -25968,7 +25864,7 @@
 						{
 							"type": "reflection",
 							"declaration": {
-								"id": 3366,
+								"id": 3367,
 								"name": "__type",
 								"kind": 65536,
 								"kindString": "Type literal",
@@ -25977,7 +25873,7 @@
 								},
 								"children": [
 									{
-										"id": 3370,
+										"id": 3371,
 										"name": "a",
 										"kind": 32,
 										"kindString": "Variable",
@@ -25997,7 +25893,7 @@
 										}
 									},
 									{
-										"id": 3369,
+										"id": 3370,
 										"name": "b",
 										"kind": 32,
 										"kindString": "Variable",
@@ -26017,7 +25913,7 @@
 										}
 									},
 									{
-										"id": 3368,
+										"id": 3369,
 										"name": "g",
 										"kind": 32,
 										"kindString": "Variable",
@@ -26037,7 +25933,7 @@
 										}
 									},
 									{
-										"id": 3367,
+										"id": 3368,
 										"name": "r",
 										"kind": 32,
 										"kindString": "Variable",
@@ -26061,12 +25957,7 @@
 									{
 										"title": "Variables",
 										"kind": 32,
-										"children": [
-											3370,
-											3369,
-											3368,
-											3367
-										]
+										"children": [3371, 3370, 3369, 3368]
 									}
 								]
 							},
@@ -26134,7 +26025,7 @@
 					{
 						"type": "reflection",
 						"declaration": {
-							"id": 3392,
+							"id": 3393,
 							"name": "__type",
 							"kind": 65536,
 							"kindString": "Type literal",
@@ -26154,7 +26045,7 @@
 					{
 						"type": "reflection",
 						"declaration": {
-							"id": 3393,
+							"id": 3394,
 							"name": "__type",
 							"kind": 65536,
 							"kindString": "Type literal",
@@ -26163,7 +26054,7 @@
 							},
 							"children": [
 								{
-									"id": 3394,
+									"id": 3395,
 									"name": "loop",
 									"kind": 32,
 									"kindString": "Variable",
@@ -26180,12 +26071,12 @@
 									],
 									"type": {
 										"type": "reference",
-										"id": 3295,
+										"id": 3296,
 										"name": "IShapeLoopAnimation"
 									}
 								},
 								{
-									"id": 3395,
+									"id": 3396,
 									"name": "vertexCallback",
 									"kind": 32,
 									"kindString": "Variable",
@@ -26202,7 +26093,7 @@
 									],
 									"type": {
 										"type": "reference",
-										"id": 3301,
+										"id": 3302,
 										"name": "IVertexCallbackAnimation"
 									}
 								}
@@ -26211,10 +26102,7 @@
 								{
 									"title": "Variables",
 									"kind": 32,
-									"children": [
-										3394,
-										3395
-									]
+									"children": [3395, 3396]
 								}
 							],
 							"sources": [
@@ -26247,7 +26135,7 @@
 				"name": "renderer:render-frame",
 				"type": {
 					"type": "reference",
-					"id": 4565,
+					"id": 4566,
 					"name": "IRenderFrame"
 				},
 				"order": 9999
@@ -26256,7 +26144,7 @@
 				"name": "renderer:start",
 				"type": {
 					"type": "reference",
-					"id": 4560,
+					"id": 4561,
 					"name": "IRenderStart"
 				},
 				"order": 9999
@@ -26371,7 +26259,7 @@
 				"name": "type",
 				"type": {
 					"type": "reference",
-					"id": 4576,
+					"id": 4577,
 					"name": "TRenderType"
 				},
 				"order": 9999
@@ -26548,7 +26436,7 @@
 									{
 										"type": "reflection",
 										"declaration": {
-											"id": 3398,
+											"id": 3399,
 											"name": "__type",
 											"kind": 65536,
 											"kindString": "Type literal",
@@ -26557,7 +26445,7 @@
 											},
 											"children": [
 												{
-													"id": 3402,
+													"id": 3403,
 													"name": "data",
 													"kind": 32,
 													"kindString": "Variable",
@@ -26574,12 +26462,12 @@
 													],
 													"type": {
 														"type": "reference",
-														"id": 3357,
+														"id": 3358,
 														"name": "IProjectSceneChildData"
 													}
 												},
 												{
-													"id": 3399,
+													"id": 3400,
 													"name": "id",
 													"kind": 32,
 													"kindString": "Variable",
@@ -26609,7 +26497,7 @@
 													}
 												},
 												{
-													"id": 3400,
+													"id": 3401,
 													"name": "name",
 													"kind": 32,
 													"kindString": "Variable",
@@ -26639,7 +26527,7 @@
 													}
 												},
 												{
-													"id": 3401,
+													"id": 3402,
 													"name": "order",
 													"kind": 32,
 													"kindString": "Variable",
@@ -26673,12 +26561,7 @@
 												{
 													"title": "Variables",
 													"kind": 32,
-													"children": [
-														3402,
-														3399,
-														3400,
-														3401
-													]
+													"children": [3403, 3400, 3401, 3402]
 												}
 											],
 											"sources": [
@@ -26702,7 +26585,7 @@
 					{
 						"type": "reflection",
 						"declaration": {
-							"id": 3403,
+							"id": 3404,
 							"name": "__type",
 							"kind": 65536,
 							"kindString": "Type literal",
@@ -26711,7 +26594,7 @@
 							},
 							"children": [
 								{
-									"id": 3404,
+									"id": 3405,
 									"name": "shape",
 									"kind": 32,
 									"kindString": "Variable",
@@ -26756,9 +26639,7 @@
 								{
 									"title": "Variables",
 									"kind": 32,
-									"children": [
-										3404
-									]
+									"children": [3405]
 								}
 							],
 							"sources": [
@@ -26853,7 +26734,7 @@
 				"type": {
 					"type": "reflection",
 					"declaration": {
-						"id": 3193,
+						"id": 3194,
 						"name": "__type",
 						"kind": 65536,
 						"kindString": "Type literal",
@@ -26862,7 +26743,7 @@
 						},
 						"children": [
 							{
-								"id": 3194,
+								"id": 3195,
 								"name": "current_frame",
 								"kind": 32,
 								"kindString": "Variable",
@@ -26882,7 +26763,7 @@
 								}
 							},
 							{
-								"id": 3195,
+								"id": 3196,
 								"name": "current_time",
 								"kind": 32,
 								"kindString": "Variable",
@@ -26902,7 +26783,7 @@
 								}
 							},
 							{
-								"id": 3196,
+								"id": 3197,
 								"name": "fps",
 								"kind": 32,
 								"kindString": "Variable",
@@ -26926,11 +26807,7 @@
 							{
 								"title": "Variables",
 								"kind": 32,
-								"children": [
-									3194,
-									3195,
-									3196
-								]
+								"children": [3195, 3196, 3197]
 							}
 						],
 						"sources": [
@@ -26948,7 +26825,7 @@
 				"name": "timeline:update_sequence",
 				"type": {
 					"type": "reference",
-					"id": 3197,
+					"id": 3198,
 					"name": "ISequenceMeta"
 				},
 				"order": 9999

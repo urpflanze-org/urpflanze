@@ -54,13 +54,14 @@ function onLoadContent() {
 	})
 
 	// scripts
-	const scripts = content.getElementsByClassName('runnable-script')
+	const scripts = content.getElementsByTagName('script')
 
 	for (let i = 0; i < scripts.length; i++) {
-		const script_container = document.createElement('div')
-		const script_id = scripts[i].getAttribute('id')
-		let script = scripts[i].innerHTML
-		script_container.innerHTML = `
+		if (scripts[i].classList.contains('runnable-script')) {
+			const script_container = document.createElement('div')
+			const script_id = scripts[i].getAttribute('id')
+			let script = scripts[i].innerHTML
+			script_container.innerHTML = `
 			<pre class="prettyprint"><code translate="no" class="language-js">${script}</code></pre>
 			<div class="code-desc">
 				<span class="open-container" data-container="${script_id}_c">Mostra / Nascondi il risultato ▸</span>
@@ -70,10 +71,13 @@ function onLoadContent() {
 				<canvas id="${script_id}"></canvas>
 			</div>
 		`
-		scripts[i].before(script_container)
-		script = script.replace(/document\.body/gi, `document.getElementById('${script_id}')`)
-		scripts[i].innerHTML = script
-		eval(script)
+			scripts[i].before(script_container)
+			script = script.replace(/document\.body/gi, `document.getElementById('${script_id}')`)
+			scripts[i].innerHTML = script
+			eval(script)
+		} else {
+			eval(scripts[i].innerHTML)
+		}
 	}
 
 	// dynamic menu
