@@ -20,9 +20,9 @@ export default function createPageFromClass(ref) {
 				<h3 class="reference__constructor">${ref.name}(${parameters
 				.map(
 					parameter =>
-						`${parameter.name}: ${resolveType(parameter.type)}${
+						`${parameter.name}: <span class="reference__constructor__argument-type">${resolveType(parameter.type)}${
 							parameter.defaultValue ? ` = ${parameter.defaultValue}` : ''
-						}`
+						}</span>`
 				)
 				.join(', ')})</h3>
 				<div class="reference__constructor__description">${ref.constructor_ref.description || ''}</div>

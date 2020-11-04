@@ -10,13 +10,11 @@ import SceneChild from "./SceneChild";
  */
 declare class Scene {
     /**
-     * Logical number, the drawer will take care
-     * of defining the unit of measure
+     * Logical number, the drawer will take care of defining the unit of measure
      */
     width: number;
     /**
-     * Logical number, the drawer will take care
-     * of defining the unit of measure
+     * Logical number, the drawer will take care of defining the unit of measure
      */
     height: number;
     /**
