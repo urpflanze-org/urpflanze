@@ -749,13 +749,11 @@ var Scene = /** @class */ (function () {
     function Scene(settings) {
         if (settings === void 0) { settings = {}; }
         /**
-         * Logical number, the drawer will take care
-         * of defining the unit of measure
+         * Logical number, the drawer will take care of defining the unit of measure
          */
         this.width = 400;
         /**
-         * Logical number, the drawer will take care
-         * of defining the unit of measure
+         * Logical number, the drawer will take care of defining the unit of measure
          */
         this.height = 400;
         /**
