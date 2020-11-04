@@ -14,14 +14,12 @@ import Shape from '@core/shapes/Shape'
  */
 class Scene {
 	/**
-	 * Logical number, the drawer will take care
-	 * of defining the unit of measure
+	 * Logical number, the drawer will take care of defining the unit of measure
 	 */
 	public width = 400
 
 	/**
-	 * Logical number, the drawer will take care
-	 * of defining the unit of measure
+	 * Logical number, the drawer will take care of defining the unit of measure
 	 */
 	public height = 400
 
