@@ -14,5 +14,4 @@ document.querySelector('#search').addEventListener('keyup', e => {
 document.querySelector('#version').textContent = VERSION
 
 bindRouting()
-console.log(document.querySelector('main'))
 document.querySelector('main').style.display = ''
