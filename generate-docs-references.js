@@ -3,7 +3,7 @@ const { exec } = require('child_process')
 const fs = require('fs')
 
 const filename = path.resolve('./temp.json')
-const dest_name = path.resolve('./docs/src/references.json')
+const dest_name = path.resolve('./docs-src/references.json')
 
 exec(`npx typedoc --json ${filename}`, (error, stdout, stderr) => {
 	if (error) {
