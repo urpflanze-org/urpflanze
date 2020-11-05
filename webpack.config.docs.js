@@ -5,22 +5,16 @@ const path = require('path')
 module.exports = (env, argv) => {
 	const bProduction = argv.mode
 	return {
-		entry: path.join(__dirname, './docs/src/js/index.js'),
+		entry: path.join(__dirname, './docs-src/js/index.js'),
 		output: {
 			filename: 'index.js',
-			path: path.join(__dirname, './docs/public'),
+			path: path.join(__dirname, './docs'),
 		},
 		plugins: [
 			new HtmlWebpackPlugin({
-				template: path.join(__dirname, './docs/src/index.html'),
-				filename: path.join(__dirname, './docs/public/index.html'),
-				baseUrl: bProduction ? '/urpflanze/public/' : '/docs/public/',
-			}),
-
-			new HtmlWebpackPlugin({
-				template: path.join(__dirname, './docs/src/redirect.html'),
+				template: path.join(__dirname, './docs-src/index.html'),
 				filename: path.join(__dirname, './docs/index.html'),
-				baseUrl: bProduction ? '/urpflanze/public/' : '/docs/public/',
+				baseUrl: bProduction ? '/urpflanze/' : '/docs/',
 			}),
 
 			new webpack.DefinePlugin({
@@ -52,9 +46,9 @@ module.exports = (env, argv) => {
 		watch: argv.watch,
 
 		devServer: {
-			openPage: '/docs/public',
+			openPage: '/docs',
 			contentBase: path.join(__dirname, '.'),
-			publicPath: '/docs/public',
+			publicPath: '/docs',
 			watchContentBase: true,
 			host: '0.0.0.0',
 			hot: true,
