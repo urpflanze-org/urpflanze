@@ -119,29 +119,35 @@ class Scene {
 	}
 
 	/**
-	 * Add SceneChild to Scene, pass `order` for drawing priorities
+	 * Add SceneChild to Scene, pass `order` as last parameter for drawing priorities
 	 *
-	 * @param {SceneChild} item
+	 * @param {Array<SceneChild>} items
 	 * @param {number} [order]
 	 * @memberof Scene
 	 */
-	public add(item: SceneChild, order?: number): void {
-		item.order =
-			typeof order !== 'undefined'
-				? order
-				: typeof item.order !== 'undefined'
-				? item.order
-				: this.children.length > 0
-				? Math.max.apply(
-						this,
-						this.children.map(e => e.order)
-				  ) + 1
-				: 0
+	public add(...items: Array<SceneChild> /**, order: number */): void {
+		const order = typeof items[items.length - 1] === 'number' ? ((items as any)[items.length - 1] as number) : undefined
 
-		Scene.propagateToChilden(item, this)
+		for (let i = 0, len = items.length; i < len; i++) {
+			const item = items[i]
 
-		this.children.push(item)
-		item.clearBuffer(true, false)
+			item.order =
+				typeof order !== 'undefined'
+					? order + i
+					: typeof item.order !== 'undefined'
+					? item.order
+					: this.children.length > 0
+					? Math.max.apply(
+							this,
+							this.children.map(e => e.order)
+					  ) + 1
+					: 0
+
+			Scene.propagateToChilden(item, this)
+
+			this.children.push(item)
+			item.clearBuffer(true, false)
+		}
 
 		this.sortChildren()
 	}

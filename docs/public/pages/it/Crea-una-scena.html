@@ -22,6 +22,29 @@ const drawer = new Urpflanze.DrawerCanvas(scene, document.body)
 drawer.draw() // Disegna la scena su canvas
 </script>
 
+<p>
+	Per ripetere il rettangolo in maniara <a href="#/ref/ERepetitionType">Circolare</a> basterà aggiungere ai parametri di
+	<mark>Rect</mark>, la proprietà <mark>repetitions</mark> che indica il numero di ripetizioni e la proprietà
+	<mark>distance</mark> che indica la distanza delle ripetizioni dal centro della scena.
+</p>
+
+<!-- prettier-ignore -->
+<script id="c-e_2" class="runnable-script">/**
+	* Creazione di una scena con al centro un rettangolo
+	*/
+   const scene = new Urpflanze.Scene()
+   
+   const rect = new Urpflanze.Rect({
+	   repetitions: 8, 
+	   distance: 100,
+	   sideLength: 20 // Dimensione del raggio rettangolo
+   })
+   scene.add(rect) // Aggiunge il rettangolo alla scena
+   
+   const drawer = new Urpflanze.DrawerCanvas(scene, document.body)
+   drawer.draw() // Disegna la scena su canvas
+   </script>
+
 <h2>Gestire la scena</h2>
 
 Prima di continuare è importante spiegare la gerarchia delle classi aggiungibili alla scena.<br />
@@ -47,20 +70,77 @@ Puoi utilizzare di base alcune ShapeBuffer e ShapeLoop
 	<li><mark>ShapeLoop</mark> <i>RegularPolygon, Circle, Spiral, Rose, Lissajous</i></li>
 </ul>
 
-<h2>Group, Shape, ShapeBuffer, ShapeLoop</h2>
+<h2>Contenitori: Group e Shape</h2>
 
-Proviamo con un esempio.<br />
-Aggiungiamo alla scena
+Questi due classi possono apparentemente sembrare simili, in realtà svolgono due compiti completamente diversi.
+
+<p>Con i Group è possibile applicare le stesse proprietà a più SceneChild.</p>
 
 <!-- prettier-ignore -->
-<script id="c-e_2" class="runnable-script">/**
- * Creazione di una scena con al centro un rettangolo
+<script id="c-e_3" class="runnable-script">/**
+ * Creazione di una scena con un rombo ed una linea al centro
  */
 const scene = new Urpflanze.Scene()
 
-const group = new Urpflanze.Group()
-// scene.add(rect) // Aggiunge il rettangolo alla scena
+const rect = new Urpflanze.Rect()
+const line = new Urpflanze.Line({
+	// Quando una proprietà è presente il Group non la modificherà
+	rotateZ: Urpflanze.toRadians(90)
+})
 
+const group = new Urpflanze.Group({
+	repetitions: 8,
+	sideLength: 30,
+	distance: 120,
+	rotateZ: Urpflanze.toRadians(45)
+})
+// Propago le proprietà a `rect` e `line`
+group.add(rect, line) 
+
+// Aggiungo il gruppo alla scena
+scene.add(group)
+
+// Disegno la scena
 const drawer = new Urpflanze.DrawerCanvas(scene, document.body)
-drawer.draw() // Disegna la scena su canvas
+drawer.draw()
+</script>
+
+<p>Con le Shape invece è possibile ripetere e trasformare l'intero SceneChild.</p>
+
+<!-- prettier-ignore -->
+<script id="c-e_4" class="runnable-script">/**
+* Creazione di una scena con l'incapsulazione e la ripetizione di un rombo ed una linea al centro
+*/
+const scene = new Urpflanze.Scene()
+
+// Creo il gruppo mostrato nell'esempio precedente
+const rect = new Urpflanze.Rect()
+const line = new Urpflanze.Line({
+	rotateZ: Urpflanze.toRadians(90)
+})
+const group = new Urpflanze.Group({
+	repetitions: 8,
+	sideLength: 30,
+	distance: 120,
+	rotateZ: Urpflanze.toRadians(45)
+})
+group.add(rect, line) 
+
+const container = new Urpflanze.Shape({
+	// SceneChild a cui applicare le proprietà e trasformazioni
+	shape: group, 
+
+	repetitions: 8,
+	distance: 120,
+
+	// Scalo la shape passata in modo da farla rientrare nella scena
+	scale: .28 
+})
+
+// Aggiungo la Shape alla scena
+scene.add(container)
+
+// Disegno la scena
+const drawer = new Urpflanze.DrawerCanvas(scene, document.body)
+drawer.draw()
 </script>

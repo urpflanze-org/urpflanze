@@ -34,7 +34,7 @@ abstract class ShapePrimitive extends ShapeBase {
 	public adaptMode: EShapePrimitiveAdaptMode
 
 	/**
-	 * Define shape is closed
+	 * Define shape is closed, default true
 	 *
 	 * @type {boolean}
 	 * @memberof ShapePrimitive

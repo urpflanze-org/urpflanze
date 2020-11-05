@@ -55,12 +55,12 @@ declare class Group extends SceneChild {
      */
     isStaticIndexed(): boolean;
     /**
-     * Add iitem to Group
+     * Add item to Group
      *
-     * @param {SceneChild} item
+     * @param {Array<SceneChild>} items
      * @memberof Group
      */
-    add(item: SceneChild): void;
+    add(...items: Array<SceneChild>): void;
     /**
      * Sort children
      *

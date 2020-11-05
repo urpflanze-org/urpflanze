@@ -97,26 +97,37 @@ var Group = /** @class */ (function (_super) {
         return true;
     };
     /**
-     * Add iitem to Group
+     * Add item to Group
      *
-     * @param {SceneChild} item
+     * @param {Array<SceneChild>} items
      * @memberof Group
      */
-    Group.prototype.add = function (item) {
+    Group.prototype.add = function () {
         var _this = this;
-        var rawItemProps = item.getProps();
-        Object.keys(this.props).forEach(function (propKey) {
-            if (typeof rawItemProps[propKey] === 'undefined')
-                item.setProp(propKey, _this.props[propKey]);
-        });
-        item.order =
-            typeof item.order !== 'undefined'
-                ? item.order
-                : this.children.length > 0
-                    ? Math.max.apply(this, this.children.map(function (e) { return e.order || 0; })) + 1
-                    : 0;
-        this.scene && Scene.propagateToChilden(item, this.scene);
-        this.children.push(item);
+        var items = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            items[_i] = arguments[_i];
+        }
+        var _loop_1 = function (i, len) {
+            var item = items[i];
+            var rawItemProps = item.getProps();
+            Object.keys(this_1.props).forEach(function (propKey) {
+                if (typeof rawItemProps[propKey] === 'undefined')
+                    item.setProp(propKey, _this.props[propKey]);
+            });
+            item.order =
+                typeof item.order !== 'undefined'
+                    ? item.order
+                    : this_1.children.length > 0
+                        ? Math.max.apply(this_1, this_1.children.map(function (e) { return e.order || 0; })) + 1
+                        : 0;
+            this_1.scene && Scene.propagateToChilden(item, this_1.scene);
+            this_1.children.push(item);
+        };
+        var this_1 = this;
+        for (var i = 0, len = items.length; i < len; i++) {
+            _loop_1(i, len);
+        }
         this.sortChildren();
     };
     /**

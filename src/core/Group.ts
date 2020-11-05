@@ -86,31 +86,34 @@ class Group extends SceneChild {
 	}
 
 	/**
-	 * Add iitem to Group
+	 * Add item to Group
 	 *
-	 * @param {SceneChild} item
+	 * @param {Array<SceneChild>} items
 	 * @memberof Group
 	 */
-	public add(item: SceneChild): void {
-		const rawItemProps = item.getProps()
+	public add(...items: Array<SceneChild>): void {
+		for (let i = 0, len = items.length; i < len; i++) {
+			const item = items[i]
+			const rawItemProps = item.getProps()
 
-		;(Object.keys(this.props) as Array<keyof ISceneChildProps>).forEach((propKey: keyof ISceneChildProps) => {
-			if (typeof rawItemProps[propKey] === 'undefined') item.setProp(propKey, this.props[propKey])
-		})
+			;(Object.keys(this.props) as Array<keyof ISceneChildProps>).forEach((propKey: keyof ISceneChildProps) => {
+				if (typeof rawItemProps[propKey] === 'undefined') item.setProp(propKey, this.props[propKey])
+			})
 
-		item.order =
-			typeof item.order !== 'undefined'
-				? item.order
-				: this.children.length > 0
-				? Math.max.apply(
-						this,
-						this.children.map(e => e.order || 0)
-				  ) + 1
-				: 0
+			item.order =
+				typeof item.order !== 'undefined'
+					? item.order
+					: this.children.length > 0
+					? Math.max.apply(
+							this,
+							this.children.map(e => e.order || 0)
+					  ) + 1
+					: 0
 
-		this.scene && Scene.propagateToChilden(item, this.scene)
+			this.scene && Scene.propagateToChilden(item, this.scene)
 
-		this.children.push(item)
+			this.children.push(item)
+		}
 
 		this.sortChildren()
 	}

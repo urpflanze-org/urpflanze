@@ -74,13 +74,13 @@ declare class Scene {
      */
     getChildren(): Array<SceneChild>;
     /**
-     * Add SceneChild to Scene, pass `order` for drawing priorities
+     * Add SceneChild to Scene, pass `order` as last parameter for drawing priorities
      *
-     * @param {SceneChild} item
+     * @param {Array<SceneChild>} items
      * @param {number} [order]
      * @memberof Scene
      */
-    add(item: SceneChild, order?: number): void;
+    add(...items: Array<SceneChild> /**, order: number */): void;
     /**
      * Sort children by order
      *

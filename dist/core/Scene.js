@@ -96,24 +96,32 @@ var Scene = /** @class */ (function () {
         return this.children;
     };
     /**
-     * Add SceneChild to Scene, pass `order` for drawing priorities
+     * Add SceneChild to Scene, pass `order` as last parameter for drawing priorities
      *
-     * @param {SceneChild} item
+     * @param {Array<SceneChild>} items
      * @param {number} [order]
      * @memberof Scene
      */
-    Scene.prototype.add = function (item, order) {
-        item.order =
-            typeof order !== 'undefined'
-                ? order
-                : typeof item.order !== 'undefined'
-                    ? item.order
-                    : this.children.length > 0
-                        ? Math.max.apply(this, this.children.map(function (e) { return e.order; })) + 1
-                        : 0;
-        Scene.propagateToChilden(item, this);
-        this.children.push(item);
-        item.clearBuffer(true, false);
+    Scene.prototype.add = function () {
+        var items = []; /**, order: number */
+        for (var _i = 0 /**, order: number */; _i < arguments.length /**, order: number */; _i++ /**, order: number */) {
+            items[_i] = arguments[_i]; /**, order: number */
+        }
+        var order = typeof items[items.length - 1] === 'number' ? items[items.length - 1] : undefined;
+        for (var i = 0, len = items.length; i < len; i++) {
+            var item = items[i];
+            item.order =
+                typeof order !== 'undefined'
+                    ? order + i
+                    : typeof item.order !== 'undefined'
+                        ? item.order
+                        : this.children.length > 0
+                            ? Math.max.apply(this, this.children.map(function (e) { return e.order; })) + 1
+                            : 0;
+            Scene.propagateToChilden(item, this);
+            this.children.push(item);
+            item.clearBuffer(true, false);
+        }
         this.sortChildren();
     };
     /**
