@@ -148,7 +148,7 @@ var ShapeBase = /** @class */ (function (_super) {
     ShapeBase.prototype.getProp = function (key, propArguments, defaultValue) {
         var _a;
         var attribute = this.props[key];
-        if (typeof attribute == 'function') {
+        if (typeof attribute === 'function') {
             propArguments = propArguments || ShapeBase.EMPTY_PROP_ARGUMENTS;
             if (typeof propArguments.shape === 'undefined')
                 propArguments.shape = this;
