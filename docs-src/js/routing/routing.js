@@ -1,3 +1,4 @@
+import routeExample from '../examples/bind-examples'
 import { closeMenu, activateLink } from '../navigation/navigation'
 import { loadReference } from '../reference/create-reference-page'
 
@@ -30,6 +31,11 @@ export function goto(page) {
 		if (page.indexOf('ref') >= 0) {
 			loadReference(page.substr(6))
 			onLoadContent()
+		} else if (page.indexOf('#/examples') === 0) {
+			routeExample(page.substr(2)).then(data => {
+				content.innerHTML = data
+				onLoadContent()
+			})
 		} else {
 			fetch(endpoint)
 				.then(reponse => reponse.text())
@@ -98,7 +104,9 @@ function onLoadContent() {
 		)
 		ul.appendChild(li)
 	}
-	content.firstElementChild.after(ul)
+	if (content.firstElementChild && ul.children.length > 0) {
+		content.firstElementChild.after(ul)
+	}
 
 	// bind events
 	const cliccables = document.getElementsByClassName('open-container')

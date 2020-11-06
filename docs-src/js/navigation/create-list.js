@@ -4,7 +4,7 @@ import { areSimilar } from '../utilities'
  * Create Navigation
  */
 function createList(root, search, lang) {
-	const fragment = document.createDocumentFragment()
+	const rootElement = document.createElement('div')
 
 	Object.keys(root).forEach(firstLevelKey => {
 		const firstLevelItem = root[firstLevelKey]
@@ -12,6 +12,7 @@ function createList(root, search, lang) {
 		const h2title = document.createElement('h2')
 
 		const keys = Object.keys(firstLevelItem)
+
 		if (keys.length === 0 || (keys.length === 1 && Object.keys(firstLevelItem[keys[0]]).length === 0)) return
 
 		h2title.innerText = firstLevelKey
@@ -43,11 +44,11 @@ function createList(root, search, lang) {
 			}
 		})
 
-		fragment.appendChild(h2title)
-		fragment.appendChild(content)
+		rootElement.appendChild(h2title)
+		rootElement.appendChild(content)
 	})
 
-	return fragment
+	return rootElement
 }
 
 export default createList

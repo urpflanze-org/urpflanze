@@ -50,6 +50,14 @@ aside {
 	padding: 0 1rem;
 	overflow: auto;
 }
+
+#nav h1 {
+	border-top: 1px solid rgba(255, 255, 255, 0.1);
+	margin: 1.618rem 0 0;
+	padding: 1.618rem 0 0 0;
+	line-height: 1;
+}
+
 #nav h2:not(:first-child) {
 	border-top: 1px solid $dark-light;
 	padding-top: 1.618rem;

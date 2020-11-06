@@ -1,5 +1,6 @@
 import wiki from './wiki'
 
+import GetExamplesNavigation from '../examples/get-navigation'
 import { NavReferences } from '../references'
 import createList from './create-list'
 
@@ -11,10 +12,19 @@ export function bindNavigation(lang, search) {
 
 	nav.innerHTML = ''
 
-	const _wiki = createList(wiki[lang], search)
-	const _doc = createList(NavReferences, search, lang)
-	nav.append(_wiki)
+	const _wiki = createList(wiki[lang], search, lang)
 
+	GetExamplesNavigation().then(examples => {
+		const _examples = createList(examples, search, lang)
+		nav.firstChild.after(_examples)
+	})
+
+	const _doc = createList(NavReferences, search, lang)
+
+	nav.append(_wiki)
+	const api = document.createElement('h1')
+	api.innerText = 'API'
+	nav.append(api)
 	nav.append(_doc)
 }
 
