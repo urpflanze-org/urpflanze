@@ -1,0 +1,20 @@
+#examples {
+	> ul {
+		list-style: none;
+
+		> li {
+			display: flex;
+			flex-direction: column;
+			gap: 1rem;
+
+			> iframe {
+				border: 0;
+				width: 400px;
+				height: 400px;
+			}
+
+			> a {
+			}
+		}
+	}
+}

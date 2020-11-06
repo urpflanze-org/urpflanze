@@ -1,0 +1,32 @@
+{
+	"compilerOptions": {
+		"sourceMap": true,
+		"outDir": "dist",
+		"noImplicitAny": true,
+		"module": "es2015",
+		"target": "es5",
+		"moduleResolution": "node",
+		"removeComments": false,
+		"preserveConstEnums": true,
+		"baseUrl": ".",
+		"declaration": true,
+		"declarationMap": true,
+		"declarationDir": "dist",
+		"strictPropertyInitialization": false,
+		"allowSyntheticDefaultImports": true,
+		"strict": true,
+		"typeRoots": ["./node_modules/@types", "./src/typings"],
+		"paths": {
+			"@core/*": ["src/core/*"],
+			"@services/*": ["src/services/*"]
+		},
+		"plugins": [
+			{ "transform": "typescript-transform-paths" },
+			{ "transform": "typescript-transform-paths", "afterDeclarations": true }
+		],
+		"lib": ["es2017", "dom"]
+	},
+	"compileOnSave": true,
+	"include": ["src/**/*"],
+	"exclude": ["node_modules", ".vscode", "dist", "build", "testing", "docs"]
+}

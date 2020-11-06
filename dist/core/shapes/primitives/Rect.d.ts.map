@@ -1,0 +1,1 @@
+{"version":3,"file":"Rect.d.ts","sourceRoot":"","sources":["../../../../src/core/shapes/primitives/Rect.ts"],"names":[],"mappings":"AACA,OAAO,EAAE,oBAAoB,EAAE,oCAAmC;AAClE,OAAO,WAAW,uBAAgC;AAElD;;;;;GAKG;AACH,cAAM,IAAK,SAAQ,WAAW;IAC7B;;;;;OAKG;gBACS,QAAQ,GAAE,oBAAyB;CAO/C;AAED,eAAe,IAAI,CAAA"}

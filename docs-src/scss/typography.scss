@@ -1,0 +1,32 @@
+/**
+ * Typo
+ */
+
+h1,
+h2,
+h3,
+h4 {
+	font-weight: 100;
+}
+h1 {
+	font-weight: normal;
+	font-size: 2rem;
+}
+
+h4 {
+	display: inline-block;
+	font-size: 1rem;
+	margin: 0;
+}
+
+small.too {
+	font-size: 0.618em;
+	line-height: 1;
+}
+mark {
+	background: #333433;
+	padding: 0 0.4rem 0 0.3rem;
+	border-radius: 4px;
+	color: #eee;
+	font-style: italic;
+}
