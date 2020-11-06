@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>Urpflanze | Basic | 07 - ShapeLoop Complex</title>
+		<script src="https://cdn.jsdelivr.net/npm/urpflanze"></script>
+		<style>
+			* {
+				margin: 0;
+				overflow: hidden;
+			}
+		</style>
+	</head>
+	<body>
+		<script>
+			const scene = new Urpflanze.Scene()
+
+			const twists = 10
+			const shape = new Urpflanze.ShapeLoop({
+				loop: {
+					start: Math.PI,
+					end: Math.PI * twists,
+					inc: (Math.PI * (twists - 1)) / 600, // 300 points
+					vertex: shapeLoopRepetition => {
+						let x, y
+
+						const spiral = shapeLoopRepetition.angle / 10
+						x = Math.cos(shapeLoopRepetition.angle) * spiral
+						y = Math.sin(shapeLoopRepetition.angle) * spiral
+
+						const ringsSize = 0.3
+						x += Math.cos(shapeLoopRepetition.angle * 10) * ringsSize * shapeLoopRepetition.offset
+						y += Math.sin(shapeLoopRepetition.angle * 10) * ringsSize * shapeLoopRepetition.offset
+
+						return [x, y]
+					},
+				},
+				bClosed: false,
+			})
+
+			scene.add(shape)
+
+			const drawer = new Urpflanze.DrawerCanvas(scene, document.body)
+			drawer.draw()
+		</script>
+	</body>
+</html>

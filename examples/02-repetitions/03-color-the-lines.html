@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>Urpflanze | Repetitions | 03 - Color the lines</title>
+		<script src="https://cdn.jsdelivr.net/npm/urpflanze"></script>
+		<style>
+			* {
+				margin: 0;
+				overflow: hidden;
+			}
+		</style>
+	</head>
+	<body>
+		<script>
+			const scene = new Urpflanze.Scene()
+
+			const lines = new Urpflanze.Line({
+				repetitions: [200, 1],
+				sideLength: 100,
+				rotateZ: Math.PI / 2,
+				translate: propArguments => {
+					const x = propArguments.repetition.col.offset * -330 + scene.center[0] / 1.2
+					const y = Math.sin(propArguments.repetition.col.offset * Math.PI * 2) * 30
+
+					// invert the values because the line is rotated on z axis
+					return [y, x]
+				},
+
+				strokeColor: propArguments => `hsl(${Math.floor(propArguments.repetition.col.offset * 360)}, 100%, 50%)`,
+			})
+
+			scene.add(lines)
+
+			const drawer = new Urpflanze.DrawerCanvas(scene, document.body)
+			drawer.draw()
+		</script>
+	</body>
+</html>

@@ -30,20 +30,22 @@ drawer.draw() // Disegna la scena su canvas
 
 <!-- prettier-ignore -->
 <script id="c-e_2" class="runnable-script">/**
-	* Creazione di una scena con al centro un rettangolo
-	*/
-   const scene = new Urpflanze.Scene()
-   
-   const rect = new Urpflanze.Rect({
-	   repetitions: 8, 
-	   distance: 100,
-	   sideLength: 20 // Dimensione del raggio rettangolo
-   })
-   scene.add(rect) // Aggiunge il rettangolo alla scena
-   
-   const drawer = new Urpflanze.DrawerCanvas(scene, document.body)
-   drawer.draw() // Disegna la scena su canvas
-   </script>
+ * Creazione di una scena con al centro un rettangolo
+ */
+const scene = new Urpflanze.Scene()
+
+const rect = new Urpflanze.Rect({
+	repetitions: 8, 
+	distance: 100,
+	sideLength: 20 // Dimensione del raggio rettangolo
+})
+
+// Aggiunge il rettangolo alla scena
+scene.add(rect) 
+
+const drawer = new Urpflanze.DrawerCanvas(scene, document.body)
+drawer.draw() // Disegna la scena su canvas
+</script>
 
 <h2>Gestire la scena</h2>
 
@@ -92,6 +94,7 @@ const group = new Urpflanze.Group({
 	distance: 120,
 	rotateZ: Urpflanze.toRadians(45)
 })
+
 // Propago le proprietà a `rect` e `line`
 group.add(rect, line) 
 
@@ -107,8 +110,8 @@ drawer.draw()
 
 <!-- prettier-ignore -->
 <script id="c-e_4" class="runnable-script">/**
-* Creazione di una scena con l'incapsulazione e la ripetizione di un rombo ed una linea al centro
-*/
+ * Creazione di una scena con l'incapsulazione e la ripetizione di un rombo ed una linea al centro
+ */
 const scene = new Urpflanze.Scene()
 
 // Creo il gruppo mostrato nell'esempio precedente
@@ -116,12 +119,14 @@ const rect = new Urpflanze.Rect()
 const line = new Urpflanze.Line({
 	rotateZ: Urpflanze.toRadians(90)
 })
+
 const group = new Urpflanze.Group({
 	repetitions: 8,
 	sideLength: 30,
 	distance: 120,
 	rotateZ: Urpflanze.toRadians(45)
 })
+
 group.add(rect, line) 
 
 const container = new Urpflanze.Shape({

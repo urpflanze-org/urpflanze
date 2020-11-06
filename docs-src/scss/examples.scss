@@ -1,4 +1,9 @@
 .example {
+	&__iframe-container {
+		width: 100%;
+		background: #000;
+	}
+
 	&__iframe {
 		border: 0;
 		width: 400px;
@@ -8,7 +13,5 @@
 	}
 
 	&__links {
-		display: flex;
-		gap: 1rem;
 	}
 }

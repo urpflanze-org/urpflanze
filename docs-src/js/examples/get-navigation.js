@@ -13,7 +13,7 @@ async function getNavigation() {
 	const items = data.filter(e => e.type === 'dir')
 
 	for (let i = 0, len = items.length; i < len; i++) {
-		const catName = ucfirst(items[i].name)
+		const catName = ucfirst(items[i].name.slice(3))
 		list[catName] = {}
 		const current = list[catName]
 		const response = await fetch(`https://api.github.com/repos/genbs/urpflanze/contents/${items[i].path}`)
@@ -21,7 +21,7 @@ async function getNavigation() {
 		const childs = data.filter(e => e.type === 'file')
 
 		childs.forEach(({ name, path }) => {
-			current[ucfirst(name.slice(4, -5))] = path
+			current[ucfirst(name.slice(3, -5))] = path
 		})
 	}
 

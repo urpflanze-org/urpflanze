@@ -4,7 +4,7 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
-		<title>Urpflanze | 002 - Repetitions Matrix</title>
+		<title>Urpflanze | Repetitions | 01 - Repetitions on props</title>
 		<script src="https://cdn.jsdelivr.net/npm/urpflanze"></script>
 		<style>
 			* {
@@ -17,13 +17,15 @@
 		<script>
 			const scene = new Urpflanze.Scene()
 
-			const rect = new Urpflanze.Rect({
-				repetitions: [6, 3], // [columns, rows]
-				sideLength: 20,
-				distance: 50,
+			const rose = new Urpflanze.Rose({
+				repetitions: [4],
+				distance: 100,
+				n: propArguments => propArguments.repetition.row.index,
+				d: propArguments => propArguments.repetition.col.index,
+				sideLength: 30,
 			})
 
-			scene.add(rect)
+			scene.add(rose)
 
 			const drawer = new Urpflanze.DrawerCanvas(scene, document.body)
 			drawer.draw()
