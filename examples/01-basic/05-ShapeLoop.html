@@ -15,7 +15,10 @@
 	</head>
 	<body>
 		<script>
-			const scene = new Urpflanze.Scene()
+			const scene = new Urpflanze.Scene({
+				background: '#fff',
+				color: 'rgba(0,0,0,.8)',
+			})
 
 			scene.add(
 				new Urpflanze.ShapeLoop({
@@ -23,7 +26,9 @@
 						start: 0,
 						end: Urpflanze.toRadians(360),
 						inc: Urpflanze.toRadians(360) / 100, // 100 points
-						vertex: shapeLoopRepetition => [Math.cos(shapeLoopRepetition.angle), Math.sin(shapeLoopRepetition.angle)],
+						vertex: shapeLoopRepetition => {
+							return [Math.cos(shapeLoopRepetition.angle), Math.sin(shapeLoopRepetition.angle)]
+						},
 					},
 				})
 			)

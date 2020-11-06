@@ -6,10 +6,12 @@
 
 	&__iframe {
 		border: 0;
-		width: 400px;
 		display: block;
 		margin: 0 auto;
+		width: 400px;
 		height: 400px;
+		max-width: 100%;
+		overflow: auto;
 	}
 
 	&__links {

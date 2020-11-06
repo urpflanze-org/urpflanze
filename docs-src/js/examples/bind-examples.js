@@ -24,7 +24,7 @@ async function routeExample(path) {
 
 	const codesandbox_url = `https://codesandbox.io/api/v1/sandboxes/define?parameters=${parameters}`
 
-	const category = ucfirst(path.split('/')[1])
+	const category = ucfirst(path.split('/')[1].slice(3))
 	const parsedName = ucfirst(name.slice(3, -5).replace(/-/gi, ' '))
 
 	return `

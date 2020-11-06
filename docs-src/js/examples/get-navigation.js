@@ -21,7 +21,7 @@ async function getNavigation() {
 		const childs = data.filter(e => e.type === 'file')
 
 		childs.forEach(({ name, path }) => {
-			current[ucfirst(name.slice(3, -5))] = path
+			current[ucfirst(name.slice(3, -5).replace(/-/gi, ' '))] = path
 		})
 	}
 

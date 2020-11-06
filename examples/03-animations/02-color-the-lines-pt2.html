@@ -18,8 +18,10 @@
 			const scene = new Urpflanze.Scene()
 
 			const lines = new Urpflanze.Line({
-				repetitions: [500, 1],
-				sideLength: 100,
+				repetitions: [100, 20],
+				sideLength: [5, 1],
+				lineWidth: 4,
+				distance: [0, 9.5],
 				rotateZ: Math.PI / 2,
 				translate: propArguments => {
 					const x = propArguments.repetition.col.offset * -330 + scene.center[0] / 1.2
@@ -29,13 +31,18 @@
 					return [y, x]
 				},
 
-				strokeColor: propArguments => `hsl(${Math.floor(propArguments.repetition.col.offset * 360)}, 100%, 50%)`,
+				strokeColor: propArguments => {
+					const h = Math.floor(
+						propArguments.repetition.col.offset * 360 + propArguments.time + 300 * propArguments.repetition.row.offset
+					)
+					return `hsl(${h % 360}, 100%, 50%)`
+				},
 			})
 
 			scene.add(lines)
 
 			const drawer = new Urpflanze.DrawerCanvas(scene, document.body)
-			drawer.draw()
+			drawer.startAnimation()
 		</script>
 	</body>
 </html>
