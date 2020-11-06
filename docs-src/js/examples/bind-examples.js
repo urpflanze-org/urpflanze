@@ -1,51 +1,34 @@
 const examples = document.getElementById('examples')
 
 async function routeExample(path) {
-	console.log('path', path)
-
 	const response = await fetch(`https://api.github.com/repos/genbs/urpflanze/contents/${path}`)
 	const { name, html_url, download_url, content } = await response.json()
 
-	// const codesandbox_url = `https://codesandbox.io/s/urpflanze-examples-v286j?file=/${path}`
+	const codesandbox_url = `https://codesandbox.io/s/genbsurpflanze-examples-hfpcb?file=${path.substr(9)}`
+
+	const source = atob(content)
+		.replace(/&/g, '&amp;')
+		.replace(/</g, '&lt;')
+		.replace(/>/g, '&gt;')
+		.replace(/"/g, '&quot;')
 
 	return `
-        <h1>Example ${name}</h1>
+		<h1>Example ${name}</h1>
+		<h2>Output</h2>
+		<iframe class="example__iframe" src="data:text/html;base64,${content}"></iframe>
+		
+		<h2>Links</h2>
+		<div class="example__links">
+			<a href="${codesandbox_url}">CodeSandbox</a>
+			<a href="${html_url}">Github</a>
+			<a href="${download_url}">Download</a>
+		</div>
 
-        <iframe src="data:text/html;base64,${content}"></iframe>
-
+		<h2>Source</h2>
+		<div class="example__code">
+		<pre class="prettyprint"><code translate="no" class="language-html">${source}</code></pre>
+		</div>
     `
-	// <a href="${codesandbox_url}">open on CodeSandbox</a>
 }
-
-// const list = document.createElement('ul')
-// data.forEach(({ name, download_url }) => {
-//     const codesandbox_url = `https://codesandbox.io/s/urpflanze-examples-v286j?file=/${name}`
-
-//     const fragment = document.createDocumentFragment()
-//     const li = document.createElement('li')
-
-//     const nameText = document.createElement('h2')
-//     nameText.innerText = name
-
-//     li.appendChild(nameText)
-
-//     const iframe = document.createElement('iframe')
-//     fetch(download_url)
-//         .then(response => response.text())
-//         .then(data => {
-//             iframe.src = `data:text/html;charset=utf-8,${encodeURI(data)}`
-//         })
-//     li.appendChild(iframe)
-
-//     const externalUrl = document.createElement('a')
-//     externalUrl.href = codesandbox_url
-//     externalUrl.target = '_blank'
-//     externalUrl.innerText = 'Open in CodeSandbox.io'
-//     li.appendChild(externalUrl)
-
-//     list.appendChild(li)
-// })
-
-// examples.appendChild(list)
 
 export default routeExample

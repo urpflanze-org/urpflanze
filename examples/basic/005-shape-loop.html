@@ -4,7 +4,7 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
-		<title>Urpflanze | 002 - Repetitions Matrix</title>
+		<title>Urpflanze | 005 - ShapeLoop</title>
 		<script src="https://cdn.jsdelivr.net/npm/urpflanze"></script>
 		<style>
 			* {
@@ -17,13 +17,16 @@
 		<script>
 			const scene = new Urpflanze.Scene()
 
-			const rect = new Urpflanze.Rect({
-				repetitions: [6, 3], // [columns, rows]
-				sideLength: 20,
-				distance: 50,
-			})
-
-			scene.add(rect)
+			scene.add(
+				new Urpflanze.ShapeLoop({
+					loop: {
+						start: 0,
+						end: Urpflanze.toRadians(360),
+						inc: Urpflanze.toRadians(360) / 100, // 100 points
+						vertex: shapeLoopRepetition => [Math.cos(shapeLoopRepetition.angle), Math.sin(shapeLoopRepetition.angle)],
+					},
+				})
+			)
 
 			const drawer = new Urpflanze.DrawerCanvas(scene, document.body)
 			drawer.draw()

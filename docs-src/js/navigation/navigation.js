@@ -30,10 +30,14 @@ export function bindNavigation(lang, search) {
 
 export function openMenu() {
 	document.querySelector('aside').classList.add('open')
+	document.body.style.position = 'fixed'
+	document.body.style.overflow = 'hidden'
 }
 
 export function closeMenu() {
 	document.querySelector('aside').classList.remove('open')
+	document.body.style.position = ''
+	document.body.style.overflow = ''
 }
 
 export function activateLink(url) {

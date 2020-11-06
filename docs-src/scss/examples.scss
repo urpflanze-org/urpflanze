@@ -1,20 +1,14 @@
-#examples {
-	> ul {
-		list-style: none;
+.example {
+	&__iframe {
+		border: 0;
+		width: 400px;
+		display: block;
+		margin: 0 auto;
+		height: 400px;
+	}
 
-		> li {
-			display: flex;
-			flex-direction: column;
-			gap: 1rem;
-
-			> iframe {
-				border: 0;
-				width: 400px;
-				height: 400px;
-			}
-
-			> a {
-			}
-		}
+	&__links {
+		display: flex;
+		gap: 1rem;
 	}
 }

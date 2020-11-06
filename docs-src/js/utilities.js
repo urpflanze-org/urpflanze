@@ -1,3 +1,7 @@
+export function ucfirst(str) {
+	return str.charAt(0).toUpperCase() + str.slice(1)
+}
+
 const equalityString = (a, b) => {
 	let equivalency = 0
 	const minLength = Math.min(a.length, b.length)
