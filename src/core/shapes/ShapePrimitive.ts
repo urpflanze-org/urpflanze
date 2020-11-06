@@ -161,7 +161,7 @@ abstract class ShapePrimitive extends ShapeBase {
 	 * @param {IRepetition} repetition
 	 * @memberof ShapePrimitive
 	 */
-	protected addIndex(frameLength: number, repetition: IRepetition) {
+	protected addIndex(frameLength: number, repetition: IRepetition): void {
 		const indexedBuffer = this.indexedBuffer as Array<IBufferIndex>
 		indexedBuffer.push({
 			shape: this,

@@ -78,7 +78,7 @@ class DrawerSVG extends Drawer<IDrawerSVGOptions, IDrawerSVGEvents> {
 		return drawTime
 	}
 
-	protected appendSVGFromPaths(paths: Array<SVGPathElement>, drawerOptions: IDrawerSVGOptions) {
+	protected appendSVGFromPaths(paths: Array<SVGPathElement>, drawerOptions: IDrawerSVGOptions): void {
 		if (this.scene && this.container) {
 			while (this.container.lastChild) this.container.removeChild(this.container.lastChild)
 

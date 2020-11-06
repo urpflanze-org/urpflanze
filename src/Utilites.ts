@@ -176,6 +176,6 @@ export function clamp(min: number, max: number, value: number): number {
  * @param {number} toMax
  * @returns {number}
  */
-export function relativeClamp(refMin: number, refMax: number, value: number, toMin: number, toMax: number) {
+export function relativeClamp(refMin: number, refMax: number, value: number, toMin: number, toMax: number): number {
 	return clamp(toMin, toMax, ((value - refMin) / (refMax - refMin)) * (toMax - toMin) + toMin)
 }

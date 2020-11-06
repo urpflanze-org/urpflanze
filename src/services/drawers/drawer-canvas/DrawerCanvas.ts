@@ -153,7 +153,7 @@ class DrawerCanvas extends Drawer<IDrawerCanvasOptions, IDrawerCanvasEvents> {
 	 * @param {number} [resolution]
 	 * @memberof DrawerCanvas
 	 */
-	public resize(width: number, height: number, ratio?: number, resolution?: number) {
+	public resize(width: number, height: number, ratio?: number, resolution?: number): void {
 		super.resize(width, height, ratio, resolution)
 
 		if (this.canvas) {
@@ -534,7 +534,7 @@ class DrawerCanvas extends Drawer<IDrawerCanvasOptions, IDrawerCanvasEvents> {
 		scale: Array<number>,
 		translate: Array<number>,
 		color: string
-	) {
+	): void {
 		const offset = Math.PI / simmetricLines
 		const size = Math.max(width, height) / 2
 		const center = vec2.fromValues(size / 2, size / 2)

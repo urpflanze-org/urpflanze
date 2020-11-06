@@ -255,7 +255,7 @@ class Group extends SceneChild {
 	 * @param {boolean} [bPropagateToParents=false]
 	 * @memberof Group
 	 */
-	public clearBuffer(bClearIndexed = false, bPropagateToParents = true) {
+	public clearBuffer(bClearIndexed = false, bPropagateToParents = true): void {
 		this.children.forEach(item => item.clearBuffer(bClearIndexed, false))
 
 		if (this.scene && bPropagateToParents) {

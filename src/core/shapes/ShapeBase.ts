@@ -19,7 +19,6 @@ import ShapePrimitive from './ShapePrimitive'
 import { clamp } from 'src/Utilites'
 import Vec2 from '@core/math/Vec2'
 import Bounding, { TTempBounding } from '@core/math/bounding'
-import { IShapeLoopGenerator } from '@core/types/shape-primitive'
 
 glMatrix.setMatrixArrayType(Array)
 
@@ -283,7 +282,7 @@ abstract class ShapeBase extends SceneChild {
 	public getProp(key: keyof ISceneChildProps, propArguments?: ISceneChildPropArguments, defaultValue?: any): any {
 		let attribute: any = this.props[key] as any
 
-		if (typeof attribute == 'function') {
+		if (typeof attribute === 'function') {
 			propArguments = propArguments || ShapeBase.EMPTY_PROP_ARGUMENTS
 
 			if (typeof propArguments.shape === 'undefined') propArguments.shape = this
@@ -640,7 +639,7 @@ abstract class ShapeBase extends SceneChild {
 	 * @param {(TStreamCallback} callback
 	 * @memberof ShapeBase
 	 */
-	public stream(callback: TStreamCallback) {
+	public stream(callback: TStreamCallback): void {
 		if (this.scene && this.buffer && this.indexedBuffer) {
 			for (let i = 0, j = 0, len = this.indexedBuffer.length; i < len; i++) {
 				const currentIndexing: IBufferIndex = this.indexedBuffer[i]

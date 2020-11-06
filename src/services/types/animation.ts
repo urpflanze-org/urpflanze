@@ -33,7 +33,7 @@ export type TEasing =
  * @interface ICallableValue
  * @template T
  */
-export interface ICallableValue<T> /* eslint-disable-line no-eval */ {
+export interface ICallableValue<T> /* eslint-disable-line */ {
 	/**
 	 * raw function (string) return T
 	 *

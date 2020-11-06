@@ -11,7 +11,7 @@ export const VEC2_ONE: vec2 = [1, 1]
  * @internal
  * @ignore
  */
-export function fromSkew(out: mat4, skew: [number, number]) {
+export function fromSkew(out: mat4, skew: [number, number]): mat4 {
 	out[0] = 1
 	out[1] = Math.tan(skew[1])
 	out[2] = 0

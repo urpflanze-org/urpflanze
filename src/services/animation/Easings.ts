@@ -285,7 +285,7 @@ const Easings = {
 	 * @param {number} p period (optional)
 	 * @return {number}
 	 */
-	elasticIn: function (time: number, start: number, end: number, durate: number, a: number, p: number) {
+	elasticIn: function (time: number, start: number, end: number, durate: number, a: number, p: number): number {
 		if (time == 0) {
 			return start
 		}
@@ -316,7 +316,7 @@ const Easings = {
 	 * @param {number} p period (optional)
 	 * @return {number}
 	 */
-	elasticOut: function (time: number, start: number, end: number, durate: number, a: number, p: number) {
+	elasticOut: function (time: number, start: number, end: number, durate: number, a: number, p: number): number {
 		if (time == 0) {
 			return start
 		}
@@ -347,7 +347,7 @@ const Easings = {
 	 * @param {number} p period (optional)
 	 * @return {number}
 	 */
-	elasticBoth: function (time: number, start: number, end: number, durate: number, a: number, p: number) {
+	elasticBoth: function (time: number, start: number, end: number, durate: number, a: number, p: number): number {
 		if (time == 0) {
 			return start
 		}
@@ -382,7 +382,7 @@ const Easings = {
 	 * @param {number} s overshoot (optional)
 	 * @return {number}
 	 */
-	backIn: function (time: number, start: number, end: number, durate: number, s: number) {
+	backIn: function (time: number, start: number, end: number, durate: number, s: number): number {
 		if (typeof s == 'undefined') {
 			s = 1.70158
 		}
@@ -397,7 +397,7 @@ const Easings = {
 	 * @param {number} s overshoot (optional)
 	 * @return {number}
 	 */
-	backOut: function (time: number, start: number, end: number, durate: number, s: number) {
+	backOut: function (time: number, start: number, end: number, durate: number, s: number): number {
 		if (typeof s == 'undefined') {
 			s = 1.70158
 		}
@@ -412,7 +412,7 @@ const Easings = {
 	 * @param {number} s overshoot (optional)
 	 * @return {number}
 	 */
-	backBoth: function (time: number, start: number, end: number, durate: number, s: number) {
+	backBoth: function (time: number, start: number, end: number, durate: number, s: number): number {
 		if (typeof s == 'undefined') {
 			s = 1.70158
 		}
@@ -430,7 +430,7 @@ const Easings = {
 	 * @param {number} d duration
 	 * @return {number}
 	 */
-	bounceIn: function (time: number, start: number, end: number, durate: number) {
+	bounceIn: function (time: number, start: number, end: number, durate: number): number {
 		return end - Easings.bounceOut(durate - time, 0, end, durate) + start
 	},
 
@@ -441,7 +441,7 @@ const Easings = {
 	 * @param {number} d duration
 	 * @return {number}
 	 */
-	bounceOut: function (time: number, start: number, end: number, durate: number) {
+	bounceOut: function (time: number, start: number, end: number, durate: number): number {
 		if ((time /= durate) < 1 / 2.75) {
 			return end * (7.5625 * time * time) + start
 		} else if (time < 2 / 2.75) {
@@ -461,7 +461,7 @@ const Easings = {
 	 * @param {number} durate
 	 * @returns
 	 */
-	bounceBoth: function (time: number, start: number, end: number, durate: number) {
+	bounceBoth: function (time: number, start: number, end: number, durate: number): number {
 		if (time < durate / 2) {
 			return Easings.bounceIn(time * 2, 0, end, durate) * 0.5 + start
 		}

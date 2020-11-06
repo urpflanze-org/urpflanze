@@ -95,7 +95,7 @@ abstract class Drawer<IADrawerOptions extends IDrawerOptions, IDrawerEvents> ext
 	 * @param {number} height
 	 * @param {number} [ratio]
 	 */
-	public resize(width: number, height: number, ratio?: number, resolution?: number) {
+	public resize(width: number, height: number, ratio?: number, resolution?: number): void {
 		ratio = ratio || this.ratio || width / height
 
 		const size = Math.max(width, height)
@@ -124,7 +124,7 @@ abstract class Drawer<IADrawerOptions extends IDrawerOptions, IDrawerEvents> ext
 	 * Resize by ratio
 	 *
 	 */
-	public setRatio(ratio: number) {
+	public setRatio(ratio: number): void {
 		this.resize(this.scene.width, this.scene.height, ratio)
 	}
 
@@ -145,7 +145,7 @@ abstract class Drawer<IADrawerOptions extends IDrawerOptions, IDrawerEvents> ext
 	/**
 	 * Get resolution of drawer
 	 */
-	public setResolution(resolution: number) {
+	public setResolution(resolution: number): void {
 		this.resize(this.scene.width, this.scene.height, this.ratio, resolution)
 	}
 
@@ -154,7 +154,7 @@ abstract class Drawer<IADrawerOptions extends IDrawerOptions, IDrawerEvents> ext
 	 *
 	 * @param {number} value
 	 */
-	public getValueFromResolution(value: number) {
+	public getValueFromResolution(value: number): number {
 		return (value * this.resolution) / 200
 	}
 
@@ -163,7 +163,7 @@ abstract class Drawer<IADrawerOptions extends IDrawerOptions, IDrawerEvents> ext
 	 *
 	 * @param {number} value
 	 */
-	public getValueFromResolutionScaled(value: number) {
+	public getValueFromResolutionScaled(value: number): number {
 		return (value * 200) / this.resolution
 	}
 

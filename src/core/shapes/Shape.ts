@@ -125,7 +125,7 @@ class Shape extends ShapeBase {
 		return this.bounding
 	}
 
-	protected addIndex(frameLength: number, repetition: IRepetition) {
+	protected addIndex(frameLength: number, repetition: IRepetition): void {
 		if (this.shape) {
 			const indexedBuffer = this.indexedBuffer as Array<IBufferIndex>
 			const childIndexedBuffer = this.shape.getIndexedBuffer() || []

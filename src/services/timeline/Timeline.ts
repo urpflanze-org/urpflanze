@@ -81,7 +81,7 @@ class Timeline extends Emitter<ITimelineEvents> {
 	 * @param {number} durate
 	 * @param {number} framerate
 	 */
-	public setSequence(durate: number, framerate: number) {
+	public setSequence(durate: number, framerate: number): void {
 		this.sequence.durate = durate
 		this.sequence.framerate = framerate
 
@@ -96,7 +96,7 @@ class Timeline extends Emitter<ITimelineEvents> {
 	 *
 	 * @param {number} framerate
 	 */
-	public setDurate(durate: number) {
+	public setDurate(durate: number): void {
 		this.setSequence(durate, this.sequence.framerate)
 	}
 
@@ -123,7 +123,7 @@ class Timeline extends Emitter<ITimelineEvents> {
 	 *
 	 * @param {number} framerate
 	 */
-	public setFramerate(framerate: number) {
+	public setFramerate(framerate: number): void {
 		this.setSequence(this.sequence.durate, framerate)
 	}
 
@@ -310,7 +310,7 @@ class Timeline extends Emitter<ITimelineEvents> {
 	 *
 	 * @param {number} time
 	 */
-	public setTime(time: number) {
+	public setTime(time: number): void {
 		time = (time + this.sequence.durate) % this.sequence.durate
 
 		this.current_time = time
