@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>Urpflanze | Context | 01 - Noise</title>
+		<script src="https://cdn.jsdelivr.net/npm/urpflanze"></script>
+		<style>
+			* {
+				margin: 0;
+				overflow: hidden;
+			}
+		</style>
+	</head>
+	<body>
+		<script>
+			const scene = new Urpflanze.Scene()
+
+			const lines = new Urpflanze.Line({
+				repetitions: [1, 60],
+				sideLength: () => 160, // Add a function for dynamic generation
+				distance: [0, 4],
+				vertexCallback: (vertex, vertexRepetition, propArguments) => {
+					const y = propArguments.context.noise(
+						'seed',
+						vertexRepetition.offset * 3,
+						propArguments.repetition.row.offset * 2,
+						propArguments.time / 1000
+					)
+
+					vertex[1] += y * 10
+				},
+			})
+
+			scene.add(lines)
+
+			// Subdivide lines for add points
+			lines.subdivide(10)
+
+			const drawer = new Urpflanze.DrawerCanvas(scene, document.body)
+			drawer.startAnimation()
+		</script>
+	</body>
+</html>

@@ -7,37 +7,50 @@ import createList from './create-list'
 document.getElementById('menu_btn').addEventListener('click', openMenu, { passive: true })
 document.getElementById('aside-bg').addEventListener('click', closeMenu, { passive: true })
 
+let examples = null,
+	l = undefined,
+	s = undefined
+GetExamplesNavigation().then(data => {
+	examples = data
+	bindNavigation(l, s)
+})
+
 export function bindNavigation(lang, search) {
+	l = lang
+	s = search
+
 	const nav = document.querySelector('#nav')
 
 	nav.innerHTML = ''
 
 	const _wiki = createList(wiki[lang], search, lang)
+	nav.append(_wiki)
 
-	GetExamplesNavigation().then(examples => {
+	if (examples) {
 		const _examples = createList(examples, search, lang)
 		nav.firstChild.after(_examples)
-	})
+	}
 
-	const _doc = createList(NavReferences, search, lang)
-
-	nav.append(_wiki)
 	const api = document.createElement('h1')
 	api.innerText = 'API'
 	nav.append(api)
+
+	const _doc = createList(NavReferences, search, lang)
 	nav.append(_doc)
 }
 
 export function openMenu() {
 	document.querySelector('aside').classList.add('open')
+	document.body.style.top = `-${window.scrollY}px`
 	document.body.style.position = 'fixed'
-	document.body.style.overflow = 'hidden'
 }
 
 export function closeMenu() {
+	const scrollY = parseInt(document.body.style.top || '0')
 	document.querySelector('aside').classList.remove('open')
 	document.body.style.position = ''
 	document.body.style.overflow = ''
+	window.scrollTo(0, -scrollY)
 }
 
 export function activateLink(url) {

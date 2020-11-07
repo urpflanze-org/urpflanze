@@ -225,7 +225,7 @@ var Group = /** @class */ (function (_super) {
      * Sum the children bounding
      *
      * @param {boolean} bDirectSceneChild
-     * @return {*}  {IShapeBounding}
+     * @return {IShapeBounding}
      */
     Group.prototype.getBounding = function (bDirectSceneChild) {
         var boundings = [];

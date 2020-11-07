@@ -7,6 +7,9 @@ const lang = 'it' //localStorage.getItem('lang') || (navigator.language.match(/i
 
 bindNavigation(lang)
 
+document.querySelector('#search').addEventListener('search', e => {
+	bindNavigation(lang, e.target.value)
+})
 document.querySelector('#search').addEventListener('keyup', e => {
 	bindNavigation(lang, e.target.value)
 })

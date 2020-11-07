@@ -32,9 +32,10 @@
 				},
 
 				strokeColor: propArguments => {
-					const h = Math.floor(
-						propArguments.repetition.col.offset * 360 + propArguments.time + 300 * propArguments.repetition.row.offset
-					)
+					const hue = propArguments.repetition.col.offset * 360
+					const offset = propArguments.time + 300 * propArguments.repetition.row.offset
+
+					const h = Math.floor(hue + offset)
 					return `hsl(${h % 360}, 100%, 50%)`
 				},
 			})

@@ -27,7 +27,6 @@ abstract class SceneChild {
 	 * Reference of the scene to which it is attached
 	 *
 	 * @type {Scene}
-	 * @memberof SceneChild
 	 */
 	public scene?: Scene
 
@@ -35,7 +34,6 @@ abstract class SceneChild {
 	 * The unique id
 	 *
 	 * @type {number | string}
-	 * @memberof SceneChild
 	 */
 	public id: number | string
 
@@ -43,7 +41,6 @@ abstract class SceneChild {
 	 * The human readable name
 	 *
 	 * @type {string}
-	 * @memberof SceneChild
 	 */
 	public name: string
 
@@ -51,7 +48,6 @@ abstract class SceneChild {
 	 * The human readable type label
 	 *
 	 * @type {string}
-	 * @memberof SceneChild
 	 */
 	public type: string
 
@@ -59,7 +55,6 @@ abstract class SceneChild {
 	 * The number that refers to the drawinf order
 	 *
 	 * @type {number}
-	 * @memberof SceneChild
 	 */
 	public order: number
 
@@ -68,7 +63,6 @@ abstract class SceneChild {
 	 *
 	 * @protected
 	 * @type {ISceneChildProps}
-	 * @memberof SceneChild
 	 */
 	protected props: ISceneChildProps
 
@@ -76,7 +70,6 @@ abstract class SceneChild {
 	 * Custom client data
 	 *
 	 * @type {*}
-	 * @memberof ShapeBase
 	 */
 	public data: any
 
@@ -85,7 +78,6 @@ abstract class SceneChild {
 	 * Base values will be assigned in case they are not passed
 	 *
 	 * @param {ISceneChildSettings} settings
-	 * @memberof SceneChild
 	 */
 	constructor(settings: ISceneChildSettings) {
 		this.id = settings.id ?? ++__id
@@ -102,7 +94,6 @@ abstract class SceneChild {
 	 *
 	 * @abstract
 	 * @returns {boolean}
-	 * @memberof SceneChild
 	 */
 	public abstract isStatic(): boolean
 
@@ -111,7 +102,6 @@ abstract class SceneChild {
 	 *
 	 * @abstract
 	 * @returns {boolean}
-	 * @memberof SceneChild
 	 */
 	public abstract isStaticIndexed(): boolean
 
@@ -121,7 +111,6 @@ abstract class SceneChild {
 	 *
 	 * @param {string | number} idOrName
 	 * @returns {(SceneChild | null)}
-	 * @memberof SceneChild
 	 */
 	find(idOrName: string | number): SceneChild | null {
 		if (this.id === idOrName || this.name === idOrName) return this
@@ -133,7 +122,6 @@ abstract class SceneChild {
 	 * Return the sceneChild properties
 	 *
 	 * @returns {ISceneChildProps}
-	 * @memberof SceneChild
 	 */
 	public getProps(): ISceneChildProps {
 		return this.props
@@ -146,7 +134,6 @@ abstract class SceneChild {
 	 * @param {ISceneChildPropArguments} [propArguments]
 	 * @param {*} [defaultValue]
 	 * @returns {*}
-	 * @memberof SceneChild
 	 */
 	public getProp(key: keyof ISceneChildProps, propArguments?: ISceneChildPropArguments, defaultValue?: any): any {
 		return (this.props[key] ?? defaultValue) as any
@@ -160,7 +147,6 @@ abstract class SceneChild {
 	 * @param {(K | ISceneChildProps)} key
 	 * @param {ISceneChildProps[K]} [value]
 	 * @param {boolean} [bClearIndexed]
-	 * @memberof SceneChild
 	 */
 	abstract setProp<K extends keyof ISceneChildProps>(
 		key: K | ISceneChildProps,
@@ -173,7 +159,6 @@ abstract class SceneChild {
 	 *
 	 * @param {(keyof ISceneChildProps | ISceneChildProps)} key
 	 * @param {*} [value]
-	 * @memberof ShapeBase
 	 */
 	public setPropUnsafe(key: keyof ISceneChildProps | ISceneChildProps, value?: any): void {
 		if (typeof key == 'string') this.props[key] = value
@@ -192,7 +177,6 @@ abstract class SceneChild {
 	 * @param {number} generateId
 	 * @param {boolean} bDirectSceneChild
 	 * @param {ISceneChildPropArguments} parentPropArguments
-	 * @memberof SceneChild
 	 */
 	abstract generate(
 		generateId: number,
@@ -205,8 +189,7 @@ abstract class SceneChild {
 	 *
 	 * @abstract
 	 * @param {boolean} bDirectSceneChild
-	 * @returns {IShapeBounding}
-	 * @memberof SceneChild
+	 * @returns {IShapeBounding }
 	 */
 	abstract getBounding(bDirectSceneChild: boolean): IShapeBounding
 
@@ -216,7 +199,6 @@ abstract class SceneChild {
 	 *
 	 * @abstract
 	 * @param {TStreamCallback} callback
-	 * @memberof SceneChild
 	 */
 	abstract stream(callback: TStreamCallback): void
 
@@ -224,7 +206,6 @@ abstract class SceneChild {
 	 * Return buffer of vertext if is generated
 	 *
 	 * @returns {(Float32Array | undefined)}
-	 * @memberof ShapeBase
 	 */
 	public abstract getBuffer(): Float32Array | undefined
 
@@ -232,7 +213,6 @@ abstract class SceneChild {
 	 * Return indexed buffer
 	 *
 	 * @returns {(Array<IBufferIndex> | undefined)}
-	 * @memberof ShapeBase
 	 */
 	public abstract getIndexedBuffer(): Array<IBufferIndex> | undefined
 
@@ -242,7 +222,6 @@ abstract class SceneChild {
 	 * @abstract
 	 * @param {ISceneChildPropArguments} [propArguments]
 	 * @returns {number}
-	 * @memberof SceneChild
 	 */
 	abstract getBufferLength(propArguments?: ISceneChildPropArguments): number
 
@@ -252,7 +231,6 @@ abstract class SceneChild {
 	 * @abstract
 	 * @param {boolean} [bClearIndexed]
 	 * @param {boolean} [bPropagateToParents]
-	 * @memberof SceneChild
 	 */
 	abstract clearBuffer(bClearIndexed: boolean, bPropagateToParents: boolean): void
 }

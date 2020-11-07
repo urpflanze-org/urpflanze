@@ -225,7 +225,7 @@ class Group extends SceneChild {
 	 * Sum the children bounding
 	 *
 	 * @param {boolean} bDirectSceneChild
-	 * @return {*}  {IShapeBounding}
+	 * @return {IShapeBounding}
 	 */
 	public getBounding(bDirectSceneChild: boolean): IShapeBounding {
 		const boundings: Array<IShapeBounding> = []

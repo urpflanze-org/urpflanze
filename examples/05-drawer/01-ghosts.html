@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>Urpflanze | Drawer | 01 - Ghosts</title>
+		<script src="https://cdn.jsdelivr.net/npm/urpflanze"></script>
+		<style>
+			* {
+				margin: 0;
+				overflow: hidden;
+			}
+		</style>
+	</head>
+	<body>
+		<script>
+			const scene = new Urpflanze.Scene()
+
+			const circles = new Urpflanze.Circle({
+				repetitions: 7,
+				sideLength: 60,
+				scale: Urpflanze.Animation.loop({
+					from: 0.4,
+					to: 0.8,
+					durate: 2000,
+				}),
+				distance: Urpflanze.Animation.loop({
+					from: 50,
+					to: 150,
+					durate: 2000,
+				}),
+				displace: Urpflanze.Animation.uncontrolledLoop({
+					from: 0,
+					to: Math.PI * 2,
+					durate: 6000,
+				}),
+				rotateX: Urpflanze.Animation.uncontrolledLoop({
+					from: 0,
+					to: Math.PI * 2,
+					durate: 2000,
+				}),
+			})
+
+			scene.add(circles)
+
+			const drawer = new Urpflanze.DrawerCanvas(scene, document.body, {
+				ghosts: 80,
+				ghostSkipFunction: i => i ** 1.5,
+			})
+			drawer.startAnimation()
+		</script>
+	</body>
+</html>

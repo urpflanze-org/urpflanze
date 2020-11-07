@@ -21,7 +21,6 @@ var SceneChild = /** @class */ (function () {
      * Base values will be assigned in case they are not passed
      *
      * @param {ISceneChildSettings} settings
-     * @memberof SceneChild
      */
     function SceneChild(settings) {
         var _a;
@@ -37,7 +36,6 @@ var SceneChild = /** @class */ (function () {
      *
      * @param {string | number} idOrName
      * @returns {(SceneChild | null)}
-     * @memberof SceneChild
      */
     SceneChild.prototype.find = function (idOrName) {
         if (this.id === idOrName || this.name === idOrName)
@@ -48,7 +46,6 @@ var SceneChild = /** @class */ (function () {
      * Return the sceneChild properties
      *
      * @returns {ISceneChildProps}
-     * @memberof SceneChild
      */
     SceneChild.prototype.getProps = function () {
         return this.props;
@@ -60,7 +57,6 @@ var SceneChild = /** @class */ (function () {
      * @param {ISceneChildPropArguments} [propArguments]
      * @param {*} [defaultValue]
      * @returns {*}
-     * @memberof SceneChild
      */
     SceneChild.prototype.getProp = function (key, propArguments, defaultValue) {
         var _a;
@@ -71,7 +67,6 @@ var SceneChild = /** @class */ (function () {
      *
      * @param {(keyof ISceneChildProps | ISceneChildProps)} key
      * @param {*} [value]
-     * @memberof ShapeBase
      */
     SceneChild.prototype.setPropUnsafe = function (key, value) {
         var _this = this;
