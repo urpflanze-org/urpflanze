@@ -1,7 +1,7 @@
 {
 	"name": "urpflanze",
 	"version": "0.0.0-alpha.2",
-	"description": "Play with the repetition and encapsulation of primitive shapes",
+	"description": "A library for developers who want to approach to creative coding, for artists who want to approach to programming or for anyone else who wants to play with math.",
 	"license": "MIT",
 	"author": {
 		"name": "Gennaro Bosone",
