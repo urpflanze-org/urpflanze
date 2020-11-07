@@ -119,7 +119,6 @@ var Shape = /** @class */ (function (_super) {
      *
      * @param {boolean} bDirectSceneChild
      * @returns {IShapeBounding}
-     * @memberof Shape
      */
     Shape.prototype.getBounding = function (bDirectSceneChild) {
         if (bDirectSceneChild && this.shape) {
@@ -127,6 +126,13 @@ var Shape = /** @class */ (function (_super) {
         }
         return this.bounding;
     };
+    /**
+     * Add to indexed buffer
+     *
+     * @protected
+     * @param {number} frameLength
+     * @param {IRepetition} repetition
+     */
     Shape.prototype.addIndex = function (frameLength, repetition) {
         if (this.shape) {
             var indexedBuffer = this.indexedBuffer;

@@ -52,6 +52,11 @@ export function goto(page) {
  * Bind any when content load
  */
 function onLoadContent() {
+	gtag('event', 'G-Z1C9TRSDM1', {
+		page_path: '/' + window.location.hash,
+		send_to: 'G-Z1C9TRSDM1',
+	})
+
 	const content = document.getElementById('content')
 
 	window.scrollTo({

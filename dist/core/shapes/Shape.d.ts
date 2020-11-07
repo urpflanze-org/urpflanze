@@ -67,9 +67,15 @@ declare class Shape extends ShapeBase {
      *
      * @param {boolean} bDirectSceneChild
      * @returns {IShapeBounding}
-     * @memberof Shape
      */
     getBounding(bDirectSceneChild: boolean): IShapeBounding;
+    /**
+     * Add to indexed buffer
+     *
+     * @protected
+     * @param {number} frameLength
+     * @param {IRepetition} repetition
+     */
     protected addIndex(frameLength: number, repetition: IRepetition): void;
     /**
      * Set shape

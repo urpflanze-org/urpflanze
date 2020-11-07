@@ -116,7 +116,6 @@ class Shape extends ShapeBase {
 	 *
 	 * @param {boolean} bDirectSceneChild
 	 * @returns {IShapeBounding}
-	 * @memberof Shape
 	 */
 	public getBounding(bDirectSceneChild: boolean): IShapeBounding {
 		if (bDirectSceneChild && this.shape) {
@@ -125,11 +124,18 @@ class Shape extends ShapeBase {
 		return this.bounding
 	}
 
+	/**
+	 * Add to indexed buffer
+	 *
+	 * @protected
+	 * @param {number} frameLength
+	 * @param {IRepetition} repetition
+	 */
 	protected addIndex(frameLength: number, repetition: IRepetition): void {
 		if (this.shape) {
 			const indexedBuffer = this.indexedBuffer as Array<IBufferIndex>
 			const childIndexedBuffer = this.shape.getIndexedBuffer() || []
-			const parent = {
+			const parent: IBufferIndex = {
 				shape: this,
 				frameLength,
 				repetition: {

@@ -647,6 +647,7 @@
 			"parameters": [
 				{
 					"name": "settings",
+					"description": "\n",
 					"type": {
 						"type": "reference",
 						"id": 702,
@@ -833,6 +834,7 @@
 					},
 					{
 						"name": "parentPropArguments",
+						"description": "\n",
 						"type": {
 							"type": "reference",
 							"id": 723,
@@ -1164,6 +1166,7 @@
 				"parameters": [
 					{
 						"name": "callback",
+						"description": "\n",
 						"type": {
 							"type": "reference",
 							"id": 754,
@@ -3308,6 +3311,7 @@
 		"methods": [
 			{
 				"name": "addIndex",
+				"description": "Add to indexed buffer",
 				"parameters": [
 					{
 						"name": "frameLength",
@@ -3319,6 +3323,7 @@
 					},
 					{
 						"name": "repetition",
+						"description": "\n",
 						"type": {
 							"type": "reference",
 							"id": 678,
