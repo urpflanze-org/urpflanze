@@ -420,7 +420,7 @@ abstract class ShapeBase extends SceneChild {
 				const buffer: Float32Array = this.generateBuffer(generateId, propArguments)
 				const bufferLength = buffer.length
 
-				const bounding = this.getBounding(true)
+				const bounding = this.getShapeBounding()
 
 				buffers[currentIndex] = new Float32Array(bufferLength)
 				totalBufferLength += bufferLength
@@ -570,6 +570,23 @@ abstract class ShapeBase extends SceneChild {
 
 		this.bIndexed = true
 	}
+
+	/**
+	 * Return current shape (whit repetions) bounding
+	 *
+	 * @return {*}  {IShapeBounding}
+	 */
+	public getBounding(): IShapeBounding {
+		return this.bounding
+	}
+
+	/**
+	 * Return a single shape bounding
+	 *
+	 * @abstract
+	 * @return {*}  {IShapeBounding}
+	 */
+	public abstract getShapeBounding(): IShapeBounding
 
 	/**
 	 * Add into indexedBuffer

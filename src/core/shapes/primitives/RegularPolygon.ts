@@ -25,7 +25,8 @@ class RegularPolygon extends ShapeLoop {
 		this.loop = {
 			start: 0,
 			end: ShapeLoop.PI2,
-			inc: (propArguments: ISceneChildPropArguments) => ShapeLoop.PI2 / this.getProp('sideNumber', propArguments, 5),
+			inc: (propArguments: ISceneChildPropArguments) =>
+				ShapeLoop.PI2 / (this.getProp('sideNumber', propArguments, 5) + 1),
 			vertex: shapeLoopRepetition => {
 				return [Math.cos(shapeLoopRepetition.angle), Math.sin(shapeLoopRepetition.angle)]
 			},

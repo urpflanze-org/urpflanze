@@ -145,12 +145,11 @@ abstract class ShapePrimitive extends ShapeBase {
 	/**
 	 * Return a bounding of generated buffer if is direct scene child
 	 *
-	 * @param {boolean} bDirectSceneChild
 	 * @returns {IShapeBounding}
 	 * @memberof ShapePrimitive
 	 */
-	public getBounding(bDirectSceneChild: boolean): IShapeBounding {
-		return bDirectSceneChild ? this.currentGenerationPrimitiveBounding : this.bounding
+	public getShapeBounding(): IShapeBounding {
+		return this.currentGenerationPrimitiveBounding
 	}
 
 	/**

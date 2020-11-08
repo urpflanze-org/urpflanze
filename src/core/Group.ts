@@ -224,15 +224,14 @@ class Group extends SceneChild {
 	/**
 	 * Sum the children bounding
 	 *
-	 * @param {boolean} bDirectSceneChild
 	 * @return {IShapeBounding}
 	 */
-	public getBounding(bDirectSceneChild: boolean): IShapeBounding {
+	public getBounding(): IShapeBounding {
 		const boundings: Array<IShapeBounding> = []
 		const bounding: IShapeBounding = { ...ShapePrimitive.EMPTY_BOUNDING }
 
 		if (this.children.length > 0) {
-			this.children.forEach(item => boundings.push(item.getBounding(bDirectSceneChild)))
+			this.children.forEach(item => boundings.push(item.getBounding()))
 
 			for (let i = 0, len = this.children.length; i < len; i++) {
 				bounding.x = bounding.x > boundings[i].x ? boundings[i].x : bounding.x

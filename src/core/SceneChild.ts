@@ -188,10 +188,9 @@ abstract class SceneChild {
 	 * Get buffer bounding
 	 *
 	 * @abstract
-	 * @param {boolean} bDirectSceneChild
 	 * @returns {IShapeBounding }
 	 */
-	abstract getBounding(bDirectSceneChild: boolean): IShapeBounding
+	abstract getBounding(): IShapeBounding
 
 	/**
 	 * Stream shape

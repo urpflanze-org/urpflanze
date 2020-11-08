@@ -117,11 +117,12 @@ class Shape extends ShapeBase {
 	 * @param {boolean} bDirectSceneChild
 	 * @returns {IShapeBounding}
 	 */
-	public getBounding(bDirectSceneChild: boolean): IShapeBounding {
-		if (bDirectSceneChild && this.shape) {
-			return this.shape.getBounding(false)
+	public getShapeBounding(): IShapeBounding {
+		if (this.shape) {
+			return this.shape.getBounding()
 		}
-		return this.bounding
+
+		return this.bounding // empty bounding defined in ShapeBase
 	}
 
 	/**
@@ -157,26 +158,28 @@ class Shape extends ShapeBase {
 				},
 			}
 
-			const buildParent = (f: IBufferIndex, parent: IBufferIndex): IBufferIndex => {
-				return {
-					shape: f.shape,
-					repetition: f.repetition,
-					frameLength: f.frameLength,
-					parent: f.parent ? buildParent(f.parent, parent) : parent,
-				}
-			}
-
 			for (let i = 0, len = childIndexedBuffer.length; i < len; i++) {
 				const currentIndexed = { ...childIndexedBuffer[i] }
-
-				if (currentIndexed.parent) {
-					currentIndexed.parent = buildParent(currentIndexed.parent, parent)
-				} else {
-					currentIndexed.parent = parent
-				}
-
+				currentIndexed.parent = currentIndexed.parent ? this.setIndexedParent(currentIndexed.parent, parent) : parent
 				indexedBuffer.push(currentIndexed)
 			}
+		}
+	}
+
+	/**
+	 * Set parent of indexed
+	 *
+	 * @private
+	 * @param {IBufferIndex} current
+	 * @param {IBufferIndex} parent
+	 * @return {*}  {IBufferIndex}
+	 */
+	private setIndexedParent(current: IBufferIndex, parent: IBufferIndex): IBufferIndex {
+		return {
+			shape: current.shape,
+			repetition: current.repetition,
+			frameLength: current.frameLength,
+			parent: current.parent ? this.setIndexedParent(current.parent, parent) : parent,
 		}
 	}
 
