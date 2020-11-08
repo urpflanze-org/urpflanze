@@ -223,7 +223,6 @@ var ShapeLoop = /** @class */ (function (_super) {
         }
         if (bNoAdapt) {
             Bounding.bind(this.currentGenerationPrimitiveBounding, tmpBounding);
-            console.log(this.currentGenerationPrimitiveBounding);
         }
         else {
             /**

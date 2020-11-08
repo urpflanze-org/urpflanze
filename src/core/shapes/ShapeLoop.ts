@@ -297,7 +297,6 @@ class ShapeLoop extends ShapePrimitive {
 
 		if (bNoAdapt) {
 			Bounding.bind(this.currentGenerationPrimitiveBounding, tmpBounding)
-			console.log(this.currentGenerationPrimitiveBounding)
 		} else {
 			/**
 			 * Adapt and apply side length

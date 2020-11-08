@@ -2716,7 +2716,6 @@ var ShapeLoop = /** @class */ (function (_super) {
         }
         if (bNoAdapt) {
             _math_bounding__WEBPACK_IMPORTED_MODULE_3__.default.bind(this.currentGenerationPrimitiveBounding, tmpBounding);
-            console.log(this.currentGenerationPrimitiveBounding);
         }
         else {
             /**
