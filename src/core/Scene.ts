@@ -127,8 +127,9 @@ class Scene {
 	 */
 	public add(...items: Array<SceneChild> /**, order: number */): void {
 		const order = typeof items[items.length - 1] === 'number' ? ((items as any)[items.length - 1] as number) : undefined
+		const len = items.length - (typeof order === 'undefined' ? 0 : 1)
 
-		for (let i = 0, len = items.length; i < len; i++) {
+		for (let i = 0; i < len; i++) {
 			const item = items[i]
 
 			item.order =
