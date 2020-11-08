@@ -34,7 +34,9 @@ var RegularPolygon = /** @class */ (function (_super) {
         _this.loop = {
             start: 0,
             end: ShapeLoop.PI2,
-            inc: function (propArguments) { return ShapeLoop.PI2 / _this.getProp('sideNumber', propArguments, 5); },
+            inc: function (propArguments) {
+                return ShapeLoop.PI2 / (_this.getProp('sideNumber', propArguments, 5) + 1);
+            },
             vertex: function (shapeLoopRepetition) {
                 return [Math.cos(shapeLoopRepetition.angle), Math.sin(shapeLoopRepetition.angle)];
             },

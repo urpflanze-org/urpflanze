@@ -31,6 +31,9 @@ var Bounding = {
             bounding.cx = bounding.x + bounding.width / 2;
             bounding.cy = bounding.y + bounding.height / 2;
         }
+        else {
+            console.warn('[Urplfanze:Bounding] cannot bind bounding');
+        }
     },
 };
 export default Bounding;

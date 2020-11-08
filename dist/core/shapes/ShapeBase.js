@@ -262,7 +262,7 @@ var ShapeBase = /** @class */ (function (_super) {
                 // Generate primitives buffer recursively
                 var buffer = this.generateBuffer(generateId, propArguments);
                 var bufferLength = buffer.length;
-                var bounding = this.getBounding(true);
+                var bounding = this.getShapeBounding();
                 buffers[currentIndex] = new Float32Array(bufferLength);
                 totalBufferLength += bufferLength;
                 {
@@ -389,6 +389,14 @@ var ShapeBase = /** @class */ (function (_super) {
         for (var i = 0, offset = 0, len = buffers.length; i < len; offset += buffers[i].length, i++)
             this.buffer.set(buffers[i], offset);
         this.bIndexed = true;
+    };
+    /**
+     * Return current shape (whit repetions) bounding
+     *
+     * @return {*}  {IShapeBounding}
+     */
+    ShapeBase.prototype.getBounding = function () {
+        return this.bounding;
     };
     /**
      * Get number of repetitions

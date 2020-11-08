@@ -224,14 +224,13 @@ var Group = /** @class */ (function (_super) {
     /**
      * Sum the children bounding
      *
-     * @param {boolean} bDirectSceneChild
      * @return {IShapeBounding}
      */
-    Group.prototype.getBounding = function (bDirectSceneChild) {
+    Group.prototype.getBounding = function () {
         var boundings = [];
         var bounding = __assign({}, ShapePrimitive.EMPTY_BOUNDING);
         if (this.children.length > 0) {
-            this.children.forEach(function (item) { return boundings.push(item.getBounding(bDirectSceneChild)); });
+            this.children.forEach(function (item) { return boundings.push(item.getBounding()); });
             for (var i = 0, len = this.children.length; i < len; i++) {
                 bounding.x = bounding.x > boundings[i].x ? boundings[i].x : bounding.x;
                 bounding.y = bounding.y > boundings[i].y ? boundings[i].y : bounding.y;

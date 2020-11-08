@@ -49,7 +49,7 @@ var ShapeLoop = /** @class */ (function (_super) {
         var _this = this;
         settings.type = settings.type || 'ShapeLoop';
         _this = _super.call(this, settings) || this;
-        _this.loopDependencies = (settings.loopDependencies || []).concat('bAdaptBuffer');
+        _this.loopDependencies = settings.loopDependencies || [];
         _this.props.loop = settings.loop;
         if (!bPreventGeneration) {
             _this.loop = {
@@ -71,9 +71,6 @@ var ShapeLoop = /** @class */ (function (_super) {
      * @memberof ShapeLoop
      */
     ShapeLoop.prototype.isStaticLoop = function () {
-        // if (typeof this.vertexCallback === 'function') return false
-        if (this.loopDependencies.includes('vertexCallback') && typeof this.vertexCallback === 'function')
-            return false;
         if (this.loopDependencies.includes('propArguments'))
             return false;
         for (var i = 0, len = this.loopDependencies.length; i < len; i++)
@@ -97,12 +94,6 @@ var ShapeLoop = /** @class */ (function (_super) {
      * @memberof ShapeBase
      */
     ShapeLoop.prototype.isStaticIndexed = function () {
-        // let start = this.props.loop?.start ?? this.loop.start
-        // let end = this.props.loop?.end ?? this.loop.end
-        // let inc = this.props.loop?.inc ?? this.loop.inc
-        // return (
-        // 	typeof start !== 'function' && typeof end !== 'function' && typeof inc !== 'function' && super.isStaticIndexed()
-        // )
         return this.bStaticLoop && _super.prototype.isStaticIndexed.call(this);
     };
     /**
@@ -166,12 +157,12 @@ var ShapeLoop = /** @class */ (function (_super) {
      * @memberof ShapeBase
      */
     ShapeLoop.prototype.getBufferLength = function (propArguments) {
-        if (this.bStatic && this.buffer && this.buffer.length > 0)
+        if (this.bStatic && typeof this.buffer !== 'undefined')
             return this.buffer.length;
-        if (this.bStaticLoop && this.currentOrSingleLoopBuffer && this.currentOrSingleLoopBuffer.length > 0)
+        if (this.bStaticLoop && typeof this.currentOrSingleLoopBuffer !== 'undefined')
             return this.currentOrSingleLoopBuffer.length * this.getRepetitionCount();
         var count = this.getLoop(propArguments).count;
-        return this.getRepetitionCount() * count * 2; // vec3
+        return this.getRepetitionCount() * count * 2;
     };
     /**
      * Return a buffer of children shape or loop generated buffer
@@ -215,21 +206,26 @@ var ShapeLoop = /** @class */ (function (_super) {
         var bNoAdapt = this.adaptMode === EShapePrimitiveAdaptMode.None;
         var tmpBounding = [undefined, undefined, undefined, undefined];
         for (var i = 0, j = 0; i < vertexLength; i++, j += 2) {
-            var angle = start + inc * i;
-            shapeLoop.angle = angle >= end ? end : angle;
+            var offset = shapeLoop.count > 1 ? i / (shapeLoop.count - 1) : 1;
+            // const angle = start + inc * i
+            var angle = (end - start) * offset + start;
+            shapeLoop.angle = angle;
             shapeLoop.index = i + 1;
-            shapeLoop.offset = shapeLoop.count > 1 ? i / (shapeLoop.count - 1) : 1;
+            shapeLoop.offset = offset;
             var vertex = Float32Array.from(getVertex(shapeLoop, propArguments));
             currentOrSingleLoopBuffer[j] = vertex[0];
             currentOrSingleLoopBuffer[j + 1] = vertex[1];
             if (bNoAdapt) {
                 currentOrSingleLoopBuffer[j] *= this.sideLength[0];
                 currentOrSingleLoopBuffer[j + 1] *= this.sideLength[1];
+                Bounding.add(tmpBounding, currentOrSingleLoopBuffer[j], currentOrSingleLoopBuffer[j + 1]);
             }
-            Bounding.add(tmpBounding, currentOrSingleLoopBuffer[j], currentOrSingleLoopBuffer[j + 1]);
         }
-        Bounding.bind(this.currentGenerationPrimitiveBounding, tmpBounding);
-        if (!bNoAdapt) {
+        if (bNoAdapt) {
+            Bounding.bind(this.currentGenerationPrimitiveBounding, tmpBounding);
+            console.log(this.currentGenerationPrimitiveBounding);
+        }
+        else {
             /**
              * Adapt and apply side length
              */

@@ -101,12 +101,11 @@ var ShapePrimitive = /** @class */ (function (_super) {
     /**
      * Return a bounding of generated buffer if is direct scene child
      *
-     * @param {boolean} bDirectSceneChild
      * @returns {IShapeBounding}
      * @memberof ShapePrimitive
      */
-    ShapePrimitive.prototype.getBounding = function (bDirectSceneChild) {
-        return bDirectSceneChild ? this.currentGenerationPrimitiveBounding : this.bounding;
+    ShapePrimitive.prototype.getShapeBounding = function () {
+        return this.currentGenerationPrimitiveBounding;
     };
     /**
      * Add this to indexedBuffer

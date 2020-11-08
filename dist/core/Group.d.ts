@@ -117,10 +117,9 @@ declare class Group extends SceneChild {
     /**
      * Sum the children bounding
      *
-     * @param {boolean} bDirectSceneChild
      * @return {IShapeBounding}
      */
-    getBounding(bDirectSceneChild: boolean): IShapeBounding;
+    getBounding(): IShapeBounding;
     /**
      * Chear children buffer
      *

@@ -108,7 +108,8 @@ var Scene = /** @class */ (function () {
             items[_i] = arguments[_i]; /**, order: number */
         }
         var order = typeof items[items.length - 1] === 'number' ? items[items.length - 1] : undefined;
-        for (var i = 0, len = items.length; i < len; i++) {
+        var len = items.length - (typeof order === 'undefined' ? 0 : 1);
+        for (var i = 0; i < len; i++) {
             var item = items[i];
             item.order =
                 typeof order !== 'undefined'

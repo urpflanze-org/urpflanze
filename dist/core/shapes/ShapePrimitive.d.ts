@@ -86,11 +86,10 @@ declare abstract class ShapePrimitive extends ShapeBase {
     /**
      * Return a bounding of generated buffer if is direct scene child
      *
-     * @param {boolean} bDirectSceneChild
      * @returns {IShapeBounding}
      * @memberof ShapePrimitive
      */
-    getBounding(bDirectSceneChild: boolean): IShapeBounding;
+    getShapeBounding(): IShapeBounding;
     /**
      * Add this to indexedBuffer
      *

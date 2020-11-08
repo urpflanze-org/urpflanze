@@ -594,14 +594,13 @@ var Group = /** @class */ (function (_super) {
     /**
      * Sum the children bounding
      *
-     * @param {boolean} bDirectSceneChild
-     * @return {*}  {IShapeBounding}
+     * @return {IShapeBounding}
      */
-    Group.prototype.getBounding = function (bDirectSceneChild) {
+    Group.prototype.getBounding = function () {
         var boundings = [];
         var bounding = __assign({}, _shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_3__.default.EMPTY_BOUNDING);
         if (this.children.length > 0) {
-            this.children.forEach(function (item) { return boundings.push(item.getBounding(bDirectSceneChild)); });
+            this.children.forEach(function (item) { return boundings.push(item.getBounding()); });
             for (var i = 0, len = this.children.length; i < len; i++) {
                 bounding.x = bounding.x > boundings[i].x ? boundings[i].x : bounding.x;
                 bounding.y = bounding.y > boundings[i].y ? boundings[i].y : bounding.y;
@@ -851,7 +850,8 @@ var Scene = /** @class */ (function () {
             items[_i] = arguments[_i]; /**, order: number */
         }
         var order = typeof items[items.length - 1] === 'number' ? items[items.length - 1] : undefined;
-        for (var i = 0, len = items.length; i < len; i++) {
+        var len = items.length - (typeof order === 'undefined' ? 0 : 1);
+        for (var i = 0; i < len; i++) {
             var item = items[i];
             item.order =
                 typeof order !== 'undefined'
@@ -1089,7 +1089,6 @@ var SceneChild = /** @class */ (function () {
      * Base values will be assigned in case they are not passed
      *
      * @param {ISceneChildSettings} settings
-     * @memberof SceneChild
      */
     function SceneChild(settings) {
         var _a;
@@ -1105,7 +1104,6 @@ var SceneChild = /** @class */ (function () {
      *
      * @param {string | number} idOrName
      * @returns {(SceneChild | null)}
-     * @memberof SceneChild
      */
     SceneChild.prototype.find = function (idOrName) {
         if (this.id === idOrName || this.name === idOrName)
@@ -1116,7 +1114,6 @@ var SceneChild = /** @class */ (function () {
      * Return the sceneChild properties
      *
      * @returns {ISceneChildProps}
-     * @memberof SceneChild
      */
     SceneChild.prototype.getProps = function () {
         return this.props;
@@ -1128,7 +1125,6 @@ var SceneChild = /** @class */ (function () {
      * @param {ISceneChildPropArguments} [propArguments]
      * @param {*} [defaultValue]
      * @returns {*}
-     * @memberof SceneChild
      */
     SceneChild.prototype.getProp = function (key, propArguments, defaultValue) {
         var _a;
@@ -1139,7 +1135,6 @@ var SceneChild = /** @class */ (function () {
      *
      * @param {(keyof ISceneChildProps | ISceneChildProps)} key
      * @param {*} [value]
-     * @memberof ShapeBase
      */
     SceneChild.prototype.setPropUnsafe = function (key, value) {
         var _this = this;
@@ -1432,6 +1427,9 @@ var Bounding = {
             bounding.cx = bounding.x + bounding.width / 2;
             bounding.cy = bounding.y + bounding.height / 2;
         }
+        else {
+            console.warn('[Urplfanze:Bounding] cannot bind bounding');
+        }
     },
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Bounding);
@@ -1661,14 +1659,20 @@ var Shape = /** @class */ (function (_super) {
      *
      * @param {boolean} bDirectSceneChild
      * @returns {IShapeBounding}
-     * @memberof Shape
      */
-    Shape.prototype.getBounding = function (bDirectSceneChild) {
-        if (bDirectSceneChild && this.shape) {
-            return this.shape.getBounding(false);
+    Shape.prototype.getShapeBounding = function () {
+        if (this.shape) {
+            return this.shape.getBounding();
         }
-        return this.bounding;
+        return this.bounding; // empty bounding defined in ShapeBase
     };
+    /**
+     * Add to indexed buffer
+     *
+     * @protected
+     * @param {number} frameLength
+     * @param {IRepetition} repetition
+     */
     Shape.prototype.addIndex = function (frameLength, repetition) {
         if (this.shape) {
             var indexedBuffer = this.indexedBuffer;
@@ -1694,25 +1698,28 @@ var Shape = /** @class */ (function (_super) {
                     },
                 },
             };
-            var buildParent_1 = function (f, parent) {
-                return {
-                    shape: f.shape,
-                    repetition: f.repetition,
-                    frameLength: f.frameLength,
-                    parent: f.parent ? buildParent_1(f.parent, parent) : parent,
-                };
-            };
             for (var i = 0, len = childIndexedBuffer.length; i < len; i++) {
                 var currentIndexed = __assign({}, childIndexedBuffer[i]);
-                if (currentIndexed.parent) {
-                    currentIndexed.parent = buildParent_1(currentIndexed.parent, parent_1);
-                }
-                else {
-                    currentIndexed.parent = parent_1;
-                }
+                currentIndexed.parent = currentIndexed.parent ? this.setIndexedParent(currentIndexed.parent, parent_1) : parent_1;
                 indexedBuffer.push(currentIndexed);
             }
         }
+    };
+    /**
+     * Set parent of indexed
+     *
+     * @private
+     * @param {IBufferIndex} current
+     * @param {IBufferIndex} parent
+     * @return {*}  {IBufferIndex}
+     */
+    Shape.prototype.setIndexedParent = function (current, parent) {
+        return {
+            shape: current.shape,
+            repetition: current.repetition,
+            frameLength: current.frameLength,
+            parent: current.parent ? this.setIndexedParent(current.parent, parent) : parent,
+        };
     };
     /**
      * Set shape
@@ -2028,7 +2035,7 @@ var ShapeBase = /** @class */ (function (_super) {
                 // Generate primitives buffer recursively
                 var buffer = this.generateBuffer(generateId, propArguments);
                 var bufferLength = buffer.length;
-                var bounding = this.getBounding(true);
+                var bounding = this.getShapeBounding();
                 buffers[currentIndex] = new Float32Array(bufferLength);
                 totalBufferLength += bufferLength;
                 {
@@ -2155,6 +2162,14 @@ var ShapeBase = /** @class */ (function (_super) {
         for (var i = 0, offset = 0, len = buffers.length; i < len; offset += buffers[i].length, i++)
             this.buffer.set(buffers[i], offset);
         this.bIndexed = true;
+    };
+    /**
+     * Return current shape (whit repetions) bounding
+     *
+     * @return {*}  {IShapeBounding}
+     */
+    ShapeBase.prototype.getBounding = function () {
+        return this.bounding;
     };
     /**
      * Get number of repetitions
@@ -2527,7 +2542,7 @@ var ShapeLoop = /** @class */ (function (_super) {
         var _this = this;
         settings.type = settings.type || 'ShapeLoop';
         _this = _super.call(this, settings) || this;
-        _this.loopDependencies = (settings.loopDependencies || []).concat('bAdaptBuffer');
+        _this.loopDependencies = settings.loopDependencies || [];
         _this.props.loop = settings.loop;
         if (!bPreventGeneration) {
             _this.loop = {
@@ -2549,9 +2564,6 @@ var ShapeLoop = /** @class */ (function (_super) {
      * @memberof ShapeLoop
      */
     ShapeLoop.prototype.isStaticLoop = function () {
-        // if (typeof this.vertexCallback === 'function') return false
-        if (this.loopDependencies.includes('vertexCallback') && typeof this.vertexCallback === 'function')
-            return false;
         if (this.loopDependencies.includes('propArguments'))
             return false;
         for (var i = 0, len = this.loopDependencies.length; i < len; i++)
@@ -2575,12 +2587,6 @@ var ShapeLoop = /** @class */ (function (_super) {
      * @memberof ShapeBase
      */
     ShapeLoop.prototype.isStaticIndexed = function () {
-        // let start = this.props.loop?.start ?? this.loop.start
-        // let end = this.props.loop?.end ?? this.loop.end
-        // let inc = this.props.loop?.inc ?? this.loop.inc
-        // return (
-        // 	typeof start !== 'function' && typeof end !== 'function' && typeof inc !== 'function' && super.isStaticIndexed()
-        // )
         return this.bStaticLoop && _super.prototype.isStaticIndexed.call(this);
     };
     /**
@@ -2644,12 +2650,12 @@ var ShapeLoop = /** @class */ (function (_super) {
      * @memberof ShapeBase
      */
     ShapeLoop.prototype.getBufferLength = function (propArguments) {
-        if (this.bStatic && this.buffer && this.buffer.length > 0)
+        if (this.bStatic && typeof this.buffer !== 'undefined')
             return this.buffer.length;
-        if (this.bStaticLoop && this.currentOrSingleLoopBuffer && this.currentOrSingleLoopBuffer.length > 0)
+        if (this.bStaticLoop && typeof this.currentOrSingleLoopBuffer !== 'undefined')
             return this.currentOrSingleLoopBuffer.length * this.getRepetitionCount();
         var count = this.getLoop(propArguments).count;
-        return this.getRepetitionCount() * count * 2; // vec3
+        return this.getRepetitionCount() * count * 2;
     };
     /**
      * Return a buffer of children shape or loop generated buffer
@@ -2693,21 +2699,26 @@ var ShapeLoop = /** @class */ (function (_super) {
         var bNoAdapt = this.adaptMode === _types_shape_base__WEBPACK_IMPORTED_MODULE_2__.EShapePrimitiveAdaptMode.None;
         var tmpBounding = [undefined, undefined, undefined, undefined];
         for (var i = 0, j = 0; i < vertexLength; i++, j += 2) {
-            var angle = start + inc * i;
-            shapeLoop.angle = angle >= end ? end : angle;
+            var offset = shapeLoop.count > 1 ? i / (shapeLoop.count - 1) : 1;
+            // const angle = start + inc * i
+            var angle = (end - start) * offset + start;
+            shapeLoop.angle = angle;
             shapeLoop.index = i + 1;
-            shapeLoop.offset = shapeLoop.count > 1 ? i / (shapeLoop.count - 1) : 1;
+            shapeLoop.offset = offset;
             var vertex = Float32Array.from(getVertex(shapeLoop, propArguments));
             currentOrSingleLoopBuffer[j] = vertex[0];
             currentOrSingleLoopBuffer[j + 1] = vertex[1];
             if (bNoAdapt) {
                 currentOrSingleLoopBuffer[j] *= this.sideLength[0];
                 currentOrSingleLoopBuffer[j + 1] *= this.sideLength[1];
+                _math_bounding__WEBPACK_IMPORTED_MODULE_3__.default.add(tmpBounding, currentOrSingleLoopBuffer[j], currentOrSingleLoopBuffer[j + 1]);
             }
-            _math_bounding__WEBPACK_IMPORTED_MODULE_3__.default.add(tmpBounding, currentOrSingleLoopBuffer[j], currentOrSingleLoopBuffer[j + 1]);
         }
-        _math_bounding__WEBPACK_IMPORTED_MODULE_3__.default.bind(this.currentGenerationPrimitiveBounding, tmpBounding);
-        if (!bNoAdapt) {
+        if (bNoAdapt) {
+            _math_bounding__WEBPACK_IMPORTED_MODULE_3__.default.bind(this.currentGenerationPrimitiveBounding, tmpBounding);
+            console.log(this.currentGenerationPrimitiveBounding);
+        }
+        else {
             /**
              * Adapt and apply side length
              */
@@ -2884,12 +2895,11 @@ var ShapePrimitive = /** @class */ (function (_super) {
     /**
      * Return a bounding of generated buffer if is direct scene child
      *
-     * @param {boolean} bDirectSceneChild
      * @returns {IShapeBounding}
      * @memberof ShapePrimitive
      */
-    ShapePrimitive.prototype.getBounding = function (bDirectSceneChild) {
-        return bDirectSceneChild ? this.currentGenerationPrimitiveBounding : this.bounding;
+    ShapePrimitive.prototype.getShapeBounding = function () {
+        return this.currentGenerationPrimitiveBounding;
     };
     /**
      * Add this to indexedBuffer
@@ -3385,7 +3395,9 @@ var RegularPolygon = /** @class */ (function (_super) {
         _this.loop = {
             start: 0,
             end: _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__.default.PI2,
-            inc: function (propArguments) { return _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__.default.PI2 / _this.getProp('sideNumber', propArguments, 5); },
+            inc: function (propArguments) {
+                return _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__.default.PI2 / (_this.getProp('sideNumber', propArguments, 5) + 1);
+            },
             vertex: function (shapeLoopRepetition) {
                 return [Math.cos(shapeLoopRepetition.angle), Math.sin(shapeLoopRepetition.angle)];
             },

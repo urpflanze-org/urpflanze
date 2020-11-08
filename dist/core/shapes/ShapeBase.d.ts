@@ -203,6 +203,19 @@ declare abstract class ShapeBase extends SceneChild {
      */
     generate(generateId: number, bDirectSceneChild?: boolean, parentPropArguments?: ISceneChildPropArguments): void;
     /**
+     * Return current shape (whit repetions) bounding
+     *
+     * @return {*}  {IShapeBounding}
+     */
+    getBounding(): IShapeBounding;
+    /**
+     * Return a single shape bounding
+     *
+     * @abstract
+     * @return {*}  {IShapeBounding}
+     */
+    abstract getShapeBounding(): IShapeBounding;
+    /**
      * Add into indexedBuffer
      *
      * @protected

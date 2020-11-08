@@ -120,11 +120,11 @@ var Shape = /** @class */ (function (_super) {
      * @param {boolean} bDirectSceneChild
      * @returns {IShapeBounding}
      */
-    Shape.prototype.getBounding = function (bDirectSceneChild) {
-        if (bDirectSceneChild && this.shape) {
-            return this.shape.getBounding(false);
+    Shape.prototype.getShapeBounding = function () {
+        if (this.shape) {
+            return this.shape.getBounding();
         }
-        return this.bounding;
+        return this.bounding; // empty bounding defined in ShapeBase
     };
     /**
      * Add to indexed buffer
@@ -158,25 +158,28 @@ var Shape = /** @class */ (function (_super) {
                     },
                 },
             };
-            var buildParent_1 = function (f, parent) {
-                return {
-                    shape: f.shape,
-                    repetition: f.repetition,
-                    frameLength: f.frameLength,
-                    parent: f.parent ? buildParent_1(f.parent, parent) : parent,
-                };
-            };
             for (var i = 0, len = childIndexedBuffer.length; i < len; i++) {
                 var currentIndexed = __assign({}, childIndexedBuffer[i]);
-                if (currentIndexed.parent) {
-                    currentIndexed.parent = buildParent_1(currentIndexed.parent, parent_1);
-                }
-                else {
-                    currentIndexed.parent = parent_1;
-                }
+                currentIndexed.parent = currentIndexed.parent ? this.setIndexedParent(currentIndexed.parent, parent_1) : parent_1;
                 indexedBuffer.push(currentIndexed);
             }
         }
+    };
+    /**
+     * Set parent of indexed
+     *
+     * @private
+     * @param {IBufferIndex} current
+     * @param {IBufferIndex} parent
+     * @return {*}  {IBufferIndex}
+     */
+    Shape.prototype.setIndexedParent = function (current, parent) {
+        return {
+            shape: current.shape,
+            repetition: current.repetition,
+            frameLength: current.frameLength,
+            parent: current.parent ? this.setIndexedParent(current.parent, parent) : parent,
+        };
     };
     /**
      * Set shape
