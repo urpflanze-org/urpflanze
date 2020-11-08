@@ -89,7 +89,7 @@ function loadReference(refName) {
 				break
 		}
 
-		const sourcelink = `https://github.com/genbs/urpflanze/blob/dev/${ref.source.fileName}#L${ref.source.line}`
+		const sourcelink = `https://github.com/genbs/urpflanze/blob/master/${ref.source.fileName}#L${ref.source.line}`
 		content.innerHTML += `<h2>Source</h2><div class="reference__source_url"><a target="_blank" href="${sourcelink}">${ref.source.fileName}</a></div>`
 	}
 }
