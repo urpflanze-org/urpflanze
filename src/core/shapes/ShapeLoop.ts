@@ -79,10 +79,10 @@ class ShapeLoop extends ShapePrimitive {
 	 * list of prop has impact on shape loop generation
 	 *
 	 * @protected
-	 * @type {Array<string>}
+	 * @type {Array<'propArguments' | keyof IShapeLoopProps | string>}
 	 * @memberof ShapeLoop
 	 */
-	public loopDependencies: Array<'vertexCallback' | 'propArguments' | string>
+	public loopDependencies: Array<'propArguments' | keyof IShapeLoopProps | string>
 
 	/**
 	 * Creates an instance of ShapeLoop.
@@ -95,7 +95,7 @@ class ShapeLoop extends ShapePrimitive {
 		settings.type = settings.type || 'ShapeLoop'
 		super(settings)
 
-		this.loopDependencies = (settings.loopDependencies || []).concat('bAdaptBuffer')
+		this.loopDependencies = settings.loopDependencies || []
 
 		this.props.loop = settings.loop
 
@@ -120,9 +120,6 @@ class ShapeLoop extends ShapePrimitive {
 	 * @memberof ShapeLoop
 	 */
 	public isStaticLoop(): boolean {
-		// if (typeof this.vertexCallback === 'function') return false
-		if (this.loopDependencies.includes('vertexCallback') && typeof this.vertexCallback === 'function') return false
-
 		if (this.loopDependencies.includes('propArguments')) return false
 
 		for (let i = 0, len = this.loopDependencies.length; i < len; i++)
@@ -148,14 +145,6 @@ class ShapeLoop extends ShapePrimitive {
 	 * @memberof ShapeBase
 	 */
 	public isStaticIndexed(): boolean {
-		// let start = this.props.loop?.start ?? this.loop.start
-		// let end = this.props.loop?.end ?? this.loop.end
-		// let inc = this.props.loop?.inc ?? this.loop.inc
-
-		// return (
-		// 	typeof start !== 'function' && typeof end !== 'function' && typeof inc !== 'function' && super.isStaticIndexed()
-		// )
-
 		return this.bStaticLoop && super.isStaticIndexed()
 	}
 
@@ -225,14 +214,14 @@ class ShapeLoop extends ShapePrimitive {
 	 * @memberof ShapeBase
 	 */
 	public getBufferLength(propArguments: ISceneChildPropArguments): number {
-		if (this.bStatic && this.buffer && this.buffer.length > 0) return this.buffer.length
+		if (this.bStatic && typeof this.buffer !== 'undefined') return this.buffer.length
 
-		if (this.bStaticLoop && this.currentOrSingleLoopBuffer && this.currentOrSingleLoopBuffer.length > 0)
+		if (this.bStaticLoop && typeof this.currentOrSingleLoopBuffer !== 'undefined')
 			return this.currentOrSingleLoopBuffer.length * this.getRepetitionCount()
 
 		const { count } = this.getLoop(propArguments)
 
-		return this.getRepetitionCount() * count * 2 // vec3
+		return this.getRepetitionCount() * count * 2
 	}
 
 	/**
@@ -285,11 +274,13 @@ class ShapeLoop extends ShapePrimitive {
 		const tmpBounding: TTempBounding = [undefined, undefined, undefined, undefined]
 
 		for (let i = 0, j = 0; i < vertexLength; i++, j += 2) {
-			const angle = start + inc * i
+			const offset = shapeLoop.count > 1 ? i / (shapeLoop.count - 1) : 1
+			// const angle = start + inc * i
+			const angle = (end - start) * offset + start
 
-			shapeLoop.angle = angle >= end ? end : angle
+			shapeLoop.angle = angle
 			shapeLoop.index = i + 1
-			shapeLoop.offset = shapeLoop.count > 1 ? i / (shapeLoop.count - 1) : 1
+			shapeLoop.offset = offset
 
 			const vertex = Float32Array.from(getVertex(shapeLoop, propArguments))
 
@@ -299,14 +290,15 @@ class ShapeLoop extends ShapePrimitive {
 			if (bNoAdapt) {
 				currentOrSingleLoopBuffer[j] *= this.sideLength[0]
 				currentOrSingleLoopBuffer[j + 1] *= this.sideLength[1]
-			}
 
-			Bounding.add(tmpBounding, currentOrSingleLoopBuffer[j], currentOrSingleLoopBuffer[j + 1])
+				Bounding.add(tmpBounding, currentOrSingleLoopBuffer[j], currentOrSingleLoopBuffer[j + 1])
+			}
 		}
 
-		Bounding.bind(this.currentGenerationPrimitiveBounding, tmpBounding)
-
-		if (!bNoAdapt) {
+		if (bNoAdapt) {
+			Bounding.bind(this.currentGenerationPrimitiveBounding, tmpBounding)
+			console.log(this.currentGenerationPrimitiveBounding)
+		} else {
 			/**
 			 * Adapt and apply side length
 			 */
