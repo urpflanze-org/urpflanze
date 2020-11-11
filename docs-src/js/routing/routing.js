@@ -52,10 +52,20 @@ export function goto(page) {
  * Bind any when content load
  */
 function onLoadContent() {
-	gtag('event', 'G-Z1C9TRSDM1', {
+	let title = window.location.href.split('/').pop()
+	if (title.length > 0) {
+		title = title.replace('.html', '')
+	} else {
+		title = 'Urpflanze'
+	}
+
+	gtag('event', 'page_view', {
+		page_location: window.location.href,
 		page_path: '/' + window.location.hash,
-		send_to: 'G-Z1C9TRSDM1',
+		page_title: title,
 	})
+
+	document.title = title
 
 	const content = document.getElementById('content')
 

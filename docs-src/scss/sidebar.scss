@@ -17,7 +17,7 @@ aside {
 		border: none;
 		background: transparent;
 		padding: 0 1rem;
-		color: #1fcc9a;
+		color: $primary;
 
 		&::placeholder {
 			font-style: italic;
@@ -78,7 +78,7 @@ aside {
 	font-size: 1rem;
 }
 #nav h2 {
-	color: #1fcc9a;
+	color: $primary;
 	margin: 1.618rem 0 1.2rem;
 }
 

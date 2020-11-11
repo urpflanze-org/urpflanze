@@ -24,12 +24,12 @@
 
 #content h2 {
 	margin: 4rem 0 2rem;
-	color: #1fcc9a;
+	color: $primary;
 	font-size: 1.2rem;
 }
 
 #content a {
-	color: #1fcc9a;
+	color: $primary;
 	text-decoration: none;
 }
 
@@ -122,7 +122,7 @@
 	font-size: 0.8em;
 	margin: 0;
 	cursor: pointer;
-	color: #1fcc9a;
+	color: $primary;
 }
 .upflanze-container {
 	background-image: url(/assets/images/png-background.png);
