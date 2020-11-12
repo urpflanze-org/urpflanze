@@ -304,26 +304,19 @@ var ShapeBase = /** @class */ (function (_super) {
                      */
                     {
                         mat4.identity(transformMatrix);
-                        // transform origin
                         bTransformOrigin && mat4.translate(transformMatrix, transformMatrix, transformOrigin);
-                        // scale
                         if (scale[0] !== 1 || scale[1] !== 1)
                             mat4.scale(transformMatrix, transformMatrix, scale);
-                        // skew
                         if (skewX !== 0 || skewY !== 0) {
                             glme.fromSkew(tmpMatrix, [skewX, skewY]);
                             mat4.multiply(transformMatrix, transformMatrix, tmpMatrix);
                         }
-                        // rotateX
                         rotateX !== 0 && mat4.rotateX(transformMatrix, transformMatrix, rotateX);
-                        //rotateY
                         rotateY !== 0 && mat4.rotateY(transformMatrix, transformMatrix, rotateY);
-                        //rotateZ
                         rotateZ !== 0 && mat4.rotateZ(transformMatrix, transformMatrix, rotateZ);
                         // reset origin
                         bTransformOrigin &&
                             mat4.translate(transformMatrix, transformMatrix, vec3.scale(transformOrigin, transformOrigin, -1));
-                        // translation
                         if (translate[0] !== 0 || translate[1] !== 0)
                             mat4.translate(transformMatrix, transformMatrix, translate);
                         /**
@@ -352,15 +345,19 @@ var ShapeBase = /** @class */ (function (_super) {
                     for (var bufferIndex = 0; bufferIndex < bufferLength; bufferIndex += 2) {
                         var vertex = [buffer[bufferIndex], buffer[bufferIndex + 1], perspective];
                         {
-                            vec3.transformMat4(vertex, vertex, transformMatrix);
+                            // Apply squeeze, can be insert into transformMatrix?
                             squeezeX !== 0 && Vec2.squeezeX(vertex, squeezeX);
                             squeezeY !== 0 && Vec2.squeezeY(vertex, squeezeY);
+                            // Apply transforms
+                            vec3.transformMat4(vertex, vertex, transformMatrix);
+                            // Apply perspective
                             if (perspective > 0) {
                                 bPerspectiveOrigin && vec3.add(vertex, vertex, perspectiveOrigin);
                                 vec3.transformMat4(vertex, vertex, perspectiveMatrix);
                                 vec3.scale(vertex, vertex, perspective);
                                 bPerspectiveOrigin && vec3.sub(vertex, vertex, perspectiveOrigin);
                             }
+                            // custom vertex manipulation
                             if (this.vertexCallback) {
                                 var index = bufferIndex / 2;
                                 var count = bufferLength / 2;
@@ -371,6 +368,7 @@ var ShapeBase = /** @class */ (function (_super) {
                                 };
                                 this.vertexCallback(vertex, vertexRepetition, propArguments);
                             }
+                            // final, apply repetition matrix
                             vec3.transformMat4(vertex, vertex, repetitionMatrix);
                         }
                         buffers[currentIndex][bufferIndex] = vertex[0];
