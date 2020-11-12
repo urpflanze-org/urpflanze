@@ -474,25 +474,18 @@ abstract class ShapeBase extends SceneChild {
 					{
 						mat4.identity(transformMatrix)
 
-						// transform origin
 						bTransformOrigin && mat4.translate(transformMatrix, transformMatrix, transformOrigin)
-						// scale
 						if (scale[0] !== 1 || scale[1] !== 1) mat4.scale(transformMatrix, transformMatrix, scale)
-						// skew
 						if (skewX !== 0 || skewY !== 0) {
 							glme.fromSkew(tmpMatrix, [skewX, skewY])
 							mat4.multiply(transformMatrix, transformMatrix, tmpMatrix)
 						}
-						// rotateX
 						rotateX !== 0 && mat4.rotateX(transformMatrix, transformMatrix, rotateX)
-						//rotateY
 						rotateY !== 0 && mat4.rotateY(transformMatrix, transformMatrix, rotateY)
-						//rotateZ
 						rotateZ !== 0 && mat4.rotateZ(transformMatrix, transformMatrix, rotateZ)
 						// reset origin
 						bTransformOrigin &&
 							mat4.translate(transformMatrix, transformMatrix, vec3.scale(transformOrigin, transformOrigin, -1))
-						// translation
 						if (translate[0] !== 0 || translate[1] !== 0) mat4.translate(transformMatrix, transformMatrix, translate)
 
 						/**
@@ -523,9 +516,14 @@ abstract class ShapeBase extends SceneChild {
 						const vertex: vec3 = [buffer[bufferIndex], buffer[bufferIndex + 1], perspective]
 
 						{
-							vec3.transformMat4(vertex, vertex, transformMatrix)
+							// Apply squeeze, can be insert into transformMatrix?
 							squeezeX !== 0 && Vec2.squeezeX(vertex, squeezeX)
 							squeezeY !== 0 && Vec2.squeezeY(vertex, squeezeY)
+
+							// Apply transforms
+							vec3.transformMat4(vertex, vertex, transformMatrix)
+
+							// Apply perspective
 							if (perspective > 0) {
 								bPerspectiveOrigin && vec3.add(vertex, vertex, perspectiveOrigin)
 								vec3.transformMat4(vertex, vertex, perspectiveMatrix)
@@ -533,6 +531,7 @@ abstract class ShapeBase extends SceneChild {
 								bPerspectiveOrigin && vec3.sub(vertex, vertex, perspectiveOrigin)
 							}
 
+							// custom vertex manipulation
 							if (this.vertexCallback) {
 								const index = bufferIndex / 2
 								const count = bufferLength / 2
@@ -545,6 +544,7 @@ abstract class ShapeBase extends SceneChild {
 								this.vertexCallback(vertex, vertexRepetition, propArguments)
 							}
 
+							// final, apply repetition matrix
 							vec3.transformMat4(vertex, vertex, repetitionMatrix)
 						}
 
