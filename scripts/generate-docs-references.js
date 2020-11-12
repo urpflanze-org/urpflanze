@@ -5,7 +5,7 @@ const fs = require('fs')
 const filename = path.resolve('./temp.json')
 const dest_name = path.resolve('./docs-src/references.json')
 
-exec(`npx typedoc --json ${filename}`, (error, stdout, stderr) => {
+exec(`npx typedoc --tsconfig ./tsconfig.json --json ${filename}`, (error, stdout, stderr) => {
 	if (error) {
 		console.log(`error: ${error.message}`)
 		return
