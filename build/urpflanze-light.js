@@ -1,3 +1,11 @@
+/** @license Urpflanze v0.1.0-alpha.2
+ * urpflanze-light.js
+ *
+ * Github: https://github.com/genbs/urpflanze/
+ * 
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
@@ -2077,26 +2085,19 @@ var ShapeBase = /** @class */ (function (_super) {
                      */
                     {
                         gl_matrix__WEBPACK_IMPORTED_MODULE_8__.identity(transformMatrix);
-                        // transform origin
                         bTransformOrigin && gl_matrix__WEBPACK_IMPORTED_MODULE_8__.translate(transformMatrix, transformMatrix, transformOrigin);
-                        // scale
                         if (scale[0] !== 1 || scale[1] !== 1)
                             gl_matrix__WEBPACK_IMPORTED_MODULE_8__.scale(transformMatrix, transformMatrix, scale);
-                        // skew
                         if (skewX !== 0 || skewY !== 0) {
                             _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_3__.fromSkew(tmpMatrix, [skewX, skewY]);
                             gl_matrix__WEBPACK_IMPORTED_MODULE_8__.multiply(transformMatrix, transformMatrix, tmpMatrix);
                         }
-                        // rotateX
                         rotateX !== 0 && gl_matrix__WEBPACK_IMPORTED_MODULE_8__.rotateX(transformMatrix, transformMatrix, rotateX);
-                        //rotateY
                         rotateY !== 0 && gl_matrix__WEBPACK_IMPORTED_MODULE_8__.rotateY(transformMatrix, transformMatrix, rotateY);
-                        //rotateZ
                         rotateZ !== 0 && gl_matrix__WEBPACK_IMPORTED_MODULE_8__.rotateZ(transformMatrix, transformMatrix, rotateZ);
                         // reset origin
                         bTransformOrigin &&
                             gl_matrix__WEBPACK_IMPORTED_MODULE_8__.translate(transformMatrix, transformMatrix, gl_matrix__WEBPACK_IMPORTED_MODULE_10__.scale(transformOrigin, transformOrigin, -1));
-                        // translation
                         if (translate[0] !== 0 || translate[1] !== 0)
                             gl_matrix__WEBPACK_IMPORTED_MODULE_8__.translate(transformMatrix, transformMatrix, translate);
                         /**
@@ -2125,15 +2126,19 @@ var ShapeBase = /** @class */ (function (_super) {
                     for (var bufferIndex = 0; bufferIndex < bufferLength; bufferIndex += 2) {
                         var vertex = [buffer[bufferIndex], buffer[bufferIndex + 1], perspective];
                         {
-                            gl_matrix__WEBPACK_IMPORTED_MODULE_10__.transformMat4(vertex, vertex, transformMatrix);
+                            // Apply squeeze, can be insert into transformMatrix?
                             squeezeX !== 0 && _math_Vec2__WEBPACK_IMPORTED_MODULE_5__.default.squeezeX(vertex, squeezeX);
                             squeezeY !== 0 && _math_Vec2__WEBPACK_IMPORTED_MODULE_5__.default.squeezeY(vertex, squeezeY);
+                            // Apply transforms
+                            gl_matrix__WEBPACK_IMPORTED_MODULE_10__.transformMat4(vertex, vertex, transformMatrix);
+                            // Apply perspective
                             if (perspective > 0) {
                                 bPerspectiveOrigin && gl_matrix__WEBPACK_IMPORTED_MODULE_10__.add(vertex, vertex, perspectiveOrigin);
                                 gl_matrix__WEBPACK_IMPORTED_MODULE_10__.transformMat4(vertex, vertex, perspectiveMatrix);
                                 gl_matrix__WEBPACK_IMPORTED_MODULE_10__.scale(vertex, vertex, perspective);
                                 bPerspectiveOrigin && gl_matrix__WEBPACK_IMPORTED_MODULE_10__.sub(vertex, vertex, perspectiveOrigin);
                             }
+                            // custom vertex manipulation
                             if (this.vertexCallback) {
                                 var index = bufferIndex / 2;
                                 var count = bufferLength / 2;
@@ -2144,6 +2149,7 @@ var ShapeBase = /** @class */ (function (_super) {
                                 };
                                 this.vertexCallback(vertex, vertexRepetition, propArguments);
                             }
+                            // final, apply repetition matrix
                             gl_matrix__WEBPACK_IMPORTED_MODULE_10__.transformMat4(vertex, vertex, repetitionMatrix);
                         }
                         buffers[currentIndex][bufferIndex] = vertex[0];
