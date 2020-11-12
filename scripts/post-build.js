@@ -17,7 +17,6 @@ const getLicense = filename => `/** @license Urpflanze v${version}
 
 function addLicense(filename) {
 	const filepath = path.join(buildFolder, filename)
-	console.log('filepath', filepath)
 	const data = fs.readFileSync(filepath, 'utf8')
 
 	if (data && data.match(/^\/\*\* @license/i) === null) {
