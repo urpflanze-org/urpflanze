@@ -1,5 +1,5 @@
 node_modules
 testing
-.vscode
 dist
+.vscode
 package-lock.json
