@@ -8,13 +8,13 @@ The most immediate way to include Urpflanze in your project is to use an online 
 
 ### CDN
 
-Full verison
+Full version
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/urpflanze"></script>
 ```
 
-Costomizable version
+Customizable version
 
 ```html
 <script src="https://cdn.jsdelivr.net/npm/urpflanze[@version]/build/urpflanze[-light][.min].js"></script>
