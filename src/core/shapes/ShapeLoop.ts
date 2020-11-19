@@ -234,10 +234,11 @@ class ShapeLoop extends ShapePrimitive {
 	 * @memberof ShapeBase
 	 */
 	protected generateBuffer(generateId: number, propArguments: ISceneChildPropArguments): Float32Array {
-		this.bindSideLength(propArguments)
+		const bSideLengthChange = this.bindSideLength(propArguments)
 
 		if (!this.bStaticLoop) return this.generateLoopBuffer(propArguments)
-		else if (typeof this.currentOrSingleLoopBuffer === 'undefined')
+
+		if (bSideLengthChange || typeof this.currentOrSingleLoopBuffer === 'undefined')
 			this.currentOrSingleLoopBuffer = this.generateLoopBuffer(propArguments)
 
 		return this.currentOrSingleLoopBuffer
@@ -252,7 +253,7 @@ class ShapeLoop extends ShapePrimitive {
 	 * @memberof ShapeLoop
 	 */
 	private generateLoopBuffer(propArguments: ISceneChildPropArguments): Float32Array {
-		const { start, end, inc, count } = this.getLoop(propArguments)
+		const { start, end, count } = this.getLoop(propArguments)
 
 		const getVertex = (this.props.loop && this.props.loop.vertex
 			? this.props.loop.vertex
