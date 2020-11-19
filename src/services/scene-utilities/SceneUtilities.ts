@@ -509,6 +509,12 @@ class SceneUtilities {
 	 * @memberof SceneUtilities
 	 */
 	setProp(sceneChild: SceneChild, name: string, value: any, drawer: Drawer<any, any>): void {
+		if (typeof sceneChild.data === 'undefined') {
+			sceneChild.data = { props: [] }
+		} else if (typeof sceneChild.data.props === 'undefined') {
+			sceneChild.data.props = []
+		}
+
 		if (ScenePropUtilities.bValueAnimation(value)) {
 			sceneChild.data.props[name] = value
 			sceneChild.setProp(name as keyof ISceneChildProps, Animation.composeAnimation(drawer, name, value))
