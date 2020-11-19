@@ -134,7 +134,7 @@ abstract class ShapePrimitive extends ShapeBase {
 	protected bindSideLength(propArguments: ISceneChildPropArguments): boolean {
 		const sideLength = toVec2(this.getProp('sideLength', propArguments, [50, 50]))
 
-		if (this.sideLength[0] !== sideLength[0] && this.sideLength[1] !== sideLength[1]) {
+		if (this.sideLength[0] !== sideLength[0] || this.sideLength[1] !== sideLength[1]) {
 			this.sideLength = sideLength
 			return true
 		}
