@@ -469,13 +469,16 @@ abstract class ShapeBase extends SceneChild {
 					}
 
 					/**
-					 * Create Transformation matrix
+					 * Create Matrices
 					 */
 					{
+						/**
+						 * Create Transformation matrix
+						 */
 						mat4.identity(transformMatrix)
 
 						bTransformOrigin && mat4.translate(transformMatrix, transformMatrix, transformOrigin)
-						if (scale[0] !== 1 || scale[1] !== 1) mat4.scale(transformMatrix, transformMatrix, scale)
+						if (translate[0] !== 0 || translate[1] !== 0) mat4.translate(transformMatrix, transformMatrix, translate)
 						if (skewX !== 0 || skewY !== 0) {
 							glme.fromSkew(tmpMatrix, [skewX, skewY])
 							mat4.multiply(transformMatrix, transformMatrix, tmpMatrix)
@@ -483,21 +486,9 @@ abstract class ShapeBase extends SceneChild {
 						rotateX !== 0 && mat4.rotateX(transformMatrix, transformMatrix, rotateX)
 						rotateY !== 0 && mat4.rotateY(transformMatrix, transformMatrix, rotateY)
 						rotateZ !== 0 && mat4.rotateZ(transformMatrix, transformMatrix, rotateZ)
-						// reset origin
 						bTransformOrigin &&
 							mat4.translate(transformMatrix, transformMatrix, vec3.scale(transformOrigin, transformOrigin, -1))
-						if (translate[0] !== 0 || translate[1] !== 0) mat4.translate(transformMatrix, transformMatrix, translate)
-
-						/**
-						 * Create Repetition matrix
-						 */
-						mat4.identity(repetitionMatrix)
-						mat4.translate(repetitionMatrix, repetitionMatrix, offset)
-						if (bDirectSceneChild) {
-							mat4.translate(repetitionMatrix, repetitionMatrix, sceneCenter)
-						}
-						if (repetitionType === ERepetitionType.Ring)
-							mat4.rotateZ(repetitionMatrix, repetitionMatrix, repetition.angle + displace)
+						if (scale[0] !== 1 || scale[1] !== 1) mat4.scale(transformMatrix, transformMatrix, scale)
 
 						/**
 						 * Create Perspective matrix
@@ -510,7 +501,19 @@ abstract class ShapeBase extends SceneChild {
 							}
 							mat4.perspective(perspectiveMatrix, -Math.PI / 2, 1, 0, Infinity)
 						}
+
+						/**
+						 * Create Repetition matrix
+						 */
+						mat4.identity(repetitionMatrix)
+						mat4.translate(repetitionMatrix, repetitionMatrix, offset)
+						if (bDirectSceneChild) {
+							mat4.translate(repetitionMatrix, repetitionMatrix, sceneCenter)
+						}
+						if (repetitionType === ERepetitionType.Ring)
+							mat4.rotateZ(repetitionMatrix, repetitionMatrix, repetition.angle + displace)
 					}
+
 					// Apply matrices on vertex
 					for (let bufferIndex = 0; bufferIndex < bufferLength; bufferIndex += 2) {
 						const vertex: vec3 = [buffer[bufferIndex], buffer[bufferIndex + 1], perspective]
