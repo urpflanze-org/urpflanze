@@ -30,6 +30,8 @@ export { default as Vec2 } from '@core/math/Vec2'
 
 export { default as Context } from '@core/Context'
 
+export const PHI = (1 + Math.sqrt(5)) / 2
+
 /**
  * Services
  */
