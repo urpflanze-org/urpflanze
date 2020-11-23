@@ -1,5 +1,5 @@
 /**
- * Types & Intterface
+ * Types & Interface
  */
 export * from '@core/types/scene'
 export * from '@core/types/scene-child'
