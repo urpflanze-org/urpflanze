@@ -369,13 +369,14 @@ abstract class ShapeBase extends SceneChild {
 		const repetitionCount = Array.isArray(repetitions)
 			? repetitions[0] * (repetitions[1] ?? repetitions[0])
 			: repetitions
-		const repetitionColCount = Array.isArray(repetitions) ? repetitions[0] : repetitionCount
-		const repetitionRowCount = Array.isArray(repetitions) ? repetitions[1] ?? repetitions[0] : 1
 
-		const colRepetition = repetition.col
-		colRepetition.count = repetitionColCount
+		const repetitionRowCount = Array.isArray(repetitions) ? repetitions[0] : repetitionCount
+		const repetitionColCount = Array.isArray(repetitions) ? repetitions[1] ?? repetitions[0] : 1
+
 		const rowRepetition = repetition.row
 		rowRepetition.count = repetitionRowCount
+		const colRepetition = repetition.col
+		colRepetition.count = repetitionColCount
 
 		repetition.count = repetitionCount
 		repetition.col.count = repetitionColCount
@@ -673,18 +674,18 @@ abstract class ShapeBase extends SceneChild {
 					data: currentIndexing.shape.data,
 				}
 
-				const fillColor = currentIndexing.shape.getProp('fillColor' as keyof ISceneChildProps, propArguments)
+				const fill = currentIndexing.shape.getProp('fill' as keyof ISceneChildProps, propArguments)
 
-				const strokeColor = currentIndexing.shape.getProp(
-					'strokeColor' as keyof ISceneChildProps,
+				const stroke = currentIndexing.shape.getProp(
+					'stroke' as keyof ISceneChildProps,
 					propArguments,
-					typeof fillColor !== 'undefined' ? undefined : this.scene.color
+					typeof fill !== 'undefined' ? undefined : this.scene.color
 				)
 
 				const lineWidth = currentIndexing.shape.getProp(
 					'lineWidth' as keyof ISceneChildProps,
 					propArguments,
-					typeof fillColor !== 'undefined' && typeof strokeColor === 'undefined' ? undefined : 1
+					typeof fill !== 'undefined' && typeof stroke === 'undefined' ? undefined : 1
 				)
 
 				const streamArguments: ISceneChildStreamArguments = {
@@ -698,8 +699,8 @@ abstract class ShapeBase extends SceneChild {
 					totalShapes: len,
 
 					lineWidth: lineWidth,
-					strokeColor: strokeColor,
-					fillColor: fillColor,
+					stroke: stroke,
+					fill: fill,
 				}
 
 				callback(streamArguments)
