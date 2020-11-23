@@ -11,7 +11,7 @@ import { parseFunction } from 'src/Utilites'
 import DrawerCanvas from '@services/drawers/drawer-canvas/DrawerCanvas'
 import JSONImporter from '@services/importers/JSONImporter'
 import Timeline from '@services/timeline/Timeline'
-import { IProject, IProjectSceneChild } from '@services/types/project'
+import { IProject, IProjectSceneChild } from '@services/types/exporters-importers'
 import SceneUtilities from '@services/scene-utilities/SceneUtilities'
 import { ISceneChildProps } from '@core/types/scene-child'
 

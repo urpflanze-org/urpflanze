@@ -46,8 +46,9 @@ export interface IProject {
  */
 export interface IProjectSceneChildData extends ISceneChildDrawerData {
 	imported?: boolean
-	fillColor?: { r: number; g: number; b: number; a: number }
-	strokeColor?: { r: number; g: number; b: number; a: number }
+	fill?: { r: number; g: number; b: number; a: number }
+	stroke?: { r: number; g: number; b: number; a: number }
+	lineWidth?: number
 }
 
 /**
@@ -84,4 +85,23 @@ export interface IProjectSceneChild {
 	props: IProjectSceneChildProps
 	parentId?: string | number
 	children?: Array<IProjectSceneChild>
+}
+
+/**
+ * @category Services.Export/Import
+ */
+export interface ISVGParsedPath {
+	buffer: Float32Array
+	closed: boolean
+	fill?: string
+	stroke?: string
+	lineWidth?: number
+}
+
+/**
+ * @category Services.Export/Import
+ */
+export interface ISVGParsed {
+	viewBox: [number, number, number, number]
+	buffers: Array<ISVGParsedPath>
 }

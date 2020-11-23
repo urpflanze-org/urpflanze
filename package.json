@@ -62,6 +62,9 @@
 		"gl-matrix": "^3.3.0",
 		"jszip": "^3.5.0",
 		"simplex-noise": "^2.4.0",
+		"simplify-js": "^1.2.4",
+		"snapsvg-cjs": "0.0.6",
+		"transformation-matrix": "^2.5.0",
 		"uuid": "^8.3.1"
 	}
 }
