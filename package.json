@@ -60,7 +60,6 @@
 		"webpack-dev-server": "^3.11.0"
 	},
 	"dependencies": {
-		"@pups/core": "0.0.0-b23",
 		"gl-matrix": "^3.3.0",
 		"jszip": "^3.5.0",
 		"simplex-noise": "^2.4.0",
