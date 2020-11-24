@@ -28,14 +28,15 @@
 		"LICENSE"
 	],
 	"scripts": {
+		"watch": "ttsc --watch",
 		"lint": "eslint src --ext .ts",
 		"build": "ttsc",
 		"build-library": "ttsc & npx webpack --config ./webpack.config.js --mode development & npx webpack --config ./webpack.config.js --mode production & node ./scripts/post-build.js",
-		"prepublishOnly": "ttsc & npm run build-library & npm run build-docs",
-		"watch": "ttsc --watch",
+		"test": "tap",
 		"generate-docs-references": "node ./scripts/generate-docs-references.js",
 		"serve-docs": "webpack serve --config webpack.config.docs.js",
-		"build-docs": "ttsc & npm run generate-docs-references & npx webpack --config webpack.config.docs.js --mode production"
+		"build-docs": "ttsc & npm run generate-docs-references & npx webpack --config webpack.config.docs.js --mode production",
+		"prepublishOnly": "ttsc & npm run build-library & npm run build-docs"
 	},
 	"publishConfig": {},
 	"devDependencies": {
@@ -49,6 +50,7 @@
 		"sass": "^1.29.0",
 		"sass-loader": "^10.0.5",
 		"style-loader": "^2.0.0",
+		"tap": "^14.11.0",
 		"ttypescript": "^1.5.12",
 		"typedoc": "^0.19.2",
 		"typescript": "^4.0.5",
