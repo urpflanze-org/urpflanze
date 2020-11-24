@@ -1,4 +1,3 @@
-import ColorManager from '@pups/core/build/Models/Color/ColorManager'
 import {
 	ISimpleAnimation,
 	TModeFunction,
@@ -10,6 +9,7 @@ import {
 import Easings from '@services/animation/Easings'
 import { toArray } from 'src/Utilites'
 import { ISceneChildPropArguments, TSceneChildProp } from '@core/types/scene-child'
+import { parseColorAndConvert, IConvertedColor } from 'src/Color'
 
 /**
  * @category Services.Animation
@@ -53,8 +53,8 @@ const Simple = {
 				vCallback(props.repetition.index, v)
 			)
 		} else {
-			const from = new ColorManager(simpleAnimation.from as string)
-			const to = new ColorManager(simpleAnimation.to as string)
+			const from = parseColorAndConvert(simpleAnimation.from as string)
+			const to = parseColorAndConvert(simpleAnimation.to as string)
 
 			const vCallback = simpleAnimation.colorTransitionMode == 'hue' ? interpolateColorHSL : interpolateColorRGB
 
@@ -140,34 +140,24 @@ function createSimpleAnimationCallback<T>(
 	}
 }
 
-function interpolateColorRGB(start: ColorManager, end: ColorManager, v: number): string {
-	const aAlpha = start.getAlpha()
-	const bAlpha = end.getAlpha()
-	const s = start.getRgb()
-	const e = end.getRgb()
+function interpolateColorRGB(start: IConvertedColor, end: IConvertedColor, v: number): string {
+	const r = start.r + v * (end.r - start.r)
+	const g = start.g + v * (end.g - start.g)
+	const b = start.b + v * (end.b - start.b)
 
-	const r = s.r + v * (e.r - s.r)
-	const g = s.g + v * (e.g - s.g)
-	const b = s.b + v * (e.b - s.b)
-	const alpha = aAlpha + v * (bAlpha - aAlpha)
+	const alpha = start.alpha + v * (end.alpha - start.alpha)
 
-	return `rgba(${Math.floor(r)},${Math.floor(g)},${Math.floor(b)},${alpha <= 0 ? 0 : alpha >= 1 ? 1 : alpha})`
+	return `rgba(${Math.floor(r)},${Math.floor(g)},${Math.floor(b)},${alpha})`
 }
 
-function interpolateColorHSL(start: ColorManager, end: ColorManager, v: number): string {
-	const aAlpha = start.getAlpha()
-	const bAlpha = end.getAlpha()
-	const s = start.getHsl()
-	const e = end.getHsl()
+function interpolateColorHSL(start: IConvertedColor, end: IConvertedColor, v: number): string {
+	const h = start.h + v * (end.h - start.h)
+	const s = start.s + v * (end.s - start.s)
+	const l = start.l + v * (end.l - start.l)
 
-	const _h = s.h + v * (e.h - s.h)
-	const _s = s.s + v * (e.s - s.s)
-	const _l = s.l + v * (e.l - s.l)
-	const alpha = aAlpha + v * (bAlpha - aAlpha)
+	const alpha = start.alpha + v * (end.alpha - start.alpha)
 
-	return `hsla(${Math.floor(_h * 360)},${Math.floor(_s * 100)}%,${Math.floor(_l * 100)}%,${
-		alpha <= 0 ? 0 : alpha >= 1 ? 1 : alpha
-	})`
+	return `hsla(${h},${s}%,${l}%,${alpha})`
 }
 
 export default Simple
