@@ -28,5 +28,5 @@
 	},
 	"compileOnSave": true,
 	"include": ["src/**/*"],
-	"exclude": ["node_modules", ".vscode", "dist", "build", "testing", "docs"]
+	"exclude": ["node_modules", ".vscode", "dist", "build", "testing", "test", "docs", "docs-src"]
 }
