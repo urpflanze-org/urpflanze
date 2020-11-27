@@ -70,6 +70,7 @@ export interface IShapeLoopRepetition extends IBaseRepetition {
  * @category Core.Interfaces
  */
 export interface IRecursionRepetition extends IBaseRepetition {
+	level: number
 	/**
 	 * parent recursion
 	 *

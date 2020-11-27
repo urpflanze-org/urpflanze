@@ -50,7 +50,7 @@ class ShapeRecursive extends Shape<IShapeRecursiveProps> {
 		this.props.recursionScale = settings.recursionScale || 2
 
 		this.bInner = settings.bInner ?? false
-		this.bShapeUseRecursion = settings.bShapeUseRecursion ?? true
+		this.bShapeUseRecursion = settings.bShapeUseRecursion ?? false
 
 		this.bStatic = this.isStatic()
 		this.bStaticIndexed = this.isStaticIndexed()
@@ -124,6 +124,7 @@ class ShapeRecursive extends Shape<IShapeRecursiveProps> {
 			index: 1,
 			offset: 1,
 			count: recursionCount,
+			level: 1,
 		}
 
 		let repetitionPtr = repetition
@@ -133,6 +134,7 @@ class ShapeRecursive extends Shape<IShapeRecursiveProps> {
 				index: 1,
 				offset: 1,
 				count: recursionCount,
+				level: i + 1,
 			}
 
 			repetitionPtr = repetitionPtr.parent
@@ -291,21 +293,30 @@ class ShapeRecursive extends Shape<IShapeRecursiveProps> {
 					? Shape.setIndexedParent(currentIndexed.parent, bufferIndex)
 					: bufferIndex
 
+				const recursion = { index: 1, offset: 1, count: 1, level: 1 }
+				let recursionPtr: IRecursionRepetition = recursion
+
 				if (recursions <= 1) {
-					//@ts-ignore
-					this.indexedBuffer.push({ ...currentIndexed, recursion: { index: 1, offset: 1, count: 1 } })
+					this.indexedBuffer.push({ ...currentIndexed, recursion: recursionPtr })
 				} else {
-					//@ts-ignore
-					this.indexedBuffer.push({ ...currentIndexed, recursion: { index: 1, offset: 1, count: 1 } })
+					this.indexedBuffer.push({ ...currentIndexed, recursion: recursionPtr })
 
 					for (let i = 1; i < recursions; i++) {
 						for (let j = 0, len = vertexCount ** i; j < len; j++) {
-							//@ts-ignore
+							const recursionOffset = vertexCount > 1 ? len / (len - 1) : 1
+
 							this.indexedBuffer.push({
 								...currentIndexed,
-								recursion: { index: 1, offset: 1, count: 1 },
+								recursion: { index: j + 1, offset: recursionOffset, count: len, level: i + 1, parent: recursionPtr },
 							})
 						}
+						recursionPtr.parent = {
+							index: i + 1,
+							offset: 1,
+							count: 1,
+							level: i + 1,
+						}
+						recursionPtr = recursionPtr.parent
 					}
 				}
 			}
