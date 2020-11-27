@@ -6,30 +6,36 @@ import {
 	IShapePrimitiveProps,
 	IShapePrimitiveSettings,
 } from '@core/types/shape-base'
-import { IRepetition, ISceneChildPropArguments, ISceneChildProps } from '@core/types/scene-child'
-import { IBufferIndex } from '@core/types/shape-base'
+import { IRepetition, ISceneChildPropArguments } from '@core/types/scene-child'
 import { vec2 } from 'gl-matrix'
-import { toVec2 } from '@core/math/gl-matrix-extensions'
-import Bounding, { TTempBounding } from '@core/math/bounding'
+import * as glme from '@core/math/gl-matrix-extensions'
+import Bounding from '@core/math/bounding'
+import { IDrawerStreamProps } from '@services/types/drawer'
 
 /**
  * @category Core.Abstract
  */
-abstract class ShapePrimitive extends ShapeBase {
+abstract class ShapePrimitive<T extends IDrawerStreamProps = IDrawerStreamProps> extends ShapeBase {
 	/**
 	 * Item props
 	 *
 	 * @protected
 	 * @type {IShapePrimitiveProps}
-	 * @memberof ShapePrimitive
 	 */
-	protected props: IShapePrimitiveProps
+	protected props!: IShapePrimitiveProps
+
+	/**
+	 * Props retrived by drawer
+	 *
+	 * @public
+	 * @type {T extends IDrawerStreamProps}
+	 */
+	public style: T
 
 	/**
 	 * Adapt buffer mode, see <a href="[base_url]/EShapePrimitiveAdaptMode">EShapePrimitiveAdaptMode</a> for more details
 	 *
 	 * @type {EShapePrimitiveAdaptMode}
-	 * @memberof ShapePrimitive
 	 */
 	public adaptMode: EShapePrimitiveAdaptMode
 
@@ -37,7 +43,6 @@ abstract class ShapePrimitive extends ShapeBase {
 	 * Define shape is closed, default true
 	 *
 	 * @type {boolean}
-	 * @memberof ShapePrimitive
 	 */
 	public bClosed: boolean
 
@@ -46,7 +51,6 @@ abstract class ShapePrimitive extends ShapeBase {
 	 *
 	 * @static
 	 * @type {IShapeBounding}
-	 * @memberof ShapePrimitive
 	 */
 	static readonly EMPTY_BOUNDING: IShapeBounding = {
 		cx: 0,
@@ -58,19 +62,9 @@ abstract class ShapePrimitive extends ShapeBase {
 	}
 
 	/**
-	 * Scale buffer
-	 *
-	 * @public
-	 * @type {Array<number>}
-	 * @memberof ShapePrimitive
-	 */
-	public sideLength: vec2
-
-	/**
 	 * Contain the bounding of the last generated buffer
 	 *
 	 * @type {IShapeBounding}
-	 * @memberof ShapePrimitive
 	 */
 	public currentGenerationPrimitiveBounding: IShapeBounding = { ...ShapePrimitive.EMPTY_BOUNDING }
 
@@ -78,25 +72,18 @@ abstract class ShapePrimitive extends ShapeBase {
 	 * Creates an instance of ShapePrimitive.
 	 *
 	 * @param {IShapePrimitiveSettings} [settings={}]
-	 * @memberof ShapePrimitive
 	 */
-	constructor(settings: IShapePrimitiveSettings = {}) {
+	constructor(settings: IShapePrimitiveSettings<T> = {}) {
 		super(settings)
 
-		const sideLength: Array<number> =
-			typeof settings.sideLength === 'number'
-				? [settings.sideLength, settings.sideLength]
-				: Array.isArray(settings.sideLength)
+		this.props.sideLength =
+			typeof settings.sideLength === 'undefined'
+				? [50, 50]
+				: typeof settings.sideLength === 'function'
 				? settings.sideLength
-				: [50, 50]
+				: (glme.toVec2(settings.sideLength) as [number, number])
 
-		this.sideLength = sideLength as vec2
-		this.props.sideLength = settings.sideLength
-
-		this.props.fillColor = settings.fillColor
-		this.props.lineWidth = settings.lineWidth
-		this.props.strokeColor = settings.strokeColor
-
+		this.style = settings.style || ({} as T)
 		this.adaptMode = settings.adaptMode ?? EShapePrimitiveAdaptMode.None
 		this.bClosed = settings.bClosed ?? true
 	}
@@ -111,35 +98,15 @@ abstract class ShapePrimitive extends ShapeBase {
 		return typeof this.props.sideLength !== 'function' && super.isStatic()
 	}
 
-	/**
-	 * Get prop
-	 *
-	 * @param {keyof IShapePrimitiveProps} key
-	 * @param {ISceneChildPropArguments} [propArguments]
-	 * @param {*} [defaultValue]
-	 * @returns {*}
-	 * @memberof ShapePrimitive
-	 */
-	public getProp(key: keyof IShapePrimitiveProps, propArguments?: ISceneChildPropArguments, defaultValue?: any): any {
-		return super.getProp(key as keyof ISceneChildProps, propArguments, defaultValue)
-	}
-
-	/**
-	 * set side length when generate a buffer into shape loop or shape buffer
-	 *
-	 * @protected
-	 * @param {ISceneChildPropArguments} propArguments
-	 * @memberof ShapePrimitive
-	 */
-	protected bindSideLength(propArguments: ISceneChildPropArguments): boolean {
-		const sideLength = toVec2(this.getProp('sideLength', propArguments, [50, 50]))
-
-		if (this.sideLength[0] !== sideLength[0] || this.sideLength[1] !== sideLength[1]) {
-			this.sideLength = sideLength
-			return true
+	public getRepetitionSideLength(propArguments: ISceneChildPropArguments): vec2 {
+		if (this.bStatic) {
+			// if undefined, is set to default by constructor
+			return this.props.sideLength as [number, number]
 		}
 
-		return false
+		return glme.toVec2(
+			this.getProp<IShapePrimitiveProps>('sideLength', propArguments, [50, 50])
+		)
 	}
 
 	/**
@@ -158,15 +125,20 @@ abstract class ShapePrimitive extends ShapeBase {
 	 * @protected
 	 * @param {number} frameLength
 	 * @param {IRepetition} repetition
-	 * @memberof ShapePrimitive
+	 * @returns {number} nextIndex
 	 */
-	protected addIndex(frameLength: number, repetition: IRepetition): void {
-		const indexedBuffer = this.indexedBuffer as Array<IBufferIndex>
-		indexedBuffer.push({
+	protected addIndex(
+		frameLength: number,
+		repetition: IRepetition
+		// singleRepetitionBounding: IShapeBounding
+	): void {
+		this.indexedBuffer.push({
 			shape: this,
 			frameLength,
+			// singleRepetitionBounding,
 			repetition: {
 				type: repetition.type,
+				recursion: 1,
 				angle: repetition.angle,
 				index: repetition.index,
 				count: repetition.count,
@@ -237,7 +209,7 @@ abstract class ShapePrimitive extends ShapeBase {
 	 */
 	public static getBounding(buffer: Float32Array, bounding?: IShapeBounding): IShapeBounding {
 		if (typeof bounding === 'undefined') bounding = { ...ShapePrimitive.EMPTY_BOUNDING }
-		const tmp_bounding: TTempBounding = [undefined, undefined, undefined, undefined]
+		const tmp_bounding = [undefined, undefined, undefined, undefined]
 
 		for (let i = 0, len = buffer.length; i < len; i += 2) {
 			Bounding.add(tmp_bounding, buffer[i], buffer[i + 1])

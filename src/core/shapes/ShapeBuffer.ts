@@ -1,4 +1,4 @@
-import Bounding, { TTempBounding } from '@core/math/bounding'
+import Bounding from '@core/math/bounding'
 import ShapePrimitive from '@core/shapes/ShapePrimitive'
 import { ISceneChildPropArguments } from '@core/types/scene-child'
 import { EShapePrimitiveAdaptMode } from '@core/types/shape-base'
@@ -14,24 +14,21 @@ class ShapeBuffer extends ShapePrimitive {
 	 * Float32Array between -1, 1
 	 *
 	 * @type {Float32Array}
-	 * @memberof ShapeBuffer
 	 */
 	public shape: Float32Array
 
 	/**
 	 * Adapted buffer
 	 *
-	 * @private
+	 * @protected
 	 * @type {Float32Array}
-	 * @memberof ShapeBuffer
 	 */
-	private shapeBuffer: Float32Array
+	protected shapeBuffer?: Float32Array
 
 	/**
 	 * Creates an instance of ShapeBuffer.
 	 *
 	 * @param {IShapeBufferSettings} [settings={}]
-	 * @memberof ShapeBuffer
 	 */
 	constructor(settings: IShapeBufferSettings = {}) {
 		settings.type = settings.type || 'ShapeBuffer'
@@ -44,8 +41,6 @@ class ShapeBuffer extends ShapePrimitive {
 			this.shape = ShapeBuffer.EMPTY_BUFFER
 		} else this.shape = Float32Array.from(settings.shape)
 
-		this.bindBuffer()
-
 		this.bStatic = this.isStatic()
 		this.bStaticIndexed = this.isStaticIndexed()
 	}
@@ -55,32 +50,32 @@ class ShapeBuffer extends ShapePrimitive {
 	 *
 	 * @param {boolean} [bClearIndexed=false]
 	 * @param {boolean} [bPropagateToParents=false]
-	 * @memberof ShapeLoop
 	 */
 	public clearBuffer(bClearIndexed = false, bPropagateToParents = true): void {
 		super.clearBuffer(bClearIndexed, bPropagateToParents)
 
-		this.bindBuffer()
+		this.shapeBuffer = undefined
 		// this.shapeBuffer = ShapeBuffer.buffer2Dto3D(this.shapeBuffer)
 	}
 
 	/**
 	 * Apply sideLength on <mark>.shape</mark> buffer and calculate bounding
 	 *
-	 * @private
-	 * @memberof ShapeBuffer
+	 * @protected
 	 */
-	private bindBuffer() {
+	protected bindBuffer(propArguments: ISceneChildPropArguments) {
+		const sideLength = this.getRepetitionSideLength(propArguments)
+
 		const shapeBuffer =
 			this.adaptMode !== EShapePrimitiveAdaptMode.None
 				? ShapePrimitive.adaptBuffer(this.shape, this.adaptMode)
 				: Float32Array.from(this.shape)
 
-		const tmpBounding: TTempBounding = [undefined, undefined, undefined, undefined]
+		const tmpBounding = [undefined, undefined, undefined, undefined]
 
 		for (let i = 0, len = shapeBuffer.length; i < len; i += 2) {
-			shapeBuffer[i] *= this.sideLength[0]
-			shapeBuffer[i + 1] *= this.sideLength[1]
+			shapeBuffer[i] *= sideLength[0]
+			shapeBuffer[i + 1] *= sideLength[1]
 
 			Bounding.add(tmpBounding, shapeBuffer[i], shapeBuffer[i + 1])
 		}
@@ -94,12 +89,11 @@ class ShapeBuffer extends ShapePrimitive {
 	 * Return length of buffer
 	 *
 	 * @returns {number}
-	 * @memberof ShapeBase
 	 */
 	public getBufferLength(): number {
 		if (this.buffer && this.buffer.length > 0) return this.buffer.length
 
-		return this.shapeBuffer.length * this.getRepetitionCount()
+		return this.shape.length * this.getRepetitionCount()
 	}
 
 	/**
@@ -109,21 +103,19 @@ class ShapeBuffer extends ShapePrimitive {
 	 * @param {number} generateId
 	 * @param {ISceneChildPropArguments} propArguments
 	 * @returns {Float32Array}
-	 * @memberof ShapeBase
 	 */
 	protected generateBuffer(generateId: number, propArguments: ISceneChildPropArguments): Float32Array {
-		if (this.bindSideLength(propArguments)) {
-			this.bindBuffer()
+		if (typeof this.shapeBuffer === 'undefined' || typeof this.props.sideLength === 'function') {
+			this.bindBuffer(propArguments)
 		}
 
-		return this.shapeBuffer
+		return this.shapeBuffer as Float32Array
 	}
 
 	/**
 	 * Set shape
 	 *
 	 * @param {(Float32Array)} [shape]
-	 * @memberof ShapeBase
 	 */
 	public setShape(shape: Float32Array): void {
 		this.shape = shape
@@ -135,7 +127,6 @@ class ShapeBuffer extends ShapePrimitive {
 	 * Subdivide buffer n times
 	 *
 	 * @param {number} [level=1]
-	 * @memberof ShapeBuffer
 	 */
 	public subdivide(level = 1) {
 		let subdivided: Float32Array | undefined = this.shape
@@ -154,7 +145,6 @@ class ShapeBuffer extends ShapePrimitive {
 	 * @param {Float32Array} shape
 	 * @param {boolean} [bClosed=true]
 	 * @returns {(Float32Array)}
-	 * @memberof ShapeBuffer
 	 */
 	public static subdivide(shape: Float32Array, bClosed = true): Float32Array {
 		const shapeLength = shape.length

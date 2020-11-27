@@ -34,7 +34,7 @@ class Timeline extends Emitter<ITimelineEvents> {
 	private current_frame: number
 	private current_time: number
 
-	private paused_time: number
+	private paused_time = 0
 	private start_time: number
 	private tick_time: number
 	private last_tick: number

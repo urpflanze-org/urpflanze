@@ -1,5 +1,5 @@
 import ShapeLoop from '@core/shapes/ShapeLoop'
-import { IShapeLoopProps, ISpiralProps, ISpiralSettings, TSpiralType } from '@core/types/shape-primitive'
+import { ISpiralProps, ISpiralSettings, TSpiralType } from '@core/types/shape-primitive'
 import { ISceneChildPropArguments, IShapeLoopRepetition } from '@core/types/scene-child'
 import { EShapePrimitiveAdaptMode } from '@core/types/shape-base'
 import { vec2 } from 'gl-matrix'
@@ -12,7 +12,7 @@ import { vec2 } from 'gl-matrix'
  * @extends {ShapeLoop}
  */
 class Spiral extends ShapeLoop {
-	protected props: ISpiralProps
+	protected props!: ISpiralProps
 
 	/**
 	 * Spural types
@@ -54,18 +54,25 @@ class Spiral extends ShapeLoop {
 		this.props.twistsStart = settings.twistsStart ?? 0
 
 		this.loop = {
-			start: (propArguments: ISceneChildPropArguments) => ShapeLoop.PI2 * this.getProp('twistsStart', propArguments),
+			start: (propArguments: ISceneChildPropArguments) =>
+				ShapeLoop.PI2 * (this.getProp<ISpiralProps>('twistsStart', propArguments) as number),
 			end: (propArguments: ISceneChildPropArguments) =>
-				ShapeLoop.PI2 * (this.getProp('twistsStart', propArguments) + this.getProp('twists', propArguments)),
+				ShapeLoop.PI2 *
+				((this.getProp<ISpiralProps>('twistsStart', propArguments) as number) +
+					(this.getProp<ISpiralProps>('twists', propArguments) as number)),
 			inc: (propArguments: ISceneChildPropArguments) => {
-				const twists = this.getProp('twists', propArguments)
+				const twists = this.getProp<ISpiralProps>('twists', propArguments) as number
 				const rep = ShapeLoop.PI2 * twists
-				const radius = 4 + Math.sqrt(this.sideLength[0] * this.sideLength[1])
+				const sideLength = this.getRepetitionSideLength(propArguments)
+				const radius = 4 + Math.sqrt(sideLength[0] * sideLength[1])
 
 				return rep / (radius * twists)
 			},
 			vertex: (shapeLoopRepetition: IShapeLoopRepetition, propArguments?: ISceneChildPropArguments): vec2 => {
-				const r = Spiral.getRFromTSpiralType(this.getProp('spiral', propArguments), shapeLoopRepetition.angle)
+				const r = Spiral.getRFromTSpiralType(
+					this.getProp<ISpiralProps>('spiral', propArguments) as TSpiralType,
+					shapeLoopRepetition.angle
+				)
 				return [r * Math.cos(shapeLoopRepetition.angle), r * Math.sin(shapeLoopRepetition.angle)]
 			},
 		}
@@ -75,36 +82,23 @@ class Spiral extends ShapeLoop {
 		this.bStaticIndexed = this.isStaticIndexed()
 	}
 
-	/**
-	 * Get property value
-	 *
-	 * @param {keyof ISpiralProps} key
-	 * @param {ISceneChildPropArguments} [propArguments]
-	 * @param {any} [defaultValue]
-	 * @returns {*}
-	 * @memberof Spiral
-	 */
-	public getProp(key: keyof ISpiralProps, propArguments?: ISceneChildPropArguments, defaultValue?: any): any {
-		return super.getProp(key as keyof IShapeLoopProps, propArguments, defaultValue)
-	}
+	// /**
+	//  * Set single or multiple props
+	//  *
+	//  * @param {(keyof ISpiralProps | ISpiralProps)} key
+	//  * @param {*} [value]
+	//  * @memberof Spiral
+	//  */
+	// public setProp(key: keyof ISpiralProps | ISpiralProps, value?: any): void {
+	// 	key = typeof key === 'string' ? { [key]: value } : key
 
-	/**
-	 * Set single or multiple props
-	 *
-	 * @param {(keyof ISpiralProps | ISpiralProps)} key
-	 * @param {*} [value]
-	 * @memberof Spiral
-	 */
-	public setProp(key: keyof ISpiralProps | ISpiralProps, value?: any): void {
-		key = typeof key === 'string' ? { [key]: value } : key
+	// 	if (('twists' in key || 'twistsStart' in key) && this.props.loop) {
+	// 		this.props.loop.start = undefined
+	// 		this.props.loop.end = undefined
+	// 	}
 
-		if (('twists' in key || 'twistsStart' in key) && this.props.loop) {
-			this.props.loop.start = undefined
-			this.props.loop.end = undefined
-		}
-
-		super.setProp(key as keyof IShapeLoopProps, value)
-	}
+	// 	super.setProp(key as keyof IShapeLoopProps, value)
+	// }
 
 	/**
 	 * Point position and scale factor for spiral types

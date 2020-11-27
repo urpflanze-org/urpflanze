@@ -58,12 +58,15 @@ const Simple = {
 
 			const vCallback = simpleAnimation.colorTransitionMode == 'hue' ? interpolateColorHSL : interpolateColorRGB
 
-			return createSimpleAnimationCallback<string>(simpleAnimation, (props, v) => {
-				const a = simpleAnimation.invertOdd && props.repetition.index % 2 == 1 ? to : from
-				const b = simpleAnimation.invertOdd && props.repetition.index % 2 == 1 ? from : to
+			if (typeof from !== 'undefined' && typeof to !== 'undefined') {
+				return createSimpleAnimationCallback<string>(simpleAnimation, (props, v) => {
+					const a = simpleAnimation.invertOdd && props.repetition.index % 2 == 1 ? to : from
+					const b = simpleAnimation.invertOdd && props.repetition.index % 2 == 1 ? from : to
 
-				return vCallback(a, b, v)
-			})
+					return vCallback(a, b, v)
+				})
+			}
+			return () => 0
 		}
 	},
 }

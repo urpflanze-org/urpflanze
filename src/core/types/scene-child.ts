@@ -1,5 +1,4 @@
 import ShapeBase from '@core/shapes/ShapeBase'
-import ShapePrimitive from '@core/shapes/ShapePrimitive'
 import Context from '@core/Context'
 import { IBufferIndex } from '@core/types/shape-base'
 
@@ -65,11 +64,25 @@ export interface IShapeLoopRepetition extends IBaseRepetition {
 }
 
 /**
+ *
+ *
+ * @category Core.Interfaces
+ */
+export interface IRecursiveRepetition extends IBaseRepetition {
+	/**
+	 * angle of current repetition = repetition.offset * Math.PI * 2
+	 *
+	 * @order 4
+	 */
+	recursion: number
+}
+
+/**
  * Information about propArguments repetition
  *
  * @category Core.Interfaces
  */
-export interface IRepetition extends IShapeLoopRepetition {
+export interface IRepetition extends IShapeLoopRepetition, IRecursiveRepetition {
 	/**
 	 * Define the type of repetition
 	 * @order 5
@@ -100,13 +113,13 @@ export interface ISceneChildProps {
 	 * It defines the type of repetition.
 	 * If a number is passed the repetition will be Ring.
 	 * If an array (1) is passed the repetition will be nxn,
-	 * if an array (2) the repetition will be nxm
+	 * if an array (2) the repetition will be mxn [rows x columns]
 	 *
-	 * @type {(TSceneChildProp<number | Array<number>>)}
+	 * @type {(TSceneChildProp<number | [number, number]>)}
 	 * @memberof ISceneChildProps
 	 * @order 1
 	 */
-	repetitions?: TSceneChildProp<number | Array<number>> // number of shape repetitions
+	repetitions?: TSceneChildProp<number | [number, number]> // number of shape repetitions
 
 	/**
 	 * If the repeat is Ring, pass a numerical value
@@ -114,11 +127,11 @@ export interface ISceneChildProps {
 	 * If the repeat is Matrix, pass an array (2) which refers
 	 * to the distance between columns and rows.
 	 *
-	 * @type {(TSceneChildProp<number | Array<number>>)}
+	 * @type {(TSceneChildProp<number | [number, number]>)}
 	 * @memberof ISceneChildProps
 	 * @order 2
 	 */
-	distance?: TSceneChildProp<number | Array<number>>
+	distance?: TSceneChildProp<number | [number, number]>
 
 	/**
 	 * For Ring repeats, define the starting angle of the repeat
@@ -168,20 +181,20 @@ export interface ISceneChildProps {
 	/**
 	 * scale transformation
 	 *
-	 * @type {(TSceneChildProp<number | Array<number>>)}
+	 * @type {(TSceneChildProp<number | [number, number]>)}
 	 * @memberof ISceneChildProps
 	 * @order 8
 	 */
-	scale?: TSceneChildProp<number | Array<number>>
+	scale?: TSceneChildProp<number | [number, number]>
 
 	/**
 	 * tranlsate transformation
 	 *
-	 * @type {(TSceneChildProp<number | Array<number>>)}
+	 * @type {(TSceneChildProp<number | [number, number]>)}
 	 * @memberof ISceneChildProps
 	 * @order 9
 	 */
-	translate?: TSceneChildProp<number | Array<number>>
+	translate?: TSceneChildProp<number | [number, number]>
 
 	/**
 	 * rotateX transformation in degeress
@@ -231,11 +244,11 @@ export interface ISceneChildProps {
 	/**
 	 * perspective origin between [-1, -1] and [1, 1]
 	 *
-	 * @type {(TSceneChildProp<number | Array<number>>)}
+	 * @type {(TSceneChildProp<number | [number, number]>)}
 	 * @memberof ISceneChildProps
 	 * @order 15
 	 */
-	perspectiveOrigin?: TSceneChildProp<number | Array<number>>
+	perspectiveOrigin?: TSceneChildProp<number | [number, number]>
 }
 
 /**
@@ -303,56 +316,31 @@ export type TSceneChildProp<T> = T | { (propArguments: ISceneChildPropArguments)
  *
  * @category Core.Interfaces
  */
-export interface ISceneChildStreamArguments {
+export interface IStreamArguments {
 	/**
 	 * @order 1
 	 */
-	shape: ShapePrimitive
+	buffer: Float32Array
 	/**
 	 * @order 2
 	 */
-	parent?: IBufferIndex
+	frameLength: number
 	/**
 	 * @order 3
 	 */
-	data?: any
-	/**
-	 * @order 4
-	 */
-	lineWidth: number
-	/**
-	 * @order 5
-	 */
-	fillColor: string
-	/**
-	 * @order 6
-	 */
-	strokeColor: string
-	/**
-	 * @order 7
-	 */
-	buffer: Float32Array
-	/**
-	 * @order 8
-	 */
 	frameBufferIndex: number
 	/**
-	 * @order 9
+	 * repetition of current generated shape
+	 * @order 4
 	 */
-	frameLength: number
+	currentIndexing: IBufferIndex
 	/**
-	 * @order 10
+	 * @order 5
 	 */
 	currentShapeIndex: number
 	/**
 	 * total primitives
-	 * @order 11
+	 * @order 6
 	 */
 	totalShapes: number
-
-	/**
-	 * repetition of current generated shape
-	 * @order 12
-	 */
-	repetition: IRepetition
 }

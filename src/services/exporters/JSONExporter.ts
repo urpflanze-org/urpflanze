@@ -30,17 +30,11 @@ class JSONExporter {
 	}
 
 	static parseAsProject(drawer: DrawerCanvas, name = 'EmptyProject'): IProject {
-		const scene: Scene = drawer.getScene()
 		const timeline: Timeline = drawer.getTimeline()
 
 		const project = JSONImporter.createEmptyProject()
 
 		project.name = name
-		project.width = scene.width
-		project.height = scene.height
-		project.resolution = drawer.getResolution()
-		project.color = scene.color
-		project.background = scene.background
 
 		project.clear = drawer.getOption('clear', true) as boolean
 		project.ghosts = drawer.getOption('ghosts', 0) as number
@@ -54,12 +48,20 @@ class JSONExporter {
 
 		project.scene = {}
 
-		const sceneChilds: Array<SceneChild> = scene.getChildren()
+		const scene: Scene | undefined = drawer.getScene()
+		if (scene) {
+			project.width = scene.width
+			project.height = scene.height
+			// project.resolution = drawer.getResolution()
+			project.color = scene.color
+			project.background = scene.background
 
-		for (let i = 0, len = sceneChilds.length; i < len; i++) {
-			project.scene[sceneChilds[i].id] = JSONExporter.parseSceneChild(sceneChilds[i])
+			const sceneChilds: Array<SceneChild> = scene.getChildren()
+
+			for (let i = 0, len = sceneChilds.length; i < len; i++) {
+				project.scene[sceneChilds[i].id] = JSONExporter.parseSceneChild(sceneChilds[i])
+			}
 		}
-
 		return project
 	}
 
@@ -68,7 +70,7 @@ class JSONExporter {
 			id: sceneChild.id + '',
 			type: sceneChild.type,
 			name: sceneChild.name,
-			order: sceneChild.order,
+			order: sceneChild.order as number,
 			data: { ...sceneChild.data, props: undefined },
 			depth,
 			bPrimitive: sceneChild instanceof ShapePrimitive,

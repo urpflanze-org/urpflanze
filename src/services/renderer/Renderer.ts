@@ -16,9 +16,11 @@ import DrawerCanvas from '@services/drawers/drawer-canvas/DrawerCanvas'
  * @extends {Emitter<IRenderEvents>}
  */
 class Renderer extends Emitter<IRenderEvents> {
-	capturer: Capturer
-	renderPromise: ICancelablePromise<Uint8Array> | ICancelablePromise<Array<Blob>>
-	started: boolean
+	private capturer: Capturer
+
+	private renderPromise!: ICancelablePromise<Uint8Array> | ICancelablePromise<Array<Blob>>
+
+	private started = false
 
 	constructor() {
 		super()

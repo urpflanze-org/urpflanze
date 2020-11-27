@@ -1,9 +1,12 @@
 import Scene from '@core/Scene'
 
 import SceneChild from '@core/SceneChild'
-import { IDrawerSVGEvents, IDrawerSVGOptions } from '@services/types/drawer'
+import { IDrawerStreamProps, IDrawerSVGEvents, IDrawerSVGOptions } from '@services/types/drawer'
 import { now } from 'src/Utilites'
 import Drawer from '@services/drawers/Drawer'
+import { ISceneChildPropArguments, IStreamArguments } from '@core/types/scene-child'
+import { IBufferIndex } from '@core/types/shape-base'
+import { ShapePrimitive, Context } from 'src'
 
 /**
  * Abstract drawer
@@ -14,18 +17,18 @@ import Drawer from '@services/drawers/Drawer'
  */
 class DrawerSVG extends Drawer<IDrawerSVGOptions, IDrawerSVGEvents> {
 	private container: HTMLElement
-	private svgElement: SVGElement
+	// private svgElement: SVGElement
 
 	constructor(
 		scene: Scene | undefined,
 		container: HTMLElement,
 		drawerOptions: IDrawerSVGOptions = {},
 		ratio: number | undefined = undefined,
-		resolution = 0,
+		// resolution = 0,
 		duration?: number,
 		framerate?: number
 	) {
-		super(scene, ratio, resolution, duration, framerate)
+		super(scene, ratio, duration, framerate)
 
 		this.container = container
 
@@ -34,6 +37,7 @@ class DrawerSVG extends Drawer<IDrawerSVGOptions, IDrawerSVGEvents> {
 			decimals: drawerOptions.decimals || 2,
 			noBackground: drawerOptions.noBackground ?? false,
 			ghosts: drawerOptions.ghosts || 0,
+			ghostAlpha: drawerOptions.ghostAlpha === false ? false : true,
 			ghostSkipTime: drawerOptions.ghostSkipTime ?? 30,
 			ghostSkipFunction: drawerOptions.ghostSkipFunction,
 		}
@@ -46,6 +50,8 @@ class DrawerSVG extends Drawer<IDrawerSVGOptions, IDrawerSVGEvents> {
 	 * @memberof DrawerCanvas
 	 */
 	public draw(): number {
+		if (typeof this.scene === 'undefined') return -1
+
 		let drawTime = 0
 
 		const timeline = this.timeline
@@ -67,7 +73,7 @@ class DrawerSVG extends Drawer<IDrawerSVGOptions, IDrawerSVGEvents> {
 
 		if (drawerOptions.ghosts) {
 			Drawer.eachGhosts(drawerOptions, timeline, ghostDrawerOptions => {
-				drawTime += DrawerSVG.draw(this.scene, paths, ghostDrawerOptions)
+				drawTime += DrawerSVG.draw(this.scene as Scene, paths, ghostDrawerOptions)
 			})
 		}
 
@@ -121,6 +127,7 @@ class DrawerSVG extends Drawer<IDrawerSVGOptions, IDrawerSVGEvents> {
 			typeof options.ghostIndex !== 'undefined' &&
 			options.ghostIndex > 0
 		const ghostMultiplier: number = bGhost ? 1 - (options.ghostIndex as number) / ((options.ghosts as number) + 0.5) : 0
+		const ghostAlpha: boolean = options.ghostAlpha === true
 
 		let logFillColorWarn = false
 		let logStrokeColorWarn = false
@@ -134,50 +141,69 @@ class DrawerSVG extends Drawer<IDrawerSVGOptions, IDrawerSVGEvents> {
 			) {
 				sceneChild.generate(time, true)
 
-				sceneChild.stream(streamCallback => {
+				sceneChild.stream((stream: IStreamArguments) => {
 					const tempPath = []
 
-					for (let i = 0; i < streamCallback.frameLength; i += 2) {
+					const currentIndex: IBufferIndex = stream.currentIndexing
+					const shape: ShapePrimitive<IDrawerStreamProps> = currentIndex.shape
+					const propArguments: ISceneChildPropArguments = {
+						shape,
+						// singleRepetitionBounding: currentIndex.singleRepetitionBounding,
+						repetition: currentIndex.repetition,
+						parent: currentIndex.parent,
+						time: scene.currentTime,
+						context: Context,
+					}
+
+					for (let i = 0; i < stream.frameLength; i += 2) {
 						tempPath.push(
-							streamCallback.buffer[streamCallback.frameBufferIndex + i].toFixed(decimals) +
+							stream.buffer[stream.frameBufferIndex + i].toFixed(decimals) +
 								' ' +
-								streamCallback.buffer[streamCallback.frameBufferIndex + i + 1].toFixed(decimals)
+								stream.buffer[stream.frameBufferIndex + i + 1].toFixed(decimals)
 						)
 					}
 
-					if (streamCallback.fillColor) {
-						if (bGhost) {
-							const color = Drawer.ghostifyColor(streamCallback.fillColor, ghostMultiplier)
+					let fill = Drawer.getStreamDrawerProp(shape, 'fill', propArguments)
+
+					if (fill) {
+						if (bGhost && ghostAlpha) {
+							const color = Drawer.ghostifyColor(fill, ghostMultiplier)
 							if (color) {
-								streamCallback.fillColor = color
+								fill = color
 							} else if (!logFillColorWarn) {
-								console.warn(`[Urpflanze:DrawerCanvas] Unable ghost fill color '${streamCallback.fillColor}', 
-                            please enter a rgba or hsla color`)
+								console.warn(`[Urpflanze:DrawerCanvas] Unable ghost fill color '${fill}',
+				            please enter a rgba or hsla color`)
 								logFillColorWarn = true
 							}
 						}
 					}
-
-					if (streamCallback.strokeColor) {
-						if (bGhost) {
-							const color = Drawer.ghostifyColor(streamCallback.strokeColor, ghostMultiplier)
+					let stroke = Drawer.getStreamDrawerProp(
+						shape,
+						'stroke',
+						propArguments,
+						typeof fill === 'undefined' ? scene.color : undefined
+					)
+					let lineWidth = Drawer.getStreamDrawerProp(shape, 'lineWidth', propArguments, 1)
+					if (stroke) {
+						if (bGhost && ghostAlpha) {
+							const color = Drawer.ghostifyColor(stroke, ghostMultiplier)
 							if (color) {
-								streamCallback.strokeColor = color
+								stroke = color
 							} else if (!logStrokeColorWarn) {
-								console.warn(`[Urpflanze:DrawerCanvas] Unable ghost stroke color '${streamCallback.strokeColor}', 
-                            please enter a rgba or hsla color`)
+								console.warn(`[Urpflanze:DrawerCanvas] Unable ghost stroke color '${stroke}',
+				            please enter a rgba or hsla color`)
 								logStrokeColorWarn = true
 							}
-							streamCallback.lineWidth *= ghostMultiplier
+							lineWidth *= ghostMultiplier
 						}
 					}
 
 					const path = document.createElementNS('http://www.w3.org/2000/svg', 'path')
-					path.setAttribute('d', `M${tempPath.join(' L')} ${streamCallback.shape.isClosed() ? 'Z' : ''}`)
-					path.setAttribute('fill', streamCallback.fillColor || 'none')
-					if (streamCallback.strokeColor) {
-						path.setAttribute('stroke', streamCallback.strokeColor)
-						path.setAttribute('stroke-width', (streamCallback.lineWidth || 1) + '')
+					path.setAttribute('d', `M${tempPath.join(' L')} ${shape.isClosed() ? 'Z' : ''}`)
+					path.setAttribute('fill', fill || 'none')
+					if (stroke) {
+						path.setAttribute('stroke', stroke)
+						path.setAttribute('stroke-width', (lineWidth || 1) + '')
 					}
 					paths.push(path)
 				})

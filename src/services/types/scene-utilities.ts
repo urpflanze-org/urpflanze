@@ -1,4 +1,4 @@
-import { IProjectSceneChildData } from '@services/types/project'
+import { IProjectSceneChildData } from '@services/types/exporters-importers'
 
 import SceneChild from '@core/SceneChild'
 import {

@@ -4,7 +4,9 @@ import Timeline from '@services/timeline/Timeline'
 import SceneChild from '@core/SceneChild'
 import SceneUtilities from '@services/scene-utilities/SceneUtilities'
 import Emitter from '@services/events/Emitter'
-import { IDrawerOptions } from '@services/types/drawer'
+import { IDrawerOptions, IDrawerPropArguments, IDrawerStreamProps, TDrawerProp } from '@services/types/drawer'
+import { parseColor } from 'src/Color'
+import ShapePrimitive from '@core/shapes/ShapePrimitive'
 
 /**
  * Abstract Drawer
@@ -17,35 +19,35 @@ import { IDrawerOptions } from '@services/types/drawer'
  * @template IDrawerEvents
  */
 abstract class Drawer<IADrawerOptions extends IDrawerOptions, IDrawerEvents> extends Emitter<IDrawerEvents> {
-	protected scene: Scene
+	protected scene?: Scene
 
-	protected resolution: number
+	protected resolution!: number
 	protected ratio: number
 
 	protected animation_id: number | null
 	protected draw_id: number | null
 	protected redraw_id: number | null
-	protected drawerOptions: IADrawerOptions
+	protected drawerOptions!: IADrawerOptions
 
 	protected timeline: Timeline
 
 	constructor(
 		scene: Scene | undefined = undefined,
 		ratio: number | undefined = undefined,
-		resolution = 0,
 		duration?: number,
 		framerate?: number
 	) {
 		super()
 
 		this.timeline = new Timeline(duration, framerate)
-		this.resolution = resolution || (scene && scene.width ? scene.width : 0)
 		this.ratio = ratio || (scene && scene.width && scene.height ? scene.width / scene.height : 1)
 
 		if (scene) {
-			const width = this.ratio >= 1 ? scene.width : scene.width * this.ratio
-			const height = this.ratio >= 1 ? scene.height / this.ratio : scene.height
+			const size = Math.max(scene.width, scene.height)
+			const width = this.ratio >= 1 ? size : size * this.ratio
+			const height = this.ratio >= 1 ? size / this.ratio : size
 
+			console.log({ width, height, ratio, r2: this.ratio, h: scene.height })
 			scene.resize(width, height)
 			this.setScene(scene)
 		}
@@ -67,7 +69,7 @@ abstract class Drawer<IADrawerOptions extends IDrawerOptions, IDrawerEvents> ext
 	public setScene(scene: Scene): void {
 		this.scene = scene
 
-		if (!this.resolution && this.scene.width) this.resolution = this.scene.width
+		// if (!this.resolution && this.scene.width) this.resolution = this.scene.width
 	}
 
 	/**
@@ -75,7 +77,7 @@ abstract class Drawer<IADrawerOptions extends IDrawerOptions, IDrawerEvents> ext
 	 *
 	 * @return {*}  {Scene}
 	 */
-	public getScene(): Scene {
+	public getScene(): Scene | undefined {
 		return this.scene
 	}
 
@@ -95,7 +97,7 @@ abstract class Drawer<IADrawerOptions extends IDrawerOptions, IDrawerEvents> ext
 	 * @param {number} height
 	 * @param {number} [ratio]
 	 */
-	public resize(width: number, height: number, ratio?: number, resolution?: number): void {
+	public resize(width: number, height: number, ratio?: number): void {
 		ratio = ratio || this.ratio || width / height
 
 		const size = Math.max(width, height)
@@ -105,17 +107,17 @@ abstract class Drawer<IADrawerOptions extends IDrawerOptions, IDrawerEvents> ext
 
 		this.ratio = ratio
 
-		if (this.scene) this.scene.resize(width, height)
-
-		if (resolution && resolution !== this.resolution && this.scene) {
-			this.resolution = resolution
+		if (this.scene) {
+			this.scene.resize(width, height)
 
 			Scene.walk((sceneChild: SceneChild) => {
-				const props = sceneChild.data.props
+				if (sceneChild.data && sceneChild.data.props) {
+					const props = sceneChild.data.props
 
-				Object.keys(props).forEach(name => {
-					SceneUtilities.setProp(sceneChild, name, props[name], this)
-				})
+					Object.keys(props).forEach(name => {
+						SceneUtilities.setProp(sceneChild, name, props[name], this)
+					})
+				}
 			}, this.scene)
 		}
 	}
@@ -125,7 +127,9 @@ abstract class Drawer<IADrawerOptions extends IDrawerOptions, IDrawerEvents> ext
 	 *
 	 */
 	public setRatio(ratio: number): void {
-		this.resize(this.scene.width, this.scene.height, ratio)
+		if (this.scene) {
+			this.resize(this.scene.width, this.scene.height, ratio)
+		}
 	}
 
 	/**
@@ -133,20 +137,6 @@ abstract class Drawer<IADrawerOptions extends IDrawerOptions, IDrawerEvents> ext
 	 */
 	public getRatio(): number {
 		return this.ratio
-	}
-
-	/**
-	 * Get resolution
-	 */
-	public getResolution(): number {
-		return this.resolution
-	}
-
-	/**
-	 * Get resolution of drawer
-	 */
-	public setResolution(resolution: number): void {
-		this.resize(this.scene.width, this.scene.height, this.ratio, resolution)
 	}
 
 	/**
@@ -281,6 +271,32 @@ abstract class Drawer<IADrawerOptions extends IDrawerOptions, IDrawerEvents> ext
 	}
 
 	/**
+	 * Return a style value
+	 *
+	 * @static
+	 * @template T
+	 * @param {ShapePrimitive<T>} shape
+	 * @param {keyof T} key
+	 * @param {IDrawerPropArguments} propArguments
+	 * @param {*} [defaultValue]
+	 * @returns {*}
+	 */
+	static getStreamDrawerProp<T extends IDrawerStreamProps>(
+		shape: ShapePrimitive<T>,
+		key: keyof T,
+		propArguments: IDrawerPropArguments,
+		defaultValue?: any
+	): any {
+		let attribute: TDrawerProp<any> = shape.style[key] as any
+
+		if (typeof attribute === 'function') {
+			attribute = attribute(propArguments)
+		}
+
+		return attribute ?? defaultValue
+	}
+
+	/**
 	 * Each ghosts index and create drawerOptions to pass at the draw method
 	 *
 	 * @static
@@ -320,19 +336,22 @@ abstract class Drawer<IADrawerOptions extends IDrawerOptions, IDrawerEvents> ext
 	 * Create color based on ghostMultiplier
 	 *
 	 * @static
-	 * @param {string} color
+	 * @param {any} color
 	 * @param {number} ghostMultiplier
 	 * @return {*}  {(string | undefined)}
 	 */
-	static ghostifyColor(color: string, ghostMultiplier: number): string | undefined {
-		const match = /\((.+),(.+),(.+),(.+)?\)/g.exec(color)
-
-		if (match) {
-			const [, a, b, c, o]: Array<string> = match as RegExpExecArray
-			const alpha = o ? parseFloat(o) : 1
-			const ghostAlpha = alpha <= 0 ? 0 : alpha * ghostMultiplier
-			return color.indexOf('rgb') >= 0 ? `rgba(${a},${b},${c},${ghostAlpha})` : `hsla(${a},${b},${c},${ghostAlpha})`
+	static ghostifyColor(color: any, ghostMultiplier: number): string | undefined {
+		if (typeof color === 'string' || typeof color === 'number') {
+			const parsed = parseColor(color)
+			if (parsed) {
+				const ghostAlpha = parsed.alpha * ghostMultiplier
+				return parsed.type === 'rgb'
+					? `rgba(${parsed.a},${parsed.b},${parsed.c},${ghostAlpha})`
+					: `hsla(${parsed.a},${parsed.b}%,${parsed.c}%,${ghostAlpha})`
+			}
 		}
+
+		return color
 	}
 }
 

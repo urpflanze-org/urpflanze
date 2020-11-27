@@ -1,6 +1,6 @@
 import ShapeBase from '@core/shapes/ShapeBase'
 import SceneChild from '@core/SceneChild'
-import { IShapeBounding, IShapeSettings } from '@core/types/shape-base'
+import { IParentBufferIndex, IShapeBounding, IShapeSettings } from '@core/types/shape-base'
 import Scene from '@core/Scene'
 import { IRepetition, ISceneChildPropArguments } from '@core/types/scene-child'
 import { IBufferIndex } from '@core/types/shape-base'
@@ -131,15 +131,21 @@ class Shape extends ShapeBase {
 	 * @protected
 	 * @param {number} frameLength
 	 * @param {IRepetition} repetition
+	 * @returns {number} nextIndex
 	 */
-	protected addIndex(frameLength: number, repetition: IRepetition): void {
+	protected addIndex(
+		frameLength: number,
+		repetition: IRepetition
+		// singleRepetitionBounding: IShapeBounding
+	): void {
 		if (this.shape) {
-			const indexedBuffer = this.indexedBuffer as Array<IBufferIndex>
 			const childIndexedBuffer = this.shape.getIndexedBuffer() || []
-			const parent: IBufferIndex = {
+			const parent: IParentBufferIndex = {
 				shape: this,
 				frameLength,
+				// singleRepetitionBounding,
 				repetition: {
+					recursion: 1,
 					type: repetition.type,
 					angle: repetition.angle,
 					index: repetition.index,
@@ -161,7 +167,7 @@ class Shape extends ShapeBase {
 			for (let i = 0, len = childIndexedBuffer.length; i < len; i++) {
 				const currentIndexed = { ...childIndexedBuffer[i] }
 				currentIndexed.parent = currentIndexed.parent ? this.setIndexedParent(currentIndexed.parent, parent) : parent
-				indexedBuffer.push(currentIndexed)
+				this.indexedBuffer.push(currentIndexed)
 			}
 		}
 	}
@@ -170,13 +176,17 @@ class Shape extends ShapeBase {
 	 * Set parent of indexed
 	 *
 	 * @private
-	 * @param {IBufferIndex} current
+	 * @param {IBufferIndex | IParentBufferIndex} current
 	 * @param {IBufferIndex} parent
 	 * @return {*}  {IBufferIndex}
 	 */
-	private setIndexedParent(current: IBufferIndex, parent: IBufferIndex): IBufferIndex {
+	private setIndexedParent(
+		current: IBufferIndex | IParentBufferIndex,
+		parent: IParentBufferIndex
+	): IBufferIndex | IParentBufferIndex {
 		return {
 			shape: current.shape,
+			// singleRepetitionBounding: current.singleRepetitionBounding,
 			repetition: current.repetition,
 			frameLength: current.frameLength,
 			parent: current.parent ? this.setIndexedParent(current.parent, parent) : parent,

@@ -19,6 +19,203 @@
 return /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./dist/Color.js":
+/*!***********************!*\
+  !*** ./dist/Color.js ***!
+  \***********************/
+/*! namespace exports */
+/*! export hslToRgb [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export parseColor [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export parseColorAndConvert [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export rgbToHsl [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__.r, __webpack_exports__, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "parseColorAndConvert": () => /* binding */ parseColorAndConvert,
+/* harmony export */   "parseColor": () => /* binding */ parseColor,
+/* harmony export */   "hslToRgb": () => /* binding */ hslToRgb,
+/* harmony export */   "rgbToHsl": () => /* binding */ rgbToHsl
+/* harmony export */ });
+/**
+ * Convert color to IConvertedColor
+ * Supported format: 'hsla?' 'rgba?' 'hex{3,8}' number (0xFFFFFF[FF])
+ *
+ * @internal
+ * @ignore
+ * @param {(string | number)} color
+ * @returns {(IConvertedColor | undefined)}
+ */
+function parseColorAndConvert(color) {
+    var parsed = parseColor(color);
+    if (parsed) {
+        if (parsed.type === 'hsl') {
+            var _a = hslToRgb(parsed.a, parsed.b, parsed.c), r = _a[0], g = _a[1], b = _a[2];
+            return {
+                r: r,
+                g: g,
+                b: b,
+                h: parsed.a,
+                s: parsed.b,
+                l: parsed.c,
+                alpha: parsed.alpha,
+            };
+        }
+        else {
+            var _b = rgbToHsl(parsed.a, parsed.b, parsed.c), h = _b[0], s = _b[1], l = _b[2];
+            return {
+                h: h,
+                s: s,
+                l: l,
+                r: parsed.a,
+                g: parsed.b,
+                b: parsed.c,
+                alpha: parsed.alpha,
+            };
+        }
+    }
+}
+/**
+ * Convert color to IColor
+ * Supported format: 'hsla?' 'rgba?' 'hex{3,8}' number (0xFFFFFF[FF])
+ *
+ * @internal
+ * @ignore
+ * @param {(string | number)} color
+ * @returns {(IColor | undefined)}
+ */
+function parseColor(color) {
+    if (typeof color === 'number') {
+        if (color > 0xffffff) {
+            return {
+                type: 'rgb',
+                a: (color >> 24) & 255,
+                b: (color >> 16) & 255,
+                c: (color >> 8) & 255,
+                alpha: (color & 255) / 255,
+            };
+        }
+        else {
+            return { type: 'rgb', a: (color >> 16) & 255, b: (color >> 8) & 255, c: color & 255, alpha: 1 };
+        }
+    }
+    color = color.replace(/\s/g, '');
+    var match = /^#([0-9a-f]{3,8})$/i.exec(color);
+    if (match) {
+        var hex = match[1];
+        if (hex.length === 3) {
+            return {
+                type: 'rgb',
+                a: parseInt(hex[0] + hex[0], 16),
+                b: parseInt(hex[1] + hex[1], 16),
+                c: parseInt(hex[2] + hex[2], 16),
+                alpha: 1,
+            };
+        }
+        else {
+            return {
+                type: 'rgb',
+                a: parseInt(hex[0] + hex[1], 16),
+                b: parseInt(hex[2] + hex[3], 16),
+                c: parseInt(hex[4] + hex[5], 16),
+                alpha: hex.length > 6 ? parseInt(hex.substring(6), 16) / 255 : 1,
+            };
+        }
+    }
+    match = /^((hsl|rgb)a?)\((\d+),(\d+)%?,(\d+)%?,?(.+)?\)$/i.exec(color);
+    if (match) {
+        var _a = match, type = _a[2], a = _a[3], b = _a[4], c = _a[5], alpha = _a[6];
+        return {
+            type: type,
+            a: +a,
+            b: +b,
+            c: +c,
+            alpha: alpha ? +alpha : 1,
+        };
+    }
+}
+/**
+ * Convert hsl color to rgb
+ *
+ * @internal
+ * @ignore
+ * @param {number} h
+ * @param {number} s
+ * @param {number} l
+ * @returns {[number, number, number]}
+ */
+function hslToRgb(h, s, l) {
+    h /= 360;
+    s /= 100;
+    l /= 100;
+    var r, g, b;
+    if (s == 0) {
+        r = g = b = l; // achromatic
+    }
+    else {
+        var hue2rgb = function (p, q, t) {
+            t += t < 0 ? 1 : t > 1 ? -1 : 0;
+            if (t < 1 / 6)
+                return p + (q - p) * 6 * t;
+            if (t < 1 / 2)
+                return q;
+            if (t < 2 / 3)
+                return p + (q - p) * (2 / 3 - t) * 6;
+            return p;
+        };
+        var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+        var p = 2 * l - q;
+        r = hue2rgb(p, q, h + 1 / 3);
+        g = hue2rgb(p, q, h);
+        b = hue2rgb(p, q, h - 1 / 3);
+    }
+    return [(0.5 + r * 255) << 0, (0.5 + g * 255) << 0, (0.5 + b * 255) << 0];
+}
+/**
+ * Convert rbg to hsl
+ *
+ * @internal
+ * @ignore
+ * @param {number} r
+ * @param {number} g
+ * @param {number} b
+ * @returns {[number, number, number]} (0-360, 0-100, 0-100)
+ */
+function rgbToHsl(r, g, b) {
+    r /= 255;
+    g /= 255;
+    b /= 255;
+    var max = Math.max(r, g, b), min = Math.min(r, g, b);
+    var h, s;
+    var l = (max + min) / 2;
+    if (max == min) {
+        h = s = 0; // achromatic
+    }
+    else {
+        var d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch (max) {
+            case r:
+                h = (g - b) / d + (g < b ? 6 : 0);
+                break;
+            case g:
+                h = (b - r) / d + 2;
+                break;
+            case b:
+                h = (r - g) / d + 4;
+                break;
+        }
+        h = h / 6;
+    }
+    return [(0.5 + h * 360) << 0, (0.5 + s * 100) << 0, (0.5 + l * 100) << 0];
+}
+//# sourceMappingURL=Color.js.map
+
+/***/ }),
+
 /***/ "./dist/Utilites.js":
 /*!**************************!*\
   !*** ./dist/Utilites.js ***!
@@ -717,7 +914,7 @@ var Group = /** @class */ (function (_super) {
     /**
      * Call strem on children
      *
-     * @param {TStreamCallback} callback
+     * @param {(streamArguments: IStreamArguments) => void} callback
      * @memberof Group
      */
     Group.prototype.stream = function (callback) {
@@ -825,7 +1022,7 @@ var Scene = /** @class */ (function () {
     /**
      * Traverse the child buffer and use it with callback
      *
-     * @param {TStreamCallback} callback
+     * @param {(streamArguments: IStreamArguments) => void} callback
      * @memberof Scene
      */
     Scene.prototype.stream = function (callback) {
@@ -1717,7 +1914,7 @@ var Shape = /** @class */ (function (_super) {
      * Set parent of indexed
      *
      * @private
-     * @param {IBufferIndex} current
+     * @param {IBufferIndex | IParentBufferIndex} current
      * @param {IBufferIndex} parent
      * @return {*}  {IBufferIndex}
      */
@@ -2006,12 +2203,12 @@ var ShapeBase = /** @class */ (function (_super) {
         var repetitionCount = Array.isArray(repetitions)
             ? repetitions[0] * ((_a = repetitions[1]) !== null && _a !== void 0 ? _a : repetitions[0])
             : repetitions;
-        var repetitionColCount = Array.isArray(repetitions) ? repetitions[0] : repetitionCount;
-        var repetitionRowCount = Array.isArray(repetitions) ? (_b = repetitions[1]) !== null && _b !== void 0 ? _b : repetitions[0] : 1;
-        var colRepetition = repetition.col;
-        colRepetition.count = repetitionColCount;
+        var repetitionRowCount = Array.isArray(repetitions) ? repetitions[0] : repetitionCount;
+        var repetitionColCount = Array.isArray(repetitions) ? (_b = repetitions[1]) !== null && _b !== void 0 ? _b : repetitions[0] : 1;
         var rowRepetition = repetition.row;
         rowRepetition.count = repetitionRowCount;
+        var colRepetition = repetition.col;
+        colRepetition.count = repetitionColCount;
         repetition.count = repetitionCount;
         repetition.col.count = repetitionColCount;
         repetition.row.count = repetitionRowCount;
@@ -2081,13 +2278,16 @@ var ShapeBase = /** @class */ (function (_super) {
                         transformOrigin[2] = perspective;
                     }
                     /**
-                     * Create Transformation matrix
+                     * Create Matrices
                      */
                     {
+                        /**
+                         * Create Transformation matrix
+                         */
                         gl_matrix__WEBPACK_IMPORTED_MODULE_8__.identity(transformMatrix);
                         bTransformOrigin && gl_matrix__WEBPACK_IMPORTED_MODULE_8__.translate(transformMatrix, transformMatrix, transformOrigin);
-                        if (scale[0] !== 1 || scale[1] !== 1)
-                            gl_matrix__WEBPACK_IMPORTED_MODULE_8__.scale(transformMatrix, transformMatrix, scale);
+                        if (translate[0] !== 0 || translate[1] !== 0)
+                            gl_matrix__WEBPACK_IMPORTED_MODULE_8__.translate(transformMatrix, transformMatrix, translate);
                         if (skewX !== 0 || skewY !== 0) {
                             _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_3__.fromSkew(tmpMatrix, [skewX, skewY]);
                             gl_matrix__WEBPACK_IMPORTED_MODULE_8__.multiply(transformMatrix, transformMatrix, tmpMatrix);
@@ -2095,21 +2295,10 @@ var ShapeBase = /** @class */ (function (_super) {
                         rotateX !== 0 && gl_matrix__WEBPACK_IMPORTED_MODULE_8__.rotateX(transformMatrix, transformMatrix, rotateX);
                         rotateY !== 0 && gl_matrix__WEBPACK_IMPORTED_MODULE_8__.rotateY(transformMatrix, transformMatrix, rotateY);
                         rotateZ !== 0 && gl_matrix__WEBPACK_IMPORTED_MODULE_8__.rotateZ(transformMatrix, transformMatrix, rotateZ);
-                        // reset origin
                         bTransformOrigin &&
                             gl_matrix__WEBPACK_IMPORTED_MODULE_8__.translate(transformMatrix, transformMatrix, gl_matrix__WEBPACK_IMPORTED_MODULE_10__.scale(transformOrigin, transformOrigin, -1));
-                        if (translate[0] !== 0 || translate[1] !== 0)
-                            gl_matrix__WEBPACK_IMPORTED_MODULE_8__.translate(transformMatrix, transformMatrix, translate);
-                        /**
-                         * Create Repetition matrix
-                         */
-                        gl_matrix__WEBPACK_IMPORTED_MODULE_8__.identity(repetitionMatrix);
-                        gl_matrix__WEBPACK_IMPORTED_MODULE_8__.translate(repetitionMatrix, repetitionMatrix, offset);
-                        if (bDirectSceneChild) {
-                            gl_matrix__WEBPACK_IMPORTED_MODULE_8__.translate(repetitionMatrix, repetitionMatrix, sceneCenter);
-                        }
-                        if (repetitionType === _types_scene_child__WEBPACK_IMPORTED_MODULE_0__.ERepetitionType.Ring)
-                            gl_matrix__WEBPACK_IMPORTED_MODULE_8__.rotateZ(repetitionMatrix, repetitionMatrix, repetition.angle + displace);
+                        if (scale[0] !== 1 || scale[1] !== 1)
+                            gl_matrix__WEBPACK_IMPORTED_MODULE_8__.scale(transformMatrix, transformMatrix, scale);
                         /**
                          * Create Perspective matrix
                          */
@@ -2121,6 +2310,16 @@ var ShapeBase = /** @class */ (function (_super) {
                             }
                             gl_matrix__WEBPACK_IMPORTED_MODULE_8__.perspective(perspectiveMatrix, -Math.PI / 2, 1, 0, Infinity);
                         }
+                        /**
+                         * Create Repetition matrix
+                         */
+                        gl_matrix__WEBPACK_IMPORTED_MODULE_8__.identity(repetitionMatrix);
+                        gl_matrix__WEBPACK_IMPORTED_MODULE_8__.translate(repetitionMatrix, repetitionMatrix, offset);
+                        if (bDirectSceneChild) {
+                            gl_matrix__WEBPACK_IMPORTED_MODULE_8__.translate(repetitionMatrix, repetitionMatrix, sceneCenter);
+                        }
+                        if (repetitionType === _types_scene_child__WEBPACK_IMPORTED_MODULE_0__.ERepetitionType.Ring)
+                            gl_matrix__WEBPACK_IMPORTED_MODULE_8__.rotateZ(repetitionMatrix, repetitionMatrix, repetition.angle + displace);
                     }
                     // Apply matrices on vertex
                     for (var bufferIndex = 0; bufferIndex < bufferLength; bufferIndex += 2) {
@@ -2216,30 +2415,14 @@ var ShapeBase = /** @class */ (function (_super) {
         if (this.scene && this.buffer && this.indexedBuffer) {
             for (var i = 0, j = 0, len = this.indexedBuffer.length; i < len; i++) {
                 var currentIndexing = this.indexedBuffer[i];
-                var propArguments = {
-                    shape: currentIndexing.shape,
-                    repetition: currentIndexing.repetition,
-                    context: _Context__WEBPACK_IMPORTED_MODULE_2__.default,
-                    time: 0,
-                    parent: currentIndexing.parent,
-                    data: currentIndexing.shape.data,
-                };
-                var fillColor = currentIndexing.shape.getProp('fillColor', propArguments);
-                var strokeColor = currentIndexing.shape.getProp('strokeColor', propArguments, typeof fillColor !== 'undefined' ? undefined : this.scene.color);
-                var lineWidth = currentIndexing.shape.getProp('lineWidth', propArguments, typeof fillColor !== 'undefined' && typeof strokeColor === 'undefined' ? undefined : 1);
-                var streamArguments = {
+                callback({
                     buffer: this.buffer,
                     frameLength: currentIndexing.frameLength,
                     frameBufferIndex: j,
-                    shape: currentIndexing.shape,
-                    repetition: currentIndexing.repetition,
+                    currentIndexing: currentIndexing,
                     currentShapeIndex: i,
                     totalShapes: len,
-                    lineWidth: lineWidth,
-                    strokeColor: strokeColor,
-                    fillColor: fillColor,
-                };
-                callback(streamArguments);
+                });
                 j += currentIndexing.frameLength;
             }
         }
@@ -2673,10 +2856,10 @@ var ShapeLoop = /** @class */ (function (_super) {
      * @memberof ShapeBase
      */
     ShapeLoop.prototype.generateBuffer = function (generateId, propArguments) {
-        this.bindSideLength(propArguments);
+        var bSideLengthChange = this.bindSideLength(propArguments);
         if (!this.bStaticLoop)
             return this.generateLoopBuffer(propArguments);
-        else if (typeof this.currentOrSingleLoopBuffer === 'undefined')
+        if (bSideLengthChange || typeof this.currentOrSingleLoopBuffer === 'undefined')
             this.currentOrSingleLoopBuffer = this.generateLoopBuffer(propArguments);
         return this.currentOrSingleLoopBuffer;
     };
@@ -2689,7 +2872,7 @@ var ShapeLoop = /** @class */ (function (_super) {
      * @memberof ShapeLoop
      */
     ShapeLoop.prototype.generateLoopBuffer = function (propArguments) {
-        var _a = this.getLoop(propArguments), start = _a.start, end = _a.end, inc = _a.inc, count = _a.count;
+        var _a = this.getLoop(propArguments), start = _a.start, end = _a.end, count = _a.count;
         var getVertex = (this.props.loop && this.props.loop.vertex
             ? this.props.loop.vertex
             : this.loop.vertex);
@@ -2834,7 +3017,6 @@ var ShapePrimitive = /** @class */ (function (_super) {
      * Creates an instance of ShapePrimitive.
      *
      * @param {IShapePrimitiveSettings} [settings={}]
-     * @memberof ShapePrimitive
      */
     function ShapePrimitive(settings) {
         if (settings === void 0) { settings = {}; }
@@ -2844,7 +3026,6 @@ var ShapePrimitive = /** @class */ (function (_super) {
          * Contain the bounding of the last generated buffer
          *
          * @type {IShapeBounding}
-         * @memberof ShapePrimitive
          */
         _this.currentGenerationPrimitiveBounding = __assign({}, ShapePrimitive.EMPTY_BOUNDING);
         var sideLength = typeof settings.sideLength === 'number'
@@ -2854,9 +3035,7 @@ var ShapePrimitive = /** @class */ (function (_super) {
                 : [50, 50];
         _this.sideLength = sideLength;
         _this.props.sideLength = settings.sideLength;
-        _this.props.fillColor = settings.fillColor;
-        _this.props.lineWidth = settings.lineWidth;
-        _this.props.strokeColor = settings.strokeColor;
+        _this.drawer = settings.drawer || {};
         _this.adaptMode = (_a = settings.adaptMode) !== null && _a !== void 0 ? _a : _types_shape_base__WEBPACK_IMPORTED_MODULE_1__.EShapePrimitiveAdaptMode.None;
         _this.bClosed = (_b = settings.bClosed) !== null && _b !== void 0 ? _b : true;
         return _this;
@@ -2891,7 +3070,7 @@ var ShapePrimitive = /** @class */ (function (_super) {
      */
     ShapePrimitive.prototype.bindSideLength = function (propArguments) {
         var sideLength = (0,_math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_2__.toVec2)(this.getProp('sideLength', propArguments, [50, 50]));
-        if (this.sideLength[0] !== sideLength[0] && this.sideLength[1] !== sideLength[1]) {
+        if (this.sideLength[0] !== sideLength[0] || this.sideLength[1] !== sideLength[1]) {
             this.sideLength = sideLength;
             return true;
         }
@@ -3028,7 +3207,6 @@ var ShapePrimitive = /** @class */ (function (_super) {
      *
      * @static
      * @type {IShapeBounding}
-     * @memberof ShapePrimitive
      */
     ShapePrimitive.EMPTY_BOUNDING = {
         cx: 0,
@@ -3886,6 +4064,7 @@ var EShapePrimitiveAdaptMode;
 /*! export Group [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/Group.js .default */
 /*! export Line [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/Line.js .default */
 /*! export Lissajous [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/Lissajous.js .default */
+/*! export PHI [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] */
 /*! export Rect [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/Rect.js .default */
 /*! export RegularPolygon [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/RegularPolygon.js .default */
 /*! export Rose [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/Rose.js .default */
@@ -3932,6 +4111,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "toRadians": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_15__.toRadians,
 /* harmony export */   "Vec2": () => /* reexport safe */ _core_math_Vec2__WEBPACK_IMPORTED_MODULE_16__.default,
 /* harmony export */   "Context": () => /* reexport safe */ _core_Context__WEBPACK_IMPORTED_MODULE_17__.default,
+/* harmony export */   "PHI": () => /* binding */ PHI,
 /* harmony export */   "DrawerCanvas": () => /* reexport safe */ _services_drawers_drawer_canvas_DrawerCanvas__WEBPACK_IMPORTED_MODULE_18__.default,
 /* harmony export */   "Animation": () => /* reexport safe */ _services_animation_Simple__WEBPACK_IMPORTED_MODULE_19__.default
 /* harmony export */ });
@@ -3978,6 +4158,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+var PHI = (1 + Math.sqrt(5)) / 2;
 /**
  * Services
  */
@@ -4524,9 +4705,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-/* harmony import */ var _pups_core_build_Models_Color_ColorManager__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @pups/core/build/Models/Color/ColorManager */ "./node_modules/@pups/core/build/Models/Color/ColorManager.js");
-/* harmony import */ var _Easings__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Easings */ "./dist/services/animation/Easings.js");
-/* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Utilites */ "./dist/Utilites.js");
+/* harmony import */ var _Easings__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Easings */ "./dist/services/animation/Easings.js");
+/* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Utilites */ "./dist/Utilites.js");
+/* harmony import */ var _Color__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Color */ "./dist/Color.js");
 var __assign = (undefined && undefined.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -4557,8 +4738,8 @@ var Simple = {
     compose: function (simpleAnimation) {
         if (typeof simpleAnimation.from !== 'string' && typeof simpleAnimation.to !== 'string') {
             var bArray = Array.isArray(simpleAnimation.from) || Array.isArray(simpleAnimation.to);
-            var from_1 = bArray ? (0,_Utilites__WEBPACK_IMPORTED_MODULE_2__.toArray)(simpleAnimation.from) : simpleAnimation.from;
-            var to_1 = bArray ? (0,_Utilites__WEBPACK_IMPORTED_MODULE_2__.toArray)(simpleAnimation.to) : simpleAnimation.to;
+            var from_1 = bArray ? (0,_Utilites__WEBPACK_IMPORTED_MODULE_1__.toArray)(simpleAnimation.from) : simpleAnimation.from;
+            var to_1 = bArray ? (0,_Utilites__WEBPACK_IMPORTED_MODULE_1__.toArray)(simpleAnimation.to) : simpleAnimation.to;
             var vCallback_1 = bArray
                 ? function (current_index, v) {
                     var a = (simpleAnimation.invertOdd && current_index % 2 == 1 ? to_1 : from_1);
@@ -4577,14 +4758,17 @@ var Simple = {
             });
         }
         else {
-            var from_2 = new _pups_core_build_Models_Color_ColorManager__WEBPACK_IMPORTED_MODULE_0__.default(simpleAnimation.from);
-            var to_2 = new _pups_core_build_Models_Color_ColorManager__WEBPACK_IMPORTED_MODULE_0__.default(simpleAnimation.to);
+            var from_2 = (0,_Color__WEBPACK_IMPORTED_MODULE_2__.parseColorAndConvert)(simpleAnimation.from);
+            var to_2 = (0,_Color__WEBPACK_IMPORTED_MODULE_2__.parseColorAndConvert)(simpleAnimation.to);
             var vCallback_2 = simpleAnimation.colorTransitionMode == 'hue' ? interpolateColorHSL : interpolateColorRGB;
-            return createSimpleAnimationCallback(simpleAnimation, function (props, v) {
-                var a = simpleAnimation.invertOdd && props.repetition.index % 2 == 1 ? to_2 : from_2;
-                var b = simpleAnimation.invertOdd && props.repetition.index % 2 == 1 ? from_2 : to_2;
-                return vCallback_2(a, b, v);
-            });
+            if (typeof from_2 !== 'undefined' && typeof to_2 !== 'undefined') {
+                return createSimpleAnimationCallback(simpleAnimation, function (props, v) {
+                    var a = simpleAnimation.invertOdd && props.repetition.index % 2 == 1 ? to_2 : from_2;
+                    var b = simpleAnimation.invertOdd && props.repetition.index % 2 == 1 ? from_2 : to_2;
+                    return vCallback_2(a, b, v);
+                });
+            }
+            return function () { return 0; };
         }
     },
 };
@@ -4597,11 +4781,11 @@ function createSimpleAnimationCallback(animation, value) {
                     ? 0
                     : props.time - delay >= durate
                         ? 1
-                        : _Easings__WEBPACK_IMPORTED_MODULE_1__.default[modeFunction](props.time - delay, 0, 1, durate));
+                        : _Easings__WEBPACK_IMPORTED_MODULE_0__.default[modeFunction](props.time - delay, 0, 1, durate));
             };
         else
             return function SimpleAnimation(props) {
-                return value(props, props.time <= durate ? _Easings__WEBPACK_IMPORTED_MODULE_1__.default[modeFunction](props.time, 0, 1 - 0, durate) : 1);
+                return value(props, props.time <= durate ? _Easings__WEBPACK_IMPORTED_MODULE_0__.default[modeFunction](props.time, 0, 1 - 0, durate) : 1);
             };
     }
     else {
@@ -4617,8 +4801,8 @@ function createSimpleAnimationCallback(animation, value) {
                     var d2 = durate / 2;
                     var t = props.time % durate;
                     return value(props, t <= d2
-                        ? _Easings__WEBPACK_IMPORTED_MODULE_1__.default[modeFunction](t, 0, 1, d2)
-                        : _Easings__WEBPACK_IMPORTED_MODULE_1__.default[modeFunction](d2 - (t - d2), 0, 1, d2));
+                        ? _Easings__WEBPACK_IMPORTED_MODULE_0__.default[modeFunction](t, 0, 1, d2)
+                        : _Easings__WEBPACK_IMPORTED_MODULE_0__.default[modeFunction](d2 - (t - d2), 0, 1, d2));
                 };
             }
         } // uncontrolled-loop
@@ -4639,38 +4823,30 @@ function createSimpleAnimationCallback(animation, value) {
                             ? 0
                             : time - delay >= durate
                                 ? 1
-                                : _Easings__WEBPACK_IMPORTED_MODULE_1__.default[modeFunction](time - delay, 0, 1, durate));
+                                : _Easings__WEBPACK_IMPORTED_MODULE_0__.default[modeFunction](time - delay, 0, 1, durate));
                     };
                 else
                     return function SimpleAnimation(props) {
                         var time = props.time % durate;
-                        return value(props, time <= durate ? _Easings__WEBPACK_IMPORTED_MODULE_1__.default[modeFunction](time, 0, 1 - 0, durate) : 1);
+                        return value(props, time <= durate ? _Easings__WEBPACK_IMPORTED_MODULE_0__.default[modeFunction](time, 0, 1 - 0, durate) : 1);
                     };
             }
         }
     }
 }
 function interpolateColorRGB(start, end, v) {
-    var aAlpha = start.getAlpha();
-    var bAlpha = end.getAlpha();
-    var s = start.getRgb();
-    var e = end.getRgb();
-    var r = s.r + v * (e.r - s.r);
-    var g = s.g + v * (e.g - s.g);
-    var b = s.b + v * (e.b - s.b);
-    var alpha = aAlpha + v * (bAlpha - aAlpha);
-    return "rgba(" + Math.floor(r) + "," + Math.floor(g) + "," + Math.floor(b) + "," + (alpha <= 0 ? 0 : alpha >= 1 ? 1 : alpha) + ")";
+    var r = start.r + v * (end.r - start.r);
+    var g = start.g + v * (end.g - start.g);
+    var b = start.b + v * (end.b - start.b);
+    var alpha = start.alpha + v * (end.alpha - start.alpha);
+    return "rgba(" + Math.floor(r) + "," + Math.floor(g) + "," + Math.floor(b) + "," + alpha + ")";
 }
 function interpolateColorHSL(start, end, v) {
-    var aAlpha = start.getAlpha();
-    var bAlpha = end.getAlpha();
-    var s = start.getHsl();
-    var e = end.getHsl();
-    var _h = s.h + v * (e.h - s.h);
-    var _s = s.s + v * (e.s - s.s);
-    var _l = s.l + v * (e.l - s.l);
-    var alpha = aAlpha + v * (bAlpha - aAlpha);
-    return "hsla(" + Math.floor(_h * 360) + "," + Math.floor(_s * 100) + "%," + Math.floor(_l * 100) + "%," + (alpha <= 0 ? 0 : alpha >= 1 ? 1 : alpha) + ")";
+    var h = start.h + v * (end.h - start.h);
+    var s = start.s + v * (end.s - start.s);
+    var l = start.l + v * (end.l - start.l);
+    var alpha = start.alpha + v * (end.alpha - start.alpha);
+    return "hsla(" + h + "," + s + "%," + l + "%," + alpha + ")";
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Simple);
 //# sourceMappingURL=Simple.js.map
@@ -4696,6 +4872,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _timeline_Timeline__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../timeline/Timeline */ "./dist/services/timeline/Timeline.js");
 /* harmony import */ var _scene_utilities_SceneUtilities__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../scene-utilities/SceneUtilities */ "./dist/services/scene-utilities/SceneUtilities.js");
 /* harmony import */ var _events_Emitter__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../events/Emitter */ "./dist/services/events/Emitter.js");
+/* harmony import */ var _Color__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../Color */ "./dist/Color.js");
+/* harmony import */ var _core_shapes_ShapeBase__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../core/shapes/ShapeBase */ "./dist/core/shapes/ShapeBase.js");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -4720,6 +4898,8 @@ var __assign = (undefined && undefined.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+
+
 
 
 
@@ -4945,6 +5125,18 @@ var Drawer = /** @class */ (function (_super) {
             this.redraw_id = requestAnimationFrame(this.startAnimation);
         }
     };
+    Drawer.getStreamDrawerProp = function (shape, key, propArguments, defaultValue) {
+        var _a;
+        var attribute = shape.drawer[key];
+        if (typeof attribute === 'function') {
+            propArguments = __assign(__assign({}, _core_shapes_ShapeBase__WEBPACK_IMPORTED_MODULE_5__.default.EMPTY_PROP_ARGUMENTS), propArguments);
+            if (typeof propArguments.shape === 'undefined')
+                propArguments.shape = shape;
+            propArguments.time = ((_a = shape.scene) === null || _a === void 0 ? void 0 : _a.currentTime) || 0;
+            attribute = attribute(propArguments);
+        }
+        return typeof attribute === 'undefined' || Number.isNaN(attribute) ? defaultValue : attribute;
+    };
     /**
      * Each ghosts index and create drawerOptions to pass at the draw method
      *
@@ -4979,12 +5171,10 @@ var Drawer = /** @class */ (function (_super) {
      * @return {*}  {(string | undefined)}
      */
     Drawer.ghostifyColor = function (color, ghostMultiplier) {
-        var match = /\((.+),(.+),(.+),(.+)?\)/g.exec(color);
-        if (match) {
-            var _a = match, a = _a[1], b = _a[2], c = _a[3], o = _a[4];
-            var alpha = o ? parseFloat(o) : 1;
-            var ghostAlpha = alpha <= 0 ? 0 : alpha * ghostMultiplier;
-            return color.indexOf('rgb') >= 0 ? "rgba(" + a + "," + b + "," + c + "," + ghostAlpha + ")" : "hsla(" + a + "," + b + "," + c + "," + ghostAlpha + ")";
+        var parsed = (0,_Color__WEBPACK_IMPORTED_MODULE_4__.parseColor)(color);
+        if (parsed) {
+            var ghostAlpha = parsed.alpha * ghostMultiplier;
+            return parsed.type + "a(" + parsed.a + "," + parsed.b + "," + parsed.c + "," + ghostAlpha + ")";
         }
     };
     return Drawer;
@@ -5009,10 +5199,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-/* harmony import */ var _FrameBuffer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FrameBuffer */ "./dist/services/drawers/drawer-canvas/FrameBuffer.js");
-/* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../Utilites */ "./dist/Utilites.js");
-/* harmony import */ var gl_matrix__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! gl-matrix */ "./node_modules/gl-matrix/esm/vec2.js");
-/* harmony import */ var _Drawer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Drawer */ "./dist/services/drawers/Drawer.js");
+/* harmony import */ var _Drawer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Drawer */ "./dist/services/drawers/Drawer.js");
+/* harmony import */ var _FrameBuffer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FrameBuffer */ "./dist/services/drawers/drawer-canvas/FrameBuffer.js");
+/* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../Utilites */ "./dist/Utilites.js");
+/* harmony import */ var _core_math_Vec2__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../core/math/Vec2 */ "./dist/core/math/Vec2.js");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -5057,7 +5247,7 @@ var DrawerCanvas = /** @class */ (function (_super) {
         var _this = _super.call(this, scene, ratio, resolution, duration, framerate) || this;
         _this.bBuffering = false;
         _this.bBuffering = bBuffering;
-        _this.buffer = new _FrameBuffer__WEBPACK_IMPORTED_MODULE_0__.default();
+        _this.buffer = new _FrameBuffer__WEBPACK_IMPORTED_MODULE_1__.default();
         if ((typeof HTMLCanvasElement !== 'undefined' && canvasOrContainer instanceof HTMLCanvasElement) ||
             (typeof OffscreenCanvas !== 'undefined' && canvasOrContainer instanceof OffscreenCanvas)) {
             var canvas = canvasOrContainer;
@@ -5078,6 +5268,7 @@ var DrawerCanvas = /** @class */ (function (_super) {
             fixedLineWidth: (_f = drawerOptions.fixedLineWidth) !== null && _f !== void 0 ? _f : false,
             noBackground: (_g = drawerOptions.noBackground) !== null && _g !== void 0 ? _g : false,
             ghosts: drawerOptions.ghosts || 0,
+            ghostAlpha: drawerOptions.ghostAlpha === false ? false : true,
             ghostSkipTime: (_h = drawerOptions.ghostSkipTime) !== null && _h !== void 0 ? _h : 30,
             ghostSkipFunction: drawerOptions.ghostSkipFunction,
             backgroundImage: drawerOptions.backgroundImage,
@@ -5274,7 +5465,7 @@ var DrawerCanvas = /** @class */ (function (_super) {
         }
         else {
             if (drawerOptions.ghosts) {
-                _Drawer__WEBPACK_IMPORTED_MODULE_2__.default.eachGhosts(drawerOptions, timeline, function (ghostDrawerOptions) {
+                _Drawer__WEBPACK_IMPORTED_MODULE_0__.default.eachGhosts(drawerOptions, timeline, function (ghostDrawerOptions) {
                     ghostDrawerOptions.clear = drawerOptions.clear && ghostDrawerOptions.ghostIndex === 1;
                     draw_time += DrawerCanvas.draw(_this.scene, _this.context, ghostDrawerOptions, _this.resolution);
                 });
@@ -5323,14 +5514,14 @@ var DrawerCanvas = /** @class */ (function (_super) {
      */
     DrawerCanvas.draw = function (scene, context, options, resolution) {
         var _a, _b, _c, _d;
-        var start_time = (0,_Utilites__WEBPACK_IMPORTED_MODULE_1__.now)();
+        var start_time = (0,_Utilites__WEBPACK_IMPORTED_MODULE_2__.now)();
         if (context) {
             context.globalCompositeOperation = 'source-over';
-            var scale_1 = (_a = options.scale) !== null && _a !== void 0 ? _a : 1;
+            var scale = (_a = options.scale) !== null && _a !== void 0 ? _a : 1;
             var translate = (_b = options.translate) !== null && _b !== void 0 ? _b : [0, 0];
             var time_1 = (_c = options.time) !== null && _c !== void 0 ? _c : 0;
             var simmetricLines = (_d = options.simmetricLines) !== null && _d !== void 0 ? _d : 0;
-            var fixedLineWidth_1 = options.fixedLineWidth;
+            var fixedLineWidth = options.fixedLineWidth;
             var clear = options.clear;
             var noBackground = options.noBackground;
             var backgroundImage = options.backgroundImage;
@@ -5341,16 +5532,17 @@ var DrawerCanvas = /** @class */ (function (_super) {
             var ghostMultiplier_1 = bGhost_1
                 ? 1 - options.ghostIndex / (options.ghosts + 0.5)
                 : 0;
+            var ghostAlpha_1 = options.ghostAlpha === true;
             var width_1 = scene.width;
             var height_1 = scene.height;
             var ratio = width_1 / height_1;
             var ratio_x = width_1 > height_1 ? 1 : height_1 / width_1;
             var ratio_y = width_1 > height_1 ? width_1 / height_1 : 1;
             resolution = resolution || width_1;
-            var final_scale_1 = [(width_1 / (resolution / ratio_x)) * scale_1, (height_1 / (resolution / ratio_y)) * scale_1];
+            var final_scale_1 = [(width_1 / (resolution / ratio_x)) * scale, (height_1 / (resolution / ratio_y)) * scale];
             var final_translate_1 = [
-                width_1 / 2 - (scale_1 > 1 ? (translate[0] * width_1) / (1 / ((scale_1 - 1) / 2)) : 0),
-                height_1 / 2 - (scale_1 > 1 ? (translate[1] * height_1) / (1 / ((scale_1 - 1) / 2)) : 0),
+                width_1 / 2 - (scale > 1 ? (translate[0] * width_1) / (1 / ((scale - 1) / 2)) : 0),
+                height_1 / 2 - (scale > 1 ? (translate[1] * height_1) / (1 / ((scale - 1) / 2)) : 0),
             ];
             if (clear) {
                 if (noBackground) {
@@ -5379,9 +5571,9 @@ var DrawerCanvas = /** @class */ (function (_super) {
                         context.drawImage(backgroundImage, x, y, bgWidth, bgHeight);
                     }
                 }
-            }
-            if (simmetricLines > 0) {
-                DrawerCanvas.drawSimmetricLines(context, simmetricLines, width_1, height_1, final_scale_1, final_translate_1, scene.color);
+                if (simmetricLines > 0) {
+                    DrawerCanvas.drawSimmetricLines(context, simmetricLines, width_1, height_1, final_scale_1, final_translate_1, scene.color);
+                }
             }
             {
                 var logFillColorWarn_1 = false;
@@ -5392,53 +5584,106 @@ var DrawerCanvas = /** @class */ (function (_super) {
                         !(sceneChild.data.visible === false) ||
                         !(bGhost_1 && sceneChild.data.disableGhost === true)) {
                         sceneChild.generate(time_1, true);
-                        sceneChild.stream(function (streamCallback) {
-                            var shapeData = streamCallback.shape.data;
-                            context.globalCompositeOperation = shapeData && shapeData.composite ? shapeData.composite : 'source-over';
+                        sceneChild.stream(function (stream) {
+                            var currentIndex = stream.currentIndexing;
+                            var shape = currentIndex.shape;
+                            var shapeData = shape.data;
+                            // context.globalCompositeOperation = Drawer.getStreamDrawerProp(
+                            // 	shape,
+                            // 	'composite',
+                            // 	{
+                            // 		repetition: currentIndex.repetition,
+                            // 		parent: currentIndex.parent,
+                            // 		time: scene.currentTime,
+                            // 		context: Context,
+                            // 	},
+                            // 	'source-over'
+                            // )
+                            context.globalCompositeOperation = 'difference';
                             context.beginPath();
-                            context.moveTo((streamCallback.buffer[streamCallback.frameBufferIndex] - width_1 / 2) * final_scale_1[0] +
-                                final_translate_1[0], (streamCallback.buffer[streamCallback.frameBufferIndex + 1] - height_1 / 2) * final_scale_1[1] +
-                                final_translate_1[1]);
-                            for (var i = 2; i < streamCallback.frameLength; i += 2) {
-                                context.lineTo((streamCallback.buffer[streamCallback.frameBufferIndex + i] - width_1 / 2) * final_scale_1[0] +
-                                    final_translate_1[0], (streamCallback.buffer[streamCallback.frameBufferIndex + i + 1] - height_1 / 2) * final_scale_1[1] +
-                                    final_translate_1[1]);
+                            // context.moveTo(
+                            // 	(stream.buffer[stream.frameBufferIndex] - width / 2) * final_scale[0] +
+                            // 		final_translate[0],
+                            // 	(stream.buffer[stream.frameBufferIndex + 1] - height / 2) * final_scale[1] +
+                            // 		final_translate[1]
+                            // )
+                            // context.moveTo(
+                            // 	(stream.buffer[stream.frameBufferIndex] - width / 2) * final_scale[0] +
+                            // 		final_translate[0],
+                            // 	(stream.buffer[stream.frameBufferIndex + 1] - height / 2) * final_scale[1] +
+                            // 		final_translate[1]
+                            // )
+                            for (var i = 2; i < stream.frameLength; i += 2) {
+                                // context.lineTo(
+                                // 	(stream.buffer[stream.frameBufferIndex + i] - width / 2) * final_scale[0] +
+                                // 		final_translate[0],
+                                // 	(stream.buffer[stream.frameBufferIndex + i + 1] - height / 2) * final_scale[1] +
+                                // 		final_translate[1]
+                                // )
+                                context.lineTo((stream.buffer[stream.frameBufferIndex + i] - width_1 / 2) * final_scale_1[0] + final_translate_1[0], (stream.buffer[stream.frameBufferIndex + i + 1] - height_1 / 2) * final_scale_1[1] + final_translate_1[1]);
                             }
-                            streamCallback.shape.isClosed() && context.closePath();
-                            if (shapeData && shapeData.highlighted) {
-                                context.lineWidth = (streamCallback.lineWidth || 1) * 3 * scale_1;
-                                context.strokeStyle = scene.color;
-                                context.stroke();
-                                return;
-                            }
-                            if (streamCallback.fillColor) {
-                                if (bGhost_1) {
-                                    var color = _Drawer__WEBPACK_IMPORTED_MODULE_2__.default.ghostifyColor(streamCallback.fillColor, ghostMultiplier_1);
+                            currentIndex.shape.isClosed() && context.closePath();
+                            // if (shapeData && shapeData.highlighted) {
+                            // 	context.lineWidth = (stream.lineWidth || 1) * 3 * scale
+                            // 	context.strokeStyle = scene.color
+                            // 	context.stroke()
+                            // 	return
+                            // }
+                            // let fill = Drawer.getStreamDrawerProp(shape, 'fill', {
+                            // 	repetition: currentIndex.repetition,
+                            // 	parent: currentIndex.parent,
+                            // 	time: scene.currentTime,
+                            // 	context: Context,
+                            // })
+                            var fill = '#fff';
+                            if (typeof fill !== 'undefined') {
+                                if (bGhost_1 && ghostAlpha_1) {
+                                    var color = _Drawer__WEBPACK_IMPORTED_MODULE_0__.default.ghostifyColor(fill, ghostMultiplier_1);
                                     if (color) {
-                                        streamCallback.fillColor = color;
+                                        fill = color;
                                     }
                                     else if (!logFillColorWarn_1) {
-                                        console.warn("[Urpflanze:DrawerCanvas] Unable ghost fill color '" + streamCallback.fillColor + "', \n\t\t\t\t\t\t\t\t\tplease enter a rgba or hsla color");
+                                        console.warn("[Urpflanze:DrawerCanvas] Unable ghost fill color '" + fill + "', \n\t\t\t\t\t\t\t\t\tplease enter a rgba or hsla color");
                                         logFillColorWarn_1 = true;
                                     }
                                 }
-                                context.fillStyle = streamCallback.fillColor;
+                                context.fillStyle = fill;
                                 context.fill();
                             }
-                            if (streamCallback.strokeColor) {
-                                if (bGhost_1) {
-                                    var color = _Drawer__WEBPACK_IMPORTED_MODULE_2__.default.ghostifyColor(streamCallback.strokeColor, ghostMultiplier_1);
+                            // let stroke = Drawer.getStreamDrawerProp(shape, 'stroke', {
+                            // 	repetition: currentIndex.repetition,
+                            // 	parent: currentIndex.parent,
+                            // 	time: scene.currentTime,
+                            // 	context: Context,
+                            // })
+                            var stroke = undefined;
+                            var lineWidth = 1;
+                            // let lineWidth = Drawer.getStreamDrawerProp(
+                            // 	shape,
+                            // 	'lineWidth',
+                            // 	{
+                            // 		repetition: currentIndex.repetition,
+                            // 		parent: currentIndex.parent,
+                            // 		time: scene.currentTime,
+                            // 		context: Context,
+                            // 	},
+                            // 	1
+                            // )
+                            if (stroke) {
+                                if (bGhost_1 && ghostAlpha_1) {
+                                    var color = _Drawer__WEBPACK_IMPORTED_MODULE_0__.default.ghostifyColor(stroke, ghostMultiplier_1);
                                     if (color) {
-                                        streamCallback.strokeColor = color;
+                                        stroke = color;
                                     }
                                     else if (!logStrokeColorWarn_1) {
-                                        console.warn("[Urpflanze:DrawerCanvas] Unable ghost stroke color '" + streamCallback.strokeColor + "', \n\t\t\t\t\t\t\t\t\tplease enter a rgba or hsla color");
+                                        console.warn("[Urpflanze:DrawerCanvas] Unable ghost stroke color '" + stroke + "', \n\t\t\t\t\t\t\t\t\tplease enter a rgba or hsla color");
                                         logStrokeColorWarn_1 = true;
                                     }
-                                    streamCallback.lineWidth *= ghostMultiplier_1;
+                                    lineWidth *= ghostMultiplier_1;
                                 }
-                                context.lineWidth = fixedLineWidth_1 ? streamCallback.lineWidth : streamCallback.lineWidth * scale_1;
-                                context.strokeStyle = streamCallback.strokeColor;
+                                // context.lineWidth = fixedLineWidth ? streamCallback.lineWidth : streamCallback.lineWidth * scale
+                                context.lineWidth = lineWidth;
+                                context.strokeStyle = stroke;
                                 context.stroke();
                             }
                         });
@@ -5446,19 +5691,19 @@ var DrawerCanvas = /** @class */ (function (_super) {
                 });
             }
         }
-        var end_time = (0,_Utilites__WEBPACK_IMPORTED_MODULE_1__.now)();
+        var end_time = (0,_Utilites__WEBPACK_IMPORTED_MODULE_2__.now)();
         return end_time - start_time;
     };
     DrawerCanvas.drawSimmetricLines = function (context, simmetricLines, width, height, scale, translate, color) {
         var offset = Math.PI / simmetricLines;
         var size = Math.max(width, height) / 2;
-        var center = gl_matrix__WEBPACK_IMPORTED_MODULE_3__.fromValues(size / 2, size / 2);
+        var center = [size / 2, size / 2];
         for (var i = 0; i < simmetricLines; i++) {
-            var a = gl_matrix__WEBPACK_IMPORTED_MODULE_3__.fromValues(-size, -size);
-            var b = gl_matrix__WEBPACK_IMPORTED_MODULE_3__.fromValues(size * 2, size * 2);
+            var a = [-size, -size];
+            var b = [size * 2, size * 2];
             var rotate = i * offset + Math.PI / 4;
-            gl_matrix__WEBPACK_IMPORTED_MODULE_3__.rotate(a, a, center, rotate);
-            gl_matrix__WEBPACK_IMPORTED_MODULE_3__.rotate(b, b, center, rotate);
+            _core_math_Vec2__WEBPACK_IMPORTED_MODULE_3__.default.rotateZ(a, center, rotate);
+            _core_math_Vec2__WEBPACK_IMPORTED_MODULE_3__.default.rotateZ(b, center, rotate);
             context.beginPath();
             context.strokeStyle = color;
             context.lineWidth = 1;
@@ -5468,7 +5713,7 @@ var DrawerCanvas = /** @class */ (function (_super) {
         }
     };
     return DrawerCanvas;
-}(_Drawer__WEBPACK_IMPORTED_MODULE_2__.default));
+}(_Drawer__WEBPACK_IMPORTED_MODULE_0__.default));
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (DrawerCanvas);
 //# sourceMappingURL=DrawerCanvas.js.map
 
@@ -5634,6 +5879,7 @@ var OptionSpiralType = [
 /**
  * @category Services.Scene Utilities
  */
+//@ts-ignore
 var SceneChildPropsData = {
     repetitions: {
         animable: true,
@@ -5831,18 +6077,18 @@ var SceneChildPropsData = {
     // 	transformation: 'none',
     // },
     // primitive
-    fillColor: {
+    fill: {
         animable: true,
-        name: 'fillColor',
+        name: 'fill',
         label: 'Fill',
         type: 'color',
         default: '#000',
         default_animate: '#fff',
         transformation: 'none',
     },
-    strokeColor: {
+    stroke: {
         animable: true,
-        name: 'strokeColor',
+        name: 'stroke',
         label: 'Stroke',
         type: 'color',
         default: '#fff',
@@ -6672,6 +6918,12 @@ var SceneUtilities = /** @class */ (function () {
      */
     SceneUtilities.prototype.setProp = function (sceneChild, name, value, drawer) {
         var _a, _b;
+        if (typeof sceneChild.data === 'undefined') {
+            sceneChild.data = { props: [] };
+        }
+        else if (typeof sceneChild.data.props === 'undefined') {
+            sceneChild.data.props = [];
+        }
         if (_ScenePropUtilities__WEBPACK_IMPORTED_MODULE_17__.default.bValueAnimation(value)) {
             sceneChild.data.props[name] = value;
             sceneChild.setProp(name, _animation_Animation__WEBPACK_IMPORTED_MODULE_18__.default.composeAnimation(drawer, name, value));
@@ -7050,1276 +7302,6 @@ var Timeline = /** @class */ (function (_super) {
 }(_events_Emitter__WEBPACK_IMPORTED_MODULE_0__.default));
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Timeline);
 //# sourceMappingURL=Timeline.js.map
-
-/***/ }),
-
-/***/ "./node_modules/@pups/core/build/Models/Color/ColorConversions.js":
-/*!************************************************************************!*\
-  !*** ./node_modules/@pups/core/build/Models/Color/ColorConversions.js ***!
-  \************************************************************************/
-/*! flagged exports */
-/*! export __esModule [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
-/*! other exports [not provided] [no usage info] */
-/*! runtime requirements: __webpack_exports__ */
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-class ColorConversions {
-    /**
-     *
-     * @static
-     * @param {RGB} rgb
-     * @returns {HEX}
-     * @memberof ColorConversions
-     */
-    static rgbToHex(rgb) {
-        return `#${ColorConversions.toHex(rgb.r)}${ColorConversions.toHex(rgb.g)}${ColorConversions.toHex(rgb.b)}`;
-    }
-    /**
-     *
-     * @private
-     * @static
-     * @param {number} value
-     * @returns
-     * @memberof ColorConversions
-     */
-    static toHex(value) {
-        const hex = value.toString(16);
-        return hex.length == 2 ? hex : '0' + hex;
-    }
-    /**
-     *
-     *
-     * @static
-     * @param {(Types.Color.HEX | Array<string>)} hex
-     * @returns {Types.Color.RGB}
-     * @memberof ColorConversions
-     */
-    static hexToRgb(hex) {
-        hex = typeof hex === 'string' ? hex.match(/[a-zA-Z0-9]{2}/gi) : hex;
-        return {
-            r: ColorConversions.hexToDec(hex[0]),
-            g: ColorConversions.hexToDec(hex[1]),
-            b: ColorConversions.hexToDec(hex[2])
-        };
-    }
-    /**
-     * Converte un esadecimale in un decimale
-     *
-     * @static
-     * @param {string} str
-     * @returns {number}
-     * @memberof ColorConversions
-     */
-    static hexToDec(str) {
-        return parseInt(ColorConversions.fill2(str), 16);
-    }
-    /**
-     * Dublica il carattere se è singolo
-     *
-     * @static
-     * @param {string} str
-     * @returns {string}
-     * @memberof ColorConversions
-     */
-    static fill2(str) {
-        return str.length == 1 ? str + str : str;
-    }
-    /**
-     *
-     *
-     * @static
-     * @param {Types.Color.RGB} rgb
-     * @returns {Types.Color.HSL}
-     * @memberof ColorConversions
-     */
-    static rgbToHsl(rgb) {
-        let r = rgb.r / 255, g = rgb.g / 255, b = rgb.b / 255;
-        const max = Math.max(r, g, b), min = Math.min(r, g, b);
-        let h, s, l = (max + min) / 2;
-        if (max == min) {
-            h = s = 0; // achromatic
-        }
-        else {
-            const d = max - min;
-            s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-            switch (max) {
-                case r:
-                    h = (g - b) / d + (g < b ? 6 : 0);
-                    break;
-                case g:
-                    h = (b - r) / d + 2;
-                    break;
-                case b:
-                    h = (r - g) / d + 4;
-                    break;
-            }
-            h /= 6;
-        }
-        return { h, s, l };
-    }
-    /**
-     *
-     *
-     * @static
-     * @param {Types.Color.HSL} hsl
-     * @returns {Types.Color.RGB}
-     * @memberof ColorConversions
-     */
-    static hslToRgb(hsl) {
-        let h = hsl.h, s = hsl.s, l = hsl.l, r, g, b;
-        if (s == 0) {
-            r = g = b = l; // achromatic
-        }
-        else {
-            const hue2rgb = ((p, q, t) => {
-                t += t < 0 ? 1 : t > 1 ? -1 : 0;
-                if (t < 1 / 6)
-                    return p + (q - p) * 6 * t;
-                if (t < 1 / 2)
-                    return q;
-                if (t < 2 / 3)
-                    return p + (q - p) * (2 / 3 - t) * 6;
-                return p;
-            });
-            const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-            const p = 2 * l - q;
-            r = hue2rgb(p, q, h + 1 / 3);
-            g = hue2rgb(p, q, h);
-            b = hue2rgb(p, q, h - 1 / 3);
-        }
-        return { r: Math.round(r * 255), g: Math.round(g * 255), b: Math.round(b * 255) };
-    }
-    /**
-     *
-     *
-     * @static
-     * @param {Types.Color.RGB} rgb
-     * @returns {Types.Color.HSV}
-     * @memberof ColorConversions
-     */
-    static rgbToHsv(rgb) {
-        let r = rgb.r / 255, g = rgb.g / 255, b = rgb.b / 255;
-        const max = Math.max(r, g, b), min = Math.min(r, g, b);
-        let h, s, v = max;
-        const d = max - min;
-        s = max == 0 ? 0 : d / max;
-        if (max == min) {
-            h = 0; // achromatic
-        }
-        else {
-            switch (max) {
-                case r:
-                    h = (g - b) / d + (g < b ? 6 : 0);
-                    break;
-                case g:
-                    h = (b - r) / d + 2;
-                    break;
-                case b:
-                    h = (r - g) / d + 4;
-                    break;
-            }
-            h /= 6;
-        }
-        return { h, s, v };
-    }
-    /**
-     *
-     *
-     * @static
-     * @param {Types.Color.HSV} hsv
-     * @returns {Types.Color.RGB}
-     * @memberof ColorConversions
-     */
-    static hsvToRgb(hsv) {
-        let h = hsv.h, s = hsv.s, v = hsv.v, r, g, b;
-        const i = Math.floor(h * 6);
-        const f = h * 6 - i;
-        const p = v * (1 - s);
-        const q = v * (1 - f * s);
-        const t = v * (1 - (1 - f) * s);
-        switch (i % 6) {
-            case 0:
-                r = v, g = t, b = p;
-                break;
-            case 1:
-                r = q, g = v, b = p;
-                break;
-            case 2:
-                r = p, g = v, b = t;
-                break;
-            case 3:
-                r = p, g = q, b = v;
-                break;
-            case 4:
-                r = t, g = p, b = v;
-                break;
-            case 5:
-                r = v, g = p, b = q;
-                break;
-        }
-        return { r: Math.round(r * 255), g: Math.round(g * 255), b: Math.round(b * 255) };
-    }
-    /**
-     *
-     *
-     * @static
-     * @param {Types.Color.RGB} rgb
-     * @returns {Types.Color.CMYK}
-     * @memberof ColorConversions
-     */
-    static rgbToCmyk(rgb) {
-        let r = rgb.r / 255, g = rgb.g / 255, b = rgb.b / 255;
-        let cmyk = { k: null, c: null, m: null, y: null };
-        cmyk.k = +(1 - Math.max.call(null, r, g, b));
-        cmyk.c = +((1 - r - cmyk.k) / (1 - cmyk.k));
-        cmyk.m = +((1 - g - cmyk.k) / (1 - cmyk.k));
-        cmyk.y = +((1 - b - cmyk.k) / (1 - cmyk.k));
-        return cmyk;
-    }
-    /**
-     *
-     *
-     * @static
-     * @param {Types.Color.CMYK} cmyk
-     * @returns {Types.Color.RGB}
-     * @memberof ColorConversions
-     */
-    static cmykToRgb(cmyk) {
-        return {
-            r: 255 * (1 - cmyk.c) * (1 - cmyk.k),
-            g: 255 * (1 - cmyk.m) * (1 - cmyk.k),
-            b: 255 * (1 - cmyk.y) * (1 - cmyk.k)
-        };
-    }
-}
-exports.default = ColorConversions;
-//# sourceMappingURL=ColorConversions.js.map
-
-/***/ }),
-
-/***/ "./node_modules/@pups/core/build/Models/Color/ColorExceptions.js":
-/*!***********************************************************************!*\
-  !*** ./node_modules/@pups/core/build/Models/Color/ColorExceptions.js ***!
-  \***********************************************************************/
-/*! flagged exports */
-/*! export ColorNotValidException [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export ColorParsingException [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export __esModule [provided] [no usage info] [missing usage info prevents renaming] */
-/*! other exports [not provided] [no usage info] */
-/*! runtime requirements: __webpack_exports__ */
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-class ColorNotValidException extends Error {
-    constructor(color, types) {
-        super(`Il colore '${color}' non è valido.\nI formati supportati sono: ${types.map(e => e.type).join(', ')}`);
-    }
-}
-exports.ColorNotValidException = ColorNotValidException;
-class ColorParsingException extends Error {
-    constructor(color) {
-        super(`Impossibile convertire il colore '${color}'`);
-    }
-}
-exports.ColorParsingException = ColorParsingException;
-//# sourceMappingURL=ColorExceptions.js.map
-
-/***/ }),
-
-/***/ "./node_modules/@pups/core/build/Models/Color/ColorManager.js":
-/*!********************************************************************!*\
-  !*** ./node_modules/@pups/core/build/Models/Color/ColorManager.js ***!
-  \********************************************************************/
-/*! flagged exports */
-/*! export __esModule [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
-/*! other exports [not provided] [no usage info] */
-/*! runtime requirements: __webpack_exports__, __webpack_require__ */
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-const Number_1 = __webpack_require__(/*! @pups/utility/build/Number */ "./node_modules/@pups/utility/build/Number.js");
-const Array_1 = __webpack_require__(/*! @pups/utility/build/Array */ "./node_modules/@pups/utility/build/Array.js");
-const ColorParser_1 = __webpack_require__(/*! ./ColorParser */ "./node_modules/@pups/core/build/Models/Color/ColorParser.js");
-const ColorConversions_1 = __webpack_require__(/*! ./ColorConversions */ "./node_modules/@pups/core/build/Models/Color/ColorConversions.js");
-/**
- *
- *
- * @class ColorManager
- */
-class ColorManager {
-    /**
-     * Creates an instance of ColorManager.
-     *
-     * @param {Types.Color.All} color
-     * @memberof ColorManager
-     */
-    constructor(color) {
-        const parsed = ColorParser_1.default.parse(color);
-        this.rgb = this.getRgbFromMath(parsed);
-        this.hsl = ColorConversions_1.default.rgbToHsl(this.rgb);
-        this.hsv = ColorConversions_1.default.rgbToHsv(this.rgb);
-        this.hex = ColorConversions_1.default.rgbToHex(this.rgb);
-        this.cmyk = ColorConversions_1.default.rgbToCmyk(this.rgb);
-        this.setAlpha(['rgba', 'hsla', 'hsva'].indexOf(parsed.type) >= 0 ? parsed.value.length >= 3 ? parsed.value[3] : 1 : 1);
-    }
-    /**
-     *
-     *
-     * @param {number} [alpha]
-     * @memberof ColorManager
-     */
-    setAlpha(alpha) {
-        this.alpha = alpha;
-        this.alpha = this.alpha > 1 ? this.alpha / 255 : this.alpha;
-    }
-    /**
-     *
-     *
-     * @returns {number}
-     * @memberof ColorManager
-     */
-    getAlpha() {
-        return this.alpha;
-    }
-    /**
-     *
-     *
-     * @private
-     * @param {Types.Color.Parsing.Match} match
-     * @returns {Types.Color.RGB}
-     * @memberof ColorManager
-     */
-    getRgbFromMath(match) {
-        switch (match.type) {
-            case 'rgb':
-            case 'rgba':
-                const rgb = Array_1.toFloat(match.value);
-                return { r: rgb[0], g: rgb[1], b: rgb[2] };
-            case 'hsl':
-            case 'hsla':
-                const hsl = Array_1.toFloat(match.value);
-                return ColorConversions_1.default.hslToRgb({ h: hsl[0], s: hsl[1], l: hsl[2] });
-            case 'hsv':
-            case 'hsva':
-                const hsv = Array_1.toFloat(match.value);
-                return ColorConversions_1.default.hsvToRgb({ h: hsv[0], s: hsv[1], v: hsv[2] });
-            case 'cmyk':
-                const cmyk = Array_1.toFloat(match.value);
-                return ColorConversions_1.default.cmykToRgb({ c: cmyk[0], m: cmyk[1], y: cmyk[2], k: cmyk[3] });
-            case 'hex3':
-            case 'hex4':
-            case 'hex6':
-            case 'hex8':
-                return ColorConversions_1.default.hexToRgb(match.value);
-        }
-    }
-    /**
-     *
-     *
-     * @returns {Types.Color.RGB}
-     * @memberof ColorManager
-     */
-    getRgb() {
-        return Object.assign({}, this.rgb);
-    }
-    /**
-     *
-     *
-     * @returns {Types.Color.HSL}
-     * @memberof ColorManager
-     */
-    getHsl() {
-        return Object.assign({}, this.hsl);
-    }
-    /**
-     *
-     *
-     * @returns {Types.Color.HSV}
-     * @memberof ColorManager
-     */
-    getHsv() {
-        return Object.assign({}, this.hsv);
-    }
-    /**
-     *
-     *
-     * @returns {Types.Color.CMYK}
-     * @memberof ColorManager
-     */
-    getCmyk() {
-        return Object.assign({}, this.cmyk);
-    }
-    /**
-     *
-     *
-     * @private
-     * @param {Types.Palette.Format} type
-     * @param {number} x
-     * @param {number} y
-     * @param {number} z
-     * @param {boolean} [alpha=false]
-     * @param {boolean} [isHslOrHsv=false]
-     * @returns
-     * @memberof ColorManager
-     */
-    toString(type, x, y, z, alpha = false, isHslOrHsv = false) {
-        const p = isHslOrHsv ? '%' : '';
-        return `${type + (alpha ? 'a' : '')}(${Math.round(x)}, ${Math.round(y) + p}, ${Math.round(z) + p}${alpha ? ', ' + this.alpha : ''})`;
-    }
-    /**
-     *
-     *
-     * @param {boolean} [alpha=false]
-     * @returns {string}
-     * @memberof ColorManager
-     */
-    toRGB(alpha = false) {
-        return this.toString('rgb', this.rgb.r, this.rgb.g, this.rgb.b, alpha, false);
-    }
-    /**
-     *
-     *
-     * @param {boolean} [alpha=false]
-     * @returns {string}
-     * @memberof ColorManager
-     */
-    toHSL(alpha = false) {
-        return this.toString.call(this, 'hsl', Number_1.relativeClamp(this.hsl.h, 0, 1, 0, 360), this.hsl.s * 100, this.hsl.l * 100, alpha, true);
-    }
-    /**
-     *
-     *
-     * @param {boolean} [alpha=false]
-     * @returns {string}
-     * @memberof ColorManager
-     */
-    toHSV(alpha = false) {
-        return this.toString.call(this, 'hsv', Number_1.relativeClamp(this.hsv.h, 0, 1, 0, 360), this.hsv.s * 100, this.hsv.v * 100, alpha, true);
-    }
-    /**
-     *
-     *
-     * @returns {string}
-     * @memberof ColorManager
-     */
-    toCMYK() {
-        return `cmyk(${Number_1.fix(this.cmyk.c * 100, 2)}%, ${Number_1.fix(this.cmyk.m * 100, 2)}%, ${Number_1.fix(this.cmyk.y * 100, 2)}%, ${Number_1.fix(this.cmyk.k * 100, 2)}%)`;
-    }
-    /**
-     *
-     *
-     * @returns {string}
-     * @memberof ColorManager
-     */
-    toHEX() {
-        return this.hex;
-    }
-    /**
-     *
-     *
-     * @returns {string}
-     * @memberof ColorManager
-     */
-    toRGBA() {
-        return this.toRGB(true);
-    }
-    /**
-     *
-     *
-     * @returns {string}
-     * @memberof ColorManager
-     */
-    toHSLA() {
-        return this.toHSL(true);
-    }
-    /**
-     *
-     *
-     * @returns {string}
-     * @memberof ColorManager
-     */
-    toHSVA() {
-        return this.toHSV(true);
-    }
-}
-exports.default = ColorManager;
-//# sourceMappingURL=ColorManager.js.map
-
-/***/ }),
-
-/***/ "./node_modules/@pups/core/build/Models/Color/ColorParser.js":
-/*!*******************************************************************!*\
-  !*** ./node_modules/@pups/core/build/Models/Color/ColorParser.js ***!
-  \*******************************************************************/
-/*! flagged exports */
-/*! export __esModule [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
-/*! other exports [not provided] [no usage info] */
-/*! runtime requirements: __webpack_exports__, __webpack_require__ */
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-const ColorExceptions_1 = __webpack_require__(/*! ./ColorExceptions */ "./node_modules/@pups/core/build/Models/Color/ColorExceptions.js");
-const Array_1 = __webpack_require__(/*! @pups/utility/build/Array */ "./node_modules/@pups/utility/build/Array.js");
-const Number_1 = __webpack_require__(/*! @pups/utility/build/Number */ "./node_modules/@pups/utility/build/Number.js");
-/**
- * Classe statica.
- * Si utilizza il metodo 'parse' per convertire una string o un oggetto in un oggetto del tipo Types.Color.Parsing.Match
- *
- * @class ColorParser
- */
-class ColorParser {
-    /**
-     *
-     *
-     * @static
-     * @param {Types.Color.All} color
-     * @returns {Types.Color.Parsing.Match}
-     * @memberof ColorParser
-     */
-    static parse(color) {
-        return typeof color === 'string' ? ColorParser.fromString(color) : ColorParser.fromObject(color);
-    }
-    /**
-     *
-     *
-     * @private
-     * @static
-     * @param {string} color
-     * @returns {Types.Color.Parsing.Match}
-     * @memberof ColorParser
-     */
-    static fromString(color) {
-        let match, result = null;
-        for (let i = ColorParser.MATCHES.length - 1; i >= 0; i--)
-            if ((match = ColorParser.MATCHES[i].regexp.exec(color)))
-                result = { type: ColorParser.MATCHES[i].type, value: match.slice(1) };
-        if (!result)
-            throw new ColorExceptions_1.ColorNotValidException(color, ColorParser.MATCHES);
-        if (result.type.indexOf('hex') != -1)
-            return result;
-        else
-            result.value = Array_1.toFloat(result.value);
-        const matchResolver = typeof ColorParser.MATCH_VALUES[result.type] === 'string' ? ColorParser.MATCH_VALUES[ColorParser.MATCH_VALUES[result.type]] : ColorParser.MATCH_VALUES[result.type];
-        for (let i in matchResolver.possibilities) {
-            if (ColorParser.isFromZeroTo(result.value, matchResolver.possibilities[i])) {
-                if (matchResolver.possibilities[i] != matchResolver.want) {
-                    result.value = ColorParser.scaleToFromZeroTo(result.value, matchResolver.possibilities[i], matchResolver.want);
-                }
-                return result;
-            }
-        }
-        throw new ColorExceptions_1.ColorParsingException(color);
-    }
-    /**
-     *
-     *
-     * @private
-     * @static
-     * @param {(Types.Color.RGB | Types.Color.HSV | Types.Color.HSL | Types.Color.CMYK)} color
-     * @returns {Types.Color.Parsing.Match}
-     * @memberof ColorParser
-     */
-    static fromObject(color) {
-        if ('r' in color)
-            return { type: 'rgba', value: [color.r, color.g, color.b, color.a] };
-        if ('l' in color)
-            return { type: 'hsla', value: [color.h, color.s, color.l, color.a] };
-        if ('v' in color)
-            return { type: 'hsva', value: [color.h, color.s, color.v, color.a] };
-        if ('c' in color)
-            return { type: 'cmyk', value: [color.c, color.m, color.y, color.k] };
-        throw new ColorExceptions_1.ColorParsingException(JSON.stringify(color));
-    }
-    /**
-     *
-     *
-     * @static
-     * @param {(Array<string | number>)} values
-     * @returns {boolean}
-     * @memberof ColorParser
-     */
-    static isFromZeroToOne(values) {
-        for (let i in values)
-            if (values[i] > 1)
-                return false;
-        return true;
-    }
-    /**
-     *
-     *
-     * @static
-     * @param {(Array<string | number>)} values
-     * @param {(Array<number> | number)} maxValues
-     * @returns {boolean}
-     * @memberof ColorParser
-     */
-    static isFromZeroTo(values, maxValues) {
-        if (((Array.isArray(maxValues) && maxValues != ColorParser.ZERO_TO_ONE) || (!Array.isArray(maxValues) && maxValues == 1)) && ColorParser.isFromZeroToOne(values))
-            return false;
-        for (let i in values)
-            if (values[i] > (Array.isArray(maxValues) ? maxValues[i] : maxValues))
-                return false;
-        return true;
-    }
-    /**
-     *
-     *
-     * @static
-     * @param {Array<number>} values
-     * @param {(Array<number> | number)} maxValues
-     * @returns {Array<number>}
-     * @memberof ColorParser
-     */
-    static scaleToFromZeroToOne(values, maxValues) {
-        if (ColorParser.isFromZeroToOne(values))
-            return values;
-        const result = [];
-        for (let i in values)
-            result.push(Number_1.clamp01(values[i] / (Array.isArray(maxValues) ? maxValues[i] : maxValues)));
-        return result;
-    }
-    /**
-     *
-     *
-     * @static
-     * @param {Array<number>} values
-     * @param {Array<number>} maxValues
-     * @param {Array<number>} wantValues
-     * @returns
-     * @memberof ColorParser
-     */
-    static scaleToFromZeroTo(values, maxValues, wantValues) {
-        const result = [];
-        for (let i in values)
-            result.push(Number_1.clamp(0, (Array.isArray(wantValues) ? wantValues[i] : wantValues), values[i] / (Array.isArray(maxValues) ? maxValues[i] : maxValues) * (Array.isArray(wantValues) ? wantValues[i] : wantValues)));
-        return result;
-    }
-}
-/**
- *
- *
- * @private
- * @static
- * @memberof ColorParser
- */
-ColorParser.CSS_INTEGER = '[-\\+]?\\d+%?';
-/**
- *
- *
- * @private
- * @static
- * @memberof ColorParser
- */
-ColorParser.CSS_NUMBER = '[-\\+]?\\d*\\.\\d+%?';
-/**
- *
- *
- * @private
- * @static
- * @memberof ColorParser
- */
-ColorParser.CSS_UNIT = '(?:' + ColorParser.CSS_NUMBER + ')|(?:' + ColorParser.CSS_INTEGER + ')';
-/**
- *
- *
- * @private
- * @static
- * @memberof ColorParser
- */
-ColorParser.PERMISSIVE_MATCH3 = '[\\s|\\(]+(' + ColorParser.CSS_UNIT + ')[,|\\s]+(' + ColorParser.CSS_UNIT + ')[,|\\s]+(' + ColorParser.CSS_UNIT + ')\\s*\\)?';
-/**
- *
- *
- * @private
- * @static
- * @memberof ColorParser
- */
-ColorParser.PERMISSIVE_MATCH4 = '[\\s|\\(]+(' + ColorParser.CSS_UNIT + ')[,|\\s]+(' + ColorParser.CSS_UNIT + ')[,|\\s]+(' + ColorParser.CSS_UNIT + ')[,|\\s]+(' + ColorParser.CSS_UNIT + ')\\s*\\)?';
-/**
- *
- *
- * @private
- * @static
- * @type {Array<number>}
- * @memberof ColorParser
- */
-ColorParser.ZERO_TO_ONE = [1, 1, 1, 1];
-/**
- *
- *
- * @private
- * @static
- * @type {Array<number>}
- * @memberof ColorParser
- */
-ColorParser.ZERO_TO_255 = [255, 255, 255, 1];
-/**
- *
- *
- * @private
- * @static
- * @memberof ColorParser
- */
-ColorParser.MATCH_VALUES = {
-    'rgb': {
-        possibilities: [ColorParser.ZERO_TO_ONE, ColorParser.ZERO_TO_255],
-        want: ColorParser.ZERO_TO_255
-    },
-    'rgba': 'rgb',
-    'cmyk': {
-        possibilities: [[100, 100, 100, 100], ColorParser.ZERO_TO_ONE],
-        want: ColorParser.ZERO_TO_ONE
-    },
-    'hsl': {
-        possibilities: [[360, 100, 100, 1], ColorParser.ZERO_TO_ONE],
-        want: ColorParser.ZERO_TO_ONE
-    },
-    'hsla': 'hsl', 'hsv': 'hsl', 'hsva': 'hsl'
-};
-/**
- *
- *
- * @private
- * @static
- * @type {Array<Types.Color.Parsing.Regex>}
- * @memberof ColorParser
- */
-ColorParser.MATCHES = [
-    //{ type: 'CSS_UNIT', regexp: new RegExp(CSS_UNIT) },
-    { type: 'rgb', regexp: new RegExp('rgb' + ColorParser.PERMISSIVE_MATCH3) },
-    { type: 'rgba', regexp: new RegExp('rgba' + ColorParser.PERMISSIVE_MATCH4) },
-    { type: 'hsl', regexp: new RegExp('hsl' + ColorParser.PERMISSIVE_MATCH3) },
-    { type: 'hsla', regexp: new RegExp('hsla' + ColorParser.PERMISSIVE_MATCH4) },
-    { type: 'hsv', regexp: new RegExp('hsv' + ColorParser.PERMISSIVE_MATCH3) },
-    { type: 'hsva', regexp: new RegExp('hsva' + ColorParser.PERMISSIVE_MATCH4) },
-    { type: 'cmyk', regexp: new RegExp('cmyk' + ColorParser.PERMISSIVE_MATCH4) },
-    { type: 'hex3', regexp: /^#?([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/ },
-    { type: 'hex6', regexp: /^#?([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/ },
-    { type: 'hex4', regexp: /^#?([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/ },
-    { type: 'hex8', regexp: /^#?([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/ },
-];
-exports.default = ColorParser;
-//# sourceMappingURL=ColorParser.js.map
-
-/***/ }),
-
-/***/ "./node_modules/@pups/utility/build/Array.js":
-/*!***************************************************!*\
-  !*** ./node_modules/@pups/utility/build/Array.js ***!
-  \***************************************************/
-/*! flagged exports */
-/*! export __esModule [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export hasObjectProperty [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export indexOfObjectProperty [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export intersect [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export nextElement [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export prevElement [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export randomElement [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export toFloat [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export toInt [provided] [no usage info] [missing usage info prevents renaming] */
-/*! other exports [not provided] [no usage info] */
-/*! runtime requirements: __webpack_exports__, __webpack_require__ */
-/*! CommonJS bailout: exports.indexOfObjectProperty(...) prevents optimization as exports is passed as call context at 51:54-83 */
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-const Object_1 = __webpack_require__(/*! ./Object */ "./node_modules/@pups/utility/build/Object.js");
-const Number_1 = __webpack_require__(/*! ./Number */ "./node_modules/@pups/utility/build/Number.js");
-/**
- * Converte un array in un array di interi.
- *
- * @example
- * ```javascript
- *
- * const elements = [1, '2', '3.23', 4.2332, 'a']
- * const results = utility.array.intersect(elements)
- * console.log(results) // [1, 2, 3, 4, NaN]
- * ```
- *
- * @param {Array<any>} elements
- * @returns {Array<number>}
- */
-exports.toInt = (elements) => elements.map(e => parseInt(e));
-/**
- * Converte un array in un array di float.
- *
- * @example
- * ```javascript
- *
- * const elements = [1, '2', '3.23', 4.2332, 'a']
- * const results = utility.array.intersect(elements)
- * console.log(results) // [ 1, 2, 3.23, 4.2332, NaN ]
- * ```
- *
- * @param {Array<any>} elements
- * @returns {Array<number>}
- */
-exports.toFloat = (elements) => elements.map(e => parseFloat(e));
-/**
- * Controlla se il valore di una proprietà esiste all'interno di un array di oggetti.
- *
- * @example
- * ```javascript
- *
- * const elements = [{ 'id': 1 } { 'id': 2 }]
- * const result = utility.array.hasObjectProperty(elements, 'id', 2)
- * console.log(results) // true
- * ```
- *
- * @param {Array<object>} elements
- * @param {string} key
- * @param {(((value: any, item: any) => boolean) | any)} value
- * @returns {boolean}
- */
-exports.hasObjectProperty = (elements, key, value) => exports.indexOfObjectProperty(elements, key, value) >= 0;
-/**
- * Ritorna l'indice dell'oggetto che possiede la proprità cercata. Ritorna -1 se l'elemento non viene trovato
- *
- * @example
- * ```javascript
- *
- * // Esempio di una proprietà di primo livello
- * const elements = [
- *  { 'id': 1, 'token': 'xxx-yyy' }
- *  { 'id': 2, 'token': 'aaa-bbb' }
- * ]
- * const index = utility.array.indexOfObjectProperty(elements, 'token', 'aaa-bbb')
- * console.log(index) // 1
- * ```
- * @example
- * ```javascript
- *
- * // Esempio di una proprietà di primo secondo livello e funzione di validazione (3° parametro)
- * const elements = [
- *  { 'id': 1, 'data': { 'active': true, 'token': 'xxx-yyy' }}
- *  { 'id': 2, 'data': { 'active': true, 'token': 'aaa-bbb' }}
- * ]
- * const index = utility.array.indexOfObjectProperty(
- *  elements,
- *  'data.token',
- *  (value, item) => item.data.active && value === 'aaa-bbb'
- * )
- * console.log(index) // 1
- * ```
- *
- * @param {Array<object>} elements
- * @param {string} key
- * @param {(((value: any, item: any) => boolean) | any)} value
- * @returns {number}
- */
-exports.indexOfObjectProperty = (elements, key, value) => {
-    for (let i = elements.length - 1; i >= 0; i--)
-        if (typeof value === 'function' ? value(Object_1.getProperty(elements[i], key, 'Nil'), elements[i]) : Object_1.getProperty(elements[i], key) === value)
-            return i;
-    return -1;
-};
-/**
- * Ritorna l'intersezione tra due array.
- *
- * @example
- * ```javascript
- *
- * const a = [1, 2, 3]
- * const b = [2, 3, 4]
- * console.log(utility.array.intersect(a, b)) // [ 2, 3 ]
- * ```
- *
- * @param {Array<any>} a
- * @param {Array<any>} b
- * @returns {Array<any>}
- */
-exports.intersect = (a, b) => {
-    var ai = 0, bi = 0;
-    const result = new Array();
-    while (ai < a.length && bi < b.length) {
-        if (a[ai] < b[bi])
-            ai++;
-        else if (a[ai] > b[bi])
-            bi++;
-        else {
-            result.push(a[ai]);
-            ai++;
-            bi++;
-        }
-    }
-    return result;
-};
-/**
- * Ritorna il prossimo elemento di un array.
- *
- * @example
- * ```javascript
- *
- * const a = [1, 2, 3]
- * console.log(utility.array.next(a, 2)) // 1
- * ```
- *
- * @param {Array<any>} a
- * @param {number} index
- * @returns {Aany}
- */
-exports.nextElement = (a, index) => a[Number_1.nextNumber(index, a.length)];
-/**
- * Ritorna l'elemento precedente di un array.
- *
- * @example
- * ```javascript
- *
- * const a = [1, 2, 3]
- * console.log(utility.array.next(a, 2)) // 2
- * ```
- *
- * @param {Array<any>} a
- * @param {number} index
- * @returns {Aany}
- */
-exports.prevElement = (a, index) => a[Number_1.prevNumber(index, a.length)];
-/**
- * Ritorna un elemento random di un array.
- *
- * @example
- * ```javascript
- *
- * const a = [1, 2, 3]
- * console.log(utility.array.next(a, 2)) // 2
- * ```
- *
- * @param {Array<any>} a
- * @param {number} index
- * @returns {Aany}
- */
-exports.randomElement = (a) => a[Number_1.randomInt(0, a.length - 1)];
-//# sourceMappingURL=Array.js.map
-
-/***/ }),
-
-/***/ "./node_modules/@pups/utility/build/Number.js":
-/*!****************************************************!*\
-  !*** ./node_modules/@pups/utility/build/Number.js ***!
-  \****************************************************/
-/*! flagged exports */
-/*! export __esModule [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export clamp [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export clamp01 [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export fix [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export lerp [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export newId [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export nextNumber [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export prevNumber [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export randomFloat [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export randomInt [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export relativeClamp [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export round [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export twoDigits [provided] [no usage info] [missing usage info prevents renaming] */
-/*! other exports [not provided] [no usage info] */
-/*! runtime requirements: __webpack_exports__ */
-/*! CommonJS bailout: exports.clamp(...) prevents optimization as exports is passed as call context at 24:29-42 */
-/*! CommonJS bailout: exports.clamp(...) prevents optimization as exports is passed as call context at 49:65-78 */
-/*! CommonJS bailout: exports.clamp01(...) prevents optimization as exports is passed as call context at 113:72-87 */
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-let uid = 0;
-/**
- * Ritorna un numerio incrementale
- *
- * @param {number} [from=0]
- * @returns {number}
- */
-exports.newId = (from = 0) => ++uid + from;
-/**
- * Ritorna stringa di almeno due cifre
- *
- * @param {number} n
- * @returns {string}
- */
-exports.twoDigits = (n) => (n <= 9 ? '0' : '') + n;
-/**
- * Ritorna un valore compreso tra 0 ed 1
- *
- * @param {number} value
- * @returns {number}
- */
-exports.clamp01 = (value) => exports.clamp(0, 1, value);
-/**
- * Ritorna un valore compreso tra {min} ed {max}
- *
- * @param {number} min
- * @param {number} max
- * @param {number} value
- * @returns {number}
- */
-exports.clamp = (min, max, value) => value <= min ? min : (value >= max ? max : value);
-/**
- * Ritorna un valore compreso tra {min} e {max} in rifermiento a {refMin} e {refMax}
- *
- * @example
- * ```javascript
- * relativeClamp2(0.5, 0, 1, 100, 200) // 150
- * ```
- *
- * @param {number} value
- * @param {number} refMin
- * @param {number} refMax
- * @param {number} toMin
- * @param {number} toMax
- * @returns {number}
- */
-exports.relativeClamp = (value, refMin, refMax, toMin, toMax) => exports.clamp(toMin, toMax, (value - refMin) / (refMax - refMin) * (toMax - toMin) + toMin);
-/**
- * Ritorna un numero approssimato alla cifra {decimal}
- *
- * @param {*} value
- * @param {number} [decimal=20]
- * @returns {number}
- */
-exports.fix = (value, decimal = 20) => +parseFloat(value).toFixed(decimal);
-/**
- * Ritorna il prossimo numero di una lista
- *
- * @example
- * ```javascript
- * console.log(2, 3) // 0
- * ```
- *
- * @param {number} index
- * @param {number} length
- * @param {number} [offset=1]
- * @returns
- */
-exports.nextNumber = (index, length, offset = 1) => (index + offset) % length;
-/**
- * Ritorna il valore precedente di una lista
- * @example
- * ```javascript
- *
- * console.log(0, 3) // 2
- * ```
- *
- * @param {number} index
- * @param {number} length
- * @param {number} [offset=1]
- * @returns
- */
-exports.prevNumber = (index, length, offset = 1) => {
-    index -= offset;
-    return (index < 0 ? index + length : index) % length;
-};
-/**
- * Ritorna un numero random tra {min} e {max}
- *
- * @param {number} min
- * @param {number} max
- * @returns {number}
- */
-exports.randomFloat = (min, max) => Math.random() * (max - min) + min;
-/**
- * Ritorna un numero intero tra {min} e {max} (inclusi)
- *
- * @param {number} min
- * @param {number} max
- * @returns {number}
- */
-exports.randomInt = (min, max) => Math.trunc(Math.random() * (max - min + 1)) + min;
-/**
- * Funzione lerp
- *
- * @param {number} value1
- * @param {number} value2
- * @param {number} amount
- * @returns {number}
- */
-exports.lerp = (value1, value2, amount) => value1 + (value2 - value1) * exports.clamp01(amount);
-/**
- * Round
- *
- * @param {number} val
- * @returns {number}
- */
-exports.round = (val) => ~~(val + 0.5);
-//# sourceMappingURL=Number.js.map
-
-/***/ }),
-
-/***/ "./node_modules/@pups/utility/build/Object.js":
-/*!****************************************************!*\
-  !*** ./node_modules/@pups/utility/build/Object.js ***!
-  \****************************************************/
-/*! flagged exports */
-/*! export __esModule [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export each [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export getProperty [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export hasProperty [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export isDef [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export isEqual [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export isUndef [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export map [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export setProperties [provided] [no usage info] [missing usage info prevents renaming] */
-/*! other exports [not provided] [no usage info] */
-/*! runtime requirements: __webpack_exports__, top-level-this-exports */
-/*! CommonJS bailout: exports.isDef(...) prevents optimization as exports is passed as call context at 19:12-25 */
-/*! CommonJS bailout: exports.isEqual(...) prevents optimization as exports is passed as call context at 36:54-69 */
-/*! CommonJS bailout: this.getProperty(...) prevents optimization as this is passed as call context at 80:18-34 */
-/*! CommonJS bailout: this.getProperty(...) prevents optimization as this is passed as call context at 104:35-51 */
-/*! CommonJS bailout: this.getProperty(...) prevents optimization as this is passed as call context at 106:19-35 */
-/***/ (function(__unused_webpack_module, exports) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-/**
- * Controlla se il valore è definito
- *
- * @param {*} value
- * @returns {boolean}
- */
-exports.isDef = (value) => {
-    return typeof value !== 'undefined';
-};
-/**
- * Controlla se il valore non è definito
- *
- * @param {*} value
- * @returns {boolean}
- */
-exports.isUndef = (value) => {
-    return !exports.isDef(value);
-};
-/**
- * Controlla se {a} è uguale a {b}.
- * Verranno controllate anche le proprietà innestate.
- *
- * @param {*} a
- * @param {*} b
- * @returns {boolean}
- */
-exports.isEqual = (a, b) => {
-    if (typeof a !== 'object' || a === null || b === null) {
-        return a === b;
-    }
-    else {
-        const keys = Object.keys(a);
-        for (let i = 0, len = keys.length; i < len; i++)
-            if (typeof b[keys[i]] === 'undefined' || !exports.isEqual(a[keys[i]], b[keys[i]]))
-                return false;
-    }
-    return true;
-};
-/**
- * Mappa un oggetto
- *
- * @param {object} object
- * @param {(value: any, key: string, index: number) => any} callable
- * @returns {Object}
- */
-exports.map = (object, callable) => {
-    Object.keys(object).forEach((key, index) => {
-        object[key] = callable(object[key], key, index);
-    });
-    return object;
-};
-/**
- * Scorre un oggetto
- *
- * @param {object} object
- * @param {(value: any, key: string, index: number) => any} callable
- */
-exports.each = (object, callable) => {
-    Object.keys(object).forEach((key, index) => {
-        callable(object[key], key, index);
-    });
-};
-/**
- * Controlla se una proprietà esiste nell'oggetto {object}
- *
- * @example
- * ```javascript
- *
- * const data = { key: 'mykey', items: [] }
- * console.log(object.hasProperty(data, 'items')) // true
- * ```
- *
- * @param {object} object
- * @param {string} property
- * @returns {boolean}
- */
-exports.hasProperty = (object, property) => {
-    return typeof this.getProperty(object, property, undefined) !== 'undefined';
-};
-/**
- * Ritorna la proprietà di un oggetto
- *
- * @example
- * ```javascript
- *
- * const data = { key: 'mykey', items: [{ id: 1, name: 'Foo' }, { id: 2, name: 'Bar' }] }
- * console.log(utility.object.getProperty(data, 'items.1.name')) // Bar
- * ```
- *
- * @param {object} object
- * @param {string} property
- * @param {*} [defaultValue=null]
- * @returns
- */
-exports.getProperty = (object, property, defaultValue = null) => {
-    const properties = property.split('.');
-    const len = properties.length;
-    for (let i = 0; i < len; i++) {
-        const p = properties[i];
-        const pi = parseInt(p);
-        if (p == '*' && Array.isArray(object))
-            return object.map(o => this.getProperty(o, properties.slice(i + 1).join('.'), defaultValue));
-        if (!isNaN(pi) && Array.isArray(object))
-            return this.getProperty(object[i], properties.slice(i + 1).join('.'), defaultValue);
-        if (!object.hasOwnProperty(p))
-            return defaultValue;
-        object = object[p];
-        if (typeof object === 'undefined')
-            return defaultValue;
-    }
-    return object;
-};
-/**
- * Setta più proprietà in un oggetto
- *
- * @example
- * ```javascript
- *
- * const data = { }
- * utility.object.setProperties(data, ['a', 'b'], [1, [2, 3]])
- * console.log(data) // { a: 1, b: [ 2, 3 ] }
- * ```
- *
- * @param {object} object
- * @param {Array<string>} properties
- * @param {(Array<any> | Function | any)} values
- */
-exports.setProperties = (object, properties, values) => {
-    properties.forEach((property, index) => {
-        let temp = object;
-        const nestedProperties = property.split('.');
-        const setPropery = nestedProperties.pop();
-        nestedProperties.forEach(p => { temp = temp[p] || {}; });
-        temp[setPropery] = Array.isArray(values) ? values[index] : typeof values === 'function' ? values(temp[setPropery]) : values;
-    });
-};
-//# sourceMappingURL=Object.js.map
 
 /***/ }),
 
@@ -12704,7 +11686,7 @@ function validate(uuid) {
 /******/ 		};
 /******/ 	
 /******/ 		// Execute the module function
-/******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
 /******/ 	
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;

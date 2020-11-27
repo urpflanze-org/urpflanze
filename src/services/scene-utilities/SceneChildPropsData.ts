@@ -1,6 +1,6 @@
 import Spiral from '@core/shapes/primitives/Spiral'
 import { EShapePrimitiveAdaptMode } from '@core/types/shape-base'
-import { TDrawerTransformation } from '@services/types/drawer'
+import { IDrawerStreamProps, TDrawerTransformation } from '@services/types/drawer'
 import { TSceneChildProps } from '@services/types/scene-utilities'
 
 /**
@@ -30,10 +30,12 @@ export interface ISceneChildPropData {
 /**
  * @category Services.Scene Utilities
  */
-export type TSceneChildPropsDataKeys = Exclude<
-	keyof TSceneChildProps | 'loop.start' | 'loop.end' | 'loop.inc',
-	'loopDependencies' | 'vertexCallback' | 'loop' | 'name' | 'order' | 'type' | 'data' | 'shape' | 'id'
->
+export type TSceneChildPropsDataKeys =
+	| Exclude<
+			keyof TSceneChildProps | 'loop.start' | 'loop.end' | 'loop.inc',
+			'style' | 'loopDependencies' | 'vertexCallback' | 'loop' | 'name' | 'order' | 'type' | 'data' | 'shape' | 'id'
+	  >
+	| keyof IDrawerStreamProps
 
 type TSceneChildUtilityProps = {
 	[key in TSceneChildPropsDataKeys]: ISceneChildPropData
@@ -260,18 +262,18 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 	// },
 
 	// primitive
-	fillColor: {
+	fill: {
 		animable: true,
-		name: 'fillColor',
+		name: 'fill',
 		label: 'Fill',
 		type: 'color',
 		default: '#000',
 		default_animate: '#fff',
 		transformation: 'none',
 	},
-	strokeColor: {
+	stroke: {
 		animable: true,
-		name: 'strokeColor',
+		name: 'stroke',
 		label: 'Stroke',
 		type: 'color',
 		default: '#fff',

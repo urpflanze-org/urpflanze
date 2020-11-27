@@ -7,8 +7,8 @@ import {
 	IShapeLoopSettings,
 	TShapeLoopGeneratorFormula,
 } from '@core/types/shape-primitive'
-import { EShapePrimitiveAdaptMode, IShapePrimitiveProps } from '@core/types/shape-base'
-import Bounding, { TTempBounding } from '@core/math/bounding'
+import { EShapePrimitiveAdaptMode } from '@core/types/shape-base'
+import Bounding from '@core/math/bounding'
 
 /**
  *
@@ -39,31 +39,28 @@ class ShapeLoop extends ShapePrimitive {
 	public static readonly PId2: number = Math.PI / 2
 
 	/**
-	 * Shape loop props
+	 * Item props
 	 *
 	 * @protected
 	 * @type {IShapeLoopProps}
-	 * @memberof ShapeLoops
 	 */
-	protected props: IShapeLoopProps
+	protected props!: IShapeLoopProps
 
 	/**
 	 * chek if loop generate a static shape
 	 *
 	 * @protected
 	 * @type {boolean}
-	 * @memberof ShapeLoop
 	 */
-	protected bStaticLoop: boolean
+	protected bStaticLoop!: boolean
 
 	/**
 	 * Loop generator
 	 *
 	 * @protected
 	 * @type {IShapeLoopGenerator}
-	 * @memberof ShapeLoop
 	 */
-	protected loop: IShapeLoopGenerator
+	protected loop!: IShapeLoopGenerator
 
 	/**
 	 * Generate static loop buffer whem IShapeLoopGenerator props
@@ -71,7 +68,6 @@ class ShapeLoop extends ShapePrimitive {
 	 *
 	 * @protected
 	 * @type {Float32Array}
-	 * @memberof ShapeLoop
 	 */
 	protected currentOrSingleLoopBuffer?: Float32Array
 
@@ -80,7 +76,6 @@ class ShapeLoop extends ShapePrimitive {
 	 *
 	 * @protected
 	 * @type {Array<'propArguments' | keyof IShapeLoopProps | string>}
-	 * @memberof ShapeLoop
 	 */
 	public loopDependencies: Array<'propArguments' | keyof IShapeLoopProps | string>
 
@@ -89,7 +84,6 @@ class ShapeLoop extends ShapePrimitive {
 	 *
 	 * @param {IShapeLoopSettings} [settings={}]
 	 * @param {boolean} [bPreventGeneration=false]
-	 * @memberof ShapeLoop
 	 */
 	constructor(settings: IShapeLoopSettings = {}, bPreventGeneration = false) {
 		settings.type = settings.type || 'ShapeLoop'
@@ -117,7 +111,6 @@ class ShapeLoop extends ShapePrimitive {
 	 * Check if currentOrSingleLoopBuffer is static
 	 *
 	 * @returns {boolean}
-	 * @memberof ShapeLoop
 	 */
 	public isStaticLoop(): boolean {
 		if (this.loopDependencies.includes('propArguments')) return false
@@ -132,7 +125,6 @@ class ShapeLoop extends ShapePrimitive {
 	 * Check if shape is static
 	 *
 	 * @returns {boolean}
-	 * @memberof Shape
 	 */
 	public isStatic(): boolean {
 		return this.bStaticLoop && super.isStatic()
@@ -142,7 +134,6 @@ class ShapeLoop extends ShapePrimitive {
 	 * Check if shape has static indexed
 	 *
 	 * @returns {boolean}
-	 * @memberof ShapeBase
 	 */
 	public isStaticIndexed(): boolean {
 		return this.bStaticLoop && super.isStaticIndexed()
@@ -153,7 +144,6 @@ class ShapeLoop extends ShapePrimitive {
 	 *
 	 * @param {boolean} [bClearIndexed=false]
 	 * @param {boolean} [bPropagateToParents=false]
-	 * @memberof ShapeLoop
 	 */
 	public clearBuffer(bClearIndexed = false, bPropagateToParents = true): void {
 		super.clearBuffer(bClearIndexed, bPropagateToParents)
@@ -168,42 +158,28 @@ class ShapeLoop extends ShapePrimitive {
 	/**
 	 * Set single or multiple props
 	 *
-	 * @param {(keyof IShapeLoopProps | IShapeLoopProps)} key
+	 * @param {(K)} key
 	 * @param {*} [value]
 	 * @param {boolean} [bClearIndexed=false]
-	 * @memberof ShapeLoop
 	 */
-	public setProp(key: keyof IShapeLoopProps | IShapeLoopProps, value?: any): void {
+	public setProp<K>(key: K, value?: any): void {
 		let bClearIndexed = false
-		key = typeof key === 'string' ? { [key]: value } : key
+		const keys = typeof key === 'string' ? { [key]: value } : key
 
 		for (let i = this.loopDependencies.length - 1; i >= 0; i--) {
-			if (this.loopDependencies[i] in key) {
+			if (this.loopDependencies[i] in keys) {
 				// this.props.loop = undefined
 				bClearIndexed = true
 				break
 			}
 		}
 
-		if ('loop' in key) {
-			key.loop = { ...this.props.loop, ...key.loop }
+		if ('loop' in keys) {
+			keys.loop = { ...this.props.loop, ...keys.loop }
 			bClearIndexed = true
 		}
 
-		super.setProp(key as IShapePrimitiveProps, value, bClearIndexed)
-	}
-
-	/**
-	 * Get prop
-	 *
-	 * @param {keyof IShapeLoopProps} key
-	 * @param {ISceneChildPropArguments} [propArguments]
-	 * @param {*} [defaultValue]
-	 * @returns {*}
-	 * @memberof ShapeLoop
-	 */
-	public getProp(key: keyof IShapeLoopProps, propArguments?: ISceneChildPropArguments, defaultValue?: any): any {
-		return super.getProp(key as keyof IShapePrimitiveProps, propArguments, defaultValue)
+		super.setProp(keys, value, bClearIndexed)
 	}
 
 	/**
@@ -211,7 +187,6 @@ class ShapeLoop extends ShapePrimitive {
 	 *
 	 * @param {ISceneChildPropArguments} [propArguments]
 	 * @returns {number}
-	 * @memberof ShapeBase
 	 */
 	public getBufferLength(propArguments: ISceneChildPropArguments): number {
 		if (this.bStatic && typeof this.buffer !== 'undefined') return this.buffer.length
@@ -231,14 +206,11 @@ class ShapeLoop extends ShapePrimitive {
 	 * @param {number} generateId
 	 * @param {ISceneChildPropArguments} propArguments
 	 * @returns {Float32Array}
-	 * @memberof ShapeBase
 	 */
 	protected generateBuffer(generateId: number, propArguments: ISceneChildPropArguments): Float32Array {
-		const bSideLengthChange = this.bindSideLength(propArguments)
-
 		if (!this.bStaticLoop) return this.generateLoopBuffer(propArguments)
 
-		if (bSideLengthChange || typeof this.currentOrSingleLoopBuffer === 'undefined')
+		if (typeof this.props.sideLength === 'function' || typeof this.currentOrSingleLoopBuffer === 'undefined')
 			this.currentOrSingleLoopBuffer = this.generateLoopBuffer(propArguments)
 
 		return this.currentOrSingleLoopBuffer
@@ -250,11 +222,11 @@ class ShapeLoop extends ShapePrimitive {
 	 * @private
 	 * @param {ISceneChildPropArguments} propArguments
 	 * @returns {Float32Array}
-	 * @memberof ShapeLoop
 	 */
 	private generateLoopBuffer(propArguments: ISceneChildPropArguments): Float32Array {
 		const { start, end, count } = this.getLoop(propArguments)
 
+		const sideLength = this.getRepetitionSideLength(propArguments)
 		const getVertex = (this.props.loop && this.props.loop.vertex
 			? this.props.loop.vertex
 			: this.loop.vertex) as TShapeLoopGeneratorFormula
@@ -272,7 +244,7 @@ class ShapeLoop extends ShapePrimitive {
 
 		const bNoAdapt = this.adaptMode === EShapePrimitiveAdaptMode.None
 
-		const tmpBounding: TTempBounding = [undefined, undefined, undefined, undefined]
+		const tmpBounding = [undefined, undefined, undefined, undefined]
 
 		for (let i = 0, j = 0; i < vertexLength; i++, j += 2) {
 			const offset = shapeLoop.count > 1 ? i / (shapeLoop.count - 1) : 1
@@ -289,8 +261,8 @@ class ShapeLoop extends ShapePrimitive {
 			currentOrSingleLoopBuffer[j + 1] = vertex[1]
 
 			if (bNoAdapt) {
-				currentOrSingleLoopBuffer[j] *= this.sideLength[0]
-				currentOrSingleLoopBuffer[j + 1] *= this.sideLength[1]
+				currentOrSingleLoopBuffer[j] *= sideLength[0]
+				currentOrSingleLoopBuffer[j + 1] *= sideLength[1]
 
 				Bounding.add(tmpBounding, currentOrSingleLoopBuffer[j], currentOrSingleLoopBuffer[j + 1])
 			}
@@ -307,8 +279,8 @@ class ShapeLoop extends ShapePrimitive {
 			Bounding.clear(tmpBounding)
 
 			for (let i = 0; i < bufferLength; i += 2) {
-				buffer[i] = buffer[i] * this.sideLength[0]
-				buffer[i + 1] = buffer[i + 1] * this.sideLength[1]
+				buffer[i] = buffer[i] * sideLength[0]
+				buffer[i + 1] = buffer[i + 1] * sideLength[1]
 
 				Bounding.add(tmpBounding, buffer[i], buffer[i + 1])
 			}
@@ -327,7 +299,6 @@ class ShapeLoop extends ShapePrimitive {
 	 * @private
 	 * @param {ISceneChildPropArguments} propArguments
 	 * @returns {ShapeLoopInformation}
-	 * @memberof ShapeBase
 	 */
 	private getLoop(propArguments: ISceneChildPropArguments = ShapeBase.EMPTY_PROP_ARGUMENTS): ILoopMeta {
 		propArguments.time = this.scene?.currentTime || 0
@@ -349,7 +320,6 @@ class ShapeLoop extends ShapePrimitive {
 	 * Set shape from loop generator
 	 *
 	 * @param {(IShapeLoopGenerator)} [shape]
-	 * @memberof ShapeBase
 	 */
 	public setShape(loop: IShapeLoopGenerator): void {
 		this.setProp('loop', loop)

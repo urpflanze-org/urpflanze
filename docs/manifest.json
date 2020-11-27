@@ -1,0 +1,14 @@
+{
+	"name": "Urpflanze Docs",
+	"short_name": "Urpflanze",
+	"start_url": "/?source=pwa",
+	"description": "Documentation site for the Urpflanze library",
+	"icons": [
+		{ "src": "assets/images/icons/android-chrome-192x192.png", "sizes": "192x192", "type": "image/png" },
+		{ "src": "assets/images/icons/android-chrome-512x512.png", "sizes": "512x512", "type": "image/png" }
+	],
+	"theme_color": "#ffffff",
+	"background_color": "#111413",
+	"display": "standalone",
+	"orientation": "portrait"
+}

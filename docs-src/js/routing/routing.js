@@ -131,7 +131,10 @@ function onLoadContent() {
 			container.style.height = parseFloat(container.style.height) > 0 ? '0px' : window.innerHeight * 0.4 + 'px'
 		}
 	}
-	for (let i = 0; i < cliccables.length; i++) cliccables[i].addEventListener('click', openContainer, false)
+	for (let i = 0; i < cliccables.length; i++) {
+		cliccables[i].addEventListener('click', openContainer, false)
+		openContainer({ target: cliccables[i] })
+	}
 
 	// code prettyprint
 	PR.prettyPrint()

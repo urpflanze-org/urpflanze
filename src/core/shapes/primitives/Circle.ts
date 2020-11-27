@@ -20,14 +20,21 @@ class Circle extends ShapeLoop {
 		settings.loopDependencies = (settings.loopDependencies || []).concat(['sideLength'])
 		settings.adaptMode = EShapePrimitiveAdaptMode.None
 
-		super(settings)
+		super(settings, true)
 
 		this.loop = {
 			start: 0,
 			end: ShapeLoop.PI2,
-			inc: () => (1 / Math.pow(this.sideLength[0] * this.sideLength[1], 0.25)) * ShapeLoop.PId2,
+			inc: propArguments => {
+				const sideLength = this.getRepetitionSideLength(propArguments)
+				return (1 / Math.pow(sideLength[0] * sideLength[1], 0.25)) * ShapeLoop.PId2
+			},
 			vertex: shapeLoopRepetition => [Math.cos(shapeLoopRepetition.angle), Math.sin(shapeLoopRepetition.angle)],
 		}
+
+		this.bStaticLoop = this.isStaticLoop()
+		this.bStatic = this.isStatic()
+		this.bStaticIndexed = this.isStaticIndexed()
 	}
 }
 

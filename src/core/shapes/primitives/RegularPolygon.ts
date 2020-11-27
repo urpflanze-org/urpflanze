@@ -1,4 +1,4 @@
-import { IRegularPolygonProps, IRegularPolygonSettings, IShapeLoopProps } from '@core/types/shape-primitive'
+import { IRegularPolygonProps, IRegularPolygonSettings } from '@core/types/shape-primitive'
 import ShapeLoop from '@core/shapes/ShapeLoop'
 import { EShapePrimitiveAdaptMode } from '@core/types/shape-base'
 import { ISceneChildPropArguments } from '@core/types/scene-child'
@@ -11,7 +11,7 @@ import { ISceneChildPropArguments } from '@core/types/scene-child'
  * @extends {ShapeLoop}
  */
 class RegularPolygon extends ShapeLoop {
-	protected props: IRegularPolygonProps
+	protected props!: IRegularPolygonProps
 
 	constructor(settings: IRegularPolygonSettings = {}) {
 		settings.type = settings.type || 'RegularPolygon'
@@ -26,7 +26,7 @@ class RegularPolygon extends ShapeLoop {
 			start: 0,
 			end: ShapeLoop.PI2,
 			inc: (propArguments: ISceneChildPropArguments) =>
-				ShapeLoop.PI2 / (this.getProp('sideNumber', propArguments, 5) + 1),
+				ShapeLoop.PI2 / ((this.getProp<IRegularPolygonProps>('sideNumber', propArguments, 5) as number) + 1),
 			vertex: shapeLoopRepetition => {
 				return [Math.cos(shapeLoopRepetition.angle), Math.sin(shapeLoopRepetition.angle)]
 			},
@@ -35,30 +35,6 @@ class RegularPolygon extends ShapeLoop {
 		this.bStaticLoop = this.isStaticLoop()
 		this.bStatic = this.isStatic()
 		this.bStaticIndexed = this.isStaticIndexed()
-	}
-
-	/**
-	 * Get property value
-	 *
-	 * @param {keyof IRegularPolygonProps} key
-	 * @param {ISceneChildPropArguments} [propArguments]
-	 * @param {*} [defaultValue]
-	 * @returns {*}
-	 * @memberof IRegularPolygonProps
-	 */
-	public getProp(key: keyof IRegularPolygonProps, propArguments?: ISceneChildPropArguments, defaultValue?: any): any {
-		return super.getProp(key as keyof IShapeLoopProps, propArguments, defaultValue)
-	}
-
-	/**
-	 * Set single or multiple props
-	 *
-	 * @param {(keyof IRegularPolygonProps | RegularPolygonSettings)} key
-	 * @param {*} [value]
-	 * @memberof IRegularPolygonProps
-	 */
-	public setProp(key: keyof IRegularPolygonProps | IRegularPolygonSettings, value?: any): void {
-		super.setProp(key as keyof IShapeLoopProps, value)
 	}
 }
 

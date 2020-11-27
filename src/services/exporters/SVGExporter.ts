@@ -36,7 +36,7 @@ class SVGExporter {
 		}
 
 		const container = document.createElement('div')
-		const tmp = new DrawerSVG(scene, container, drawerOptions, drawer.getRatio(), drawer.getResolution())
+		const tmp = new DrawerSVG(scene, container, drawerOptions, drawer.getRatio())
 		const tmpTimeline = tmp.getTimeline()
 		tmpTimeline.setDurate(drawer.getTimeline().getDurate())
 		tmpTimeline.setTime(drawerOptions.time || 0)
