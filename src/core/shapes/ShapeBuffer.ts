@@ -2,7 +2,7 @@ import Bounding from '@core/math/bounding'
 import ShapePrimitive from '@core/shapes/ShapePrimitive'
 import { ISceneChildPropArguments } from '@core/types/scene-child'
 import { EShapePrimitiveAdaptMode } from '@core/types/shape-base'
-import { IShapeBufferSettings } from '@core/types/shape-primitive'
+import { IShapeBufferSettings } from '@core/types/shape-primitives'
 
 /**
  * @category Core.Shapes

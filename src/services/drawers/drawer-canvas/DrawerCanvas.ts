@@ -465,7 +465,7 @@ class DrawerCanvas extends Drawer<IDrawerCanvasOptions, IDrawerCanvasEvents> {
 						context.save()
 						sceneChild.stream((stream: IStreamArguments) => {
 							const currentIndex: IBufferIndex = stream.currentIndexing
-							const shape: ShapePrimitive<IDrawerCanvasStreamProps> = currentIndex.shape
+							const shape: ShapePrimitive = currentIndex.shape
 							const propArguments: IDrawerCanvasPropArguments = {
 								canvasContext: context,
 								shape,
@@ -476,7 +476,12 @@ class DrawerCanvas extends Drawer<IDrawerCanvasOptions, IDrawerCanvasEvents> {
 								context: Context,
 							}
 
-							const composite = Drawer.getStreamDrawerProp(shape, 'composite', propArguments, 'source-over')
+							const composite = Drawer.getStreamDrawerProp<IDrawerCanvasStreamProps>(
+								shape,
+								'composite',
+								propArguments,
+								'source-over'
+							)
 
 							if (oldComposite !== composite) {
 								context.globalCompositeOperation = composite
@@ -515,10 +520,26 @@ class DrawerCanvas extends Drawer<IDrawerCanvasOptions, IDrawerCanvasEvents> {
 							// 	return
 							// }
 
-							const shadowColor = Drawer.getStreamDrawerProp(shape, 'shadowColor', propArguments)
-							const shadowBlur = Drawer.getStreamDrawerProp(shape, 'shadowBlur', propArguments)
-							const shadowOffsetX = Drawer.getStreamDrawerProp(shape, 'shadowOffsetX', propArguments)
-							const shadowOffsetY = Drawer.getStreamDrawerProp(shape, 'shadowOffsetY', propArguments)
+							const shadowColor = Drawer.getStreamDrawerProp<IDrawerCanvasStreamProps>(
+								shape,
+								'shadowColor',
+								propArguments
+							)
+							const shadowBlur = Drawer.getStreamDrawerProp<IDrawerCanvasStreamProps>(
+								shape,
+								'shadowBlur',
+								propArguments
+							)
+							const shadowOffsetX = Drawer.getStreamDrawerProp<IDrawerCanvasStreamProps>(
+								shape,
+								'shadowOffsetX',
+								propArguments
+							)
+							const shadowOffsetY = Drawer.getStreamDrawerProp<IDrawerCanvasStreamProps>(
+								shape,
+								'shadowOffsetY',
+								propArguments
+							)
 
 							context.shadowColor = shadowColor
 							context.shadowBlur = shadowBlur
@@ -564,11 +585,19 @@ class DrawerCanvas extends Drawer<IDrawerCanvasOptions, IDrawerCanvasEvents> {
 									lineWidth *= ghostMultiplier
 								}
 
-								const lineJoin = Drawer.getStreamDrawerProp(shape, 'lineJoin', propArguments)
-								const lineCap = Drawer.getStreamDrawerProp(shape, 'lineCap', propArguments)
-								const lineDash = Drawer.getStreamDrawerProp(shape, 'lineDash', propArguments)
-								const lineDashOffset = Drawer.getStreamDrawerProp(shape, 'lineDashOffset', propArguments)
-								const miterLimit = Drawer.getStreamDrawerProp(shape, 'miterLimit', propArguments)
+								const lineJoin = Drawer.getStreamDrawerProp<IDrawerCanvasStreamProps>(shape, 'lineJoin', propArguments)
+								const lineCap = Drawer.getStreamDrawerProp<IDrawerCanvasStreamProps>(shape, 'lineCap', propArguments)
+								const lineDash = Drawer.getStreamDrawerProp<IDrawerCanvasStreamProps>(shape, 'lineDash', propArguments)
+								const lineDashOffset = Drawer.getStreamDrawerProp<IDrawerCanvasStreamProps>(
+									shape,
+									'lineDashOffset',
+									propArguments
+								)
+								const miterLimit = Drawer.getStreamDrawerProp<IDrawerCanvasStreamProps>(
+									shape,
+									'miterLimit',
+									propArguments
+								)
 
 								context.setLineDash.call(context, lineDash || [])
 								context.lineJoin = lineJoin

@@ -47,7 +47,6 @@ abstract class Drawer<IADrawerOptions extends IDrawerOptions, IDrawerEvents> ext
 			const width = this.ratio >= 1 ? size : size * this.ratio
 			const height = this.ratio >= 1 ? size / this.ratio : size
 
-			console.log({ width, height, ratio, r2: this.ratio, h: scene.height })
 			scene.resize(width, height)
 			this.setScene(scene)
 		}
@@ -282,7 +281,7 @@ abstract class Drawer<IADrawerOptions extends IDrawerOptions, IDrawerEvents> ext
 	 * @returns {*}
 	 */
 	static getStreamDrawerProp<T extends IDrawerStreamProps>(
-		shape: ShapePrimitive<T>,
+		shape: ShapePrimitive<any, T>,
 		key: keyof T,
 		propArguments: IDrawerPropArguments,
 		defaultValue?: any

@@ -8,7 +8,7 @@ import {
 	IShapeBufferSettings,
 	IShapeLoopSettings,
 	ISpiralSettings,
-} from '@core/types/shape-primitive'
+} from '@core/types/shape-primitives'
 import { IShapeSettings } from '@core/types/shape-base'
 
 /**

@@ -1,7 +1,8 @@
+import { PI2 } from '@core/math'
 import ShapeLoop from '@core/shapes/ShapeLoop'
 import { ISceneChildPropArguments, IShapeLoopRepetition } from '@core/types/scene-child'
 import { EShapePrimitiveAdaptMode } from '@core/types/shape-base'
-import { ILissajousProps, ILissajousSettings } from '@core/types/shape-primitive'
+import { ILissajousProps, ILissajousSettings } from '@core/types/shape-primitives'
 import { vec2 } from 'gl-matrix'
 
 /**
@@ -11,9 +12,7 @@ import { vec2 } from 'gl-matrix'
  * @class Lissajous
  * @extends {ShapeLoop}
  */
-class Lissajous extends ShapeLoop {
-	protected props!: ILissajousProps
-
+class Lissajous extends ShapeLoop<ILissajousProps> {
 	/**
 	 * Creates an instance of Lissajous.
 	 *
@@ -33,19 +32,19 @@ class Lissajous extends ShapeLoop {
 
 		this.loop = {
 			start: 0,
-			end: ShapeLoop.PI2,
+			end: PI2,
 			inc: propArguments => {
-				const wx = this.getProp<ILissajousProps>('wx', propArguments) as number
-				const wy = this.getProp<ILissajousProps>('wy', propArguments) as number
+				const wx = this.getProp('wx', propArguments) as number
+				const wy = this.getProp('wy', propArguments) as number
 
 				const ratio = wx == wy ? ShapeLoop.PId2 : 0.5 - Math.min(49, wx + wy) * 0.01
 				const sideLength = this.getRepetitionSideLength(propArguments)
 				return (1 / Math.pow(sideLength[0] * sideLength[1], 0.25)) * ratio
 			},
 			vertex: (shapeLoopRepetition: IShapeLoopRepetition, propArguments?: ISceneChildPropArguments): vec2 => {
-				const wx = this.getProp<ILissajousProps>('wx', propArguments) as number
-				const wy = this.getProp<ILissajousProps>('wy', propArguments) as number
-				const wz = this.getProp<ILissajousProps>('wz', propArguments, 0) as number
+				const wx = this.getProp('wx', propArguments) as number
+				const wy = this.getProp('wy', propArguments) as number
+				const wz = this.getProp('wz', propArguments, 0) as number
 
 				return wx == wy
 					? [Math.cos(shapeLoopRepetition.angle + wz), Math.sin(shapeLoopRepetition.angle)]

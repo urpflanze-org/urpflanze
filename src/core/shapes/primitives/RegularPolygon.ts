@@ -1,7 +1,8 @@
-import { IRegularPolygonProps, IRegularPolygonSettings } from '@core/types/shape-primitive'
+import { IRegularPolygonProps, IRegularPolygonSettings } from '@core/types/shape-primitives'
 import ShapeLoop from '@core/shapes/ShapeLoop'
 import { EShapePrimitiveAdaptMode } from '@core/types/shape-base'
 import { ISceneChildPropArguments } from '@core/types/scene-child'
+import { PI2 } from '@core/math'
 
 /**
  * Polygon shape
@@ -10,9 +11,7 @@ import { ISceneChildPropArguments } from '@core/types/scene-child'
  * @class RegularPolygon
  * @extends {ShapeLoop}
  */
-class RegularPolygon extends ShapeLoop {
-	protected props!: IRegularPolygonProps
-
+class RegularPolygon extends ShapeLoop<IRegularPolygonProps> {
 	constructor(settings: IRegularPolygonSettings = {}) {
 		settings.type = settings.type || 'RegularPolygon'
 		settings.loopDependencies = (settings.loopDependencies || []).concat(['sideNumber'])
@@ -24,9 +23,9 @@ class RegularPolygon extends ShapeLoop {
 
 		this.loop = {
 			start: 0,
-			end: ShapeLoop.PI2,
+			end: PI2,
 			inc: (propArguments: ISceneChildPropArguments) =>
-				ShapeLoop.PI2 / ((this.getProp<IRegularPolygonProps>('sideNumber', propArguments, 5) as number) + 1),
+				PI2 / ((this.getProp('sideNumber', propArguments, 5) as number) + 1),
 			vertex: shapeLoopRepetition => {
 				return [Math.cos(shapeLoopRepetition.angle), Math.sin(shapeLoopRepetition.angle)]
 			},

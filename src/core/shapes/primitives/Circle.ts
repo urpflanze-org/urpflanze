@@ -1,6 +1,7 @@
+import { PI2 } from '@core/math'
 import ShapeLoop from '@core/shapes/ShapeLoop'
 import { EShapePrimitiveAdaptMode } from '@core/types/shape-base'
-import { IShapeLoopSettings } from '@core/types/shape-primitive'
+import { IShapeLoopSettings } from '@core/types/shape-primitives'
 
 /**
  *
@@ -24,7 +25,7 @@ class Circle extends ShapeLoop {
 
 		this.loop = {
 			start: 0,
-			end: ShapeLoop.PI2,
+			end: PI2,
 			inc: propArguments => {
 				const sideLength = this.getRepetitionSideLength(propArguments)
 				return (1 / Math.pow(sideLength[0] * sideLength[1], 0.25)) * ShapeLoop.PId2

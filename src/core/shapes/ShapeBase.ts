@@ -34,7 +34,7 @@ const repetitionMatrix = mat4.create()
  * @order 4
  * @extends {SceneChild}
  */
-abstract class ShapeBase extends SceneChild {
+abstract class ShapeBase<GShapeBaseProps extends ISceneChildProps = ISceneChildProps> extends SceneChild {
 	/**
 	 * Empty buffer
 	 *
@@ -80,6 +80,16 @@ abstract class ShapeBase extends SceneChild {
 		context: Context,
 		repetition: ShapeBase.getEmptyRepetition(),
 	}
+
+	/**
+	 *
+	 */
+	protected props: GShapeBaseProps
+
+	/**
+	 *
+	 */
+	public currentGenerationProps!: GShapeBaseProps
 
 	/**
 	 * Shape generation id
@@ -223,7 +233,7 @@ abstract class ShapeBase extends SceneChild {
 			transformOrigin: settings.transformOrigin,
 			perspective: settings.perspective,
 			perspectiveOrigin: settings.perspectiveOrigin,
-		}
+		} as GShapeBaseProps
 
 		this.bUseParent = !!settings.bUseParent
 
@@ -273,12 +283,15 @@ abstract class ShapeBase extends SceneChild {
 	 * @param {*} [defaultValue]
 	 * @returns {*}
 	 */
-	public getProp<T extends ISceneChildProps = ISceneChildProps, K extends keyof T = keyof T>(
+	public getProp<K extends keyof GShapeBaseProps>(
 		key: K,
 		propArguments?: ISceneChildPropArguments,
 		defaultValue?: number | vec2
-	): number | [number, number] | any {
-		let attribute: any = (this.props as T)[key] as any
+	): any {
+		if (typeof (this.currentGenerationProps as any)[key] !== 'undefined')
+			return (this.currentGenerationProps as any)[key]
+
+		let attribute: any = (this.props as any)[key] as any
 
 		if (typeof attribute === 'function') {
 			propArguments = propArguments || ShapeBase.EMPTY_PROP_ARGUMENTS
@@ -289,7 +302,11 @@ abstract class ShapeBase extends SceneChild {
 			attribute = attribute(propArguments)
 		}
 
-		return typeof attribute === 'undefined' || Number.isNaN(attribute) ? defaultValue : attribute
+		const result = typeof attribute === 'undefined' || Number.isNaN(attribute) ? defaultValue : attribute
+
+		;(this.currentGenerationProps as any)[key] = result
+
+		return result
 	}
 
 	/**
@@ -349,6 +366,8 @@ abstract class ShapeBase extends SceneChild {
 
 		this.generateId = generateId
 
+		this.currentGenerationProps = {} as GShapeBaseProps
+
 		if (!this.bStaticIndexed || !this.bIndexed) this.indexedBuffer = []
 
 		const repetition: IRepetition = {
@@ -357,7 +376,6 @@ abstract class ShapeBase extends SceneChild {
 			index: 1,
 			offset: 1,
 			count: 1,
-			recursion: 1,
 			row: {
 				index: 1,
 				offset: 1,
@@ -375,6 +393,8 @@ abstract class ShapeBase extends SceneChild {
 			{ parent: parentPropArguments, repetition, time: 1, context: Context },
 			1
 		)
+
+		this.currentGenerationProps.repetitions = repetitions
 
 		const repetitionType = Array.isArray(repetitions) ? ERepetitionType.Matrix : ERepetitionType.Ring
 		const repetitionCount = Array.isArray(repetitions)
@@ -440,19 +460,33 @@ abstract class ShapeBase extends SceneChild {
 
 				{
 					const distance = glme.toVec2(this.getProp('distance', propArguments, glme.VEC2_ZERO))
+					this.currentGenerationProps.distance = distance
 					const displace = this.getProp('displace', propArguments, 0) as number
+					this.currentGenerationProps.displace = displace
 					const scale = glme.toVec3(this.getProp('scale', propArguments, glme.VEC2_ONE), 1)
+					this.currentGenerationProps.scale = scale
 					const translate = glme.toVec3(this.getProp('translate', propArguments, glme.VEC2_ZERO), 0)
+					this.currentGenerationProps.translate = translate
 					const skewX = this.getProp('skewX', propArguments, 0) as number
+					this.currentGenerationProps.skewX = skewX
 					const skewY = this.getProp('skewY', propArguments, 0) as number
+					this.currentGenerationProps.skewY = skewY
 					const squeezeX = this.getProp('squeezeX', propArguments, 0) as number
+					this.currentGenerationProps.squeezeX = squeezeX
 					const squeezeY = this.getProp('squeezeY', propArguments, 0) as number
+					this.currentGenerationProps.squeezeY = squeezeY
 					const rotateX = this.getProp('rotateX', propArguments, 0) as number
+					this.currentGenerationProps.rotateX = rotateX
 					const rotateY = this.getProp('rotateY', propArguments, 0) as number
+					this.currentGenerationProps.rotateY = rotateY
 					const rotateZ = this.getProp('rotateZ', propArguments, 0) as number
-					const perspectiveProp = clamp(0, 1, this.getProp('perspective', propArguments, 0) as number)
+					this.currentGenerationProps.rotateZ = rotateZ
+					const perspective = clamp(0, 1, this.getProp('perspective', propArguments, 0) as number)
+					this.currentGenerationProps.perspective = perspective
 					const perspectiveOrigin = glme.toVec3(this.getProp('perspectiveOrigin', propArguments, glme.VEC2_ZERO), 0)
+					this.currentGenerationProps.perspectiveOrigin = perspectiveOrigin
 					const transformOrigin = glme.toVec3(this.getProp('transformOrigin', propArguments, glme.VEC2_ZERO), 0)
+					this.currentGenerationProps.transformOrigin = transformOrigin
 
 					let offset: vec3
 
@@ -470,15 +504,15 @@ abstract class ShapeBase extends SceneChild {
 							break
 					}
 
-					const perspectiveSize = perspectiveProp > 0 ? Math.max(bounding.width, bounding.height) / 2 : 1
-					const perspective = perspectiveProp > 0 ? perspectiveSize + (1 - perspectiveProp) * (perspectiveSize * 10) : 0
+					const perspectiveSize = perspective > 0 ? Math.max(bounding.width, bounding.height) / 2 : 1
+					const perspectiveValue = perspective > 0 ? perspectiveSize + (1 - perspective) * (perspectiveSize * 10) : 0
 					const bTransformOrigin = perspective !== 0 || transformOrigin[0] !== 0 || transformOrigin[1] !== 0
 					const bPerspectiveOrigin = perspectiveOrigin[0] !== 0 || perspectiveOrigin[1] !== 0
 
 					if (bTransformOrigin) {
 						transformOrigin[0] *= bounding.width / 2
 						transformOrigin[1] *= bounding.height / 2
-						transformOrigin[2] = perspective
+						transformOrigin[2] = perspectiveValue
 					}
 
 					/**
@@ -506,7 +540,7 @@ abstract class ShapeBase extends SceneChild {
 						/**
 						 * Create Perspective matrix
 						 */
-						if (perspective > 0) {
+						if (perspectiveValue > 0) {
 							if (bPerspectiveOrigin) {
 								perspectiveOrigin[0] *= bounding.width / 2
 								perspectiveOrigin[1] *= bounding.height / 2
@@ -530,7 +564,7 @@ abstract class ShapeBase extends SceneChild {
 					Bounding.clear(tmpSingleRepetitionBounding)
 					// Apply matrices on vertex
 					for (let bufferIndex = 0; bufferIndex < bufferLength; bufferIndex += 2) {
-						const vertex: vec3 = [buffer[bufferIndex], buffer[bufferIndex + 1], perspective]
+						const vertex: vec3 = [buffer[bufferIndex], buffer[bufferIndex + 1], perspectiveValue]
 
 						{
 							// Apply squeeze, can be insert into transformMatrix?
@@ -541,10 +575,10 @@ abstract class ShapeBase extends SceneChild {
 							vec3.transformMat4(vertex, vertex, transformMatrix)
 
 							// Apply perspective
-							if (perspective > 0) {
+							if (perspectiveValue > 0) {
 								bPerspectiveOrigin && vec3.add(vertex, vertex, perspectiveOrigin)
 								vec3.transformMat4(vertex, vertex, perspectiveMatrix)
-								vec3.scale(vertex, vertex, perspective)
+								vec3.scale(vertex, vertex, perspectiveValue)
 								bPerspectiveOrigin && vec3.sub(vertex, vertex, perspectiveOrigin)
 							}
 

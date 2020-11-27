@@ -15,15 +15,10 @@ import { IDrawerStreamProps } from '@services/types/drawer'
 /**
  * @category Core.Abstract
  */
-abstract class ShapePrimitive<T extends IDrawerStreamProps = IDrawerStreamProps> extends ShapeBase {
-	/**
-	 * Item props
-	 *
-	 * @protected
-	 * @type {IShapePrimitiveProps}
-	 */
-	protected props!: IShapePrimitiveProps
-
+abstract class ShapePrimitive<
+	K extends IShapePrimitiveProps = IShapePrimitiveProps,
+	T extends IDrawerStreamProps = IDrawerStreamProps
+> extends ShapeBase<K> {
 	/**
 	 * Props retrived by drawer
 	 *
@@ -104,9 +99,7 @@ abstract class ShapePrimitive<T extends IDrawerStreamProps = IDrawerStreamProps>
 			return this.props.sideLength as [number, number]
 		}
 
-		return glme.toVec2(
-			this.getProp<IShapePrimitiveProps>('sideLength', propArguments, [50, 50])
-		)
+		return glme.toVec2(this.getProp('sideLength', propArguments, [50, 50]))
 	}
 
 	/**
@@ -138,7 +131,6 @@ abstract class ShapePrimitive<T extends IDrawerStreamProps = IDrawerStreamProps>
 			// singleRepetitionBounding,
 			repetition: {
 				type: repetition.type,
-				recursion: 1,
 				angle: repetition.angle,
 				index: repetition.index,
 				count: repetition.count,

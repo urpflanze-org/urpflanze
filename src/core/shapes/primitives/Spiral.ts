@@ -1,8 +1,9 @@
 import ShapeLoop from '@core/shapes/ShapeLoop'
-import { ISpiralProps, ISpiralSettings, TSpiralType } from '@core/types/shape-primitive'
+import { ISpiralProps, ISpiralSettings, TSpiralType } from '@core/types/shape-primitives'
 import { ISceneChildPropArguments, IShapeLoopRepetition } from '@core/types/scene-child'
 import { EShapePrimitiveAdaptMode } from '@core/types/shape-base'
 import { vec2 } from 'gl-matrix'
+import { PI2 } from '@core/math'
 
 /**
  * Spiral shape
@@ -11,9 +12,7 @@ import { vec2 } from 'gl-matrix'
  * @class Spiral
  * @extends {ShapeLoop}
  */
-class Spiral extends ShapeLoop {
-	protected props!: ISpiralProps
-
+class Spiral extends ShapeLoop<ISpiralProps> {
 	/**
 	 * Spural types
 	 *
@@ -54,15 +53,13 @@ class Spiral extends ShapeLoop {
 		this.props.twistsStart = settings.twistsStart ?? 0
 
 		this.loop = {
-			start: (propArguments: ISceneChildPropArguments) =>
-				ShapeLoop.PI2 * (this.getProp<ISpiralProps>('twistsStart', propArguments) as number),
+			start: (propArguments: ISceneChildPropArguments) => PI2 * (this.getProp('twistsStart', propArguments) as number),
 			end: (propArguments: ISceneChildPropArguments) =>
-				ShapeLoop.PI2 *
-				((this.getProp<ISpiralProps>('twistsStart', propArguments) as number) +
-					(this.getProp<ISpiralProps>('twists', propArguments) as number)),
+				PI2 *
+				((this.getProp('twistsStart', propArguments) as number) + (this.getProp('twists', propArguments) as number)),
 			inc: (propArguments: ISceneChildPropArguments) => {
-				const twists = this.getProp<ISpiralProps>('twists', propArguments) as number
-				const rep = ShapeLoop.PI2 * twists
+				const twists = this.getProp('twists', propArguments) as number
+				const rep = PI2 * twists
 				const sideLength = this.getRepetitionSideLength(propArguments)
 				const radius = 4 + Math.sqrt(sideLength[0] * sideLength[1])
 
@@ -70,7 +67,7 @@ class Spiral extends ShapeLoop {
 			},
 			vertex: (shapeLoopRepetition: IShapeLoopRepetition, propArguments?: ISceneChildPropArguments): vec2 => {
 				const r = Spiral.getRFromTSpiralType(
-					this.getProp<ISpiralProps>('spiral', propArguments) as TSpiralType,
+					this.getProp('spiral', propArguments) as TSpiralType,
 					shapeLoopRepetition.angle
 				)
 				return [r * Math.cos(shapeLoopRepetition.angle), r * Math.sin(shapeLoopRepetition.angle)]

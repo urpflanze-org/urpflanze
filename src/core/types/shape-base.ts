@@ -1,6 +1,6 @@
 import {
 	IBaseRepetition,
-	IRecursiveRepetition,
+	IRecursionRepetition,
 	IRepetition,
 	ISceneChildPropArguments,
 	ISceneChildProps,
@@ -32,9 +32,14 @@ export interface IParentBufferIndex {
 	frameLength: number
 
 	/**
-	 * Current repetition reference oof frame
+	 * Current repetition reference of frame
 	 */
 	repetition: IRepetition
+
+	/**
+	 * Current recursion
+	 */
+	recursion?: IRecursionRepetition
 
 	// singleRepetitionBounding: IShapeBounding
 }
@@ -165,6 +170,35 @@ export interface IShapePrimitiveSettings<T extends IDrawerStreamProps = IDrawerS
 	 * @order -15
 	 */
 	style?: T
+}
+
+/**
+ * Shape recursive animate props
+ */
+export interface IShapeRecursiveProps extends ISceneChildProps {
+	recursions?: TSceneChildProp<number>
+	recursionScale?: TSceneChildProp<number>
+}
+
+/**
+ * ShapeRecursive settings
+ *
+ * @category Core.Props and Settings Interfaces
+ */
+export interface IShapeRecursiveSettings extends IShapeRecursiveProps, IShapeSettings {
+	/**
+	 * Decide position of recursions
+	 *
+	 * @order -21
+	 */
+	bInner?: boolean
+
+	/**
+	 * Regenerate child buffer every shape recursion
+	 *
+	 * @order -21
+	 */
+	bShapeUseRecursion?: boolean
 }
 
 /**

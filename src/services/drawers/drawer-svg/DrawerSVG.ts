@@ -145,7 +145,7 @@ class DrawerSVG extends Drawer<IDrawerSVGOptions, IDrawerSVGEvents> {
 					const tempPath = []
 
 					const currentIndex: IBufferIndex = stream.currentIndexing
-					const shape: ShapePrimitive<IDrawerStreamProps> = currentIndex.shape
+					const shape: ShapePrimitive<any, IDrawerStreamProps> = currentIndex.shape
 					const propArguments: ISceneChildPropArguments = {
 						shape,
 						// singleRepetitionBounding: currentIndex.singleRepetitionBounding,

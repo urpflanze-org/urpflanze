@@ -6,9 +6,10 @@ import {
 	IShapeLoopProps,
 	IShapeLoopSettings,
 	TShapeLoopGeneratorFormula,
-} from '@core/types/shape-primitive'
+} from '@core/types/shape-primitives'
 import { EShapePrimitiveAdaptMode } from '@core/types/shape-base'
 import Bounding from '@core/math/bounding'
+import { PI2 } from '@core/math'
 
 /**
  *
@@ -33,18 +34,8 @@ export interface ILoopMeta {
  * @class ShapeLoop
  * @extends {ShapePrimitive}
  */
-class ShapeLoop extends ShapePrimitive {
-	public static readonly PI2: number = Math.PI * 2
-
+class ShapeLoop<K extends IShapeLoopProps = IShapeLoopProps> extends ShapePrimitive<K> {
 	public static readonly PId2: number = Math.PI / 2
-
-	/**
-	 * Item props
-	 *
-	 * @protected
-	 * @type {IShapeLoopProps}
-	 */
-	protected props!: IShapeLoopProps
 
 	/**
 	 * chek if loop generate a static shape
@@ -96,8 +87,8 @@ class ShapeLoop extends ShapePrimitive {
 		if (!bPreventGeneration) {
 			this.loop = {
 				start: 0,
-				end: ShapeLoop.PI2,
-				inc: ShapeLoop.PI2 / 10,
+				end: PI2,
+				inc: PI2 / 10,
 				vertex: () => [0, 0],
 			}
 

@@ -1,6 +1,7 @@
 import ShapeBase from '@core/shapes/ShapeBase'
 import Context from '@core/Context'
 import { IBufferIndex } from '@core/types/shape-base'
+import { vec2, vec3 } from 'gl-matrix'
 
 /**
  * Repetition type enumerator.
@@ -68,13 +69,13 @@ export interface IShapeLoopRepetition extends IBaseRepetition {
  *
  * @category Core.Interfaces
  */
-export interface IRecursiveRepetition extends IBaseRepetition {
+export interface IRecursionRepetition extends IBaseRepetition {
 	/**
-	 * angle of current repetition = repetition.offset * Math.PI * 2
+	 * parent recursion
 	 *
 	 * @order 4
 	 */
-	recursion: number
+	parent?: IRecursionRepetition
 }
 
 /**
@@ -82,7 +83,7 @@ export interface IRecursiveRepetition extends IBaseRepetition {
  *
  * @category Core.Interfaces
  */
-export interface IRepetition extends IShapeLoopRepetition, IRecursiveRepetition {
+export interface IRepetition extends IShapeLoopRepetition {
 	/**
 	 * Define the type of repetition
 	 * @order 5
@@ -115,11 +116,11 @@ export interface ISceneChildProps {
 	 * If an array (1) is passed the repetition will be nxn,
 	 * if an array (2) the repetition will be mxn [rows x columns]
 	 *
-	 * @type {(TSceneChildProp<number | [number, number]>)}
+	 * @type {(TSceneChildProp<number | [number, number] | vec2>)}
 	 * @memberof ISceneChildProps
 	 * @order 1
 	 */
-	repetitions?: TSceneChildProp<number | [number, number]> // number of shape repetitions
+	repetitions?: TSceneChildProp<number | [number, number] | vec2> // number of shape repetitions
 
 	/**
 	 * If the repeat is Ring, pass a numerical value
@@ -127,11 +128,11 @@ export interface ISceneChildProps {
 	 * If the repeat is Matrix, pass an array (2) which refers
 	 * to the distance between columns and rows.
 	 *
-	 * @type {(TSceneChildProp<number | [number, number]>)}
+	 * @type {(TSceneChildProp<number | [number, number] | vec2>)}
 	 * @memberof ISceneChildProps
 	 * @order 2
 	 */
-	distance?: TSceneChildProp<number | [number, number]>
+	distance?: TSceneChildProp<number | [number, number] | vec2>
 
 	/**
 	 * For Ring repeats, define the starting angle of the repeat
@@ -181,20 +182,20 @@ export interface ISceneChildProps {
 	/**
 	 * scale transformation
 	 *
-	 * @type {(TSceneChildProp<number | [number, number]>)}
+	 * @type {(TSceneChildProp<number | [number, number] | vec2>)}
 	 * @memberof ISceneChildProps
 	 * @order 8
 	 */
-	scale?: TSceneChildProp<number | [number, number]>
+	scale?: TSceneChildProp<number | [number, number] | vec2 | vec3>
 
 	/**
 	 * tranlsate transformation
 	 *
-	 * @type {(TSceneChildProp<number | [number, number]>)}
+	 * @type {(TSceneChildProp<number | [number, number] | vec2>)}
 	 * @memberof ISceneChildProps
 	 * @order 9
 	 */
-	translate?: TSceneChildProp<number | [number, number]>
+	translate?: TSceneChildProp<number | [number, number] | vec2 | vec3>
 
 	/**
 	 * rotateX transformation in degeress
@@ -230,7 +231,7 @@ export interface ISceneChildProps {
 	 * @memberof ISceneChildProps
 	 * @order 13
 	 */
-	transformOrigin?: TSceneChildProp<number>
+	transformOrigin?: TSceneChildProp<number | [number, number] | vec2 | vec3>
 
 	/**
 	 * perspective of rotation between 0 and 1
@@ -244,11 +245,11 @@ export interface ISceneChildProps {
 	/**
 	 * perspective origin between [-1, -1] and [1, 1]
 	 *
-	 * @type {(TSceneChildProp<number | [number, number]>)}
+	 * @type {(TSceneChildProp<number | [number, number] | vec2>)}
 	 * @memberof ISceneChildProps
 	 * @order 15
 	 */
-	perspectiveOrigin?: TSceneChildProp<number | [number, number]>
+	perspectiveOrigin?: TSceneChildProp<number | [number, number] | vec2 | vec3>
 }
 
 /**
@@ -294,6 +295,7 @@ export interface ISceneChildSettings extends ISceneChildProps {
  */
 export interface ISceneChildPropArguments {
 	repetition: IRepetition
+	recursion?: IRecursionRepetition
 	context: typeof Context
 	time: number
 	shape?: ShapeBase
