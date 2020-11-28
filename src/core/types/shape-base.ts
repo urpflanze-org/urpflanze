@@ -48,7 +48,7 @@ export interface IParentBufferIndex {
  *
  * @category Core.Interfaces
  */
-export interface IBufferIndex extends Omit<IParentBufferIndex, 'shape'> {
+export interface IBufferIndex extends Omit<IParentBufferIndex, 'shape' | 'recursion'> {
 	/**
 	 * Reference to shape
 	 */

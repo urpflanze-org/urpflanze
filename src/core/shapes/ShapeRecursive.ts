@@ -10,7 +10,7 @@ import {
 
 import Shape from '@core/shapes/Shape'
 import Context from '@core/Context'
-import { PHI } from '@core/math'
+import ShapeBase from '@core/shapes/ShapeBase'
 
 /**
  * @category Core.Shapes
@@ -288,35 +288,47 @@ class ShapeRecursive extends Shape<IShapeRecursiveProps> {
 				childIndexed < childIndexedLen;
 				childIndexed++
 			) {
-				const currentIndexed = { ...childIndexedBuffer[childIndexed] }
+				let currentIndexed = { ...childIndexedBuffer[childIndexed] }
+				let currentRecursionIndex: IRecursionRepetition = { index: 1, offset: 1, count: 1, level: 1 }
+
+				let recursionBufferIndex: IParentBufferIndex = { ...bufferIndex, recursion: currentRecursionIndex }
+
 				currentIndexed.parent = currentIndexed.parent
-					? Shape.setIndexedParent(currentIndexed.parent, bufferIndex)
-					: bufferIndex
+					? Shape.setIndexedParent(currentIndexed.parent, recursionBufferIndex)
+					: recursionBufferIndex
+				this.indexedBuffer.push(currentIndexed)
 
-				const recursion = { index: 1, offset: 1, count: 1, level: 1 }
-				let recursionPtr: IRecursionRepetition = recursion
+				if (recursions > 1) {
+					const storedIndexed: Array<IRecursionRepetition> = [currentRecursionIndex]
 
-				if (recursions <= 1) {
-					this.indexedBuffer.push({ ...currentIndexed, recursion: recursionPtr })
-				} else {
-					this.indexedBuffer.push({ ...currentIndexed, recursion: recursionPtr })
+					let paretBufferIndex = 0,
+						added = 1
 
 					for (let i = 1; i < recursions; i++) {
-						for (let j = 0, len = vertexCount ** i; j < len; j++) {
-							const recursionOffset = vertexCount > 1 ? len / (len - 1) : 1
+						for (let j = 0, len = vertexCount ** i; j < len; j++, added++) {
+							const recursionOffset = len > 1 ? j / (len - 1) : 1
 
-							this.indexedBuffer.push({
-								...currentIndexed,
-								recursion: { index: j + 1, offset: recursionOffset, count: len, level: i + 1, parent: recursionPtr },
-							})
+							currentIndexed = { ...childIndexedBuffer[childIndexed] }
+							currentRecursionIndex = {
+								index: j + 1,
+								offset: recursionOffset,
+								count: len,
+								level: i + 1,
+								parent: storedIndexed[paretBufferIndex],
+							}
+
+							recursionBufferIndex = { ...bufferIndex, recursion: currentRecursionIndex }
+							currentIndexed.parent = currentIndexed.parent
+								? Shape.setIndexedParent(currentIndexed.parent, recursionBufferIndex)
+								: recursionBufferIndex
+
+							this.indexedBuffer.push(currentIndexed)
+
+							storedIndexed.push(currentRecursionIndex)
+							if (added % vertexCount === 0) {
+								paretBufferIndex += 1
+							}
 						}
-						recursionPtr.parent = {
-							index: i + 1,
-							offset: 1,
-							count: 1,
-							level: i + 1,
-						}
-						recursionPtr = recursionPtr.parent
 					}
 				}
 			}

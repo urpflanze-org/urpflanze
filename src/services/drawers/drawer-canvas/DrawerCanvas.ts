@@ -470,7 +470,6 @@ class DrawerCanvas extends Drawer<IDrawerCanvasOptions, IDrawerCanvasEvents> {
 								canvasContext: context,
 								shape,
 								// singleRepetitionBounding: currentIndex.singleRepetitionBounding,
-								recursion: currentIndex.recursion,
 								repetition: currentIndex.repetition,
 								parent: currentIndex.parent,
 								time: scene.currentTime,

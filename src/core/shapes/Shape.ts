@@ -174,14 +174,19 @@ class Shape<K extends ISceneChildProps = ISceneChildProps> extends ShapeBase<K> 
 	 */
 	static setIndexedParent(
 		current: IBufferIndex | IParentBufferIndex,
-		parent: IParentBufferIndex
+		parent: IParentBufferIndex,
+		maxLevel?: number,
+		currentLevel = 0
 	): IBufferIndex | IParentBufferIndex {
 		return {
 			shape: current.shape,
 			// singleRepetitionBounding: current.singleRepetitionBounding,
 			repetition: current.repetition,
 			frameLength: current.frameLength,
-			parent: current.parent ? Shape.setIndexedParent(current.parent, parent) : parent,
+			parent:
+				current.parent && typeof maxLevel !== 'undefined' && currentLevel < maxLevel
+					? Shape.setIndexedParent(current.parent, parent, maxLevel, currentLevel++)
+					: parent,
 		}
 	}
 

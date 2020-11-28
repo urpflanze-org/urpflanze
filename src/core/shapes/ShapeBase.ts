@@ -1,6 +1,6 @@
 import { glMatrix, mat4, vec2, vec3 } from 'gl-matrix'
 
-import { IShapeBaseSettings, IShapeBounding, TVertexCallback } from '@core/types/shape-base'
+import { IParentBufferIndex, IShapeBaseSettings, IShapeBounding, TVertexCallback } from '@core/types/shape-base'
 import {
 	ERepetitionType,
 	IRepetition,
@@ -706,6 +706,26 @@ abstract class ShapeBase<GShapeBaseProps extends ISceneChildProps = ISceneChildP
 	 */
 	public getIndexedBuffer(): Array<IBufferIndex> {
 		return this.indexedBuffer
+	}
+
+	/**
+	 * Return number of encapsulation
+	 *
+	 * @param {IBufferIndex} index
+	 * @returns {number}
+	 */
+	static getIndexParentLevel(index: IBufferIndex): number {
+		if (typeof index.parent === 'undefined') return 0
+
+		let currentParent: IParentBufferIndex = index.parent
+		let currentParentLevel = 1
+
+		while (typeof currentParent.parent !== 'undefined') {
+			currentParentLevel++
+			currentParent = currentParent.parent
+		}
+
+		return currentParentLevel
 	}
 
 	/**
