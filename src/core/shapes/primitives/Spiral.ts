@@ -13,6 +13,7 @@ import { PI2 } from '@core/math'
  * @extends {ShapeLoop}
  */
 class Spiral extends ShapeLoop<ISpiralProps> {
+	private spiral!: TSpiralType
 	/**
 	 * Spural types
 	 *
@@ -39,12 +40,7 @@ class Spiral extends ShapeLoop<ISpiralProps> {
 		settings.bClosed = false
 		settings.adaptMode = settings.adaptMode ?? EShapePrimitiveAdaptMode.None
 
-		settings.loopDependencies = (settings.loopDependencies || []).concat([
-			'twists',
-			'twistsStart',
-			'spiral',
-			'sideLength',
-		])
+		settings.loopDependencies = (settings.loopDependencies || []).concat(['twists', 'twistsStart', 'spiral'])
 
 		super(settings, true)
 
@@ -65,11 +61,8 @@ class Spiral extends ShapeLoop<ISpiralProps> {
 
 				return rep / (radius * twists)
 			},
-			vertex: (shapeLoopRepetition: IShapeLoopRepetition, propArguments?: ISceneChildPropArguments): vec2 => {
-				const r = Spiral.getRFromTSpiralType(
-					this.getProp('spiral', propArguments) as TSpiralType,
-					shapeLoopRepetition.angle
-				)
+			vertex: (shapeLoopRepetition: IShapeLoopRepetition): vec2 => {
+				const r = Spiral.getRFromTSpiralType(this.spiral, shapeLoopRepetition.angle)
 				return [r * Math.cos(shapeLoopRepetition.angle), r * Math.sin(shapeLoopRepetition.angle)]
 			},
 		}
@@ -77,6 +70,11 @@ class Spiral extends ShapeLoop<ISpiralProps> {
 		this.bStaticLoop = this.isStaticLoop()
 		this.bStatic = this.isStatic()
 		this.bStaticIndexed = this.isStaticIndexed()
+	}
+
+	protected generateLoopBuffer(propArguments: ISceneChildPropArguments): Float32Array {
+		this.spiral = this.getProp('spiral', propArguments)
+		return super.generateLoopBuffer(propArguments)
 	}
 
 	// /**

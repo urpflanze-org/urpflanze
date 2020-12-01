@@ -1184,9 +1184,7 @@
 			"line": 33,
 			"character": 11
 		},
-		"extends": [
-			"SceneChild"
-		],
+		"extends": ["SceneChild"],
 		"description": "A SceneChild container, propagates properties to children",
 		"examples": [
 			"\n```javascript\n// Group example\n\nconst rect = new Urpflanze.Rect({\n\tdistance: 100 // <- if a property is set the group will not overwrite it\n})\nconst group = new Urpflanze.Group({\n\trepetitions: 3,\n\tdistance: 200\n})\n\ngroup.add(rect)\ngroup.add(new Urpflanze.Triangle())\n```"
@@ -1697,9 +1695,7 @@
 			"line": 39,
 			"character": 24
 		},
-		"extends": [
-			"SceneChild"
-		],
+		"extends": ["SceneChild"],
 		"description": "Main class for shape generation",
 		"constructor_ref": {
 			"parameters": [
@@ -2150,9 +2146,7 @@
 				"order": 9999
 			}
 		],
-		"examples": [
-			"\n```javascript\nUrpflanze.clamp(0, 1, 1.2) // 1\nUrpflanze.clamp(0, 1, -2) // 0\n```"
-		],
+		"examples": ["\n```javascript\nUrpflanze.clamp(0, 1, 1.2) // 1\nUrpflanze.clamp(0, 1, -2) // 0\n```"],
 		"return_type": {
 			"type": "intrinsic",
 			"name": "number"
@@ -2253,9 +2247,7 @@
 				"order": 9999
 			}
 		],
-		"examples": [
-			"\n```javascript\nUrpflanze.relativeClamp(0, 1, 0.5, 100, 200) // 150\n```\n"
-		],
+		"examples": ["\n```javascript\nUrpflanze.relativeClamp(0, 1, 0.5, 100, 200) // 150\n```\n"],
 		"return_type": {
 			"type": "intrinsic",
 			"name": "number"
@@ -2282,9 +2274,7 @@
 				"order": 9999
 			}
 		],
-		"examples": [
-			"\n```javascript\nUrpflanze.toDegrees(Math.PI) // 180\n```\n"
-		],
+		"examples": ["\n```javascript\nUrpflanze.toDegrees(Math.PI) // 180\n```\n"],
 		"return_type": {
 			"type": "intrinsic",
 			"name": "number"
@@ -2311,9 +2301,7 @@
 				"order": 9999
 			}
 		],
-		"examples": [
-			"\n```javascript\nUrpflanze.toRadians(180) // 3.141592653589793\n```\n"
-		],
+		"examples": ["\n```javascript\nUrpflanze.toRadians(180) // 3.141592653589793\n```\n"],
 		"return_type": {
 			"type": "intrinsic",
 			"name": "number"
@@ -3281,9 +3269,7 @@
 			"line": 13,
 			"character": 11
 		},
-		"extends": [
-			"ShapeBase"
-		],
+		"extends": ["ShapeBase"],
 		"description": "Container of ShapeBase or Group, it applies transformations on each repetition",
 		"constructor_ref": {
 			"parameters": [
@@ -3544,9 +3530,7 @@
 			"line": 10,
 			"character": 17
 		},
-		"extends": [
-			"ShapePrimitive"
-		],
+		"extends": ["ShapePrimitive"],
 		"constructor_ref": {
 			"parameters": [
 				{
@@ -3749,9 +3733,7 @@
 			"line": 36,
 			"character": 15
 		},
-		"extends": [
-			"ShapePrimitive"
-		],
+		"extends": ["ShapePrimitive"],
 		"description": "Shape Loop",
 		"constructor_ref": {
 			"parameters": [
@@ -4159,9 +4141,7 @@
 			"line": 18,
 			"character": 29
 		},
-		"extends": [
-			"ShapeBase"
-		],
+		"extends": ["ShapeBase"],
 		"constructor_ref": {
 			"parameters": [
 				{
@@ -4487,9 +4467,7 @@
 			"line": 11,
 			"character": 12
 		},
-		"extends": [
-			"ShapeLoop"
-		],
+		"extends": ["ShapeLoop"],
 		"constructor_ref": {
 			"parameters": [
 				{
@@ -4518,9 +4496,7 @@
 			"line": 12,
 			"character": 10
 		},
-		"extends": [
-			"ShapeBuffer"
-		],
+		"extends": ["ShapeBuffer"],
 		"constructor_ref": {
 			"parameters": [
 				{
@@ -4549,9 +4525,7 @@
 			"line": 14,
 			"character": 15
 		},
-		"extends": [
-			"ShapeLoop"
-		],
+		"extends": ["ShapeLoop"],
 		"description": "Lissajous shape",
 		"constructor_ref": {
 			"parameters": [
@@ -4682,9 +4656,7 @@
 			"line": 11,
 			"character": 10
 		},
-		"extends": [
-			"ShapeBuffer"
-		],
+		"extends": ["ShapeBuffer"],
 		"constructor_ref": {
 			"parameters": [
 				{
@@ -4705,17 +4677,15 @@
 		"category": "Core.Primitives"
 	},
 	{
-		"name": "RegularPolygon",
+		"name": "Polygon",
 		"type": "Class",
 		"order": 9999,
 		"source": {
-			"fileName": "src/core/shapes/primitives/RegularPolygon.ts",
+			"fileName": "src/core/shapes/primitives/Polygon.ts",
 			"line": 13,
 			"character": 20
 		},
-		"extends": [
-			"ShapeLoop"
-		],
+		"extends": ["ShapeLoop"],
 		"description": "Polygon shape",
 		"constructor_ref": {
 			"parameters": [
@@ -4724,7 +4694,7 @@
 					"type": {
 						"type": "reference",
 						"id": 1161,
-						"name": "IRegularPolygonSettings"
+						"name": "IPolygonSettings"
 					},
 					"defaultValue": "{}",
 					"order": 9999
@@ -4737,7 +4707,7 @@
 				"type": {
 					"type": "reference",
 					"id": 1139,
-					"name": "IRegularPolygonProps"
+					"name": "IPolygonProps"
 				},
 				"order": 9999,
 				"bProtected": true
@@ -4756,7 +4726,7 @@
 							"target": {
 								"type": "reference",
 								"id": 1139,
-								"name": "IRegularPolygonProps"
+								"name": "IPolygonProps"
 							}
 						},
 						"order": 9999
@@ -4802,13 +4772,13 @@
 									"operator": "keyof",
 									"order": 9999,
 									"target": {
-										"name": "IRegularPolygonProps",
+										"name": "IPolygonProps",
 										"type": "reference",
 										"order": 9999
 									}
 								},
 								{
-									"name": "IRegularPolygonSettings",
+									"name": "IPolygonSettings",
 									"type": "reference",
 									"order": 9999
 								}
@@ -4845,9 +4815,7 @@
 			"line": 14,
 			"character": 10
 		},
-		"extends": [
-			"ShapeLoop"
-		],
+		"extends": ["ShapeLoop"],
 		"description": "Rose shape",
 		"constructor_ref": {
 			"parameters": [
@@ -5006,9 +4974,7 @@
 			"line": 14,
 			"character": 12
 		},
-		"extends": [
-			"ShapeLoop"
-		],
+		"extends": ["ShapeLoop"],
 		"description": "Spiral shape",
 		"constructor_ref": {
 			"parameters": [
@@ -5168,9 +5134,7 @@
 			"line": 10,
 			"character": 14
 		},
-		"extends": [
-			"ShapeBuffer"
-		],
+		"extends": ["ShapeBuffer"],
 		"description": "Triangle ShapeBuffer",
 		"constructor_ref": {
 			"parameters": [
@@ -5430,9 +5394,7 @@
 			"line": 72,
 			"character": 28
 		},
-		"extends": [
-			"IShapeLoopRepetition"
-		],
+		"extends": ["IShapeLoopRepetition"],
 		"description": "Information about propArguments repetition",
 		"properties": [
 			{
@@ -5935,9 +5897,7 @@
 			"line": 245,
 			"character": 36
 		},
-		"extends": [
-			"ISceneChildProps"
-		],
+		"extends": ["ISceneChildProps"],
 		"properties": [
 			{
 				"name": "id",
@@ -6492,9 +6452,7 @@
 			"line": 58,
 			"character": 37
 		},
-		"extends": [
-			"IBaseRepetition"
-		],
+		"extends": ["IBaseRepetition"],
 		"properties": [
 			{
 				"name": "index",
@@ -6695,9 +6653,7 @@
 			"line": 54,
 			"character": 35
 		},
-		"extends": [
-			"ISceneChildSettings"
-		],
+		"extends": ["ISceneChildSettings"],
 		"description": "ShapeBaseSettings",
 		"properties": [
 			{
@@ -7235,9 +7191,7 @@
 			"line": 121,
 			"character": 37
 		},
-		"extends": [
-			"ISceneChildProps"
-		],
+		"extends": ["ISceneChildProps"],
 		"properties": [
 			{
 				"name": "sideLength",
@@ -7682,10 +7636,7 @@
 			"line": 151,
 			"character": 40
 		},
-		"extends": [
-			"IShapePrimitiveProps",
-			"IShapeBaseSettings"
-		],
+		"extends": ["IShapePrimitiveProps", "IShapeBaseSettings"],
 		"properties": [
 			{
 				"name": "sideLength",
@@ -8298,9 +8249,7 @@
 			"line": 78,
 			"character": 31
 		},
-		"extends": [
-			"IShapeBaseSettings"
-		],
+		"extends": ["IShapeBaseSettings"],
 		"description": "Shape settings",
 		"properties": [
 			{
@@ -8894,9 +8843,7 @@
 			"line": 169,
 			"character": 32
 		},
-		"extends": [
-			"IShapeLoopProps"
-		],
+		"extends": ["IShapeLoopProps"],
 		"description": "For <mark>wx</mark>, <mark>wy</mark> and <mark>wx</mark> see Lissajous on <a target=\"_blank\" href=\"https://en.wikipedia.org/wiki/Lissajous_curve\">Wikipedia</a>",
 		"properties": [
 			{
@@ -9404,10 +9351,7 @@
 			"line": 193,
 			"character": 35
 		},
-		"extends": [
-			"ILissajousProps",
-			"IShapeLoopSettings"
-		],
+		"extends": ["ILissajousProps", "IShapeLoopSettings"],
 		"properties": [
 			{
 				"name": "wx",
@@ -10104,16 +10048,14 @@
 	},
 	{
 		"type": "Interface",
-		"name": "IRegularPolygonProps",
+		"name": "IPolygonProps",
 		"order": 9999,
 		"source": {
 			"fileName": "src/core/types/shape-primitive.ts",
 			"line": 90,
 			"character": 37
 		},
-		"extends": [
-			"IShapeLoopProps"
-		],
+		"extends": ["IShapeLoopProps"],
 		"properties": [
 			{
 				"name": "sideNumber",
@@ -10579,17 +10521,14 @@
 	},
 	{
 		"type": "Interface",
-		"name": "IRegularPolygonSettings",
+		"name": "IPolygonSettings",
 		"order": 9999,
 		"source": {
 			"fileName": "src/core/types/shape-primitive.ts",
 			"line": 102,
 			"character": 40
 		},
-		"extends": [
-			"IRegularPolygonProps",
-			"IShapeLoopSettings"
-		],
+		"extends": ["IPolygonProps", "IShapeLoopSettings"],
 		"properties": [
 			{
 				"name": "sideNumber",
@@ -11259,9 +11198,7 @@
 			"line": 109,
 			"character": 27
 		},
-		"extends": [
-			"IShapeLoopProps"
-		],
+		"extends": ["IShapeLoopProps"],
 		"description": "For <mark>n</mark> and <mark>d</mark> see Rose on <a target=\"_blank\" href=\"https://en.wikipedia.org/wiki/Rose_(mathematics)\">Wikipedia</a>",
 		"properties": [
 			{
@@ -11752,10 +11689,7 @@
 			"line": 127,
 			"character": 30
 		},
-		"extends": [
-			"IRoseProps",
-			"IShapeLoopSettings"
-		],
+		"extends": ["IRoseProps", "IShapeLoopSettings"],
 		"properties": [
 			{
 				"name": "n",
@@ -12442,9 +12376,7 @@
 			"line": 9,
 			"character": 34
 		},
-		"extends": [
-			"IShapePrimitiveProps"
-		],
+		"extends": ["IShapePrimitiveProps"],
 		"properties": [
 			{
 				"name": "sideLength",
@@ -12889,10 +12821,7 @@
 			"line": 15,
 			"character": 37
 		},
-		"extends": [
-			"IShapeBufferProps",
-			"IShapePrimitiveSettings"
-		],
+		"extends": ["IShapeBufferProps", "IShapePrimitiveSettings"],
 		"properties": [
 			{
 				"name": "shape",
@@ -13604,9 +13533,7 @@
 			"line": 63,
 			"character": 32
 		},
-		"extends": [
-			"IShapePrimitiveProps"
-		],
+		"extends": ["IShapePrimitiveProps"],
 		"properties": [
 			{
 				"name": "loop",
@@ -14062,10 +13989,7 @@
 			"line": 75,
 			"character": 35
 		},
-		"extends": [
-			"IShapeLoopProps",
-			"IShapePrimitiveSettings"
-		],
+		"extends": ["IShapeLoopProps", "IShapePrimitiveSettings"],
 		"properties": [
 			{
 				"name": "loop",
@@ -14718,9 +14642,7 @@
 			"line": 139,
 			"character": 29
 		},
-		"extends": [
-			"IShapeLoopProps"
-		],
+		"extends": ["IShapeLoopProps"],
 		"properties": [
 			{
 				"name": "spiral",
@@ -15221,10 +15143,7 @@
 			"line": 163,
 			"character": 32
 		},
-		"extends": [
-			"ISpiralProps",
-			"IShapeLoopSettings"
-		],
+		"extends": ["ISpiralProps", "IShapeLoopSettings"],
 		"properties": [
 			{
 				"name": "spiral",
@@ -17764,9 +17683,7 @@
 			"line": 19,
 			"character": 21
 		},
-		"extends": [
-			"Emitter"
-		],
+		"extends": ["Emitter"],
 		"description": "Abstract Drawer",
 		"constructor_ref": {
 			"parameters": [
@@ -18612,9 +18529,7 @@
 																	{
 																		"title": "Variables",
 																		"kind": 32,
-																		"children": [
-																			4265
-																		]
+																		"children": [4265]
 																	}
 																],
 																"sources": [
@@ -18719,9 +18634,7 @@
 			"line": 15,
 			"character": 18
 		},
-		"extends": [
-			"Drawer"
-		],
+		"extends": ["Drawer"],
 		"constructor_ref": {
 			"parameters": [
 				{
@@ -19334,9 +19247,7 @@
 											{
 												"title": "Variables",
 												"kind": 32,
-												"children": [
-													4344
-												]
+												"children": [4344]
 											}
 										],
 										"sources": [
@@ -19670,9 +19581,7 @@
 			"line": 15,
 			"character": 15
 		},
-		"extends": [
-			"Drawer"
-		],
+		"extends": ["Drawer"],
 		"description": "Abstract drawer",
 		"constructor_ref": {
 			"parameters": [
@@ -19929,9 +19838,7 @@
 											{
 												"title": "Variables",
 												"kind": 32,
-												"children": [
-													4481
-												]
+												"children": [4481]
 											}
 										],
 										"sources": [
@@ -20995,9 +20902,7 @@
 			"line": 18,
 			"character": 14
 		},
-		"extends": [
-			"Emitter"
-		],
+		"extends": ["Emitter"],
 		"properties": [
 			{
 				"name": "capturer",
@@ -21458,10 +21363,7 @@
 									{
 										"title": "Variables",
 										"kind": 32,
-										"children": [
-											3435,
-											3436
-										]
+										"children": [3435, 3436]
 									}
 								],
 								"sources": [
@@ -22902,9 +22804,7 @@
 			"line": 13,
 			"character": 14
 		},
-		"extends": [
-			"Emitter"
-		],
+		"extends": ["Emitter"],
 		"description": "Is used for sequence time management.\nIt is necessary to set the duration and the number of frames per second (frame rate).",
 		"constructor_ref": {
 			"parameters": [
@@ -23460,9 +23360,7 @@
 			"line": 205,
 			"character": 26
 		},
-		"extends": [
-			"ICallableValue"
-		],
+		"extends": ["ICallableValue"],
 		"properties": [
 			{
 				"name": "raw",
@@ -23787,9 +23685,7 @@
 			"line": 73,
 			"character": 41
 		},
-		"extends": [
-			"ICallableValue"
-		],
+		"extends": ["ICallableValue"],
 		"properties": [
 			{
 				"name": "dynamic",
@@ -24263,10 +24159,7 @@
 							{
 								"title": "Variables",
 								"kind": 32,
-								"children": [
-									3161,
-									3162
-								]
+								"children": [3161, 3162]
 							}
 						],
 						"sources": [
@@ -24316,9 +24209,7 @@
 			"line": 22,
 			"character": 37
 		},
-		"extends": [
-			"IDrawerOptions"
-		],
+		"extends": ["IDrawerOptions"],
 		"properties": [
 			{
 				"name": "backgroundImage",
@@ -24782,10 +24673,7 @@
 							{
 								"title": "Variables",
 								"kind": 32,
-								"children": [
-									3169,
-									3170
-								]
+								"children": [3169, 3170]
 							}
 						],
 						"sources": [
@@ -24811,9 +24699,7 @@
 			"line": 15,
 			"character": 34
 		},
-		"extends": [
-			"IDrawerOptions"
-		],
+		"extends": ["IDrawerOptions"],
 		"properties": [
 			{
 				"name": "decimals",
@@ -25243,10 +25129,7 @@
 						{
 							"title": "Variables",
 							"kind": 32,
-							"children": [
-								3179,
-								3180
-							]
+							"children": [3179, 3180]
 						}
 					],
 					"sources": [
@@ -25732,9 +25615,7 @@
 			"line": 47,
 			"character": 39
 		},
-		"extends": [
-			"ISceneChildDrawerData"
-		],
+		"extends": ["ISceneChildDrawerData"],
 		"properties": [
 			{
 				"name": "composite",
@@ -25989,12 +25870,7 @@
 									{
 										"title": "Variables",
 										"kind": 32,
-										"children": [
-											3384,
-											3383,
-											3382,
-											3381
-										]
+										"children": [3384, 3383, 3382, 3381]
 									}
 								]
 							},
@@ -26144,12 +26020,7 @@
 									{
 										"title": "Variables",
 										"kind": 32,
-										"children": [
-											3390,
-											3389,
-											3388,
-											3387
-										]
+										"children": [3390, 3389, 3388, 3387]
 									}
 								]
 							},
@@ -26294,10 +26165,7 @@
 								{
 									"title": "Variables",
 									"kind": 32,
-									"children": [
-										3414,
-										3415
-									]
+									"children": [3414, 3415]
 								}
 							],
 							"sources": [
@@ -26609,7 +26477,7 @@
 											{
 												"type": "reference",
 												"id": 1161,
-												"name": "IRegularPolygonSettings"
+												"name": "IPolygonSettings"
 											},
 											{
 												"type": "reference",
@@ -26756,12 +26624,7 @@
 												{
 													"title": "Variables",
 													"kind": 32,
-													"children": [
-														3422,
-														3419,
-														3420,
-														3421
-													]
+													"children": [3422, 3419, 3420, 3421]
 												}
 											],
 											"sources": [
@@ -26839,9 +26702,7 @@
 								{
 									"title": "Variables",
 									"kind": 32,
-									"children": [
-										3424
-									]
+									"children": [3424]
 								}
 							],
 							"sources": [
@@ -27009,11 +26870,7 @@
 							{
 								"title": "Variables",
 								"kind": 32,
-								"children": [
-									3214,
-									3215,
-									3216
-								]
+								"children": [3214, 3215, 3216]
 							}
 						],
 						"sources": [

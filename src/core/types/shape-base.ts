@@ -178,6 +178,7 @@ export interface IShapePrimitiveSettings<T extends IDrawerStreamProps = IDrawerS
 export interface IShapeRecursiveProps extends ISceneChildProps {
 	recursions?: TSceneChildProp<number>
 	recursionScale?: TSceneChildProp<number>
+	recursionVertex?: TSceneChildProp<number>
 }
 
 /**

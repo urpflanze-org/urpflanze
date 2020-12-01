@@ -13,6 +13,10 @@ import { vec2 } from 'gl-matrix'
  * @extends {ShapeLoop}
  */
 class Lissajous extends ShapeLoop<ILissajousProps> {
+	private wx!: number
+	private wy!: number
+	private wz!: number
+
 	/**
 	 * Creates an instance of Lissajous.
 	 *
@@ -21,7 +25,7 @@ class Lissajous extends ShapeLoop<ILissajousProps> {
 	 */
 	constructor(settings: ILissajousSettings = {}) {
 		settings.type = 'Lissajous'
-		settings.loopDependencies = (settings.loopDependencies || []).concat(['wx', 'wy', 'wz', 'sideLength'])
+		settings.loopDependencies = (settings.loopDependencies || []).concat(['wx', 'wy', 'wz'])
 		settings.adaptMode = EShapePrimitiveAdaptMode.None
 
 		super(settings, true)
@@ -41,20 +45,24 @@ class Lissajous extends ShapeLoop<ILissajousProps> {
 				const sideLength = this.getRepetitionSideLength(propArguments)
 				return (1 / Math.pow(sideLength[0] * sideLength[1], 0.25)) * ratio
 			},
-			vertex: (shapeLoopRepetition: IShapeLoopRepetition, propArguments?: ISceneChildPropArguments): vec2 => {
-				const wx = this.getProp('wx', propArguments) as number
-				const wy = this.getProp('wy', propArguments) as number
-				const wz = this.getProp('wz', propArguments, 0) as number
-
-				return wx == wy
-					? [Math.cos(shapeLoopRepetition.angle + wz), Math.sin(shapeLoopRepetition.angle)]
-					: [Math.cos(wx * shapeLoopRepetition.angle + wz), Math.sin(wy * shapeLoopRepetition.angle)]
+			vertex: (shapeLoopRepetition: IShapeLoopRepetition): vec2 => {
+				return this.wx === this.wy
+					? [Math.cos(shapeLoopRepetition.angle + this.wz), Math.sin(shapeLoopRepetition.angle)]
+					: [Math.cos(this.wx * shapeLoopRepetition.angle + this.wz), Math.sin(this.wy * shapeLoopRepetition.angle)]
 			},
 		}
 
 		this.bStaticLoop = this.isStaticLoop()
 		this.bStatic = this.isStatic()
 		this.bStaticIndexed = this.isStaticIndexed()
+	}
+
+	protected generateLoopBuffer(propArguments: ISceneChildPropArguments): Float32Array {
+		this.wx = this.getProp('wx', propArguments, 1)
+		this.wy = this.getProp('wy', propArguments, 2)
+		this.wz = this.getProp('wz', propArguments, 2)
+
+		return super.generateLoopBuffer(propArguments)
 	}
 }
 

@@ -17,6 +17,7 @@ import * as glme from '@core/math/gl-matrix-extensions'
 import { clamp } from 'src/Utilites'
 import Vec2 from '@core/math/Vec2'
 import Bounding from '@core/math/bounding'
+import { PI2 } from '@core/math'
 
 glMatrix.setMatrixArrayType(Array)
 
@@ -85,11 +86,6 @@ abstract class ShapeBase<GShapeBaseProps extends ISceneChildProps = ISceneChildP
 	 *
 	 */
 	protected props: GShapeBaseProps
-
-	/**
-	 *
-	 */
-	public currentGenerationProps!: GShapeBaseProps
 
 	/**
 	 * Shape generation id
@@ -288,9 +284,6 @@ abstract class ShapeBase<GShapeBaseProps extends ISceneChildProps = ISceneChildP
 		propArguments?: ISceneChildPropArguments,
 		defaultValue?: number | vec2
 	): any {
-		if (typeof (this.currentGenerationProps as any)[key] !== 'undefined')
-			return (this.currentGenerationProps as any)[key]
-
 		let attribute: any = (this.props as any)[key] as any
 
 		if (typeof attribute === 'function') {
@@ -302,11 +295,7 @@ abstract class ShapeBase<GShapeBaseProps extends ISceneChildProps = ISceneChildP
 			attribute = attribute(propArguments)
 		}
 
-		const result = typeof attribute === 'undefined' || Number.isNaN(attribute) ? defaultValue : attribute
-
-		;(this.currentGenerationProps as any)[key] = result
-
-		return result
+		return typeof attribute === 'undefined' || Number.isNaN(attribute) ? defaultValue : attribute
 	}
 
 	/**
@@ -366,8 +355,6 @@ abstract class ShapeBase<GShapeBaseProps extends ISceneChildProps = ISceneChildP
 
 		this.generateId = generateId
 
-		this.currentGenerationProps = {} as GShapeBaseProps
-
 		if (!this.bStaticIndexed || !this.bIndexed) this.indexedBuffer = []
 
 		const repetition: IRepetition = {
@@ -393,8 +380,6 @@ abstract class ShapeBase<GShapeBaseProps extends ISceneChildProps = ISceneChildP
 			{ parent: parentPropArguments, repetition, time: 1, context: Context },
 			1
 		)
-
-		this.currentGenerationProps.repetitions = repetitions
 
 		const repetitionType = Array.isArray(repetitions) ? ERepetitionType.Matrix : ERepetitionType.Ring
 		const repetitionCount = Array.isArray(repetitions)
@@ -442,8 +427,7 @@ abstract class ShapeBase<GShapeBaseProps extends ISceneChildProps = ISceneChildP
 				repetition.index = currentIndex + 1
 				repetition.offset = repetitionCount > 1 ? currentIndex / (repetitionCount - 1) : 1
 
-				repetition.angle =
-					repetitionType === ERepetitionType.Ring ? ((Math.PI * 2) / repetitionCount) * currentIndex : 0
+				repetition.angle = repetitionType === ERepetitionType.Ring ? (PI2 / repetitionCount) * currentIndex : 0
 				colRepetition.index = currentColRepetition + 1
 				colRepetition.offset = repetitionColCount > 1 ? currentColRepetition / (repetitionColCount - 1) : 1
 				rowRepetition.index = currentRowRepetition + 1
@@ -460,33 +444,19 @@ abstract class ShapeBase<GShapeBaseProps extends ISceneChildProps = ISceneChildP
 
 				{
 					const distance = glme.toVec2(this.getProp('distance', propArguments, glme.VEC2_ZERO))
-					this.currentGenerationProps.distance = distance
 					const displace = this.getProp('displace', propArguments, 0) as number
-					this.currentGenerationProps.displace = displace
 					const scale = glme.toVec3(this.getProp('scale', propArguments, glme.VEC2_ONE), 1)
-					this.currentGenerationProps.scale = scale
 					const translate = glme.toVec3(this.getProp('translate', propArguments, glme.VEC2_ZERO), 0)
-					this.currentGenerationProps.translate = translate
 					const skewX = this.getProp('skewX', propArguments, 0) as number
-					this.currentGenerationProps.skewX = skewX
 					const skewY = this.getProp('skewY', propArguments, 0) as number
-					this.currentGenerationProps.skewY = skewY
 					const squeezeX = this.getProp('squeezeX', propArguments, 0) as number
-					this.currentGenerationProps.squeezeX = squeezeX
 					const squeezeY = this.getProp('squeezeY', propArguments, 0) as number
-					this.currentGenerationProps.squeezeY = squeezeY
 					const rotateX = this.getProp('rotateX', propArguments, 0) as number
-					this.currentGenerationProps.rotateX = rotateX
 					const rotateY = this.getProp('rotateY', propArguments, 0) as number
-					this.currentGenerationProps.rotateY = rotateY
 					const rotateZ = this.getProp('rotateZ', propArguments, 0) as number
-					this.currentGenerationProps.rotateZ = rotateZ
 					const perspective = clamp(0, 1, this.getProp('perspective', propArguments, 0) as number)
-					this.currentGenerationProps.perspective = perspective
 					const perspectiveOrigin = glme.toVec3(this.getProp('perspectiveOrigin', propArguments, glme.VEC2_ZERO), 0)
-					this.currentGenerationProps.perspectiveOrigin = perspectiveOrigin
 					const transformOrigin = glme.toVec3(this.getProp('transformOrigin', propArguments, glme.VEC2_ZERO), 0)
-					this.currentGenerationProps.transformOrigin = transformOrigin
 
 					let offset: vec3
 
@@ -497,8 +467,8 @@ abstract class ShapeBase<GShapeBaseProps extends ISceneChildProps = ISceneChildP
 							break
 						case ERepetitionType.Matrix:
 							offset = vec3.fromValues(
-								distance[1] * (currentColRepetition - centerMatrix[1]),
-								distance[0] * (currentRowRepetition - centerMatrix[0]),
+								distance[0] * (currentColRepetition - centerMatrix[0]),
+								distance[1] * (currentRowRepetition - centerMatrix[1]),
 								0
 							)
 							break

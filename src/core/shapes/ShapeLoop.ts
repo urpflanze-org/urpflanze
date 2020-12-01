@@ -80,7 +80,7 @@ class ShapeLoop<K extends IShapeLoopProps = IShapeLoopProps> extends ShapePrimit
 		settings.type = settings.type || 'ShapeLoop'
 		super(settings)
 
-		this.loopDependencies = settings.loopDependencies || []
+		this.loopDependencies = (settings.loopDependencies || []).concat('sideLength')
 
 		this.props.loop = settings.loop
 
@@ -210,12 +210,12 @@ class ShapeLoop<K extends IShapeLoopProps = IShapeLoopProps> extends ShapePrimit
 	/**
 	 * Generate loop buffer
 	 *
-	 * @private
+	 * @protected
 	 * @param {ISceneChildPropArguments} propArguments
 	 * @returns {Float32Array}
 	 */
-	private generateLoopBuffer(propArguments: ISceneChildPropArguments): Float32Array {
-		const { start, end, count } = this.getLoop(propArguments)
+	protected generateLoopBuffer(propArguments: ISceneChildPropArguments): Float32Array {
+		const { start, inc, end, count } = this.getLoop(propArguments)
 
 		const sideLength = this.getRepetitionSideLength(propArguments)
 		const getVertex = (this.props.loop && this.props.loop.vertex
@@ -238,9 +238,9 @@ class ShapeLoop<K extends IShapeLoopProps = IShapeLoopProps> extends ShapePrimit
 		const tmpBounding = [undefined, undefined, undefined, undefined]
 
 		for (let i = 0, j = 0; i < vertexLength; i++, j += 2) {
+			const angle = start + inc * i
 			const offset = shapeLoop.count > 1 ? i / (shapeLoop.count - 1) : 1
-			// const angle = start + inc * i
-			const angle = (end - start) * offset + start
+			// const angle = (end - start) * offset + start
 
 			shapeLoop.angle = angle
 			shapeLoop.index = i + 1

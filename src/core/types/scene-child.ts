@@ -71,6 +71,9 @@ export interface IShapeLoopRepetition extends IBaseRepetition {
  */
 export interface IRecursionRepetition extends IBaseRepetition {
 	level: number
+
+	level_offset: number
+
 	/**
 	 * parent recursion
 	 *

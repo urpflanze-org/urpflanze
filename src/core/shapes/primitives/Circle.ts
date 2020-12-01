@@ -18,7 +18,6 @@ class Circle extends ShapeLoop {
 	 */
 	constructor(settings: IShapeLoopSettings = {}) {
 		settings.type = 'Circle'
-		settings.loopDependencies = (settings.loopDependencies || []).concat(['sideLength'])
 		settings.adaptMode = EShapePrimitiveAdaptMode.None
 
 		super(settings, true)

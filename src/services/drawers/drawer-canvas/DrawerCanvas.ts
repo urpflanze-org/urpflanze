@@ -41,23 +41,6 @@ class DrawerCanvas extends Drawer<IDrawerCanvasOptions, IDrawerCanvasEvents> {
 	) {
 		super(scene, ratio, duration, framerate)
 
-		this.bBuffering = bBuffering
-
-		this.buffer = new FrameBuffer()
-
-		if (
-			(typeof HTMLCanvasElement !== 'undefined' && canvasOrContainer instanceof HTMLCanvasElement) ||
-			(typeof OffscreenCanvas !== 'undefined' && canvasOrContainer instanceof OffscreenCanvas)
-		) {
-			const canvas = canvasOrContainer
-			this.setCanvas(canvas)
-		} else if (canvasOrContainer) {
-			const canvas = document.createElement('canvas')
-			const container = canvasOrContainer as HTMLElement
-			container.appendChild(canvas)
-			this.setCanvas(canvas)
-		}
-
 		this.drawerOptions = {
 			// scale: drawerOptions.scale ?? 1,
 			// translate: drawerOptions.translate ?? [0, 0],
@@ -72,6 +55,21 @@ class DrawerCanvas extends Drawer<IDrawerCanvasOptions, IDrawerCanvasEvents> {
 			ghostSkipFunction: drawerOptions.ghostSkipFunction,
 			backgroundImage: drawerOptions.backgroundImage,
 			backgroundImageFit: drawerOptions.backgroundImageFit || 'cover',
+		}
+		this.bBuffering = bBuffering
+
+		this.buffer = new FrameBuffer()
+		if (
+			(typeof HTMLCanvasElement !== 'undefined' && canvasOrContainer instanceof HTMLCanvasElement) ||
+			(typeof OffscreenCanvas !== 'undefined' && canvasOrContainer instanceof OffscreenCanvas)
+		) {
+			const canvas = canvasOrContainer
+			this.setCanvas(canvas)
+		} else if (canvasOrContainer) {
+			const canvas = document.createElement('canvas')
+			const container = canvasOrContainer as HTMLElement
+			container.appendChild(canvas)
+			this.setCanvas(canvas)
 		}
 	}
 
@@ -125,7 +123,7 @@ class DrawerCanvas extends Drawer<IDrawerCanvasOptions, IDrawerCanvasEvents> {
 
 		this.context = this.canvas.getContext('2d', {
 			alpha: true,
-			desynchronized: false,
+			desynchronized: true,
 		})
 
 		if (this.scene) {
@@ -176,6 +174,7 @@ class DrawerCanvas extends Drawer<IDrawerCanvasOptions, IDrawerCanvasEvents> {
 
 		this.flushBuffer()
 		this.dispatch('drawer-canvas:resize')
+		this.redraw()
 	}
 
 	public flushBuffer(): void {
@@ -458,8 +457,7 @@ class DrawerCanvas extends Drawer<IDrawerCanvasOptions, IDrawerCanvasEvents> {
 				scene.getChildren().forEach((sceneChild: SceneChild) => {
 					if (
 						!sceneChild.data ||
-						!(sceneChild.data.visible === false) ||
-						!(bGhost && sceneChild.data.disableGhost === true)
+						(!(sceneChild.data.visible === false) && !(bGhost && sceneChild.data.disableGhost === true))
 					) {
 						sceneChild.generate(time, true)
 						context.save()
@@ -632,7 +630,7 @@ class DrawerCanvas extends Drawer<IDrawerCanvasOptions, IDrawerCanvasEvents> {
 		color: string
 	): void {
 		const offset = Math.PI / simmetricLines
-		const size = Math.max(width, height) / 2
+		const size = Math.max(width, height)
 		const center = [size / 2, size / 2]
 
 		for (let i = 0; i < simmetricLines; i++) {
@@ -647,10 +645,12 @@ class DrawerCanvas extends Drawer<IDrawerCanvasOptions, IDrawerCanvasEvents> {
 			context.strokeStyle = color
 			context.lineWidth = 1
 
+			context.moveTo(a[0], a[1])
+			context.lineTo(b[0], b[1])
+
 			// context.moveTo((a[0] - size / 2) * scale[0] + translate[0], (a[1] - size / 2) * scale[1] + translate[1])
 			// context.lineTo((b[0] - size / 2) * scale[0] + translate[0], (b[1] - size / 2) * scale[1] + translate[1])
-			context.moveTo(a[0] - size / 2, a[1] - size / 2)
-			context.lineTo(b[0] - size / 2, b[1] - size / 2)
+
 			context.stroke()
 		}
 	}

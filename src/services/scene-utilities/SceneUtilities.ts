@@ -6,7 +6,7 @@ import SceneChild from '@core/SceneChild'
 import Line from '@core/shapes/primitives/Line'
 import Triangle from '@core/shapes/primitives/Triangle'
 import Rect from '@core/shapes/primitives/Rect'
-import RegularPolygon from '@core/shapes/primitives/RegularPolygon'
+import Polygon from '@core/shapes/primitives/Polygon'
 import Circle from '@core/shapes/primitives/Circle'
 
 import Rose from '@core/shapes/primitives/Rose'
@@ -47,7 +47,7 @@ class SceneUtilities {
 			Line,
 			Triangle,
 			Rect,
-			RegularPolygon,
+			Polygon,
 			Circle,
 			Rose,
 			Spiral,

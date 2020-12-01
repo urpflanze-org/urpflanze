@@ -324,8 +324,10 @@ abstract class Drawer<IADrawerOptions extends IDrawerOptions, IDrawerEvents> ext
 						: i * (drawerOptions.ghostSkipTime as number))
 
 				ghostDrawerOptions.ghostIndex = i
-				ghostDrawerOptions.time = (ghostTime + sequenceDurate) % sequenceDurate
-
+				ghostDrawerOptions.time = ghostTime % sequenceDurate
+				if (ghostDrawerOptions.time < 0) {
+					ghostDrawerOptions.time += sequenceDurate
+				}
 				ghostCallback(ghostDrawerOptions)
 			}
 		}

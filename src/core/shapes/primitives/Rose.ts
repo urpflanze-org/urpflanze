@@ -13,6 +13,8 @@ import { PI2 } from '@core/math'
  * @extends {ShapeLoop}
  */
 class Rose extends ShapeLoop<IRoseProps> {
+	private k!: number
+
 	/**
 	 * Creates an instance of Rose.
 	 *
@@ -21,7 +23,7 @@ class Rose extends ShapeLoop<IRoseProps> {
 	 */
 	constructor(settings: IRoseSettings = {}) {
 		settings.type = 'Rose'
-		settings.loopDependencies = (settings.loopDependencies || []).concat(['n', 'd', 'sideLength'])
+		settings.loopDependencies = (settings.loopDependencies || []).concat(['n', 'd'])
 		settings.adaptMode = settings.adaptMode ?? EShapePrimitiveAdaptMode.Scale
 
 		super(settings, true)
@@ -43,9 +45,8 @@ class Rose extends ShapeLoop<IRoseProps> {
 				return PI2 / (sides * k)
 			},
 
-			vertex: (shapeLoopRepetition: IShapeLoopRepetition, propArguments?: ISceneChildPropArguments): vec2 => {
-				const k = (this.getProp('n', propArguments) as number) / (this.getProp('d', propArguments) as number)
-				const f = Math.cos(k * shapeLoopRepetition.angle)
+			vertex: (shapeLoopRepetition: IShapeLoopRepetition): vec2 => {
+				const f = Math.cos(this.k * shapeLoopRepetition.angle)
 
 				return [f * Math.cos(shapeLoopRepetition.angle), f * Math.sin(shapeLoopRepetition.angle)]
 			},
@@ -54,6 +55,12 @@ class Rose extends ShapeLoop<IRoseProps> {
 		this.bStaticLoop = this.isStaticLoop()
 		this.bStatic = this.isStatic()
 		this.bStaticIndexed = this.isStaticIndexed()
+	}
+
+	protected generateLoopBuffer(propArguments: ISceneChildPropArguments): Float32Array {
+		this.k = (this.getProp('n', propArguments) as number) / (this.getProp('d', propArguments) as number)
+
+		return super.generateLoopBuffer(propArguments)
 	}
 
 	/**

@@ -17,7 +17,7 @@ export { default as Shape } from '@core/shapes/Shape'
 export { default as Line } from '@core/shapes/primitives/Line'
 export { default as Triangle } from '@core/shapes/primitives/Triangle'
 export { default as Rect } from '@core/shapes/primitives/Rect'
-export { default as RegularPolygon } from '@core/shapes/primitives/RegularPolygon'
+export { default as Polygon } from '@core/shapes/primitives/Polygon'
 export { default as Circle } from '@core/shapes/primitives/Circle'
 
 export { default as Rose } from '@core/shapes/primitives/Rose'
@@ -31,7 +31,7 @@ export { default as Vec2 } from '@core/math/Vec2'
 
 export { default as Context } from '@core/Context'
 
-export { PHI, log } from '@core/math'
+export { PHI, PI2, log } from '@core/math'
 
 /**
  * Services

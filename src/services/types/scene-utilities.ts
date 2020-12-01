@@ -3,7 +3,7 @@ import { IProjectSceneChildData } from '@services/types/exporters-importers'
 import SceneChild from '@core/SceneChild'
 import {
 	ILissajousSettings,
-	IRegularPolygonSettings,
+	IPolygonSettings,
 	IRoseSettings,
 	IShapeBufferSettings,
 	IShapeLoopSettings,
@@ -18,7 +18,7 @@ export type TSceneChildProps = Omit<
 	(IShapeLoopSettings &
 		IShapeBufferSettings &
 		IShapeSettings &
-		IRegularPolygonSettings &
+		IPolygonSettings &
 		ILissajousSettings &
 		ISpiralSettings &
 		IRoseSettings) & {
