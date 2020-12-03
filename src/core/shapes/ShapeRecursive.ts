@@ -19,15 +19,16 @@ class ShapeRecursive extends Shape<IShapeRecursiveProps> {
 	 * Contain the bounding of the last generated buffer
 	 *
 	 * @type {IShapeBounding}
+	 * @internal
 	 */
-	public currentGenerationRecursiveBounding: IShapeBounding
+	protected currentGenerationRecursiveBounding: IShapeBounding
 
-	/**
-	 * Inner recursion
-	 *
-	 * @type {boolean}
-	 */
-	public bInner: boolean
+	// /**
+	//  * Inner recursion
+	//  *
+	//  * @type {boolean}
+	//  */
+	// public bInner: boolean
 
 	private shapeRecursiveBuffer: Float32Array | undefined
 
@@ -44,7 +45,7 @@ class ShapeRecursive extends Shape<IShapeRecursiveProps> {
 		this.props.recursionScale = settings.recursionScale || 2
 		this.props.recursionVertex = settings.recursionVertex || 0
 
-		this.bInner = settings.bInner ?? false
+		// this.bInner = settings.bInner ?? false
 
 		this.bStatic = this.isStatic()
 		this.bStaticIndexed = this.isStaticIndexed()
@@ -52,15 +53,15 @@ class ShapeRecursive extends Shape<IShapeRecursiveProps> {
 		this.currentGenerationRecursiveBounding = { ...ShapePrimitive.EMPTY_BOUNDING }
 	}
 
-	/**
-	 * Set type of recursion
-	 *
-	 * @param {boolean} inner
-	 */
-	public setRecursionnInner(inner: boolean): void {
-		this.bInner = inner
-		this.clearBuffer(true)
-	}
+	// /**
+	//  * Set type of recursion
+	//  *
+	//  * @param {boolean} inner
+	//  */
+	// public setRecursionnInner(inner: boolean): void {
+	// 	this.bInner = inner
+	// 	this.clearBuffer(true)
+	// }
 
 	/**
 	 *
@@ -194,31 +195,31 @@ class ShapeRecursive extends Shape<IShapeRecursiveProps> {
 				const centerY = recusiveShapeBuffer[centerVertexIndex + 1]
 
 				for (let i = 0, len = singleShapeBufferLength; i < len; i += 2) {
-					if (this.bInner) {
-						const parentCurrentVertex =
-							parentRecursionBufferStartIndex +
-							Math.floor(currentShapeRecursionRepetition / singleShapeVertexCount) *
-								singleShapeVertexCount *
-								recursionOffsetMultiplier *
-								2
+					// if (this.bInner) {
+					// 	const parentCurrentVertex =
+					// 		parentRecursionBufferStartIndex +
+					// 		Math.floor(currentShapeRecursionRepetition / singleShapeVertexCount) *
+					// 			singleShapeVertexCount *
+					// 			recursionOffsetMultiplier *
+					// 			2
 
-						const parentX = recusiveShapeBuffer[parentCurrentVertex + i]
-						const parentY = recusiveShapeBuffer[parentCurrentVertex + i + 1]
+					// 	const parentX = recusiveShapeBuffer[parentCurrentVertex + i]
+					// 	const parentY = recusiveShapeBuffer[parentCurrentVertex + i + 1]
 
-						recusiveShapeBuffer[shapeVertexBufferIndex + i] = (centerX - parentX) / recursionScale + parentX
-						recusiveShapeBuffer[shapeVertexBufferIndex + i + 1] = (centerY - parentY) / recursionScale + parentY
+					// 	recusiveShapeBuffer[shapeVertexBufferIndex + i] = (centerX - parentX) / recursionScale + parentX
+					// 	recusiveShapeBuffer[shapeVertexBufferIndex + i + 1] = (centerY - parentY) / recursionScale + parentY
 
-						// const parentX = shapeBuffer[i] / recursionScale ** currentRecursion
-						// const parentY = shapeBuffer[i + 1] / recursionScale ** currentRecursion
-						// recusiveShapeBuffer[shapeVertexBufferIndex + i] = (centerX - parentX) / recursionScale + parentX
-						// recusiveShapeBuffer[shapeVertexBufferIndex + i + 1] = (centerY - parentY) / recursionScale + parentY
-					} else {
-						const parentXScaled = shapeBuffer[i] / recursionScale ** currentRecursion
-						const parentYScaled = shapeBuffer[i + 1] / recursionScale ** currentRecursion
+					// const parentX = shapeBuffer[i] / recursionScale ** currentRecursion
+					// const parentY = shapeBuffer[i + 1] / recursionScale ** currentRecursion
+					// recusiveShapeBuffer[shapeVertexBufferIndex + i] = (centerX - parentX) / recursionScale + parentX
+					// recusiveShapeBuffer[shapeVertexBufferIndex + i + 1] = (centerY - parentY) / recursionScale + parentY
+					// } else {
+					const parentXScaled = shapeBuffer[i] / recursionScale ** currentRecursion
+					const parentYScaled = shapeBuffer[i + 1] / recursionScale ** currentRecursion
 
-						recusiveShapeBuffer[shapeVertexBufferIndex + i] = centerX + parentXScaled
-						recusiveShapeBuffer[shapeVertexBufferIndex + i + 1] = centerY + parentYScaled
-					}
+					recusiveShapeBuffer[shapeVertexBufferIndex + i] = centerX + parentXScaled
+					recusiveShapeBuffer[shapeVertexBufferIndex + i + 1] = centerY + parentYScaled
+					// }
 
 					Bounding.add(
 						tmpBounding,
@@ -242,11 +243,7 @@ class ShapeRecursive extends Shape<IShapeRecursiveProps> {
 		generateId: number,
 		recursionRepetition: IRecursionRepetition
 	): Float32Array {
-		if (this.shape && !this.shape.isStatic()) {
-			propArguments.recursion = recursionRepetition
-			this.shape.generate(generateId, false, propArguments)
-		}
-
+		propArguments.recursion = recursionRepetition
 		return super.generateBuffer(generateId, propArguments)
 	}
 

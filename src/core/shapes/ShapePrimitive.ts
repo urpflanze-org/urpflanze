@@ -73,7 +73,7 @@ abstract class ShapePrimitive<
 
 		this.props.sideLength =
 			typeof settings.sideLength === 'undefined'
-				? [50, 50]
+				? undefined
 				: typeof settings.sideLength === 'function'
 				? settings.sideLength
 				: (glme.toVec2(settings.sideLength) as [number, number])
@@ -95,7 +95,12 @@ abstract class ShapePrimitive<
 
 	public getRepetitionSideLength(propArguments: ISceneChildPropArguments): vec2 {
 		if (this.bStatic) {
-			// if undefined, is set to default by constructor
+			// not set default value into constructor because it can be overridden by group
+			if (typeof this.props.sideLength === 'undefined') {
+				this.props.sideLength = [50, 50]
+			} else if (typeof this.props.sideLength === 'number') {
+				this.props.sideLength = [this.props.sideLength, this.props.sideLength]
+			}
 			return this.props.sideLength as [number, number]
 		}
 

@@ -291,7 +291,7 @@ abstract class ShapeBase<GShapeBaseProps extends ISceneChildProps = ISceneChildP
 		if (typeof attribute === 'function') {
 			propArguments = propArguments || ShapeBase.EMPTY_PROP_ARGUMENTS
 
-			// if (typeof propArguments.shape === 'undefined') propArguments.shape = this
+			propArguments.shape = this
 			propArguments.time = this.scene?.currentTime || 0
 
 			attribute = attribute(propArguments)
@@ -409,7 +409,6 @@ abstract class ShapeBase<GShapeBaseProps extends ISceneChildProps = ISceneChildP
 			context: Context,
 			time: this.scene?.currentTime || 0,
 			shape: this,
-			data: this.data,
 			parent: parentPropArguments,
 		}
 

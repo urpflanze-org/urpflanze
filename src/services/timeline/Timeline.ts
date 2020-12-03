@@ -284,8 +284,8 @@ class Timeline extends Emitter<ITimelineEvents> {
 	 * @param {number} frame
 	 */
 	public setFrame(frame: number): void {
-		this.current_frame = frame
-		this.current_time = this.getFrameTime(frame)
+		this.current_frame = pmod(frame, this.sequence.frames)
+		this.current_time = this.getFrameTime(this.current_frame)
 	}
 
 	/**
@@ -312,7 +312,7 @@ class Timeline extends Emitter<ITimelineEvents> {
 	 * @param {number} time
 	 */
 	public setTime(time: number): void {
-		time = (time + this.sequence.durate) % this.sequence.durate
+		time = pmod(time, this.sequence.durate)
 
 		this.current_time = time
 		this.current_frame = this.getFrameAtTime(time)

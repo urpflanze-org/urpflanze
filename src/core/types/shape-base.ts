@@ -189,12 +189,12 @@ export interface IShapeRecursiveProps extends ISceneChildProps {
  * @category Core.Props and Settings Interfaces
  */
 export interface IShapeRecursiveSettings extends IShapeRecursiveProps, IShapeSettings {
-	/**
-	 * Decide position of recursions
-	 *
-	 * @order -21
-	 */
-	bInner?: boolean
+	// /**
+	//  * Decide position of recursions
+	//  *
+	//  * @order -21
+	//  */
+	// bInner?: boolean
 }
 
 /**

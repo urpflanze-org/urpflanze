@@ -57,7 +57,7 @@ export interface IBaseRepetition {
  */
 export interface IShapeLoopRepetition extends IBaseRepetition {
 	/**
-	 * angle of current repetition = repetition.offset * Math.PI * 2
+	 * angle of current repetition, from 0 to Math.PI * 2
 	 *
 	 * @order 4
 	 */
@@ -298,13 +298,39 @@ export interface ISceneChildSettings extends ISceneChildProps {
  * @category Core.Interfaces
  */
 export interface ISceneChildPropArguments {
+	/**
+	 * Information about repetition
+	 * @order 1
+	 */
 	repetition: IRepetition
+	/**
+	 * Information about recursion (if is encapsulated in a ShapeRecursive)
+	 * @order 2
+	 */
 	recursion?: IRecursionRepetition
-	context: typeof Context
-	time: number
-	shape?: ShapeBase
-	data?: any
 
+	/**
+	 * Global Context object
+	 * @order 3
+	 */
+	context: typeof Context
+
+	/**
+	 * Current Scene time
+	 * @order 4
+	 */
+	time: number
+
+	/**
+	 * Current Shape
+	 * @order 5
+	 */
+	shape?: ShapeBase
+
+	/**
+	 * Parent repetition (if encapsulated)
+	 * @order 7
+	 */
 	parent?: Partial<ISceneChildPropArguments>
 }
 
