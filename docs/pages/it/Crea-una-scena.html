@@ -23,7 +23,7 @@ drawer.draw() // Disegna la scena su canvas
 </script>
 
 <p>
-	Per ripetere il rettangolo in maniara <a href="#/ref/ERepetitionType">Circolare</a> basterà aggiungere ai parametri di
+	Per ripetere il rettangolo in maniera <a href="#/ref/ERepetitionType">Circolare</a> basterà aggiungere ai parametri di
 	<mark>Rect</mark>, la proprietà <mark>repetitions</mark> che indica il numero di ripetizioni e la proprietà
 	<mark>distance</mark> che indica la distanza delle ripetizioni dal centro della scena.
 </p>
@@ -37,7 +37,7 @@ const scene = new Urpflanze.Scene()
 const rect = new Urpflanze.Rect({
 	repetitions: 8, 
 	distance: 100,
-	sideLength: 20 // Dimensione del raggio rettangolo
+	sideLength: 20 // Dimensione del raggio del rettangolo
 })
 
 // Aggiunge il rettangolo alla scena
@@ -63,6 +63,10 @@ Prima di continuare è importante spiegare la gerarchia delle classi aggiungibil
 	<li><mark>Shape</mark> <i>è un'incapsulatore di SceneChild su cui è possibile applicare le proprietà</i></li>
 	<li><mark>ShapeBuffer</mark> <i>è una forma primitiva generata da un buffer statico</i></li>
 	<li><mark>ShapeLoop</mark> <i>è una forma primitiva generata da un ciclo</i></li>
+	<li>
+		<mark>ShapeRecursive</mark>
+		<i>è una forma che ripete su ogni vertice uno SceneChild ed è possibile applicare le proprietà</i>
+	</li>
 </ul>
 
 Puoi utilizzare di base alcune ShapeBuffer e ShapeLoop
@@ -147,3 +151,6 @@ scene.add(container)
 const drawer = new Urpflanze.DrawerCanvas(scene, document.body)
 drawer.draw()
 </script>
+<div class="next-page">
+	<a href="#/it/Gestire-le-ripetizioni">Gestire le ripetizioni -></a>
+</div>

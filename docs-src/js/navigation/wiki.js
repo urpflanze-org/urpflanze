@@ -8,13 +8,16 @@ const wiki = {
 			'Primi passi': {
 				Installazione: 'it/Installazione',
 				'Crea una scena': 'it/Crea-una-scena',
-				// 'DrawerCanvas e gestione del tempo': '',
+				'Gestire le ripetizioni': 'it/Gestire-le-ripetizioni',
+				'Drawer e gestione del tempo': 'it/Drawer-e-gestione-del-tempo',
 				// 'Timeline e creazione di un loop': '',
 			},
 			Avanzate: {
-				// Ripetizioni: '',
 				// 'Forme generative': '',
 				// 'Vertex Callback': '',
+				// SVGImport: '',
+				// Rendering: '',
+				// Custom Drawer: '',
 			},
 		},
 	},

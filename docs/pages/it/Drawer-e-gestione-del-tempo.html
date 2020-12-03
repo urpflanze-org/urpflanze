@@ -1,0 +1,36 @@
+<h1>Drawer e gestione del tempo</h1>
+
+<h2>Architettura</h2>
+È importante specificare che Urpflanze è diviso in due macrocategorie: Core e Services.<br />
+Il Core è la parte per la generazione dei punti.
+
+<!-- prettier-ignore -->
+<script id="d-t_1" class="runnable-script">/** 
+* Spirale di quadrati
+*/
+const scene = new Urpflanze.Scene()
+
+const shape = new Urpflanze.Rect({
+    repetitions: [6, 6],
+    sideLength: 10,
+    distance: 20,
+})
+
+const continer = new Urpflanze.Shape({
+    shape: shape,
+    repetitions: 4,
+    distance: 100,
+    rotateY: ({ time }) => time/ 1000,
+    perspective: .8
+})
+
+scene.add(continer) 
+
+const drawer = new Urpflanze.DrawerCanvas(scene, document.body)
+const timeline = drawer.getTimeline()
+
+timeline.setFramerate(10)
+
+drawer.startAnimation()
+
+</script>

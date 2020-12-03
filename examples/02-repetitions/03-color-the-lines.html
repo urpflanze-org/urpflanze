@@ -28,8 +28,9 @@
 					// invert the values because the line is rotated on z axis
 					return [y, x]
 				},
-
-				strokeColor: propArguments => `hsl(${Math.floor(propArguments.repetition.col.offset * 360)}, 100%, 50%)`,
+				style: {
+					strokeColor: propArguments => `hsl(${Math.floor(propArguments.repetition.col.offset * 360)}, 100%, 50%)`,
+				},
 			})
 
 			scene.add(lines)

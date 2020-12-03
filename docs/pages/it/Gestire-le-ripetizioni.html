@@ -1,0 +1,94 @@
+<h1>Gestire le ripetizioni</h1>
+
+<h2>L'oggetto propArguments</h2>
+Per gestire le ripetizioni possiamo passare alle proprietà una funzione al posto di una costante.<br />
+Essa accetta un solo argomento che è di tipo
+<a href="#/ref/ISceneChildPropArguments">ISceneChildPropArguments</a> che chiameremo <mark>propArguments</mark>.
+<p>
+	All'interno di <mark>propArguments</mark> troviamo la proprietà <mark>repetition</mark> che è di tipo
+	<a href="#/ref/IRepetition">IRepetition</a>. Ogni oggetto che estende una
+	<a href="#/ref/IBaseRepetition">IBaseRepetition</a> contiene le seguenti proprietà:
+</p>
+<ul class="details">
+	<li>
+		<mark>index</mark> <i>l'indice corrente, da 1 a <mark>count</mark></i>
+	</li>
+	<li><mark>count</mark> <i>il numero totale di ripetizioni</i></li>
+	<li>
+		<mark>offset</mark>
+		<i>
+			un indice che va da 0 ad 1 che non dipende dal numero di ripetizioni. Ad esempio, se il numero di ripetizioni sono
+			3, il valore di offset sarà 0 - 0.5 - 1
+		</i>
+	</li>
+</ul>
+
+<h2>Una spirale di quadrati</h2>
+Usiamo la proprietà <mark>repetition</mark> dell'argomento <mark>propArguments</mark>
+per generare una spirale.
+<p>
+	Passando una costante numerica al parametro <mark>repetitions</mark> le ripetizioni si distribuiranno in maniera
+	circolare. Sfruttando questo comportamento possiamo aumentare per ogni ripetizione la distanza dal centro e la scala
+</p>
+
+<!-- prettier-ignore -->
+<script id="g-r_1" class="runnable-script">/**
+ * Spirale di quadrati
+ */
+const scene = new Urpflanze.Scene()
+
+const spiral = new Urpflanze.Rect({
+        repetitions: 20,
+        sideLength: 30,
+
+        distance: propArguments => propArguments.repetition.offset * 140, 
+        scale: propArguments =>  propArguments.repetition.offset 
+})
+
+scene.add(spiral) 
+
+new Urpflanze.DrawerCanvas(scene, document.body).draw() 
+</script>
+
+<h2>Incapsulamento e ripetizione</h2>
+
+Proviamo ad incapsulare la forma precedente ed animare ruotandola in senso orario o antiorario in base alla ripetizione
+del contenitore che la incapsula.
+
+<!-- prettier-ignore -->
+<script id="g-r_2" class="runnable-script">/** 
+ * Spirale di quadrati
+ */
+const scene = new Urpflanze.Scene()
+
+const spiral = new Urpflanze.Rect({
+        bUseParent: true, // Settare questo parametro a true per utilizzare l'oggetto `parent` in propArguments
+
+        repetitions: 20,
+        sideLength: 30,
+
+        // `propArguments.parent` si riferisce all'oggetto `propArguments` della forma `container`
+        displace: propArguments => (propArguments.time / 1000) * (propArguments.parent.repetition.index % 2 === 0 ? 1: -1),
+        distance: propArguments => propArguments.repetition.offset * 140, 
+        scale: propArguments =>  propArguments.repetition.offset,
+
+})
+
+const continer = new Urpflanze.Shape({
+    shape: spiral,
+    repetitions: 6,
+    distance: 120,
+    scale: .4
+})
+
+scene.add(continer) 
+
+new Urpflanze.DrawerCanvas(scene, document.body).startAnimation() 
+</script>
+
+<p>
+	Settando il parametro <mark>bUseParent</mark> la forma verrà generata ad ogni ripetizione della forma che la incapsula
+</p>
+<div class="next-page">
+	<a href="#/it/Drawer-e-gestione-del-tempo">Drawer e gestione del tempo -></a>
+</div>

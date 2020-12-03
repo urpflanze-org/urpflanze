@@ -22,9 +22,11 @@
 				sideLength: 5,
 				displace: ({ time }) => time / 3000,
 				distance: ({ time }) => 80 + Math.sin(time / 1000) * 80,
-				fillColor: ({ time }) => {
-					const h = (time / 100) % 360
-					return `hsla(${h}, 100%, 50%, .5)`
+				style: {
+					fill: ({ time }) => {
+						const h = (time / 100) % 360
+						return `hsla(${h}, 100%, 50%, .5)`
+					},
 				},
 			})
 
