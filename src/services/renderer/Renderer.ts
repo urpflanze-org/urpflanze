@@ -76,7 +76,7 @@ class Renderer extends Emitter<IRenderEvents> {
 		const renderTime = time + drawTime
 		const totalTime = renderTime * sequence.frames
 
-		const maxDuration = 60
+		const maxDuration = 200
 		const parts = 1 + Math.floor(totalTime / 1000 / maxDuration)
 		const frameForPart = Math.floor(sequence.frames / parts)
 

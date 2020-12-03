@@ -64,7 +64,6 @@ abstract class ShapeBase<GShapeBaseProps extends ISceneChildProps = ISceneChildP
 	public static getEmptyRepetition: () => IRepetition = () => ({
 		type: ERepetitionType.Ring,
 		angle: 0,
-		recursion: 1,
 		...ShapeBase.getEmptySimpleRepetition(),
 		row: ShapeBase.getEmptySimpleRepetition(),
 		col: ShapeBase.getEmptySimpleRepetition(),
@@ -157,6 +156,8 @@ abstract class ShapeBase<GShapeBaseProps extends ISceneChildProps = ISceneChildP
 	 */
 	public bUseParent: boolean
 
+	public bUseRecursion: boolean
+
 	/**
 	 * Array used for index a vertex buffer
 	 * only for first level scene children
@@ -232,6 +233,7 @@ abstract class ShapeBase<GShapeBaseProps extends ISceneChildProps = ISceneChildP
 		} as GShapeBaseProps
 
 		this.bUseParent = !!settings.bUseParent
+		this.bUseRecursion = !!settings.bUseRecursion
 
 		this.vertexCallback = settings.vertexCallback
 	}
@@ -349,7 +351,10 @@ abstract class ShapeBase<GShapeBaseProps extends ISceneChildProps = ISceneChildP
 	 * @param {ISceneChildPropArguments} [parentPropArguments]
 	 */
 	public generate(generateId: number, bDirectSceneChild = false, parentPropArguments?: ISceneChildPropArguments): void {
-		if (!this.scene || (this.buffer && (this.bStatic || (generateId === this.generateId && !this.bUseParent)))) {
+		if (
+			!this.scene ||
+			(this.buffer && (this.bStatic || (generateId === this.generateId && !this.bUseParent && !this.bUseRecursion)))
+		) {
 			return
 		}
 

@@ -1,3 +1,4 @@
+import { pmod } from '@core/math'
 import Emitter from '@services/events/Emitter'
 import { ISequenceMeta, ITimelineEvents } from '@services/types/timeline'
 import { now } from 'src/Utilites'
@@ -263,7 +264,7 @@ class Timeline extends Emitter<ITimelineEvents> {
 	 * @returns {number}
 	 */
 	public getFrameTime(frame: number): number {
-		frame = frame < 0 ? this.sequence.frames - (Math.abs(frame) % this.sequence.frames) : frame % this.sequence.frames
+		frame = pmod(frame, this.sequence.frames)
 		return (frame * this.tick_time) % this.sequence.durate
 	}
 

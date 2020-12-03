@@ -285,10 +285,11 @@ class DrawerCanvas extends Drawer<IDrawerCanvasOptions, IDrawerCanvasEvents> {
 
 		const timeline = this.timeline
 		const drawAtTime = timeline.getTime()
+
 		const drawerOptions: IDrawerCanvasOptions & { ghostIndex: number | undefined } = {
 			...this.drawerOptions,
 			ghostIndex: undefined,
-			clear: this.drawerOptions.clear || timeline.getCurrentFrame() <= 0,
+			clear: this.drawerOptions.clear || timeline.getCurrentFrame() <= 1,
 			time: drawAtTime,
 		}
 

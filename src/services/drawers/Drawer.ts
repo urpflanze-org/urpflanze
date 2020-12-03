@@ -7,6 +7,7 @@ import Emitter from '@services/events/Emitter'
 import { IDrawerOptions, IDrawerPropArguments, IDrawerStreamProps, TDrawerProp } from '@services/types/drawer'
 import { parseColor } from 'src/Color'
 import ShapePrimitive from '@core/shapes/ShapePrimitive'
+import { pmod } from '@core/math'
 
 /**
  * Abstract Drawer
@@ -324,10 +325,7 @@ abstract class Drawer<IADrawerOptions extends IDrawerOptions, IDrawerEvents> ext
 						: i * (drawerOptions.ghostSkipTime as number))
 
 				ghostDrawerOptions.ghostIndex = i
-				ghostDrawerOptions.time = ghostTime % sequenceDurate
-				if (ghostDrawerOptions.time < 0) {
-					ghostDrawerOptions.time += sequenceDurate
-				}
+				ghostDrawerOptions.time = pmod(ghostTime, sequenceDurate)
 				ghostCallback(ghostDrawerOptions)
 			}
 		}

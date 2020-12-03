@@ -80,6 +80,8 @@ export interface IShapeBaseSettings extends ISceneChildSettings {
 	 */
 	bUseParent?: boolean
 
+	bUseRecursion?: boolean
+
 	/**
 	 * Callback to apply transform at any vertex
 	 *
@@ -193,13 +195,6 @@ export interface IShapeRecursiveSettings extends IShapeRecursiveProps, IShapeSet
 	 * @order -21
 	 */
 	bInner?: boolean
-
-	/**
-	 * Regenerate child buffer every shape recursion
-	 *
-	 * @order -21
-	 */
-	bShapeUseRecursion?: boolean
 }
 
 /**

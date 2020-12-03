@@ -295,8 +295,16 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 
 	bClosed: { name: 'bClosed', label: 'Closed', type: 'checkbox', default: undefined, transformation: 'none' },
 	bUseParent: {
-		name: 'bbUseParent',
+		name: 'bUseParent',
 		label: 'Use parent repetition',
+		type: 'checkbox',
+		default: false,
+		transformation: 'none',
+	},
+
+	bUseRecursion: {
+		name: 'bUseRecursion',
+		label: 'Use recursion repetition',
 		type: 'checkbox',
 		default: false,
 		transformation: 'none',
