@@ -9,8 +9,7 @@ const wiki = {
 				Installazione: 'it/Installazione',
 				'Crea una scena': 'it/Crea-una-scena',
 				'Gestire le ripetizioni': 'it/Gestire-le-ripetizioni',
-				'Drawer e gestione del tempo': 'it/Drawer-e-gestione-del-tempo',
-				// 'Timeline e creazione di un loop': '',
+				'Drawer e animazioni': 'it/Drawer-e-animazioni',
 			},
 			Avanzate: {
 				// 'Forme generative': '',

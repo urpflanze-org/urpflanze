@@ -121,8 +121,7 @@ class ShapeRecursive extends Shape<IShapeRecursiveProps> {
 			index: 1,
 			offset: 1,
 			count: 1,
-			level: 1,
-			level_offset: recursions > 1 ? 0 : 1,
+			level: { index: 1, offset: recursions > 1 ? 0 : 1, count: 1 },
 		}
 
 		if (recursions <= 1) {
@@ -175,8 +174,7 @@ class ShapeRecursive extends Shape<IShapeRecursiveProps> {
 					index: currentShapeRecursionRepetition + 1,
 					offset: totalRecursionRepetitions > 1 ? currentShapeRecursionRepetition / (totalRecursionRepetitions - 1) : 1,
 					count: totalRecursionRepetitions,
-					level_offset: level_offset,
-					level: currentRecursion + 1,
+					level: { index: currentRecursion + 1, offset: level_offset, count: recursions },
 					parent: storedRecursion[paretRecursionIndex],
 				}
 				shapeBuffer = this.generateShapeBuffer(propArguments, generateId, currentRecursionRepetition)
@@ -306,8 +304,7 @@ class ShapeRecursive extends Shape<IShapeRecursiveProps> {
 					index: 1,
 					offset: 1,
 					count: 1,
-					level: 1,
-					level_offset: recursions > 1 ? 0 : 1,
+					level: { index: 1, offset: recursions > 1 ? 0 : 1, count: recursions },
 				}
 
 				let recursionBufferIndex: IParentBufferIndex = { ...bufferIndex, recursion: currentRecursionRepetition }
@@ -336,8 +333,7 @@ class ShapeRecursive extends Shape<IShapeRecursiveProps> {
 								index: j + 1,
 								offset: recursionOffset,
 								count: len,
-								level_offset: level_offset,
-								level: i + 1,
+								level: { index: i + 1, offset: level_offset, count: recursions },
 								parent: storedRecursion[paretRecursionIndex],
 							}
 

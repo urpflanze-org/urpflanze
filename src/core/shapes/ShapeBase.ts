@@ -351,10 +351,7 @@ abstract class ShapeBase<GShapeBaseProps extends ISceneChildProps = ISceneChildP
 	 * @param {ISceneChildPropArguments} [parentPropArguments]
 	 */
 	public generate(generateId: number, bDirectSceneChild = false, parentPropArguments?: ISceneChildPropArguments): void {
-		if (
-			!this.scene ||
-			(this.buffer && (this.bStatic || (generateId === this.generateId && !this.bUseParent && !this.bUseRecursion)))
-		) {
+		if (this.buffer && (this.bStatic || (generateId === this.generateId && !this.bUseParent && !this.bUseRecursion))) {
 			return
 		}
 
@@ -417,7 +414,7 @@ abstract class ShapeBase<GShapeBaseProps extends ISceneChildProps = ISceneChildP
 		const buffers = []
 		let currentIndex = 0
 		const centerMatrix = vec2.fromValues((repetitionColCount - 1) / 2, (repetitionRowCount - 1) / 2)
-		const sceneCenter: vec3 = [this.scene.center[0], this.scene.center[1], 0]
+		const sceneCenter: vec3 = this.scene ? [this.scene.center[0], this.scene.center[1], 0] : [0, 0, 0]
 
 		const tmpTotalShapeBounding = [undefined, undefined, undefined, undefined]
 		const tmpSingleRepetitionBounding = [undefined, undefined, undefined, undefined]
@@ -708,7 +705,7 @@ abstract class ShapeBase<GShapeBaseProps extends ISceneChildProps = ISceneChildP
 	 * @param {(TStreamCallback} callback
 	 */
 	public stream(callback: (streamArguments: IStreamArguments) => void): void {
-		if (this.scene && this.buffer && this.indexedBuffer) {
+		if (this.buffer && this.indexedBuffer) {
 			for (let i = 0, j = 0, len = this.indexedBuffer.length; i < len; i++) {
 				const currentIndexing: IBufferIndex = this.indexedBuffer[i]
 

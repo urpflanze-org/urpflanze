@@ -2229,7 +2229,7 @@ var ShapeBase = /** @class */ (function (_super) {
         var attribute = this.props[key];
         if (typeof attribute === 'function') {
             propArguments = propArguments || ShapeBase.EMPTY_PROP_ARGUMENTS;
-            // if (typeof propArguments.shape === 'undefined') propArguments.shape = this
+            propArguments.shape = this;
             propArguments.time = ((_a = this.scene) === null || _a === void 0 ? void 0 : _a.currentTime) || 0;
             attribute = attribute(propArguments);
         }
@@ -2288,8 +2288,7 @@ var ShapeBase = /** @class */ (function (_super) {
     ShapeBase.prototype.generate = function (generateId, bDirectSceneChild, parentPropArguments) {
         var _a, _b, _c;
         if (bDirectSceneChild === void 0) { bDirectSceneChild = false; }
-        if (!this.scene ||
-            (this.buffer && (this.bStatic || (generateId === this.generateId && !this.bUseParent && !this.bUseRecursion)))) {
+        if (this.buffer && (this.bStatic || (generateId === this.generateId && !this.bUseParent && !this.bUseRecursion))) {
             return;
         }
         this.generateId = generateId;
@@ -2332,14 +2331,13 @@ var ShapeBase = /** @class */ (function (_super) {
             context: _Context__WEBPACK_IMPORTED_MODULE_2__.default,
             time: ((_c = this.scene) === null || _c === void 0 ? void 0 : _c.currentTime) || 0,
             shape: this,
-            data: this.data,
             parent: parentPropArguments,
         };
         var totalBufferLength = 0;
         var buffers = [];
         var currentIndex = 0;
         var centerMatrix = gl_matrix__WEBPACK_IMPORTED_MODULE_10__.fromValues((repetitionColCount - 1) / 2, (repetitionRowCount - 1) / 2);
-        var sceneCenter = [this.scene.center[0], this.scene.center[1], 0];
+        var sceneCenter = this.scene ? [this.scene.center[0], this.scene.center[1], 0] : [0, 0, 0];
         var tmpTotalShapeBounding = [undefined, undefined, undefined, undefined];
         var tmpSingleRepetitionBounding = [undefined, undefined, undefined, undefined];
         for (var currentRowRepetition = 0; currentRowRepetition < repetitionRowCount; currentRowRepetition++) {
@@ -2544,7 +2542,7 @@ var ShapeBase = /** @class */ (function (_super) {
      * @param {(TStreamCallback} callback
      */
     ShapeBase.prototype.stream = function (callback) {
-        if (this.scene && this.buffer && this.indexedBuffer) {
+        if (this.buffer && this.indexedBuffer) {
             for (var i = 0, j = 0, len = this.indexedBuffer.length; i < len; i++) {
                 var currentIndexing = this.indexedBuffer[i];
                 callback({
@@ -3442,8 +3440,7 @@ var ShapeRecursive = /** @class */ (function (_super) {
             index: 1,
             offset: 1,
             count: 1,
-            level: 1,
-            level_offset: recursions > 1 ? 0 : 1,
+            level: { index: 1, offset: recursions > 1 ? 0 : 1, count: 1 },
         };
         if (recursions <= 1) {
             var buffer = this.generateShapeBuffer(propArguments, generateId, currentRecursionRepetition);
@@ -3478,8 +3475,7 @@ var ShapeRecursive = /** @class */ (function (_super) {
                     index: currentShapeRecursionRepetition + 1,
                     offset: totalRecursionRepetitions > 1 ? currentShapeRecursionRepetition / (totalRecursionRepetitions - 1) : 1,
                     count: totalRecursionRepetitions,
-                    level_offset: level_offset,
-                    level: currentRecursion + 1,
+                    level: { index: currentRecursion + 1, offset: level_offset, count: recursions },
                     parent: storedRecursion[paretRecursionIndex],
                 };
                 shapeBuffer = this.generateShapeBuffer(propArguments, generateId, currentRecursionRepetition);
@@ -3577,8 +3573,7 @@ var ShapeRecursive = /** @class */ (function (_super) {
                     index: 1,
                     offset: 1,
                     count: 1,
-                    level: 1,
-                    level_offset: recursions > 1 ? 0 : 1,
+                    level: { index: 1, offset: recursions > 1 ? 0 : 1, count: recursions },
                 };
                 var recursionBufferIndex = __assign(__assign({}, bufferIndex), { recursion: currentRecursionRepetition });
                 currentIndexed.parent = currentIndexed.parent
@@ -3599,8 +3594,7 @@ var ShapeRecursive = /** @class */ (function (_super) {
                                 index: j + 1,
                                 offset: recursionOffset,
                                 count: len,
-                                level_offset: level_offset,
-                                level: i + 1,
+                                level: { index: i + 1, offset: level_offset, count: recursions },
                                 parent: storedRecursion[paretRecursionIndex],
                             };
                             recursionBufferIndex = __assign(__assign({}, bufferIndex), { recursion: currentRecursionRepetition });
@@ -4424,6 +4418,7 @@ var EShapePrimitiveAdaptMode;
 /*! export Circle [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/Circle.js .default */
 /*! export Context [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/Context.js .default */
 /*! export DrawerCanvas [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/services/drawers/drawer-canvas/DrawerCanvas.js .default */
+/*! export Easings [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/services/animation/Easings.js .default */
 /*! export Group [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/Group.js .default */
 /*! export Line [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/Line.js .default */
 /*! export Lissajous [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/Lissajous.js .default */
@@ -4482,7 +4477,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "PI2": () => /* reexport safe */ _core_math__WEBPACK_IMPORTED_MODULE_19__.PI2,
 /* harmony export */   "log": () => /* reexport safe */ _core_math__WEBPACK_IMPORTED_MODULE_19__.log,
 /* harmony export */   "DrawerCanvas": () => /* reexport safe */ _services_drawers_drawer_canvas_DrawerCanvas__WEBPACK_IMPORTED_MODULE_20__.default,
-/* harmony export */   "Animation": () => /* reexport safe */ _services_animation_Simple__WEBPACK_IMPORTED_MODULE_21__.default
+/* harmony export */   "Animation": () => /* reexport safe */ _services_animation_Simple__WEBPACK_IMPORTED_MODULE_21__.default,
+/* harmony export */   "Easings": () => /* reexport safe */ _services_animation_Easings__WEBPACK_IMPORTED_MODULE_22__.default
 /* harmony export */ });
 /* harmony import */ var _core_Scene__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./core/Scene */ "./dist/core/Scene.js");
 /* harmony import */ var _core_SceneChild__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./core/SceneChild */ "./dist/core/SceneChild.js");
@@ -4506,6 +4502,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _core_math__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./core/math */ "./dist/core/math/index.js");
 /* harmony import */ var _services_drawers_drawer_canvas_DrawerCanvas__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./services/drawers/drawer-canvas/DrawerCanvas */ "./dist/services/drawers/drawer-canvas/DrawerCanvas.js");
 /* harmony import */ var _services_animation_Simple__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./services/animation/Simple */ "./dist/services/animation/Simple.js");
+/* harmony import */ var _services_animation_Easings__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./services/animation/Easings */ "./dist/services/animation/Easings.js");
 /**
  * Core
  */
@@ -4534,6 +4531,7 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * Services
  */
+
 
 
 //# sourceMappingURL=index-light.js.map
@@ -4944,7 +4942,7 @@ var Easings = {
      * @param {number} p period (optional)
      * @return {number}
      */
-    elasticBoth: function (time, start, end, durate, a, p) {
+    elasticInOut: function (time, start, end, durate, a, p) {
         if (time == 0) {
             return start;
         }
@@ -5003,7 +5001,7 @@ var Easings = {
      * @param {number} s overshoot (optional)
      * @return {number}
      */
-    backBoth: function (time, start, end, durate, s) {
+    backInOut: function (time, start, end, durate, s) {
         if (typeof s == 'undefined') {
             s = 1.70158;
         }
@@ -5050,7 +5048,7 @@ var Easings = {
      * @param {number} durate
      * @returns
      */
-    bounceBoth: function (time, start, end, durate) {
+    bounceInOut: function (time, start, end, durate) {
         if (time < durate / 2) {
             return Easings.bounceIn(time * 2, 0, end, durate) * 0.5 + start;
         }
@@ -7641,8 +7639,8 @@ var Timeline = /** @class */ (function (_super) {
      * @param {number} frame
      */
     Timeline.prototype.setFrame = function (frame) {
-        this.current_frame = frame;
-        this.current_time = this.getFrameTime(frame);
+        this.current_frame = (0,_core_math__WEBPACK_IMPORTED_MODULE_0__.pmod)(frame, this.sequence.frames);
+        this.current_time = this.getFrameTime(this.current_frame);
     };
     /**
      * Return tick time (based on framerate)
@@ -7666,7 +7664,7 @@ var Timeline = /** @class */ (function (_super) {
      * @param {number} time
      */
     Timeline.prototype.setTime = function (time) {
-        time = (time + this.sequence.durate) % this.sequence.durate;
+        time = (0,_core_math__WEBPACK_IMPORTED_MODULE_0__.pmod)(time, this.sequence.durate);
         this.current_time = time;
         this.current_frame = this.getFrameAtTime(time);
     };

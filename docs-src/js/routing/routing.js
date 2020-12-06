@@ -69,11 +69,6 @@ function onLoadContent() {
 
 	const content = document.getElementById('content')
 
-	window.scrollTo({
-		top: 0,
-		behavior: 'smooth',
-	})
-
 	// scripts
 	const scripts = content.getElementsByTagName('script')
 
@@ -128,7 +123,7 @@ function onLoadContent() {
 	function openContainer(e) {
 		const container = document.getElementById(e.target.getAttribute('data-container'))
 		if (container) {
-			container.style.height = parseFloat(container.style.height) > 0 ? '0px' : window.innerHeight * 0.4 + 'px'
+			container.style.height = parseFloat(container.style.height) > 0 ? '0px' : window.innerHeight * 0.5 + 'px'
 		}
 	}
 	for (let i = 0; i < cliccables.length; i++) {
@@ -138,4 +133,9 @@ function onLoadContent() {
 
 	// code prettyprint
 	PR.prettyPrint()
+
+	window.scrollTo({
+		top: 0,
+		behavior: 'smooth',
+	})
 }

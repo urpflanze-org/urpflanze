@@ -347,7 +347,7 @@ const Easings = {
 	 * @param {number} p period (optional)
 	 * @return {number}
 	 */
-	elasticBoth: function (time: number, start: number, end: number, durate: number, a: number, p: number): number {
+	elasticInOut: function (time: number, start: number, end: number, durate: number, a: number, p: number): number {
 		if (time == 0) {
 			return start
 		}
@@ -412,7 +412,7 @@ const Easings = {
 	 * @param {number} s overshoot (optional)
 	 * @return {number}
 	 */
-	backBoth: function (time: number, start: number, end: number, durate: number, s: number): number {
+	backInOut: function (time: number, start: number, end: number, durate: number, s: number): number {
 		if (typeof s == 'undefined') {
 			s = 1.70158
 		}
@@ -461,7 +461,7 @@ const Easings = {
 	 * @param {number} durate
 	 * @returns
 	 */
-	bounceBoth: function (time: number, start: number, end: number, durate: number): number {
+	bounceInOut: function (time: number, start: number, end: number, durate: number): number {
 		if (time < durate / 2) {
 			return Easings.bounceIn(time * 2, 0, end, durate) * 0.5 + start
 		}
