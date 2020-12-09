@@ -38,3 +38,4 @@ export { PHI, PI2, log } from '@core/math'
  */
 export { default as DrawerCanvas } from '@services/drawers/drawer-canvas/DrawerCanvas'
 export { default as Animation } from '@services/animation/Simple'
+export { default as Easings } from '@services/animation/Easings'
