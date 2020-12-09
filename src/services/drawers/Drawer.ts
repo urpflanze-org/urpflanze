@@ -317,11 +317,19 @@ abstract class Drawer<IADrawerOptions extends IDrawerOptions, IDrawerEvents> ext
 			const drawAtTime = timeline.getTime()
 			const sequenceDurate = timeline.getDurate()
 
+			const ghostRepetition = {
+				offset: 0,
+				index: 0,
+				count: drawerOptions.ghosts,
+			}
 			for (let i = 1; i <= drawerOptions.ghosts; i++) {
+				ghostRepetition.index = i
+				ghostRepetition.offset = ghostRepetition.index / ghostRepetition.count
+
 				const ghostTime =
 					drawAtTime -
 					(drawerOptions.ghostSkipFunction
-						? drawerOptions.ghostSkipFunction(i)
+						? drawerOptions.ghostSkipFunction(ghostRepetition, drawAtTime)
 						: i * (drawerOptions.ghostSkipTime as number))
 
 				ghostDrawerOptions.ghostIndex = i

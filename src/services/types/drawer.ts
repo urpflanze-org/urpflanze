@@ -1,4 +1,4 @@
-import { ISceneChildPropArguments } from '@core/types/scene-child'
+import { IBaseRepetition, ISceneChildPropArguments } from '@core/types/scene-child'
 
 /**
  * @category Services.Drawer
@@ -9,7 +9,7 @@ export interface IDrawerOptions {
 	ghosts?: number
 	ghostAlpha?: boolean
 	ghostSkipTime?: number
-	ghostSkipFunction?: (ghostIndex: number) => number
+	ghostSkipFunction?: (ghostRepetition: IBaseRepetition, currentTime: number) => number
 }
 
 export interface IDrawerPropArguments extends ISceneChildPropArguments {

@@ -77,7 +77,7 @@ class Renderer extends Emitter<IRenderEvents> {
 		const renderTime = time + drawTime
 		const totalTime = renderTime * sequence.frames
 
-		const maxDuration = 200
+		const maxDuration = 60
 		const parts = 1 + Math.floor(totalTime / 1000 / maxDuration)
 		const frameForPart = Math.floor(sequence.frames / parts)
 
@@ -164,21 +164,23 @@ class Renderer extends Emitter<IRenderEvents> {
 			if (!this.started) return undefined
 
 			const current_frame = i + frame_from
-			const measure_start = now()
-			timeline.setFrame(current_frame)
-			drawer.draw()
-			await this.capturer.capture(drawer.getCanvas(), i)
-			const measure_end = now()
-			lastRenderTime = measure_end - measure_start
+			if (current_frame <= total_frames) {
+				const measure_start = now()
+				timeline.setFrame(current_frame)
+				drawer.draw()
+				await this.capturer.capture(drawer.getCanvas(), i)
+				const measure_end = now()
+				lastRenderTime = measure_end - measure_start
 
-			this.dispatch('renderer:render-frame', {
-				frame: current_frame,
-				part: part,
-				forPart: frame_count,
-				total_frames: total_frames,
-				total_parts: total_parts,
-				render_time: lastRenderTime,
-			})
+				this.dispatch('renderer:render-frame', {
+					frame: current_frame,
+					part: part,
+					forPart: frame_count,
+					total_frames: total_frames,
+					total_parts: total_parts,
+					render_time: lastRenderTime,
+				})
+			}
 		}
 
 		const chunks: Array<Uint8Array> = await this.capturer.save()
