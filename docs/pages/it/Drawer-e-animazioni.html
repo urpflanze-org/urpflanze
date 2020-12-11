@@ -1,67 +1,20 @@
 <h1>Drawer e animazioni</h1>
 
-<h2>Opzioni per il DrawerCanvas</h2>
+<h2>DrawerCanvas e Timeline</h2>
 Urpflanze è principalmente una libreria per la generazione di punti, tuttavia esiste di base una classe per mostrare il
 risultato dell'elaborazione degli stessi: il
 <a href="#/ref/DrawerCanvas">DrawerCanvas</a>.<br />
 Negli esempi precedenti abbiamo già visto che possiamo utilizzare il metodo <mark>draw()</mark> per renderizzare
 l'immagine in un dato momento ed il metodo <mark>startAnimation()</mark> per far partire l'animazione.
 <p>
-	Oltre al <i>drawer</i>
-
-	- parlare della timeline
+	Per gestire un'animazione è possibile utilizzare la classe <a href="#/ref/Timeline">Timeline</a> per settare la durata
+	e il framerate.
 </p>
 
 <!-- prettier-ignore -->
 <script id="d-t_1" class="runnable-script">/** 
-* Spirale di quadrati
-*/
-const scene = new Urpflanze.Scene()
-
-const shape = new Urpflanze.Rect({
-    repetitions: [6, 6],
-    sideLength: 10,
-    distance: 20,
-})
-
-scene.add(
-    new Urpflanze.ShapeRecursive({
-        shape: new Urpflanze.Polygon({
-            sideLength: 100,
-            sideNumber: 4,
-            perspective: .9,
-            bUseRecursion: true,
-            style: {
-                composite: 'xor',
-                fill: '#000'
-            }
-        }),
-
-        recursionScale: 2,
-        recursions: 7,
-        recursionVertex: 4,
-    })
-) 
-
-const drawer = new Urpflanze.DrawerCanvas(scene, document.body, {
-    clear: false,
-}, 1080 / 720)
-
-drawer.getTimeline().setDurate(25000)
-
-const image = new Image()
-image.src = 'assets/images/cover.png'
-image.addEventListener('load', () => {
-    drawer.setOption('backgroundImage', image)
-    drawer.setOption('backgroundImageFit', 'cover')
-    drawer.draw()
-})
-</script>
-
-<!-- prettier-ignore -->
-<script id="d-t_2" class="runnable-script">/** 
-* Spirale di quadrati
-*/
+ * Esempi di utilizzo della timeline
+ */
 const scene = new Urpflanze.Scene()
 
 const shape = new Urpflanze.Rect({
@@ -74,21 +27,64 @@ const container = new Urpflanze.Shape({
     shape: shape,
     repetitions: 4,
     distance: 100,
-    rotateY: Urpflanze.Animation.static({
-        from: 0, to: Math.PI, durate: 4000,
-        mode: 'easing', modeFunction: 'quadraticInOut'
-    }),
+    rotateY: ({ time }) => time * Urpflanze.PI2 / 4000,
     perspective: .92
 })
 
 scene.add(container) 
 
 const drawer = new Urpflanze.DrawerCanvas(scene, document.body)
+
 const timeline = drawer.getTimeline()
-
-
 timeline.setFramerate(4) // Set animation framerate
 timeline.setDurate(4000) // Set animation duration
 
 drawer.startAnimation()
+</script>
+
+<p>
+	Al DrawerCanvas è possibile passare alcuni argomenti per altre sperimentazioni attraverso l'oggetto
+	<a href="#/ref/IDrawerCanvasOptions">DrawerCanvasOptions</a>
+</p>
+
+<!-- prettier-ignore -->
+<script id="d-t_2" class="runnable-script">/** 
+ * Spirale di quadrati
+ */
+const scene = new Urpflanze.Scene()
+
+const shape = new Urpflanze.Rect({
+    repetitions: [6, 6],
+    sideLength: 10,
+    distance: 20,
+})
+
+scene.add(
+    new Urpflanze.Circle({
+        repetitions: 20,
+        distance: ({ time }) => 50 + (0.5 + Math.sin(time * Urpflanze.PI2 / 2000) * 0.5) * 50,
+        scale: ({ time }) => 0.7 + (0.5 + Math.sin(time * Urpflanze.PI2 / 4000) * 0.5) * 0.3,
+        displace: t => (t.time / 4000) * Math.PI,
+        style: {
+            stroke: 'rgba(255,255,255,.05)'
+        }
+    })
+) 
+
+const drawerCanvasOptions = {
+    ghosts: 30,
+    ghostSkipFunction: ghostsRepetition => ghostsRepetition.index ** 1.6,
+    ghostAlpha: false
+}
+const drawer = new Urpflanze.DrawerCanvas(scene, document.body, drawerCanvasOptions, 1080 / 720)
+
+drawer.getTimeline().setDurate(4000)
+
+const image = new Image()
+image.src = 'assets/images/cover.png'
+image.addEventListener('load', () => {
+    drawer.setOption('backgroundImage', image)
+    drawer.setOption('backgroundImageFit', 'cover')
+    drawer.startAnimation()
+})
 </script>

@@ -14,16 +14,19 @@ import { now } from 'src/Utilites'
 class Timeline extends Emitter<ITimelineEvents> {
 	/**
 	 * Animation status started
+	 * @internal
 	 */
 	public static readonly START = 'start'
 
 	/**
 	 * Animation status paused
+	 * @internal
 	 */
 	public static readonly PAUSE = 'pause'
 
 	/**
 	 * Animation status stop
+	 * @internal
 	 */
 	public static readonly STOP = 'stop'
 

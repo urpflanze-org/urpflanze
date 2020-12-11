@@ -102,24 +102,6 @@ export interface IPolygonProps extends IShapeLoopProps {
 export interface IPolygonSettings extends IPolygonProps, IShapeLoopSettings {}
 
 /**
- *
- * @category Core.Primitive Interfaces
- */
-export interface IArcPolygonProps extends IPolygonProps {
-	/**
-	 * arc
-	 * @order -35
-	 */
-	arc?: TSceneChildProp<number>
-}
-
-/**
- *
- * @category Core.Primitive Interfaces
- */
-export interface IArcPolygonSettings extends IArcPolygonProps, IShapeLoopSettings {}
-
-/**
  * For <mark>n</mark> and <mark>d</mark> see Rose on <a target="_blank" href="https://en.wikipedia.org/wiki/Rose_(mathematics)">Wikipedia</a>
  *
  * @category Core.Primitive Interfaces

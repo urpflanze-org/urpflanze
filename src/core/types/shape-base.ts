@@ -192,6 +192,7 @@ export interface IShapeRecursiveSettings extends IShapeRecursiveProps, IShapeSet
 	// /**
 	//  * Decide position of recursions
 	//  *
+	//  *
 	//  * @order -21
 	//  */
 	// bInner?: boolean

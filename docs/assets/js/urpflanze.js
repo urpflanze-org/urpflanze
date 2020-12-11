@@ -5667,10 +5667,17 @@ var Drawer = /** @class */ (function (_super) {
             var ghostDrawerOptions = __assign({}, drawerOptions);
             var drawAtTime = timeline.getTime();
             var sequenceDurate = timeline.getDurate();
+            var ghostRepetition = {
+                offset: 0,
+                index: 0,
+                count: drawerOptions.ghosts,
+            };
             for (var i = 1; i <= drawerOptions.ghosts; i++) {
+                ghostRepetition.index = i;
+                ghostRepetition.offset = ghostRepetition.index / ghostRepetition.count;
                 var ghostTime = drawAtTime -
                     (drawerOptions.ghostSkipFunction
-                        ? drawerOptions.ghostSkipFunction(i)
+                        ? drawerOptions.ghostSkipFunction(ghostRepetition, drawAtTime)
                         : i * drawerOptions.ghostSkipTime);
                 ghostDrawerOptions.ghostIndex = i;
                 ghostDrawerOptions.time = (0,_core_math__WEBPACK_IMPORTED_MODULE_5__.pmod)(ghostTime, sequenceDurate);
@@ -7678,9 +7685,9 @@ var Renderer = /** @class */ (function (_super) {
                         time = _a.sent();
                         renderTime = time + drawTime;
                         totalTime = renderTime * sequence.frames;
-                        maxDuration = 200;
+                        maxDuration = 60;
                         parts = 1 + Math.floor(totalTime / 1000 / maxDuration);
-                        frameForPart = Math.floor(sequence.frames / parts);
+                        frameForPart = Math.round(sequence.frames / parts);
                         return [2 /*return*/, {
                                 estimated_time: totalTime,
                                 total_frames: sequence.frames,
@@ -7765,6 +7772,7 @@ var Renderer = /** @class */ (function (_super) {
                         if (!this.started)
                             return [2 /*return*/, undefined];
                         current_frame = i + frame_from;
+                        if (!(current_frame <= total_frames)) return [3 /*break*/, 3];
                         measure_start = (0,_Utilites__WEBPACK_IMPORTED_MODULE_1__.now)();
                         timeline.setFrame(current_frame);
                         drawer.draw();
@@ -9270,14 +9278,17 @@ var Timeline = /** @class */ (function (_super) {
     };
     /**
      * Animation status started
+     * @internal
      */
     Timeline.START = 'start';
     /**
      * Animation status paused
+     * @internal
      */
     Timeline.PAUSE = 'pause';
     /**
      * Animation status stop
+     * @internal
      */
     Timeline.STOP = 'stop';
     return Timeline;

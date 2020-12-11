@@ -12,6 +12,10 @@ export function bindRouting() {
 	})
 }
 
+export function getCurrentPage() {
+	return currentPage
+}
+
 /**
  * Dynamic content
  */
@@ -19,12 +23,14 @@ export function goto(page) {
 	const content = document.getElementById('content')
 
 	if (page.length === 0) {
-		page = document.querySelector('#nav a').getAttribute('href')
+		page = document.querySelector('#nav .link').getAttribute('href')
 	}
 
+	console.log('page', page)
+	activateLink(page)
 	if (currentPage !== page) {
+		currentPage = page
 		closeMenu()
-		activateLink(page)
 
 		const endpoint = `pages${page.substr(1)}.html`
 
@@ -40,7 +46,6 @@ export function goto(page) {
 			fetch(endpoint)
 				.then(reponse => reponse.text())
 				.then(data => {
-					currentPage = endpoint
 					content.innerHTML = data
 					onLoadContent()
 				})

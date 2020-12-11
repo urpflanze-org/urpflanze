@@ -70,6 +70,7 @@ const Simple = {
 		}
 	},
 }
+
 function createSimpleAnimationCallback<T>(
 	animation: ISimpleAnimation,
 	value: (props: ISceneChildPropArguments, currentInterpolation: number) => T

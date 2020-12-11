@@ -3,6 +3,7 @@ import wiki from './wiki'
 import GetExamplesNavigation from '../examples/get-navigation'
 import { NavReferences } from '../references'
 import createList from './create-list'
+import { getCurrentPage, goto } from '../routing/routing'
 
 document.getElementById('menu_btn').addEventListener('click', openMenu, { passive: true })
 document.getElementById('aside-bg').addEventListener('click', closeMenu, { passive: true })
@@ -10,9 +11,12 @@ document.getElementById('aside-bg').addEventListener('click', closeMenu, { passi
 let examples = null,
 	l = undefined,
 	s = undefined
+
 GetExamplesNavigation().then(data => {
 	examples = data
 	bindNavigation(l, s)
+
+	goto(getCurrentPage())
 })
 
 export function bindNavigation(lang, search) {

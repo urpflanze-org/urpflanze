@@ -5515,10 +5515,17 @@ var Drawer = /** @class */ (function (_super) {
             var ghostDrawerOptions = __assign({}, drawerOptions);
             var drawAtTime = timeline.getTime();
             var sequenceDurate = timeline.getDurate();
+            var ghostRepetition = {
+                offset: 0,
+                index: 0,
+                count: drawerOptions.ghosts,
+            };
             for (var i = 1; i <= drawerOptions.ghosts; i++) {
+                ghostRepetition.index = i;
+                ghostRepetition.offset = ghostRepetition.index / ghostRepetition.count;
                 var ghostTime = drawAtTime -
                     (drawerOptions.ghostSkipFunction
-                        ? drawerOptions.ghostSkipFunction(i)
+                        ? drawerOptions.ghostSkipFunction(ghostRepetition, drawAtTime)
                         : i * drawerOptions.ghostSkipTime);
                 ghostDrawerOptions.ghostIndex = i;
                 ghostDrawerOptions.time = (0,_core_math__WEBPACK_IMPORTED_MODULE_5__.pmod)(ghostTime, sequenceDurate);
@@ -7670,14 +7677,17 @@ var Timeline = /** @class */ (function (_super) {
     };
     /**
      * Animation status started
+     * @internal
      */
     Timeline.START = 'start';
     /**
      * Animation status paused
+     * @internal
      */
     Timeline.PAUSE = 'pause';
     /**
      * Animation status stop
+     * @internal
      */
     Timeline.STOP = 'stop';
     return Timeline;

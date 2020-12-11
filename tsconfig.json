@@ -14,6 +14,7 @@
 		"declarationDir": "dist",
 		"allowSyntheticDefaultImports": true,
 		"strict": true,
+		"allowJs": true,
 		"isolatedModules": true,
 		"typeRoots": ["./node_modules/@types", "./src/typings"],
 		"strictBindCallApply": true,
