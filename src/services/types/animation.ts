@@ -1,29 +1,9 @@
+import Easings from '@services/animation/Easings'
+
 /**
  * @category Services.Animation
  */
-export type TEasing =
-	| 'linear'
-	| 'quadraticIn'
-	| 'quadraticOut'
-	| 'quadraticInOut'
-	| 'cubicIn'
-	| 'cubicOut'
-	| 'cubicInOut'
-	| 'quarticIn'
-	| 'quarticOut'
-	| 'quarticInOut'
-	| 'quinticIn'
-	| 'quinticOut'
-	| 'quinticInOut'
-	| 'sinusoidalIn'
-	| 'sinusoidalOut'
-	| 'sinusoidalInOut'
-	| 'exponentialIn'
-	| 'exponentialOut'
-	| 'exponentialInOut'
-	| 'circularIn'
-	| 'circularOut'
-	| 'circularInOut'
+export type TEasing = keyof typeof Easings
 
 /**
  *

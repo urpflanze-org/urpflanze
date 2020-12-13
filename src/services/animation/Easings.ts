@@ -285,7 +285,7 @@ const Easings = {
 	 * @param {number} p period (optional)
 	 * @return {number}
 	 */
-	elasticIn: function (time: number, start: number, end: number, durate: number, a: number, p: number): number {
+	elasticIn: function (time: number, start: number, end: number, durate: number, a?: number, p?: number): number {
 		if (time == 0) {
 			return start
 		}
@@ -316,7 +316,7 @@ const Easings = {
 	 * @param {number} p period (optional)
 	 * @return {number}
 	 */
-	elasticOut: function (time: number, start: number, end: number, durate: number, a: number, p: number): number {
+	elasticOut: function (time: number, start: number, end: number, durate: number, a?: number, p?: number): number {
 		if (time == 0) {
 			return start
 		}
@@ -347,7 +347,7 @@ const Easings = {
 	 * @param {number} p period (optional)
 	 * @return {number}
 	 */
-	elasticInOut: function (time: number, start: number, end: number, durate: number, a: number, p: number): number {
+	elasticInOut: function (time: number, start: number, end: number, durate: number, a?: number, p?: number): number {
 		if (time == 0) {
 			return start
 		}
@@ -382,7 +382,7 @@ const Easings = {
 	 * @param {number} s overshoot (optional)
 	 * @return {number}
 	 */
-	backIn: function (time: number, start: number, end: number, durate: number, s: number): number {
+	backIn: function (time: number, start: number, end: number, durate: number, s?: number): number {
 		if (typeof s == 'undefined') {
 			s = 1.70158
 		}
@@ -397,7 +397,7 @@ const Easings = {
 	 * @param {number} s overshoot (optional)
 	 * @return {number}
 	 */
-	backOut: function (time: number, start: number, end: number, durate: number, s: number): number {
+	backOut: function (time: number, start: number, end: number, durate: number, s?: number): number {
 		if (typeof s == 'undefined') {
 			s = 1.70158
 		}
@@ -412,7 +412,7 @@ const Easings = {
 	 * @param {number} s overshoot (optional)
 	 * @return {number}
 	 */
-	backInOut: function (time: number, start: number, end: number, durate: number, s: number): number {
+	backInOut: function (time: number, start: number, end: number, durate: number, s?: number): number {
 		if (typeof s == 'undefined') {
 			s = 1.70158
 		}
