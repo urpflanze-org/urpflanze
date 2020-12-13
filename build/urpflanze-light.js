@@ -1371,7 +1371,7 @@ var SceneChild = /** @class */ (function () {
 /*! namespace exports */
 /*! export default [provided] [no usage info] [missing usage info prevents renaming] */
 /*! other exports [not provided] [no usage info] */
-/*! runtime requirements: __webpack_require__, __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
+/*! runtime requirements: __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1379,8 +1379,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-/* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Utilites */ "./dist/Utilites.js");
-;
 /**
  * Temporany matrix
  *
@@ -1414,6 +1412,10 @@ var Vec2 = {
         }
         return out;
     },
+    normalize: function (v) {
+        var len = Vec2.length(v);
+        return len !== 0 ? [v[0] / len, v[1] / len] : [0, 0];
+    },
     /**
      * Distance between two points
      *
@@ -1445,8 +1447,9 @@ var Vec2 = {
      * @returns {number}
      */
     angle: function (a, b) {
-        var m = Vec2.length(a) * Vec2.length(b);
-        return Math.acos((0,_Utilites__WEBPACK_IMPORTED_MODULE_0__.clamp)(-1, 1, m && Vec2.dot(a, b) / m));
+        a = Vec2.normalize(a);
+        b = Vec2.normalize(b);
+        return Math.acos(Vec2.dot(a, b));
     },
     /**
      * skewX point
@@ -2407,10 +2410,10 @@ var ShapeBase = /** @class */ (function (_super) {
                         rotateX !== 0 && gl_matrix__WEBPACK_IMPORTED_MODULE_9__.rotateX(transformMatrix, transformMatrix, rotateX);
                         rotateY !== 0 && gl_matrix__WEBPACK_IMPORTED_MODULE_9__.rotateY(transformMatrix, transformMatrix, rotateY);
                         rotateZ !== 0 && gl_matrix__WEBPACK_IMPORTED_MODULE_9__.rotateZ(transformMatrix, transformMatrix, rotateZ);
-                        bTransformOrigin &&
-                            gl_matrix__WEBPACK_IMPORTED_MODULE_9__.translate(transformMatrix, transformMatrix, gl_matrix__WEBPACK_IMPORTED_MODULE_11__.scale(transformOrigin, transformOrigin, -1));
                         if (scale[0] !== 1 || scale[1] !== 1)
                             gl_matrix__WEBPACK_IMPORTED_MODULE_9__.scale(transformMatrix, transformMatrix, scale);
+                        bTransformOrigin &&
+                            gl_matrix__WEBPACK_IMPORTED_MODULE_9__.translate(transformMatrix, transformMatrix, gl_matrix__WEBPACK_IMPORTED_MODULE_11__.scale(transformOrigin, transformOrigin, -1));
                         /**
                          * Create Perspective matrix
                          */
