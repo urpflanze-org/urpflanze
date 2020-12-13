@@ -504,9 +504,9 @@ abstract class ShapeBase<GShapeBaseProps extends ISceneChildProps = ISceneChildP
 						rotateX !== 0 && mat4.rotateX(transformMatrix, transformMatrix, rotateX)
 						rotateY !== 0 && mat4.rotateY(transformMatrix, transformMatrix, rotateY)
 						rotateZ !== 0 && mat4.rotateZ(transformMatrix, transformMatrix, rotateZ)
+						if (scale[0] !== 1 || scale[1] !== 1) mat4.scale(transformMatrix, transformMatrix, scale)
 						bTransformOrigin &&
 							mat4.translate(transformMatrix, transformMatrix, vec3.scale(transformOrigin, transformOrigin, -1))
-						if (scale[0] !== 1 || scale[1] !== 1) mat4.scale(transformMatrix, transformMatrix, scale)
 
 						/**
 						 * Create Perspective matrix
