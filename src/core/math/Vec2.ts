@@ -33,6 +33,11 @@ const Vec2 = {
 		return out
 	},
 
+	normalize: (v: Array<number>): Array<number> => {
+		const len = Vec2.length(v)
+		return len !== 0 ? [v[0] / len, v[1] / len] : [0, 0]
+	},
+
 	/**
 	 * Distance between two points
 	 *
@@ -67,8 +72,9 @@ const Vec2 = {
 	 * @returns {number}
 	 */
 	angle: (a: Array<number>, b: Array<number>): number => {
-		const m = Vec2.length(a) * Vec2.length(b)
-		return Math.acos(clamp(-1, 1, m && Vec2.dot(a, b) / m))
+		a = Vec2.normalize(a)
+		b = Vec2.normalize(b)
+		return Math.acos(Vec2.dot(a, b))
 	},
 
 	/**
