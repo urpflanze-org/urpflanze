@@ -58,6 +58,7 @@ export function goto(page) {
  */
 function onLoadContent() {
 	let title = window.location.href.split('/').pop()
+
 	if (title.length > 0) {
 		title = title.replace('.html', '')
 	} else {

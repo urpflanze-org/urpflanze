@@ -151,6 +151,66 @@ scene.add(container)
 const drawer = new Urpflanze.DrawerCanvas(scene, document.body)
 drawer.draw()
 </script>
+
+<h2>Styling</h2>
+
+Per le <a href="#/ref/ShapePrimitive">ShapePrimitive</a> - che sono le forme che verranno disegnate - è possibile
+settare il colore del bordo o di riempimento attraverso la proprietà <mark>style</mark>.
+
+<!-- prettier-ignore -->
+<script id="c-e_5" class="runnable-script">/**
+ * ShapePrimitive style
+ */
+const scene = new Urpflanze.Scene({
+	color: '#f70',
+	background: '#fff'
+})
+
+const group = new Urpflanze.Group({ repetitions: 4 })
+
+const rects = new Urpflanze.Shape({
+	distance: 110,
+
+	shape: new Urpflanze.Circle({
+		repetitions: [3, 1],
+		sideLength: 7.5,
+		style: { fill: '#f70' }
+	})
+})
+
+const triangles = new Urpflanze.Triangle({
+	sideLength: 10,
+	distance: 150,
+	style: { fill: '#fff' }
+})
+
+const lines = new Urpflanze.Line({
+	sideLength: 55,
+	distance: 85
+})
+
+group.add(triangles, lines, rects)
+
+const center = new Urpflanze.Circle({
+	repetitions: 14,
+	distance: 10,
+	sideLength: 20,
+	style: { stroke: 'hsla(28, 100%, 50%, .6)' }
+})
+
+const circles = new Urpflanze.Circle({
+	repetitions: 8,
+	distance: 90,
+	sideLength: 80,
+	style: { fill: 'hsla(200, 100%, 60%, .2)' }
+})
+
+scene.add(circles, group, center)
+
+const drawer = new Urpflanze.DrawerCanvas(scene, document.body)
+drawer.draw()
+</script>
+
 <div class="next-page">
 	<a href="#/it/Gestire-le-ripetizioni">Gestire le ripetizioni -></a>
 </div>
