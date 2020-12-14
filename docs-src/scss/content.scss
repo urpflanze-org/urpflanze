@@ -23,14 +23,14 @@
 }
 
 #content h2 {
-	margin: 4rem 0 2rem;
+	margin: 4.854rem 0 1.618rem;
 	color: $primary;
 	font-size: 1.2rem;
 }
 
 #content a {
 	color: $primary;
-	text-decoration: none;
+	text-decoration: underline rgba($primary, 0.3) dashed;
 }
 
 /**

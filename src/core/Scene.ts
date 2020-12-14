@@ -1,8 +1,9 @@
-import { TStreamCallback, ISceneSettings } from '@core/types/scene'
+import { ISceneSettings } from '@core/types/scene'
 
 import SceneChild from '@core/SceneChild'
 import Group from '@core/Group'
 import Shape from '@core/shapes/Shape'
+import { IStreamArguments } from './types/scene-child'
 
 /**
  * Container for all SceneChild.
@@ -89,16 +90,19 @@ class Scene {
 	 */
 	public update(atTime: number): void {
 		this.currentTime = atTime
-		this.children.forEach((child: SceneChild) => child.generate(this.currentTime, true))
+
+		for (let i = 0, len = this.children.length; i < len; i++) {
+			this.children[i].generate(this.currentTime, true)
+		}
 	}
 
 	/**
 	 * Traverse the child buffer and use it with callback
 	 *
-	 * @param {TStreamCallback} callback
+	 * @param {(streamArguments: IStreamArguments) => void} callback
 	 * @memberof Scene
 	 */
-	public stream(callback: TStreamCallback): void {
+	public stream(callback: (streamArguments: IStreamArguments) => void): void {
 		this.children.forEach(sceneChild => sceneChild.stream(callback))
 	}
 
@@ -140,7 +144,7 @@ class Scene {
 					: this.children.length > 0
 					? Math.max.apply(
 							this,
-							this.children.map(e => e.order)
+							this.children.map(e => e.order || 0)
 					  ) + 1
 					: 0
 

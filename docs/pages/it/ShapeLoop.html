@@ -1,0 +1,78 @@
+<h1>ShapeLoop</h1>
+
+<p>
+	La ShapeLoop è una delle classi principali di Urpflanze. Grazie ad esse è possibile creare una forma partendo da un
+	ciclo.
+</p>
+
+<!-- prettier-ignore -->
+<script id="s-l_1" class="runnable-script">/**
+ * ShapeLoop
+ */
+const scene = new Urpflanze.Scene()
+
+scene.add(
+    new Urpflanze.ShapeLoop({
+        // other props
+        loop: {
+            start: 0,
+            end: Math.PI * 2,
+            inc: (Math.PI * 2) / 40,
+            vertex: (shapeLoopRepetition, propArguments) => {
+                const noise = propArguments.context.noise('seed', shapeLoopRepetition.offset * 4)
+                const x = shapeLoopRepetition.offset * 2 - 1
+                const y = Math.sin(shapeLoopRepetition.angle) * noise
+
+                return [x, y] // return value between -1 and 1
+            }
+        },
+        bClosed: false
+    })
+) 
+
+new Urpflanze.DrawerCanvas(scene, document.body).draw() 
+</script>
+
+<p>
+	Le ShapeLoop possono essere animate, questo comporta la generazione della forma ad ogni update e un calo di
+	performance. È possibile passare l'array <mark>loopDependencies</mark> con la lista delle dipendenze del loop. Ad
+	esempio, se vogliamo animare in base all'oggetto propArguments:
+</p>
+
+<!-- prettier-ignore -->
+<script id="s-l_2" class="runnable-script">/**
+ * ShapeLoop animation
+ */
+const scene = new Urpflanze.Scene()
+
+scene.add(
+    new Urpflanze.ShapeLoop({
+        repetitions: [6, 1],
+        sideLength: [scene.width / 3, 40],
+        distance: 40,
+        loop: {
+            start: 0,
+            end: Math.PI * 2,
+            inc: (Math.PI * 2) / 40,
+            vertex: (shapeLoopRepetition, propArguments) => {
+                const noise = propArguments.context.noise(
+                    'seed', 
+                    shapeLoopRepetition.offset * 4, 
+                    propArguments.repetition.row.offset, 
+                    propArguments.time / 1000
+                )
+                
+                const x = shapeLoopRepetition.offset * 2 - 1
+                const y = Math.sin(shapeLoopRepetition.angle) * noise
+                
+                return [x, y] // return value between -1 and 1
+            }
+        },
+        loopDependencies: ['propArguments'],
+        bClosed: false
+    })
+) 
+
+const drawer = new Urpflanze.DrawerCanvas(scene, document.body)
+drawer.startAnimation() 
+</script>

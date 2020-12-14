@@ -1,5 +1,6 @@
 import {
 	IBaseRepetition,
+	IRecursionRepetition,
 	IRepetition,
 	ISceneChildPropArguments,
 	ISceneChildProps,
@@ -8,13 +9,15 @@ import {
 } from '@core/types/scene-child'
 import SceneChild from '@core/SceneChild'
 import ShapeBase from '@core/shapes/ShapeBase'
+import ShapePrimitive from '@core/shapes/ShapePrimitive'
+import { IDrawerStreamProps } from '@services/types/drawer'
 
 /**
- * Object for index the buffer
+ * Parent Index
  *
- * @category Core.Interfaces
+ * @internal
  */
-export interface IBufferIndex {
+export interface IParentBufferIndex {
 	/**
 	 * Reference to shape
 	 */
@@ -22,17 +25,34 @@ export interface IBufferIndex {
 	/**
 	 * Parent indexing
 	 */
-	// parent?: Omit<IBufferIndex, 'shape'> & { shape: Shape }
-	parent?: IBufferIndex
+	parent?: IParentBufferIndex
 	/**
 	 * Frame length
 	 */
 	frameLength: number
 
 	/**
-	 * Current repetition reference oof frame
+	 * Current repetition reference of frame
 	 */
 	repetition: IRepetition
+
+	/**
+	 * Current recursion
+	 */
+	recursion?: IRecursionRepetition
+
+	// singleRepetitionBounding: IShapeBounding
+}
+/**
+ * Object for index the buffer
+ *
+ * @category Core.Interfaces
+ */
+export interface IBufferIndex extends Omit<IParentBufferIndex, 'shape' | 'recursion'> {
+	/**
+	 * Reference to shape
+	 */
+	shape: ShapePrimitive
 }
 
 /**
@@ -59,6 +79,8 @@ export interface IShapeBaseSettings extends ISceneChildSettings {
 	 * @order -14
 	 */
 	bUseParent?: boolean
+
+	bUseRecursion?: boolean
 
 	/**
 	 * Callback to apply transform at any vertex
@@ -124,31 +146,15 @@ export interface IShapePrimitiveProps extends ISceneChildProps {
 	 * @order -20
 	 */
 	sideLength?: TSceneChildProp<number | Array<number>>
-
-	/**
-	 * fill color of the shape, hsl or rgb is preferred
-	 * @order -19
-	 */
-	fillColor?: TSceneChildProp<number | string>
-
-	/**
-	 * stroke color oh the shape, hsl or rgb is preferred
-	 * @order -18
-	 */
-	strokeColor?: TSceneChildProp<number | string>
-
-	/**
-	 * stroke dimension
-	 * @order -17
-	 */
-	lineWidth?: TSceneChildProp<number>
 }
 
 /**
  *
  * @category Core.Props and Settings Interfaces
  */
-export interface IShapePrimitiveSettings extends IShapePrimitiveProps, IShapeBaseSettings {
+export interface IShapePrimitiveSettings<T extends IDrawerStreamProps = IDrawerStreamProps>
+	extends IShapePrimitiveProps,
+		IShapeBaseSettings {
 	/**
 	 * Adapt buffer mode, see <a href="[base_url]/EShapePrimitiveAdaptMode">EShapePrimitiveAdaptMode</a> for more details
 	 * @order -16
@@ -157,9 +163,39 @@ export interface IShapePrimitiveSettings extends IShapePrimitiveProps, IShapeBas
 
 	/**
 	 * Callback to apply transform at any vertex
-	 * @order -15
+	 * @order -15.5
 	 */
 	bClosed?: boolean
+
+	/**
+	 *
+	 * @order -15
+	 */
+	style?: T
+}
+
+/**
+ * Shape recursive animate props
+ */
+export interface IShapeRecursiveProps extends ISceneChildProps {
+	recursions?: TSceneChildProp<number>
+	recursionScale?: TSceneChildProp<number>
+	recursionVertex?: TSceneChildProp<number>
+}
+
+/**
+ * ShapeRecursive settings
+ *
+ * @category Core.Props and Settings Interfaces
+ */
+export interface IShapeRecursiveSettings extends IShapeRecursiveProps, IShapeSettings {
+	// /**
+	//  * Decide position of recursions
+	//  *
+	//  *
+	//  * @order -21
+	//  */
+	// bInner?: boolean
 }
 
 /**

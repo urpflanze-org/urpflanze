@@ -81,13 +81,13 @@ class SVGImporter {
 	 * @param {string} input
 	 * @returns {(DrawerCanvas | null)}
 	 */
-	static parse(input: string): DrawerCanvas | null {
+	static parse(input: string, simplify = 0.001): DrawerCanvas | null {
 		const svg = SVGImporter.stringToSVG(input)
 		if (svg === null) {
 			console.warn('[Urpflanze:SVGImport] | Cannot convet string to SVG', input)
 		}
 
-		const parsed = SVGImporter.SVGStringToBuffers(input)
+		const parsed = SVGImporter.SVGStringToBuffers(input, simplify)
 		if (parsed === null) {
 			console.warn('[Urpflanze:SVGImport] | Cannot convet string DrawerCanvas', input)
 			return null
@@ -188,12 +188,20 @@ class SVGImporter {
 		return { viewBox, buffers: result }
 	}
 
+	/**
+	 * Replace 'none' to undefined
+	 *
+	 * @private
+	 * @static
+	 * @param {('fill' | 'stroke')} name
+	 * @param {SVGPathElement} path
+	 * @returns {(string | undefined)}
+	 */
 	private static getColor(name: 'fill' | 'stroke', path: SVGPathElement): string | undefined {
 		const value = path.getAttribute(name)
 
 		if (value) {
-			if (value === 'none') return `hsla(0, 0%, 0%, 0)`
-			return value
+			return value === 'none' ? undefined : value
 		}
 	}
 

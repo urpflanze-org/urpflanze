@@ -1,3 +1,4 @@
+import { pmod } from '@core/math'
 import Emitter from '@services/events/Emitter'
 import { ISequenceMeta, ITimelineEvents } from '@services/types/timeline'
 import { now } from 'src/Utilites'
@@ -13,16 +14,19 @@ import { now } from 'src/Utilites'
 class Timeline extends Emitter<ITimelineEvents> {
 	/**
 	 * Animation status started
+	 * @internal
 	 */
 	public static readonly START = 'start'
 
 	/**
 	 * Animation status paused
+	 * @internal
 	 */
 	public static readonly PAUSE = 'pause'
 
 	/**
 	 * Animation status stop
+	 * @internal
 	 */
 	public static readonly STOP = 'stop'
 
@@ -34,7 +38,7 @@ class Timeline extends Emitter<ITimelineEvents> {
 	private current_frame: number
 	private current_time: number
 
-	private paused_time: number
+	private paused_time = 0
 	private start_time: number
 	private tick_time: number
 	private last_tick: number
@@ -263,7 +267,7 @@ class Timeline extends Emitter<ITimelineEvents> {
 	 * @returns {number}
 	 */
 	public getFrameTime(frame: number): number {
-		frame = frame < 0 ? this.sequence.frames - (Math.abs(frame) % this.sequence.frames) : frame % this.sequence.frames
+		frame = pmod(frame, this.sequence.frames)
 		return (frame * this.tick_time) % this.sequence.durate
 	}
 
@@ -283,8 +287,8 @@ class Timeline extends Emitter<ITimelineEvents> {
 	 * @param {number} frame
 	 */
 	public setFrame(frame: number): void {
-		this.current_frame = frame
-		this.current_time = this.getFrameTime(frame)
+		this.current_frame = pmod(frame, this.sequence.frames)
+		this.current_time = this.getFrameTime(this.current_frame)
 	}
 
 	/**
@@ -311,7 +315,7 @@ class Timeline extends Emitter<ITimelineEvents> {
 	 * @param {number} time
 	 */
 	public setTime(time: number): void {
-		time = (time + this.sequence.durate) % this.sequence.durate
+		time = pmod(time, this.sequence.durate)
 
 		this.current_time = time
 		this.current_frame = this.getFrameAtTime(time)

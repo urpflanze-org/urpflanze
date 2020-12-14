@@ -1,5 +1,9 @@
-import { TStreamCallback } from '@core/types/scene'
-import { ISceneChildPropArguments, ISceneChildProps, ISceneChildSettings } from '@core/types/scene-child'
+import {
+	ISceneChildPropArguments,
+	ISceneChildProps,
+	ISceneChildSettings,
+	IStreamArguments,
+} from '@core/types/scene-child'
 import { IBufferIndex, IShapeBounding } from '@core/types/shape-base'
 
 import Scene from '@core/Scene'
@@ -56,7 +60,7 @@ abstract class SceneChild {
 	 *
 	 * @type {number}
 	 */
-	public order: number
+	public order?: number
 
 	/**
 	 * The basic properties
@@ -197,9 +201,9 @@ abstract class SceneChild {
 	 * Best explained in ShapeBase
 	 *
 	 * @abstract
-	 * @param {TStreamCallback} callback
+	 * @param {(streamArguments: IStreamArguments) => void} callback
 	 */
-	abstract stream(callback: TStreamCallback): void
+	abstract stream(callback: (streamArguments: IStreamArguments) => void): void
 
 	/**
 	 * Return buffer of vertext if is generated

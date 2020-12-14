@@ -1,9 +1,11 @@
-import { mat4, vec2, vec3 } from 'gl-matrix'
+import { glMatrix, mat4, vec2, vec3 } from 'gl-matrix'
 
 export const VEC3_ZERO: vec3 = [0, 0, 0]
 export const VEC3_ONE: vec3 = [1, 1, 1]
 export const VEC2_ZERO: vec2 = [0, 0]
 export const VEC2_ONE: vec2 = [1, 1]
+
+glMatrix.setMatrixArrayType(Array)
 
 /**
  * Skew matrix
@@ -49,6 +51,8 @@ export function toVec2(x: number | Array<number>): vec2 {
  * @ignore
  */
 export function toVec3(x: number | Array<number>, defaultZValue = 0): vec3 {
-	if (Array.isArray(x)) return [x[0], x[1], defaultZValue]
+	if (Array.isArray(x)) {
+		return [x[0], x[1], defaultZValue]
+	}
 	return [x, x, defaultZValue]
 }

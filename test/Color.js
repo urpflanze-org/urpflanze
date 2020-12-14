@@ -1,5 +1,5 @@
 const tap = require('tap')
-const { parseColor, rgbToHsl, hslToRgb, parseColorAndConvert } = require('../../dist/Color')
+const { parseColor, rgbToHsl, hslToRgb, parseColorAndConvert } = require('../dist/Color')
 
 tap.test('color parsing', async t => {
 	t.deepEqual(

@@ -1,5 +1,9 @@
-import { TStreamCallback } from '@core/types/scene'
-import { ISceneChildPropArguments, ISceneChildProps, ISceneChildSettings } from '@core/types/scene-child'
+import {
+	ISceneChildPropArguments,
+	ISceneChildProps,
+	ISceneChildSettings,
+	IStreamArguments,
+} from '@core/types/scene-child'
 import { IBufferIndex, IShapeBounding } from '@core/types/shape-base'
 
 import Scene from '@core/Scene'
@@ -360,10 +364,10 @@ class Group extends SceneChild {
 	/**
 	 * Call strem on children
 	 *
-	 * @param {TStreamCallback} callback
+	 * @param {(streamArguments: IStreamArguments) => void} callback
 	 * @memberof Group
 	 */
-	public stream(callback: TStreamCallback): void {
+	public stream(callback: (streamArguments: IStreamArguments) => void): void {
 		this.children.forEach(item => item.stream(callback))
 	}
 

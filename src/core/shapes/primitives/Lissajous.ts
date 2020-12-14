@@ -1,7 +1,8 @@
+import { PI2 } from '@core/math'
 import ShapeLoop from '@core/shapes/ShapeLoop'
 import { ISceneChildPropArguments, IShapeLoopRepetition } from '@core/types/scene-child'
 import { EShapePrimitiveAdaptMode } from '@core/types/shape-base'
-import { ILissajousProps, ILissajousSettings, IShapeLoopProps } from '@core/types/shape-primitive'
+import { ILissajousProps, ILissajousSettings } from '@core/types/shape-primitives'
 import { vec2 } from 'gl-matrix'
 
 /**
@@ -11,8 +12,10 @@ import { vec2 } from 'gl-matrix'
  * @class Lissajous
  * @extends {ShapeLoop}
  */
-class Lissajous extends ShapeLoop {
-	protected props: ILissajousProps
+class Lissajous extends ShapeLoop<ILissajousProps> {
+	private wx!: number
+	private wy!: number
+	private wz!: number
 
 	/**
 	 * Creates an instance of Lissajous.
@@ -22,7 +25,7 @@ class Lissajous extends ShapeLoop {
 	 */
 	constructor(settings: ILissajousSettings = {}) {
 		settings.type = 'Lissajous'
-		settings.loopDependencies = (settings.loopDependencies || []).concat(['wx', 'wy', 'wz', 'sideLength'])
+		settings.loopDependencies = (settings.loopDependencies || []).concat(['wx', 'wy', 'wz'])
 		settings.adaptMode = EShapePrimitiveAdaptMode.None
 
 		super(settings, true)
@@ -33,23 +36,19 @@ class Lissajous extends ShapeLoop {
 
 		this.loop = {
 			start: 0,
-			end: ShapeLoop.PI2,
+			end: PI2,
 			inc: propArguments => {
-				const wx = this.getProp('wx', propArguments)
-				const wy = this.getProp('wy', propArguments)
+				const wx = this.getProp('wx', propArguments) as number
+				const wy = this.getProp('wy', propArguments) as number
 
 				const ratio = wx == wy ? ShapeLoop.PId2 : 0.5 - Math.min(49, wx + wy) * 0.01
-
-				return (1 / Math.pow(this.sideLength[0] * this.sideLength[1], 0.25)) * ratio
+				const sideLength = this.getRepetitionSideLength(propArguments)
+				return (1 / Math.pow(sideLength[0] * sideLength[1], 0.25)) * ratio
 			},
-			vertex: (shapeLoopRepetition: IShapeLoopRepetition, propArguments?: ISceneChildPropArguments): vec2 => {
-				const wx = this.getProp('wx', propArguments)
-				const wy = this.getProp('wy', propArguments)
-				const wz = this.getProp('wz', propArguments, 0)
-
-				return wx == wy
-					? [Math.cos(shapeLoopRepetition.angle + wz), Math.sin(shapeLoopRepetition.angle)]
-					: [Math.cos(wx * shapeLoopRepetition.angle + wz), Math.sin(wy * shapeLoopRepetition.angle)]
+			vertex: (shapeLoopRepetition: IShapeLoopRepetition): vec2 => {
+				return this.wx === this.wy
+					? [Math.cos(shapeLoopRepetition.angle + this.wz), Math.sin(shapeLoopRepetition.angle)]
+					: [Math.cos(this.wx * shapeLoopRepetition.angle + this.wz), Math.sin(this.wy * shapeLoopRepetition.angle)]
 			},
 		}
 
@@ -58,28 +57,12 @@ class Lissajous extends ShapeLoop {
 		this.bStaticIndexed = this.isStaticIndexed()
 	}
 
-	/**
-	 * Get property value
-	 *
-	 * @param {keyof ILissajousProps} key
-	 * @param {ISceneChildPropArguments} [propArguments]
-	 * @param {*} [defaultValue]
-	 * @returns {*}
-	 * @memberof Lissajous
-	 */
-	public getProp(key: keyof ILissajousProps, propArguments?: ISceneChildPropArguments, defaultValue?: any): any {
-		return super.getProp(key as keyof IShapeLoopProps, propArguments, defaultValue)
-	}
+	protected generateLoopBuffer(propArguments: ISceneChildPropArguments): Float32Array {
+		this.wx = this.getProp('wx', propArguments, 1)
+		this.wy = this.getProp('wy', propArguments, 2)
+		this.wz = this.getProp('wz', propArguments, 2)
 
-	/**
-	 * Set single or multiple props
-	 *
-	 * @param {(keyof ILissajousProps | ILissajousProps)} key
-	 * @param {*} [value]
-	 * @memberof Lissajous
-	 */
-	public setProp(key: keyof ILissajousProps | ILissajousProps, value?: any): void {
-		super.setProp(key as keyof IShapeLoopProps, value)
+		return super.generateLoopBuffer(propArguments)
 	}
 }
 

@@ -1,8 +1,9 @@
 import ShapeLoop from '@core/shapes/ShapeLoop'
-import { IRoseProps, IRoseSettings, IShapeLoopProps } from '@core/types/shape-primitive'
+import { IRoseProps, IRoseSettings } from '@core/types/shape-primitives'
 import { EShapePrimitiveAdaptMode } from '@core/types/shape-base'
 import { ISceneChildPropArguments, IShapeLoopRepetition } from '@core/types/scene-child'
 import { vec2 } from 'gl-matrix'
+import { PI2 } from '@core/math'
 
 /**
  * Rose shape
@@ -11,8 +12,8 @@ import { vec2 } from 'gl-matrix'
  * @class Rose
  * @extends {ShapeLoop}
  */
-class Rose extends ShapeLoop {
-	protected props: IRoseProps
+class Rose extends ShapeLoop<IRoseProps> {
+	private k!: number
 
 	/**
 	 * Creates an instance of Rose.
@@ -22,7 +23,7 @@ class Rose extends ShapeLoop {
 	 */
 	constructor(settings: IRoseSettings = {}) {
 		settings.type = 'Rose'
-		settings.loopDependencies = (settings.loopDependencies || []).concat(['n', 'd', 'sideLength'])
+		settings.loopDependencies = (settings.loopDependencies || []).concat(['n', 'd'])
 		settings.adaptMode = settings.adaptMode ?? EShapePrimitiveAdaptMode.Scale
 
 		super(settings, true)
@@ -33,20 +34,19 @@ class Rose extends ShapeLoop {
 		this.loop = {
 			start: 0,
 			end: (propArguments: ISceneChildPropArguments) =>
-				Rose.getFinalAngleFromK(this.getProp('n', propArguments), this.getProp('d', propArguments)),
+				Rose.getFinalAngleFromK(this.getProp('n', propArguments) as number, this.getProp('d', propArguments) as number),
 			inc: (propArguments: ISceneChildPropArguments) => {
-				const n = this.getProp('n', propArguments)
-				const d = this.getProp('d', propArguments)
-
-				const sides = Math.pow(this.sideLength[0] * this.sideLength[1], 0.45)
+				const n = this.getProp('n', propArguments) as number
+				const d = this.getProp('d', propArguments) as number
+				const sideLength = this.getRepetitionSideLength(propArguments)
+				const sides = Math.pow(sideLength[0] * sideLength[1], 0.45)
 				const k = d < n ? n / d : 1.5
 
-				return ShapeLoop.PI2 / (sides * k)
+				return PI2 / (sides * k)
 			},
 
-			vertex: (shapeLoopRepetition: IShapeLoopRepetition, propArguments?: ISceneChildPropArguments): vec2 => {
-				const k = this.getProp('n', propArguments) / this.getProp('d', propArguments)
-				const f = Math.cos(k * shapeLoopRepetition.angle)
+			vertex: (shapeLoopRepetition: IShapeLoopRepetition): vec2 => {
+				const f = Math.cos(this.k * shapeLoopRepetition.angle)
 
 				return [f * Math.cos(shapeLoopRepetition.angle), f * Math.sin(shapeLoopRepetition.angle)]
 			},
@@ -57,28 +57,10 @@ class Rose extends ShapeLoop {
 		this.bStaticIndexed = this.isStaticIndexed()
 	}
 
-	/**
-	 * Get property value
-	 *
-	 * @param {keyof RoseProps} key
-	 * @param {ISceneChildPropArguments} [propArguments]
-	 * @param {*} [defaultValue]
-	 * @returns {*}
-	 * @memberof Rose
-	 */
-	public getProp(key: keyof IRoseProps, propArguments?: ISceneChildPropArguments, defaultValue?: any): any {
-		return super.getProp(key as keyof IShapeLoopProps, propArguments, defaultValue)
-	}
+	protected generateLoopBuffer(propArguments: ISceneChildPropArguments): Float32Array {
+		this.k = (this.getProp('n', propArguments) as number) / (this.getProp('d', propArguments) as number)
 
-	/**
-	 * Set single or multiple props
-	 *
-	 * @param {(keyof IRoseProps | IRoseSettings)} key
-	 * @param {*} [value]
-	 * @memberof Rose
-	 */
-	public setProp(key: keyof IRoseProps | IRoseSettings, value?: any): void {
-		super.setProp(key as keyof IShapeLoopProps, value)
+		return super.generateLoopBuffer(propArguments)
 	}
 
 	/**
@@ -91,7 +73,7 @@ class Rose extends ShapeLoop {
 	 * @memberof Rose
 	 */
 	static getFinalAngleFromK(n: number, d: number): number {
-		if (n == d) return ShapeLoop.PI2
+		if (n == d) return PI2
 
 		const k = n / d
 		const p = n * d

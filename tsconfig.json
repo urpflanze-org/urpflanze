@@ -12,10 +12,16 @@
 		"declaration": true,
 		"declarationMap": true,
 		"declarationDir": "dist",
-		"strictPropertyInitialization": false,
 		"allowSyntheticDefaultImports": true,
 		"strict": true,
+		"allowJs": true,
+		"isolatedModules": true,
 		"typeRoots": ["./node_modules/@types", "./src/typings"],
+		"strictBindCallApply": true,
+		"strictFunctionTypes": true,
+		"strictNullChecks": true,
+		"strictPropertyInitialization": true,
+		"allowUnreachableCode": false,
 		"paths": {
 			"@core/*": ["src/core/*"],
 			"@services/*": ["src/services/*"]

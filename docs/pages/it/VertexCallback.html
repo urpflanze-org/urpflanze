@@ -1,0 +1,41 @@
+<h1>VertexCallback</h1>
+<p>
+	La proprietà <mark>vertexCallback</mark> è una funzione che viene chiamata su ogni punto della forma di ogni
+	ripetizione.
+</p>
+
+<!-- prettier-ignore -->
+<script id="v-c_1" class="runnable-script">/**
+ * VertexCallback
+ */
+const scene = new Urpflanze.Scene()
+
+const rect = new Urpflanze.Rect({
+    sideLength: 100,
+    scale: () => 1,
+    vertexCallback: (vertex, vertexRepetition, propArguments) => {
+
+        const angle = Math.atan2(vertex[1], vertex[0])
+        
+        const x = Math.cos(angle) 
+        const y = Math.sin(angle) 
+
+        const offset = 20
+        const noise = propArguments.context.noise('seed', vertexRepetition.offset * 2, propArguments.time / 1000) * offset
+
+        vertex[0] += x * noise 
+        vertex[1] += y * noise 
+    }
+})
+
+rect.subdivide(4) // Solo le ShapeBuffer possono essere suddivise
+
+scene.add(rect)
+
+new Urpflanze.DrawerCanvas(scene, document.body).startAnimation() 
+</script>
+
+<p>
+	Per un'animazione sulla proprietà vertexCallback è necessario che la forma non sia statica (quindi che almeno una
+	delle proprietà sia una funzione)
+</p>

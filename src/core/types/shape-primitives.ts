@@ -87,7 +87,7 @@ export interface IShapeLoopSettings extends IShapeLoopProps, IShapePrimitiveSett
  *
  * @category Core.Primitive Interfaces
  */
-export interface IRegularPolygonProps extends IShapeLoopProps {
+export interface IPolygonProps extends IShapeLoopProps {
 	/**
 	 * sideNumber / segments
 	 * @order -35
@@ -99,7 +99,7 @@ export interface IRegularPolygonProps extends IShapeLoopProps {
  *
  * @category Core.Primitive Interfaces
  */
-export interface IRegularPolygonSettings extends IRegularPolygonProps, IShapeLoopSettings {}
+export interface IPolygonSettings extends IPolygonProps, IShapeLoopSettings {}
 
 /**
  * For <mark>n</mark> and <mark>d</mark> see Rose on <a target="_blank" href="https://en.wikipedia.org/wiki/Rose_(mathematics)">Wikipedia</a>

@@ -1,4 +1,4 @@
-/** @license Urpflanze v0.1.0-alpha.2
+/** @license Urpflanze v0.2.0-beta.1
  * urpflanze.js
  *
  * Github: https://github.com/genbs/urpflanze/
@@ -18,6 +18,203 @@
 })(window, function() {
 return /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
+
+/***/ "./dist/Color.js":
+/*!***********************!*\
+  !*** ./dist/Color.js ***!
+  \***********************/
+/*! namespace exports */
+/*! export hslToRgb [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export parseColor [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export parseColorAndConvert [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export rgbToHsl [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__.r, __webpack_exports__, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "parseColorAndConvert": () => /* binding */ parseColorAndConvert,
+/* harmony export */   "parseColor": () => /* binding */ parseColor,
+/* harmony export */   "hslToRgb": () => /* binding */ hslToRgb,
+/* harmony export */   "rgbToHsl": () => /* binding */ rgbToHsl
+/* harmony export */ });
+/**
+ * Convert color to IConvertedColor
+ * Supported format: 'hsla?' 'rgba?' 'hex{3,8}' number (0xFFFFFF[FF])
+ *
+ * @internal
+ * @ignore
+ * @param {(string | number)} color
+ * @returns {(IConvertedColor | undefined)}
+ */
+function parseColorAndConvert(color) {
+    var parsed = parseColor(color);
+    if (parsed) {
+        if (parsed.type === 'hsl') {
+            var _a = hslToRgb(parsed.a, parsed.b, parsed.c), r = _a[0], g = _a[1], b = _a[2];
+            return {
+                r: r,
+                g: g,
+                b: b,
+                h: parsed.a,
+                s: parsed.b,
+                l: parsed.c,
+                alpha: parsed.alpha,
+            };
+        }
+        else {
+            var _b = rgbToHsl(parsed.a, parsed.b, parsed.c), h = _b[0], s = _b[1], l = _b[2];
+            return {
+                h: h,
+                s: s,
+                l: l,
+                r: parsed.a,
+                g: parsed.b,
+                b: parsed.c,
+                alpha: parsed.alpha,
+            };
+        }
+    }
+}
+/**
+ * Convert color to IColor
+ * Supported format: 'hsla?' 'rgba?' 'hex{3,8}' number (0xFFFFFF[FF])
+ *
+ * @internal
+ * @ignore
+ * @param {(string | number)} color
+ * @returns {(IColor | undefined)}
+ */
+function parseColor(color) {
+    if (typeof color === 'number') {
+        if (color > 0xffffff) {
+            return {
+                type: 'rgb',
+                a: (color >> 24) & 255,
+                b: (color >> 16) & 255,
+                c: (color >> 8) & 255,
+                alpha: (color & 255) / 255,
+            };
+        }
+        else {
+            return { type: 'rgb', a: (color >> 16) & 255, b: (color >> 8) & 255, c: color & 255, alpha: 1 };
+        }
+    }
+    color = color.replace(/\s/g, '');
+    var match = /^#([0-9a-f]{3,8})$/i.exec(color);
+    if (match) {
+        var hex = match[1];
+        if (hex.length === 3) {
+            return {
+                type: 'rgb',
+                a: parseInt(hex[0] + hex[0], 16),
+                b: parseInt(hex[1] + hex[1], 16),
+                c: parseInt(hex[2] + hex[2], 16),
+                alpha: 1,
+            };
+        }
+        else {
+            return {
+                type: 'rgb',
+                a: parseInt(hex[0] + hex[1], 16),
+                b: parseInt(hex[2] + hex[3], 16),
+                c: parseInt(hex[4] + hex[5], 16),
+                alpha: hex.length > 6 ? parseInt(hex.substring(6), 16) / 255 : 1,
+            };
+        }
+    }
+    match = /^((hsl|rgb)a?)\((\d+),(\d+)%?,(\d+)%?,?(.+)?\)$/i.exec(color);
+    if (match) {
+        var _a = match, type = _a[2], a = _a[3], b = _a[4], c = _a[5], alpha = _a[6];
+        return {
+            type: type,
+            a: +a,
+            b: +b,
+            c: +c,
+            alpha: alpha ? +alpha : 1,
+        };
+    }
+}
+/**
+ * Convert hsl color to rgb
+ *
+ * @internal
+ * @ignore
+ * @param {number} h
+ * @param {number} s
+ * @param {number} l
+ * @returns {[number, number, number]}
+ */
+function hslToRgb(h, s, l) {
+    h /= 360;
+    s /= 100;
+    l /= 100;
+    var r, g, b;
+    if (s == 0) {
+        r = g = b = l; // achromatic
+    }
+    else {
+        var hue2rgb = function (p, q, t) {
+            t += t < 0 ? 1 : t > 1 ? -1 : 0;
+            if (t < 1 / 6)
+                return p + (q - p) * 6 * t;
+            if (t < 1 / 2)
+                return q;
+            if (t < 2 / 3)
+                return p + (q - p) * (2 / 3 - t) * 6;
+            return p;
+        };
+        var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+        var p = 2 * l - q;
+        r = hue2rgb(p, q, h + 1 / 3);
+        g = hue2rgb(p, q, h);
+        b = hue2rgb(p, q, h - 1 / 3);
+    }
+    return [(0.5 + r * 255) << 0, (0.5 + g * 255) << 0, (0.5 + b * 255) << 0];
+}
+/**
+ * Convert rbg to hsl
+ *
+ * @internal
+ * @ignore
+ * @param {number} r
+ * @param {number} g
+ * @param {number} b
+ * @returns {[number, number, number]} (0-360, 0-100, 0-100)
+ */
+function rgbToHsl(r, g, b) {
+    r /= 255;
+    g /= 255;
+    b /= 255;
+    var max = Math.max(r, g, b), min = Math.min(r, g, b);
+    var h, s;
+    var l = (max + min) / 2;
+    if (max == min) {
+        h = s = 0; // achromatic
+    }
+    else {
+        var d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch (max) {
+            case r:
+                h = (g - b) / d + (g < b ? 6 : 0);
+                break;
+            case g:
+                h = (b - r) / d + 2;
+                break;
+            case b:
+                h = (r - g) / d + 4;
+                break;
+        }
+        h = h / 6;
+    }
+    return [(0.5 + h * 360) << 0, (0.5 + s * 100) << 0, (0.5 + l * 100) << 0];
+}
+//# sourceMappingURL=Color.js.map
+
+/***/ }),
 
 /***/ "./dist/Utilites.js":
 /*!**************************!*\
@@ -226,8 +423,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var simplex_noise__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! simplex-noise */ "./node_modules/simplex-noise/simplex-noise.js");
 /* harmony import */ var simplex_noise__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(simplex_noise__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _types_scene_child__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./types/scene-child */ "./dist/core/types/scene-child.js");
-/* harmony import */ var gl_matrix__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! gl-matrix */ "./node_modules/gl-matrix/esm/vec2.js");
+/* harmony import */ var gl_matrix__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! gl-matrix */ "./node_modules/gl-matrix/esm/vec2.js");
+/* harmony import */ var _Scene__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Scene */ "./dist/core/Scene.js");
 ;
+
 
 
 /**
@@ -282,7 +481,7 @@ var Context = {
     angle: function (repetition, offsetFromCenter) {
         if (offsetFromCenter === void 0) { offsetFromCenter = [0, 0]; }
         if (repetition.type == _types_scene_child__WEBPACK_IMPORTED_MODULE_1__.ERepetitionType.Matrix) {
-            var centerMatrix = gl_matrix__WEBPACK_IMPORTED_MODULE_2__.fromValues((repetition.col.count - 1) / 2, (repetition.row.count - 1) / 2);
+            var centerMatrix = gl_matrix__WEBPACK_IMPORTED_MODULE_3__.fromValues((repetition.col.count - 1) / 2, (repetition.row.count - 1) / 2);
             centerMatrix[0] += centerMatrix[0] * offsetFromCenter[0];
             centerMatrix[1] += centerMatrix[1] * offsetFromCenter[1];
             var x = repetition.col.index - 1 - centerMatrix[0];
@@ -303,7 +502,7 @@ var Context = {
     angle2: function (repetition, offsetFromCenter) {
         if (offsetFromCenter === void 0) { offsetFromCenter = [0, 0]; }
         if (repetition.type == _types_scene_child__WEBPACK_IMPORTED_MODULE_1__.ERepetitionType.Matrix) {
-            var centerMatrix = gl_matrix__WEBPACK_IMPORTED_MODULE_2__.fromValues((repetition.col.count - 1) / 2, (repetition.row.count - 1) / 2);
+            var centerMatrix = gl_matrix__WEBPACK_IMPORTED_MODULE_3__.fromValues((repetition.col.count - 1) / 2, (repetition.row.count - 1) / 2);
             centerMatrix[0] += centerMatrix[0] * offsetFromCenter[0];
             centerMatrix[1] += centerMatrix[1] * offsetFromCenter[1];
             var x = repetition.col.index - 1 - centerMatrix[0];
@@ -323,11 +522,11 @@ var Context = {
     distance: function (repetition, offsetFromCenter) {
         if (offsetFromCenter === void 0) { offsetFromCenter = [0, 0]; }
         if (repetition.type == _types_scene_child__WEBPACK_IMPORTED_MODULE_1__.ERepetitionType.Matrix) {
-            var centerMatrix = gl_matrix__WEBPACK_IMPORTED_MODULE_2__.fromValues(0.5, 0.5);
+            var centerMatrix = gl_matrix__WEBPACK_IMPORTED_MODULE_3__.fromValues(0.5, 0.5);
             centerMatrix[0] += centerMatrix[0] * offsetFromCenter[0];
             centerMatrix[1] += centerMatrix[1] * offsetFromCenter[1];
-            var current = gl_matrix__WEBPACK_IMPORTED_MODULE_2__.fromValues(repetition.col.offset - 0.5 / repetition.col.count, repetition.row.offset - 0.5 / repetition.row.count);
-            return gl_matrix__WEBPACK_IMPORTED_MODULE_2__.distance(current, centerMatrix);
+            var current = gl_matrix__WEBPACK_IMPORTED_MODULE_3__.fromValues(repetition.col.offset - 0.5 / repetition.col.count, repetition.row.offset - 0.5 / repetition.row.count);
+            return gl_matrix__WEBPACK_IMPORTED_MODULE_3__.distance(current, centerMatrix);
         }
         return 1;
     },
@@ -339,6 +538,8 @@ var Context = {
      * @returns {number}
      */
     percW: function (percentage, sceneChild) {
+        if (sceneChild instanceof _Scene__WEBPACK_IMPORTED_MODULE_2__.default)
+            return (sceneChild.width * percentage) / 100;
         return sceneChild && sceneChild.scene ? (sceneChild.scene.width * percentage) / 100 : percentage;
     },
     /**
@@ -349,6 +550,8 @@ var Context = {
      * @returns {number}
      */
     percH: function (percentage, sceneChild) {
+        if (sceneChild instanceof _Scene__WEBPACK_IMPORTED_MODULE_2__.default)
+            return (sceneChild.height * percentage) / 100;
         return sceneChild && sceneChild.scene ? (sceneChild.scene.height * percentage) / 100 : percentage;
     },
 };
@@ -717,7 +920,7 @@ var Group = /** @class */ (function (_super) {
     /**
      * Call strem on children
      *
-     * @param {TStreamCallback} callback
+     * @param {(streamArguments: IStreamArguments) => void} callback
      * @memberof Group
      */
     Group.prototype.stream = function (callback) {
@@ -818,14 +1021,15 @@ var Scene = /** @class */ (function () {
      * @memberof Scene
      */
     Scene.prototype.update = function (atTime) {
-        var _this = this;
         this.currentTime = atTime;
-        this.children.forEach(function (child) { return child.generate(_this.currentTime, true); });
+        for (var i = 0, len = this.children.length; i < len; i++) {
+            this.children[i].generate(this.currentTime, true);
+        }
     };
     /**
      * Traverse the child buffer and use it with callback
      *
-     * @param {TStreamCallback} callback
+     * @param {(streamArguments: IStreamArguments) => void} callback
      * @memberof Scene
      */
     Scene.prototype.stream = function (callback) {
@@ -867,7 +1071,7 @@ var Scene = /** @class */ (function () {
                     : typeof item.order !== 'undefined'
                         ? item.order
                         : this.children.length > 0
-                            ? Math.max.apply(this, this.children.map(function (e) { return e.order; })) + 1
+                            ? Math.max.apply(this, this.children.map(function (e) { return e.order || 0; })) + 1
                             : 0;
             Scene.propagateToChilden(item, this);
             this.children.push(item);
@@ -1167,7 +1371,7 @@ var SceneChild = /** @class */ (function () {
 /*! namespace exports */
 /*! export default [provided] [no usage info] [missing usage info prevents renaming] */
 /*! other exports [not provided] [no usage info] */
-/*! runtime requirements: __webpack_require__, __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
+/*! runtime requirements: __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1175,8 +1379,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-/* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Utilites */ "./dist/Utilites.js");
-;
 /**
  * Temporany matrix
  *
@@ -1210,6 +1412,10 @@ var Vec2 = {
         }
         return out;
     },
+    normalize: function (v) {
+        var len = Vec2.length(v);
+        return len !== 0 ? [v[0] / len, v[1] / len] : [0, 0];
+    },
     /**
      * Distance between two points
      *
@@ -1241,8 +1447,9 @@ var Vec2 = {
      * @returns {number}
      */
     angle: function (a, b) {
-        var m = Vec2.length(a) * Vec2.length(b);
-        return Math.acos((0,_Utilites__WEBPACK_IMPORTED_MODULE_0__.clamp)(-1, 1, m && Vec2.dot(a, b) / m));
+        a = Vec2.normalize(a);
+        b = Vec2.normalize(b);
+        return Math.acos(Vec2.dot(a, b));
     },
     /**
      * skewX point
@@ -1423,6 +1630,35 @@ var Bounding = {
         if (typeof tmpBounding[3] === 'undefined' || y > tmpBounding[3])
             tmpBounding[3] = y;
     },
+    sum: function (dest, bounding) {
+        if (typeof bounding[0] !== 'undefined' &&
+            typeof bounding[1] !== 'undefined' &&
+            typeof bounding[2] !== 'undefined' &&
+            typeof bounding[3] !== 'undefined') {
+            if (typeof dest[0] === 'undefined' ||
+                typeof dest[1] === 'undefined' ||
+                typeof dest[2] === 'undefined' ||
+                typeof dest[3] === 'undefined') {
+                dest[0] = bounding[0];
+                dest[1] = bounding[1];
+                dest[2] = bounding[2];
+                dest[3] = bounding[3];
+            }
+            else {
+                if (dest[0] < bounding[0])
+                    dest[0] = bounding[0];
+                if (dest[2] > bounding[2])
+                    dest[2] = bounding[2];
+                if (dest[1] < bounding[1])
+                    dest[1] = bounding[1];
+                if (dest[3] > bounding[3])
+                    dest[3] = bounding[3];
+            }
+        }
+        else {
+            console.warn('[Urplfanze:Bounding] cannot sum bounding');
+        }
+    },
     bind: function (bounding, tmpBounding) {
         if (typeof tmpBounding[0] !== 'undefined' &&
             typeof tmpBounding[1] !== 'undefined' &&
@@ -1458,7 +1694,7 @@ var Bounding = {
 /*! export toVec2 [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export toVec3 [provided] [no usage info] [missing usage info prevents renaming] */
 /*! other exports [not provided] [no usage info] */
-/*! runtime requirements: __webpack_require__.r, __webpack_exports__, __webpack_require__.d, __webpack_require__.* */
+/*! runtime requirements: __webpack_require__, __webpack_require__.r, __webpack_exports__, __webpack_require__.d, __webpack_require__.* */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1472,10 +1708,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "toVec2": () => /* binding */ toVec2,
 /* harmony export */   "toVec3": () => /* binding */ toVec3
 /* harmony export */ });
+/* harmony import */ var gl_matrix__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! gl-matrix */ "./node_modules/gl-matrix/esm/common.js");
+;
 var VEC3_ZERO = [0, 0, 0];
 var VEC3_ONE = [1, 1, 1];
 var VEC2_ZERO = [0, 0];
 var VEC2_ONE = [1, 1];
+gl_matrix__WEBPACK_IMPORTED_MODULE_0__.setMatrixArrayType(Array);
 /**
  * Skew matrix
  *
@@ -1520,11 +1759,66 @@ function toVec2(x) {
  */
 function toVec3(x, defaultZValue) {
     if (defaultZValue === void 0) { defaultZValue = 0; }
-    if (Array.isArray(x))
+    if (Array.isArray(x)) {
         return [x[0], x[1], defaultZValue];
+    }
     return [x, x, defaultZValue];
 }
 //# sourceMappingURL=gl-matrix-extensions.js.map
+
+/***/ }),
+
+/***/ "./dist/core/math/index.js":
+/*!*********************************!*\
+  !*** ./dist/core/math/index.js ***!
+  \*********************************/
+/*! namespace exports */
+/*! export PHI [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export PI2 [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export log [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export pmod [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__.r, __webpack_exports__, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "log": () => /* binding */ log,
+/* harmony export */   "PI2": () => /* binding */ PI2,
+/* harmony export */   "PHI": () => /* binding */ PHI,
+/* harmony export */   "pmod": () => /* binding */ pmod
+/* harmony export */ });
+/**
+ * Return logarith value and base
+ *
+ * @category Core.Utilities
+ *
+ * @param n number
+ * @param base number
+ */
+var log = function (n, base) { return Math.log(n) / Math.log(base); };
+/**
+ * @category Core.Utilities
+ */
+var PI2 = Math.PI * 2;
+/**
+ * @category Core.Utilities
+ */
+var PHI = (1 + Math.sqrt(5)) / 2;
+/**
+ * Return a positive module of positive or negative value
+ *
+ * @category Core.Utilities
+ *
+ * @param value number
+ * @param base number
+ */
+var pmod = function (value, base) {
+    var result = value % base;
+    return result < 0 ? result + base : result;
+};
+//# sourceMappingURL=index.js.map
 
 /***/ }),
 
@@ -1584,7 +1878,6 @@ var Shape = /** @class */ (function (_super) {
      * Creates an instance of Shape.
      *
      * @param {ShapeSettings} [settings={}]
-     * @memberof Shape
      */
     function Shape(settings) {
         if (settings === void 0) { settings = {}; }
@@ -1605,7 +1898,6 @@ var Shape = /** @class */ (function (_super) {
      * Check if shape is static
      *
      * @returns {boolean}
-     * @memberof Shape
      */
     Shape.prototype.isStatic = function () {
         return _super.prototype.isStatic.call(this) && (this.shape ? this.shape.isStatic() : true);
@@ -1614,7 +1906,6 @@ var Shape = /** @class */ (function (_super) {
      * Check if shape has static index
      *
      * @returns {boolean}
-     * @memberof Shape
      */
     Shape.prototype.isStaticIndexed = function () {
         return _super.prototype.isStaticIndexed.call(this) && (this.shape ? this.shape.isStaticIndexed() : true);
@@ -1624,7 +1915,6 @@ var Shape = /** @class */ (function (_super) {
      *
      * @param {number | string} idOrName
      * @returns {(SceneChild | null)}
-     * @memberof Shape
      */
     Shape.prototype.find = function (idOrName) {
         if (this.id === idOrName || this.name === idOrName)
@@ -1638,7 +1928,6 @@ var Shape = /** @class */ (function (_super) {
      *
      * @param {ISceneChildPropArguments} propArguments
      * @returns {number}
-     * @memberof Shape
      */
     Shape.prototype.getBufferLength = function (propArguments) {
         if (this.bStatic && this.buffer && this.buffer.length > 0)
@@ -1653,7 +1942,6 @@ var Shape = /** @class */ (function (_super) {
      * @param {number} generateId
      * @param {ISceneChildPropArguments} propArguments
      * @returns {Float32Array}
-     * @memberof ShapeBase
      */
     Shape.prototype.generateBuffer = function (generateId, propArguments) {
         if (this.shape) {
@@ -1680,14 +1968,17 @@ var Shape = /** @class */ (function (_super) {
      * @protected
      * @param {number} frameLength
      * @param {IRepetition} repetition
+     * @returns {number} nextIndex
      */
-    Shape.prototype.addIndex = function (frameLength, repetition) {
+    Shape.prototype.addIndex = function (frameLength, repetition
+    // singleRepetitionBounding: IShapeBounding
+    ) {
         if (this.shape) {
-            var indexedBuffer = this.indexedBuffer;
             var childIndexedBuffer = this.shape.getIndexedBuffer() || [];
             var parent_1 = {
                 shape: this,
                 frameLength: frameLength,
+                // singleRepetitionBounding,
                 repetition: {
                     type: repetition.type,
                     angle: repetition.angle,
@@ -1708,32 +1999,35 @@ var Shape = /** @class */ (function (_super) {
             };
             for (var i = 0, len = childIndexedBuffer.length; i < len; i++) {
                 var currentIndexed = __assign({}, childIndexedBuffer[i]);
-                currentIndexed.parent = currentIndexed.parent ? this.setIndexedParent(currentIndexed.parent, parent_1) : parent_1;
-                indexedBuffer.push(currentIndexed);
+                currentIndexed.parent = currentIndexed.parent ? Shape.setIndexedParent(currentIndexed.parent, parent_1) : parent_1;
+                this.indexedBuffer.push(currentIndexed);
             }
         }
     };
     /**
      * Set parent of indexed
      *
-     * @private
-     * @param {IBufferIndex} current
-     * @param {IBufferIndex} parent
-     * @return {*}  {IBufferIndex}
+     * @static
+     * @param {(IBufferIndex | IParentBufferIndex)} current
+     * @param {IParentBufferIndex} parent
+     * @returns {(IBufferIndex | IParentBufferIndex)}
      */
-    Shape.prototype.setIndexedParent = function (current, parent) {
+    Shape.setIndexedParent = function (current, parent, maxLevel, currentLevel) {
+        if (currentLevel === void 0) { currentLevel = 0; }
         return {
             shape: current.shape,
+            // singleRepetitionBounding: current.singleRepetitionBounding,
             repetition: current.repetition,
             frameLength: current.frameLength,
-            parent: current.parent ? this.setIndexedParent(current.parent, parent) : parent,
+            parent: current.parent && typeof maxLevel !== 'undefined' && currentLevel < maxLevel
+                ? Shape.setIndexedParent(current.parent, parent, maxLevel, currentLevel++)
+                : parent,
         };
     };
     /**
      * Set shape
      *
      * @param {(SceneChild | undefined)} [shape]
-     * @memberof ShapeBase
      */
     Shape.prototype.setShape = function (shape) {
         if (typeof shape === 'undefined') {
@@ -1768,10 +2062,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-/* harmony import */ var gl_matrix__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! gl-matrix */ "./node_modules/gl-matrix/esm/common.js");
-/* harmony import */ var gl_matrix__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! gl-matrix */ "./node_modules/gl-matrix/esm/mat4.js");
-/* harmony import */ var gl_matrix__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! gl-matrix */ "./node_modules/gl-matrix/esm/vec2.js");
-/* harmony import */ var gl_matrix__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! gl-matrix */ "./node_modules/gl-matrix/esm/vec3.js");
+/* harmony import */ var gl_matrix__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! gl-matrix */ "./node_modules/gl-matrix/esm/common.js");
+/* harmony import */ var gl_matrix__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! gl-matrix */ "./node_modules/gl-matrix/esm/mat4.js");
+/* harmony import */ var gl_matrix__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! gl-matrix */ "./node_modules/gl-matrix/esm/vec2.js");
+/* harmony import */ var gl_matrix__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! gl-matrix */ "./node_modules/gl-matrix/esm/vec3.js");
 /* harmony import */ var _types_scene_child__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../types/scene-child */ "./dist/core/types/scene-child.js");
 /* harmony import */ var _SceneChild__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../SceneChild */ "./dist/core/SceneChild.js");
 /* harmony import */ var _Context__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Context */ "./dist/core/Context.js");
@@ -1779,6 +2073,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../Utilites */ "./dist/Utilites.js");
 /* harmony import */ var _math_Vec2__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../math/Vec2 */ "./dist/core/math/Vec2.js");
 /* harmony import */ var _math_bounding__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../math/bounding */ "./dist/core/math/bounding.js");
+/* harmony import */ var _math__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../math */ "./dist/core/math/index.js");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -1811,11 +2106,12 @@ var __assign = (undefined && undefined.__assign) || function () {
 
 
 
-gl_matrix__WEBPACK_IMPORTED_MODULE_7__.setMatrixArrayType(Array);
-var tmpMatrix = gl_matrix__WEBPACK_IMPORTED_MODULE_8__.create();
-var transformMatrix = gl_matrix__WEBPACK_IMPORTED_MODULE_8__.create();
-var perspectiveMatrix = gl_matrix__WEBPACK_IMPORTED_MODULE_8__.create();
-var repetitionMatrix = gl_matrix__WEBPACK_IMPORTED_MODULE_8__.create();
+
+gl_matrix__WEBPACK_IMPORTED_MODULE_8__.setMatrixArrayType(Array);
+var tmpMatrix = gl_matrix__WEBPACK_IMPORTED_MODULE_9__.create();
+var transformMatrix = gl_matrix__WEBPACK_IMPORTED_MODULE_9__.create();
+var perspectiveMatrix = gl_matrix__WEBPACK_IMPORTED_MODULE_9__.create();
+var repetitionMatrix = gl_matrix__WEBPACK_IMPORTED_MODULE_9__.create();
 /**
  * Main class for shape generation
  *
@@ -1831,7 +2127,6 @@ var ShapeBase = /** @class */ (function (_super) {
      * Creates an instance of ShapeBase
      *
      * @param {ISceneChildSettings} [settings={}]
-     * @memberof ShapeBase
      */
     function ShapeBase(settings) {
         if (settings === void 0) { settings = {}; }
@@ -1851,6 +2146,14 @@ var ShapeBase = /** @class */ (function (_super) {
          * @ignore
          */
         _this.bIndexed = false;
+        /**
+         * Array used for index a vertex buffer
+         * only for first level scene children
+         *
+         * @internal
+         * @ignore
+         */
+        _this.indexedBuffer = [];
         /**
          * The bounding inside the scene
          *
@@ -1882,6 +2185,7 @@ var ShapeBase = /** @class */ (function (_super) {
             perspectiveOrigin: settings.perspectiveOrigin,
         };
         _this.bUseParent = !!settings.bUseParent;
+        _this.bUseRecursion = !!settings.bUseRecursion;
         _this.vertexCallback = settings.vertexCallback;
         return _this;
     }
@@ -1889,7 +2193,6 @@ var ShapeBase = /** @class */ (function (_super) {
      * Check if the shape should be generated every time
      *
      * @returns {boolean}
-     * @memberof ShapeBase
      */
     ShapeBase.prototype.isStatic = function () {
         var props = this.props;
@@ -1912,7 +2215,6 @@ var ShapeBase = /** @class */ (function (_super) {
      * this can happen when a shape generates an array of vertices different in length at each repetition
      *
      * @returns {boolean}
-     * @memberof ShapeBase
      */
     ShapeBase.prototype.isStaticIndexed = function () {
         return typeof this.props.repetitions !== 'function';
@@ -1924,15 +2226,13 @@ var ShapeBase = /** @class */ (function (_super) {
      * @param {ISceneChildPropArguments} [propArguments]
      * @param {*} [defaultValue]
      * @returns {*}
-     * @memberof ShapeBase
      */
     ShapeBase.prototype.getProp = function (key, propArguments, defaultValue) {
         var _a;
         var attribute = this.props[key];
         if (typeof attribute === 'function') {
             propArguments = propArguments || ShapeBase.EMPTY_PROP_ARGUMENTS;
-            if (typeof propArguments.shape === 'undefined')
-                propArguments.shape = this;
+            propArguments.shape = this;
             propArguments.time = ((_a = this.scene) === null || _a === void 0 ? void 0 : _a.currentTime) || 0;
             attribute = attribute(propArguments);
         }
@@ -1944,7 +2244,6 @@ var ShapeBase = /** @class */ (function (_super) {
      * @param {(keyof ISceneChildProps | ISceneChildProps)} key
      * @param {*} [value]
      * @param {boolean} [bClearIndexed=false]
-     * @memberof ShapeBase
      */
     ShapeBase.prototype.setProp = function (key, value, bClearIndexed) {
         var _this = this;
@@ -1967,7 +2266,6 @@ var ShapeBase = /** @class */ (function (_super) {
      * @param {boolean} [bClearIndexed=false]
      * @param {boolean} [bPropagateToParents=false]
      * @param {boolean} [bPropagateToChildren=false]
-     * @memberof ShapeBase
      */
     ShapeBase.prototype.clearBuffer = function (bClearIndexed, bPropagateToParents) {
         if (bClearIndexed === void 0) { bClearIndexed = false; }
@@ -1989,29 +2287,44 @@ var ShapeBase = /** @class */ (function (_super) {
      * @param {number} generateId generation id
      * @param {boolean} [bDirectSceneChild=false] adjust shape of center of scene
      * @param {ISceneChildPropArguments} [parentPropArguments]
-     * @memberof ShapeBase
      */
     ShapeBase.prototype.generate = function (generateId, bDirectSceneChild, parentPropArguments) {
         var _a, _b, _c;
         if (bDirectSceneChild === void 0) { bDirectSceneChild = false; }
-        if (!this.scene || (this.buffer && (this.bStatic || (generateId === this.generateId && !this.bUseParent)))) {
+        if (this.buffer && (this.bStatic || (generateId === this.generateId && !this.bUseParent && !this.bUseRecursion))) {
             return;
         }
         this.generateId = generateId;
         if (!this.bStaticIndexed || !this.bIndexed)
             this.indexedBuffer = [];
-        var repetition = ShapeBase.getEmptyRepetition();
+        var repetition = {
+            type: _types_scene_child__WEBPACK_IMPORTED_MODULE_0__.ERepetitionType.Ring,
+            angle: 0,
+            index: 1,
+            offset: 1,
+            count: 1,
+            row: {
+                index: 1,
+                offset: 1,
+                count: 1,
+            },
+            col: {
+                index: 1,
+                offset: 1,
+                count: 1,
+            },
+        };
         var repetitions = this.getProp('repetitions', { parent: parentPropArguments, repetition: repetition, time: 1, context: _Context__WEBPACK_IMPORTED_MODULE_2__.default }, 1);
         var repetitionType = Array.isArray(repetitions) ? _types_scene_child__WEBPACK_IMPORTED_MODULE_0__.ERepetitionType.Matrix : _types_scene_child__WEBPACK_IMPORTED_MODULE_0__.ERepetitionType.Ring;
         var repetitionCount = Array.isArray(repetitions)
             ? repetitions[0] * ((_a = repetitions[1]) !== null && _a !== void 0 ? _a : repetitions[0])
             : repetitions;
-        var repetitionColCount = Array.isArray(repetitions) ? repetitions[0] : repetitionCount;
-        var repetitionRowCount = Array.isArray(repetitions) ? (_b = repetitions[1]) !== null && _b !== void 0 ? _b : repetitions[0] : 1;
-        var colRepetition = repetition.col;
-        colRepetition.count = repetitionColCount;
+        var repetitionRowCount = Array.isArray(repetitions) ? repetitions[0] : repetitionCount;
+        var repetitionColCount = Array.isArray(repetitions) ? (_b = repetitions[1]) !== null && _b !== void 0 ? _b : repetitions[0] : 1;
         var rowRepetition = repetition.row;
         rowRepetition.count = repetitionRowCount;
+        var colRepetition = repetition.col;
+        colRepetition.count = repetitionColCount;
         repetition.count = repetitionCount;
         repetition.col.count = repetitionColCount;
         repetition.row.count = repetitionRowCount;
@@ -2021,21 +2334,20 @@ var ShapeBase = /** @class */ (function (_super) {
             context: _Context__WEBPACK_IMPORTED_MODULE_2__.default,
             time: ((_c = this.scene) === null || _c === void 0 ? void 0 : _c.currentTime) || 0,
             shape: this,
-            data: this.data,
             parent: parentPropArguments,
         };
         var totalBufferLength = 0;
         var buffers = [];
         var currentIndex = 0;
-        var centerMatrix = gl_matrix__WEBPACK_IMPORTED_MODULE_9__.fromValues((repetitionColCount - 1) / 2, (repetitionRowCount - 1) / 2);
-        var sceneCenter = [this.scene.center[0], this.scene.center[1], 0];
-        var tmpBounding = [undefined, undefined, undefined, undefined];
+        var centerMatrix = gl_matrix__WEBPACK_IMPORTED_MODULE_10__.fromValues((repetitionColCount - 1) / 2, (repetitionRowCount - 1) / 2);
+        var sceneCenter = this.scene ? [this.scene.center[0], this.scene.center[1], 0] : [0, 0, 0];
+        var tmpTotalShapeBounding = [undefined, undefined, undefined, undefined];
+        var tmpSingleRepetitionBounding = [undefined, undefined, undefined, undefined];
         for (var currentRowRepetition = 0; currentRowRepetition < repetitionRowCount; currentRowRepetition++) {
             for (var currentColRepetition = 0; currentColRepetition < repetitionColCount; currentColRepetition++, currentIndex++) {
                 repetition.index = currentIndex + 1;
                 repetition.offset = repetitionCount > 1 ? currentIndex / (repetitionCount - 1) : 1;
-                repetition.angle =
-                    repetitionType === _types_scene_child__WEBPACK_IMPORTED_MODULE_0__.ERepetitionType.Ring ? ((Math.PI * 2) / repetitionCount) * currentIndex : 0;
+                repetition.angle = repetitionType === _types_scene_child__WEBPACK_IMPORTED_MODULE_0__.ERepetitionType.Ring ? (_math__WEBPACK_IMPORTED_MODULE_7__.PI2 / repetitionCount) * currentIndex : 0;
                 colRepetition.index = currentColRepetition + 1;
                 colRepetition.offset = repetitionColCount > 1 ? currentColRepetition / (repetitionColCount - 1) : 1;
                 rowRepetition.index = currentRowRepetition + 1;
@@ -2058,85 +2370,88 @@ var ShapeBase = /** @class */ (function (_super) {
                     var rotateX = this.getProp('rotateX', propArguments, 0);
                     var rotateY = this.getProp('rotateY', propArguments, 0);
                     var rotateZ = this.getProp('rotateZ', propArguments, 0);
-                    var perspectiveProp = (0,_Utilites__WEBPACK_IMPORTED_MODULE_4__.clamp)(0, 1, this.getProp('perspective', propArguments, 0));
+                    var perspective = (0,_Utilites__WEBPACK_IMPORTED_MODULE_4__.clamp)(0, 1, this.getProp('perspective', propArguments, 0));
                     var perspectiveOrigin = _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_3__.toVec3(this.getProp('perspectiveOrigin', propArguments, _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_3__.VEC2_ZERO), 0);
                     var transformOrigin = _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_3__.toVec3(this.getProp('transformOrigin', propArguments, _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_3__.VEC2_ZERO), 0);
                     var offset = void 0;
                     switch (repetitionType) {
                         case _types_scene_child__WEBPACK_IMPORTED_MODULE_0__.ERepetitionType.Ring:
-                            offset = gl_matrix__WEBPACK_IMPORTED_MODULE_10__.fromValues(distance[0], 0, 0);
-                            gl_matrix__WEBPACK_IMPORTED_MODULE_10__.rotateZ(offset, offset, _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_3__.VEC3_ZERO, repetition.angle + displace);
+                            offset = gl_matrix__WEBPACK_IMPORTED_MODULE_11__.fromValues(distance[0], 0, 0);
+                            gl_matrix__WEBPACK_IMPORTED_MODULE_11__.rotateZ(offset, offset, _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_3__.VEC3_ZERO, repetition.angle + displace);
                             break;
                         case _types_scene_child__WEBPACK_IMPORTED_MODULE_0__.ERepetitionType.Matrix:
-                            offset = gl_matrix__WEBPACK_IMPORTED_MODULE_10__.fromValues(distance[0] * (currentColRepetition - centerMatrix[0]), distance[1] * (currentRowRepetition - centerMatrix[1]), 0);
+                            offset = gl_matrix__WEBPACK_IMPORTED_MODULE_11__.fromValues(distance[0] * (currentColRepetition - centerMatrix[0]), distance[1] * (currentRowRepetition - centerMatrix[1]), 0);
                             break;
                     }
-                    var perspectiveSize = perspectiveProp > 0 ? Math.max(bounding.width, bounding.height) / 2 : 1;
-                    var perspective = perspectiveProp > 0 ? perspectiveSize + (1 - perspectiveProp) * (perspectiveSize * 10) : 0;
+                    var perspectiveSize = perspective > 0 ? Math.max(bounding.width, bounding.height) / 2 : 1;
+                    var perspectiveValue = perspective > 0 ? perspectiveSize + (1 - perspective) * (perspectiveSize * 10) : 0;
                     var bTransformOrigin = perspective !== 0 || transformOrigin[0] !== 0 || transformOrigin[1] !== 0;
                     var bPerspectiveOrigin = perspectiveOrigin[0] !== 0 || perspectiveOrigin[1] !== 0;
                     if (bTransformOrigin) {
                         transformOrigin[0] *= bounding.width / 2;
                         transformOrigin[1] *= bounding.height / 2;
-                        transformOrigin[2] = perspective;
+                        transformOrigin[2] = perspectiveValue;
                     }
                     /**
-                     * Create Transformation matrix
+                     * Create Matrices
                      */
                     {
-                        gl_matrix__WEBPACK_IMPORTED_MODULE_8__.identity(transformMatrix);
-                        bTransformOrigin && gl_matrix__WEBPACK_IMPORTED_MODULE_8__.translate(transformMatrix, transformMatrix, transformOrigin);
-                        if (scale[0] !== 1 || scale[1] !== 1)
-                            gl_matrix__WEBPACK_IMPORTED_MODULE_8__.scale(transformMatrix, transformMatrix, scale);
+                        /**
+                         * Create Transformation matrix
+                         */
+                        gl_matrix__WEBPACK_IMPORTED_MODULE_9__.identity(transformMatrix);
+                        bTransformOrigin && gl_matrix__WEBPACK_IMPORTED_MODULE_9__.translate(transformMatrix, transformMatrix, transformOrigin);
+                        if (translate[0] !== 0 || translate[1] !== 0)
+                            gl_matrix__WEBPACK_IMPORTED_MODULE_9__.translate(transformMatrix, transformMatrix, translate);
                         if (skewX !== 0 || skewY !== 0) {
                             _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_3__.fromSkew(tmpMatrix, [skewX, skewY]);
-                            gl_matrix__WEBPACK_IMPORTED_MODULE_8__.multiply(transformMatrix, transformMatrix, tmpMatrix);
+                            gl_matrix__WEBPACK_IMPORTED_MODULE_9__.multiply(transformMatrix, transformMatrix, tmpMatrix);
                         }
-                        rotateX !== 0 && gl_matrix__WEBPACK_IMPORTED_MODULE_8__.rotateX(transformMatrix, transformMatrix, rotateX);
-                        rotateY !== 0 && gl_matrix__WEBPACK_IMPORTED_MODULE_8__.rotateY(transformMatrix, transformMatrix, rotateY);
-                        rotateZ !== 0 && gl_matrix__WEBPACK_IMPORTED_MODULE_8__.rotateZ(transformMatrix, transformMatrix, rotateZ);
-                        // reset origin
+                        rotateX !== 0 && gl_matrix__WEBPACK_IMPORTED_MODULE_9__.rotateX(transformMatrix, transformMatrix, rotateX);
+                        rotateY !== 0 && gl_matrix__WEBPACK_IMPORTED_MODULE_9__.rotateY(transformMatrix, transformMatrix, rotateY);
+                        rotateZ !== 0 && gl_matrix__WEBPACK_IMPORTED_MODULE_9__.rotateZ(transformMatrix, transformMatrix, rotateZ);
+                        if (scale[0] !== 1 || scale[1] !== 1)
+                            gl_matrix__WEBPACK_IMPORTED_MODULE_9__.scale(transformMatrix, transformMatrix, scale);
                         bTransformOrigin &&
-                            gl_matrix__WEBPACK_IMPORTED_MODULE_8__.translate(transformMatrix, transformMatrix, gl_matrix__WEBPACK_IMPORTED_MODULE_10__.scale(transformOrigin, transformOrigin, -1));
-                        if (translate[0] !== 0 || translate[1] !== 0)
-                            gl_matrix__WEBPACK_IMPORTED_MODULE_8__.translate(transformMatrix, transformMatrix, translate);
-                        /**
-                         * Create Repetition matrix
-                         */
-                        gl_matrix__WEBPACK_IMPORTED_MODULE_8__.identity(repetitionMatrix);
-                        gl_matrix__WEBPACK_IMPORTED_MODULE_8__.translate(repetitionMatrix, repetitionMatrix, offset);
-                        if (bDirectSceneChild) {
-                            gl_matrix__WEBPACK_IMPORTED_MODULE_8__.translate(repetitionMatrix, repetitionMatrix, sceneCenter);
-                        }
-                        if (repetitionType === _types_scene_child__WEBPACK_IMPORTED_MODULE_0__.ERepetitionType.Ring)
-                            gl_matrix__WEBPACK_IMPORTED_MODULE_8__.rotateZ(repetitionMatrix, repetitionMatrix, repetition.angle + displace);
+                            gl_matrix__WEBPACK_IMPORTED_MODULE_9__.translate(transformMatrix, transformMatrix, gl_matrix__WEBPACK_IMPORTED_MODULE_11__.scale(transformOrigin, transformOrigin, -1));
                         /**
                          * Create Perspective matrix
                          */
-                        if (perspective > 0) {
+                        if (perspectiveValue > 0) {
                             if (bPerspectiveOrigin) {
                                 perspectiveOrigin[0] *= bounding.width / 2;
                                 perspectiveOrigin[1] *= bounding.height / 2;
                                 perspectiveOrigin[2] = 0;
                             }
-                            gl_matrix__WEBPACK_IMPORTED_MODULE_8__.perspective(perspectiveMatrix, -Math.PI / 2, 1, 0, Infinity);
+                            gl_matrix__WEBPACK_IMPORTED_MODULE_9__.perspective(perspectiveMatrix, -Math.PI / 2, 1, 0, Infinity);
                         }
+                        /**
+                         * Create Repetition matrix
+                         */
+                        gl_matrix__WEBPACK_IMPORTED_MODULE_9__.identity(repetitionMatrix);
+                        gl_matrix__WEBPACK_IMPORTED_MODULE_9__.translate(repetitionMatrix, repetitionMatrix, offset);
+                        if (bDirectSceneChild) {
+                            gl_matrix__WEBPACK_IMPORTED_MODULE_9__.translate(repetitionMatrix, repetitionMatrix, sceneCenter);
+                        }
+                        if (repetitionType === _types_scene_child__WEBPACK_IMPORTED_MODULE_0__.ERepetitionType.Ring)
+                            gl_matrix__WEBPACK_IMPORTED_MODULE_9__.rotateZ(repetitionMatrix, repetitionMatrix, repetition.angle + displace);
                     }
+                    _math_bounding__WEBPACK_IMPORTED_MODULE_6__.default.clear(tmpSingleRepetitionBounding);
                     // Apply matrices on vertex
                     for (var bufferIndex = 0; bufferIndex < bufferLength; bufferIndex += 2) {
-                        var vertex = [buffer[bufferIndex], buffer[bufferIndex + 1], perspective];
+                        var vertex = [buffer[bufferIndex], buffer[bufferIndex + 1], perspectiveValue];
                         {
                             // Apply squeeze, can be insert into transformMatrix?
                             squeezeX !== 0 && _math_Vec2__WEBPACK_IMPORTED_MODULE_5__.default.squeezeX(vertex, squeezeX);
                             squeezeY !== 0 && _math_Vec2__WEBPACK_IMPORTED_MODULE_5__.default.squeezeY(vertex, squeezeY);
                             // Apply transforms
-                            gl_matrix__WEBPACK_IMPORTED_MODULE_10__.transformMat4(vertex, vertex, transformMatrix);
+                            gl_matrix__WEBPACK_IMPORTED_MODULE_11__.transformMat4(vertex, vertex, transformMatrix);
                             // Apply perspective
-                            if (perspective > 0) {
-                                bPerspectiveOrigin && gl_matrix__WEBPACK_IMPORTED_MODULE_10__.add(vertex, vertex, perspectiveOrigin);
-                                gl_matrix__WEBPACK_IMPORTED_MODULE_10__.transformMat4(vertex, vertex, perspectiveMatrix);
-                                gl_matrix__WEBPACK_IMPORTED_MODULE_10__.scale(vertex, vertex, perspective);
-                                bPerspectiveOrigin && gl_matrix__WEBPACK_IMPORTED_MODULE_10__.sub(vertex, vertex, perspectiveOrigin);
+                            if (perspectiveValue > 0) {
+                                bPerspectiveOrigin && gl_matrix__WEBPACK_IMPORTED_MODULE_11__.add(vertex, vertex, perspectiveOrigin);
+                                gl_matrix__WEBPACK_IMPORTED_MODULE_11__.transformMat4(vertex, vertex, perspectiveMatrix);
+                                gl_matrix__WEBPACK_IMPORTED_MODULE_11__.scale(vertex, vertex, perspectiveValue);
+                                bPerspectiveOrigin && gl_matrix__WEBPACK_IMPORTED_MODULE_11__.sub(vertex, vertex, perspectiveOrigin);
                             }
                             // custom vertex manipulation
                             if (this.vertexCallback) {
@@ -2150,20 +2465,24 @@ var ShapeBase = /** @class */ (function (_super) {
                                 this.vertexCallback(vertex, vertexRepetition, propArguments);
                             }
                             // final, apply repetition matrix
-                            gl_matrix__WEBPACK_IMPORTED_MODULE_10__.transformMat4(vertex, vertex, repetitionMatrix);
+                            gl_matrix__WEBPACK_IMPORTED_MODULE_11__.transformMat4(vertex, vertex, repetitionMatrix);
                         }
                         buffers[currentIndex][bufferIndex] = vertex[0];
                         buffers[currentIndex][bufferIndex + 1] = vertex[1];
-                        _math_bounding__WEBPACK_IMPORTED_MODULE_6__.default.add(tmpBounding, vertex[0], vertex[1]);
+                        // Bounding.add(tmpSingleRepetitionBounding, vertex[0], vertex[1])
+                        _math_bounding__WEBPACK_IMPORTED_MODULE_6__.default.add(tmpTotalShapeBounding, vertex[0], vertex[1]);
                     }
                 }
-                // After buffer creation, add a frame into indexedBuffer if not static
+                // Bounding.sum(tmpTotalShapeBounding, tmpSingleRepetitionBounding)
+                // After buffer creation, add a frame into indexedBuffer if not static or update bounding
+                // const singleRepetitionBounding = { cx: 0, cy: 0, x: -1, y: -1, width: 2, height: 2 }
+                // Bounding.bind(singleRepetitionBounding, tmpSingleRepetitionBounding)
                 if (!this.bStaticIndexed || !this.bIndexed) {
                     this.addIndex(bufferLength, repetition);
                 }
             }
         }
-        _math_bounding__WEBPACK_IMPORTED_MODULE_6__.default.bind(this.bounding, tmpBounding);
+        _math_bounding__WEBPACK_IMPORTED_MODULE_6__.default.bind(this.bounding, tmpTotalShapeBounding);
         this.buffer = new Float32Array(totalBufferLength);
         for (var i = 0, offset = 0, len = buffers.length; i < len; offset += buffers[i].length, i++)
             this.buffer.set(buffers[i], offset);
@@ -2181,7 +2500,6 @@ var ShapeBase = /** @class */ (function (_super) {
      * Get number of repetitions
      *
      * @returns {number}
-     * @memberof ShapeBase
      */
     ShapeBase.prototype.getRepetitionCount = function () {
         var _a;
@@ -2192,7 +2510,6 @@ var ShapeBase = /** @class */ (function (_super) {
      * Return buffer
      *
      * @returns {(Float32Array | undefined)}
-     * @memberof ShapeBase
      */
     ShapeBase.prototype.getBuffer = function () {
         return this.buffer;
@@ -2201,45 +2518,44 @@ var ShapeBase = /** @class */ (function (_super) {
      * Return indexed buffer
      *
      * @returns {(Array<IBufferIndex> | undefined)}
-     * @memberof ShapeBase
      */
     ShapeBase.prototype.getIndexedBuffer = function () {
         return this.indexedBuffer;
     };
     /**
+     * Return number of encapsulation
+     *
+     * @param {IBufferIndex} index
+     * @returns {number}
+     */
+    ShapeBase.getIndexParentLevel = function (index) {
+        if (typeof index.parent === 'undefined')
+            return 0;
+        var currentParent = index.parent;
+        var currentParentLevel = 1;
+        while (typeof currentParent.parent !== 'undefined') {
+            currentParentLevel++;
+            currentParent = currentParent.parent;
+        }
+        return currentParentLevel;
+    };
+    /**
      * Stream buffer
      *
      * @param {(TStreamCallback} callback
-     * @memberof ShapeBase
      */
     ShapeBase.prototype.stream = function (callback) {
-        if (this.scene && this.buffer && this.indexedBuffer) {
+        if (this.buffer && this.indexedBuffer) {
             for (var i = 0, j = 0, len = this.indexedBuffer.length; i < len; i++) {
                 var currentIndexing = this.indexedBuffer[i];
-                var propArguments = {
-                    shape: currentIndexing.shape,
-                    repetition: currentIndexing.repetition,
-                    context: _Context__WEBPACK_IMPORTED_MODULE_2__.default,
-                    time: 0,
-                    parent: currentIndexing.parent,
-                    data: currentIndexing.shape.data,
-                };
-                var fillColor = currentIndexing.shape.getProp('fillColor', propArguments);
-                var strokeColor = currentIndexing.shape.getProp('strokeColor', propArguments, typeof fillColor !== 'undefined' ? undefined : this.scene.color);
-                var lineWidth = currentIndexing.shape.getProp('lineWidth', propArguments, typeof fillColor !== 'undefined' && typeof strokeColor === 'undefined' ? undefined : 1);
-                var streamArguments = {
+                callback({
                     buffer: this.buffer,
                     frameLength: currentIndexing.frameLength,
                     frameBufferIndex: j,
-                    shape: currentIndexing.shape,
-                    repetition: currentIndexing.repetition,
+                    currentIndexing: currentIndexing,
                     currentShapeIndex: i,
                     totalShapes: len,
-                    lineWidth: lineWidth,
-                    strokeColor: strokeColor,
-                    fillColor: fillColor,
-                };
-                callback(streamArguments);
+                });
                 j += currentIndexing.frameLength;
             }
         }
@@ -2330,7 +2646,6 @@ var ShapeBuffer = /** @class */ (function (_super) {
      * Creates an instance of ShapeBuffer.
      *
      * @param {IShapeBufferSettings} [settings={}]
-     * @memberof ShapeBuffer
      */
     function ShapeBuffer(settings) {
         if (settings === void 0) { settings = {}; }
@@ -2345,7 +2660,6 @@ var ShapeBuffer = /** @class */ (function (_super) {
         }
         else
             _this.shape = Float32Array.from(settings.shape);
-        _this.bindBuffer();
         _this.bStatic = _this.isStatic();
         _this.bStaticIndexed = _this.isStaticIndexed();
         return _this;
@@ -2355,29 +2669,28 @@ var ShapeBuffer = /** @class */ (function (_super) {
      *
      * @param {boolean} [bClearIndexed=false]
      * @param {boolean} [bPropagateToParents=false]
-     * @memberof ShapeLoop
      */
     ShapeBuffer.prototype.clearBuffer = function (bClearIndexed, bPropagateToParents) {
         if (bClearIndexed === void 0) { bClearIndexed = false; }
         if (bPropagateToParents === void 0) { bPropagateToParents = true; }
         _super.prototype.clearBuffer.call(this, bClearIndexed, bPropagateToParents);
-        this.bindBuffer();
+        this.shapeBuffer = undefined;
         // this.shapeBuffer = ShapeBuffer.buffer2Dto3D(this.shapeBuffer)
     };
     /**
      * Apply sideLength on <mark>.shape</mark> buffer and calculate bounding
      *
-     * @private
-     * @memberof ShapeBuffer
+     * @protected
      */
-    ShapeBuffer.prototype.bindBuffer = function () {
+    ShapeBuffer.prototype.bindBuffer = function (propArguments) {
+        var sideLength = this.getRepetitionSideLength(propArguments);
         var shapeBuffer = this.adaptMode !== _types_shape_base__WEBPACK_IMPORTED_MODULE_2__.EShapePrimitiveAdaptMode.None
             ? _ShapePrimitive__WEBPACK_IMPORTED_MODULE_1__.default.adaptBuffer(this.shape, this.adaptMode)
             : Float32Array.from(this.shape);
         var tmpBounding = [undefined, undefined, undefined, undefined];
         for (var i = 0, len = shapeBuffer.length; i < len; i += 2) {
-            shapeBuffer[i] *= this.sideLength[0];
-            shapeBuffer[i + 1] *= this.sideLength[1];
+            shapeBuffer[i] *= sideLength[0];
+            shapeBuffer[i + 1] *= sideLength[1];
             _math_bounding__WEBPACK_IMPORTED_MODULE_0__.default.add(tmpBounding, shapeBuffer[i], shapeBuffer[i + 1]);
         }
         _math_bounding__WEBPACK_IMPORTED_MODULE_0__.default.bind(this.currentGenerationPrimitiveBounding, tmpBounding);
@@ -2387,12 +2700,11 @@ var ShapeBuffer = /** @class */ (function (_super) {
      * Return length of buffer
      *
      * @returns {number}
-     * @memberof ShapeBase
      */
     ShapeBuffer.prototype.getBufferLength = function () {
         if (this.buffer && this.buffer.length > 0)
             return this.buffer.length;
-        return this.shapeBuffer.length * this.getRepetitionCount();
+        return this.shape.length * this.getRepetitionCount();
     };
     /**
      * Return a buffer of children shape or loop generated buffer
@@ -2401,11 +2713,10 @@ var ShapeBuffer = /** @class */ (function (_super) {
      * @param {number} generateId
      * @param {ISceneChildPropArguments} propArguments
      * @returns {Float32Array}
-     * @memberof ShapeBase
      */
     ShapeBuffer.prototype.generateBuffer = function (generateId, propArguments) {
-        if (this.bindSideLength(propArguments)) {
-            this.bindBuffer();
+        if (typeof this.shapeBuffer === 'undefined' || typeof this.props.sideLength === 'function') {
+            this.bindBuffer(propArguments);
         }
         return this.shapeBuffer;
     };
@@ -2413,7 +2724,6 @@ var ShapeBuffer = /** @class */ (function (_super) {
      * Set shape
      *
      * @param {(Float32Array)} [shape]
-     * @memberof ShapeBase
      */
     ShapeBuffer.prototype.setShape = function (shape) {
         this.shape = shape;
@@ -2423,7 +2733,6 @@ var ShapeBuffer = /** @class */ (function (_super) {
      * Subdivide buffer n times
      *
      * @param {number} [level=1]
-     * @memberof ShapeBuffer
      */
     ShapeBuffer.prototype.subdivide = function (level) {
         if (level === void 0) { level = 1; }
@@ -2441,7 +2750,6 @@ var ShapeBuffer = /** @class */ (function (_super) {
      * @param {Float32Array} shape
      * @param {boolean} [bClosed=true]
      * @returns {(Float32Array)}
-     * @memberof ShapeBuffer
      */
     ShapeBuffer.subdivide = function (shape, bClosed) {
         if (bClosed === void 0) { bClosed = true; }
@@ -2497,6 +2805,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ShapeBase__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ShapeBase */ "./dist/core/shapes/ShapeBase.js");
 /* harmony import */ var _types_shape_base__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../types/shape-base */ "./dist/core/types/shape-base.js");
 /* harmony import */ var _math_bounding__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../math/bounding */ "./dist/core/math/bounding.js");
+/* harmony import */ var _math__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../math */ "./dist/core/math/index.js");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -2525,6 +2834,7 @@ var __assign = (undefined && undefined.__assign) || function () {
 
 
 
+
 /**
  * Shape Loop
  *
@@ -2540,7 +2850,6 @@ var ShapeLoop = /** @class */ (function (_super) {
      *
      * @param {IShapeLoopSettings} [settings={}]
      * @param {boolean} [bPreventGeneration=false]
-     * @memberof ShapeLoop
      */
     function ShapeLoop(settings, bPreventGeneration) {
         if (settings === void 0) { settings = {}; }
@@ -2548,13 +2857,13 @@ var ShapeLoop = /** @class */ (function (_super) {
         var _this = this;
         settings.type = settings.type || 'ShapeLoop';
         _this = _super.call(this, settings) || this;
-        _this.loopDependencies = settings.loopDependencies || [];
+        _this.loopDependencies = (settings.loopDependencies || []).concat('sideLength');
         _this.props.loop = settings.loop;
         if (!bPreventGeneration) {
             _this.loop = {
                 start: 0,
-                end: ShapeLoop.PI2,
-                inc: ShapeLoop.PI2 / 10,
+                end: _math__WEBPACK_IMPORTED_MODULE_4__.PI2,
+                inc: _math__WEBPACK_IMPORTED_MODULE_4__.PI2 / 10,
                 vertex: function () { return [0, 0]; },
             };
             _this.bStaticLoop = _this.isStaticLoop();
@@ -2567,7 +2876,6 @@ var ShapeLoop = /** @class */ (function (_super) {
      * Check if currentOrSingleLoopBuffer is static
      *
      * @returns {boolean}
-     * @memberof ShapeLoop
      */
     ShapeLoop.prototype.isStaticLoop = function () {
         if (this.loopDependencies.includes('propArguments'))
@@ -2581,7 +2889,6 @@ var ShapeLoop = /** @class */ (function (_super) {
      * Check if shape is static
      *
      * @returns {boolean}
-     * @memberof Shape
      */
     ShapeLoop.prototype.isStatic = function () {
         return this.bStaticLoop && _super.prototype.isStatic.call(this);
@@ -2590,7 +2897,6 @@ var ShapeLoop = /** @class */ (function (_super) {
      * Check if shape has static indexed
      *
      * @returns {boolean}
-     * @memberof ShapeBase
      */
     ShapeLoop.prototype.isStaticIndexed = function () {
         return this.bStaticLoop && _super.prototype.isStaticIndexed.call(this);
@@ -2600,7 +2906,6 @@ var ShapeLoop = /** @class */ (function (_super) {
      *
      * @param {boolean} [bClearIndexed=false]
      * @param {boolean} [bPropagateToParents=false]
-     * @memberof ShapeLoop
      */
     ShapeLoop.prototype.clearBuffer = function (bClearIndexed, bPropagateToParents) {
         if (bClearIndexed === void 0) { bClearIndexed = false; }
@@ -2614,46 +2919,32 @@ var ShapeLoop = /** @class */ (function (_super) {
     /**
      * Set single or multiple props
      *
-     * @param {(keyof IShapeLoopProps | IShapeLoopProps)} key
+     * @param {(K)} key
      * @param {*} [value]
      * @param {boolean} [bClearIndexed=false]
-     * @memberof ShapeLoop
      */
     ShapeLoop.prototype.setProp = function (key, value) {
         var _a;
         var bClearIndexed = false;
-        key = typeof key === 'string' ? (_a = {}, _a[key] = value, _a) : key;
+        var keys = typeof key === 'string' ? (_a = {}, _a[key] = value, _a) : key;
         for (var i = this.loopDependencies.length - 1; i >= 0; i--) {
-            if (this.loopDependencies[i] in key) {
+            if (this.loopDependencies[i] in keys) {
                 // this.props.loop = undefined
                 bClearIndexed = true;
                 break;
             }
         }
-        if ('loop' in key) {
-            key.loop = __assign(__assign({}, this.props.loop), key.loop);
+        if ('loop' in keys) {
+            keys.loop = __assign(__assign({}, this.props.loop), keys.loop);
             bClearIndexed = true;
         }
-        _super.prototype.setProp.call(this, key, value, bClearIndexed);
-    };
-    /**
-     * Get prop
-     *
-     * @param {keyof IShapeLoopProps} key
-     * @param {ISceneChildPropArguments} [propArguments]
-     * @param {*} [defaultValue]
-     * @returns {*}
-     * @memberof ShapeLoop
-     */
-    ShapeLoop.prototype.getProp = function (key, propArguments, defaultValue) {
-        return _super.prototype.getProp.call(this, key, propArguments, defaultValue);
+        _super.prototype.setProp.call(this, keys, value, bClearIndexed);
     };
     /**
      * Return length of buffer
      *
      * @param {ISceneChildPropArguments} [propArguments]
      * @returns {number}
-     * @memberof ShapeBase
      */
     ShapeLoop.prototype.getBufferLength = function (propArguments) {
         if (this.bStatic && typeof this.buffer !== 'undefined')
@@ -2670,26 +2961,24 @@ var ShapeLoop = /** @class */ (function (_super) {
      * @param {number} generateId
      * @param {ISceneChildPropArguments} propArguments
      * @returns {Float32Array}
-     * @memberof ShapeBase
      */
     ShapeLoop.prototype.generateBuffer = function (generateId, propArguments) {
-        this.bindSideLength(propArguments);
         if (!this.bStaticLoop)
             return this.generateLoopBuffer(propArguments);
-        else if (typeof this.currentOrSingleLoopBuffer === 'undefined')
+        if (typeof this.props.sideLength === 'function' || typeof this.currentOrSingleLoopBuffer === 'undefined')
             this.currentOrSingleLoopBuffer = this.generateLoopBuffer(propArguments);
         return this.currentOrSingleLoopBuffer;
     };
     /**
      * Generate loop buffer
      *
-     * @private
+     * @protected
      * @param {ISceneChildPropArguments} propArguments
      * @returns {Float32Array}
-     * @memberof ShapeLoop
      */
     ShapeLoop.prototype.generateLoopBuffer = function (propArguments) {
-        var _a = this.getLoop(propArguments), start = _a.start, end = _a.end, inc = _a.inc, count = _a.count;
+        var _a = this.getLoop(propArguments), start = _a.start, inc = _a.inc, end = _a.end, count = _a.count;
+        var sideLength = this.getRepetitionSideLength(propArguments);
         var getVertex = (this.props.loop && this.props.loop.vertex
             ? this.props.loop.vertex
             : this.loop.vertex);
@@ -2705,9 +2994,9 @@ var ShapeLoop = /** @class */ (function (_super) {
         var bNoAdapt = this.adaptMode === _types_shape_base__WEBPACK_IMPORTED_MODULE_2__.EShapePrimitiveAdaptMode.None;
         var tmpBounding = [undefined, undefined, undefined, undefined];
         for (var i = 0, j = 0; i < vertexLength; i++, j += 2) {
+            var angle = start + inc * i;
             var offset = shapeLoop.count > 1 ? i / (shapeLoop.count - 1) : 1;
-            // const angle = start + inc * i
-            var angle = (end - start) * offset + start;
+            // const angle = (end - start) * offset + start
             shapeLoop.angle = angle;
             shapeLoop.index = i + 1;
             shapeLoop.offset = offset;
@@ -2715,8 +3004,8 @@ var ShapeLoop = /** @class */ (function (_super) {
             currentOrSingleLoopBuffer[j] = vertex[0];
             currentOrSingleLoopBuffer[j + 1] = vertex[1];
             if (bNoAdapt) {
-                currentOrSingleLoopBuffer[j] *= this.sideLength[0];
-                currentOrSingleLoopBuffer[j + 1] *= this.sideLength[1];
+                currentOrSingleLoopBuffer[j] *= sideLength[0];
+                currentOrSingleLoopBuffer[j + 1] *= sideLength[1];
                 _math_bounding__WEBPACK_IMPORTED_MODULE_3__.default.add(tmpBounding, currentOrSingleLoopBuffer[j], currentOrSingleLoopBuffer[j + 1]);
             }
         }
@@ -2730,8 +3019,8 @@ var ShapeLoop = /** @class */ (function (_super) {
             var buffer = _ShapePrimitive__WEBPACK_IMPORTED_MODULE_0__.default.adaptBuffer(currentOrSingleLoopBuffer, this.adaptMode);
             _math_bounding__WEBPACK_IMPORTED_MODULE_3__.default.clear(tmpBounding);
             for (var i = 0; i < bufferLength; i += 2) {
-                buffer[i] = buffer[i] * this.sideLength[0];
-                buffer[i + 1] = buffer[i + 1] * this.sideLength[1];
+                buffer[i] = buffer[i] * sideLength[0];
+                buffer[i + 1] = buffer[i + 1] * sideLength[1];
                 _math_bounding__WEBPACK_IMPORTED_MODULE_3__.default.add(tmpBounding, buffer[i], buffer[i + 1]);
             }
             _math_bounding__WEBPACK_IMPORTED_MODULE_3__.default.bind(this.currentGenerationPrimitiveBounding, tmpBounding);
@@ -2745,7 +3034,6 @@ var ShapeLoop = /** @class */ (function (_super) {
      * @private
      * @param {ISceneChildPropArguments} propArguments
      * @returns {ShapeLoopInformation}
-     * @memberof ShapeBase
      */
     ShapeLoop.prototype.getLoop = function (propArguments) {
         var _a, _b, _c, _d, _e, _f, _g;
@@ -2764,12 +3052,10 @@ var ShapeLoop = /** @class */ (function (_super) {
      * Set shape from loop generator
      *
      * @param {(IShapeLoopGenerator)} [shape]
-     * @memberof ShapeBase
      */
     ShapeLoop.prototype.setShape = function (loop) {
         this.setProp('loop', loop);
     };
-    ShapeLoop.PI2 = Math.PI * 2;
     ShapeLoop.PId2 = Math.PI / 2;
     return ShapeLoop;
 }(_ShapePrimitive__WEBPACK_IMPORTED_MODULE_0__.default));
@@ -2834,7 +3120,6 @@ var ShapePrimitive = /** @class */ (function (_super) {
      * Creates an instance of ShapePrimitive.
      *
      * @param {IShapePrimitiveSettings} [settings={}]
-     * @memberof ShapePrimitive
      */
     function ShapePrimitive(settings) {
         if (settings === void 0) { settings = {}; }
@@ -2844,19 +3129,15 @@ var ShapePrimitive = /** @class */ (function (_super) {
          * Contain the bounding of the last generated buffer
          *
          * @type {IShapeBounding}
-         * @memberof ShapePrimitive
          */
         _this.currentGenerationPrimitiveBounding = __assign({}, ShapePrimitive.EMPTY_BOUNDING);
-        var sideLength = typeof settings.sideLength === 'number'
-            ? [settings.sideLength, settings.sideLength]
-            : Array.isArray(settings.sideLength)
-                ? settings.sideLength
-                : [50, 50];
-        _this.sideLength = sideLength;
-        _this.props.sideLength = settings.sideLength;
-        _this.props.fillColor = settings.fillColor;
-        _this.props.lineWidth = settings.lineWidth;
-        _this.props.strokeColor = settings.strokeColor;
+        _this.props.sideLength =
+            typeof settings.sideLength === 'undefined'
+                ? undefined
+                : typeof settings.sideLength === 'function'
+                    ? settings.sideLength
+                    : _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_2__.toVec2(settings.sideLength);
+        _this.style = settings.style || {};
         _this.adaptMode = (_a = settings.adaptMode) !== null && _a !== void 0 ? _a : _types_shape_base__WEBPACK_IMPORTED_MODULE_1__.EShapePrimitiveAdaptMode.None;
         _this.bClosed = (_b = settings.bClosed) !== null && _b !== void 0 ? _b : true;
         return _this;
@@ -2870,32 +3151,18 @@ var ShapePrimitive = /** @class */ (function (_super) {
     ShapePrimitive.prototype.isStatic = function () {
         return typeof this.props.sideLength !== 'function' && _super.prototype.isStatic.call(this);
     };
-    /**
-     * Get prop
-     *
-     * @param {keyof IShapePrimitiveProps} key
-     * @param {ISceneChildPropArguments} [propArguments]
-     * @param {*} [defaultValue]
-     * @returns {*}
-     * @memberof ShapePrimitive
-     */
-    ShapePrimitive.prototype.getProp = function (key, propArguments, defaultValue) {
-        return _super.prototype.getProp.call(this, key, propArguments, defaultValue);
-    };
-    /**
-     * set side length when generate a buffer into shape loop or shape buffer
-     *
-     * @protected
-     * @param {ISceneChildPropArguments} propArguments
-     * @memberof ShapePrimitive
-     */
-    ShapePrimitive.prototype.bindSideLength = function (propArguments) {
-        var sideLength = (0,_math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_2__.toVec2)(this.getProp('sideLength', propArguments, [50, 50]));
-        if (this.sideLength[0] !== sideLength[0] && this.sideLength[1] !== sideLength[1]) {
-            this.sideLength = sideLength;
-            return true;
+    ShapePrimitive.prototype.getRepetitionSideLength = function (propArguments) {
+        if (this.bStatic) {
+            // not set default value into constructor because it can be overridden by group
+            if (typeof this.props.sideLength === 'undefined') {
+                this.props.sideLength = [50, 50];
+            }
+            else if (typeof this.props.sideLength === 'number') {
+                this.props.sideLength = [this.props.sideLength, this.props.sideLength];
+            }
+            return this.props.sideLength;
         }
-        return false;
+        return _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_2__.toVec2(this.getProp('sideLength', propArguments, [50, 50]));
     };
     /**
      * Return a bounding of generated buffer if is direct scene child
@@ -2912,13 +3179,15 @@ var ShapePrimitive = /** @class */ (function (_super) {
      * @protected
      * @param {number} frameLength
      * @param {IRepetition} repetition
-     * @memberof ShapePrimitive
+     * @returns {number} nextIndex
      */
-    ShapePrimitive.prototype.addIndex = function (frameLength, repetition) {
-        var indexedBuffer = this.indexedBuffer;
-        indexedBuffer.push({
+    ShapePrimitive.prototype.addIndex = function (frameLength, repetition
+    // singleRepetitionBounding: IShapeBounding
+    ) {
+        this.indexedBuffer.push({
             shape: this,
             frameLength: frameLength,
+            // singleRepetitionBounding,
             repetition: {
                 type: repetition.type,
                 angle: repetition.angle,
@@ -3028,7 +3297,6 @@ var ShapePrimitive = /** @class */ (function (_super) {
      *
      * @static
      * @type {IShapeBounding}
-     * @memberof ShapePrimitive
      */
     ShapePrimitive.EMPTY_BOUNDING = {
         cx: 0,
@@ -3042,6 +3310,331 @@ var ShapePrimitive = /** @class */ (function (_super) {
 }(_ShapeBase__WEBPACK_IMPORTED_MODULE_0__.default));
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ShapePrimitive);
 //# sourceMappingURL=ShapePrimitive.js.map
+
+/***/ }),
+
+/***/ "./dist/core/shapes/ShapeRecursive.js":
+/*!********************************************!*\
+  !*** ./dist/core/shapes/ShapeRecursive.js ***!
+  \********************************************/
+/*! namespace exports */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony import */ var _math_bounding__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../math/bounding */ "./dist/core/math/bounding.js");
+/* harmony import */ var _ShapePrimitive__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ShapePrimitive */ "./dist/core/shapes/ShapePrimitive.js");
+/* harmony import */ var _Shape__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Shape */ "./dist/core/shapes/Shape.js");
+/* harmony import */ var _Context__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Context */ "./dist/core/Context.js");
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __assign = (undefined && undefined.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+
+
+
+
+/**
+ * @category Core.Shapes
+ */
+var ShapeRecursive = /** @class */ (function (_super) {
+    __extends(ShapeRecursive, _super);
+    /**
+     * Creates an instance of ShapeRecursive.
+     *
+     * @param {IShapeRecursiveSettings} [settings={}]
+     */
+    function ShapeRecursive(settings) {
+        if (settings === void 0) { settings = {}; }
+        var _this = this;
+        settings.type = settings.type || 'ShapeRecursive';
+        _this = _super.call(this, settings) || this;
+        _this.props.recursions = settings.recursions || 1;
+        _this.props.recursionScale = settings.recursionScale || 2;
+        _this.props.recursionVertex = settings.recursionVertex || 0;
+        // this.bInner = settings.bInner ?? false
+        _this.bStatic = _this.isStatic();
+        _this.bStaticIndexed = _this.isStaticIndexed();
+        _this.currentGenerationRecursiveBounding = __assign({}, _ShapePrimitive__WEBPACK_IMPORTED_MODULE_1__.default.EMPTY_BOUNDING);
+        return _this;
+    }
+    // /**
+    //  * Set type of recursion
+    //  *
+    //  * @param {boolean} inner
+    //  */
+    // public setRecursionnInner(inner: boolean): void {
+    // 	this.bInner = inner
+    // 	this.clearBuffer(true)
+    // }
+    /**
+     *
+     * @returns {boolean}
+     */
+    ShapeRecursive.prototype.isStatic = function () {
+        return (typeof this.props.recursions !== 'function' &&
+            typeof this.props.recursionScale !== 'function' &&
+            typeof this.props.recursionVertex !== 'function' &&
+            _super.prototype.isStatic.call(this));
+    };
+    /**
+     *
+     * @returns {boolean}
+     */
+    ShapeRecursive.prototype.isStaticIndexed = function () {
+        return typeof this.props.recursions !== 'function' && _super.prototype.isStaticIndexed.call(this);
+    };
+    /**
+     * Return a buffer of children shape with recursion
+     *
+     * @protected
+     * @param {number} generateId
+     * @param {ISceneChildPropArguments} propArguments
+     * @returns {Float32Array}
+     */
+    ShapeRecursive.prototype.generateBuffer = function (generateId, propArguments) {
+        if (!this.isStatic() || typeof this.shapeRecursiveBuffer === 'undefined') {
+            this.bindBuffer(generateId, propArguments);
+        }
+        return this.shapeRecursiveBuffer;
+    };
+    /**
+     * Generate Recoursive shape buffer
+     *
+     * @protected
+     * @param {number} generateId
+     * @param {ISceneChildPropArguments} propArguments
+     */
+    ShapeRecursive.prototype.bindBuffer = function (generateId, propArguments) {
+        if (typeof this.shape === 'undefined') {
+            this.shapeRecursiveBuffer = _Shape__WEBPACK_IMPORTED_MODULE_2__.default.EMPTY_BUFFER;
+            return;
+        }
+        var recursions = Math.floor(this.getProp('recursions', propArguments, 1));
+        var recursionVertex = Math.floor(this.getProp('recursionVertex', propArguments, 0));
+        var recursionScale = this.getProp('recursionScale', propArguments, 2);
+        var currentRecursionRepetition = {
+            index: 1,
+            offset: 1,
+            count: 1,
+            level: { index: 1, offset: recursions > 1 ? 0 : 1, count: 1 },
+        };
+        if (recursions <= 1) {
+            var buffer = this.generateShapeBuffer(propArguments, generateId, currentRecursionRepetition);
+            this.currentGenerationRecursiveBounding = this.shape.getBounding();
+            this.shapeRecursiveBuffer = buffer;
+            return;
+        }
+        var shapeBuffer = this.generateShapeBuffer(propArguments, generateId, currentRecursionRepetition);
+        var storedRecursion = [currentRecursionRepetition];
+        var paretRecursionIndex = 0, added = 1;
+        var tmpBounding = [undefined, undefined, undefined, undefined];
+        var singleShapeBufferLength = shapeBuffer.length;
+        var realVertexCount = singleShapeBufferLength / 2;
+        var singleShapeVertexCount = recursionVertex <= 0 ? realVertexCount : Math.min(recursionVertex, realVertexCount);
+        var recursionOffsetMultiplier = recursionVertex === 0 ? 1 : realVertexCount / Math.min(recursionVertex, realVertexCount);
+        var recusiveShapeBuffer = new Float32Array(ShapeRecursive.summmation(recursions, singleShapeVertexCount) * singleShapeBufferLength);
+        for (var i = 0; i < singleShapeBufferLength; i += 2) {
+            recusiveShapeBuffer[i] = shapeBuffer[i];
+            recusiveShapeBuffer[i + 1] = shapeBuffer[i + 1];
+            _math_bounding__WEBPACK_IMPORTED_MODULE_0__.default.add(tmpBounding, recusiveShapeBuffer[i], recusiveShapeBuffer[i + 1]);
+        }
+        for (var currentRecursion = 1; currentRecursion < recursions; currentRecursion++) {
+            var level_offset = recursions > 1 ? currentRecursion / (recursions - 1) : 1;
+            var currentRecursionVertexCount = ShapeRecursive.summmation(currentRecursion, singleShapeVertexCount);
+            var recursionBufferStartIndex = currentRecursionVertexCount * singleShapeBufferLength;
+            var parentRecursion = currentRecursion - 1;
+            var parentRecursionBufferStartIndex = parentRecursion === 0
+                ? 0
+                : ShapeRecursive.summmation(parentRecursion, singleShapeVertexCount) * singleShapeBufferLength;
+            for (var currentShapeRecursionRepetition = 0, totalRecursionRepetitions = Math.pow(singleShapeVertexCount, currentRecursion); currentShapeRecursionRepetition < totalRecursionRepetitions; currentShapeRecursionRepetition++, added++) {
+                currentRecursionRepetition = {
+                    index: currentShapeRecursionRepetition + 1,
+                    offset: totalRecursionRepetitions > 1 ? currentShapeRecursionRepetition / (totalRecursionRepetitions - 1) : 1,
+                    count: totalRecursionRepetitions,
+                    level: { index: currentRecursion + 1, offset: level_offset, count: recursions },
+                    parent: storedRecursion[paretRecursionIndex],
+                };
+                shapeBuffer = this.generateShapeBuffer(propArguments, generateId, currentRecursionRepetition);
+                storedRecursion.push(currentRecursionRepetition);
+                var shapeVertexBufferIndex = recursionBufferStartIndex + currentShapeRecursionRepetition * singleShapeBufferLength;
+                // const centerVertexIndex = parentRecursionBufferStartIndex + currentShapeRecursionRepetition * 2
+                var centerVertexIndex = Math.floor(parentRecursionBufferStartIndex + currentShapeRecursionRepetition * 2 * recursionOffsetMultiplier);
+                centerVertexIndex = centerVertexIndex % 2 === 0 ? centerVertexIndex : centerVertexIndex + 1;
+                var centerX = recusiveShapeBuffer[centerVertexIndex];
+                var centerY = recusiveShapeBuffer[centerVertexIndex + 1];
+                for (var i = 0, len = singleShapeBufferLength; i < len; i += 2) {
+                    // if (this.bInner) {
+                    // 	const parentCurrentVertex =
+                    // 		parentRecursionBufferStartIndex +
+                    // 		Math.floor(currentShapeRecursionRepetition / singleShapeVertexCount) *
+                    // 			singleShapeVertexCount *
+                    // 			recursionOffsetMultiplier *
+                    // 			2
+                    // 	const parentX = recusiveShapeBuffer[parentCurrentVertex + i]
+                    // 	const parentY = recusiveShapeBuffer[parentCurrentVertex + i + 1]
+                    // 	recusiveShapeBuffer[shapeVertexBufferIndex + i] = (centerX - parentX) / recursionScale + parentX
+                    // 	recusiveShapeBuffer[shapeVertexBufferIndex + i + 1] = (centerY - parentY) / recursionScale + parentY
+                    // const parentX = shapeBuffer[i] / recursionScale ** currentRecursion
+                    // const parentY = shapeBuffer[i + 1] / recursionScale ** currentRecursion
+                    // recusiveShapeBuffer[shapeVertexBufferIndex + i] = (centerX - parentX) / recursionScale + parentX
+                    // recusiveShapeBuffer[shapeVertexBufferIndex + i + 1] = (centerY - parentY) / recursionScale + parentY
+                    // } else {
+                    var parentXScaled = shapeBuffer[i] / Math.pow(recursionScale, currentRecursion);
+                    var parentYScaled = shapeBuffer[i + 1] / Math.pow(recursionScale, currentRecursion);
+                    recusiveShapeBuffer[shapeVertexBufferIndex + i] = centerX + parentXScaled;
+                    recusiveShapeBuffer[shapeVertexBufferIndex + i + 1] = centerY + parentYScaled;
+                    // }
+                    _math_bounding__WEBPACK_IMPORTED_MODULE_0__.default.add(tmpBounding, recusiveShapeBuffer[shapeVertexBufferIndex + i], recusiveShapeBuffer[shapeVertexBufferIndex + i + 1]);
+                }
+                if (added % singleShapeVertexCount === 0) {
+                    paretRecursionIndex += 1;
+                }
+            }
+        }
+        _math_bounding__WEBPACK_IMPORTED_MODULE_0__.default.bind(this.currentGenerationRecursiveBounding, tmpBounding);
+        this.shapeRecursiveBuffer = recusiveShapeBuffer;
+    };
+    ShapeRecursive.prototype.generateShapeBuffer = function (propArguments, generateId, recursionRepetition) {
+        propArguments.recursion = recursionRepetition;
+        return _super.prototype.generateBuffer.call(this, generateId, propArguments);
+    };
+    /**
+     * Add this to indexedBuffer
+     *
+     * @protected
+     * @param {number} frameLength
+     * @param {IRepetition} repetition
+     * @returns {number} nextIndex
+     */
+    ShapeRecursive.prototype.addIndex = function (frameLength, repetition
+    // singleRepetitionBounding: IShapeBounding
+    ) {
+        var _a;
+        if (this.shape) {
+            var propArguments = {
+                repetition: repetition,
+                context: _Context__WEBPACK_IMPORTED_MODULE_3__.default,
+                time: ((_a = this.scene) === null || _a === void 0 ? void 0 : _a.currentTime) || 0,
+                shape: this,
+            };
+            var recursions = Math.floor(this.getProp('recursions', propArguments, 1));
+            var recursionVertex = Math.floor(this.getProp('recursionVertex', propArguments, 0));
+            // const realFrameLength = ShapeRecursive.summmation(recursions, this.shape.getBufferLength() / 2)
+            var bufferIndex = {
+                shape: this,
+                frameLength: frameLength,
+                // singleRepetitionBounding,
+                repetition: {
+                    type: repetition.type,
+                    angle: repetition.angle,
+                    index: repetition.index,
+                    count: repetition.count,
+                    offset: repetition.offset,
+                    row: {
+                        index: repetition.row.index,
+                        count: repetition.row.count,
+                        offset: repetition.row.offset,
+                    },
+                    col: {
+                        index: repetition.col.index,
+                        count: repetition.col.count,
+                        offset: repetition.col.offset,
+                    },
+                },
+            };
+            var childIndexedBuffer = this.shape.getIndexedBuffer() || [];
+            for (var childIndexed = 0, childIndexedLen = childIndexedBuffer.length; childIndexed < childIndexedLen; childIndexed++) {
+                var currentIndexed = __assign({}, childIndexedBuffer[childIndexed]);
+                var currentRecursionRepetition = {
+                    index: 1,
+                    offset: 1,
+                    count: 1,
+                    level: { index: 1, offset: recursions > 1 ? 0 : 1, count: recursions },
+                };
+                var recursionBufferIndex = __assign(__assign({}, bufferIndex), { recursion: currentRecursionRepetition });
+                currentIndexed.parent = currentIndexed.parent
+                    ? _Shape__WEBPACK_IMPORTED_MODULE_2__.default.setIndexedParent(currentIndexed.parent, recursionBufferIndex)
+                    : recursionBufferIndex;
+                this.indexedBuffer.push(currentIndexed);
+                if (recursions > 1) {
+                    var realVertexCount = this.shape.getBufferLength() / 2;
+                    var vertexCount = recursionVertex <= 0 ? realVertexCount : Math.min(recursionVertex, realVertexCount);
+                    var storedRecursion = [currentRecursionRepetition];
+                    var paretRecursionIndex = 0, added = 1;
+                    for (var i = 1; i < recursions; i++) {
+                        var level_offset = recursions > 1 ? i / (recursions - 1) : 1;
+                        for (var j = 0, len = Math.pow(vertexCount, i); j < len; j++, added++) {
+                            var recursionOffset = len > 1 ? j / (len - 1) : 1;
+                            currentIndexed = __assign({}, childIndexedBuffer[childIndexed]);
+                            currentRecursionRepetition = {
+                                index: j + 1,
+                                offset: recursionOffset,
+                                count: len,
+                                level: { index: i + 1, offset: level_offset, count: recursions },
+                                parent: storedRecursion[paretRecursionIndex],
+                            };
+                            recursionBufferIndex = __assign(__assign({}, bufferIndex), { recursion: currentRecursionRepetition });
+                            currentIndexed.parent = currentIndexed.parent
+                                ? _Shape__WEBPACK_IMPORTED_MODULE_2__.default.setIndexedParent(currentIndexed.parent, recursionBufferIndex)
+                                : recursionBufferIndex;
+                            this.indexedBuffer.push(currentIndexed);
+                            storedRecursion.push(currentRecursionRepetition);
+                            if (added % vertexCount === 0) {
+                                paretRecursionIndex += 1;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    };
+    /**
+     * Retturn summation value
+     *
+     * @static
+     * @param {number} recursion
+     * @param {number} vertexCount
+     * @returns {number}
+     */
+    ShapeRecursive.summmation = function (recursion, vertexCount) {
+        if (recursion === 1)
+            return 1;
+        var result = 1;
+        for (var i = 1; i < recursion; i++)
+            result += Math.pow(vertexCount, i);
+        return result;
+    };
+    return ShapeRecursive;
+}(_Shape__WEBPACK_IMPORTED_MODULE_2__.default));
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ShapeRecursive);
+//# sourceMappingURL=ShapeRecursive.js.map
 
 /***/ }),
 
@@ -3060,8 +3653,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-/* harmony import */ var _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../ShapeLoop */ "./dist/core/shapes/ShapeLoop.js");
-/* harmony import */ var _types_shape_base__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../types/shape-base */ "./dist/core/types/shape-base.js");
+/* harmony import */ var _math__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../math */ "./dist/core/math/index.js");
+/* harmony import */ var _ShapeLoop__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../ShapeLoop */ "./dist/core/shapes/ShapeLoop.js");
+/* harmony import */ var _types_shape_base__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../types/shape-base */ "./dist/core/types/shape-base.js");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -3075,6 +3669,7 @@ var __extends = (undefined && undefined.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+
 
 
 /**
@@ -3095,19 +3690,24 @@ var Circle = /** @class */ (function (_super) {
         if (settings === void 0) { settings = {}; }
         var _this = this;
         settings.type = 'Circle';
-        settings.loopDependencies = (settings.loopDependencies || []).concat(['sideLength']);
-        settings.adaptMode = _types_shape_base__WEBPACK_IMPORTED_MODULE_1__.EShapePrimitiveAdaptMode.None;
-        _this = _super.call(this, settings) || this;
+        settings.adaptMode = _types_shape_base__WEBPACK_IMPORTED_MODULE_2__.EShapePrimitiveAdaptMode.None;
+        _this = _super.call(this, settings, true) || this;
         _this.loop = {
             start: 0,
-            end: _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__.default.PI2,
-            inc: function () { return (1 / Math.pow(_this.sideLength[0] * _this.sideLength[1], 0.25)) * _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__.default.PId2; },
+            end: _math__WEBPACK_IMPORTED_MODULE_0__.PI2,
+            inc: function (propArguments) {
+                var sideLength = _this.getRepetitionSideLength(propArguments);
+                return (1 / Math.pow(sideLength[0] * sideLength[1], 0.25)) * _ShapeLoop__WEBPACK_IMPORTED_MODULE_1__.default.PId2;
+            },
             vertex: function (shapeLoopRepetition) { return [Math.cos(shapeLoopRepetition.angle), Math.sin(shapeLoopRepetition.angle)]; },
         };
+        _this.bStaticLoop = _this.isStaticLoop();
+        _this.bStatic = _this.isStatic();
+        _this.bStaticIndexed = _this.isStaticIndexed();
         return _this;
     }
     return Circle;
-}(_ShapeLoop__WEBPACK_IMPORTED_MODULE_0__.default));
+}(_ShapeLoop__WEBPACK_IMPORTED_MODULE_1__.default));
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Circle);
 //# sourceMappingURL=Circle.js.map
 
@@ -3191,8 +3791,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-/* harmony import */ var _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../ShapeLoop */ "./dist/core/shapes/ShapeLoop.js");
-/* harmony import */ var _types_shape_base__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../types/shape-base */ "./dist/core/types/shape-base.js");
+/* harmony import */ var _math__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../math */ "./dist/core/math/index.js");
+/* harmony import */ var _ShapeLoop__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../ShapeLoop */ "./dist/core/shapes/ShapeLoop.js");
+/* harmony import */ var _types_shape_base__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../types/shape-base */ "./dist/core/types/shape-base.js");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -3206,6 +3807,7 @@ var __extends = (undefined && undefined.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+
 
 
 /**
@@ -3227,28 +3829,26 @@ var Lissajous = /** @class */ (function (_super) {
         if (settings === void 0) { settings = {}; }
         var _this = this;
         settings.type = 'Lissajous';
-        settings.loopDependencies = (settings.loopDependencies || []).concat(['wx', 'wy', 'wz', 'sideLength']);
-        settings.adaptMode = _types_shape_base__WEBPACK_IMPORTED_MODULE_1__.EShapePrimitiveAdaptMode.None;
+        settings.loopDependencies = (settings.loopDependencies || []).concat(['wx', 'wy', 'wz']);
+        settings.adaptMode = _types_shape_base__WEBPACK_IMPORTED_MODULE_2__.EShapePrimitiveAdaptMode.None;
         _this = _super.call(this, settings, true) || this;
         _this.props.wx = settings.wx || 1;
         _this.props.wy = settings.wy || 2;
         _this.props.wz = settings.wz || 0;
         _this.loop = {
             start: 0,
-            end: _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__.default.PI2,
+            end: _math__WEBPACK_IMPORTED_MODULE_0__.PI2,
             inc: function (propArguments) {
                 var wx = _this.getProp('wx', propArguments);
                 var wy = _this.getProp('wy', propArguments);
-                var ratio = wx == wy ? _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__.default.PId2 : 0.5 - Math.min(49, wx + wy) * 0.01;
-                return (1 / Math.pow(_this.sideLength[0] * _this.sideLength[1], 0.25)) * ratio;
+                var ratio = wx == wy ? _ShapeLoop__WEBPACK_IMPORTED_MODULE_1__.default.PId2 : 0.5 - Math.min(49, wx + wy) * 0.01;
+                var sideLength = _this.getRepetitionSideLength(propArguments);
+                return (1 / Math.pow(sideLength[0] * sideLength[1], 0.25)) * ratio;
             },
-            vertex: function (shapeLoopRepetition, propArguments) {
-                var wx = _this.getProp('wx', propArguments);
-                var wy = _this.getProp('wy', propArguments);
-                var wz = _this.getProp('wz', propArguments, 0);
-                return wx == wy
-                    ? [Math.cos(shapeLoopRepetition.angle + wz), Math.sin(shapeLoopRepetition.angle)]
-                    : [Math.cos(wx * shapeLoopRepetition.angle + wz), Math.sin(wy * shapeLoopRepetition.angle)];
+            vertex: function (shapeLoopRepetition) {
+                return _this.wx === _this.wy
+                    ? [Math.cos(shapeLoopRepetition.angle + _this.wz), Math.sin(shapeLoopRepetition.angle)]
+                    : [Math.cos(_this.wx * shapeLoopRepetition.angle + _this.wz), Math.sin(_this.wy * shapeLoopRepetition.angle)];
             },
         };
         _this.bStaticLoop = _this.isStaticLoop();
@@ -3256,32 +3856,90 @@ var Lissajous = /** @class */ (function (_super) {
         _this.bStaticIndexed = _this.isStaticIndexed();
         return _this;
     }
-    /**
-     * Get property value
-     *
-     * @param {keyof ILissajousProps} key
-     * @param {ISceneChildPropArguments} [propArguments]
-     * @param {*} [defaultValue]
-     * @returns {*}
-     * @memberof Lissajous
-     */
-    Lissajous.prototype.getProp = function (key, propArguments, defaultValue) {
-        return _super.prototype.getProp.call(this, key, propArguments, defaultValue);
-    };
-    /**
-     * Set single or multiple props
-     *
-     * @param {(keyof ILissajousProps | ILissajousProps)} key
-     * @param {*} [value]
-     * @memberof Lissajous
-     */
-    Lissajous.prototype.setProp = function (key, value) {
-        _super.prototype.setProp.call(this, key, value);
+    Lissajous.prototype.generateLoopBuffer = function (propArguments) {
+        this.wx = this.getProp('wx', propArguments, 1);
+        this.wy = this.getProp('wy', propArguments, 2);
+        this.wz = this.getProp('wz', propArguments, 2);
+        return _super.prototype.generateLoopBuffer.call(this, propArguments);
     };
     return Lissajous;
-}(_ShapeLoop__WEBPACK_IMPORTED_MODULE_0__.default));
+}(_ShapeLoop__WEBPACK_IMPORTED_MODULE_1__.default));
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Lissajous);
 //# sourceMappingURL=Lissajous.js.map
+
+/***/ }),
+
+/***/ "./dist/core/shapes/primitives/Polygon.js":
+/*!************************************************!*\
+  !*** ./dist/core/shapes/primitives/Polygon.js ***!
+  \************************************************/
+/*! namespace exports */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony import */ var _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../ShapeLoop */ "./dist/core/shapes/ShapeLoop.js");
+/* harmony import */ var _types_shape_base__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../types/shape-base */ "./dist/core/types/shape-base.js");
+/* harmony import */ var _math__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../math */ "./dist/core/math/index.js");
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+
+
+
+/**
+ * Polygon shape
+ *
+ * @category Core.Primitives
+ * @class Polygon
+ * @extends {ShapeLoop}
+ */
+var Polygon = /** @class */ (function (_super) {
+    __extends(Polygon, _super);
+    function Polygon(settings) {
+        if (settings === void 0) { settings = {}; }
+        var _a;
+        var _this = this;
+        settings.type = settings.type || 'Polygon';
+        settings.loopDependencies = (settings.loopDependencies || []).concat(['sideNumber']);
+        settings.adaptMode = (_a = settings.adaptMode) !== null && _a !== void 0 ? _a : _types_shape_base__WEBPACK_IMPORTED_MODULE_1__.EShapePrimitiveAdaptMode.None;
+        _this = _super.call(this, settings, true) || this;
+        _this.props.sideNumber = settings.sideNumber;
+        _this.loop = {
+            start: 0,
+            end: _math__WEBPACK_IMPORTED_MODULE_2__.PI2,
+            inc: function (propArguments) {
+                return _math__WEBPACK_IMPORTED_MODULE_2__.PI2 / _this.getProp('sideNumber', propArguments, 5);
+            },
+            vertex: function (shapeLoopRepetition) {
+                return [Math.cos(shapeLoopRepetition.angle), Math.sin(shapeLoopRepetition.angle)];
+            },
+        };
+        _this.bStaticLoop = _this.isStaticLoop();
+        _this.bStatic = _this.isStatic();
+        _this.bStaticIndexed = _this.isStaticIndexed();
+        return _this;
+    }
+    return Polygon;
+}(_ShapeLoop__WEBPACK_IMPORTED_MODULE_0__.default));
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Polygon);
+//# sourceMappingURL=Polygon.js.map
 
 /***/ }),
 
@@ -3347,100 +4005,6 @@ var Rect = /** @class */ (function (_super) {
 
 /***/ }),
 
-/***/ "./dist/core/shapes/primitives/RegularPolygon.js":
-/*!*******************************************************!*\
-  !*** ./dist/core/shapes/primitives/RegularPolygon.js ***!
-  \*******************************************************/
-/*! namespace exports */
-/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
-/*! other exports [not provided] [no usage info] */
-/*! runtime requirements: __webpack_require__, __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
-/* harmony export */ });
-/* harmony import */ var _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../ShapeLoop */ "./dist/core/shapes/ShapeLoop.js");
-/* harmony import */ var _types_shape_base__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../types/shape-base */ "./dist/core/types/shape-base.js");
-var __extends = (undefined && undefined.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-
-
-/**
- * Polygon shape
- *
- * @category Core.Primitives
- * @class RegularPolygon
- * @extends {ShapeLoop}
- */
-var RegularPolygon = /** @class */ (function (_super) {
-    __extends(RegularPolygon, _super);
-    function RegularPolygon(settings) {
-        if (settings === void 0) { settings = {}; }
-        var _a;
-        var _this = this;
-        settings.type = settings.type || 'RegularPolygon';
-        settings.loopDependencies = (settings.loopDependencies || []).concat(['sideNumber']);
-        settings.adaptMode = (_a = settings.adaptMode) !== null && _a !== void 0 ? _a : _types_shape_base__WEBPACK_IMPORTED_MODULE_1__.EShapePrimitiveAdaptMode.None;
-        _this = _super.call(this, settings, true) || this;
-        _this.props.sideNumber = settings.sideNumber;
-        _this.loop = {
-            start: 0,
-            end: _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__.default.PI2,
-            inc: function (propArguments) {
-                return _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__.default.PI2 / (_this.getProp('sideNumber', propArguments, 5) + 1);
-            },
-            vertex: function (shapeLoopRepetition) {
-                return [Math.cos(shapeLoopRepetition.angle), Math.sin(shapeLoopRepetition.angle)];
-            },
-        };
-        _this.bStaticLoop = _this.isStaticLoop();
-        _this.bStatic = _this.isStatic();
-        _this.bStaticIndexed = _this.isStaticIndexed();
-        return _this;
-    }
-    /**
-     * Get property value
-     *
-     * @param {keyof IRegularPolygonProps} key
-     * @param {ISceneChildPropArguments} [propArguments]
-     * @param {*} [defaultValue]
-     * @returns {*}
-     * @memberof IRegularPolygonProps
-     */
-    RegularPolygon.prototype.getProp = function (key, propArguments, defaultValue) {
-        return _super.prototype.getProp.call(this, key, propArguments, defaultValue);
-    };
-    /**
-     * Set single or multiple props
-     *
-     * @param {(keyof IRegularPolygonProps | RegularPolygonSettings)} key
-     * @param {*} [value]
-     * @memberof IRegularPolygonProps
-     */
-    RegularPolygon.prototype.setProp = function (key, value) {
-        _super.prototype.setProp.call(this, key, value);
-    };
-    return RegularPolygon;
-}(_ShapeLoop__WEBPACK_IMPORTED_MODULE_0__.default));
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (RegularPolygon);
-//# sourceMappingURL=RegularPolygon.js.map
-
-/***/ }),
-
 /***/ "./dist/core/shapes/primitives/Rose.js":
 /*!*********************************************!*\
   !*** ./dist/core/shapes/primitives/Rose.js ***!
@@ -3458,6 +4022,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../ShapeLoop */ "./dist/core/shapes/ShapeLoop.js");
 /* harmony import */ var _types_shape_base__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../types/shape-base */ "./dist/core/types/shape-base.js");
+/* harmony import */ var _math__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../math */ "./dist/core/math/index.js");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -3471,6 +4036,7 @@ var __extends = (undefined && undefined.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+
 
 
 /**
@@ -3493,7 +4059,7 @@ var Rose = /** @class */ (function (_super) {
         var _a, _b, _c;
         var _this = this;
         settings.type = 'Rose';
-        settings.loopDependencies = (settings.loopDependencies || []).concat(['n', 'd', 'sideLength']);
+        settings.loopDependencies = (settings.loopDependencies || []).concat(['n', 'd']);
         settings.adaptMode = (_a = settings.adaptMode) !== null && _a !== void 0 ? _a : _types_shape_base__WEBPACK_IMPORTED_MODULE_1__.EShapePrimitiveAdaptMode.Scale;
         _this = _super.call(this, settings, true) || this;
         _this.props.n = (_b = settings.n) !== null && _b !== void 0 ? _b : 1;
@@ -3506,13 +4072,13 @@ var Rose = /** @class */ (function (_super) {
             inc: function (propArguments) {
                 var n = _this.getProp('n', propArguments);
                 var d = _this.getProp('d', propArguments);
-                var sides = Math.pow(_this.sideLength[0] * _this.sideLength[1], 0.45);
+                var sideLength = _this.getRepetitionSideLength(propArguments);
+                var sides = Math.pow(sideLength[0] * sideLength[1], 0.45);
                 var k = d < n ? n / d : 1.5;
-                return _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__.default.PI2 / (sides * k);
+                return _math__WEBPACK_IMPORTED_MODULE_2__.PI2 / (sides * k);
             },
-            vertex: function (shapeLoopRepetition, propArguments) {
-                var k = _this.getProp('n', propArguments) / _this.getProp('d', propArguments);
-                var f = Math.cos(k * shapeLoopRepetition.angle);
+            vertex: function (shapeLoopRepetition) {
+                var f = Math.cos(_this.k * shapeLoopRepetition.angle);
                 return [f * Math.cos(shapeLoopRepetition.angle), f * Math.sin(shapeLoopRepetition.angle)];
             },
         };
@@ -3521,27 +4087,9 @@ var Rose = /** @class */ (function (_super) {
         _this.bStaticIndexed = _this.isStaticIndexed();
         return _this;
     }
-    /**
-     * Get property value
-     *
-     * @param {keyof RoseProps} key
-     * @param {ISceneChildPropArguments} [propArguments]
-     * @param {*} [defaultValue]
-     * @returns {*}
-     * @memberof Rose
-     */
-    Rose.prototype.getProp = function (key, propArguments, defaultValue) {
-        return _super.prototype.getProp.call(this, key, propArguments, defaultValue);
-    };
-    /**
-     * Set single or multiple props
-     *
-     * @param {(keyof IRoseProps | IRoseSettings)} key
-     * @param {*} [value]
-     * @memberof Rose
-     */
-    Rose.prototype.setProp = function (key, value) {
-        _super.prototype.setProp.call(this, key, value);
+    Rose.prototype.generateLoopBuffer = function (propArguments) {
+        this.k = this.getProp('n', propArguments) / this.getProp('d', propArguments);
+        return _super.prototype.generateLoopBuffer.call(this, propArguments);
     };
     /**
      * Return end angle of rose
@@ -3554,7 +4102,7 @@ var Rose = /** @class */ (function (_super) {
      */
     Rose.getFinalAngleFromK = function (n, d) {
         if (n == d)
-            return _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__.default.PI2;
+            return _math__WEBPACK_IMPORTED_MODULE_2__.PI2;
         var k = n / d;
         var p = n * d;
         if (!Number.isInteger(k) && k % 0.5 == 0)
@@ -3585,6 +4133,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../ShapeLoop */ "./dist/core/shapes/ShapeLoop.js");
 /* harmony import */ var _types_shape_base__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../types/shape-base */ "./dist/core/types/shape-base.js");
+/* harmony import */ var _math__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../math */ "./dist/core/math/index.js");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -3598,6 +4147,7 @@ var __extends = (undefined && undefined.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+
 
 
 /**
@@ -3622,29 +4172,26 @@ var Spiral = /** @class */ (function (_super) {
         settings.type = 'Spiral';
         settings.bClosed = false;
         settings.adaptMode = (_a = settings.adaptMode) !== null && _a !== void 0 ? _a : _types_shape_base__WEBPACK_IMPORTED_MODULE_1__.EShapePrimitiveAdaptMode.None;
-        settings.loopDependencies = (settings.loopDependencies || []).concat([
-            'twists',
-            'twistsStart',
-            'spiral',
-            'sideLength',
-        ]);
+        settings.loopDependencies = (settings.loopDependencies || []).concat(['twists', 'twistsStart', 'spiral']);
         _this = _super.call(this, settings, true) || this;
         _this.props.spiral = (_b = settings.spiral) !== null && _b !== void 0 ? _b : Spiral.types.ARCHIMEDE;
         _this.props.twists = (_c = settings.twists) !== null && _c !== void 0 ? _c : 2;
         _this.props.twistsStart = (_d = settings.twistsStart) !== null && _d !== void 0 ? _d : 0;
         _this.loop = {
-            start: function (propArguments) { return _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__.default.PI2 * _this.getProp('twistsStart', propArguments); },
+            start: function (propArguments) { return _math__WEBPACK_IMPORTED_MODULE_2__.PI2 * _this.getProp('twistsStart', propArguments); },
             end: function (propArguments) {
-                return _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__.default.PI2 * (_this.getProp('twistsStart', propArguments) + _this.getProp('twists', propArguments));
+                return _math__WEBPACK_IMPORTED_MODULE_2__.PI2 *
+                    (_this.getProp('twistsStart', propArguments) + _this.getProp('twists', propArguments));
             },
             inc: function (propArguments) {
                 var twists = _this.getProp('twists', propArguments);
-                var rep = _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__.default.PI2 * twists;
-                var radius = 4 + Math.sqrt(_this.sideLength[0] * _this.sideLength[1]);
+                var rep = _math__WEBPACK_IMPORTED_MODULE_2__.PI2 * twists;
+                var sideLength = _this.getRepetitionSideLength(propArguments);
+                var radius = 4 + Math.sqrt(sideLength[0] * sideLength[1]);
                 return rep / (radius * twists);
             },
-            vertex: function (shapeLoopRepetition, propArguments) {
-                var r = Spiral.getRFromTSpiralType(_this.getProp('spiral', propArguments), shapeLoopRepetition.angle);
+            vertex: function (shapeLoopRepetition) {
+                var r = Spiral.getRFromTSpiralType(_this.spiral, shapeLoopRepetition.angle);
                 return [r * Math.cos(shapeLoopRepetition.angle), r * Math.sin(shapeLoopRepetition.angle)];
             },
         };
@@ -3653,34 +4200,25 @@ var Spiral = /** @class */ (function (_super) {
         _this.bStaticIndexed = _this.isStaticIndexed();
         return _this;
     }
-    /**
-     * Get property value
-     *
-     * @param {keyof ISpiralProps} key
-     * @param {ISceneChildPropArguments} [propArguments]
-     * @param {any} [defaultValue]
-     * @returns {*}
-     * @memberof Spiral
-     */
-    Spiral.prototype.getProp = function (key, propArguments, defaultValue) {
-        return _super.prototype.getProp.call(this, key, propArguments, defaultValue);
+    Spiral.prototype.generateLoopBuffer = function (propArguments) {
+        this.spiral = this.getProp('spiral', propArguments);
+        return _super.prototype.generateLoopBuffer.call(this, propArguments);
     };
-    /**
-     * Set single or multiple props
-     *
-     * @param {(keyof ISpiralProps | ISpiralProps)} key
-     * @param {*} [value]
-     * @memberof Spiral
-     */
-    Spiral.prototype.setProp = function (key, value) {
-        var _a;
-        key = typeof key === 'string' ? (_a = {}, _a[key] = value, _a) : key;
-        if (('twists' in key || 'twistsStart' in key) && this.props.loop) {
-            this.props.loop.start = undefined;
-            this.props.loop.end = undefined;
-        }
-        _super.prototype.setProp.call(this, key, value);
-    };
+    // /**
+    //  * Set single or multiple props
+    //  *
+    //  * @param {(keyof ISpiralProps | ISpiralProps)} key
+    //  * @param {*} [value]
+    //  * @memberof Spiral
+    //  */
+    // public setProp(key: keyof ISpiralProps | ISpiralProps, value?: any): void {
+    // 	key = typeof key === 'string' ? { [key]: value } : key
+    // 	if (('twists' in key || 'twistsStart' in key) && this.props.loop) {
+    // 		this.props.loop.start = undefined
+    // 		this.props.loop.end = undefined
+    // 	}
+    // 	super.setProp(key as keyof IShapeLoopProps, value)
+    // }
     /**
      * Point position and scale factor for spiral types
      *
@@ -3890,10 +4428,10 @@ var EShapePrimitiveAdaptMode;
 
 /***/ }),
 
-/***/ "./dist/core/types/shape-primitive.js":
-/*!********************************************!*\
-  !*** ./dist/core/types/shape-primitive.js ***!
-  \********************************************/
+/***/ "./dist/core/types/shape-primitives.js":
+/*!*********************************************!*\
+  !*** ./dist/core/types/shape-primitives.js ***!
+  \*********************************************/
 /*! namespace exports */
 /*! exports [not provided] [no usage info] */
 /*! runtime requirements: __webpack_require__.r, __webpack_exports__, __webpack_require__.* */
@@ -3902,7 +4440,7 @@ var EShapePrimitiveAdaptMode;
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 
-//# sourceMappingURL=shape-primitive.js.map
+//# sourceMappingURL=shape-primitives.js.map
 
 /***/ }),
 
@@ -3915,11 +4453,14 @@ __webpack_require__.r(__webpack_exports__);
 /*! export Circle [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/Circle.js .default */
 /*! export Context [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/Context.js .default */
 /*! export DrawerCanvas [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/services/drawers/drawer-canvas/DrawerCanvas.js .default */
+/*! export Easings [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/services/animation/Easings.js .default */
 /*! export Group [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/Group.js .default */
 /*! export Line [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/Line.js .default */
 /*! export Lissajous [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/Lissajous.js .default */
+/*! export PHI [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/math/index.js .PHI */
+/*! export PI2 [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/math/index.js .PI2 */
+/*! export Polygon [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/Polygon.js .default */
 /*! export Rect [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/Rect.js .default */
-/*! export RegularPolygon [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/RegularPolygon.js .default */
 /*! export Rose [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/Rose.js .default */
 /*! export Scene [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/Scene.js .default */
 /*! export SceneChild [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/SceneChild.js .default */
@@ -3927,11 +4468,13 @@ __webpack_require__.r(__webpack_exports__);
 /*! export ShapeBuffer [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/ShapeBuffer.js .default */
 /*! export ShapeLoop [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/ShapeLoop.js .default */
 /*! export ShapePrimitive [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/ShapePrimitive.js .default */
+/*! export ShapeRecursive [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/ShapeRecursive.js .default */
 /*! export Spiral [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/Spiral.js .default */
 /*! export Triangle [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/Triangle.js .default */
 /*! export Vec2 [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/math/Vec2.js .default */
 /*! export clamp [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .clamp */
 /*! export lerp [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .lerp */
+/*! export log [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/math/index.js .log */
 /*! export relativeClamp [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .relativeClamp */
 /*! export toDegrees [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .toDegrees */
 /*! export toRadians [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .toRadians */
@@ -3945,48 +4488,56 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Scene": () => /* reexport safe */ _core_Scene__WEBPACK_IMPORTED_MODULE_0__.default,
 /* harmony export */   "SceneChild": () => /* reexport safe */ _core_SceneChild__WEBPACK_IMPORTED_MODULE_1__.default,
 /* harmony export */   "Group": () => /* reexport safe */ _core_Group__WEBPACK_IMPORTED_MODULE_2__.default,
-/* harmony export */   "Line": () => /* reexport safe */ _core_shapes_primitives_Line__WEBPACK_IMPORTED_MODULE_3__.default,
-/* harmony export */   "Triangle": () => /* reexport safe */ _core_shapes_primitives_Triangle__WEBPACK_IMPORTED_MODULE_4__.default,
-/* harmony export */   "Rect": () => /* reexport safe */ _core_shapes_primitives_Rect__WEBPACK_IMPORTED_MODULE_5__.default,
-/* harmony export */   "RegularPolygon": () => /* reexport safe */ _core_shapes_primitives_RegularPolygon__WEBPACK_IMPORTED_MODULE_6__.default,
-/* harmony export */   "Circle": () => /* reexport safe */ _core_shapes_primitives_Circle__WEBPACK_IMPORTED_MODULE_7__.default,
-/* harmony export */   "Rose": () => /* reexport safe */ _core_shapes_primitives_Rose__WEBPACK_IMPORTED_MODULE_8__.default,
-/* harmony export */   "Spiral": () => /* reexport safe */ _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_9__.default,
-/* harmony export */   "Lissajous": () => /* reexport safe */ _core_shapes_primitives_Lissajous__WEBPACK_IMPORTED_MODULE_10__.default,
-/* harmony export */   "Shape": () => /* reexport safe */ _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_11__.default,
-/* harmony export */   "ShapePrimitive": () => /* reexport safe */ _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_12__.default,
-/* harmony export */   "ShapeLoop": () => /* reexport safe */ _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_13__.default,
-/* harmony export */   "ShapeBuffer": () => /* reexport safe */ _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_14__.default,
-/* harmony export */   "lerp": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_15__.lerp,
-/* harmony export */   "clamp": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_15__.clamp,
-/* harmony export */   "relativeClamp": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_15__.relativeClamp,
-/* harmony export */   "toDegrees": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_15__.toDegrees,
-/* harmony export */   "toRadians": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_15__.toRadians,
-/* harmony export */   "Vec2": () => /* reexport safe */ _core_math_Vec2__WEBPACK_IMPORTED_MODULE_16__.default,
-/* harmony export */   "Context": () => /* reexport safe */ _core_Context__WEBPACK_IMPORTED_MODULE_17__.default,
-/* harmony export */   "DrawerCanvas": () => /* reexport safe */ _services_drawers_drawer_canvas_DrawerCanvas__WEBPACK_IMPORTED_MODULE_18__.default,
-/* harmony export */   "Animation": () => /* reexport safe */ _services_animation_Simple__WEBPACK_IMPORTED_MODULE_19__.default
+/* harmony export */   "ShapePrimitive": () => /* reexport safe */ _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_3__.default,
+/* harmony export */   "ShapeLoop": () => /* reexport safe */ _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_4__.default,
+/* harmony export */   "ShapeBuffer": () => /* reexport safe */ _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_5__.default,
+/* harmony export */   "ShapeRecursive": () => /* reexport safe */ _core_shapes_ShapeRecursive__WEBPACK_IMPORTED_MODULE_6__.default,
+/* harmony export */   "Shape": () => /* reexport safe */ _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_7__.default,
+/* harmony export */   "Line": () => /* reexport safe */ _core_shapes_primitives_Line__WEBPACK_IMPORTED_MODULE_8__.default,
+/* harmony export */   "Triangle": () => /* reexport safe */ _core_shapes_primitives_Triangle__WEBPACK_IMPORTED_MODULE_9__.default,
+/* harmony export */   "Rect": () => /* reexport safe */ _core_shapes_primitives_Rect__WEBPACK_IMPORTED_MODULE_10__.default,
+/* harmony export */   "Polygon": () => /* reexport safe */ _core_shapes_primitives_Polygon__WEBPACK_IMPORTED_MODULE_11__.default,
+/* harmony export */   "Circle": () => /* reexport safe */ _core_shapes_primitives_Circle__WEBPACK_IMPORTED_MODULE_12__.default,
+/* harmony export */   "Rose": () => /* reexport safe */ _core_shapes_primitives_Rose__WEBPACK_IMPORTED_MODULE_13__.default,
+/* harmony export */   "Spiral": () => /* reexport safe */ _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_14__.default,
+/* harmony export */   "Lissajous": () => /* reexport safe */ _core_shapes_primitives_Lissajous__WEBPACK_IMPORTED_MODULE_15__.default,
+/* harmony export */   "lerp": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_16__.lerp,
+/* harmony export */   "clamp": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_16__.clamp,
+/* harmony export */   "relativeClamp": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_16__.relativeClamp,
+/* harmony export */   "toDegrees": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_16__.toDegrees,
+/* harmony export */   "toRadians": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_16__.toRadians,
+/* harmony export */   "Vec2": () => /* reexport safe */ _core_math_Vec2__WEBPACK_IMPORTED_MODULE_17__.default,
+/* harmony export */   "Context": () => /* reexport safe */ _core_Context__WEBPACK_IMPORTED_MODULE_18__.default,
+/* harmony export */   "PHI": () => /* reexport safe */ _core_math__WEBPACK_IMPORTED_MODULE_19__.PHI,
+/* harmony export */   "PI2": () => /* reexport safe */ _core_math__WEBPACK_IMPORTED_MODULE_19__.PI2,
+/* harmony export */   "log": () => /* reexport safe */ _core_math__WEBPACK_IMPORTED_MODULE_19__.log,
+/* harmony export */   "DrawerCanvas": () => /* reexport safe */ _services_drawers_drawer_canvas_DrawerCanvas__WEBPACK_IMPORTED_MODULE_20__.default,
+/* harmony export */   "Animation": () => /* reexport safe */ _services_animation_Simple__WEBPACK_IMPORTED_MODULE_21__.default,
+/* harmony export */   "Easings": () => /* reexport safe */ _services_animation_Easings__WEBPACK_IMPORTED_MODULE_22__.default
 /* harmony export */ });
 /* harmony import */ var _core_Scene__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./core/Scene */ "./dist/core/Scene.js");
 /* harmony import */ var _core_SceneChild__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./core/SceneChild */ "./dist/core/SceneChild.js");
 /* harmony import */ var _core_Group__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./core/Group */ "./dist/core/Group.js");
-/* harmony import */ var _core_shapes_primitives_Line__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./core/shapes/primitives/Line */ "./dist/core/shapes/primitives/Line.js");
-/* harmony import */ var _core_shapes_primitives_Triangle__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./core/shapes/primitives/Triangle */ "./dist/core/shapes/primitives/Triangle.js");
-/* harmony import */ var _core_shapes_primitives_Rect__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./core/shapes/primitives/Rect */ "./dist/core/shapes/primitives/Rect.js");
-/* harmony import */ var _core_shapes_primitives_RegularPolygon__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./core/shapes/primitives/RegularPolygon */ "./dist/core/shapes/primitives/RegularPolygon.js");
-/* harmony import */ var _core_shapes_primitives_Circle__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./core/shapes/primitives/Circle */ "./dist/core/shapes/primitives/Circle.js");
-/* harmony import */ var _core_shapes_primitives_Rose__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./core/shapes/primitives/Rose */ "./dist/core/shapes/primitives/Rose.js");
-/* harmony import */ var _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./core/shapes/primitives/Spiral */ "./dist/core/shapes/primitives/Spiral.js");
-/* harmony import */ var _core_shapes_primitives_Lissajous__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./core/shapes/primitives/Lissajous */ "./dist/core/shapes/primitives/Lissajous.js");
-/* harmony import */ var _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./core/shapes/Shape */ "./dist/core/shapes/Shape.js");
-/* harmony import */ var _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./core/shapes/ShapePrimitive */ "./dist/core/shapes/ShapePrimitive.js");
-/* harmony import */ var _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./core/shapes/ShapeLoop */ "./dist/core/shapes/ShapeLoop.js");
-/* harmony import */ var _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./core/shapes/ShapeBuffer */ "./dist/core/shapes/ShapeBuffer.js");
-/* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./Utilites */ "./dist/Utilites.js");
-/* harmony import */ var _core_math_Vec2__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./core/math/Vec2 */ "./dist/core/math/Vec2.js");
-/* harmony import */ var _core_Context__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./core/Context */ "./dist/core/Context.js");
-/* harmony import */ var _services_drawers_drawer_canvas_DrawerCanvas__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./services/drawers/drawer-canvas/DrawerCanvas */ "./dist/services/drawers/drawer-canvas/DrawerCanvas.js");
-/* harmony import */ var _services_animation_Simple__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./services/animation/Simple */ "./dist/services/animation/Simple.js");
+/* harmony import */ var _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./core/shapes/ShapePrimitive */ "./dist/core/shapes/ShapePrimitive.js");
+/* harmony import */ var _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./core/shapes/ShapeLoop */ "./dist/core/shapes/ShapeLoop.js");
+/* harmony import */ var _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./core/shapes/ShapeBuffer */ "./dist/core/shapes/ShapeBuffer.js");
+/* harmony import */ var _core_shapes_ShapeRecursive__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./core/shapes/ShapeRecursive */ "./dist/core/shapes/ShapeRecursive.js");
+/* harmony import */ var _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./core/shapes/Shape */ "./dist/core/shapes/Shape.js");
+/* harmony import */ var _core_shapes_primitives_Line__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./core/shapes/primitives/Line */ "./dist/core/shapes/primitives/Line.js");
+/* harmony import */ var _core_shapes_primitives_Triangle__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./core/shapes/primitives/Triangle */ "./dist/core/shapes/primitives/Triangle.js");
+/* harmony import */ var _core_shapes_primitives_Rect__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./core/shapes/primitives/Rect */ "./dist/core/shapes/primitives/Rect.js");
+/* harmony import */ var _core_shapes_primitives_Polygon__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./core/shapes/primitives/Polygon */ "./dist/core/shapes/primitives/Polygon.js");
+/* harmony import */ var _core_shapes_primitives_Circle__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./core/shapes/primitives/Circle */ "./dist/core/shapes/primitives/Circle.js");
+/* harmony import */ var _core_shapes_primitives_Rose__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./core/shapes/primitives/Rose */ "./dist/core/shapes/primitives/Rose.js");
+/* harmony import */ var _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./core/shapes/primitives/Spiral */ "./dist/core/shapes/primitives/Spiral.js");
+/* harmony import */ var _core_shapes_primitives_Lissajous__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./core/shapes/primitives/Lissajous */ "./dist/core/shapes/primitives/Lissajous.js");
+/* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./Utilites */ "./dist/Utilites.js");
+/* harmony import */ var _core_math_Vec2__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./core/math/Vec2 */ "./dist/core/math/Vec2.js");
+/* harmony import */ var _core_Context__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./core/Context */ "./dist/core/Context.js");
+/* harmony import */ var _core_math__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./core/math */ "./dist/core/math/index.js");
+/* harmony import */ var _services_drawers_drawer_canvas_DrawerCanvas__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./services/drawers/drawer-canvas/DrawerCanvas */ "./dist/services/drawers/drawer-canvas/DrawerCanvas.js");
+/* harmony import */ var _services_animation_Simple__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./services/animation/Simple */ "./dist/services/animation/Simple.js");
+/* harmony import */ var _services_animation_Easings__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./services/animation/Easings */ "./dist/services/animation/Easings.js");
 /**
  * Core
  */
@@ -4006,13 +4557,16 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 // Utilities
+
 
 
 
 /**
  * Services
  */
+
 
 
 //# sourceMappingURL=index-light.js.map
@@ -4031,16 +4585,20 @@ __webpack_require__.r(__webpack_exports__);
 /*! export DrawerSVG [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/services/drawers/drawer-svg/DrawerSVG.js .default */
 /*! export ERepetitionType [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/core/types/scene-child.js .ERepetitionType */
 /*! export EShapePrimitiveAdaptMode [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/core/types/shape-base.js .EShapePrimitiveAdaptMode */
+/*! export Easings [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/services/animation/Easings.js .default */
 /*! export Group [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/core/Group.js .default */
 /*! export JSONExporter [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/services/exporters/JSONExporter.js .default */
 /*! export JSONImporter [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/services/importers/JSONImporter.js .default */
 /*! export Line [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/Line.js .default */
 /*! export Lissajous [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/Lissajous.js .default */
+/*! export PHI [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/core/math/index.js .PHI */
+/*! export PI2 [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/core/math/index.js .PI2 */
+/*! export Polygon [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/Polygon.js .default */
 /*! export Rect [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/Rect.js .default */
-/*! export RegularPolygon [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/RegularPolygon.js .default */
 /*! export Renderer [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/services/renderer/Renderer.js .default */
 /*! export Rose [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/Rose.js .default */
 /*! export SVGExporter [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/services/exporters/SVGExporter.js .default */
+/*! export SVGImporter [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/services/importers/SVGImporter.js .default */
 /*! export Scene [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/core/Scene.js .default */
 /*! export SceneChild [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/core/SceneChild.js .default */
 /*! export SceneUtilities [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/services/scene-utilities/SceneUtilities.js .default */
@@ -4048,11 +4606,13 @@ __webpack_require__.r(__webpack_exports__);
 /*! export ShapeBuffer [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/ShapeBuffer.js .default */
 /*! export ShapeLoop [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/ShapeLoop.js .default */
 /*! export ShapePrimitive [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/ShapePrimitive.js .default */
+/*! export ShapeRecursive [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/ShapeRecursive.js .default */
 /*! export Spiral [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/Spiral.js .default */
 /*! export Triangle [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/Triangle.js .default */
 /*! export Vec2 [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/core/math/Vec2.js .default */
 /*! export clamp [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .clamp */
 /*! export lerp [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .lerp */
+/*! export log [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/core/math/index.js .log */
 /*! export relativeClamp [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .relativeClamp */
 /*! export toDegrees [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .toDegrees */
 /*! export toRadians [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .toRadians */
@@ -4069,11 +4629,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Circle": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.Circle,
 /* harmony export */   "Context": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.Context,
 /* harmony export */   "DrawerCanvas": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.DrawerCanvas,
+/* harmony export */   "Easings": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.Easings,
 /* harmony export */   "Group": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.Group,
 /* harmony export */   "Line": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.Line,
 /* harmony export */   "Lissajous": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.Lissajous,
+/* harmony export */   "PHI": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.PHI,
+/* harmony export */   "PI2": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.PI2,
+/* harmony export */   "Polygon": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.Polygon,
 /* harmony export */   "Rect": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.Rect,
-/* harmony export */   "RegularPolygon": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.RegularPolygon,
 /* harmony export */   "Rose": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.Rose,
 /* harmony export */   "Scene": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.Scene,
 /* harmony export */   "SceneChild": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.SceneChild,
@@ -4081,11 +4644,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "ShapeBuffer": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.ShapeBuffer,
 /* harmony export */   "ShapeLoop": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.ShapeLoop,
 /* harmony export */   "ShapePrimitive": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.ShapePrimitive,
+/* harmony export */   "ShapeRecursive": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.ShapeRecursive,
 /* harmony export */   "Spiral": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.Spiral,
 /* harmony export */   "Triangle": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.Triangle,
 /* harmony export */   "Vec2": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.Vec2,
 /* harmony export */   "clamp": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.clamp,
 /* harmony export */   "lerp": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.lerp,
+/* harmony export */   "log": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.log,
 /* harmony export */   "relativeClamp": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.relativeClamp,
 /* harmony export */   "toDegrees": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.toDegrees,
 /* harmony export */   "toRadians": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.toRadians,
@@ -4094,12 +4659,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Renderer": () => /* reexport safe */ _services_renderer_Renderer__WEBPACK_IMPORTED_MODULE_7__.default,
 /* harmony export */   "JSONImporter": () => /* reexport safe */ _services_importers_JSONImporter__WEBPACK_IMPORTED_MODULE_8__.default,
 /* harmony export */   "JSONExporter": () => /* reexport safe */ _services_exporters_JSONExporter__WEBPACK_IMPORTED_MODULE_9__.default,
-/* harmony export */   "SVGExporter": () => /* reexport safe */ _services_exporters_SVGExporter__WEBPACK_IMPORTED_MODULE_10__.default
+/* harmony export */   "SVGExporter": () => /* reexport safe */ _services_exporters_SVGExporter__WEBPACK_IMPORTED_MODULE_10__.default,
+/* harmony export */   "SVGImporter": () => /* reexport safe */ _services_importers_SVGImporter__WEBPACK_IMPORTED_MODULE_11__.default
 /* harmony export */ });
 /* harmony import */ var _core_types_scene__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./core/types/scene */ "./dist/core/types/scene.js");
 /* harmony import */ var _core_types_scene_child__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./core/types/scene-child */ "./dist/core/types/scene-child.js");
 /* harmony import */ var _core_types_shape_base__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./core/types/shape-base */ "./dist/core/types/shape-base.js");
-/* harmony import */ var _core_types_shape_primitive__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./core/types/shape-primitive */ "./dist/core/types/shape-primitive.js");
+/* harmony import */ var _core_types_shape_primitives__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./core/types/shape-primitives */ "./dist/core/types/shape-primitives.js");
 /* harmony import */ var _index_light__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./index-light */ "./dist/index-light.js");
 /* harmony import */ var _services_scene_utilities_SceneUtilities__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./services/scene-utilities/SceneUtilities */ "./dist/services/scene-utilities/SceneUtilities.js");
 /* harmony import */ var _services_drawers_drawer_svg_DrawerSVG__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./services/drawers/drawer-svg/DrawerSVG */ "./dist/services/drawers/drawer-svg/DrawerSVG.js");
@@ -4107,9 +4673,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _services_importers_JSONImporter__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./services/importers/JSONImporter */ "./dist/services/importers/JSONImporter.js");
 /* harmony import */ var _services_exporters_JSONExporter__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./services/exporters/JSONExporter */ "./dist/services/exporters/JSONExporter.js");
 /* harmony import */ var _services_exporters_SVGExporter__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./services/exporters/SVGExporter */ "./dist/services/exporters/SVGExporter.js");
+/* harmony import */ var _services_importers_SVGImporter__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./services/importers/SVGImporter */ "./dist/services/importers/SVGImporter.js");
 /**
- * Types & Intterface
+ * Types & Interface
  */
+
 
 
 
@@ -4529,7 +5097,7 @@ var Easings = {
      * @param {number} p period (optional)
      * @return {number}
      */
-    elasticBoth: function (time, start, end, durate, a, p) {
+    elasticInOut: function (time, start, end, durate, a, p) {
         if (time == 0) {
             return start;
         }
@@ -4588,7 +5156,7 @@ var Easings = {
      * @param {number} s overshoot (optional)
      * @return {number}
      */
-    backBoth: function (time, start, end, durate, s) {
+    backInOut: function (time, start, end, durate, s) {
         if (typeof s == 'undefined') {
             s = 1.70158;
         }
@@ -4635,7 +5203,7 @@ var Easings = {
      * @param {number} durate
      * @returns
      */
-    bounceBoth: function (time, start, end, durate) {
+    bounceInOut: function (time, start, end, durate) {
         if (time < durate / 2) {
             return Easings.bounceIn(time * 2, 0, end, durate) * 0.5 + start;
         }
@@ -4662,9 +5230,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-/* harmony import */ var _pups_core_build_Models_Color_ColorManager__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @pups/core/build/Models/Color/ColorManager */ "./node_modules/@pups/core/build/Models/Color/ColorManager.js");
-/* harmony import */ var _Easings__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Easings */ "./dist/services/animation/Easings.js");
-/* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Utilites */ "./dist/Utilites.js");
+/* harmony import */ var _Easings__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Easings */ "./dist/services/animation/Easings.js");
+/* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Utilites */ "./dist/Utilites.js");
+/* harmony import */ var _Color__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Color */ "./dist/Color.js");
 var __assign = (undefined && undefined.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -4695,8 +5263,8 @@ var Simple = {
     compose: function (simpleAnimation) {
         if (typeof simpleAnimation.from !== 'string' && typeof simpleAnimation.to !== 'string') {
             var bArray = Array.isArray(simpleAnimation.from) || Array.isArray(simpleAnimation.to);
-            var from_1 = bArray ? (0,_Utilites__WEBPACK_IMPORTED_MODULE_2__.toArray)(simpleAnimation.from) : simpleAnimation.from;
-            var to_1 = bArray ? (0,_Utilites__WEBPACK_IMPORTED_MODULE_2__.toArray)(simpleAnimation.to) : simpleAnimation.to;
+            var from_1 = bArray ? (0,_Utilites__WEBPACK_IMPORTED_MODULE_1__.toArray)(simpleAnimation.from) : simpleAnimation.from;
+            var to_1 = bArray ? (0,_Utilites__WEBPACK_IMPORTED_MODULE_1__.toArray)(simpleAnimation.to) : simpleAnimation.to;
             var vCallback_1 = bArray
                 ? function (current_index, v) {
                     var a = (simpleAnimation.invertOdd && current_index % 2 == 1 ? to_1 : from_1);
@@ -4715,14 +5283,17 @@ var Simple = {
             });
         }
         else {
-            var from_2 = new _pups_core_build_Models_Color_ColorManager__WEBPACK_IMPORTED_MODULE_0__.default(simpleAnimation.from);
-            var to_2 = new _pups_core_build_Models_Color_ColorManager__WEBPACK_IMPORTED_MODULE_0__.default(simpleAnimation.to);
+            var from_2 = (0,_Color__WEBPACK_IMPORTED_MODULE_2__.parseColorAndConvert)(simpleAnimation.from);
+            var to_2 = (0,_Color__WEBPACK_IMPORTED_MODULE_2__.parseColorAndConvert)(simpleAnimation.to);
             var vCallback_2 = simpleAnimation.colorTransitionMode == 'hue' ? interpolateColorHSL : interpolateColorRGB;
-            return createSimpleAnimationCallback(simpleAnimation, function (props, v) {
-                var a = simpleAnimation.invertOdd && props.repetition.index % 2 == 1 ? to_2 : from_2;
-                var b = simpleAnimation.invertOdd && props.repetition.index % 2 == 1 ? from_2 : to_2;
-                return vCallback_2(a, b, v);
-            });
+            if (typeof from_2 !== 'undefined' && typeof to_2 !== 'undefined') {
+                return createSimpleAnimationCallback(simpleAnimation, function (props, v) {
+                    var a = simpleAnimation.invertOdd && props.repetition.index % 2 == 1 ? to_2 : from_2;
+                    var b = simpleAnimation.invertOdd && props.repetition.index % 2 == 1 ? from_2 : to_2;
+                    return vCallback_2(a, b, v);
+                });
+            }
+            return function () { return 0; };
         }
     },
 };
@@ -4735,11 +5306,11 @@ function createSimpleAnimationCallback(animation, value) {
                     ? 0
                     : props.time - delay >= durate
                         ? 1
-                        : _Easings__WEBPACK_IMPORTED_MODULE_1__.default[modeFunction](props.time - delay, 0, 1, durate));
+                        : _Easings__WEBPACK_IMPORTED_MODULE_0__.default[modeFunction](props.time - delay, 0, 1, durate));
             };
         else
             return function SimpleAnimation(props) {
-                return value(props, props.time <= durate ? _Easings__WEBPACK_IMPORTED_MODULE_1__.default[modeFunction](props.time, 0, 1 - 0, durate) : 1);
+                return value(props, props.time <= durate ? _Easings__WEBPACK_IMPORTED_MODULE_0__.default[modeFunction](props.time, 0, 1 - 0, durate) : 1);
             };
     }
     else {
@@ -4755,8 +5326,8 @@ function createSimpleAnimationCallback(animation, value) {
                     var d2 = durate / 2;
                     var t = props.time % durate;
                     return value(props, t <= d2
-                        ? _Easings__WEBPACK_IMPORTED_MODULE_1__.default[modeFunction](t, 0, 1, d2)
-                        : _Easings__WEBPACK_IMPORTED_MODULE_1__.default[modeFunction](d2 - (t - d2), 0, 1, d2));
+                        ? _Easings__WEBPACK_IMPORTED_MODULE_0__.default[modeFunction](t, 0, 1, d2)
+                        : _Easings__WEBPACK_IMPORTED_MODULE_0__.default[modeFunction](d2 - (t - d2), 0, 1, d2));
                 };
             }
         } // uncontrolled-loop
@@ -4777,38 +5348,30 @@ function createSimpleAnimationCallback(animation, value) {
                             ? 0
                             : time - delay >= durate
                                 ? 1
-                                : _Easings__WEBPACK_IMPORTED_MODULE_1__.default[modeFunction](time - delay, 0, 1, durate));
+                                : _Easings__WEBPACK_IMPORTED_MODULE_0__.default[modeFunction](time - delay, 0, 1, durate));
                     };
                 else
                     return function SimpleAnimation(props) {
                         var time = props.time % durate;
-                        return value(props, time <= durate ? _Easings__WEBPACK_IMPORTED_MODULE_1__.default[modeFunction](time, 0, 1 - 0, durate) : 1);
+                        return value(props, time <= durate ? _Easings__WEBPACK_IMPORTED_MODULE_0__.default[modeFunction](time, 0, 1 - 0, durate) : 1);
                     };
             }
         }
     }
 }
 function interpolateColorRGB(start, end, v) {
-    var aAlpha = start.getAlpha();
-    var bAlpha = end.getAlpha();
-    var s = start.getRgb();
-    var e = end.getRgb();
-    var r = s.r + v * (e.r - s.r);
-    var g = s.g + v * (e.g - s.g);
-    var b = s.b + v * (e.b - s.b);
-    var alpha = aAlpha + v * (bAlpha - aAlpha);
-    return "rgba(" + Math.floor(r) + "," + Math.floor(g) + "," + Math.floor(b) + "," + (alpha <= 0 ? 0 : alpha >= 1 ? 1 : alpha) + ")";
+    var r = start.r + v * (end.r - start.r);
+    var g = start.g + v * (end.g - start.g);
+    var b = start.b + v * (end.b - start.b);
+    var alpha = start.alpha + v * (end.alpha - start.alpha);
+    return "rgba(" + Math.floor(r) + "," + Math.floor(g) + "," + Math.floor(b) + "," + alpha + ")";
 }
 function interpolateColorHSL(start, end, v) {
-    var aAlpha = start.getAlpha();
-    var bAlpha = end.getAlpha();
-    var s = start.getHsl();
-    var e = end.getHsl();
-    var _h = s.h + v * (e.h - s.h);
-    var _s = s.s + v * (e.s - s.s);
-    var _l = s.l + v * (e.l - s.l);
-    var alpha = aAlpha + v * (bAlpha - aAlpha);
-    return "hsla(" + Math.floor(_h * 360) + "," + Math.floor(_s * 100) + "%," + Math.floor(_l * 100) + "%," + (alpha <= 0 ? 0 : alpha >= 1 ? 1 : alpha) + ")";
+    var h = start.h + v * (end.h - start.h);
+    var s = start.s + v * (end.s - start.s);
+    var l = start.l + v * (end.l - start.l);
+    var alpha = start.alpha + v * (end.alpha - start.alpha);
+    return "hsla(" + h + "," + s + "%," + l + "%," + alpha + ")";
 }
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Simple);
 //# sourceMappingURL=Simple.js.map
@@ -4834,6 +5397,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _timeline_Timeline__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../timeline/Timeline */ "./dist/services/timeline/Timeline.js");
 /* harmony import */ var _scene_utilities_SceneUtilities__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../scene-utilities/SceneUtilities */ "./dist/services/scene-utilities/SceneUtilities.js");
 /* harmony import */ var _events_Emitter__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../events/Emitter */ "./dist/services/events/Emitter.js");
+/* harmony import */ var _Color__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../Color */ "./dist/Color.js");
+/* harmony import */ var _core_math__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../core/math */ "./dist/core/math/index.js");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -4862,6 +5427,8 @@ var __assign = (undefined && undefined.__assign) || function () {
 
 
 
+
+
 /**
  * Abstract Drawer
  *
@@ -4874,17 +5441,16 @@ var __assign = (undefined && undefined.__assign) || function () {
  */
 var Drawer = /** @class */ (function (_super) {
     __extends(Drawer, _super);
-    function Drawer(scene, ratio, resolution, duration, framerate) {
+    function Drawer(scene, ratio, duration, framerate) {
         if (scene === void 0) { scene = undefined; }
         if (ratio === void 0) { ratio = undefined; }
-        if (resolution === void 0) { resolution = 0; }
         var _this = _super.call(this) || this;
         _this.timeline = new _timeline_Timeline__WEBPACK_IMPORTED_MODULE_1__.default(duration, framerate);
-        _this.resolution = resolution || (scene && scene.width ? scene.width : 0);
         _this.ratio = ratio || (scene && scene.width && scene.height ? scene.width / scene.height : 1);
         if (scene) {
-            var width = _this.ratio >= 1 ? scene.width : scene.width * _this.ratio;
-            var height = _this.ratio >= 1 ? scene.height / _this.ratio : scene.height;
+            var size = Math.max(scene.width, scene.height);
+            var width = _this.ratio >= 1 ? size : size * _this.ratio;
+            var height = _this.ratio >= 1 ? size / _this.ratio : size;
             scene.resize(width, height);
             _this.setScene(scene);
         }
@@ -4903,8 +5469,7 @@ var Drawer = /** @class */ (function (_super) {
      */
     Drawer.prototype.setScene = function (scene) {
         this.scene = scene;
-        if (!this.resolution && this.scene.width)
-            this.resolution = this.scene.width;
+        // if (!this.resolution && this.scene.width) this.resolution = this.scene.width
     };
     /**
      * Return scene
@@ -4929,22 +5494,22 @@ var Drawer = /** @class */ (function (_super) {
      * @param {number} height
      * @param {number} [ratio]
      */
-    Drawer.prototype.resize = function (width, height, ratio, resolution) {
+    Drawer.prototype.resize = function (width, height, ratio) {
         var _this = this;
         ratio = ratio || this.ratio || width / height;
         var size = Math.max(width, height);
         width = ratio >= 1 ? size : size * ratio;
         height = ratio >= 1 ? size / ratio : size;
         this.ratio = ratio;
-        if (this.scene)
+        if (this.scene) {
             this.scene.resize(width, height);
-        if (resolution && resolution !== this.resolution && this.scene) {
-            this.resolution = resolution;
             _core_Scene__WEBPACK_IMPORTED_MODULE_0__.default.walk(function (sceneChild) {
-                var props = sceneChild.data.props;
-                Object.keys(props).forEach(function (name) {
-                    _scene_utilities_SceneUtilities__WEBPACK_IMPORTED_MODULE_2__.default.setProp(sceneChild, name, props[name], _this);
-                });
+                if (sceneChild.data && sceneChild.data.props) {
+                    var props_1 = sceneChild.data.props;
+                    Object.keys(props_1).forEach(function (name) {
+                        _scene_utilities_SceneUtilities__WEBPACK_IMPORTED_MODULE_2__.default.setProp(sceneChild, name, props_1[name], _this);
+                    });
+                }
             }, this.scene);
         }
     };
@@ -4953,25 +5518,15 @@ var Drawer = /** @class */ (function (_super) {
      *
      */
     Drawer.prototype.setRatio = function (ratio) {
-        this.resize(this.scene.width, this.scene.height, ratio);
+        if (this.scene) {
+            this.resize(this.scene.width, this.scene.height, ratio);
+        }
     };
     /**
      * Return drawer ratio
      */
     Drawer.prototype.getRatio = function () {
         return this.ratio;
-    };
-    /**
-     * Get resolution
-     */
-    Drawer.prototype.getResolution = function () {
-        return this.resolution;
-    };
-    /**
-     * Get resolution of drawer
-     */
-    Drawer.prototype.setResolution = function (resolution) {
-        this.resize(this.scene.width, this.scene.height, this.ratio, resolution);
     };
     /**
      * Get scene value scaled based on resolution
@@ -5084,6 +5639,24 @@ var Drawer = /** @class */ (function (_super) {
         }
     };
     /**
+     * Return a style value
+     *
+     * @static
+     * @template T
+     * @param {ShapePrimitive<T>} shape
+     * @param {keyof T} key
+     * @param {IDrawerPropArguments} propArguments
+     * @param {*} [defaultValue]
+     * @returns {*}
+     */
+    Drawer.getStreamDrawerProp = function (shape, key, propArguments, defaultValue) {
+        var attribute = shape.style[key];
+        if (typeof attribute === 'function') {
+            attribute = attribute(propArguments);
+        }
+        return attribute !== null && attribute !== void 0 ? attribute : defaultValue;
+    };
+    /**
      * Each ghosts index and create drawerOptions to pass at the draw method
      *
      * @static
@@ -5097,13 +5670,20 @@ var Drawer = /** @class */ (function (_super) {
             var ghostDrawerOptions = __assign({}, drawerOptions);
             var drawAtTime = timeline.getTime();
             var sequenceDurate = timeline.getDurate();
+            var ghostRepetition = {
+                offset: 0,
+                index: 0,
+                count: drawerOptions.ghosts,
+            };
             for (var i = 1; i <= drawerOptions.ghosts; i++) {
+                ghostRepetition.index = i;
+                ghostRepetition.offset = ghostRepetition.index / ghostRepetition.count;
                 var ghostTime = drawAtTime -
                     (drawerOptions.ghostSkipFunction
-                        ? drawerOptions.ghostSkipFunction(i)
+                        ? drawerOptions.ghostSkipFunction(ghostRepetition, drawAtTime)
                         : i * drawerOptions.ghostSkipTime);
                 ghostDrawerOptions.ghostIndex = i;
-                ghostDrawerOptions.time = (ghostTime + sequenceDurate) % sequenceDurate;
+                ghostDrawerOptions.time = (0,_core_math__WEBPACK_IMPORTED_MODULE_5__.pmod)(ghostTime, sequenceDurate);
                 ghostCallback(ghostDrawerOptions);
             }
         }
@@ -5112,18 +5692,21 @@ var Drawer = /** @class */ (function (_super) {
      * Create color based on ghostMultiplier
      *
      * @static
-     * @param {string} color
+     * @param {any} color
      * @param {number} ghostMultiplier
      * @return {*}  {(string | undefined)}
      */
     Drawer.ghostifyColor = function (color, ghostMultiplier) {
-        var match = /\((.+),(.+),(.+),(.+)?\)/g.exec(color);
-        if (match) {
-            var _a = match, a = _a[1], b = _a[2], c = _a[3], o = _a[4];
-            var alpha = o ? parseFloat(o) : 1;
-            var ghostAlpha = alpha <= 0 ? 0 : alpha * ghostMultiplier;
-            return color.indexOf('rgb') >= 0 ? "rgba(" + a + "," + b + "," + c + "," + ghostAlpha + ")" : "hsla(" + a + "," + b + "," + c + "," + ghostAlpha + ")";
+        if (typeof color === 'string' || typeof color === 'number') {
+            var parsed = (0,_Color__WEBPACK_IMPORTED_MODULE_4__.parseColor)(color);
+            if (parsed) {
+                var ghostAlpha = parsed.alpha * ghostMultiplier;
+                return parsed.type === 'rgb'
+                    ? "rgba(" + parsed.a + "," + parsed.b + "," + parsed.c + "," + ghostAlpha + ")"
+                    : "hsla(" + parsed.a + "," + parsed.b + "%," + parsed.c + "%," + ghostAlpha + ")";
+            }
         }
+        return color;
     };
     return Drawer;
 }(_events_Emitter__WEBPACK_IMPORTED_MODULE_3__.default));
@@ -5147,10 +5730,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-/* harmony import */ var _FrameBuffer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FrameBuffer */ "./dist/services/drawers/drawer-canvas/FrameBuffer.js");
-/* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../Utilites */ "./dist/Utilites.js");
-/* harmony import */ var gl_matrix__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! gl-matrix */ "./node_modules/gl-matrix/esm/vec2.js");
-/* harmony import */ var _Drawer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Drawer */ "./dist/services/drawers/Drawer.js");
+/* harmony import */ var _Drawer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Drawer */ "./dist/services/drawers/Drawer.js");
+/* harmony import */ var _FrameBuffer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FrameBuffer */ "./dist/services/drawers/drawer-canvas/FrameBuffer.js");
+/* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../Utilites */ "./dist/Utilites.js");
+/* harmony import */ var _core_math_Vec2__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../core/math/Vec2 */ "./dist/core/math/Vec2.js");
+/* harmony import */ var _core_Context__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../core/Context */ "./dist/core/Context.js");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -5179,6 +5763,7 @@ var __assign = (undefined && undefined.__assign) || function () {
 
 
 
+
 /**
  *
  * @category Services.Drawer
@@ -5186,16 +5771,30 @@ var __assign = (undefined && undefined.__assign) || function () {
  */
 var DrawerCanvas = /** @class */ (function (_super) {
     __extends(DrawerCanvas, _super);
-    function DrawerCanvas(scene, canvasOrContainer, drawerOptions, ratio, resolution, duration, framerate, bBuffering) {
+    function DrawerCanvas(scene, canvasOrContainer, drawerOptions, ratio, duration, framerate, bBuffering) {
         if (drawerOptions === void 0) { drawerOptions = {}; }
         if (ratio === void 0) { ratio = undefined; }
-        if (resolution === void 0) { resolution = 0; }
         if (bBuffering === void 0) { bBuffering = false; }
-        var _a, _b, _c, _d, _e, _f, _g, _h;
-        var _this = _super.call(this, scene, ratio, resolution, duration, framerate) || this;
+        var _a, _b, _c, _d, _e;
+        var _this = _super.call(this, scene, ratio, duration, framerate) || this;
         _this.bBuffering = false;
+        _this.drawerOptions = {
+            // scale: drawerOptions.scale ?? 1,
+            // translate: drawerOptions.translate ?? [0, 0],
+            time: (_a = drawerOptions.time) !== null && _a !== void 0 ? _a : 0,
+            simmetricLines: (_b = drawerOptions.simmetricLines) !== null && _b !== void 0 ? _b : 0,
+            clear: (_c = drawerOptions.clear) !== null && _c !== void 0 ? _c : true,
+            // fixedLineWidth: drawerOptions.fixedLineWidth ?? false,
+            noBackground: (_d = drawerOptions.noBackground) !== null && _d !== void 0 ? _d : false,
+            ghosts: drawerOptions.ghosts || 0,
+            ghostAlpha: drawerOptions.ghostAlpha === false ? false : true,
+            ghostSkipTime: (_e = drawerOptions.ghostSkipTime) !== null && _e !== void 0 ? _e : 30,
+            ghostSkipFunction: drawerOptions.ghostSkipFunction,
+            backgroundImage: drawerOptions.backgroundImage,
+            backgroundImageFit: drawerOptions.backgroundImageFit || 'cover',
+        };
         _this.bBuffering = bBuffering;
-        _this.buffer = new _FrameBuffer__WEBPACK_IMPORTED_MODULE_0__.default();
+        _this.buffer = new _FrameBuffer__WEBPACK_IMPORTED_MODULE_1__.default();
         if ((typeof HTMLCanvasElement !== 'undefined' && canvasOrContainer instanceof HTMLCanvasElement) ||
             (typeof OffscreenCanvas !== 'undefined' && canvasOrContainer instanceof OffscreenCanvas)) {
             var canvas = canvasOrContainer;
@@ -5207,20 +5806,6 @@ var DrawerCanvas = /** @class */ (function (_super) {
             container.appendChild(canvas);
             _this.setCanvas(canvas);
         }
-        _this.drawerOptions = {
-            scale: (_a = drawerOptions.scale) !== null && _a !== void 0 ? _a : 1,
-            translate: (_b = drawerOptions.translate) !== null && _b !== void 0 ? _b : [0, 0],
-            time: (_c = drawerOptions.time) !== null && _c !== void 0 ? _c : 0,
-            simmetricLines: (_d = drawerOptions.simmetricLines) !== null && _d !== void 0 ? _d : 0,
-            clear: (_e = drawerOptions.clear) !== null && _e !== void 0 ? _e : true,
-            fixedLineWidth: (_f = drawerOptions.fixedLineWidth) !== null && _f !== void 0 ? _f : false,
-            noBackground: (_g = drawerOptions.noBackground) !== null && _g !== void 0 ? _g : false,
-            ghosts: drawerOptions.ghosts || 0,
-            ghostSkipTime: (_h = drawerOptions.ghostSkipTime) !== null && _h !== void 0 ? _h : 30,
-            ghostSkipFunction: drawerOptions.ghostSkipFunction,
-            backgroundImage: drawerOptions.backgroundImage,
-            backgroundImageFit: drawerOptions.backgroundImageFit || 'cover',
-        };
         return _this;
     }
     DrawerCanvas.prototype.setBuffering = function (bBuffering) {
@@ -5267,7 +5852,7 @@ var DrawerCanvas = /** @class */ (function (_super) {
         this.canvas = canvas;
         this.context = this.canvas.getContext('2d', {
             alpha: true,
-            desynchronized: false,
+            desynchronized: true,
         });
         if (this.scene) {
             this.resize(this.scene.width, this.scene.height); // and flush
@@ -5297,12 +5882,11 @@ var DrawerCanvas = /** @class */ (function (_super) {
      * @param {number} width
      * @param {number} height
      * @param {number} [ratio]
-     * @param {number} [resolution]
      * @memberof DrawerCanvas
      */
-    DrawerCanvas.prototype.resize = function (width, height, ratio, resolution) {
-        _super.prototype.resize.call(this, width, height, ratio, resolution);
-        if (this.canvas) {
+    DrawerCanvas.prototype.resize = function (width, height, ratio) {
+        _super.prototype.resize.call(this, width, height, ratio);
+        if (this.canvas && this.scene) {
             this.canvas.width = this.scene.width;
             this.canvas.height = this.scene.height;
             if (typeof HTMLCanvasElement !== 'undefined' && this.canvas instanceof HTMLCanvasElement) {
@@ -5312,6 +5896,7 @@ var DrawerCanvas = /** @class */ (function (_super) {
         }
         this.flushBuffer();
         this.dispatch('drawer-canvas:resize');
+        this.redraw();
     };
     DrawerCanvas.prototype.flushBuffer = function () {
         if (this.bBuffering) {
@@ -5398,10 +5983,12 @@ var DrawerCanvas = /** @class */ (function (_super) {
     DrawerCanvas.prototype.draw = function () {
         var _this = this;
         var _a;
+        if (typeof this.scene === 'undefined')
+            return -1;
         var draw_time = 0;
         var timeline = this.timeline;
         var drawAtTime = timeline.getTime();
-        var drawerOptions = __assign(__assign({}, this.drawerOptions), { ghostIndex: undefined, clear: this.drawerOptions.clear || timeline.getCurrentFrame() <= 0, time: drawAtTime });
+        var drawerOptions = __assign(__assign({}, this.drawerOptions), { ghostIndex: undefined, clear: this.drawerOptions.clear || timeline.getCurrentFrame() <= 1, time: drawAtTime });
         var currentFrame = timeline.getFrameAtTime(drawAtTime);
         this.dispatch('drawer-canvas:before_draw', {
             currentFrame: currentFrame,
@@ -5412,13 +5999,13 @@ var DrawerCanvas = /** @class */ (function (_super) {
         }
         else {
             if (drawerOptions.ghosts) {
-                _Drawer__WEBPACK_IMPORTED_MODULE_2__.default.eachGhosts(drawerOptions, timeline, function (ghostDrawerOptions) {
+                _Drawer__WEBPACK_IMPORTED_MODULE_0__.default.eachGhosts(drawerOptions, timeline, function (ghostDrawerOptions) {
                     ghostDrawerOptions.clear = drawerOptions.clear && ghostDrawerOptions.ghostIndex === 1;
-                    draw_time += DrawerCanvas.draw(_this.scene, _this.context, ghostDrawerOptions, _this.resolution);
+                    draw_time += DrawerCanvas.draw(_this.scene, _this.context, ghostDrawerOptions);
                 });
                 drawerOptions.clear = false;
             }
-            draw_time += DrawerCanvas.draw(this.scene, this.context, drawerOptions, this.resolution);
+            draw_time += DrawerCanvas.draw(this.scene, this.context, drawerOptions);
             if (this.bBuffering && this.context) {
                 this.buffer.push(currentFrame, this.context);
                 if (this.buffer.count() >= this.timeline.getFramesCount()) {
@@ -5459,16 +6046,16 @@ var DrawerCanvas = /** @class */ (function (_super) {
      * @returns {number}
      * @memberof DrawerCanvas
      */
-    DrawerCanvas.draw = function (scene, context, options, resolution) {
-        var _a, _b, _c, _d;
-        var start_time = (0,_Utilites__WEBPACK_IMPORTED_MODULE_1__.now)();
+    DrawerCanvas.draw = function (scene, context, options) {
+        var _a, _b;
+        var start_time = (0,_Utilites__WEBPACK_IMPORTED_MODULE_2__.now)();
         if (context) {
             context.globalCompositeOperation = 'source-over';
-            var scale_1 = (_a = options.scale) !== null && _a !== void 0 ? _a : 1;
-            var translate = (_b = options.translate) !== null && _b !== void 0 ? _b : [0, 0];
-            var time_1 = (_c = options.time) !== null && _c !== void 0 ? _c : 0;
-            var simmetricLines = (_d = options.simmetricLines) !== null && _d !== void 0 ? _d : 0;
-            var fixedLineWidth_1 = options.fixedLineWidth;
+            // const scale: number = options.scale ?? 1
+            // const translate: Array<number> = options.translate ?? [0, 0]
+            var time_1 = (_a = options.time) !== null && _a !== void 0 ? _a : 0;
+            var simmetricLines = (_b = options.simmetricLines) !== null && _b !== void 0 ? _b : 0;
+            // const fixedLineWidth: boolean | undefined = options.fixedLineWidth
             var clear = options.clear;
             var noBackground = options.noBackground;
             var backgroundImage = options.backgroundImage;
@@ -5479,134 +6066,189 @@ var DrawerCanvas = /** @class */ (function (_super) {
             var ghostMultiplier_1 = bGhost_1
                 ? 1 - options.ghostIndex / (options.ghosts + 0.5)
                 : 0;
-            var width_1 = scene.width;
-            var height_1 = scene.height;
-            var ratio = width_1 / height_1;
-            var ratio_x = width_1 > height_1 ? 1 : height_1 / width_1;
-            var ratio_y = width_1 > height_1 ? width_1 / height_1 : 1;
-            resolution = resolution || width_1;
-            var final_scale_1 = [(width_1 / (resolution / ratio_x)) * scale_1, (height_1 / (resolution / ratio_y)) * scale_1];
-            var final_translate_1 = [
-                width_1 / 2 - (scale_1 > 1 ? (translate[0] * width_1) / (1 / ((scale_1 - 1) / 2)) : 0),
-                height_1 / 2 - (scale_1 > 1 ? (translate[1] * height_1) / (1 / ((scale_1 - 1) / 2)) : 0),
-            ];
+            var ghostAlpha_1 = options.ghostAlpha === true;
+            var width = scene.width;
+            var height = scene.height;
+            var ratio = width / height;
+            // const ratio_x = width > height ? 1 : height / width
+            // const ratio_y = width > height ? width / height : 1
+            // resolution = resolution || width
+            // const final_scale = [(width / (resolution / ratio_x)) * scale, (height / (resolution / ratio_y)) * scale]
+            // const final_translate = [
+            // 	width / 2 - (scale > 1 ? (translate[0] * width) / (1 / ((scale - 1) / 2)) : 0),
+            // 	height / 2 - (scale > 1 ? (translate[1] * height) / (1 / ((scale - 1) / 2)) : 0),
+            // ]
             if (clear) {
                 if (noBackground) {
-                    context.clearRect(0, 0, width_1, height_1);
+                    context.clearRect(0, 0, width, height);
                 }
                 else {
                     context.fillStyle = scene.background;
-                    context.fillRect(0, 0, width_1, height_1);
+                    context.fillRect(0, 0, width, height);
                     if (backgroundImage) {
                         var sourceWidth = backgroundImage instanceof SVGImageElement ? backgroundImage.width.baseVal.value : backgroundImage.width;
                         var sourceHeight = backgroundImage instanceof SVGImageElement ? backgroundImage.height.baseVal.value : backgroundImage.height;
                         var sourceRatio = sourceWidth / sourceHeight;
-                        var x = 0, y = 0, bgWidth = width_1, bgHeight = height_1;
+                        var x = 0, y = 0, bgWidth = width, bgHeight = height;
                         if (sourceRatio !== ratio) {
                             if (options.backgroundImageFit === 'contain') {
-                                bgWidth = ratio > sourceRatio ? (sourceWidth * height_1) / sourceHeight : width_1;
-                                bgHeight = ratio > sourceRatio ? height_1 : (sourceHeight * width_1) / sourceWidth;
+                                bgWidth = ratio > sourceRatio ? (sourceWidth * height) / sourceHeight : width;
+                                bgHeight = ratio > sourceRatio ? height : (sourceHeight * width) / sourceWidth;
                             }
                             else {
-                                bgWidth = ratio < sourceRatio ? (sourceWidth * height_1) / sourceHeight : width_1;
-                                bgHeight = ratio < sourceRatio ? height_1 : (sourceHeight * width_1) / sourceWidth;
+                                bgWidth = ratio < sourceRatio ? (sourceWidth * height) / sourceHeight : width;
+                                bgHeight = ratio < sourceRatio ? height : (sourceHeight * width) / sourceWidth;
                             }
-                            x = (width_1 - bgWidth) / 2;
-                            y = (height_1 - bgHeight) / 2;
+                            x = (width - bgWidth) / 2;
+                            y = (height - bgHeight) / 2;
                         }
                         context.drawImage(backgroundImage, x, y, bgWidth, bgHeight);
                     }
                 }
-            }
-            if (simmetricLines > 0) {
-                DrawerCanvas.drawSimmetricLines(context, simmetricLines, width_1, height_1, final_scale_1, final_translate_1, scene.color);
+                if (simmetricLines > 0) {
+                    DrawerCanvas.drawSimmetricLines(context, simmetricLines, width, height, 
+                    // final_scale,
+                    // final_translate,
+                    scene.color);
+                }
             }
             {
                 var logFillColorWarn_1 = false;
                 var logStrokeColorWarn_1 = false;
+                var oldComposite_1 = 'source-over';
                 scene.currentTime = time_1;
                 scene.getChildren().forEach(function (sceneChild) {
                     if (!sceneChild.data ||
-                        !(sceneChild.data.visible === false) ||
-                        !(bGhost_1 && sceneChild.data.disableGhost === true)) {
+                        (!(sceneChild.data.visible === false) && !(bGhost_1 && sceneChild.data.disableGhost === true))) {
                         sceneChild.generate(time_1, true);
-                        sceneChild.stream(function (streamCallback) {
-                            var shapeData = streamCallback.shape.data;
-                            context.globalCompositeOperation = shapeData && shapeData.composite ? shapeData.composite : 'source-over';
+                        context.save();
+                        sceneChild.stream(function (stream) {
+                            var currentIndex = stream.currentIndexing;
+                            var shape = currentIndex.shape;
+                            var propArguments = {
+                                canvasContext: context,
+                                shape: shape,
+                                // singleRepetitionBounding: currentIndex.singleRepetitionBounding,
+                                repetition: currentIndex.repetition,
+                                parent: currentIndex.parent,
+                                time: scene.currentTime,
+                                context: _core_Context__WEBPACK_IMPORTED_MODULE_4__.default,
+                            };
+                            var composite = _Drawer__WEBPACK_IMPORTED_MODULE_0__.default.getStreamDrawerProp(shape, 'composite', propArguments, 'source-over');
+                            if (oldComposite_1 !== composite) {
+                                context.globalCompositeOperation = composite;
+                                oldComposite_1 = composite;
+                            }
                             context.beginPath();
-                            context.moveTo((streamCallback.buffer[streamCallback.frameBufferIndex] - width_1 / 2) * final_scale_1[0] +
-                                final_translate_1[0], (streamCallback.buffer[streamCallback.frameBufferIndex + 1] - height_1 / 2) * final_scale_1[1] +
-                                final_translate_1[1]);
-                            for (var i = 2; i < streamCallback.frameLength; i += 2) {
-                                context.lineTo((streamCallback.buffer[streamCallback.frameBufferIndex + i] - width_1 / 2) * final_scale_1[0] +
-                                    final_translate_1[0], (streamCallback.buffer[streamCallback.frameBufferIndex + i + 1] - height_1 / 2) * final_scale_1[1] +
-                                    final_translate_1[1]);
+                            // context.moveTo(
+                            // 	(stream.buffer[stream.frameBufferIndex] - width / 2) * final_scale[0] +
+                            // 		final_translate[0],
+                            // 	(stream.buffer[stream.frameBufferIndex + 1] - height / 2) * final_scale[1] +
+                            // 		final_translate[1]
+                            // )
+                            context.moveTo(stream.buffer[stream.frameBufferIndex], stream.buffer[stream.frameBufferIndex + 1]);
+                            for (var i = 2; i < stream.frameLength; i += 2) {
+                                // context.lineTo(
+                                // 	(stream.buffer[stream.frameBufferIndex + i] - width / 2) * final_scale[0] +
+                                // 		final_translate[0],
+                                // 	(stream.buffer[stream.frameBufferIndex + i + 1] - height / 2) * final_scale[1] +
+                                // 		final_translate[1]
+                                // )
+                                context.lineTo(stream.buffer[stream.frameBufferIndex + i], stream.buffer[stream.frameBufferIndex + i + 1]);
                             }
-                            streamCallback.shape.isClosed() && context.closePath();
-                            if (shapeData && shapeData.highlighted) {
-                                context.lineWidth = (streamCallback.lineWidth || 1) * 3 * scale_1;
-                                context.strokeStyle = scene.color;
-                                context.stroke();
-                                return;
-                            }
-                            if (streamCallback.fillColor) {
-                                if (bGhost_1) {
-                                    var color = _Drawer__WEBPACK_IMPORTED_MODULE_2__.default.ghostifyColor(streamCallback.fillColor, ghostMultiplier_1);
+                            currentIndex.shape.isClosed() && context.closePath();
+                            // if (shapeData && shapeData.highlighted) {
+                            // 	context.lineWidth = (stream.lineWidth || 1) * 3 * scale
+                            // 	context.strokeStyle = scene.color
+                            // 	context.stroke()
+                            // 	return
+                            // }
+                            var shadowColor = _Drawer__WEBPACK_IMPORTED_MODULE_0__.default.getStreamDrawerProp(shape, 'shadowColor', propArguments);
+                            var shadowBlur = _Drawer__WEBPACK_IMPORTED_MODULE_0__.default.getStreamDrawerProp(shape, 'shadowBlur', propArguments);
+                            var shadowOffsetX = _Drawer__WEBPACK_IMPORTED_MODULE_0__.default.getStreamDrawerProp(shape, 'shadowOffsetX', propArguments);
+                            var shadowOffsetY = _Drawer__WEBPACK_IMPORTED_MODULE_0__.default.getStreamDrawerProp(shape, 'shadowOffsetY', propArguments);
+                            context.shadowColor = shadowColor;
+                            context.shadowBlur = shadowBlur;
+                            shadowOffsetX && (context.shadowOffsetX = shadowOffsetX);
+                            shadowOffsetY && (context.shadowOffsetY = shadowOffsetY);
+                            var fill = _Drawer__WEBPACK_IMPORTED_MODULE_0__.default.getStreamDrawerProp(shape, 'fill', propArguments);
+                            if (typeof fill !== 'undefined') {
+                                if (bGhost_1 && ghostAlpha_1) {
+                                    var color = _Drawer__WEBPACK_IMPORTED_MODULE_0__.default.ghostifyColor(fill, ghostMultiplier_1);
                                     if (color) {
-                                        streamCallback.fillColor = color;
+                                        fill = color;
                                     }
                                     else if (!logFillColorWarn_1) {
-                                        console.warn("[Urpflanze:DrawerCanvas] Unable ghost fill color '" + streamCallback.fillColor + "', \n\t\t\t\t\t\t\t\t\tplease enter a rgba or hsla color");
+                                        console.warn("[Urpflanze:DrawerCanvas] Unable ghost fill color '" + fill + "',\n\t\t\t\t\t\t\t\t\tplease enter a rgba or hsla color");
                                         logFillColorWarn_1 = true;
                                     }
                                 }
-                                context.fillStyle = streamCallback.fillColor;
+                                context.fillStyle = fill;
                                 context.fill();
                             }
-                            if (streamCallback.strokeColor) {
-                                if (bGhost_1) {
-                                    var color = _Drawer__WEBPACK_IMPORTED_MODULE_2__.default.ghostifyColor(streamCallback.strokeColor, ghostMultiplier_1);
+                            var stroke = _Drawer__WEBPACK_IMPORTED_MODULE_0__.default.getStreamDrawerProp(shape, 'stroke', propArguments, typeof fill === 'undefined' ? scene.color : undefined);
+                            var lineWidth = _Drawer__WEBPACK_IMPORTED_MODULE_0__.default.getStreamDrawerProp(shape, 'lineWidth', propArguments, 1);
+                            if (stroke) {
+                                if (bGhost_1 && ghostAlpha_1) {
+                                    var color = _Drawer__WEBPACK_IMPORTED_MODULE_0__.default.ghostifyColor(stroke, ghostMultiplier_1);
                                     if (color) {
-                                        streamCallback.strokeColor = color;
+                                        stroke = color;
                                     }
                                     else if (!logStrokeColorWarn_1) {
-                                        console.warn("[Urpflanze:DrawerCanvas] Unable ghost stroke color '" + streamCallback.strokeColor + "', \n\t\t\t\t\t\t\t\t\tplease enter a rgba or hsla color");
+                                        console.warn("[Urpflanze:DrawerCanvas] Unable ghost stroke color '" + stroke + "',\n\t\t\t\t\t\t\t\t\tplease enter a rgba or hsla color");
                                         logStrokeColorWarn_1 = true;
                                     }
-                                    streamCallback.lineWidth *= ghostMultiplier_1;
+                                    lineWidth *= ghostMultiplier_1;
                                 }
-                                context.lineWidth = fixedLineWidth_1 ? streamCallback.lineWidth : streamCallback.lineWidth * scale_1;
-                                context.strokeStyle = streamCallback.strokeColor;
+                                var lineJoin = _Drawer__WEBPACK_IMPORTED_MODULE_0__.default.getStreamDrawerProp(shape, 'lineJoin', propArguments);
+                                var lineCap = _Drawer__WEBPACK_IMPORTED_MODULE_0__.default.getStreamDrawerProp(shape, 'lineCap', propArguments);
+                                var lineDash = _Drawer__WEBPACK_IMPORTED_MODULE_0__.default.getStreamDrawerProp(shape, 'lineDash', propArguments);
+                                var lineDashOffset = _Drawer__WEBPACK_IMPORTED_MODULE_0__.default.getStreamDrawerProp(shape, 'lineDashOffset', propArguments);
+                                var miterLimit = _Drawer__WEBPACK_IMPORTED_MODULE_0__.default.getStreamDrawerProp(shape, 'miterLimit', propArguments);
+                                context.setLineDash.call(context, lineDash || []);
+                                context.lineJoin = lineJoin;
+                                context.lineCap = lineCap;
+                                context.lineDashOffset = lineDashOffset;
+                                context.miterLimit = miterLimit;
+                                // context.lineWidth = fixedLineWidth ? streamCallback.lineWidth : streamCallback.lineWidth * scale
+                                context.lineWidth = lineWidth;
+                                context.strokeStyle = stroke;
                                 context.stroke();
                             }
                         });
+                        context.restore();
                     }
                 });
             }
         }
-        var end_time = (0,_Utilites__WEBPACK_IMPORTED_MODULE_1__.now)();
+        var end_time = (0,_Utilites__WEBPACK_IMPORTED_MODULE_2__.now)();
         return end_time - start_time;
     };
-    DrawerCanvas.drawSimmetricLines = function (context, simmetricLines, width, height, scale, translate, color) {
+    DrawerCanvas.drawSimmetricLines = function (context, simmetricLines, width, height, 
+    // scale: Array<number>,
+    // translate: Array<number>,
+    color) {
         var offset = Math.PI / simmetricLines;
-        var size = Math.max(width, height) / 2;
-        var center = gl_matrix__WEBPACK_IMPORTED_MODULE_3__.fromValues(size / 2, size / 2);
+        var size = Math.max(width, height);
+        var center = [size / 2, size / 2];
         for (var i = 0; i < simmetricLines; i++) {
-            var a = gl_matrix__WEBPACK_IMPORTED_MODULE_3__.fromValues(-size, -size);
-            var b = gl_matrix__WEBPACK_IMPORTED_MODULE_3__.fromValues(size * 2, size * 2);
+            var a = [-size, -size];
+            var b = [size * 2, size * 2];
             var rotate = i * offset + Math.PI / 4;
-            gl_matrix__WEBPACK_IMPORTED_MODULE_3__.rotate(a, a, center, rotate);
-            gl_matrix__WEBPACK_IMPORTED_MODULE_3__.rotate(b, b, center, rotate);
+            _core_math_Vec2__WEBPACK_IMPORTED_MODULE_3__.default.rotateZ(a, center, rotate);
+            _core_math_Vec2__WEBPACK_IMPORTED_MODULE_3__.default.rotateZ(b, center, rotate);
             context.beginPath();
             context.strokeStyle = color;
             context.lineWidth = 1;
-            context.moveTo((a[0] - size / 2) * scale[0] + translate[0], (a[1] - size / 2) * scale[1] + translate[1]);
-            context.lineTo((b[0] - size / 2) * scale[0] + translate[0], (b[1] - size / 2) * scale[1] + translate[1]);
+            context.moveTo(a[0], a[1]);
+            context.lineTo(b[0], b[1]);
+            // context.moveTo((a[0] - size / 2) * scale[0] + translate[0], (a[1] - size / 2) * scale[1] + translate[1])
+            // context.lineTo((b[0] - size / 2) * scale[0] + translate[0], (b[1] - size / 2) * scale[1] + translate[1])
             context.stroke();
         }
     };
     return DrawerCanvas;
-}(_Drawer__WEBPACK_IMPORTED_MODULE_2__.default));
+}(_Drawer__WEBPACK_IMPORTED_MODULE_0__.default));
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (DrawerCanvas);
 //# sourceMappingURL=DrawerCanvas.js.map
 
@@ -5678,6 +6320,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../Utilites */ "./dist/Utilites.js");
 /* harmony import */ var _Drawer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Drawer */ "./dist/services/drawers/Drawer.js");
+/* harmony import */ var ___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../.. */ "./dist/index.js");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -5704,6 +6347,7 @@ var __assign = (undefined && undefined.__assign) || function () {
 };
 
 
+
 /**
  * Abstract drawer
  *
@@ -5713,18 +6357,21 @@ var __assign = (undefined && undefined.__assign) || function () {
  */
 var DrawerSVG = /** @class */ (function (_super) {
     __extends(DrawerSVG, _super);
-    function DrawerSVG(scene, container, drawerOptions, ratio, resolution, duration, framerate) {
+    // private svgElement: SVGElement
+    function DrawerSVG(scene, container, drawerOptions, ratio, 
+    // resolution = 0,
+    duration, framerate) {
         if (drawerOptions === void 0) { drawerOptions = {}; }
         if (ratio === void 0) { ratio = undefined; }
-        if (resolution === void 0) { resolution = 0; }
         var _a, _b, _c;
-        var _this = _super.call(this, scene, ratio, resolution, duration, framerate) || this;
+        var _this = _super.call(this, scene, ratio, duration, framerate) || this;
         _this.container = container;
         _this.drawerOptions = {
             time: (_a = drawerOptions.time) !== null && _a !== void 0 ? _a : 0,
             decimals: drawerOptions.decimals || 2,
             noBackground: (_b = drawerOptions.noBackground) !== null && _b !== void 0 ? _b : false,
             ghosts: drawerOptions.ghosts || 0,
+            ghostAlpha: drawerOptions.ghostAlpha === false ? false : true,
             ghostSkipTime: (_c = drawerOptions.ghostSkipTime) !== null && _c !== void 0 ? _c : 30,
             ghostSkipFunction: drawerOptions.ghostSkipFunction,
         };
@@ -5738,6 +6385,8 @@ var DrawerSVG = /** @class */ (function (_super) {
      */
     DrawerSVG.prototype.draw = function () {
         var _this = this;
+        if (typeof this.scene === 'undefined')
+            return -1;
         var drawTime = 0;
         var timeline = this.timeline;
         var drawAtTime = timeline.getTime();
@@ -5788,6 +6437,7 @@ var DrawerSVG = /** @class */ (function (_super) {
             typeof options.ghostIndex !== 'undefined' &&
             options.ghostIndex > 0;
         var ghostMultiplier = bGhost ? 1 - options.ghostIndex / (options.ghosts + 0.5) : 0;
+        var ghostAlpha = options.ghostAlpha === true;
         var logFillColorWarn = false;
         var logStrokeColorWarn = false;
         scene.currentTime = time;
@@ -5796,44 +6446,57 @@ var DrawerSVG = /** @class */ (function (_super) {
                 !(sceneChild.data.visible === false) ||
                 !(bGhost && sceneChild.data.disableGhost === true)) {
                 sceneChild.generate(time, true);
-                sceneChild.stream(function (streamCallback) {
+                sceneChild.stream(function (stream) {
                     var tempPath = [];
-                    for (var i = 0; i < streamCallback.frameLength; i += 2) {
-                        tempPath.push(streamCallback.buffer[streamCallback.frameBufferIndex + i].toFixed(decimals) +
+                    var currentIndex = stream.currentIndexing;
+                    var shape = currentIndex.shape;
+                    var propArguments = {
+                        shape: shape,
+                        // singleRepetitionBounding: currentIndex.singleRepetitionBounding,
+                        repetition: currentIndex.repetition,
+                        parent: currentIndex.parent,
+                        time: scene.currentTime,
+                        context: ___WEBPACK_IMPORTED_MODULE_2__.Context,
+                    };
+                    for (var i = 0; i < stream.frameLength; i += 2) {
+                        tempPath.push(stream.buffer[stream.frameBufferIndex + i].toFixed(decimals) +
                             ' ' +
-                            streamCallback.buffer[streamCallback.frameBufferIndex + i + 1].toFixed(decimals));
+                            stream.buffer[stream.frameBufferIndex + i + 1].toFixed(decimals));
                     }
-                    if (streamCallback.fillColor) {
-                        if (bGhost) {
-                            var color = _Drawer__WEBPACK_IMPORTED_MODULE_1__.default.ghostifyColor(streamCallback.fillColor, ghostMultiplier);
+                    var fill = _Drawer__WEBPACK_IMPORTED_MODULE_1__.default.getStreamDrawerProp(shape, 'fill', propArguments);
+                    if (fill) {
+                        if (bGhost && ghostAlpha) {
+                            var color = _Drawer__WEBPACK_IMPORTED_MODULE_1__.default.ghostifyColor(fill, ghostMultiplier);
                             if (color) {
-                                streamCallback.fillColor = color;
+                                fill = color;
                             }
                             else if (!logFillColorWarn) {
-                                console.warn("[Urpflanze:DrawerCanvas] Unable ghost fill color '" + streamCallback.fillColor + "', \n                            please enter a rgba or hsla color");
+                                console.warn("[Urpflanze:DrawerCanvas] Unable ghost fill color '" + fill + "',\n\t\t\t\t            please enter a rgba or hsla color");
                                 logFillColorWarn = true;
                             }
                         }
                     }
-                    if (streamCallback.strokeColor) {
-                        if (bGhost) {
-                            var color = _Drawer__WEBPACK_IMPORTED_MODULE_1__.default.ghostifyColor(streamCallback.strokeColor, ghostMultiplier);
+                    var stroke = _Drawer__WEBPACK_IMPORTED_MODULE_1__.default.getStreamDrawerProp(shape, 'stroke', propArguments, typeof fill === 'undefined' ? scene.color : undefined);
+                    var lineWidth = _Drawer__WEBPACK_IMPORTED_MODULE_1__.default.getStreamDrawerProp(shape, 'lineWidth', propArguments, 1);
+                    if (stroke) {
+                        if (bGhost && ghostAlpha) {
+                            var color = _Drawer__WEBPACK_IMPORTED_MODULE_1__.default.ghostifyColor(stroke, ghostMultiplier);
                             if (color) {
-                                streamCallback.strokeColor = color;
+                                stroke = color;
                             }
                             else if (!logStrokeColorWarn) {
-                                console.warn("[Urpflanze:DrawerCanvas] Unable ghost stroke color '" + streamCallback.strokeColor + "', \n                            please enter a rgba or hsla color");
+                                console.warn("[Urpflanze:DrawerCanvas] Unable ghost stroke color '" + stroke + "',\n\t\t\t\t            please enter a rgba or hsla color");
                                 logStrokeColorWarn = true;
                             }
-                            streamCallback.lineWidth *= ghostMultiplier;
+                            lineWidth *= ghostMultiplier;
                         }
                     }
                     var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-                    path.setAttribute('d', "M" + tempPath.join(' L') + " " + (streamCallback.shape.isClosed() ? 'Z' : ''));
-                    path.setAttribute('fill', streamCallback.fillColor || 'none');
-                    if (streamCallback.strokeColor) {
-                        path.setAttribute('stroke', streamCallback.strokeColor);
-                        path.setAttribute('stroke-width', (streamCallback.lineWidth || 1) + '');
+                    path.setAttribute('d', "M" + tempPath.join(' L') + " " + (shape.isClosed() ? 'Z' : ''));
+                    path.setAttribute('fill', fill || 'none');
+                    if (stroke) {
+                        path.setAttribute('stroke', stroke);
+                        path.setAttribute('stroke-width', (lineWidth || 1) + '');
                     }
                     paths.push(path);
                 });
@@ -5984,15 +6647,9 @@ var JSONExporter = /** @class */ (function () {
     };
     JSONExporter.parseAsProject = function (drawer, name) {
         if (name === void 0) { name = 'EmptyProject'; }
-        var scene = drawer.getScene();
         var timeline = drawer.getTimeline();
         var project = _importers_JSONImporter__WEBPACK_IMPORTED_MODULE_6__.default.createEmptyProject();
         project.name = name;
-        project.width = scene.width;
-        project.height = scene.height;
-        project.resolution = drawer.getResolution();
-        project.color = scene.color;
-        project.background = scene.background;
         project.clear = drawer.getOption('clear', true);
         project.ghosts = drawer.getOption('ghosts', 0);
         project.ghostSkipTime = drawer.getOption('ghostSkipTime', undefined);
@@ -6001,9 +6658,17 @@ var JSONExporter = /** @class */ (function () {
         var _a = timeline.getSequence(), durate = _a.durate, framerate = _a.framerate;
         project.sequence = { durate: durate, framerate: framerate };
         project.scene = {};
-        var sceneChilds = scene.getChildren();
-        for (var i = 0, len = sceneChilds.length; i < len; i++) {
-            project.scene[sceneChilds[i].id] = JSONExporter.parseSceneChild(sceneChilds[i]);
+        var scene = drawer.getScene();
+        if (scene) {
+            project.width = scene.width;
+            project.height = scene.height;
+            // project.resolution = drawer.getResolution()
+            project.color = scene.color;
+            project.background = scene.background;
+            var sceneChilds = scene.getChildren();
+            for (var i = 0, len = sceneChilds.length; i < len; i++) {
+                project.scene[sceneChilds[i].id] = JSONExporter.parseSceneChild(sceneChilds[i]);
+            }
         }
         return project;
     };
@@ -6104,7 +6769,7 @@ var SVGExporter = /** @class */ (function () {
         var scene = drawer.getScene();
         var drawerOptions = __assign(__assign({}, drawer.getOptions()), { time: settings.time, decimals: Math.floor(settings.quality * 4), noBackground: settings.noBackground });
         var container = document.createElement('div');
-        var tmp = new _drawers_drawer_svg_DrawerSVG__WEBPACK_IMPORTED_MODULE_0__.default(scene, container, drawerOptions, drawer.getRatio(), drawer.getResolution());
+        var tmp = new _drawers_drawer_svg_DrawerSVG__WEBPACK_IMPORTED_MODULE_0__.default(scene, container, drawerOptions, drawer.getRatio());
         var tmpTimeline = tmp.getTimeline();
         tmpTimeline.setDurate(drawer.getTimeline().getDurate());
         tmpTimeline.setTime(drawerOptions.time || 0);
@@ -6162,7 +6827,14 @@ var __assign = (undefined && undefined.__assign) || function () {
 var JSONImporter = /** @class */ (function () {
     function JSONImporter() {
     }
-    JSONImporter.prototype.parse = function (project_json) {
+    /**
+     * Parse string to DrawerCanvas
+     *
+     * @static
+     * @param {string} project_json
+     * @returns {(DrawerCanvas | null)}
+     */
+    JSONImporter.parse = function (project_json) {
         var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
         if (!project_json)
             return null;
@@ -6202,12 +6874,12 @@ var JSONImporter = /** @class */ (function () {
         timeline.setSequence(project.sequence.durate, project.sequence.framerate);
         var sceneChilds = Object.values(project.scene || []);
         for (var i = 0, len = sceneChilds.length; i < len; i++) {
-            var sceneChild = this.parseSceneChild(sceneChilds[i], drawer);
+            var sceneChild = JSONImporter.parseSceneChild(sceneChilds[i], drawer);
             sceneChild && scene.add(sceneChild);
         }
         return drawer;
     };
-    JSONImporter.prototype.parseSceneChild = function (projectSceneChild, drawer) {
+    JSONImporter.parseSceneChild = function (projectSceneChild, drawer) {
         var shape = typeof projectSceneChild.shape !== 'undefined'
             ? Float32Array.from(Object.values(projectSceneChild.shape))
             : undefined;
@@ -6231,7 +6903,7 @@ var JSONImporter = /** @class */ (function () {
             });
             if (projectSceneChild.children && projectSceneChild.children.length > 0) {
                 for (var i = 0, len = projectSceneChild.children.length; i < len; i++) {
-                    var child = this.parseSceneChild(projectSceneChild.children[i], drawer);
+                    var child = JSONImporter.parseSceneChild(projectSceneChild.children[i], drawer);
                     child && _scene_utilities_SceneUtilities__WEBPACK_IMPORTED_MODULE_3__.default.add(sceneChild, child);
                 }
             }
@@ -6240,6 +6912,11 @@ var JSONImporter = /** @class */ (function () {
         console.warn("[Urpflanze:JSONImporter] can't import", projectSceneChild);
         return null;
     };
+    /**
+     * Empty project with default value
+     *
+     * @static
+     */
     JSONImporter.createEmptyProject = function () {
         return {
             id: (0,uuid__WEBPACK_IMPORTED_MODULE_4__.default)(),
@@ -6264,6 +6941,500 @@ var JSONImporter = /** @class */ (function () {
 }());
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (JSONImporter);
 //# sourceMappingURL=JSONImporter.js.map
+
+/***/ }),
+
+/***/ "./dist/services/importers/SVGImporter.js":
+/*!************************************************!*\
+  !*** ./dist/services/importers/SVGImporter.js ***!
+  \************************************************/
+/*! namespace exports */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_require__.n, __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony import */ var transformation_matrix__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! transformation-matrix */ "./node_modules/transformation-matrix/src/index.js");
+/* harmony import */ var snapsvg_cjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! snapsvg-cjs */ "./node_modules/snapsvg-cjs/dist/snap.svg-cjs.js");
+/* harmony import */ var snapsvg_cjs__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(snapsvg_cjs__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var simplify_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! simplify-js */ "./node_modules/simplify-js/simplify.js");
+/* harmony import */ var simplify_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(simplify_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _JSONImporter__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./JSONImporter */ "./dist/services/importers/JSONImporter.js");
+/* harmony import */ var _drawers_drawer_canvas_DrawerCanvas__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../drawers/drawer-canvas/DrawerCanvas */ "./dist/services/drawers/drawer-canvas/DrawerCanvas.js");
+/* harmony import */ var _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../core/shapes/ShapePrimitive */ "./dist/core/shapes/ShapePrimitive.js");
+/* harmony import */ var _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../core/shapes/ShapeBuffer */ "./dist/core/shapes/ShapeBuffer.js");
+/* harmony import */ var _core_Scene__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../core/Scene */ "./dist/core/Scene.js");
+var __spreadArrays = (undefined && undefined.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
+
+
+
+
+
+
+
+
+/**
+ *
+ * @category Services.Export/Import
+ * @class JSONImporter
+ */
+var SVGImporter = /** @class */ (function () {
+    function SVGImporter() {
+    }
+    /**
+     * Check passed input is valid SVG string
+     *
+     * @static
+     * @param {string} input
+     * @returns {boolean}
+     */
+    SVGImporter.isSVG = function (input) {
+        return SVGImporter.SVG_REGEX.test(input.replace(SVGImporter.COMMENT_REGEX, ''));
+    };
+    /**
+     * Convert string to SVGElement
+     *
+     * @static
+     * @param {string} input
+     * @returns {(SVGElement | null)}
+     */
+    SVGImporter.stringToSVG = function (input) {
+        if (!SVGImporter.isSVG(input)) {
+            console.warn('[Urpflanze:SVGImport] | Input is not valid SVG string', input);
+            return null;
+        }
+        if (typeof DOMParser === 'undefined') {
+            console.warn('[Urpflanze:SVGImport] DOMParser not defined');
+            return null;
+        }
+        var parser = new DOMParser();
+        var document = parser.parseFromString(input, 'image/svg+xml');
+        return document.querySelector('svg');
+    };
+    /**
+     * Convert SVG string into DrawerCanvas
+     *
+     * @static
+     * @param {string} input
+     * @returns {(DrawerCanvas | null)}
+     */
+    SVGImporter.parse = function (input, simplify) {
+        if (simplify === void 0) { simplify = 0.001; }
+        var svg = SVGImporter.stringToSVG(input);
+        if (svg === null) {
+            console.warn('[Urpflanze:SVGImport] | Cannot convet string to SVG', input);
+        }
+        var parsed = SVGImporter.SVGStringToBuffers(input, simplify);
+        if (parsed === null) {
+            console.warn('[Urpflanze:SVGImport] | Cannot convet string DrawerCanvas', input);
+            return null;
+        }
+        var emptyProject = _JSONImporter__WEBPACK_IMPORTED_MODULE_3__.default.createEmptyProject();
+        var scene = new _core_Scene__WEBPACK_IMPORTED_MODULE_7__.default({
+            color: emptyProject.color,
+            background: emptyProject.background,
+            width: parsed.viewBox[2] - parsed.viewBox[0],
+            height: parsed.viewBox[3] - parsed.viewBox[1],
+        });
+        parsed.buffers.forEach(function (buffer) {
+            scene.add(new _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_6__.default({
+                shape: buffer.buffer,
+                bClosed: buffer.closed,
+            }));
+        });
+        return new _drawers_drawer_canvas_DrawerCanvas__WEBPACK_IMPORTED_MODULE_4__.default(scene, undefined);
+    };
+    /**
+     * Convert SVG string to buffers
+     *
+     * @static
+     * @param {string} input
+     * @param {number} [simplify=0.001]
+     * @returns {(ISVGParsed | null)}
+     */
+    SVGImporter.SVGStringToBuffers = function (input, simplify) {
+        var _a;
+        if (simplify === void 0) { simplify = 0.001; }
+        var svg = SVGImporter.stringToSVG(input);
+        if (svg === null) {
+            console.error('[Urpflanze:SVGImport] | Cannot convert string to svg', input);
+            return null;
+        }
+        var fill = svg.getAttribute('fill');
+        var stroke = svg.getAttribute('stroke');
+        var lineWidth = svg.getAttribute('line-width');
+        var viewBox = SVGImporter.getViewbox(svg);
+        var groups = svg.querySelectorAll('g');
+        groups.forEach(SVGImporter.propagateGroupTransformAndStyleToChildren);
+        // Get all primitive elements
+        var elements = Array.from(svg.querySelectorAll('rect, circle, ellipse, line, polyline, polygon, path'));
+        // Convert elements to path
+        var paths = (_a = []).concat.apply(_a, elements.map(function (e) { return SVGImporter.elementToPath(e); }));
+        // Convert paths to buffe of points based on viewBox
+        var expMatch = Math.max(viewBox[2] - viewBox[0], viewBox[3] - viewBox[1])
+            .toExponential(1)
+            .match(/e(\+?[0-9]+)/);
+        var exp = Math.min(Math.pow(10, Math.max(expMatch ? +expMatch[1] : 0, 0)), 1000);
+        var steps = 10 / (1000 / exp);
+        var buffers = paths.map(function (path) { return SVGImporter.pathToBuffer(path, steps, viewBox); });
+        // Simplify buffers
+        buffers = buffers.map(function (buffer) { return SVGImporter.simpliyBuffer(buffer, simplify); });
+        var result = [];
+        for (var i = 0; i < buffers.length; i++) {
+            var templineWidth = paths[i].getAttribute('stroke-width');
+            var strokeWidth = void 0;
+            if (templineWidth) {
+                strokeWidth =
+                    templineWidth.indexOf('%') >= 0
+                        ? SVGImporter.fromPercentage(parseFloat(templineWidth), Math.sqrt((viewBox[2] - viewBox[0]) * (viewBox[3] - viewBox[1])))
+                        : parseFloat(templineWidth);
+            }
+            result.push({
+                buffer: buffers[i],
+                closed: SVGImporter.pathIsClosed(paths[i]),
+                fill: SVGImporter.getColor('fill', paths[i]) || (fill ? fill : undefined),
+                stroke: SVGImporter.getColor('stroke', paths[i]) || (stroke ? stroke : undefined),
+                lineWidth: strokeWidth ? strokeWidth : lineWidth ? parseFloat(lineWidth) : undefined,
+            });
+        }
+        elements.forEach(function (e) { return e.remove(); });
+        return { viewBox: viewBox, buffers: result };
+    };
+    /**
+     * Replace 'none' to undefined
+     *
+     * @private
+     * @static
+     * @param {('fill' | 'stroke')} name
+     * @param {SVGPathElement} path
+     * @returns {(string | undefined)}
+     */
+    SVGImporter.getColor = function (name, path) {
+        var value = path.getAttribute(name);
+        if (value) {
+            return value === 'none' ? undefined : value;
+        }
+    };
+    /**
+     * Return SVG viewBox
+     * If it is not present, calculate it based on elements
+     *
+     * @static
+     * @param {SVGElement} svg
+     * @returns {[number, number, number, number]}
+     */
+    SVGImporter.getViewbox = function (svg) {
+        // Check viexBox is setted
+        var viewBox = svg.getAttribute('viewBox');
+        if (viewBox) {
+            return viewBox.split(' ').map(function (e) { return parseFloat(e); });
+        }
+        // Check width and height if viewBox is not setted
+        var width = svg.getAttribute('width');
+        var height = svg.getAttribute('height');
+        if (width && height) {
+            return [0, 0, parseFloat(width), parseFloat(height)];
+        }
+        // Calculate dimension by elements
+        svg = svg.cloneNode(true);
+        var elements = Array.from(svg.querySelectorAll('rect, circle, ellipse, line, polyline, polygon, path'));
+        var paths = [].concat.apply([], elements.map(function (e) { return SVGImporter.elementToPath(e); }));
+        if (paths.length > 0) {
+            var width_1 = 0, height_1 = 0;
+            for (var i = 0, len = paths.length; i < len; i++) {
+                var box = _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_5__.default.getBounding(SVGImporter.pathToBuffer(paths[i], 1));
+                box.width += box.x;
+                box.height += box.y;
+                if (box.width > width_1)
+                    width_1 = box.width;
+                if (box.height > height_1)
+                    height_1 = box.height;
+            }
+            return [0, 0, width_1, height_1];
+        }
+        return [-1, -1, 1, 1];
+    };
+    /**
+     * Check path is closed
+     *
+     * @static
+     * @param {SVGPathElement} path
+     * @returns {boolean}
+     */
+    SVGImporter.pathIsClosed = function (path) {
+        var _a;
+        return ((_a = path.getAttribute('d')) === null || _a === void 0 ? void 0 : _a.trim().substr(-1).toLowerCase()) === 'z';
+    };
+    /**
+     * Optimize number of points
+     *
+     * @static
+     * @param {Float32Array} buffer
+     * @param {number} [simplifyLevel=0.01]
+     * @returns {Float32Array}
+     */
+    SVGImporter.simpliyBuffer = function (buffer, simplifyLevel) {
+        if (simplifyLevel === void 0) { simplifyLevel = 0.01; }
+        var simplifiedBuffer = [];
+        for (var i = 0, len = buffer.length; i < len; i += 2)
+            simplifiedBuffer.push({ x: buffer[i], y: buffer[i + 1] });
+        var points = simplify_js__WEBPACK_IMPORTED_MODULE_2___default()(simplifiedBuffer, simplifyLevel, true);
+        points.forEach(function (point, index) {
+            buffer[index * 2] = point.x;
+            buffer[index * 2 + 1] = point.y;
+        });
+        return buffer.subarray(0, points.length * 2);
+    };
+    /**
+     * Convert path to buffer between [-1, 1]
+     *
+     * @static
+     * @param {SVGPathElement} path
+     * @param {number} [steps=0.01]
+     * @param {*} [viewBox=[-1, -1, 1, 1]]
+     * @returns {Float32Array}
+     */
+    SVGImporter.pathToBuffer = function (path, steps, viewBox) {
+        if (steps === void 0) { steps = 0.01; }
+        if (viewBox === void 0) { viewBox = [-1, -1, 1, 1]; }
+        var width = viewBox[2] - viewBox[0];
+        var height = viewBox[3] - viewBox[1];
+        var rw = width > height ? 1 : width / height;
+        var rh = width > height ? height / width : 1;
+        // Apply transform matrix to path
+        var transform = path.getAttribute('transform') || '';
+        var matrix;
+        if (transform.length > 0) {
+            var transformMatrix = (0,transformation_matrix__WEBPACK_IMPORTED_MODULE_0__.compose)((0,transformation_matrix__WEBPACK_IMPORTED_MODULE_0__.fromDefinition)((0,transformation_matrix__WEBPACK_IMPORTED_MODULE_0__.fromTransformAttribute)(transform)));
+            matrix = new snapsvg_cjs__WEBPACK_IMPORTED_MODULE_1__.Matrix(transformMatrix.a, transformMatrix.b, transformMatrix.c, transformMatrix.d, transformMatrix.e, transformMatrix.f);
+        }
+        var pathString = snapsvg_cjs__WEBPACK_IMPORTED_MODULE_1__.path.map(path.getAttribute('d') || '', matrix);
+        var path_length = Math.floor(snapsvg_cjs__WEBPACK_IMPORTED_MODULE_1__.path.getTotalLength(pathString));
+        var buffer_length = Math.floor(path_length / steps) * 2;
+        // Generate buffer
+        var buffer = new Float32Array(buffer_length);
+        for (var i = 0, j = 0; i < path_length; i += steps, j += 2) {
+            var _a = snapsvg_cjs__WEBPACK_IMPORTED_MODULE_1__.path.getPointAtLength(pathString, i), x = _a.x, y = _a.y;
+            buffer[j] = rw * (x / width) * 2 - 1;
+            buffer[j + 1] = rh * (y / height) * 2 - 1;
+            if (rw < 1)
+                buffer[j] += 1 - rw;
+            if (rh < 1)
+                buffer[j + 1] += 1 - rh;
+        }
+        return buffer;
+    };
+    /**
+     * Propagate transform for apply to point in path
+     *
+     * @private
+     * @static
+     * @param {SVGGElement} g
+     */
+    SVGImporter.propagateGroupTransformAndStyleToChildren = function (g) {
+        var gTransform = g.getAttribute('transform');
+        if (gTransform && gTransform.length > 0) {
+            var gMatrix_1 = (0,transformation_matrix__WEBPACK_IMPORTED_MODULE_0__.compose)((0,transformation_matrix__WEBPACK_IMPORTED_MODULE_0__.fromDefinition)((0,transformation_matrix__WEBPACK_IMPORTED_MODULE_0__.fromTransformAttribute)(gTransform)));
+            var children = g.children;
+            Array.from(children).forEach(function (child) {
+                var transform = child.getAttribute('transform');
+                if (transform && transform.length > 0) {
+                    var matrix = (0,transformation_matrix__WEBPACK_IMPORTED_MODULE_0__.compose)((0,transformation_matrix__WEBPACK_IMPORTED_MODULE_0__.fromDefinition)((0,transformation_matrix__WEBPACK_IMPORTED_MODULE_0__.fromTransformAttribute)(transform)));
+                    var finalMatrix = (0,transformation_matrix__WEBPACK_IMPORTED_MODULE_0__.compose)(matrix, gMatrix_1);
+                    transform = (0,transformation_matrix__WEBPACK_IMPORTED_MODULE_0__.toSVG)(finalMatrix);
+                }
+                child.setAttribute('transform', gTransform);
+            });
+        }
+        var attrs = ['fill', 'stroke', 'stroke-width'];
+        attrs.forEach(function (attr) {
+            var value = g.getAttribute(attr);
+            if (value) {
+                Array.from(g.children).forEach(function (child) {
+                    if (child.getAttribute(attr) === null) {
+                        child.setAttribute(attr, value);
+                    }
+                });
+            }
+        });
+    };
+    /**
+     * Convert SVG Element to Path
+     *
+     * @static
+     * @param {SVGElement} element
+     * @returns {Array<SVGPathElement>}
+     */
+    SVGImporter.elementToPath = function (element) {
+        var transform = element.getAttribute('transform') || '';
+        var fill = element.getAttribute('fill');
+        var stroke = element.getAttribute('stroke');
+        var lineWidth = element.getAttribute('lineWidth');
+        if (element.nodeName == 'path') {
+            // Separate multiple path
+            var d = element.getAttribute('d') || '';
+            var result = snapsvg_cjs__WEBPACK_IMPORTED_MODULE_1__.path.toAbsolute(d)
+                .map(function (e) { return "" + e.shift() + e.join(','); })
+                .join(' ')
+                .split('M')
+                .filter(function (e) { return e.length > 0; })
+                .map(function (e) { return 'M' + e; });
+            return result.map(function (d) {
+                var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                path.setAttribute('d', d);
+                path.setAttribute('transform', transform);
+                fill && path.setAttribute('fill', fill);
+                stroke && path.setAttribute('stroke', stroke);
+                lineWidth && path.setAttribute('lineWidth', lineWidth);
+                return path;
+            });
+        }
+        var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        var nodeName = element.nodeName;
+        if (['rect', 'ellipse', 'circle', 'line', 'polyline', 'polygon'].includes(nodeName)) {
+            path.setAttribute('d', SVGImporter.CONVERSION[nodeName](element));
+            path.setAttribute('transform', transform);
+            fill && path.setAttribute('fill', fill);
+            stroke && path.setAttribute('stroke', stroke);
+            lineWidth && path.setAttribute('lineWidth', lineWidth);
+            return [path];
+        }
+        else {
+            console.warn("[Urpflanze:SVGImport] | Cannot convert " + nodeName + " to path");
+            return [];
+        }
+    };
+    /**
+     * Get percentage to number
+     *
+     * @private
+     * @static
+     * @param {(number | string)} val
+     * @param {number} base
+     * @returns {number}
+     */
+    SVGImporter.fromPercentage = function (val, base) {
+        return /%$/.test(val + '') ? (parseFloat((val + '').replace('%', '')) * 100) / base : +val;
+    };
+    /**
+     * Separate multiple array
+     *
+     * @private
+     * @static
+     * @param {(Array<string | number>)} arr
+     * @param {number} [size=2]
+     * @returns {(Array<Array<string | number>>)}
+     */
+    SVGImporter.chunk = function (arr, size) {
+        if (size === void 0) { size = 2; }
+        var results = [];
+        while (arr.length > 0)
+            results.push(arr.splice(0, size));
+        return results;
+    };
+    /**
+     * Match string is SVG
+     * @static
+     */
+    SVGImporter.SVG_REGEX = /^\s*(?:<\?xml[^>]*>\s*)?(?:<!doctype svg[^>]*\s*(?:\[?(?:\s*<![^>]*>\s*)*\]?)*[^>]*>\s*)?(?:<svg[^>]*>[^]*<\/svg>|<svg[^/>]*\/\s*>)\s*$/i;
+    /**
+     * Match commments
+     *
+     * @static
+     */
+    SVGImporter.COMMENT_REGEX = /<!--([\s\S]*?)-->/g;
+    /**
+     * Convert Elements to path
+     *
+     * @private
+     * @static
+     * @type {ISVGElementConversion}
+     */
+    SVGImporter.CONVERSION = {
+        rect: function (rect) {
+            var width = parseFloat(rect.getAttribute('width') || '0');
+            var height = parseFloat(rect.getAttribute('height') || '0');
+            var x = parseFloat(rect.getAttribute('x') || '0');
+            var y = parseFloat(rect.getAttribute('y') || '0');
+            var rx = rect.getAttribute('rx') || 'auto';
+            var ry = rect.getAttribute('ry') || 'auto';
+            if (rx === 'auto' && ry === 'auto')
+                rx = ry = 0;
+            else if (rx !== 'auto' && ry === 'auto')
+                rx = ry = SVGImporter.fromPercentage(rx, width);
+            else if (ry !== 'auto' && rx === 'auto')
+                ry = rx = SVGImporter.fromPercentage(ry, height);
+            else {
+                rx = SVGImporter.fromPercentage(rx, width);
+                ry = SVGImporter.fromPercentage(ry, height);
+            }
+            if (rx > width / 2)
+                rx = width / 2;
+            if (ry > height / 2)
+                ry = height / 2;
+            var hasCurves = rx > 0 && ry > 0;
+            return __spreadArrays([
+                "M" + (x + rx) + " " + y,
+                "H" + (x + width - rx)
+            ], (hasCurves ? ["A" + rx + " " + ry + " 0 0 1 " + (x + width) + " " + (y + ry)] : []), [
+                "V" + (y + height - ry)
+            ], (hasCurves ? ["A" + rx + " " + ry + " 0 0 1 " + (x + width - rx) + " " + (y + height)] : []), [
+                "H" + (x + rx)
+            ], (hasCurves ? ["A" + rx + " " + ry + " 0 0 1 " + x + " " + (y + height - ry)] : []), [
+                "V" + (y + ry)
+            ], (hasCurves ? ["A" + rx + " " + ry + " 0 0 1 " + (x + rx) + " " + y] : []), [
+                'Z',
+            ]).join(' ');
+        },
+        ellipse: function (ellipse) {
+            var _a, _b, _c, _d;
+            var cx = parseFloat(ellipse.getAttribute('cx') || '0');
+            var cy = parseFloat(ellipse.getAttribute('cy') || '0');
+            var rx = parseFloat((_b = (_a = ellipse.getAttribute('rx')) !== null && _a !== void 0 ? _a : ellipse.getAttribute('r')) !== null && _b !== void 0 ? _b : '0');
+            var ry = parseFloat((_d = (_c = ellipse.getAttribute('ry')) !== null && _c !== void 0 ? _c : ellipse.getAttribute('r')) !== null && _d !== void 0 ? _d : '0');
+            return [
+                "M" + (cx + rx) + " " + cy,
+                "A" + rx + " " + ry + " 0 0 1 " + cx + " " + (cy + ry),
+                "A" + rx + " " + ry + " 0 0 1 " + (cx - rx) + " " + cy,
+                "A" + rx + " " + ry + " 0 0 1 " + (cx + rx) + " " + cy,
+                'Z',
+            ].join(' ');
+        },
+        circle: function (circle) { return SVGImporter.CONVERSION.ellipse(circle); },
+        line: function (line) {
+            return "M" + (line.getAttribute('x1') || '0') + " " + (line.getAttribute('y1') || '0') + " L" + (line.getAttribute('x2') || '0') + " " + (line.getAttribute('y2') || '0');
+        },
+        polyline: function (polyline) {
+            var points = polyline.getAttribute('points') || '';
+            var pointsArray = points
+                .trim()
+                .replace(/  +/g, ' ')
+                .split(' ')
+                .reduce(function (arr, point) { return __spreadArrays(arr, (point.includes(',') ? point.split(',') : [point])); }, []);
+            var pairs = SVGImporter.chunk(pointsArray, 2);
+            return pairs.map(function (_a, i) {
+                var x = _a[0], y = _a[1];
+                return "" + (i === 0 ? 'M' : 'L') + x + " " + y;
+            }).join(' ');
+        },
+        polygon: function (polygon) { return SVGImporter.CONVERSION.polyline(polygon) + ' Z'; },
+        path: function (path) { return path.getAttribute('d') + ''; },
+    };
+    return SVGImporter;
+}());
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SVGImporter);
+//# sourceMappingURL=SVGImporter.js.map
 
 /***/ }),
 
@@ -6465,14 +7636,15 @@ var Renderer = /** @class */ (function (_super) {
     __extends(Renderer, _super);
     function Renderer() {
         var _this = _super.call(this) || this;
+        _this.started = false;
         _this.capturer = new _Capturer__WEBPACK_IMPORTED_MODULE_3__.default();
         return _this;
     }
     Renderer.prototype.renderImage = function (drawer, settings) {
         var _this = this;
+        this.stop();
         this.started = true;
         this.capturer.setSettings(settings);
-        this.capturer.stop();
         this.capturer.start(1);
         var promise = new Promise(function (resolve, reject) {
             var bClear = drawer.getOption('clear', true);
@@ -6516,7 +7688,7 @@ var Renderer = /** @class */ (function (_super) {
                         time = _a.sent();
                         renderTime = time + drawTime;
                         totalTime = renderTime * sequence.frames;
-                        maxDuration = 60;
+                        maxDuration = 300;
                         parts = 1 + Math.floor(totalTime / 1000 / maxDuration);
                         frameForPart = Math.floor(sequence.frames / parts);
                         return [2 /*return*/, {
@@ -6603,6 +7775,7 @@ var Renderer = /** @class */ (function (_super) {
                         if (!this.started)
                             return [2 /*return*/, undefined];
                         current_frame = i + frame_from;
+                        if (!(current_frame <= total_frames)) return [3 /*break*/, 3];
                         measure_start = (0,_Utilites__WEBPACK_IMPORTED_MODULE_1__.now)();
                         timeline.setFrame(current_frame);
                         drawer.draw();
@@ -6887,18 +8060,18 @@ var SceneChildPropsData = {
     // 	transformation: 'none',
     // },
     // primitive
-    fillColor: {
+    fill: {
         animable: true,
-        name: 'fillColor',
+        name: 'fill',
         label: 'Fill',
         type: 'color',
         default: '#000',
         default_animate: '#fff',
         transformation: 'none',
     },
-    strokeColor: {
+    stroke: {
         animable: true,
-        name: 'strokeColor',
+        name: 'stroke',
         label: 'Stroke',
         type: 'color',
         default: '#fff',
@@ -6919,8 +8092,15 @@ var SceneChildPropsData = {
     },
     bClosed: { name: 'bClosed', label: 'Closed', type: 'checkbox', default: undefined, transformation: 'none' },
     bUseParent: {
-        name: 'bbUseParent',
+        name: 'bUseParent',
         label: 'Use parent repetition',
+        type: 'checkbox',
+        default: false,
+        transformation: 'none',
+    },
+    bUseRecursion: {
+        name: 'bUseRecursion',
+        label: 'Use recursion repetition',
         type: 'checkbox',
         default: false,
         transformation: 'none',
@@ -7262,7 +8442,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _core_shapes_primitives_Line__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../core/shapes/primitives/Line */ "./dist/core/shapes/primitives/Line.js");
 /* harmony import */ var _core_shapes_primitives_Triangle__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../core/shapes/primitives/Triangle */ "./dist/core/shapes/primitives/Triangle.js");
 /* harmony import */ var _core_shapes_primitives_Rect__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../core/shapes/primitives/Rect */ "./dist/core/shapes/primitives/Rect.js");
-/* harmony import */ var _core_shapes_primitives_RegularPolygon__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../core/shapes/primitives/RegularPolygon */ "./dist/core/shapes/primitives/RegularPolygon.js");
+/* harmony import */ var _core_shapes_primitives_Polygon__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../core/shapes/primitives/Polygon */ "./dist/core/shapes/primitives/Polygon.js");
 /* harmony import */ var _core_shapes_primitives_Circle__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../core/shapes/primitives/Circle */ "./dist/core/shapes/primitives/Circle.js");
 /* harmony import */ var _core_shapes_primitives_Rose__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../core/shapes/primitives/Rose */ "./dist/core/shapes/primitives/Rose.js");
 /* harmony import */ var _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../core/shapes/primitives/Spiral */ "./dist/core/shapes/primitives/Spiral.js");
@@ -7318,7 +8498,7 @@ var SceneUtilities = /** @class */ (function () {
             Line: _core_shapes_primitives_Line__WEBPACK_IMPORTED_MODULE_1__.default,
             Triangle: _core_shapes_primitives_Triangle__WEBPACK_IMPORTED_MODULE_2__.default,
             Rect: _core_shapes_primitives_Rect__WEBPACK_IMPORTED_MODULE_3__.default,
-            RegularPolygon: _core_shapes_primitives_RegularPolygon__WEBPACK_IMPORTED_MODULE_4__.default,
+            Polygon: _core_shapes_primitives_Polygon__WEBPACK_IMPORTED_MODULE_4__.default,
             Circle: _core_shapes_primitives_Circle__WEBPACK_IMPORTED_MODULE_5__.default,
             Rose: _core_shapes_primitives_Rose__WEBPACK_IMPORTED_MODULE_6__.default,
             Spiral: _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_7__.default,
@@ -7728,6 +8908,12 @@ var SceneUtilities = /** @class */ (function () {
      */
     SceneUtilities.prototype.setProp = function (sceneChild, name, value, drawer) {
         var _a, _b;
+        if (typeof sceneChild.data === 'undefined') {
+            sceneChild.data = { props: [] };
+        }
+        else if (typeof sceneChild.data.props === 'undefined') {
+            sceneChild.data.props = [];
+        }
         if (_ScenePropUtilities__WEBPACK_IMPORTED_MODULE_17__.default.bValueAnimation(value)) {
             sceneChild.data.props[name] = value;
             sceneChild.setProp(name, _animation_Animation__WEBPACK_IMPORTED_MODULE_18__.default.composeAnimation(drawer, name, value));
@@ -7818,8 +9004,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-/* harmony import */ var _events_Emitter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../events/Emitter */ "./dist/services/events/Emitter.js");
-/* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Utilites */ "./dist/Utilites.js");
+/* harmony import */ var _core_math__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../core/math */ "./dist/core/math/index.js");
+/* harmony import */ var _events_Emitter__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../events/Emitter */ "./dist/services/events/Emitter.js");
+/* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Utilites */ "./dist/Utilites.js");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -7846,6 +9033,7 @@ var __assign = (undefined && undefined.__assign) || function () {
 };
 
 
+
 /**
  * Is used for sequence time management.
  * It is necessary to set the duration and the number of frames per second (frame rate).
@@ -7863,6 +9051,7 @@ var Timeline = /** @class */ (function (_super) {
         _this.fps_samples_size = 30;
         _this.fps_samples = [];
         _this.fps_samples_index = 0;
+        _this.paused_time = 0;
         _this.sequence = {
             durate: durate,
             framerate: framerate,
@@ -7961,7 +9150,7 @@ var Timeline = /** @class */ (function (_super) {
      */
     Timeline.prototype.pause = function () {
         if (this.b_sequence_started) {
-            this.paused_time = (0,_Utilites__WEBPACK_IMPORTED_MODULE_1__.now)();
+            this.paused_time = (0,_Utilites__WEBPACK_IMPORTED_MODULE_2__.now)();
             this.b_sequence_started = false;
             this.dispatch('timeline:change_status', Timeline.PAUSE);
         }
@@ -8043,7 +9232,7 @@ var Timeline = /** @class */ (function (_super) {
      * @returns {number}
      */
     Timeline.prototype.getFrameTime = function (frame) {
-        frame = frame < 0 ? this.sequence.frames - (Math.abs(frame) % this.sequence.frames) : frame % this.sequence.frames;
+        frame = (0,_core_math__WEBPACK_IMPORTED_MODULE_0__.pmod)(frame, this.sequence.frames);
         return (frame * this.tick_time) % this.sequence.durate;
     };
     /**
@@ -8061,8 +9250,8 @@ var Timeline = /** @class */ (function (_super) {
      * @param {number} frame
      */
     Timeline.prototype.setFrame = function (frame) {
-        this.current_frame = frame;
-        this.current_time = this.getFrameTime(frame);
+        this.current_frame = (0,_core_math__WEBPACK_IMPORTED_MODULE_0__.pmod)(frame, this.sequence.frames);
+        this.current_time = this.getFrameTime(this.current_frame);
     };
     /**
      * Return tick time (based on framerate)
@@ -8086,1296 +9275,480 @@ var Timeline = /** @class */ (function (_super) {
      * @param {number} time
      */
     Timeline.prototype.setTime = function (time) {
-        time = (time + this.sequence.durate) % this.sequence.durate;
+        time = (0,_core_math__WEBPACK_IMPORTED_MODULE_0__.pmod)(time, this.sequence.durate);
         this.current_time = time;
         this.current_frame = this.getFrameAtTime(time);
     };
     /**
      * Animation status started
+     * @internal
      */
     Timeline.START = 'start';
     /**
      * Animation status paused
+     * @internal
      */
     Timeline.PAUSE = 'pause';
     /**
      * Animation status stop
+     * @internal
      */
     Timeline.STOP = 'stop';
     return Timeline;
-}(_events_Emitter__WEBPACK_IMPORTED_MODULE_0__.default));
+}(_events_Emitter__WEBPACK_IMPORTED_MODULE_1__.default));
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Timeline);
 //# sourceMappingURL=Timeline.js.map
 
 /***/ }),
 
-/***/ "./node_modules/@pups/core/build/Models/Color/ColorConversions.js":
-/*!************************************************************************!*\
-  !*** ./node_modules/@pups/core/build/Models/Color/ColorConversions.js ***!
-  \************************************************************************/
-/*! flagged exports */
-/*! export __esModule [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
-/*! other exports [not provided] [no usage info] */
-/*! runtime requirements: __webpack_exports__ */
-/***/ ((__unused_webpack_module, exports) => {
+/***/ "./node_modules/eve/eve.js":
+/*!*********************************!*\
+  !*** ./node_modules/eve/eve.js ***!
+  \*********************************/
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module, top-level-this-exports, __webpack_exports__ */
+/*! CommonJS bailout: this is used directly at 435:43-47 */
+/*! CommonJS bailout: module.exports is used directly at 434:36-50 */
+/*! CommonJS bailout: module.exports is used directly at 434:53-67 */
+/***/ (function(module, exports) {
 
-"use strict";
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// Copyright (c) 2017 Adobe Systems Incorporated. All rights reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// ┌────────────────────────────────────────────────────────────┐ \\
+// │ Eve 0.5.4 - JavaScript Events Library                      │ \\
+// ├────────────────────────────────────────────────────────────┤ \\
+// │ Author Dmitry Baranovskiy (http://dmitry.baranovskiy.com/) │ \\
+// └────────────────────────────────────────────────────────────┘ \\
 
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-class ColorConversions {
-    /**
-     *
-     * @static
-     * @param {RGB} rgb
-     * @returns {HEX}
-     * @memberof ColorConversions
-     */
-    static rgbToHex(rgb) {
-        return `#${ColorConversions.toHex(rgb.r)}${ColorConversions.toHex(rgb.g)}${ColorConversions.toHex(rgb.b)}`;
-    }
-    /**
-     *
-     * @private
-     * @static
-     * @param {number} value
-     * @returns
-     * @memberof ColorConversions
-     */
-    static toHex(value) {
-        const hex = value.toString(16);
-        return hex.length == 2 ? hex : '0' + hex;
-    }
-    /**
-     *
-     *
-     * @static
-     * @param {(Types.Color.HEX | Array<string>)} hex
-     * @returns {Types.Color.RGB}
-     * @memberof ColorConversions
-     */
-    static hexToRgb(hex) {
-        hex = typeof hex === 'string' ? hex.match(/[a-zA-Z0-9]{2}/gi) : hex;
-        return {
-            r: ColorConversions.hexToDec(hex[0]),
-            g: ColorConversions.hexToDec(hex[1]),
-            b: ColorConversions.hexToDec(hex[2])
-        };
-    }
-    /**
-     * Converte un esadecimale in un decimale
-     *
-     * @static
-     * @param {string} str
-     * @returns {number}
-     * @memberof ColorConversions
-     */
-    static hexToDec(str) {
-        return parseInt(ColorConversions.fill2(str), 16);
-    }
-    /**
-     * Dublica il carattere se è singolo
-     *
-     * @static
-     * @param {string} str
-     * @returns {string}
-     * @memberof ColorConversions
-     */
-    static fill2(str) {
-        return str.length == 1 ? str + str : str;
-    }
-    /**
-     *
-     *
-     * @static
-     * @param {Types.Color.RGB} rgb
-     * @returns {Types.Color.HSL}
-     * @memberof ColorConversions
-     */
-    static rgbToHsl(rgb) {
-        let r = rgb.r / 255, g = rgb.g / 255, b = rgb.b / 255;
-        const max = Math.max(r, g, b), min = Math.min(r, g, b);
-        let h, s, l = (max + min) / 2;
-        if (max == min) {
-            h = s = 0; // achromatic
-        }
-        else {
-            const d = max - min;
-            s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-            switch (max) {
-                case r:
-                    h = (g - b) / d + (g < b ? 6 : 0);
-                    break;
-                case g:
-                    h = (b - r) / d + 2;
-                    break;
-                case b:
-                    h = (r - g) / d + 4;
-                    break;
-            }
-            h /= 6;
-        }
-        return { h, s, l };
-    }
-    /**
-     *
-     *
-     * @static
-     * @param {Types.Color.HSL} hsl
-     * @returns {Types.Color.RGB}
-     * @memberof ColorConversions
-     */
-    static hslToRgb(hsl) {
-        let h = hsl.h, s = hsl.s, l = hsl.l, r, g, b;
-        if (s == 0) {
-            r = g = b = l; // achromatic
-        }
-        else {
-            const hue2rgb = ((p, q, t) => {
-                t += t < 0 ? 1 : t > 1 ? -1 : 0;
-                if (t < 1 / 6)
-                    return p + (q - p) * 6 * t;
-                if (t < 1 / 2)
-                    return q;
-                if (t < 2 / 3)
-                    return p + (q - p) * (2 / 3 - t) * 6;
-                return p;
-            });
-            const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-            const p = 2 * l - q;
-            r = hue2rgb(p, q, h + 1 / 3);
-            g = hue2rgb(p, q, h);
-            b = hue2rgb(p, q, h - 1 / 3);
-        }
-        return { r: Math.round(r * 255), g: Math.round(g * 255), b: Math.round(b * 255) };
-    }
-    /**
-     *
-     *
-     * @static
-     * @param {Types.Color.RGB} rgb
-     * @returns {Types.Color.HSV}
-     * @memberof ColorConversions
-     */
-    static rgbToHsv(rgb) {
-        let r = rgb.r / 255, g = rgb.g / 255, b = rgb.b / 255;
-        const max = Math.max(r, g, b), min = Math.min(r, g, b);
-        let h, s, v = max;
-        const d = max - min;
-        s = max == 0 ? 0 : d / max;
-        if (max == min) {
-            h = 0; // achromatic
-        }
-        else {
-            switch (max) {
-                case r:
-                    h = (g - b) / d + (g < b ? 6 : 0);
-                    break;
-                case g:
-                    h = (b - r) / d + 2;
-                    break;
-                case b:
-                    h = (r - g) / d + 4;
-                    break;
-            }
-            h /= 6;
-        }
-        return { h, s, v };
-    }
-    /**
-     *
-     *
-     * @static
-     * @param {Types.Color.HSV} hsv
-     * @returns {Types.Color.RGB}
-     * @memberof ColorConversions
-     */
-    static hsvToRgb(hsv) {
-        let h = hsv.h, s = hsv.s, v = hsv.v, r, g, b;
-        const i = Math.floor(h * 6);
-        const f = h * 6 - i;
-        const p = v * (1 - s);
-        const q = v * (1 - f * s);
-        const t = v * (1 - (1 - f) * s);
-        switch (i % 6) {
-            case 0:
-                r = v, g = t, b = p;
-                break;
-            case 1:
-                r = q, g = v, b = p;
-                break;
-            case 2:
-                r = p, g = v, b = t;
-                break;
-            case 3:
-                r = p, g = q, b = v;
-                break;
-            case 4:
-                r = t, g = p, b = v;
-                break;
-            case 5:
-                r = v, g = p, b = q;
-                break;
-        }
-        return { r: Math.round(r * 255), g: Math.round(g * 255), b: Math.round(b * 255) };
-    }
-    /**
-     *
-     *
-     * @static
-     * @param {Types.Color.RGB} rgb
-     * @returns {Types.Color.CMYK}
-     * @memberof ColorConversions
-     */
-    static rgbToCmyk(rgb) {
-        let r = rgb.r / 255, g = rgb.g / 255, b = rgb.b / 255;
-        let cmyk = { k: null, c: null, m: null, y: null };
-        cmyk.k = +(1 - Math.max.call(null, r, g, b));
-        cmyk.c = +((1 - r - cmyk.k) / (1 - cmyk.k));
-        cmyk.m = +((1 - g - cmyk.k) / (1 - cmyk.k));
-        cmyk.y = +((1 - b - cmyk.k) / (1 - cmyk.k));
-        return cmyk;
-    }
-    /**
-     *
-     *
-     * @static
-     * @param {Types.Color.CMYK} cmyk
-     * @returns {Types.Color.RGB}
-     * @memberof ColorConversions
-     */
-    static cmykToRgb(cmyk) {
-        return {
-            r: 255 * (1 - cmyk.c) * (1 - cmyk.k),
-            g: 255 * (1 - cmyk.m) * (1 - cmyk.k),
-            b: 255 * (1 - cmyk.y) * (1 - cmyk.k)
-        };
-    }
-}
-exports.default = ColorConversions;
-//# sourceMappingURL=ColorConversions.js.map
-
-/***/ }),
-
-/***/ "./node_modules/@pups/core/build/Models/Color/ColorExceptions.js":
-/*!***********************************************************************!*\
-  !*** ./node_modules/@pups/core/build/Models/Color/ColorExceptions.js ***!
-  \***********************************************************************/
-/*! flagged exports */
-/*! export ColorNotValidException [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export ColorParsingException [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export __esModule [provided] [no usage info] [missing usage info prevents renaming] */
-/*! other exports [not provided] [no usage info] */
-/*! runtime requirements: __webpack_exports__ */
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-class ColorNotValidException extends Error {
-    constructor(color, types) {
-        super(`Il colore '${color}' non è valido.\nI formati supportati sono: ${types.map(e => e.type).join(', ')}`);
-    }
-}
-exports.ColorNotValidException = ColorNotValidException;
-class ColorParsingException extends Error {
-    constructor(color) {
-        super(`Impossibile convertire il colore '${color}'`);
-    }
-}
-exports.ColorParsingException = ColorParsingException;
-//# sourceMappingURL=ColorExceptions.js.map
-
-/***/ }),
-
-/***/ "./node_modules/@pups/core/build/Models/Color/ColorManager.js":
-/*!********************************************************************!*\
-  !*** ./node_modules/@pups/core/build/Models/Color/ColorManager.js ***!
-  \********************************************************************/
-/*! flagged exports */
-/*! export __esModule [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
-/*! other exports [not provided] [no usage info] */
-/*! runtime requirements: __webpack_exports__, __webpack_require__ */
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-const Number_1 = __webpack_require__(/*! @pups/utility/build/Number */ "./node_modules/@pups/utility/build/Number.js");
-const Array_1 = __webpack_require__(/*! @pups/utility/build/Array */ "./node_modules/@pups/utility/build/Array.js");
-const ColorParser_1 = __webpack_require__(/*! ./ColorParser */ "./node_modules/@pups/core/build/Models/Color/ColorParser.js");
-const ColorConversions_1 = __webpack_require__(/*! ./ColorConversions */ "./node_modules/@pups/core/build/Models/Color/ColorConversions.js");
-/**
- *
- *
- * @class ColorManager
- */
-class ColorManager {
-    /**
-     * Creates an instance of ColorManager.
-     *
-     * @param {Types.Color.All} color
-     * @memberof ColorManager
-     */
-    constructor(color) {
-        const parsed = ColorParser_1.default.parse(color);
-        this.rgb = this.getRgbFromMath(parsed);
-        this.hsl = ColorConversions_1.default.rgbToHsl(this.rgb);
-        this.hsv = ColorConversions_1.default.rgbToHsv(this.rgb);
-        this.hex = ColorConversions_1.default.rgbToHex(this.rgb);
-        this.cmyk = ColorConversions_1.default.rgbToCmyk(this.rgb);
-        this.setAlpha(['rgba', 'hsla', 'hsva'].indexOf(parsed.type) >= 0 ? parsed.value.length >= 3 ? parsed.value[3] : 1 : 1);
-    }
-    /**
-     *
-     *
-     * @param {number} [alpha]
-     * @memberof ColorManager
-     */
-    setAlpha(alpha) {
-        this.alpha = alpha;
-        this.alpha = this.alpha > 1 ? this.alpha / 255 : this.alpha;
-    }
-    /**
-     *
-     *
-     * @returns {number}
-     * @memberof ColorManager
-     */
-    getAlpha() {
-        return this.alpha;
-    }
-    /**
-     *
-     *
-     * @private
-     * @param {Types.Color.Parsing.Match} match
-     * @returns {Types.Color.RGB}
-     * @memberof ColorManager
-     */
-    getRgbFromMath(match) {
-        switch (match.type) {
-            case 'rgb':
-            case 'rgba':
-                const rgb = Array_1.toFloat(match.value);
-                return { r: rgb[0], g: rgb[1], b: rgb[2] };
-            case 'hsl':
-            case 'hsla':
-                const hsl = Array_1.toFloat(match.value);
-                return ColorConversions_1.default.hslToRgb({ h: hsl[0], s: hsl[1], l: hsl[2] });
-            case 'hsv':
-            case 'hsva':
-                const hsv = Array_1.toFloat(match.value);
-                return ColorConversions_1.default.hsvToRgb({ h: hsv[0], s: hsv[1], v: hsv[2] });
-            case 'cmyk':
-                const cmyk = Array_1.toFloat(match.value);
-                return ColorConversions_1.default.cmykToRgb({ c: cmyk[0], m: cmyk[1], y: cmyk[2], k: cmyk[3] });
-            case 'hex3':
-            case 'hex4':
-            case 'hex6':
-            case 'hex8':
-                return ColorConversions_1.default.hexToRgb(match.value);
-        }
-    }
-    /**
-     *
-     *
-     * @returns {Types.Color.RGB}
-     * @memberof ColorManager
-     */
-    getRgb() {
-        return Object.assign({}, this.rgb);
-    }
-    /**
-     *
-     *
-     * @returns {Types.Color.HSL}
-     * @memberof ColorManager
-     */
-    getHsl() {
-        return Object.assign({}, this.hsl);
-    }
-    /**
-     *
-     *
-     * @returns {Types.Color.HSV}
-     * @memberof ColorManager
-     */
-    getHsv() {
-        return Object.assign({}, this.hsv);
-    }
-    /**
-     *
-     *
-     * @returns {Types.Color.CMYK}
-     * @memberof ColorManager
-     */
-    getCmyk() {
-        return Object.assign({}, this.cmyk);
-    }
-    /**
-     *
-     *
-     * @private
-     * @param {Types.Palette.Format} type
-     * @param {number} x
-     * @param {number} y
-     * @param {number} z
-     * @param {boolean} [alpha=false]
-     * @param {boolean} [isHslOrHsv=false]
-     * @returns
-     * @memberof ColorManager
-     */
-    toString(type, x, y, z, alpha = false, isHslOrHsv = false) {
-        const p = isHslOrHsv ? '%' : '';
-        return `${type + (alpha ? 'a' : '')}(${Math.round(x)}, ${Math.round(y) + p}, ${Math.round(z) + p}${alpha ? ', ' + this.alpha : ''})`;
-    }
-    /**
-     *
-     *
-     * @param {boolean} [alpha=false]
-     * @returns {string}
-     * @memberof ColorManager
-     */
-    toRGB(alpha = false) {
-        return this.toString('rgb', this.rgb.r, this.rgb.g, this.rgb.b, alpha, false);
-    }
-    /**
-     *
-     *
-     * @param {boolean} [alpha=false]
-     * @returns {string}
-     * @memberof ColorManager
-     */
-    toHSL(alpha = false) {
-        return this.toString.call(this, 'hsl', Number_1.relativeClamp(this.hsl.h, 0, 1, 0, 360), this.hsl.s * 100, this.hsl.l * 100, alpha, true);
-    }
-    /**
-     *
-     *
-     * @param {boolean} [alpha=false]
-     * @returns {string}
-     * @memberof ColorManager
-     */
-    toHSV(alpha = false) {
-        return this.toString.call(this, 'hsv', Number_1.relativeClamp(this.hsv.h, 0, 1, 0, 360), this.hsv.s * 100, this.hsv.v * 100, alpha, true);
-    }
-    /**
-     *
-     *
-     * @returns {string}
-     * @memberof ColorManager
-     */
-    toCMYK() {
-        return `cmyk(${Number_1.fix(this.cmyk.c * 100, 2)}%, ${Number_1.fix(this.cmyk.m * 100, 2)}%, ${Number_1.fix(this.cmyk.y * 100, 2)}%, ${Number_1.fix(this.cmyk.k * 100, 2)}%)`;
-    }
-    /**
-     *
-     *
-     * @returns {string}
-     * @memberof ColorManager
-     */
-    toHEX() {
-        return this.hex;
-    }
-    /**
-     *
-     *
-     * @returns {string}
-     * @memberof ColorManager
-     */
-    toRGBA() {
-        return this.toRGB(true);
-    }
-    /**
-     *
-     *
-     * @returns {string}
-     * @memberof ColorManager
-     */
-    toHSLA() {
-        return this.toHSL(true);
-    }
-    /**
-     *
-     *
-     * @returns {string}
-     * @memberof ColorManager
-     */
-    toHSVA() {
-        return this.toHSV(true);
-    }
-}
-exports.default = ColorManager;
-//# sourceMappingURL=ColorManager.js.map
-
-/***/ }),
-
-/***/ "./node_modules/@pups/core/build/Models/Color/ColorParser.js":
-/*!*******************************************************************!*\
-  !*** ./node_modules/@pups/core/build/Models/Color/ColorParser.js ***!
-  \*******************************************************************/
-/*! flagged exports */
-/*! export __esModule [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
-/*! other exports [not provided] [no usage info] */
-/*! runtime requirements: __webpack_exports__, __webpack_require__ */
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-const ColorExceptions_1 = __webpack_require__(/*! ./ColorExceptions */ "./node_modules/@pups/core/build/Models/Color/ColorExceptions.js");
-const Array_1 = __webpack_require__(/*! @pups/utility/build/Array */ "./node_modules/@pups/utility/build/Array.js");
-const Number_1 = __webpack_require__(/*! @pups/utility/build/Number */ "./node_modules/@pups/utility/build/Number.js");
-/**
- * Classe statica.
- * Si utilizza il metodo 'parse' per convertire una string o un oggetto in un oggetto del tipo Types.Color.Parsing.Match
- *
- * @class ColorParser
- */
-class ColorParser {
-    /**
-     *
-     *
-     * @static
-     * @param {Types.Color.All} color
-     * @returns {Types.Color.Parsing.Match}
-     * @memberof ColorParser
-     */
-    static parse(color) {
-        return typeof color === 'string' ? ColorParser.fromString(color) : ColorParser.fromObject(color);
-    }
-    /**
-     *
-     *
-     * @private
-     * @static
-     * @param {string} color
-     * @returns {Types.Color.Parsing.Match}
-     * @memberof ColorParser
-     */
-    static fromString(color) {
-        let match, result = null;
-        for (let i = ColorParser.MATCHES.length - 1; i >= 0; i--)
-            if ((match = ColorParser.MATCHES[i].regexp.exec(color)))
-                result = { type: ColorParser.MATCHES[i].type, value: match.slice(1) };
-        if (!result)
-            throw new ColorExceptions_1.ColorNotValidException(color, ColorParser.MATCHES);
-        if (result.type.indexOf('hex') != -1)
-            return result;
-        else
-            result.value = Array_1.toFloat(result.value);
-        const matchResolver = typeof ColorParser.MATCH_VALUES[result.type] === 'string' ? ColorParser.MATCH_VALUES[ColorParser.MATCH_VALUES[result.type]] : ColorParser.MATCH_VALUES[result.type];
-        for (let i in matchResolver.possibilities) {
-            if (ColorParser.isFromZeroTo(result.value, matchResolver.possibilities[i])) {
-                if (matchResolver.possibilities[i] != matchResolver.want) {
-                    result.value = ColorParser.scaleToFromZeroTo(result.value, matchResolver.possibilities[i], matchResolver.want);
+(function (glob) {
+    var version = "0.5.4",
+        has = "hasOwnProperty",
+        separator = /[\.\/]/,
+        comaseparator = /\s*,\s*/,
+        wildcard = "*",
+        numsort = function (a, b) {
+            return a - b;
+        },
+        current_event,
+        stop,
+        events = {n: {}},
+        firstDefined = function () {
+            for (var i = 0, ii = this.length; i < ii; i++) {
+                if (typeof this[i] != "undefined") {
+                    return this[i];
                 }
-                return result;
+            }
+        },
+        lastDefined = function () {
+            var i = this.length;
+            while (--i) {
+                if (typeof this[i] != "undefined") {
+                    return this[i];
+                }
+            }
+        },
+        objtos = Object.prototype.toString,
+        Str = String,
+        isArray = Array.isArray || function (ar) {
+            return ar instanceof Array || objtos.call(ar) == "[object Array]";
+        },
+    /*\
+     * eve
+     [ method ]
+
+     * Fires event with given `name`, given scope and other parameters.
+
+     - name (string) name of the *event*, dot (`.`) or slash (`/`) separated
+     - scope (object) context for the event handlers
+     - varargs (...) the rest of arguments will be sent to event handlers
+
+     = (object) array of returned values from the listeners. Array has two methods `.firstDefined()` and `.lastDefined()` to get first or last not `undefined` value.
+    \*/
+        eve = function (name, scope) {
+            var oldstop = stop,
+                args = Array.prototype.slice.call(arguments, 2),
+                listeners = eve.listeners(name),
+                z = 0,
+                l,
+                indexed = [],
+                queue = {},
+                out = [],
+                ce = current_event;
+            out.firstDefined = firstDefined;
+            out.lastDefined = lastDefined;
+            current_event = name;
+            stop = 0;
+            for (var i = 0, ii = listeners.length; i < ii; i++) if ("zIndex" in listeners[i]) {
+                indexed.push(listeners[i].zIndex);
+                if (listeners[i].zIndex < 0) {
+                    queue[listeners[i].zIndex] = listeners[i];
+                }
+            }
+            indexed.sort(numsort);
+            while (indexed[z] < 0) {
+                l = queue[indexed[z++]];
+                out.push(l.apply(scope, args));
+                if (stop) {
+                    stop = oldstop;
+                    return out;
+                }
+            }
+            for (i = 0; i < ii; i++) {
+                l = listeners[i];
+                if ("zIndex" in l) {
+                    if (l.zIndex == indexed[z]) {
+                        out.push(l.apply(scope, args));
+                        if (stop) {
+                            break;
+                        }
+                        do {
+                            z++;
+                            l = queue[indexed[z]];
+                            l && out.push(l.apply(scope, args));
+                            if (stop) {
+                                break;
+                            }
+                        } while (l)
+                    } else {
+                        queue[l.zIndex] = l;
+                    }
+                } else {
+                    out.push(l.apply(scope, args));
+                    if (stop) {
+                        break;
+                    }
+                }
+            }
+            stop = oldstop;
+            current_event = ce;
+            return out;
+        };
+    // Undocumented. Debug only.
+    eve._events = events;
+    /*\
+     * eve.listeners
+     [ method ]
+
+     * Internal method which gives you array of all event handlers that will be triggered by the given `name`.
+
+     - name (string) name of the event, dot (`.`) or slash (`/`) separated
+
+     = (array) array of event handlers
+    \*/
+    eve.listeners = function (name) {
+        var names = isArray(name) ? name : name.split(separator),
+            e = events,
+            item,
+            items,
+            k,
+            i,
+            ii,
+            j,
+            jj,
+            nes,
+            es = [e],
+            out = [];
+        for (i = 0, ii = names.length; i < ii; i++) {
+            nes = [];
+            for (j = 0, jj = es.length; j < jj; j++) {
+                e = es[j].n;
+                items = [e[names[i]], e[wildcard]];
+                k = 2;
+                while (k--) {
+                    item = items[k];
+                    if (item) {
+                        nes.push(item);
+                        out = out.concat(item.f || []);
+                    }
+                }
+            }
+            es = nes;
+        }
+        return out;
+    };
+    /*\
+     * eve.separator
+     [ method ]
+
+     * If for some reasons you don’t like default separators (`.` or `/`) you can specify yours
+     * here. Be aware that if you pass a string longer than one character it will be treated as
+     * a list of characters.
+
+     - separator (string) new separator. Empty string resets to default: `.` or `/`.
+    \*/
+    eve.separator = function (sep) {
+        if (sep) {
+            sep = Str(sep).replace(/(?=[\.\^\]\[\-])/g, "\\");
+            sep = "[" + sep + "]";
+            separator = new RegExp(sep);
+        } else {
+            separator = /[\.\/]/;
+        }
+    };
+    /*\
+     * eve.on
+     [ method ]
+     **
+     * Binds given event handler with a given name. You can use wildcards “`*`” for the names:
+     | eve.on("*.under.*", f);
+     | eve("mouse.under.floor"); // triggers f
+     * Use @eve to trigger the listener.
+     **
+     - name (string) name of the event, dot (`.`) or slash (`/`) separated, with optional wildcards
+     - f (function) event handler function
+     **
+     - name (array) if you don’t want to use separators, you can use array of strings
+     - f (function) event handler function
+     **
+     = (function) returned function accepts a single numeric parameter that represents z-index of the handler. It is an optional feature and only used when you need to ensure that some subset of handlers will be invoked in a given order, despite of the order of assignment.
+     > Example:
+     | eve.on("mouse", eatIt)(2);
+     | eve.on("mouse", scream);
+     | eve.on("mouse", catchIt)(1);
+     * This will ensure that `catchIt` function will be called before `eatIt`.
+     *
+     * If you want to put your handler before non-indexed handlers, specify a negative value.
+     * Note: I assume most of the time you don’t need to worry about z-index, but it’s nice to have this feature “just in case”.
+    \*/
+    eve.on = function (name, f) {
+        if (typeof f != "function") {
+            return function () {};
+        }
+        var names = isArray(name) ? isArray(name[0]) ? name : [name] : Str(name).split(comaseparator);
+        for (var i = 0, ii = names.length; i < ii; i++) {
+            (function (name) {
+                var names = isArray(name) ? name : Str(name).split(separator),
+                    e = events,
+                    exist;
+                for (var i = 0, ii = names.length; i < ii; i++) {
+                    e = e.n;
+                    e = e.hasOwnProperty(names[i]) && e[names[i]] || (e[names[i]] = {n: {}});
+                }
+                e.f = e.f || [];
+                for (i = 0, ii = e.f.length; i < ii; i++) if (e.f[i] == f) {
+                    exist = true;
+                    break;
+                }
+                !exist && e.f.push(f);
+            }(names[i]));
+        }
+        return function (zIndex) {
+            if (+zIndex == +zIndex) {
+                f.zIndex = +zIndex;
+            }
+        };
+    };
+    /*\
+     * eve.f
+     [ method ]
+     **
+     * Returns function that will fire given event with optional arguments.
+     * Arguments that will be passed to the result function will be also
+     * concated to the list of final arguments.
+     | el.onclick = eve.f("click", 1, 2);
+     | eve.on("click", function (a, b, c) {
+     |     console.log(a, b, c); // 1, 2, [event object]
+     | });
+     - event (string) event name
+     - varargs (…) and any other arguments
+     = (function) possible event handler function
+    \*/
+    eve.f = function (event) {
+        var attrs = [].slice.call(arguments, 1);
+        return function () {
+            eve.apply(null, [event, null].concat(attrs).concat([].slice.call(arguments, 0)));
+        };
+    };
+    /*\
+     * eve.stop
+     [ method ]
+     **
+     * Is used inside an event handler to stop the event, preventing any subsequent listeners from firing.
+    \*/
+    eve.stop = function () {
+        stop = 1;
+    };
+    /*\
+     * eve.nt
+     [ method ]
+     **
+     * Could be used inside event handler to figure out actual name of the event.
+     **
+     - subname (string) #optional subname of the event
+     **
+     = (string) name of the event, if `subname` is not specified
+     * or
+     = (boolean) `true`, if current event’s name contains `subname`
+    \*/
+    eve.nt = function (subname) {
+        var cur = isArray(current_event) ? current_event.join(".") : current_event;
+        if (subname) {
+            return new RegExp("(?:\\.|\\/|^)" + subname + "(?:\\.|\\/|$)").test(cur);
+        }
+        return cur;
+    };
+    /*\
+     * eve.nts
+     [ method ]
+     **
+     * Could be used inside event handler to figure out actual name of the event.
+     **
+     **
+     = (array) names of the event
+    \*/
+    eve.nts = function () {
+        return isArray(current_event) ? current_event : current_event.split(separator);
+    };
+    /*\
+     * eve.off
+     [ method ]
+     **
+     * Removes given function from the list of event listeners assigned to given name.
+     * If no arguments specified all the events will be cleared.
+     **
+     - name (string) name of the event, dot (`.`) or slash (`/`) separated, with optional wildcards
+     - f (function) event handler function
+    \*/
+    /*\
+     * eve.unbind
+     [ method ]
+     **
+     * See @eve.off
+    \*/
+    eve.off = eve.unbind = function (name, f) {
+        if (!name) {
+            eve._events = events = {n: {}};
+            return;
+        }
+        var names = isArray(name) ? isArray(name[0]) ? name : [name] : Str(name).split(comaseparator);
+        if (names.length > 1) {
+            for (var i = 0, ii = names.length; i < ii; i++) {
+                eve.off(names[i], f);
+            }
+            return;
+        }
+        names = isArray(name) ? name : Str(name).split(separator);
+        var e,
+            key,
+            splice,
+            i, ii, j, jj,
+            cur = [events],
+            inodes = [];
+        for (i = 0, ii = names.length; i < ii; i++) {
+            for (j = 0; j < cur.length; j += splice.length - 2) {
+                splice = [j, 1];
+                e = cur[j].n;
+                if (names[i] != wildcard) {
+                    if (e[names[i]]) {
+                        splice.push(e[names[i]]);
+                        inodes.unshift({
+                            n: e,
+                            name: names[i]
+                        });
+                    }
+                } else {
+                    for (key in e) if (e[has](key)) {
+                        splice.push(e[key]);
+                        inodes.unshift({
+                            n: e,
+                            name: key
+                        });
+                    }
+                }
+                cur.splice.apply(cur, splice);
             }
         }
-        throw new ColorExceptions_1.ColorParsingException(color);
-    }
-    /**
-     *
-     *
-     * @private
-     * @static
-     * @param {(Types.Color.RGB | Types.Color.HSV | Types.Color.HSL | Types.Color.CMYK)} color
-     * @returns {Types.Color.Parsing.Match}
-     * @memberof ColorParser
-     */
-    static fromObject(color) {
-        if ('r' in color)
-            return { type: 'rgba', value: [color.r, color.g, color.b, color.a] };
-        if ('l' in color)
-            return { type: 'hsla', value: [color.h, color.s, color.l, color.a] };
-        if ('v' in color)
-            return { type: 'hsva', value: [color.h, color.s, color.v, color.a] };
-        if ('c' in color)
-            return { type: 'cmyk', value: [color.c, color.m, color.y, color.k] };
-        throw new ColorExceptions_1.ColorParsingException(JSON.stringify(color));
-    }
-    /**
-     *
-     *
-     * @static
-     * @param {(Array<string | number>)} values
-     * @returns {boolean}
-     * @memberof ColorParser
-     */
-    static isFromZeroToOne(values) {
-        for (let i in values)
-            if (values[i] > 1)
-                return false;
-        return true;
-    }
-    /**
-     *
-     *
-     * @static
-     * @param {(Array<string | number>)} values
-     * @param {(Array<number> | number)} maxValues
-     * @returns {boolean}
-     * @memberof ColorParser
-     */
-    static isFromZeroTo(values, maxValues) {
-        if (((Array.isArray(maxValues) && maxValues != ColorParser.ZERO_TO_ONE) || (!Array.isArray(maxValues) && maxValues == 1)) && ColorParser.isFromZeroToOne(values))
-            return false;
-        for (let i in values)
-            if (values[i] > (Array.isArray(maxValues) ? maxValues[i] : maxValues))
-                return false;
-        return true;
-    }
-    /**
-     *
-     *
-     * @static
-     * @param {Array<number>} values
-     * @param {(Array<number> | number)} maxValues
-     * @returns {Array<number>}
-     * @memberof ColorParser
-     */
-    static scaleToFromZeroToOne(values, maxValues) {
-        if (ColorParser.isFromZeroToOne(values))
-            return values;
-        const result = [];
-        for (let i in values)
-            result.push(Number_1.clamp01(values[i] / (Array.isArray(maxValues) ? maxValues[i] : maxValues)));
-        return result;
-    }
-    /**
-     *
-     *
-     * @static
-     * @param {Array<number>} values
-     * @param {Array<number>} maxValues
-     * @param {Array<number>} wantValues
-     * @returns
-     * @memberof ColorParser
-     */
-    static scaleToFromZeroTo(values, maxValues, wantValues) {
-        const result = [];
-        for (let i in values)
-            result.push(Number_1.clamp(0, (Array.isArray(wantValues) ? wantValues[i] : wantValues), values[i] / (Array.isArray(maxValues) ? maxValues[i] : maxValues) * (Array.isArray(wantValues) ? wantValues[i] : wantValues)));
-        return result;
-    }
-}
-/**
- *
- *
- * @private
- * @static
- * @memberof ColorParser
- */
-ColorParser.CSS_INTEGER = '[-\\+]?\\d+%?';
-/**
- *
- *
- * @private
- * @static
- * @memberof ColorParser
- */
-ColorParser.CSS_NUMBER = '[-\\+]?\\d*\\.\\d+%?';
-/**
- *
- *
- * @private
- * @static
- * @memberof ColorParser
- */
-ColorParser.CSS_UNIT = '(?:' + ColorParser.CSS_NUMBER + ')|(?:' + ColorParser.CSS_INTEGER + ')';
-/**
- *
- *
- * @private
- * @static
- * @memberof ColorParser
- */
-ColorParser.PERMISSIVE_MATCH3 = '[\\s|\\(]+(' + ColorParser.CSS_UNIT + ')[,|\\s]+(' + ColorParser.CSS_UNIT + ')[,|\\s]+(' + ColorParser.CSS_UNIT + ')\\s*\\)?';
-/**
- *
- *
- * @private
- * @static
- * @memberof ColorParser
- */
-ColorParser.PERMISSIVE_MATCH4 = '[\\s|\\(]+(' + ColorParser.CSS_UNIT + ')[,|\\s]+(' + ColorParser.CSS_UNIT + ')[,|\\s]+(' + ColorParser.CSS_UNIT + ')[,|\\s]+(' + ColorParser.CSS_UNIT + ')\\s*\\)?';
-/**
- *
- *
- * @private
- * @static
- * @type {Array<number>}
- * @memberof ColorParser
- */
-ColorParser.ZERO_TO_ONE = [1, 1, 1, 1];
-/**
- *
- *
- * @private
- * @static
- * @type {Array<number>}
- * @memberof ColorParser
- */
-ColorParser.ZERO_TO_255 = [255, 255, 255, 1];
-/**
- *
- *
- * @private
- * @static
- * @memberof ColorParser
- */
-ColorParser.MATCH_VALUES = {
-    'rgb': {
-        possibilities: [ColorParser.ZERO_TO_ONE, ColorParser.ZERO_TO_255],
-        want: ColorParser.ZERO_TO_255
-    },
-    'rgba': 'rgb',
-    'cmyk': {
-        possibilities: [[100, 100, 100, 100], ColorParser.ZERO_TO_ONE],
-        want: ColorParser.ZERO_TO_ONE
-    },
-    'hsl': {
-        possibilities: [[360, 100, 100, 1], ColorParser.ZERO_TO_ONE],
-        want: ColorParser.ZERO_TO_ONE
-    },
-    'hsla': 'hsl', 'hsv': 'hsl', 'hsva': 'hsl'
-};
-/**
- *
- *
- * @private
- * @static
- * @type {Array<Types.Color.Parsing.Regex>}
- * @memberof ColorParser
- */
-ColorParser.MATCHES = [
-    //{ type: 'CSS_UNIT', regexp: new RegExp(CSS_UNIT) },
-    { type: 'rgb', regexp: new RegExp('rgb' + ColorParser.PERMISSIVE_MATCH3) },
-    { type: 'rgba', regexp: new RegExp('rgba' + ColorParser.PERMISSIVE_MATCH4) },
-    { type: 'hsl', regexp: new RegExp('hsl' + ColorParser.PERMISSIVE_MATCH3) },
-    { type: 'hsla', regexp: new RegExp('hsla' + ColorParser.PERMISSIVE_MATCH4) },
-    { type: 'hsv', regexp: new RegExp('hsv' + ColorParser.PERMISSIVE_MATCH3) },
-    { type: 'hsva', regexp: new RegExp('hsva' + ColorParser.PERMISSIVE_MATCH4) },
-    { type: 'cmyk', regexp: new RegExp('cmyk' + ColorParser.PERMISSIVE_MATCH4) },
-    { type: 'hex3', regexp: /^#?([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/ },
-    { type: 'hex6', regexp: /^#?([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/ },
-    { type: 'hex4', regexp: /^#?([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/ },
-    { type: 'hex8', regexp: /^#?([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})$/ },
-];
-exports.default = ColorParser;
-//# sourceMappingURL=ColorParser.js.map
-
-/***/ }),
-
-/***/ "./node_modules/@pups/utility/build/Array.js":
-/*!***************************************************!*\
-  !*** ./node_modules/@pups/utility/build/Array.js ***!
-  \***************************************************/
-/*! flagged exports */
-/*! export __esModule [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export hasObjectProperty [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export indexOfObjectProperty [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export intersect [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export nextElement [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export prevElement [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export randomElement [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export toFloat [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export toInt [provided] [no usage info] [missing usage info prevents renaming] */
-/*! other exports [not provided] [no usage info] */
-/*! runtime requirements: __webpack_exports__, __webpack_require__ */
-/*! CommonJS bailout: exports.indexOfObjectProperty(...) prevents optimization as exports is passed as call context at 51:54-83 */
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-const Object_1 = __webpack_require__(/*! ./Object */ "./node_modules/@pups/utility/build/Object.js");
-const Number_1 = __webpack_require__(/*! ./Number */ "./node_modules/@pups/utility/build/Number.js");
-/**
- * Converte un array in un array di interi.
- *
- * @example
- * ```javascript
- *
- * const elements = [1, '2', '3.23', 4.2332, 'a']
- * const results = utility.array.intersect(elements)
- * console.log(results) // [1, 2, 3, 4, NaN]
- * ```
- *
- * @param {Array<any>} elements
- * @returns {Array<number>}
- */
-exports.toInt = (elements) => elements.map(e => parseInt(e));
-/**
- * Converte un array in un array di float.
- *
- * @example
- * ```javascript
- *
- * const elements = [1, '2', '3.23', 4.2332, 'a']
- * const results = utility.array.intersect(elements)
- * console.log(results) // [ 1, 2, 3.23, 4.2332, NaN ]
- * ```
- *
- * @param {Array<any>} elements
- * @returns {Array<number>}
- */
-exports.toFloat = (elements) => elements.map(e => parseFloat(e));
-/**
- * Controlla se il valore di una proprietà esiste all'interno di un array di oggetti.
- *
- * @example
- * ```javascript
- *
- * const elements = [{ 'id': 1 } { 'id': 2 }]
- * const result = utility.array.hasObjectProperty(elements, 'id', 2)
- * console.log(results) // true
- * ```
- *
- * @param {Array<object>} elements
- * @param {string} key
- * @param {(((value: any, item: any) => boolean) | any)} value
- * @returns {boolean}
- */
-exports.hasObjectProperty = (elements, key, value) => exports.indexOfObjectProperty(elements, key, value) >= 0;
-/**
- * Ritorna l'indice dell'oggetto che possiede la proprità cercata. Ritorna -1 se l'elemento non viene trovato
- *
- * @example
- * ```javascript
- *
- * // Esempio di una proprietà di primo livello
- * const elements = [
- *  { 'id': 1, 'token': 'xxx-yyy' }
- *  { 'id': 2, 'token': 'aaa-bbb' }
- * ]
- * const index = utility.array.indexOfObjectProperty(elements, 'token', 'aaa-bbb')
- * console.log(index) // 1
- * ```
- * @example
- * ```javascript
- *
- * // Esempio di una proprietà di primo secondo livello e funzione di validazione (3° parametro)
- * const elements = [
- *  { 'id': 1, 'data': { 'active': true, 'token': 'xxx-yyy' }}
- *  { 'id': 2, 'data': { 'active': true, 'token': 'aaa-bbb' }}
- * ]
- * const index = utility.array.indexOfObjectProperty(
- *  elements,
- *  'data.token',
- *  (value, item) => item.data.active && value === 'aaa-bbb'
- * )
- * console.log(index) // 1
- * ```
- *
- * @param {Array<object>} elements
- * @param {string} key
- * @param {(((value: any, item: any) => boolean) | any)} value
- * @returns {number}
- */
-exports.indexOfObjectProperty = (elements, key, value) => {
-    for (let i = elements.length - 1; i >= 0; i--)
-        if (typeof value === 'function' ? value(Object_1.getProperty(elements[i], key, 'Nil'), elements[i]) : Object_1.getProperty(elements[i], key) === value)
-            return i;
-    return -1;
-};
-/**
- * Ritorna l'intersezione tra due array.
- *
- * @example
- * ```javascript
- *
- * const a = [1, 2, 3]
- * const b = [2, 3, 4]
- * console.log(utility.array.intersect(a, b)) // [ 2, 3 ]
- * ```
- *
- * @param {Array<any>} a
- * @param {Array<any>} b
- * @returns {Array<any>}
- */
-exports.intersect = (a, b) => {
-    var ai = 0, bi = 0;
-    const result = new Array();
-    while (ai < a.length && bi < b.length) {
-        if (a[ai] < b[bi])
-            ai++;
-        else if (a[ai] > b[bi])
-            bi++;
-        else {
-            result.push(a[ai]);
-            ai++;
-            bi++;
+        for (i = 0, ii = cur.length; i < ii; i++) {
+            e = cur[i];
+            while (e.n) {
+                if (f) {
+                    if (e.f) {
+                        for (j = 0, jj = e.f.length; j < jj; j++) if (e.f[j] == f) {
+                            e.f.splice(j, 1);
+                            break;
+                        }
+                        !e.f.length && delete e.f;
+                    }
+                    for (key in e.n) if (e.n[has](key) && e.n[key].f) {
+                        var funcs = e.n[key].f;
+                        for (j = 0, jj = funcs.length; j < jj; j++) if (funcs[j] == f) {
+                            funcs.splice(j, 1);
+                            break;
+                        }
+                        !funcs.length && delete e.n[key].f;
+                    }
+                } else {
+                    delete e.f;
+                    for (key in e.n) if (e.n[has](key) && e.n[key].f) {
+                        delete e.n[key].f;
+                    }
+                }
+                e = e.n;
+            }
         }
-    }
-    return result;
-};
-/**
- * Ritorna il prossimo elemento di un array.
- *
- * @example
- * ```javascript
- *
- * const a = [1, 2, 3]
- * console.log(utility.array.next(a, 2)) // 1
- * ```
- *
- * @param {Array<any>} a
- * @param {number} index
- * @returns {Aany}
- */
-exports.nextElement = (a, index) => a[Number_1.nextNumber(index, a.length)];
-/**
- * Ritorna l'elemento precedente di un array.
- *
- * @example
- * ```javascript
- *
- * const a = [1, 2, 3]
- * console.log(utility.array.next(a, 2)) // 2
- * ```
- *
- * @param {Array<any>} a
- * @param {number} index
- * @returns {Aany}
- */
-exports.prevElement = (a, index) => a[Number_1.prevNumber(index, a.length)];
-/**
- * Ritorna un elemento random di un array.
- *
- * @example
- * ```javascript
- *
- * const a = [1, 2, 3]
- * console.log(utility.array.next(a, 2)) // 2
- * ```
- *
- * @param {Array<any>} a
- * @param {number} index
- * @returns {Aany}
- */
-exports.randomElement = (a) => a[Number_1.randomInt(0, a.length - 1)];
-//# sourceMappingURL=Array.js.map
+        // prune inner nodes in path
+        prune: for (i = 0, ii = inodes.length; i < ii; i++) {
+            e = inodes[i];
+            for (key in e.n[e.name].f) {
+                // not empty (has listeners)
+                continue prune;
+            }
+            for (key in e.n[e.name].n) {
+                // not empty (has children)
+                continue prune;
+            }
+            // is empty
+            delete e.n[e.name];
+        }
+    };
+    /*\
+     * eve.once
+     [ method ]
+     **
+     * Binds given event handler with a given name to only run once then unbind itself.
+     | eve.once("login", f);
+     | eve("login"); // triggers f
+     | eve("login"); // no listeners
+     * Use @eve to trigger the listener.
+     **
+     - name (string) name of the event, dot (`.`) or slash (`/`) separated, with optional wildcards
+     - f (function) event handler function
+     **
+     = (function) same return function as @eve.on
+    \*/
+    eve.once = function (name, f) {
+        var f2 = function () {
+            eve.off(name, f2);
+            return f.apply(this, arguments);
+        };
+        return eve.on(name, f2);
+    };
+    /*\
+     * eve.version
+     [ property (string) ]
+     **
+     * Current version of the library.
+    \*/
+    eve.version = version;
+    eve.toString = function () {
+        return "You are running Eve " + version;
+    };
+    glob.eve = eve;
+     true && module.exports ? module.exports = eve :  true ? !(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = (function () { return eve; }).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
+		__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)) : 0;
+})(typeof window != "undefined" ? window : this);
 
-/***/ }),
-
-/***/ "./node_modules/@pups/utility/build/Number.js":
-/*!****************************************************!*\
-  !*** ./node_modules/@pups/utility/build/Number.js ***!
-  \****************************************************/
-/*! flagged exports */
-/*! export __esModule [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export clamp [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export clamp01 [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export fix [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export lerp [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export newId [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export nextNumber [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export prevNumber [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export randomFloat [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export randomInt [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export relativeClamp [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export round [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export twoDigits [provided] [no usage info] [missing usage info prevents renaming] */
-/*! other exports [not provided] [no usage info] */
-/*! runtime requirements: __webpack_exports__ */
-/*! CommonJS bailout: exports.clamp(...) prevents optimization as exports is passed as call context at 24:29-42 */
-/*! CommonJS bailout: exports.clamp(...) prevents optimization as exports is passed as call context at 49:65-78 */
-/*! CommonJS bailout: exports.clamp01(...) prevents optimization as exports is passed as call context at 113:72-87 */
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-let uid = 0;
-/**
- * Ritorna un numerio incrementale
- *
- * @param {number} [from=0]
- * @returns {number}
- */
-exports.newId = (from = 0) => ++uid + from;
-/**
- * Ritorna stringa di almeno due cifre
- *
- * @param {number} n
- * @returns {string}
- */
-exports.twoDigits = (n) => (n <= 9 ? '0' : '') + n;
-/**
- * Ritorna un valore compreso tra 0 ed 1
- *
- * @param {number} value
- * @returns {number}
- */
-exports.clamp01 = (value) => exports.clamp(0, 1, value);
-/**
- * Ritorna un valore compreso tra {min} ed {max}
- *
- * @param {number} min
- * @param {number} max
- * @param {number} value
- * @returns {number}
- */
-exports.clamp = (min, max, value) => value <= min ? min : (value >= max ? max : value);
-/**
- * Ritorna un valore compreso tra {min} e {max} in rifermiento a {refMin} e {refMax}
- *
- * @example
- * ```javascript
- * relativeClamp2(0.5, 0, 1, 100, 200) // 150
- * ```
- *
- * @param {number} value
- * @param {number} refMin
- * @param {number} refMax
- * @param {number} toMin
- * @param {number} toMax
- * @returns {number}
- */
-exports.relativeClamp = (value, refMin, refMax, toMin, toMax) => exports.clamp(toMin, toMax, (value - refMin) / (refMax - refMin) * (toMax - toMin) + toMin);
-/**
- * Ritorna un numero approssimato alla cifra {decimal}
- *
- * @param {*} value
- * @param {number} [decimal=20]
- * @returns {number}
- */
-exports.fix = (value, decimal = 20) => +parseFloat(value).toFixed(decimal);
-/**
- * Ritorna il prossimo numero di una lista
- *
- * @example
- * ```javascript
- * console.log(2, 3) // 0
- * ```
- *
- * @param {number} index
- * @param {number} length
- * @param {number} [offset=1]
- * @returns
- */
-exports.nextNumber = (index, length, offset = 1) => (index + offset) % length;
-/**
- * Ritorna il valore precedente di una lista
- * @example
- * ```javascript
- *
- * console.log(0, 3) // 2
- * ```
- *
- * @param {number} index
- * @param {number} length
- * @param {number} [offset=1]
- * @returns
- */
-exports.prevNumber = (index, length, offset = 1) => {
-    index -= offset;
-    return (index < 0 ? index + length : index) % length;
-};
-/**
- * Ritorna un numero random tra {min} e {max}
- *
- * @param {number} min
- * @param {number} max
- * @returns {number}
- */
-exports.randomFloat = (min, max) => Math.random() * (max - min) + min;
-/**
- * Ritorna un numero intero tra {min} e {max} (inclusi)
- *
- * @param {number} min
- * @param {number} max
- * @returns {number}
- */
-exports.randomInt = (min, max) => Math.trunc(Math.random() * (max - min + 1)) + min;
-/**
- * Funzione lerp
- *
- * @param {number} value1
- * @param {number} value2
- * @param {number} amount
- * @returns {number}
- */
-exports.lerp = (value1, value2, amount) => value1 + (value2 - value1) * exports.clamp01(amount);
-/**
- * Round
- *
- * @param {number} val
- * @returns {number}
- */
-exports.round = (val) => ~~(val + 0.5);
-//# sourceMappingURL=Number.js.map
-
-/***/ }),
-
-/***/ "./node_modules/@pups/utility/build/Object.js":
-/*!****************************************************!*\
-  !*** ./node_modules/@pups/utility/build/Object.js ***!
-  \****************************************************/
-/*! flagged exports */
-/*! export __esModule [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export each [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export getProperty [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export hasProperty [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export isDef [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export isEqual [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export isUndef [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export map [provided] [no usage info] [missing usage info prevents renaming] */
-/*! export setProperties [provided] [no usage info] [missing usage info prevents renaming] */
-/*! other exports [not provided] [no usage info] */
-/*! runtime requirements: __webpack_exports__, top-level-this-exports */
-/*! CommonJS bailout: exports.isDef(...) prevents optimization as exports is passed as call context at 19:12-25 */
-/*! CommonJS bailout: exports.isEqual(...) prevents optimization as exports is passed as call context at 36:54-69 */
-/*! CommonJS bailout: this.getProperty(...) prevents optimization as this is passed as call context at 80:18-34 */
-/*! CommonJS bailout: this.getProperty(...) prevents optimization as this is passed as call context at 104:35-51 */
-/*! CommonJS bailout: this.getProperty(...) prevents optimization as this is passed as call context at 106:19-35 */
-/***/ (function(__unused_webpack_module, exports) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-/**
- * Controlla se il valore è definito
- *
- * @param {*} value
- * @returns {boolean}
- */
-exports.isDef = (value) => {
-    return typeof value !== 'undefined';
-};
-/**
- * Controlla se il valore non è definito
- *
- * @param {*} value
- * @returns {boolean}
- */
-exports.isUndef = (value) => {
-    return !exports.isDef(value);
-};
-/**
- * Controlla se {a} è uguale a {b}.
- * Verranno controllate anche le proprietà innestate.
- *
- * @param {*} a
- * @param {*} b
- * @returns {boolean}
- */
-exports.isEqual = (a, b) => {
-    if (typeof a !== 'object' || a === null || b === null) {
-        return a === b;
-    }
-    else {
-        const keys = Object.keys(a);
-        for (let i = 0, len = keys.length; i < len; i++)
-            if (typeof b[keys[i]] === 'undefined' || !exports.isEqual(a[keys[i]], b[keys[i]]))
-                return false;
-    }
-    return true;
-};
-/**
- * Mappa un oggetto
- *
- * @param {object} object
- * @param {(value: any, key: string, index: number) => any} callable
- * @returns {Object}
- */
-exports.map = (object, callable) => {
-    Object.keys(object).forEach((key, index) => {
-        object[key] = callable(object[key], key, index);
-    });
-    return object;
-};
-/**
- * Scorre un oggetto
- *
- * @param {object} object
- * @param {(value: any, key: string, index: number) => any} callable
- */
-exports.each = (object, callable) => {
-    Object.keys(object).forEach((key, index) => {
-        callable(object[key], key, index);
-    });
-};
-/**
- * Controlla se una proprietà esiste nell'oggetto {object}
- *
- * @example
- * ```javascript
- *
- * const data = { key: 'mykey', items: [] }
- * console.log(object.hasProperty(data, 'items')) // true
- * ```
- *
- * @param {object} object
- * @param {string} property
- * @returns {boolean}
- */
-exports.hasProperty = (object, property) => {
-    return typeof this.getProperty(object, property, undefined) !== 'undefined';
-};
-/**
- * Ritorna la proprietà di un oggetto
- *
- * @example
- * ```javascript
- *
- * const data = { key: 'mykey', items: [{ id: 1, name: 'Foo' }, { id: 2, name: 'Bar' }] }
- * console.log(utility.object.getProperty(data, 'items.1.name')) // Bar
- * ```
- *
- * @param {object} object
- * @param {string} property
- * @param {*} [defaultValue=null]
- * @returns
- */
-exports.getProperty = (object, property, defaultValue = null) => {
-    const properties = property.split('.');
-    const len = properties.length;
-    for (let i = 0; i < len; i++) {
-        const p = properties[i];
-        const pi = parseInt(p);
-        if (p == '*' && Array.isArray(object))
-            return object.map(o => this.getProperty(o, properties.slice(i + 1).join('.'), defaultValue));
-        if (!isNaN(pi) && Array.isArray(object))
-            return this.getProperty(object[i], properties.slice(i + 1).join('.'), defaultValue);
-        if (!object.hasOwnProperty(p))
-            return defaultValue;
-        object = object[p];
-        if (typeof object === 'undefined')
-            return defaultValue;
-    }
-    return object;
-};
-/**
- * Setta più proprietà in un oggetto
- *
- * @example
- * ```javascript
- *
- * const data = { }
- * utility.object.setProperties(data, ['a', 'b'], [1, [2, 3]])
- * console.log(data) // { a: 1, b: [ 2, 3 ] }
- * ```
- *
- * @param {object} object
- * @param {Array<string>} properties
- * @param {(Array<any> | Function | any)} values
- */
-exports.setProperties = (object, properties, values) => {
-    properties.forEach((property, index) => {
-        let temp = object;
-        const nestedProperties = property.split('.');
-        const setPropery = nestedProperties.pop();
-        nestedProperties.forEach(p => { temp = temp[p] || {}; });
-        temp[setPropery] = Array.isArray(values) ? values[index] : typeof values === 'function' ? values(temp[setPropery]) : values;
-    });
-};
-//# sourceMappingURL=Object.js.map
 
 /***/ }),
 
@@ -25610,6 +25983,10780 @@ Better rank ordering method by Stefan Gustavson in 2012.
   }
 
 })();
+
+
+/***/ }),
+
+/***/ "./node_modules/simplify-js/simplify.js":
+/*!**********************************************!*\
+  !*** ./node_modules/simplify-js/simplify.js ***!
+  \**********************************************/
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: __webpack_require__, __webpack_exports__, module */
+/***/ ((module, exports, __webpack_require__) => {
+
+var __WEBPACK_AMD_DEFINE_RESULT__;/*
+ (c) 2017, Vladimir Agafonkin
+ Simplify.js, a high-performance JS polyline simplification library
+ mourner.github.io/simplify-js
+*/
+
+(function () { 'use strict';
+
+// to suit your point format, run search/replace for '.x' and '.y';
+// for 3D version, see 3d branch (configurability would draw significant performance overhead)
+
+// square distance between 2 points
+function getSqDist(p1, p2) {
+
+    var dx = p1.x - p2.x,
+        dy = p1.y - p2.y;
+
+    return dx * dx + dy * dy;
+}
+
+// square distance from a point to a segment
+function getSqSegDist(p, p1, p2) {
+
+    var x = p1.x,
+        y = p1.y,
+        dx = p2.x - x,
+        dy = p2.y - y;
+
+    if (dx !== 0 || dy !== 0) {
+
+        var t = ((p.x - x) * dx + (p.y - y) * dy) / (dx * dx + dy * dy);
+
+        if (t > 1) {
+            x = p2.x;
+            y = p2.y;
+
+        } else if (t > 0) {
+            x += dx * t;
+            y += dy * t;
+        }
+    }
+
+    dx = p.x - x;
+    dy = p.y - y;
+
+    return dx * dx + dy * dy;
+}
+// rest of the code doesn't care about point format
+
+// basic distance-based simplification
+function simplifyRadialDist(points, sqTolerance) {
+
+    var prevPoint = points[0],
+        newPoints = [prevPoint],
+        point;
+
+    for (var i = 1, len = points.length; i < len; i++) {
+        point = points[i];
+
+        if (getSqDist(point, prevPoint) > sqTolerance) {
+            newPoints.push(point);
+            prevPoint = point;
+        }
+    }
+
+    if (prevPoint !== point) newPoints.push(point);
+
+    return newPoints;
+}
+
+function simplifyDPStep(points, first, last, sqTolerance, simplified) {
+    var maxSqDist = sqTolerance,
+        index;
+
+    for (var i = first + 1; i < last; i++) {
+        var sqDist = getSqSegDist(points[i], points[first], points[last]);
+
+        if (sqDist > maxSqDist) {
+            index = i;
+            maxSqDist = sqDist;
+        }
+    }
+
+    if (maxSqDist > sqTolerance) {
+        if (index - first > 1) simplifyDPStep(points, first, index, sqTolerance, simplified);
+        simplified.push(points[index]);
+        if (last - index > 1) simplifyDPStep(points, index, last, sqTolerance, simplified);
+    }
+}
+
+// simplification using Ramer-Douglas-Peucker algorithm
+function simplifyDouglasPeucker(points, sqTolerance) {
+    var last = points.length - 1;
+
+    var simplified = [points[0]];
+    simplifyDPStep(points, 0, last, sqTolerance, simplified);
+    simplified.push(points[last]);
+
+    return simplified;
+}
+
+// both algorithms combined for awesome performance
+function simplify(points, tolerance, highestQuality) {
+
+    if (points.length <= 2) return points;
+
+    var sqTolerance = tolerance !== undefined ? tolerance * tolerance : 1;
+
+    points = highestQuality ? points : simplifyRadialDist(points, sqTolerance);
+    points = simplifyDouglasPeucker(points, sqTolerance);
+
+    return points;
+}
+
+// export as AMD module / Node module / browser or worker variable
+if (true) !(__WEBPACK_AMD_DEFINE_RESULT__ = (function() { return simplify; }).call(exports, __webpack_require__, exports, module),
+		__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+else {}
+
+})();
+
+
+/***/ }),
+
+/***/ "./node_modules/snapsvg-cjs/dist/snap.svg-cjs.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/snapsvg-cjs/dist/snap.svg-cjs.js ***!
+  \*******************************************************/
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: top-level-this-exports, module, __webpack_require__ */
+/*! CommonJS bailout: this is used directly at 2232:12-16 */
+/*! CommonJS bailout: module.exports is used directly at 8145:0-14 */
+/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+
+window.eve = __webpack_require__(/*! eve */ "./node_modules/eve/eve.js")
+
+// Copyright (c) 2017 Adobe Systems Incorporated. All rights reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+var mina = (function (eve) {
+    var animations = {},
+    requestAnimFrame = window.requestAnimationFrame       ||
+                       window.webkitRequestAnimationFrame ||
+                       window.mozRequestAnimationFrame    ||
+                       window.oRequestAnimationFrame      ||
+                       window.msRequestAnimationFrame     ||
+                       function (callback) {
+                           setTimeout(callback, 16, new Date().getTime());
+                           return true;
+                       },
+    requestID,
+    isArray = Array.isArray || function (a) {
+        return a instanceof Array ||
+            Object.prototype.toString.call(a) == "[object Array]";
+    },
+    idgen = 0,
+    idprefix = "M" + (+new Date).toString(36),
+    ID = function () {
+        return idprefix + (idgen++).toString(36);
+    },
+    diff = function (a, b, A, B) {
+        if (isArray(a)) {
+            res = [];
+            for (var i = 0, ii = a.length; i < ii; i++) {
+                res[i] = diff(a[i], b, A[i], B);
+            }
+            return res;
+        }
+        var dif = (A - a) / (B - b);
+        return function (bb) {
+            return a + dif * (bb - b);
+        };
+    },
+    timer = Date.now || function () {
+        return +new Date;
+    },
+    sta = function (val) {
+        var a = this;
+        if (val == null) {
+            return a.s;
+        }
+        var ds = a.s - val;
+        a.b += a.dur * ds;
+        a.B += a.dur * ds;
+        a.s = val;
+    },
+    speed = function (val) {
+        var a = this;
+        if (val == null) {
+            return a.spd;
+        }
+        a.spd = val;
+    },
+    duration = function (val) {
+        var a = this;
+        if (val == null) {
+            return a.dur;
+        }
+        a.s = a.s * val / a.dur;
+        a.dur = val;
+    },
+    stopit = function () {
+        var a = this;
+        delete animations[a.id];
+        a.update();
+        eve("mina.stop." + a.id, a);
+    },
+    pause = function () {
+        var a = this;
+        if (a.pdif) {
+            return;
+        }
+        delete animations[a.id];
+        a.update();
+        a.pdif = a.get() - a.b;
+    },
+    resume = function () {
+        var a = this;
+        if (!a.pdif) {
+            return;
+        }
+        a.b = a.get() - a.pdif;
+        delete a.pdif;
+        animations[a.id] = a;
+        frame();
+    },
+    update = function () {
+        var a = this,
+            res;
+        if (isArray(a.start)) {
+            res = [];
+            for (var j = 0, jj = a.start.length; j < jj; j++) {
+                res[j] = +a.start[j] +
+                    (a.end[j] - a.start[j]) * a.easing(a.s);
+            }
+        } else {
+            res = +a.start + (a.end - a.start) * a.easing(a.s);
+        }
+        a.set(res);
+    },
+    frame = function (timeStamp) {
+        // Manual invokation?
+        if (!timeStamp) {
+            // Frame loop stopped?
+            if (!requestID) {
+                // Start frame loop...
+                requestID = requestAnimFrame(frame);
+            }
+            return;
+        }
+        var len = 0;
+        for (var i in animations) if (animations.hasOwnProperty(i)) {
+            var a = animations[i],
+                b = a.get(),
+                res;
+            len++;
+            a.s = (b - a.b) / (a.dur / a.spd);
+            if (a.s >= 1) {
+                delete animations[i];
+                a.s = 1;
+                len--;
+                (function (a) {
+                    setTimeout(function () {
+                        eve("mina.finish." + a.id, a);
+                    });
+                }(a));
+            }
+            a.update();
+        }
+        requestID = len ? requestAnimFrame(frame) : false;
+    },
+    /*\
+     * mina
+     [ method ]
+     **
+     * Generic animation of numbers
+     **
+     - a (number) start _slave_ number
+     - A (number) end _slave_ number
+     - b (number) start _master_ number (start time in general case)
+     - B (number) end _master_ number (end time in general case)
+     - get (function) getter of _master_ number (see @mina.time)
+     - set (function) setter of _slave_ number
+     - easing (function) #optional easing function, default is @mina.linear
+     = (object) animation descriptor
+     o {
+     o         id (string) animation id,
+     o         start (number) start _slave_ number,
+     o         end (number) end _slave_ number,
+     o         b (number) start _master_ number,
+     o         s (number) animation status (0..1),
+     o         dur (number) animation duration,
+     o         spd (number) animation speed,
+     o         get (function) getter of _master_ number (see @mina.time),
+     o         set (function) setter of _slave_ number,
+     o         easing (function) easing function, default is @mina.linear,
+     o         status (function) status getter/setter,
+     o         speed (function) speed getter/setter,
+     o         duration (function) duration getter/setter,
+     o         stop (function) animation stopper
+     o         pause (function) pauses the animation
+     o         resume (function) resumes the animation
+     o         update (function) calles setter with the right value of the animation
+     o }
+    \*/
+    mina = function (a, A, b, B, get, set, easing) {
+        var anim = {
+            id: ID(),
+            start: a,
+            end: A,
+            b: b,
+            s: 0,
+            dur: B - b,
+            spd: 1,
+            get: get,
+            set: set,
+            easing: easing || mina.linear,
+            status: sta,
+            speed: speed,
+            duration: duration,
+            stop: stopit,
+            pause: pause,
+            resume: resume,
+            update: update
+        };
+        animations[anim.id] = anim;
+        var len = 0, i;
+        for (i in animations) if (animations.hasOwnProperty(i)) {
+            len++;
+            if (len == 2) {
+                break;
+            }
+        }
+        len == 1 && frame();
+        return anim;
+    };
+    /*\
+     * mina.time
+     [ method ]
+     **
+     * Returns the current time. Equivalent to:
+     | function () {
+     |     return (new Date).getTime();
+     | }
+    \*/
+    mina.time = timer;
+    /*\
+     * mina.getById
+     [ method ]
+     **
+     * Returns an animation by its id
+     - id (string) animation's id
+     = (object) See @mina
+    \*/
+    mina.getById = function (id) {
+        return animations[id] || null;
+    };
+
+    /*\
+     * mina.linear
+     [ method ]
+     **
+     * Default linear easing
+     - n (number) input 0..1
+     = (number) output 0..1
+    \*/
+    mina.linear = function (n) {
+        return n;
+    };
+    /*\
+     * mina.easeout
+     [ method ]
+     **
+     * Easeout easing
+     - n (number) input 0..1
+     = (number) output 0..1
+    \*/
+    mina.easeout = function (n) {
+        return Math.pow(n, 1.7);
+    };
+    /*\
+     * mina.easein
+     [ method ]
+     **
+     * Easein easing
+     - n (number) input 0..1
+     = (number) output 0..1
+    \*/
+    mina.easein = function (n) {
+        return Math.pow(n, .48);
+    };
+    /*\
+     * mina.easeinout
+     [ method ]
+     **
+     * Easeinout easing
+     - n (number) input 0..1
+     = (number) output 0..1
+    \*/
+    mina.easeinout = function (n) {
+        if (n == 1) {
+            return 1;
+        }
+        if (n == 0) {
+            return 0;
+        }
+        var q = .48 - n / 1.04,
+            Q = Math.sqrt(.1734 + q * q),
+            x = Q - q,
+            X = Math.pow(Math.abs(x), 1 / 3) * (x < 0 ? -1 : 1),
+            y = -Q - q,
+            Y = Math.pow(Math.abs(y), 1 / 3) * (y < 0 ? -1 : 1),
+            t = X + Y + .5;
+        return (1 - t) * 3 * t * t + t * t * t;
+    };
+    /*\
+     * mina.backin
+     [ method ]
+     **
+     * Backin easing
+     - n (number) input 0..1
+     = (number) output 0..1
+    \*/
+    mina.backin = function (n) {
+        if (n == 1) {
+            return 1;
+        }
+        var s = 1.70158;
+        return n * n * ((s + 1) * n - s);
+    };
+    /*\
+     * mina.backout
+     [ method ]
+     **
+     * Backout easing
+     - n (number) input 0..1
+     = (number) output 0..1
+    \*/
+    mina.backout = function (n) {
+        if (n == 0) {
+            return 0;
+        }
+        n = n - 1;
+        var s = 1.70158;
+        return n * n * ((s + 1) * n + s) + 1;
+    };
+    /*\
+     * mina.elastic
+     [ method ]
+     **
+     * Elastic easing
+     - n (number) input 0..1
+     = (number) output 0..1
+    \*/
+    mina.elastic = function (n) {
+        if (n == !!n) {
+            return n;
+        }
+        return Math.pow(2, -10 * n) * Math.sin((n - .075) *
+            (2 * Math.PI) / .3) + 1;
+    };
+    /*\
+     * mina.bounce
+     [ method ]
+     **
+     * Bounce easing
+     - n (number) input 0..1
+     = (number) output 0..1
+    \*/
+    mina.bounce = function (n) {
+        var s = 7.5625,
+            p = 2.75,
+            l;
+        if (n < 1 / p) {
+            l = s * n * n;
+        } else {
+            if (n < 2 / p) {
+                n -= 1.5 / p;
+                l = s * n * n + .75;
+            } else {
+                if (n < 2.5 / p) {
+                    n -= 2.25 / p;
+                    l = s * n * n + .9375;
+                } else {
+                    n -= 2.625 / p;
+                    l = s * n * n + .984375;
+                }
+            }
+        }
+        return l;
+    };
+    window.mina = mina;
+    return mina;
+})(typeof eve == "undefined" ? function () {} : eve);
+
+// Copyright (c) 2013 - 2017 Adobe Systems Incorporated. All rights reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+var Snap = (function(root) {
+Snap.version = "0.5.1";
+/*\
+ * Snap
+ [ method ]
+ **
+ * Creates a drawing surface or wraps existing SVG element.
+ **
+ - width (number|string) width of surface
+ - height (number|string) height of surface
+ * or
+ - DOM (SVGElement) element to be wrapped into Snap structure
+ * or
+ - array (array) array of elements (will return set of elements)
+ * or
+ - query (string) CSS query selector
+ = (object) @Element
+\*/
+function Snap(w, h) {
+    if (w) {
+        if (w.nodeType) {
+            return wrap(w);
+        }
+        if (is(w, "array") && Snap.set) {
+            return Snap.set.apply(Snap, w);
+        }
+        if (w instanceof Element) {
+            return w;
+        }
+        if (h == null) {
+            try {
+                w = glob.doc.querySelector(String(w));
+                return wrap(w);
+            } catch (e) {
+                return null;
+            }
+        }
+    }
+    w = w == null ? "100%" : w;
+    h = h == null ? "100%" : h;
+    return new Paper(w, h);
+}
+Snap.toString = function () {
+    return "Snap v" + this.version;
+};
+Snap._ = {};
+var glob = {
+    win: root.window,
+    doc: root.window.document
+};
+Snap._.glob = glob;
+var has = "hasOwnProperty",
+    Str = String,
+    toFloat = parseFloat,
+    toInt = parseInt,
+    math = Math,
+    mmax = math.max,
+    mmin = math.min,
+    abs = math.abs,
+    pow = math.pow,
+    PI = math.PI,
+    round = math.round,
+    E = "",
+    S = " ",
+    objectToString = Object.prototype.toString,
+    ISURL = /^url\(['"]?([^\)]+?)['"]?\)$/i,
+    colourRegExp = /^\s*((#[a-f\d]{6})|(#[a-f\d]{3})|rgba?\(\s*([\d\.]+%?\s*,\s*[\d\.]+%?\s*,\s*[\d\.]+%?(?:\s*,\s*[\d\.]+%?)?)\s*\)|hsba?\(\s*([\d\.]+(?:deg|\xb0|%)?\s*,\s*[\d\.]+%?\s*,\s*[\d\.]+(?:%?\s*,\s*[\d\.]+)?%?)\s*\)|hsla?\(\s*([\d\.]+(?:deg|\xb0|%)?\s*,\s*[\d\.]+%?\s*,\s*[\d\.]+(?:%?\s*,\s*[\d\.]+)?%?)\s*\))\s*$/i,
+    bezierrg = /^(?:cubic-)?bezier\(([^,]+),([^,]+),([^,]+),([^\)]+)\)/,
+    separator = Snap._.separator = /[,\s]+/,
+    whitespace = /[\s]/g,
+    commaSpaces = /[\s]*,[\s]*/,
+    hsrg = {hs: 1, rg: 1},
+    pathCommand = /([a-z])[\s,]*((-?\d*\.?\d*(?:e[\-+]?\d+)?[\s]*,?[\s]*)+)/ig,
+    tCommand = /([rstm])[\s,]*((-?\d*\.?\d*(?:e[\-+]?\d+)?[\s]*,?[\s]*)+)/ig,
+    pathValues = /(-?\d*\.?\d*(?:e[\-+]?\d+)?)[\s]*,?[\s]*/ig,
+    idgen = 0,
+    idprefix = "S" + (+new Date).toString(36),
+    ID = function (el) {
+        return (el && el.type ? el.type : E) + idprefix + (idgen++).toString(36);
+    },
+    xlink = "http://www.w3.org/1999/xlink",
+    xmlns = "http://www.w3.org/2000/svg",
+    hub = {},
+    /*\
+     * Snap.url
+     [ method ]
+     **
+     * Wraps path into `"url('<path>')"`.
+     - value (string) path
+     = (string) wrapped path
+    \*/
+    URL = Snap.url = function (url) {
+        return "url('#" + url + "')";
+    };
+
+function $(el, attr) {
+    if (attr) {
+        if (el == "#text") {
+            el = glob.doc.createTextNode(attr.text || attr["#text"] || "");
+        }
+        if (el == "#comment") {
+            el = glob.doc.createComment(attr.text || attr["#text"] || "");
+        }
+        if (typeof el == "string") {
+            el = $(el);
+        }
+        if (typeof attr == "string") {
+            if (el.nodeType == 1) {
+                if (attr.substring(0, 6) == "xlink:") {
+                    return el.getAttributeNS(xlink, attr.substring(6));
+                }
+                if (attr.substring(0, 4) == "xml:") {
+                    return el.getAttributeNS(xmlns, attr.substring(4));
+                }
+                return el.getAttribute(attr);
+            } else if (attr == "text") {
+                return el.nodeValue;
+            } else {
+                return null;
+            }
+        }
+        if (el.nodeType == 1) {
+            for (var key in attr) if (attr[has](key)) {
+                var val = Str(attr[key]);
+                if (val) {
+                    if (key.substring(0, 6) == "xlink:") {
+                        el.setAttributeNS(xlink, key.substring(6), val);
+                    } else if (key.substring(0, 4) == "xml:") {
+                        el.setAttributeNS(xmlns, key.substring(4), val);
+                    } else {
+                        el.setAttribute(key, val);
+                    }
+                } else {
+                    el.removeAttribute(key);
+                }
+            }
+        } else if ("text" in attr) {
+            el.nodeValue = attr.text;
+        }
+    } else {
+        el = glob.doc.createElementNS(xmlns, el);
+    }
+    return el;
+}
+Snap._.$ = $;
+Snap._.id = ID;
+function getAttrs(el) {
+    var attrs = el.attributes,
+        name,
+        out = {};
+    for (var i = 0; i < attrs.length; i++) {
+        if (attrs[i].namespaceURI == xlink) {
+            name = "xlink:";
+        } else {
+            name = "";
+        }
+        name += attrs[i].name;
+        out[name] = attrs[i].textContent;
+    }
+    return out;
+}
+function is(o, type) {
+    type = Str.prototype.toLowerCase.call(type);
+    if (type == "finite") {
+        return isFinite(o);
+    }
+    if (type == "array" &&
+        (o instanceof Array || Array.isArray && Array.isArray(o))) {
+        return true;
+    }
+    return  type == "null" && o === null ||
+            type == typeof o && o !== null ||
+            type == "object" && o === Object(o) ||
+            objectToString.call(o).slice(8, -1).toLowerCase() == type;
+}
+/*\
+ * Snap.format
+ [ method ]
+ **
+ * Replaces construction of type `{<name>}` to the corresponding argument
+ **
+ - token (string) string to format
+ - json (object) object which properties are used as a replacement
+ = (string) formatted string
+ > Usage
+ | // this draws a rectangular shape equivalent to "M10,20h40v50h-40z"
+ | paper.path(Snap.format("M{x},{y}h{dim.width}v{dim.height}h{dim['negative width']}z", {
+ |     x: 10,
+ |     y: 20,
+ |     dim: {
+ |         width: 40,
+ |         height: 50,
+ |         "negative width": -40
+ |     }
+ | }));
+\*/
+Snap.format = (function () {
+    var tokenRegex = /\{([^\}]+)\}/g,
+        objNotationRegex = /(?:(?:^|\.)(.+?)(?=\[|\.|$|\()|\[('|")(.+?)\2\])(\(\))?/g, // matches .xxxxx or ["xxxxx"] to run over object properties
+        replacer = function (all, key, obj) {
+            var res = obj;
+            key.replace(objNotationRegex, function (all, name, quote, quotedName, isFunc) {
+                name = name || quotedName;
+                if (res) {
+                    if (name in res) {
+                        res = res[name];
+                    }
+                    typeof res == "function" && isFunc && (res = res());
+                }
+            });
+            res = (res == null || res == obj ? all : res) + "";
+            return res;
+        };
+    return function (str, obj) {
+        return Str(str).replace(tokenRegex, function (all, key) {
+            return replacer(all, key, obj);
+        });
+    };
+})();
+function clone(obj) {
+    if (typeof obj == "function" || Object(obj) !== obj) {
+        return obj;
+    }
+    var res = new obj.constructor;
+    for (var key in obj) if (obj[has](key)) {
+        res[key] = clone(obj[key]);
+    }
+    return res;
+}
+Snap._.clone = clone;
+function repush(array, item) {
+    for (var i = 0, ii = array.length; i < ii; i++) if (array[i] === item) {
+        return array.push(array.splice(i, 1)[0]);
+    }
+}
+function cacher(f, scope, postprocessor) {
+    function newf() {
+        var arg = Array.prototype.slice.call(arguments, 0),
+            args = arg.join("\u2400"),
+            cache = newf.cache = newf.cache || {},
+            count = newf.count = newf.count || [];
+        if (cache[has](args)) {
+            repush(count, args);
+            return postprocessor ? postprocessor(cache[args]) : cache[args];
+        }
+        count.length >= 1e3 && delete cache[count.shift()];
+        count.push(args);
+        cache[args] = f.apply(scope, arg);
+        return postprocessor ? postprocessor(cache[args]) : cache[args];
+    }
+    return newf;
+}
+Snap._.cacher = cacher;
+function angle(x1, y1, x2, y2, x3, y3) {
+    if (x3 == null) {
+        var x = x1 - x2,
+            y = y1 - y2;
+        if (!x && !y) {
+            return 0;
+        }
+        return (180 + math.atan2(-y, -x) * 180 / PI + 360) % 360;
+    } else {
+        return angle(x1, y1, x3, y3) - angle(x2, y2, x3, y3);
+    }
+}
+function rad(deg) {
+    return deg % 360 * PI / 180;
+}
+function deg(rad) {
+    return rad * 180 / PI % 360;
+}
+function x_y() {
+    return this.x + S + this.y;
+}
+function x_y_w_h() {
+    return this.x + S + this.y + S + this.width + " \xd7 " + this.height;
+}
+
+/*\
+ * Snap.rad
+ [ method ]
+ **
+ * Transform angle to radians
+ - deg (number) angle in degrees
+ = (number) angle in radians
+\*/
+Snap.rad = rad;
+/*\
+ * Snap.deg
+ [ method ]
+ **
+ * Transform angle to degrees
+ - rad (number) angle in radians
+ = (number) angle in degrees
+\*/
+Snap.deg = deg;
+/*\
+ * Snap.sin
+ [ method ]
+ **
+ * Equivalent to `Math.sin()` only works with degrees, not radians.
+ - angle (number) angle in degrees
+ = (number) sin
+\*/
+Snap.sin = function (angle) {
+    return math.sin(Snap.rad(angle));
+};
+/*\
+ * Snap.tan
+ [ method ]
+ **
+ * Equivalent to `Math.tan()` only works with degrees, not radians.
+ - angle (number) angle in degrees
+ = (number) tan
+\*/
+Snap.tan = function (angle) {
+    return math.tan(Snap.rad(angle));
+};
+/*\
+ * Snap.cos
+ [ method ]
+ **
+ * Equivalent to `Math.cos()` only works with degrees, not radians.
+ - angle (number) angle in degrees
+ = (number) cos
+\*/
+Snap.cos = function (angle) {
+    return math.cos(Snap.rad(angle));
+};
+/*\
+ * Snap.asin
+ [ method ]
+ **
+ * Equivalent to `Math.asin()` only works with degrees, not radians.
+ - num (number) value
+ = (number) asin in degrees
+\*/
+Snap.asin = function (num) {
+    return Snap.deg(math.asin(num));
+};
+/*\
+ * Snap.acos
+ [ method ]
+ **
+ * Equivalent to `Math.acos()` only works with degrees, not radians.
+ - num (number) value
+ = (number) acos in degrees
+\*/
+Snap.acos = function (num) {
+    return Snap.deg(math.acos(num));
+};
+/*\
+ * Snap.atan
+ [ method ]
+ **
+ * Equivalent to `Math.atan()` only works with degrees, not radians.
+ - num (number) value
+ = (number) atan in degrees
+\*/
+Snap.atan = function (num) {
+    return Snap.deg(math.atan(num));
+};
+/*\
+ * Snap.atan2
+ [ method ]
+ **
+ * Equivalent to `Math.atan2()` only works with degrees, not radians.
+ - num (number) value
+ = (number) atan2 in degrees
+\*/
+Snap.atan2 = function (num) {
+    return Snap.deg(math.atan2(num));
+};
+/*\
+ * Snap.angle
+ [ method ]
+ **
+ * Returns an angle between two or three points
+ - x1 (number) x coord of first point
+ - y1 (number) y coord of first point
+ - x2 (number) x coord of second point
+ - y2 (number) y coord of second point
+ - x3 (number) #optional x coord of third point
+ - y3 (number) #optional y coord of third point
+ = (number) angle in degrees
+\*/
+Snap.angle = angle;
+/*\
+ * Snap.len
+ [ method ]
+ **
+ * Returns distance between two points
+ - x1 (number) x coord of first point
+ - y1 (number) y coord of first point
+ - x2 (number) x coord of second point
+ - y2 (number) y coord of second point
+ = (number) distance
+\*/
+Snap.len = function (x1, y1, x2, y2) {
+    return Math.sqrt(Snap.len2(x1, y1, x2, y2));
+};
+/*\
+ * Snap.len2
+ [ method ]
+ **
+ * Returns squared distance between two points
+ - x1 (number) x coord of first point
+ - y1 (number) y coord of first point
+ - x2 (number) x coord of second point
+ - y2 (number) y coord of second point
+ = (number) distance
+\*/
+Snap.len2 = function (x1, y1, x2, y2) {
+    return (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2);
+};
+/*\
+ * Snap.closestPoint
+ [ method ]
+ **
+ * Returns closest point to a given one on a given path.
+ - path (Element) path element
+ - x (number) x coord of a point
+ - y (number) y coord of a point
+ = (object) in format
+ {
+    x (number) x coord of the point on the path
+    y (number) y coord of the point on the path
+    length (number) length of the path to the point
+    distance (number) distance from the given point to the path
+ }
+\*/
+// Copied from http://bl.ocks.org/mbostock/8027637
+Snap.closestPoint = function (path, x, y) {
+    function distance2(p) {
+        var dx = p.x - x,
+            dy = p.y - y;
+        return dx * dx + dy * dy;
+    }
+    var pathNode = path.node,
+        pathLength = pathNode.getTotalLength(),
+        precision = pathLength / pathNode.pathSegList.numberOfItems * .125,
+        best,
+        bestLength,
+        bestDistance = Infinity;
+
+    // linear scan for coarse approximation
+    for (var scan, scanLength = 0, scanDistance; scanLength <= pathLength; scanLength += precision) {
+        if ((scanDistance = distance2(scan = pathNode.getPointAtLength(scanLength))) < bestDistance) {
+            best = scan;
+            bestLength = scanLength;
+            bestDistance = scanDistance;
+        }
+    }
+
+    // binary search for precise estimate
+    precision *= .5;
+    while (precision > .5) {
+        var before,
+            after,
+            beforeLength,
+            afterLength,
+            beforeDistance,
+            afterDistance;
+        if ((beforeLength = bestLength - precision) >= 0 && (beforeDistance = distance2(before = pathNode.getPointAtLength(beforeLength))) < bestDistance) {
+            best = before;
+            bestLength = beforeLength;
+            bestDistance = beforeDistance;
+        } else if ((afterLength = bestLength + precision) <= pathLength && (afterDistance = distance2(after = pathNode.getPointAtLength(afterLength))) < bestDistance) {
+            best = after;
+            bestLength = afterLength;
+            bestDistance = afterDistance;
+        } else {
+            precision *= .5;
+        }
+    }
+
+    best = {
+        x: best.x,
+        y: best.y,
+        length: bestLength,
+        distance: Math.sqrt(bestDistance)
+    };
+    return best;
+}
+/*\
+ * Snap.is
+ [ method ]
+ **
+ * Handy replacement for the `typeof` operator
+ - o (…) any object or primitive
+ - type (string) name of the type, e.g., `string`, `function`, `number`, etc.
+ = (boolean) `true` if given value is of given type
+\*/
+Snap.is = is;
+/*\
+ * Snap.snapTo
+ [ method ]
+ **
+ * Snaps given value to given grid
+ - values (array|number) given array of values or step of the grid
+ - value (number) value to adjust
+ - tolerance (number) #optional maximum distance to the target value that would trigger the snap. Default is `10`.
+ = (number) adjusted value
+\*/
+Snap.snapTo = function (values, value, tolerance) {
+    tolerance = is(tolerance, "finite") ? tolerance : 10;
+    if (is(values, "array")) {
+        var i = values.length;
+        while (i--) if (abs(values[i] - value) <= tolerance) {
+            return values[i];
+        }
+    } else {
+        values = +values;
+        var rem = value % values;
+        if (rem < tolerance) {
+            return value - rem;
+        }
+        if (rem > values - tolerance) {
+            return value - rem + values;
+        }
+    }
+    return value;
+};
+// Colour
+/*\
+ * Snap.getRGB
+ [ method ]
+ **
+ * Parses color string as RGB object
+ - color (string) color string in one of the following formats:
+ # <ul>
+ #     <li>Color name (<code>red</code>, <code>green</code>, <code>cornflowerblue</code>, etc)</li>
+ #     <li>#••• — shortened HTML color: (<code>#000</code>, <code>#fc0</code>, etc.)</li>
+ #     <li>#•••••• — full length HTML color: (<code>#000000</code>, <code>#bd2300</code>)</li>
+ #     <li>rgb(•••, •••, •••) — red, green and blue channels values: (<code>rgb(200,&nbsp;100,&nbsp;0)</code>)</li>
+ #     <li>rgba(•••, •••, •••, •••) — also with opacity</li>
+ #     <li>rgb(•••%, •••%, •••%) — same as above, but in %: (<code>rgb(100%,&nbsp;175%,&nbsp;0%)</code>)</li>
+ #     <li>rgba(•••%, •••%, •••%, •••%) — also with opacity</li>
+ #     <li>hsb(•••, •••, •••) — hue, saturation and brightness values: (<code>hsb(0.5,&nbsp;0.25,&nbsp;1)</code>)</li>
+ #     <li>hsba(•••, •••, •••, •••) — also with opacity</li>
+ #     <li>hsb(•••%, •••%, •••%) — same as above, but in %</li>
+ #     <li>hsba(•••%, •••%, •••%, •••%) — also with opacity</li>
+ #     <li>hsl(•••, •••, •••) — hue, saturation and luminosity values: (<code>hsb(0.5,&nbsp;0.25,&nbsp;0.5)</code>)</li>
+ #     <li>hsla(•••, •••, •••, •••) — also with opacity</li>
+ #     <li>hsl(•••%, •••%, •••%) — same as above, but in %</li>
+ #     <li>hsla(•••%, •••%, •••%, •••%) — also with opacity</li>
+ # </ul>
+ * Note that `%` can be used any time: `rgb(20%, 255, 50%)`.
+ = (object) RGB object in the following format:
+ o {
+ o     r (number) red,
+ o     g (number) green,
+ o     b (number) blue,
+ o     hex (string) color in HTML/CSS format: #••••••,
+ o     error (boolean) true if string can't be parsed
+ o }
+\*/
+Snap.getRGB = cacher(function (colour) {
+    if (!colour || !!((colour = Str(colour)).indexOf("-") + 1)) {
+        return {r: -1, g: -1, b: -1, hex: "none", error: 1, toString: rgbtoString};
+    }
+    if (colour == "none") {
+        return {r: -1, g: -1, b: -1, hex: "none", toString: rgbtoString};
+    }
+    !(hsrg[has](colour.toLowerCase().substring(0, 2)) || colour.charAt() == "#") && (colour = toHex(colour));
+    if (!colour) {
+        return {r: -1, g: -1, b: -1, hex: "none", error: 1, toString: rgbtoString};
+    }
+    var res,
+        red,
+        green,
+        blue,
+        opacity,
+        t,
+        values,
+        rgb = colour.match(colourRegExp);
+    if (rgb) {
+        if (rgb[2]) {
+            blue = toInt(rgb[2].substring(5), 16);
+            green = toInt(rgb[2].substring(3, 5), 16);
+            red = toInt(rgb[2].substring(1, 3), 16);
+        }
+        if (rgb[3]) {
+            blue = toInt((t = rgb[3].charAt(3)) + t, 16);
+            green = toInt((t = rgb[3].charAt(2)) + t, 16);
+            red = toInt((t = rgb[3].charAt(1)) + t, 16);
+        }
+        if (rgb[4]) {
+            values = rgb[4].split(commaSpaces);
+            red = toFloat(values[0]);
+            values[0].slice(-1) == "%" && (red *= 2.55);
+            green = toFloat(values[1]);
+            values[1].slice(-1) == "%" && (green *= 2.55);
+            blue = toFloat(values[2]);
+            values[2].slice(-1) == "%" && (blue *= 2.55);
+            rgb[1].toLowerCase().slice(0, 4) == "rgba" && (opacity = toFloat(values[3]));
+            values[3] && values[3].slice(-1) == "%" && (opacity /= 100);
+        }
+        if (rgb[5]) {
+            values = rgb[5].split(commaSpaces);
+            red = toFloat(values[0]);
+            values[0].slice(-1) == "%" && (red /= 100);
+            green = toFloat(values[1]);
+            values[1].slice(-1) == "%" && (green /= 100);
+            blue = toFloat(values[2]);
+            values[2].slice(-1) == "%" && (blue /= 100);
+            (values[0].slice(-3) == "deg" || values[0].slice(-1) == "\xb0") && (red /= 360);
+            rgb[1].toLowerCase().slice(0, 4) == "hsba" && (opacity = toFloat(values[3]));
+            values[3] && values[3].slice(-1) == "%" && (opacity /= 100);
+            return Snap.hsb2rgb(red, green, blue, opacity);
+        }
+        if (rgb[6]) {
+            values = rgb[6].split(commaSpaces);
+            red = toFloat(values[0]);
+            values[0].slice(-1) == "%" && (red /= 100);
+            green = toFloat(values[1]);
+            values[1].slice(-1) == "%" && (green /= 100);
+            blue = toFloat(values[2]);
+            values[2].slice(-1) == "%" && (blue /= 100);
+            (values[0].slice(-3) == "deg" || values[0].slice(-1) == "\xb0") && (red /= 360);
+            rgb[1].toLowerCase().slice(0, 4) == "hsla" && (opacity = toFloat(values[3]));
+            values[3] && values[3].slice(-1) == "%" && (opacity /= 100);
+            return Snap.hsl2rgb(red, green, blue, opacity);
+        }
+        red = mmin(math.round(red), 255);
+        green = mmin(math.round(green), 255);
+        blue = mmin(math.round(blue), 255);
+        opacity = mmin(mmax(opacity, 0), 1);
+        rgb = {r: red, g: green, b: blue, toString: rgbtoString};
+        rgb.hex = "#" + (16777216 | blue | green << 8 | red << 16).toString(16).slice(1);
+        rgb.opacity = is(opacity, "finite") ? opacity : 1;
+        return rgb;
+    }
+    return {r: -1, g: -1, b: -1, hex: "none", error: 1, toString: rgbtoString};
+}, Snap);
+/*\
+ * Snap.hsb
+ [ method ]
+ **
+ * Converts HSB values to a hex representation of the color
+ - h (number) hue
+ - s (number) saturation
+ - b (number) value or brightness
+ = (string) hex representation of the color
+\*/
+Snap.hsb = cacher(function (h, s, b) {
+    return Snap.hsb2rgb(h, s, b).hex;
+});
+/*\
+ * Snap.hsl
+ [ method ]
+ **
+ * Converts HSL values to a hex representation of the color
+ - h (number) hue
+ - s (number) saturation
+ - l (number) luminosity
+ = (string) hex representation of the color
+\*/
+Snap.hsl = cacher(function (h, s, l) {
+    return Snap.hsl2rgb(h, s, l).hex;
+});
+/*\
+ * Snap.rgb
+ [ method ]
+ **
+ * Converts RGB values to a hex representation of the color
+ - r (number) red
+ - g (number) green
+ - b (number) blue
+ = (string) hex representation of the color
+\*/
+Snap.rgb = cacher(function (r, g, b, o) {
+    if (is(o, "finite")) {
+        var round = math.round;
+        return "rgba(" + [round(r), round(g), round(b), +o.toFixed(2)] + ")";
+    }
+    return "#" + (16777216 | b | g << 8 | r << 16).toString(16).slice(1);
+});
+var toHex = function (color) {
+    var i = glob.doc.getElementsByTagName("head")[0] || glob.doc.getElementsByTagName("svg")[0],
+        red = "rgb(255, 0, 0)";
+    toHex = cacher(function (color) {
+        if (color.toLowerCase() == "red") {
+            return red;
+        }
+        i.style.color = red;
+        i.style.color = color;
+        var out = glob.doc.defaultView.getComputedStyle(i, E).getPropertyValue("color");
+        return out == red ? null : out;
+    });
+    return toHex(color);
+},
+hsbtoString = function () {
+    return "hsb(" + [this.h, this.s, this.b] + ")";
+},
+hsltoString = function () {
+    return "hsl(" + [this.h, this.s, this.l] + ")";
+},
+rgbtoString = function () {
+    return this.opacity == 1 || this.opacity == null ?
+            this.hex :
+            "rgba(" + [this.r, this.g, this.b, this.opacity] + ")";
+},
+prepareRGB = function (r, g, b) {
+    if (g == null && is(r, "object") && "r" in r && "g" in r && "b" in r) {
+        b = r.b;
+        g = r.g;
+        r = r.r;
+    }
+    if (g == null && is(r, string)) {
+        var clr = Snap.getRGB(r);
+        r = clr.r;
+        g = clr.g;
+        b = clr.b;
+    }
+    if (r > 1 || g > 1 || b > 1) {
+        r /= 255;
+        g /= 255;
+        b /= 255;
+    }
+
+    return [r, g, b];
+},
+packageRGB = function (r, g, b, o) {
+    r = math.round(r * 255);
+    g = math.round(g * 255);
+    b = math.round(b * 255);
+    var rgb = {
+        r: r,
+        g: g,
+        b: b,
+        opacity: is(o, "finite") ? o : 1,
+        hex: Snap.rgb(r, g, b),
+        toString: rgbtoString
+    };
+    is(o, "finite") && (rgb.opacity = o);
+    return rgb;
+};
+/*\
+ * Snap.color
+ [ method ]
+ **
+ * Parses the color string and returns an object featuring the color's component values
+ - clr (string) color string in one of the supported formats (see @Snap.getRGB)
+ = (object) Combined RGB/HSB object in the following format:
+ o {
+ o     r (number) red,
+ o     g (number) green,
+ o     b (number) blue,
+ o     hex (string) color in HTML/CSS format: #••••••,
+ o     error (boolean) `true` if string can't be parsed,
+ o     h (number) hue,
+ o     s (number) saturation,
+ o     v (number) value (brightness),
+ o     l (number) lightness
+ o }
+\*/
+Snap.color = function (clr) {
+    var rgb;
+    if (is(clr, "object") && "h" in clr && "s" in clr && "b" in clr) {
+        rgb = Snap.hsb2rgb(clr);
+        clr.r = rgb.r;
+        clr.g = rgb.g;
+        clr.b = rgb.b;
+        clr.opacity = 1;
+        clr.hex = rgb.hex;
+    } else if (is(clr, "object") && "h" in clr && "s" in clr && "l" in clr) {
+        rgb = Snap.hsl2rgb(clr);
+        clr.r = rgb.r;
+        clr.g = rgb.g;
+        clr.b = rgb.b;
+        clr.opacity = 1;
+        clr.hex = rgb.hex;
+    } else {
+        if (is(clr, "string")) {
+            clr = Snap.getRGB(clr);
+        }
+        if (is(clr, "object") && "r" in clr && "g" in clr && "b" in clr && !("error" in clr)) {
+            rgb = Snap.rgb2hsl(clr);
+            clr.h = rgb.h;
+            clr.s = rgb.s;
+            clr.l = rgb.l;
+            rgb = Snap.rgb2hsb(clr);
+            clr.v = rgb.b;
+        } else {
+            clr = {hex: "none"};
+            clr.r = clr.g = clr.b = clr.h = clr.s = clr.v = clr.l = -1;
+            clr.error = 1;
+        }
+    }
+    clr.toString = rgbtoString;
+    return clr;
+};
+/*\
+ * Snap.hsb2rgb
+ [ method ]
+ **
+ * Converts HSB values to an RGB object
+ - h (number) hue
+ - s (number) saturation
+ - v (number) value or brightness
+ = (object) RGB object in the following format:
+ o {
+ o     r (number) red,
+ o     g (number) green,
+ o     b (number) blue,
+ o     hex (string) color in HTML/CSS format: #••••••
+ o }
+\*/
+Snap.hsb2rgb = function (h, s, v, o) {
+    if (is(h, "object") && "h" in h && "s" in h && "b" in h) {
+        v = h.b;
+        s = h.s;
+        o = h.o;
+        h = h.h;
+    }
+    h *= 360;
+    var R, G, B, X, C;
+    h = h % 360 / 60;
+    C = v * s;
+    X = C * (1 - abs(h % 2 - 1));
+    R = G = B = v - C;
+
+    h = ~~h;
+    R += [C, X, 0, 0, X, C][h];
+    G += [X, C, C, X, 0, 0][h];
+    B += [0, 0, X, C, C, X][h];
+    return packageRGB(R, G, B, o);
+};
+/*\
+ * Snap.hsl2rgb
+ [ method ]
+ **
+ * Converts HSL values to an RGB object
+ - h (number) hue
+ - s (number) saturation
+ - l (number) luminosity
+ = (object) RGB object in the following format:
+ o {
+ o     r (number) red,
+ o     g (number) green,
+ o     b (number) blue,
+ o     hex (string) color in HTML/CSS format: #••••••
+ o }
+\*/
+Snap.hsl2rgb = function (h, s, l, o) {
+    if (is(h, "object") && "h" in h && "s" in h && "l" in h) {
+        l = h.l;
+        s = h.s;
+        h = h.h;
+    }
+    if (h > 1 || s > 1 || l > 1) {
+        h /= 360;
+        s /= 100;
+        l /= 100;
+    }
+    h *= 360;
+    var R, G, B, X, C;
+    h = h % 360 / 60;
+    C = 2 * s * (l < .5 ? l : 1 - l);
+    X = C * (1 - abs(h % 2 - 1));
+    R = G = B = l - C / 2;
+
+    h = ~~h;
+    R += [C, X, 0, 0, X, C][h];
+    G += [X, C, C, X, 0, 0][h];
+    B += [0, 0, X, C, C, X][h];
+    return packageRGB(R, G, B, o);
+};
+/*\
+ * Snap.rgb2hsb
+ [ method ]
+ **
+ * Converts RGB values to an HSB object
+ - r (number) red
+ - g (number) green
+ - b (number) blue
+ = (object) HSB object in the following format:
+ o {
+ o     h (number) hue,
+ o     s (number) saturation,
+ o     b (number) brightness
+ o }
+\*/
+Snap.rgb2hsb = function (r, g, b) {
+    b = prepareRGB(r, g, b);
+    r = b[0];
+    g = b[1];
+    b = b[2];
+
+    var H, S, V, C;
+    V = mmax(r, g, b);
+    C = V - mmin(r, g, b);
+    H = C == 0 ? null :
+        V == r ? (g - b) / C :
+        V == g ? (b - r) / C + 2 :
+                 (r - g) / C + 4;
+    H = (H + 360) % 6 * 60 / 360;
+    S = C == 0 ? 0 : C / V;
+    return {h: H, s: S, b: V, toString: hsbtoString};
+};
+/*\
+ * Snap.rgb2hsl
+ [ method ]
+ **
+ * Converts RGB values to an HSL object
+ - r (number) red
+ - g (number) green
+ - b (number) blue
+ = (object) HSL object in the following format:
+ o {
+ o     h (number) hue,
+ o     s (number) saturation,
+ o     l (number) luminosity
+ o }
+\*/
+Snap.rgb2hsl = function (r, g, b) {
+    b = prepareRGB(r, g, b);
+    r = b[0];
+    g = b[1];
+    b = b[2];
+
+    var H, S, L, M, m, C;
+    M = mmax(r, g, b);
+    m = mmin(r, g, b);
+    C = M - m;
+    H = C == 0 ? null :
+        M == r ? (g - b) / C :
+        M == g ? (b - r) / C + 2 :
+                 (r - g) / C + 4;
+    H = (H + 360) % 6 * 60 / 360;
+    L = (M + m) / 2;
+    S = C == 0 ? 0 :
+         L < .5 ? C / (2 * L) :
+                  C / (2 - 2 * L);
+    return {h: H, s: S, l: L, toString: hsltoString};
+};
+
+// Transformations
+/*\
+ * Snap.parsePathString
+ [ method ]
+ **
+ * Utility method
+ **
+ * Parses given path string into an array of arrays of path segments
+ - pathString (string|array) path string or array of segments (in the last case it is returned straight away)
+ = (array) array of segments
+\*/
+Snap.parsePathString = function (pathString) {
+    if (!pathString) {
+        return null;
+    }
+    var pth = Snap.path(pathString);
+    if (pth.arr) {
+        return Snap.path.clone(pth.arr);
+    }
+
+    var paramCounts = {a: 7, c: 6, o: 2, h: 1, l: 2, m: 2, r: 4, q: 4, s: 4, t: 2, v: 1, u: 3, z: 0},
+        data = [];
+    if (is(pathString, "array") && is(pathString[0], "array")) { // rough assumption
+        data = Snap.path.clone(pathString);
+    }
+    if (!data.length) {
+        Str(pathString).replace(pathCommand, function (a, b, c) {
+            var params = [],
+                name = b.toLowerCase();
+            c.replace(pathValues, function (a, b) {
+                b && params.push(+b);
+            });
+            if (name == "m" && params.length > 2) {
+                data.push([b].concat(params.splice(0, 2)));
+                name = "l";
+                b = b == "m" ? "l" : "L";
+            }
+            if (name == "o" && params.length == 1) {
+                data.push([b, params[0]]);
+            }
+            if (name == "r") {
+                data.push([b].concat(params));
+            } else while (params.length >= paramCounts[name]) {
+                data.push([b].concat(params.splice(0, paramCounts[name])));
+                if (!paramCounts[name]) {
+                    break;
+                }
+            }
+        });
+    }
+    data.toString = Snap.path.toString;
+    pth.arr = Snap.path.clone(data);
+    return data;
+};
+/*\
+ * Snap.parseTransformString
+ [ method ]
+ **
+ * Utility method
+ **
+ * Parses given transform string into an array of transformations
+ - TString (string|array) transform string or array of transformations (in the last case it is returned straight away)
+ = (array) array of transformations
+\*/
+var parseTransformString = Snap.parseTransformString = function (TString) {
+    if (!TString) {
+        return null;
+    }
+    var paramCounts = {r: 3, s: 4, t: 2, m: 6},
+        data = [];
+    if (is(TString, "array") && is(TString[0], "array")) { // rough assumption
+        data = Snap.path.clone(TString);
+    }
+    if (!data.length) {
+        Str(TString).replace(tCommand, function (a, b, c) {
+            var params = [],
+                name = b.toLowerCase();
+            c.replace(pathValues, function (a, b) {
+                b && params.push(+b);
+            });
+            data.push([b].concat(params));
+        });
+    }
+    data.toString = Snap.path.toString;
+    return data;
+};
+function svgTransform2string(tstr) {
+    var res = [];
+    tstr = tstr.replace(/(?:^|\s)(\w+)\(([^)]+)\)/g, function (all, name, params) {
+        params = params.split(/\s*,\s*|\s+/);
+        if (name == "rotate" && params.length == 1) {
+            params.push(0, 0);
+        }
+        if (name == "scale") {
+            if (params.length > 2) {
+                params = params.slice(0, 2);
+            } else if (params.length == 2) {
+                params.push(0, 0);
+            }
+            if (params.length == 1) {
+                params.push(params[0], 0, 0);
+            }
+        }
+        if (name == "skewX") {
+            res.push(["m", 1, 0, math.tan(rad(params[0])), 1, 0, 0]);
+        } else if (name == "skewY") {
+            res.push(["m", 1, math.tan(rad(params[0])), 0, 1, 0, 0]);
+        } else {
+            res.push([name.charAt(0)].concat(params));
+        }
+        return all;
+    });
+    return res;
+}
+Snap._.svgTransform2string = svgTransform2string;
+Snap._.rgTransform = /^[a-z][\s]*-?\.?\d/i;
+function transform2matrix(tstr, bbox) {
+    var tdata = parseTransformString(tstr),
+        m = new Snap.Matrix;
+    if (tdata) {
+        for (var i = 0, ii = tdata.length; i < ii; i++) {
+            var t = tdata[i],
+                tlen = t.length,
+                command = Str(t[0]).toLowerCase(),
+                absolute = t[0] != command,
+                inver = absolute ? m.invert() : 0,
+                x1,
+                y1,
+                x2,
+                y2,
+                bb;
+            if (command == "t" && tlen == 2){
+                m.translate(t[1], 0);
+            } else if (command == "t" && tlen == 3) {
+                if (absolute) {
+                    x1 = inver.x(0, 0);
+                    y1 = inver.y(0, 0);
+                    x2 = inver.x(t[1], t[2]);
+                    y2 = inver.y(t[1], t[2]);
+                    m.translate(x2 - x1, y2 - y1);
+                } else {
+                    m.translate(t[1], t[2]);
+                }
+            } else if (command == "r") {
+                if (tlen == 2) {
+                    bb = bb || bbox;
+                    m.rotate(t[1], bb.x + bb.width / 2, bb.y + bb.height / 2);
+                } else if (tlen == 4) {
+                    if (absolute) {
+                        x2 = inver.x(t[2], t[3]);
+                        y2 = inver.y(t[2], t[3]);
+                        m.rotate(t[1], x2, y2);
+                    } else {
+                        m.rotate(t[1], t[2], t[3]);
+                    }
+                }
+            } else if (command == "s") {
+                if (tlen == 2 || tlen == 3) {
+                    bb = bb || bbox;
+                    m.scale(t[1], t[tlen - 1], bb.x + bb.width / 2, bb.y + bb.height / 2);
+                } else if (tlen == 4) {
+                    if (absolute) {
+                        x2 = inver.x(t[2], t[3]);
+                        y2 = inver.y(t[2], t[3]);
+                        m.scale(t[1], t[1], x2, y2);
+                    } else {
+                        m.scale(t[1], t[1], t[2], t[3]);
+                    }
+                } else if (tlen == 5) {
+                    if (absolute) {
+                        x2 = inver.x(t[3], t[4]);
+                        y2 = inver.y(t[3], t[4]);
+                        m.scale(t[1], t[2], x2, y2);
+                    } else {
+                        m.scale(t[1], t[2], t[3], t[4]);
+                    }
+                }
+            } else if (command == "m" && tlen == 7) {
+                m.add(t[1], t[2], t[3], t[4], t[5], t[6]);
+            }
+        }
+    }
+    return m;
+}
+Snap._.transform2matrix = transform2matrix;
+Snap._unit2px = unit2px;
+var contains = glob.doc.contains || glob.doc.compareDocumentPosition ?
+    function (a, b) {
+        var adown = a.nodeType == 9 ? a.documentElement : a,
+            bup = b && b.parentNode;
+            return a == bup || !!(bup && bup.nodeType == 1 && (
+                adown.contains ?
+                    adown.contains(bup) :
+                    a.compareDocumentPosition && a.compareDocumentPosition(bup) & 16
+            ));
+    } :
+    function (a, b) {
+        if (b) {
+            while (b) {
+                b = b.parentNode;
+                if (b == a) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    };
+function getSomeDefs(el) {
+    var p = el.node.ownerSVGElement && wrap(el.node.ownerSVGElement) ||
+            el.node.parentNode && wrap(el.node.parentNode) ||
+            Snap.select("svg") ||
+            Snap(0, 0),
+        pdefs = p.select("defs"),
+        defs  = pdefs == null ? false : pdefs.node;
+    if (!defs) {
+        defs = make("defs", p.node).node;
+    }
+    return defs;
+}
+function getSomeSVG(el) {
+    return el.node.ownerSVGElement && wrap(el.node.ownerSVGElement) || Snap.select("svg");
+}
+Snap._.getSomeDefs = getSomeDefs;
+Snap._.getSomeSVG = getSomeSVG;
+function unit2px(el, name, value) {
+    var svg = getSomeSVG(el).node,
+        out = {},
+        mgr = svg.querySelector(".svg---mgr");
+    if (!mgr) {
+        mgr = $("rect");
+        $(mgr, {x: -9e9, y: -9e9, width: 10, height: 10, "class": "svg---mgr", fill: "none"});
+        svg.appendChild(mgr);
+    }
+    function getW(val) {
+        if (val == null) {
+            return E;
+        }
+        if (val == +val) {
+            return val;
+        }
+        $(mgr, {width: val});
+        try {
+            return mgr.getBBox().width;
+        } catch (e) {
+            return 0;
+        }
+    }
+    function getH(val) {
+        if (val == null) {
+            return E;
+        }
+        if (val == +val) {
+            return val;
+        }
+        $(mgr, {height: val});
+        try {
+            return mgr.getBBox().height;
+        } catch (e) {
+            return 0;
+        }
+    }
+    function set(nam, f) {
+        if (name == null) {
+            out[nam] = f(el.attr(nam) || 0);
+        } else if (nam == name) {
+            out = f(value == null ? el.attr(nam) || 0 : value);
+        }
+    }
+    switch (el.type) {
+        case "rect":
+            set("rx", getW);
+            set("ry", getH);
+        case "image":
+            set("width", getW);
+            set("height", getH);
+        case "text":
+            set("x", getW);
+            set("y", getH);
+        break;
+        case "circle":
+            set("cx", getW);
+            set("cy", getH);
+            set("r", getW);
+        break;
+        case "ellipse":
+            set("cx", getW);
+            set("cy", getH);
+            set("rx", getW);
+            set("ry", getH);
+        break;
+        case "line":
+            set("x1", getW);
+            set("x2", getW);
+            set("y1", getH);
+            set("y2", getH);
+        break;
+        case "marker":
+            set("refX", getW);
+            set("markerWidth", getW);
+            set("refY", getH);
+            set("markerHeight", getH);
+        break;
+        case "radialGradient":
+            set("fx", getW);
+            set("fy", getH);
+        break;
+        case "tspan":
+            set("dx", getW);
+            set("dy", getH);
+        break;
+        default:
+            set(name, getW);
+    }
+    svg.removeChild(mgr);
+    return out;
+}
+/*\
+ * Snap.select
+ [ method ]
+ **
+ * Wraps a DOM element specified by CSS selector as @Element
+ - query (string) CSS selector of the element
+ = (Element) the current element
+\*/
+Snap.select = function (query) {
+    query = Str(query).replace(/([^\\]):/g, "$1\\:");
+    return wrap(glob.doc.querySelector(query));
+};
+/*\
+ * Snap.selectAll
+ [ method ]
+ **
+ * Wraps DOM elements specified by CSS selector as set or array of @Element
+ - query (string) CSS selector of the element
+ = (Element) the current element
+\*/
+Snap.selectAll = function (query) {
+    var nodelist = glob.doc.querySelectorAll(query),
+        set = (Snap.set || Array)();
+    for (var i = 0; i < nodelist.length; i++) {
+        set.push(wrap(nodelist[i]));
+    }
+    return set;
+};
+
+function add2group(list) {
+    if (!is(list, "array")) {
+        list = Array.prototype.slice.call(arguments, 0);
+    }
+    var i = 0,
+        j = 0,
+        node = this.node;
+    while (this[i]) delete this[i++];
+    for (i = 0; i < list.length; i++) {
+        if (list[i].type == "set") {
+            list[i].forEach(function (el) {
+                node.appendChild(el.node);
+            });
+        } else {
+            node.appendChild(list[i].node);
+        }
+    }
+    var children = node.childNodes;
+    for (i = 0; i < children.length; i++) {
+        this[j++] = wrap(children[i]);
+    }
+    return this;
+}
+// Hub garbage collector every 10s
+setInterval(function () {
+    for (var key in hub) if (hub[has](key)) {
+        var el = hub[key],
+            node = el.node;
+        if (el.type != "svg" && !node.ownerSVGElement || el.type == "svg" && (!node.parentNode || "ownerSVGElement" in node.parentNode && !node.ownerSVGElement)) {
+            delete hub[key];
+        }
+    }
+}, 1e4);
+function Element(el) {
+    if (el.snap in hub) {
+        return hub[el.snap];
+    }
+    var svg;
+    try {
+        svg = el.ownerSVGElement;
+    } catch(e) {}
+    /*\
+     * Element.node
+     [ property (object) ]
+     **
+     * Gives you a reference to the DOM object, so you can assign event handlers or just mess around.
+     > Usage
+     | // draw a circle at coordinate 10,10 with radius of 10
+     | var c = paper.circle(10, 10, 10);
+     | c.node.onclick = function () {
+     |     c.attr("fill", "red");
+     | };
+    \*/
+    this.node = el;
+    if (svg) {
+        this.paper = new Paper(svg);
+    }
+    /*\
+     * Element.type
+     [ property (string) ]
+     **
+     * SVG tag name of the given element.
+    \*/
+    this.type = el.tagName || el.nodeName;
+    var id = this.id = ID(this);
+    this.anims = {};
+    this._ = {
+        transform: []
+    };
+    el.snap = id;
+    hub[id] = this;
+    if (this.type == "g") {
+        this.add = add2group;
+    }
+    if (this.type in {g: 1, mask: 1, pattern: 1, symbol: 1}) {
+        for (var method in Paper.prototype) if (Paper.prototype[has](method)) {
+            this[method] = Paper.prototype[method];
+        }
+    }
+}
+   /*\
+     * Element.attr
+     [ method ]
+     **
+     * Gets or sets given attributes of the element.
+     **
+     - params (object) contains key-value pairs of attributes you want to set
+     * or
+     - param (string) name of the attribute
+     = (Element) the current element
+     * or
+     = (string) value of attribute
+     > Usage
+     | el.attr({
+     |     fill: "#fc0",
+     |     stroke: "#000",
+     |     strokeWidth: 2, // CamelCase...
+     |     "fill-opacity": 0.5, // or dash-separated names
+     |     width: "*=2" // prefixed values
+     | });
+     | console.log(el.attr("fill")); // #fc0
+     * Prefixed values in format `"+=10"` supported. All four operations
+     * (`+`, `-`, `*` and `/`) could be used. Optionally you can use units for `+`
+     * and `-`: `"+=2em"`.
+    \*/
+    Element.prototype.attr = function (params, value) {
+        var el = this,
+            node = el.node;
+        if (!params) {
+            if (node.nodeType != 1) {
+                return {
+                    text: node.nodeValue
+                };
+            }
+            var attr = node.attributes,
+                out = {};
+            for (var i = 0, ii = attr.length; i < ii; i++) {
+                out[attr[i].nodeName] = attr[i].nodeValue;
+            }
+            return out;
+        }
+        if (is(params, "string")) {
+            if (arguments.length > 1) {
+                var json = {};
+                json[params] = value;
+                params = json;
+            } else {
+                return eve("snap.util.getattr." + params, el).firstDefined();
+            }
+        }
+        for (var att in params) {
+            if (params[has](att)) {
+                eve("snap.util.attr." + att, el, params[att]);
+            }
+        }
+        return el;
+    };
+/*\
+ * Snap.parse
+ [ method ]
+ **
+ * Parses SVG fragment and converts it into a @Fragment
+ **
+ - svg (string) SVG string
+ = (Fragment) the @Fragment
+\*/
+Snap.parse = function (svg) {
+    var f = glob.doc.createDocumentFragment(),
+        full = true,
+        div = glob.doc.createElement("div");
+    svg = Str(svg);
+    if (!svg.match(/^\s*<\s*svg(?:\s|>)/)) {
+        svg = "<svg>" + svg + "</svg>";
+        full = false;
+    }
+    div.innerHTML = svg;
+    svg = div.getElementsByTagName("svg")[0];
+    if (svg) {
+        if (full) {
+            f = svg;
+        } else {
+            while (svg.firstChild) {
+                f.appendChild(svg.firstChild);
+            }
+        }
+    }
+    return new Fragment(f);
+};
+function Fragment(frag) {
+    this.node = frag;
+}
+/*\
+ * Snap.fragment
+ [ method ]
+ **
+ * Creates a DOM fragment from a given list of elements or strings
+ **
+ - varargs (…) SVG string
+ = (Fragment) the @Fragment
+\*/
+Snap.fragment = function () {
+    var args = Array.prototype.slice.call(arguments, 0),
+        f = glob.doc.createDocumentFragment();
+    for (var i = 0, ii = args.length; i < ii; i++) {
+        var item = args[i];
+        if (item.node && item.node.nodeType) {
+            f.appendChild(item.node);
+        }
+        if (item.nodeType) {
+            f.appendChild(item);
+        }
+        if (typeof item == "string") {
+            f.appendChild(Snap.parse(item).node);
+        }
+    }
+    return new Fragment(f);
+};
+
+function make(name, parent) {
+    var res = $(name);
+    parent.appendChild(res);
+    var el = wrap(res);
+    return el;
+}
+function Paper(w, h) {
+    var res,
+        desc,
+        defs,
+        proto = Paper.prototype;
+    if (w && w.tagName && w.tagName.toLowerCase() == "svg") {
+        if (w.snap in hub) {
+            return hub[w.snap];
+        }
+        var doc = w.ownerDocument;
+        res = new Element(w);
+        desc = w.getElementsByTagName("desc")[0];
+        defs = w.getElementsByTagName("defs")[0];
+        if (!desc) {
+            desc = $("desc");
+            desc.appendChild(doc.createTextNode("Created with Snap"));
+            res.node.appendChild(desc);
+        }
+        if (!defs) {
+            defs = $("defs");
+            res.node.appendChild(defs);
+        }
+        res.defs = defs;
+        for (var key in proto) if (proto[has](key)) {
+            res[key] = proto[key];
+        }
+        res.paper = res.root = res;
+    } else {
+        res = make("svg", glob.doc.body);
+        $(res.node, {
+            height: h,
+            version: 1.1,
+            width: w,
+            xmlns: xmlns
+        });
+    }
+    return res;
+}
+function wrap(dom) {
+    if (!dom) {
+        return dom;
+    }
+    if (dom instanceof Element || dom instanceof Fragment) {
+        return dom;
+    }
+    if (dom.tagName && dom.tagName.toLowerCase() == "svg") {
+        return new Paper(dom);
+    }
+    if (dom.tagName && dom.tagName.toLowerCase() == "object" && dom.type == "image/svg+xml") {
+        return new Paper(dom.contentDocument.getElementsByTagName("svg")[0]);
+    }
+    return new Element(dom);
+}
+
+Snap._.make = make;
+Snap._.wrap = wrap;
+/*\
+ * Paper.el
+ [ method ]
+ **
+ * Creates an element on paper with a given name and no attributes
+ **
+ - name (string) tag name
+ - attr (object) attributes
+ = (Element) the current element
+ > Usage
+ | var c = paper.circle(10, 10, 10); // is the same as...
+ | var c = paper.el("circle").attr({
+ |     cx: 10,
+ |     cy: 10,
+ |     r: 10
+ | });
+ | // and the same as
+ | var c = paper.el("circle", {
+ |     cx: 10,
+ |     cy: 10,
+ |     r: 10
+ | });
+\*/
+Paper.prototype.el = function (name, attr) {
+    var el = make(name, this.node);
+    attr && el.attr(attr);
+    return el;
+};
+/*\
+ * Element.children
+ [ method ]
+ **
+ * Returns array of all the children of the element.
+ = (array) array of Elements
+\*/
+Element.prototype.children = function () {
+    var out = [],
+        ch = this.node.childNodes;
+    for (var i = 0, ii = ch.length; i < ii; i++) {
+        out[i] = Snap(ch[i]);
+    }
+    return out;
+};
+function jsonFiller(root, o) {
+    for (var i = 0, ii = root.length; i < ii; i++) {
+        var item = {
+                type: root[i].type,
+                attr: root[i].attr()
+            },
+            children = root[i].children();
+        o.push(item);
+        if (children.length) {
+            jsonFiller(children, item.childNodes = []);
+        }
+    }
+}
+/*\
+ * Element.toJSON
+ [ method ]
+ **
+ * Returns object representation of the given element and all its children.
+ = (object) in format
+ o {
+ o     type (string) this.type,
+ o     attr (object) attributes map,
+ o     childNodes (array) optional array of children in the same format
+ o }
+\*/
+Element.prototype.toJSON = function () {
+    var out = [];
+    jsonFiller([this], out);
+    return out[0];
+};
+// default
+eve.on("snap.util.getattr", function () {
+    var att = eve.nt();
+    att = att.substring(att.lastIndexOf(".") + 1);
+    var css = att.replace(/[A-Z]/g, function (letter) {
+        return "-" + letter.toLowerCase();
+    });
+    if (cssAttr[has](css)) {
+        return this.node.ownerDocument.defaultView.getComputedStyle(this.node, null).getPropertyValue(css);
+    } else {
+        return $(this.node, att);
+    }
+});
+var cssAttr = {
+    "alignment-baseline": 0,
+    "baseline-shift": 0,
+    "clip": 0,
+    "clip-path": 0,
+    "clip-rule": 0,
+    "color": 0,
+    "color-interpolation": 0,
+    "color-interpolation-filters": 0,
+    "color-profile": 0,
+    "color-rendering": 0,
+    "cursor": 0,
+    "direction": 0,
+    "display": 0,
+    "dominant-baseline": 0,
+    "enable-background": 0,
+    "fill": 0,
+    "fill-opacity": 0,
+    "fill-rule": 0,
+    "filter": 0,
+    "flood-color": 0,
+    "flood-opacity": 0,
+    "font": 0,
+    "font-family": 0,
+    "font-size": 0,
+    "font-size-adjust": 0,
+    "font-stretch": 0,
+    "font-style": 0,
+    "font-variant": 0,
+    "font-weight": 0,
+    "glyph-orientation-horizontal": 0,
+    "glyph-orientation-vertical": 0,
+    "image-rendering": 0,
+    "kerning": 0,
+    "letter-spacing": 0,
+    "lighting-color": 0,
+    "marker": 0,
+    "marker-end": 0,
+    "marker-mid": 0,
+    "marker-start": 0,
+    "mask": 0,
+    "opacity": 0,
+    "overflow": 0,
+    "pointer-events": 0,
+    "shape-rendering": 0,
+    "stop-color": 0,
+    "stop-opacity": 0,
+    "stroke": 0,
+    "stroke-dasharray": 0,
+    "stroke-dashoffset": 0,
+    "stroke-linecap": 0,
+    "stroke-linejoin": 0,
+    "stroke-miterlimit": 0,
+    "stroke-opacity": 0,
+    "stroke-width": 0,
+    "text-anchor": 0,
+    "text-decoration": 0,
+    "text-rendering": 0,
+    "unicode-bidi": 0,
+    "visibility": 0,
+    "word-spacing": 0,
+    "writing-mode": 0
+};
+
+eve.on("snap.util.attr", function (value) {
+    var att = eve.nt(),
+        attr = {};
+    att = att.substring(att.lastIndexOf(".") + 1);
+    attr[att] = value;
+    var style = att.replace(/-(\w)/gi, function (all, letter) {
+            return letter.toUpperCase();
+        }),
+        css = att.replace(/[A-Z]/g, function (letter) {
+            return "-" + letter.toLowerCase();
+        });
+    if (cssAttr[has](css)) {
+        this.node.style[style] = value == null ? E : value;
+    } else {
+        $(this.node, attr);
+    }
+});
+(function (proto) {}(Paper.prototype));
+
+// simple ajax
+/*\
+ * Snap.ajax
+ [ method ]
+ **
+ * Simple implementation of Ajax
+ **
+ - url (string) URL
+ - postData (object|string) data for post request
+ - callback (function) callback
+ - scope (object) #optional scope of callback
+ * or
+ - url (string) URL
+ - callback (function) callback
+ - scope (object) #optional scope of callback
+ = (XMLHttpRequest) the XMLHttpRequest object, just in case
+\*/
+Snap.ajax = function (url, postData, callback, scope){
+    var req = new XMLHttpRequest,
+        id = ID();
+    if (req) {
+        if (is(postData, "function")) {
+            scope = callback;
+            callback = postData;
+            postData = null;
+        } else if (is(postData, "object")) {
+            var pd = [];
+            for (var key in postData) if (postData.hasOwnProperty(key)) {
+                pd.push(encodeURIComponent(key) + "=" + encodeURIComponent(postData[key]));
+            }
+            postData = pd.join("&");
+        }
+        req.open(postData ? "POST" : "GET", url, true);
+        if (postData) {
+            req.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+            req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        }
+        if (callback) {
+            eve.once("snap.ajax." + id + ".0", callback);
+            eve.once("snap.ajax." + id + ".200", callback);
+            eve.once("snap.ajax." + id + ".304", callback);
+        }
+        req.onreadystatechange = function() {
+            if (req.readyState != 4) return;
+            eve("snap.ajax." + id + "." + req.status, scope, req);
+        };
+        if (req.readyState == 4) {
+            return req;
+        }
+        req.send(postData);
+        return req;
+    }
+};
+/*\
+ * Snap.load
+ [ method ]
+ **
+ * Loads external SVG file as a @Fragment (see @Snap.ajax for more advanced AJAX)
+ **
+ - url (string) URL
+ - callback (function) callback
+ - scope (object) #optional scope of callback
+\*/
+Snap.load = function (url, callback, scope) {
+    Snap.ajax(url, function (req) {
+        var f = Snap.parse(req.responseText);
+        scope ? callback.call(scope, f) : callback(f);
+    });
+};
+var getOffset = function (elem) {
+    var box = elem.getBoundingClientRect(),
+        doc = elem.ownerDocument,
+        body = doc.body,
+        docElem = doc.documentElement,
+        clientTop = docElem.clientTop || body.clientTop || 0, clientLeft = docElem.clientLeft || body.clientLeft || 0,
+        top  = box.top  + (g.win.pageYOffset || docElem.scrollTop || body.scrollTop ) - clientTop,
+        left = box.left + (g.win.pageXOffset || docElem.scrollLeft || body.scrollLeft) - clientLeft;
+    return {
+        y: top,
+        x: left
+    };
+};
+/*\
+ * Snap.getElementByPoint
+ [ method ]
+ **
+ * Returns you topmost element under given point.
+ **
+ = (object) Snap element object
+ - x (number) x coordinate from the top left corner of the window
+ - y (number) y coordinate from the top left corner of the window
+ > Usage
+ | Snap.getElementByPoint(mouseX, mouseY).attr({stroke: "#f00"});
+\*/
+Snap.getElementByPoint = function (x, y) {
+    var paper = this,
+        svg = paper.canvas,
+        target = glob.doc.elementFromPoint(x, y);
+    if (glob.win.opera && target.tagName == "svg") {
+        var so = getOffset(target),
+            sr = target.createSVGRect();
+        sr.x = x - so.x;
+        sr.y = y - so.y;
+        sr.width = sr.height = 1;
+        var hits = target.getIntersectionList(sr, null);
+        if (hits.length) {
+            target = hits[hits.length - 1];
+        }
+    }
+    if (!target) {
+        return null;
+    }
+    return wrap(target);
+};
+/*\
+ * Snap.plugin
+ [ method ]
+ **
+ * Let you write plugins. You pass in a function with five arguments, like this:
+ | Snap.plugin(function (Snap, Element, Paper, global, Fragment) {
+ |     Snap.newmethod = function () {};
+ |     Element.prototype.newmethod = function () {};
+ |     Paper.prototype.newmethod = function () {};
+ | });
+ * Inside the function you have access to all main objects (and their
+ * prototypes). This allow you to extend anything you want.
+ **
+ - f (function) your plugin body
+\*/
+Snap.plugin = function (f) {
+    f(Snap, Element, Paper, glob, Fragment);
+};
+glob.win.Snap = Snap;
+return Snap;
+}(window || this));
+
+// Copyright (c) 2013 Adobe Systems Incorporated. All rights reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+Snap.plugin(function (Snap, Element, Paper, glob, Fragment) {
+    var elproto = Element.prototype,
+        is = Snap.is,
+        Str = String,
+        unit2px = Snap._unit2px,
+        $ = Snap._.$,
+        make = Snap._.make,
+        getSomeDefs = Snap._.getSomeDefs,
+        has = "hasOwnProperty",
+        wrap = Snap._.wrap;
+    /*\
+     * Element.getBBox
+     [ method ]
+     **
+     * Returns the bounding box descriptor for the given element
+     **
+     = (object) bounding box descriptor:
+     o {
+     o     cx: (number) x of the center,
+     o     cy: (number) x of the center,
+     o     h: (number) height,
+     o     height: (number) height,
+     o     path: (string) path command for the box,
+     o     r0: (number) radius of a circle that fully encloses the box,
+     o     r1: (number) radius of the smallest circle that can be enclosed,
+     o     r2: (number) radius of the largest circle that can be enclosed,
+     o     vb: (string) box as a viewbox command,
+     o     w: (number) width,
+     o     width: (number) width,
+     o     x2: (number) x of the right side,
+     o     x: (number) x of the left side,
+     o     y2: (number) y of the bottom edge,
+     o     y: (number) y of the top edge
+     o }
+    \*/
+    elproto.getBBox = function (isWithoutTransform) {
+        if (this.type == "tspan") {
+            return Snap._.box(this.node.getClientRects().item(0));
+        }
+        if (!Snap.Matrix || !Snap.path) {
+            return this.node.getBBox();
+        }
+        var el = this,
+            m = new Snap.Matrix;
+        if (el.removed) {
+            return Snap._.box();
+        }
+        while (el.type == "use") {
+            if (!isWithoutTransform) {
+                m = m.add(el.transform().localMatrix.translate(el.attr("x") || 0, el.attr("y") || 0));
+            }
+            if (el.original) {
+                el = el.original;
+            } else {
+                var href = el.attr("xlink:href");
+                el = el.original = el.node.ownerDocument.getElementById(href.substring(href.indexOf("#") + 1));
+            }
+        }
+        var _ = el._,
+            pathfinder = Snap.path.get[el.type] || Snap.path.get.deflt;
+        try {
+            if (isWithoutTransform) {
+                _.bboxwt = pathfinder ? Snap.path.getBBox(el.realPath = pathfinder(el)) : Snap._.box(el.node.getBBox());
+                return Snap._.box(_.bboxwt);
+            } else {
+                el.realPath = pathfinder(el);
+                el.matrix = el.transform().localMatrix;
+                _.bbox = Snap.path.getBBox(Snap.path.map(el.realPath, m.add(el.matrix)));
+                return Snap._.box(_.bbox);
+            }
+        } catch (e) {
+            // Firefox doesn’t give you bbox of hidden element
+            return Snap._.box();
+        }
+    };
+    var propString = function () {
+        return this.string;
+    };
+    function extractTransform(el, tstr) {
+        if (tstr == null) {
+            var doReturn = true;
+            if (el.type == "linearGradient" || el.type == "radialGradient") {
+                tstr = el.node.getAttribute("gradientTransform");
+            } else if (el.type == "pattern") {
+                tstr = el.node.getAttribute("patternTransform");
+            } else {
+                tstr = el.node.getAttribute("transform");
+            }
+            if (!tstr) {
+                return new Snap.Matrix;
+            }
+            tstr = Snap._.svgTransform2string(tstr);
+        } else {
+            if (!Snap._.rgTransform.test(tstr)) {
+                tstr = Snap._.svgTransform2string(tstr);
+            } else {
+                tstr = Str(tstr).replace(/\.{3}|\u2026/g, el._.transform || "");
+            }
+            if (is(tstr, "array")) {
+                tstr = Snap.path ? Snap.path.toString.call(tstr) : Str(tstr);
+            }
+            el._.transform = tstr;
+        }
+        var m = Snap._.transform2matrix(tstr, el.getBBox(1));
+        if (doReturn) {
+            return m;
+        } else {
+            el.matrix = m;
+        }
+    }
+    /*\
+     * Element.transform
+     [ method ]
+     **
+     * Gets or sets transformation of the element
+     **
+     - tstr (string) transform string in Snap or SVG format
+     = (Element) the current element
+     * or
+     = (object) transformation descriptor:
+     o {
+     o     string (string) transform string,
+     o     globalMatrix (Matrix) matrix of all transformations applied to element or its parents,
+     o     localMatrix (Matrix) matrix of transformations applied only to the element,
+     o     diffMatrix (Matrix) matrix of difference between global and local transformations,
+     o     global (string) global transformation as string,
+     o     local (string) local transformation as string,
+     o     toString (function) returns `string` property
+     o }
+    \*/
+    elproto.transform = function (tstr) {
+        var _ = this._;
+        if (tstr == null) {
+            var papa = this,
+                global = new Snap.Matrix(this.node.getCTM()),
+                local = extractTransform(this),
+                ms = [local],
+                m = new Snap.Matrix,
+                i,
+                localString = local.toTransformString(),
+                string = Str(local) == Str(this.matrix) ?
+                            Str(_.transform) : localString;
+            while (papa.type != "svg" && (papa = papa.parent())) {
+                ms.push(extractTransform(papa));
+            }
+            i = ms.length;
+            while (i--) {
+                m.add(ms[i]);
+            }
+            return {
+                string: string,
+                globalMatrix: global,
+                totalMatrix: m,
+                localMatrix: local,
+                diffMatrix: global.clone().add(local.invert()),
+                global: global.toTransformString(),
+                total: m.toTransformString(),
+                local: localString,
+                toString: propString
+            };
+        }
+        if (tstr instanceof Snap.Matrix) {
+            this.matrix = tstr;
+            this._.transform = tstr.toTransformString();
+        } else {
+            extractTransform(this, tstr);
+        }
+
+        if (this.node) {
+            if (this.type == "linearGradient" || this.type == "radialGradient") {
+                $(this.node, {gradientTransform: this.matrix});
+            } else if (this.type == "pattern") {
+                $(this.node, {patternTransform: this.matrix});
+            } else {
+                $(this.node, {transform: this.matrix});
+            }
+        }
+
+        return this;
+    };
+    /*\
+     * Element.parent
+     [ method ]
+     **
+     * Returns the element's parent
+     **
+     = (Element) the parent element
+    \*/
+    elproto.parent = function () {
+        return wrap(this.node.parentNode);
+    };
+    /*\
+     * Element.append
+     [ method ]
+     **
+     * Appends the given element to current one
+     **
+     - el (Element|Set) element to append
+     = (Element) the parent element
+    \*/
+    /*\
+     * Element.add
+     [ method ]
+     **
+     * See @Element.append
+    \*/
+    elproto.append = elproto.add = function (el) {
+        if (el) {
+            if (el.type == "set") {
+                var it = this;
+                el.forEach(function (el) {
+                    it.add(el);
+                });
+                return this;
+            }
+            el = wrap(el);
+            this.node.appendChild(el.node);
+            el.paper = this.paper;
+        }
+        return this;
+    };
+    /*\
+     * Element.appendTo
+     [ method ]
+     **
+     * Appends the current element to the given one
+     **
+     - el (Element) parent element to append to
+     = (Element) the child element
+    \*/
+    elproto.appendTo = function (el) {
+        if (el) {
+            el = wrap(el);
+            el.append(this);
+        }
+        return this;
+    };
+    /*\
+     * Element.prepend
+     [ method ]
+     **
+     * Prepends the given element to the current one
+     **
+     - el (Element) element to prepend
+     = (Element) the parent element
+    \*/
+    elproto.prepend = function (el) {
+        if (el) {
+            if (el.type == "set") {
+                var it = this,
+                    first;
+                el.forEach(function (el) {
+                    if (first) {
+                        first.after(el);
+                    } else {
+                        it.prepend(el);
+                    }
+                    first = el;
+                });
+                return this;
+            }
+            el = wrap(el);
+            var parent = el.parent();
+            this.node.insertBefore(el.node, this.node.firstChild);
+            this.add && this.add();
+            el.paper = this.paper;
+            this.parent() && this.parent().add();
+            parent && parent.add();
+        }
+        return this;
+    };
+    /*\
+     * Element.prependTo
+     [ method ]
+     **
+     * Prepends the current element to the given one
+     **
+     - el (Element) parent element to prepend to
+     = (Element) the child element
+    \*/
+    elproto.prependTo = function (el) {
+        el = wrap(el);
+        el.prepend(this);
+        return this;
+    };
+    /*\
+     * Element.before
+     [ method ]
+     **
+     * Inserts given element before the current one
+     **
+     - el (Element) element to insert
+     = (Element) the parent element
+    \*/
+    elproto.before = function (el) {
+        if (el.type == "set") {
+            var it = this;
+            el.forEach(function (el) {
+                var parent = el.parent();
+                it.node.parentNode.insertBefore(el.node, it.node);
+                parent && parent.add();
+            });
+            this.parent().add();
+            return this;
+        }
+        el = wrap(el);
+        var parent = el.parent();
+        this.node.parentNode.insertBefore(el.node, this.node);
+        this.parent() && this.parent().add();
+        parent && parent.add();
+        el.paper = this.paper;
+        return this;
+    };
+    /*\
+     * Element.after
+     [ method ]
+     **
+     * Inserts given element after the current one
+     **
+     - el (Element) element to insert
+     = (Element) the parent element
+    \*/
+    elproto.after = function (el) {
+        el = wrap(el);
+        var parent = el.parent();
+        if (this.node.nextSibling) {
+            this.node.parentNode.insertBefore(el.node, this.node.nextSibling);
+        } else {
+            this.node.parentNode.appendChild(el.node);
+        }
+        this.parent() && this.parent().add();
+        parent && parent.add();
+        el.paper = this.paper;
+        return this;
+    };
+    /*\
+     * Element.insertBefore
+     [ method ]
+     **
+     * Inserts the element after the given one
+     **
+     - el (Element) element next to whom insert to
+     = (Element) the parent element
+    \*/
+    elproto.insertBefore = function (el) {
+        el = wrap(el);
+        var parent = this.parent();
+        el.node.parentNode.insertBefore(this.node, el.node);
+        this.paper = el.paper;
+        parent && parent.add();
+        el.parent() && el.parent().add();
+        return this;
+    };
+    /*\
+     * Element.insertAfter
+     [ method ]
+     **
+     * Inserts the element after the given one
+     **
+     - el (Element) element next to whom insert to
+     = (Element) the parent element
+    \*/
+    elproto.insertAfter = function (el) {
+        el = wrap(el);
+        var parent = this.parent();
+        el.node.parentNode.insertBefore(this.node, el.node.nextSibling);
+        this.paper = el.paper;
+        parent && parent.add();
+        el.parent() && el.parent().add();
+        return this;
+    };
+    /*\
+     * Element.remove
+     [ method ]
+     **
+     * Removes element from the DOM
+     = (Element) the detached element
+    \*/
+    elproto.remove = function () {
+        var parent = this.parent();
+        this.node.parentNode && this.node.parentNode.removeChild(this.node);
+        delete this.paper;
+        this.removed = true;
+        parent && parent.add();
+        return this;
+    };
+    /*\
+     * Element.select
+     [ method ]
+     **
+     * Gathers the nested @Element matching the given set of CSS selectors
+     **
+     - query (string) CSS selector
+     = (Element) result of query selection
+    \*/
+    elproto.select = function (query) {
+        return wrap(this.node.querySelector(query));
+    };
+    /*\
+     * Element.selectAll
+     [ method ]
+     **
+     * Gathers nested @Element objects matching the given set of CSS selectors
+     **
+     - query (string) CSS selector
+     = (Set|array) result of query selection
+    \*/
+    elproto.selectAll = function (query) {
+        var nodelist = this.node.querySelectorAll(query),
+            set = (Snap.set || Array)();
+        for (var i = 0; i < nodelist.length; i++) {
+            set.push(wrap(nodelist[i]));
+        }
+        return set;
+    };
+    /*\
+     * Element.asPX
+     [ method ]
+     **
+     * Returns given attribute of the element as a `px` value (not %, em, etc.)
+     **
+     - attr (string) attribute name
+     - value (string) #optional attribute value
+     = (Element) result of query selection
+    \*/
+    elproto.asPX = function (attr, value) {
+        if (value == null) {
+            value = this.attr(attr);
+        }
+        return +unit2px(this, attr, value);
+    };
+    // SIERRA Element.use(): I suggest adding a note about how to access the original element the returned <use> instantiates. It's a part of SVG with which ordinary web developers may be least familiar.
+    /*\
+     * Element.use
+     [ method ]
+     **
+     * Creates a `<use>` element linked to the current element
+     **
+     = (Element) the `<use>` element
+    \*/
+    elproto.use = function () {
+        var use,
+            id = this.node.id;
+        if (!id) {
+            id = this.id;
+            $(this.node, {
+                id: id
+            });
+        }
+        if (this.type == "linearGradient" || this.type == "radialGradient" ||
+            this.type == "pattern") {
+            use = make(this.type, this.node.parentNode);
+        } else {
+            use = make("use", this.node.parentNode);
+        }
+        $(use.node, {
+            "xlink:href": "#" + id
+        });
+        use.original = this;
+        return use;
+    };
+    function fixids(el) {
+        var els = el.selectAll("*"),
+            it,
+            url = /^\s*url\(("|'|)(.*)\1\)\s*$/,
+            ids = [],
+            uses = {};
+        function urltest(it, name) {
+            var val = $(it.node, name);
+            val = val && val.match(url);
+            val = val && val[2];
+            if (val && val.charAt() == "#") {
+                val = val.substring(1);
+            } else {
+                return;
+            }
+            if (val) {
+                uses[val] = (uses[val] || []).concat(function (id) {
+                    var attr = {};
+                    attr[name] = Snap.url(id);
+                    $(it.node, attr);
+                });
+            }
+        }
+        function linktest(it) {
+            var val = $(it.node, "xlink:href");
+            if (val && val.charAt() == "#") {
+                val = val.substring(1);
+            } else {
+                return;
+            }
+            if (val) {
+                uses[val] = (uses[val] || []).concat(function (id) {
+                    it.attr("xlink:href", "#" + id);
+                });
+            }
+        }
+        for (var i = 0, ii = els.length; i < ii; i++) {
+            it = els[i];
+            urltest(it, "fill");
+            urltest(it, "stroke");
+            urltest(it, "filter");
+            urltest(it, "mask");
+            urltest(it, "clip-path");
+            linktest(it);
+            var oldid = $(it.node, "id");
+            if (oldid) {
+                $(it.node, {id: it.id});
+                ids.push({
+                    old: oldid,
+                    id: it.id
+                });
+            }
+        }
+        for (i = 0, ii = ids.length; i < ii; i++) {
+            var fs = uses[ids[i].old];
+            if (fs) {
+                for (var j = 0, jj = fs.length; j < jj; j++) {
+                    fs[j](ids[i].id);
+                }
+            }
+        }
+    }
+    /*\
+     * Element.clone
+     [ method ]
+     **
+     * Creates a clone of the element and inserts it after the element
+     **
+     = (Element) the clone
+    \*/
+    elproto.clone = function () {
+        var clone = wrap(this.node.cloneNode(true));
+        if ($(clone.node, "id")) {
+            $(clone.node, {id: clone.id});
+        }
+        fixids(clone);
+        clone.insertAfter(this);
+        return clone;
+    };
+    /*\
+     * Element.toDefs
+     [ method ]
+     **
+     * Moves element to the shared `<defs>` area
+     **
+     = (Element) the element
+    \*/
+    elproto.toDefs = function () {
+        var defs = getSomeDefs(this);
+        defs.appendChild(this.node);
+        return this;
+    };
+    /*\
+     * Element.toPattern
+     [ method ]
+     **
+     * Creates a `<pattern>` element from the current element
+     **
+     * To create a pattern you have to specify the pattern rect:
+     - x (string|number)
+     - y (string|number)
+     - width (string|number)
+     - height (string|number)
+     = (Element) the `<pattern>` element
+     * You can use pattern later on as an argument for `fill` attribute:
+     | var p = paper.path("M10-5-10,15M15,0,0,15M0-5-20,15").attr({
+     |         fill: "none",
+     |         stroke: "#bada55",
+     |         strokeWidth: 5
+     |     }).pattern(0, 0, 10, 10),
+     |     c = paper.circle(200, 200, 100);
+     | c.attr({
+     |     fill: p
+     | });
+    \*/
+    elproto.pattern = elproto.toPattern = function (x, y, width, height) {
+        var p = make("pattern", getSomeDefs(this));
+        if (x == null) {
+            x = this.getBBox();
+        }
+        if (is(x, "object") && "x" in x) {
+            y = x.y;
+            width = x.width;
+            height = x.height;
+            x = x.x;
+        }
+        $(p.node, {
+            x: x,
+            y: y,
+            width: width,
+            height: height,
+            patternUnits: "userSpaceOnUse",
+            id: p.id,
+            viewBox: [x, y, width, height].join(" ")
+        });
+        p.node.appendChild(this.node);
+        return p;
+    };
+// SIERRA Element.marker(): clarify what a reference point is. E.g., helps you offset the object from its edge such as when centering it over a path.
+// SIERRA Element.marker(): I suggest the method should accept default reference point values.  Perhaps centered with (refX = width/2) and (refY = height/2)? Also, couldn't it assume the element's current _width_ and _height_? And please specify what _x_ and _y_ mean: offsets? If so, from where?  Couldn't they also be assigned default values?
+    /*\
+     * Element.marker
+     [ method ]
+     **
+     * Creates a `<marker>` element from the current element
+     **
+     * To create a marker you have to specify the bounding rect and reference point:
+     - x (number)
+     - y (number)
+     - width (number)
+     - height (number)
+     - refX (number)
+     - refY (number)
+     = (Element) the `<marker>` element
+     * You can specify the marker later as an argument for `marker-start`, `marker-end`, `marker-mid`, and `marker` attributes. The `marker` attribute places the marker at every point along the path, and `marker-mid` places them at every point except the start and end.
+    \*/
+    // TODO add usage for markers
+    elproto.marker = function (x, y, width, height, refX, refY) {
+        var p = make("marker", getSomeDefs(this));
+        if (x == null) {
+            x = this.getBBox();
+        }
+        if (is(x, "object") && "x" in x) {
+            y = x.y;
+            width = x.width;
+            height = x.height;
+            refX = x.refX || x.cx;
+            refY = x.refY || x.cy;
+            x = x.x;
+        }
+        $(p.node, {
+            viewBox: [x, y, width, height].join(" "),
+            markerWidth: width,
+            markerHeight: height,
+            orient: "auto",
+            refX: refX || 0,
+            refY: refY || 0,
+            id: p.id
+        });
+        p.node.appendChild(this.node);
+        return p;
+    };
+    var eldata = {};
+    /*\
+     * Element.data
+     [ method ]
+     **
+     * Adds or retrieves given value associated with given key. (Don’t confuse
+     * with `data-` attributes)
+     *
+     * See also @Element.removeData
+     - key (string) key to store data
+     - value (any) #optional value to store
+     = (object) @Element
+     * or, if value is not specified:
+     = (any) value
+     > Usage
+     | for (var i = 0, i < 5, i++) {
+     |     paper.circle(10 + 15 * i, 10, 10)
+     |          .attr({fill: "#000"})
+     |          .data("i", i)
+     |          .click(function () {
+     |             alert(this.data("i"));
+     |          });
+     | }
+    \*/
+    elproto.data = function (key, value) {
+        var data = eldata[this.id] = eldata[this.id] || {};
+        if (arguments.length == 0){
+            eve("snap.data.get." + this.id, this, data, null);
+            return data;
+        }
+        if (arguments.length == 1) {
+            if (Snap.is(key, "object")) {
+                for (var i in key) if (key[has](i)) {
+                    this.data(i, key[i]);
+                }
+                return this;
+            }
+            eve("snap.data.get." + this.id, this, data[key], key);
+            return data[key];
+        }
+        data[key] = value;
+        eve("snap.data.set." + this.id, this, value, key);
+        return this;
+    };
+    /*\
+     * Element.removeData
+     [ method ]
+     **
+     * Removes value associated with an element by given key.
+     * If key is not provided, removes all the data of the element.
+     - key (string) #optional key
+     = (object) @Element
+    \*/
+    elproto.removeData = function (key) {
+        if (key == null) {
+            eldata[this.id] = {};
+        } else {
+            eldata[this.id] && delete eldata[this.id][key];
+        }
+        return this;
+    };
+    /*\
+     * Element.outerSVG
+     [ method ]
+     **
+     * Returns SVG code for the element, equivalent to HTML's `outerHTML`.
+     *
+     * See also @Element.innerSVG
+     = (string) SVG code for the element
+    \*/
+    /*\
+     * Element.toString
+     [ method ]
+     **
+     * See @Element.outerSVG
+    \*/
+    elproto.outerSVG = elproto.toString = toString(1);
+    /*\
+     * Element.innerSVG
+     [ method ]
+     **
+     * Returns SVG code for the element's contents, equivalent to HTML's `innerHTML`
+     = (string) SVG code for the element
+    \*/
+    elproto.innerSVG = toString();
+    function toString(type) {
+        return function () {
+            var res = type ? "<" + this.type : "",
+                attr = this.node.attributes,
+                chld = this.node.childNodes;
+            if (type) {
+                for (var i = 0, ii = attr.length; i < ii; i++) {
+                    res += " " + attr[i].name + '="' +
+                            attr[i].value.replace(/"/g, '\\"') + '"';
+                }
+            }
+            if (chld.length) {
+                type && (res += ">");
+                for (i = 0, ii = chld.length; i < ii; i++) {
+                    if (chld[i].nodeType == 3) {
+                        res += chld[i].nodeValue;
+                    } else if (chld[i].nodeType == 1) {
+                        res += wrap(chld[i]).toString();
+                    }
+                }
+                type && (res += "</" + this.type + ">");
+            } else {
+                type && (res += "/>");
+            }
+            return res;
+        };
+    }
+    elproto.toDataURL = function () {
+        if (window && window.btoa) {
+            var bb = this.getBBox(),
+                svg = Snap.format('<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{width}" height="{height}" viewBox="{x} {y} {width} {height}">{contents}</svg>', {
+                x: +bb.x.toFixed(3),
+                y: +bb.y.toFixed(3),
+                width: +bb.width.toFixed(3),
+                height: +bb.height.toFixed(3),
+                contents: this.outerSVG()
+            });
+            return "data:image/svg+xml;base64," + btoa(unescape(encodeURIComponent(svg)));
+        }
+    };
+    /*\
+     * Fragment.select
+     [ method ]
+     **
+     * See @Element.select
+    \*/
+    Fragment.prototype.select = elproto.select;
+    /*\
+     * Fragment.selectAll
+     [ method ]
+     **
+     * See @Element.selectAll
+    \*/
+    Fragment.prototype.selectAll = elproto.selectAll;
+});
+
+// Copyright (c) 2013 Adobe Systems Incorporated. All rights reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+Snap.plugin(function (Snap, Element, Paper, glob, Fragment) {
+    var objectToString = Object.prototype.toString,
+        Str = String,
+        math = Math,
+        E = "";
+    function Matrix(a, b, c, d, e, f) {
+        if (b == null && objectToString.call(a) == "[object SVGMatrix]") {
+            this.a = a.a;
+            this.b = a.b;
+            this.c = a.c;
+            this.d = a.d;
+            this.e = a.e;
+            this.f = a.f;
+            return;
+        }
+        if (a != null) {
+            this.a = +a;
+            this.b = +b;
+            this.c = +c;
+            this.d = +d;
+            this.e = +e;
+            this.f = +f;
+        } else {
+            this.a = 1;
+            this.b = 0;
+            this.c = 0;
+            this.d = 1;
+            this.e = 0;
+            this.f = 0;
+        }
+    }
+    (function (matrixproto) {
+        /*\
+         * Matrix.add
+         [ method ]
+         **
+         * Adds the given matrix to existing one
+         - a (number)
+         - b (number)
+         - c (number)
+         - d (number)
+         - e (number)
+         - f (number)
+         * or
+         - matrix (object) @Matrix
+        \*/
+        matrixproto.add = function (a, b, c, d, e, f) {
+            if (a && a instanceof Matrix) {
+                return this.add(a.a, a.b, a.c, a.d, a.e, a.f);
+            }
+            var aNew = a * this.a + b * this.c,
+                bNew = a * this.b + b * this.d;
+            this.e += e * this.a + f * this.c;
+            this.f += e * this.b + f * this.d;
+            this.c = c * this.a + d * this.c;
+            this.d = c * this.b + d * this.d;
+
+            this.a = aNew;
+            this.b = bNew;
+            return this;
+        };
+        /*\
+         * Matrix.multLeft
+         [ method ]
+         **
+         * Multiplies a passed affine transform to the left: M * this.
+         - a (number)
+         - b (number)
+         - c (number)
+         - d (number)
+         - e (number)
+         - f (number)
+         * or
+         - matrix (object) @Matrix
+        \*/
+        Matrix.prototype.multLeft = function (a, b, c, d, e, f) {
+            if (a && a instanceof Matrix) {
+                return this.multLeft(a.a, a.b, a.c, a.d, a.e, a.f);
+            }
+            var aNew = a * this.a + c * this.b,
+                cNew = a * this.c + c * this.d,
+                eNew = a * this.e + c * this.f + e;
+            this.b = b * this.a + d * this.b;
+            this.d = b * this.c + d * this.d;
+            this.f = b * this.e + d * this.f + f;
+
+            this.a = aNew;
+            this.c = cNew;
+            this.e = eNew;
+            return this;
+        };
+        /*\
+         * Matrix.invert
+         [ method ]
+         **
+         * Returns an inverted version of the matrix
+         = (object) @Matrix
+        \*/
+        matrixproto.invert = function () {
+            var me = this,
+                x = me.a * me.d - me.b * me.c;
+            return new Matrix(me.d / x, -me.b / x, -me.c / x, me.a / x, (me.c * me.f - me.d * me.e) / x, (me.b * me.e - me.a * me.f) / x);
+        };
+        /*\
+         * Matrix.clone
+         [ method ]
+         **
+         * Returns a copy of the matrix
+         = (object) @Matrix
+        \*/
+        matrixproto.clone = function () {
+            return new Matrix(this.a, this.b, this.c, this.d, this.e, this.f);
+        };
+        /*\
+         * Matrix.translate
+         [ method ]
+         **
+         * Translate the matrix
+         - x (number) horizontal offset distance
+         - y (number) vertical offset distance
+        \*/
+        matrixproto.translate = function (x, y) {
+            this.e += x * this.a + y * this.c;
+            this.f += x * this.b + y * this.d;
+            return this;
+        };
+        /*\
+         * Matrix.scale
+         [ method ]
+         **
+         * Scales the matrix
+         - x (number) amount to be scaled, with `1` resulting in no change
+         - y (number) #optional amount to scale along the vertical axis. (Otherwise `x` applies to both axes.)
+         - cx (number) #optional horizontal origin point from which to scale
+         - cy (number) #optional vertical origin point from which to scale
+         * Default cx, cy is the middle point of the element.
+        \*/
+        matrixproto.scale = function (x, y, cx, cy) {
+            y == null && (y = x);
+            (cx || cy) && this.translate(cx, cy);
+            this.a *= x;
+            this.b *= x;
+            this.c *= y;
+            this.d *= y;
+            (cx || cy) && this.translate(-cx, -cy);
+            return this;
+        };
+        /*\
+         * Matrix.rotate
+         [ method ]
+         **
+         * Rotates the matrix
+         - a (number) angle of rotation, in degrees
+         - x (number) horizontal origin point from which to rotate
+         - y (number) vertical origin point from which to rotate
+        \*/
+        matrixproto.rotate = function (a, x, y) {
+            a = Snap.rad(a);
+            x = x || 0;
+            y = y || 0;
+            var cos = +math.cos(a).toFixed(9),
+                sin = +math.sin(a).toFixed(9);
+            this.add(cos, sin, -sin, cos, x, y);
+            return this.add(1, 0, 0, 1, -x, -y);
+        };
+        /*\
+         * Matrix.skewX
+         [ method ]
+         **
+         * Skews the matrix along the x-axis
+         - x (number) Angle to skew along the x-axis (in degrees).
+        \*/
+        matrixproto.skewX = function (x) {
+            return this.skew(x, 0);
+        };
+        /*\
+         * Matrix.skewY
+         [ method ]
+         **
+         * Skews the matrix along the y-axis
+         - y (number) Angle to skew along the y-axis (in degrees).
+        \*/
+        matrixproto.skewY = function (y) {
+            return this.skew(0, y);
+        };
+        /*\
+         * Matrix.skew
+         [ method ]
+         **
+         * Skews the matrix
+         - y (number) Angle to skew along the y-axis (in degrees).
+         - x (number) Angle to skew along the x-axis (in degrees).
+        \*/
+        matrixproto.skew = function (x, y) {
+            x = x || 0;
+            y = y || 0;
+            x = Snap.rad(x);
+            y = Snap.rad(y);
+            var c = math.tan(x).toFixed(9);
+            var b = math.tan(y).toFixed(9);
+            return this.add(1, b, c, 1, 0, 0);
+        };
+        /*\
+         * Matrix.x
+         [ method ]
+         **
+         * Returns x coordinate for given point after transformation described by the matrix. See also @Matrix.y
+         - x (number)
+         - y (number)
+         = (number) x
+        \*/
+        matrixproto.x = function (x, y) {
+            return x * this.a + y * this.c + this.e;
+        };
+        /*\
+         * Matrix.y
+         [ method ]
+         **
+         * Returns y coordinate for given point after transformation described by the matrix. See also @Matrix.x
+         - x (number)
+         - y (number)
+         = (number) y
+        \*/
+        matrixproto.y = function (x, y) {
+            return x * this.b + y * this.d + this.f;
+        };
+        matrixproto.get = function (i) {
+            return +this[Str.fromCharCode(97 + i)].toFixed(4);
+        };
+        matrixproto.toString = function () {
+            return "matrix(" + [this.get(0), this.get(1), this.get(2), this.get(3), this.get(4), this.get(5)].join() + ")";
+        };
+        matrixproto.offset = function () {
+            return [this.e.toFixed(4), this.f.toFixed(4)];
+        };
+        function norm(a) {
+            return a[0] * a[0] + a[1] * a[1];
+        }
+        function normalize(a) {
+            var mag = math.sqrt(norm(a));
+            a[0] && (a[0] /= mag);
+            a[1] && (a[1] /= mag);
+        }
+        /*\
+         * Matrix.determinant
+         [ method ]
+         **
+         * Finds determinant of the given matrix.
+         = (number) determinant
+        \*/
+        matrixproto.determinant = function () {
+            return this.a * this.d - this.b * this.c;
+        };
+        /*\
+         * Matrix.split
+         [ method ]
+         **
+         * Splits matrix into primitive transformations
+         = (object) in format:
+         o dx (number) translation by x
+         o dy (number) translation by y
+         o scalex (number) scale by x
+         o scaley (number) scale by y
+         o shear (number) shear
+         o rotate (number) rotation in deg
+         o isSimple (boolean) could it be represented via simple transformations
+        \*/
+        matrixproto.split = function () {
+            var out = {};
+            // translation
+            out.dx = this.e;
+            out.dy = this.f;
+
+            // scale and shear
+            var row = [[this.a, this.b], [this.c, this.d]];
+            out.scalex = math.sqrt(norm(row[0]));
+            normalize(row[0]);
+
+            out.shear = row[0][0] * row[1][0] + row[0][1] * row[1][1];
+            row[1] = [row[1][0] - row[0][0] * out.shear, row[1][1] - row[0][1] * out.shear];
+
+            out.scaley = math.sqrt(norm(row[1]));
+            normalize(row[1]);
+            out.shear /= out.scaley;
+
+            if (this.determinant() < 0) {
+                out.scalex = -out.scalex;
+            }
+
+            // rotation
+            var sin = row[0][1],
+                cos = row[1][1];
+            if (cos < 0) {
+                out.rotate = Snap.deg(math.acos(cos));
+                if (sin < 0) {
+                    out.rotate = 360 - out.rotate;
+                }
+            } else {
+                out.rotate = Snap.deg(math.asin(sin));
+            }
+
+            out.isSimple = !+out.shear.toFixed(9) && (out.scalex.toFixed(9) == out.scaley.toFixed(9) || !out.rotate);
+            out.isSuperSimple = !+out.shear.toFixed(9) && out.scalex.toFixed(9) == out.scaley.toFixed(9) && !out.rotate;
+            out.noRotation = !+out.shear.toFixed(9) && !out.rotate;
+            return out;
+        };
+        /*\
+         * Matrix.toTransformString
+         [ method ]
+         **
+         * Returns transform string that represents given matrix
+         = (string) transform string
+        \*/
+        matrixproto.toTransformString = function (shorter) {
+            var s = shorter || this.split();
+            if (!+s.shear.toFixed(9)) {
+                s.scalex = +s.scalex.toFixed(4);
+                s.scaley = +s.scaley.toFixed(4);
+                s.rotate = +s.rotate.toFixed(4);
+                return  (s.dx || s.dy ? "t" + [+s.dx.toFixed(4), +s.dy.toFixed(4)] : E) +
+                        (s.rotate ? "r" + [+s.rotate.toFixed(4), 0, 0] : E) +
+                        (s.scalex != 1 || s.scaley != 1 ? "s" + [s.scalex, s.scaley, 0, 0] : E);
+            } else {
+                return "m" + [this.get(0), this.get(1), this.get(2), this.get(3), this.get(4), this.get(5)];
+            }
+        };
+    })(Matrix.prototype);
+    /*\
+     * Snap.Matrix
+     [ method ]
+     **
+     * Matrix constructor, extend on your own risk.
+     * To create matrices use @Snap.matrix.
+    \*/
+    Snap.Matrix = Matrix;
+    /*\
+     * Snap.matrix
+     [ method ]
+     **
+     * Utility method
+     **
+     * Returns a matrix based on the given parameters
+     - a (number)
+     - b (number)
+     - c (number)
+     - d (number)
+     - e (number)
+     - f (number)
+     * or
+     - svgMatrix (SVGMatrix)
+     = (object) @Matrix
+    \*/
+    Snap.matrix = function (a, b, c, d, e, f) {
+        return new Matrix(a, b, c, d, e, f);
+    };
+});
+
+// Copyright (c) 2013 Adobe Systems Incorporated. All rights reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+Snap.plugin(function (Snap, Element, Paper, glob, Fragment) {
+    var has = "hasOwnProperty",
+        make = Snap._.make,
+        wrap = Snap._.wrap,
+        is = Snap.is,
+        getSomeDefs = Snap._.getSomeDefs,
+        reURLValue = /^url\((['"]?)([^)]+)\1\)$/,
+        $ = Snap._.$,
+        URL = Snap.url,
+        Str = String,
+        separator = Snap._.separator,
+        E = "";
+    /*\
+     * Snap.deurl
+     [ method ]
+     **
+     * Unwraps path from `"url(<path>)"`.
+     - value (string) url path
+     = (string) unwrapped path
+    \*/
+    Snap.deurl = function (value) {
+        var res = String(value).match(reURLValue);
+        return res ? res[2] : value;
+    }
+    // Attributes event handlers
+    eve.on("snap.util.attr.mask", function (value) {
+        if (value instanceof Element || value instanceof Fragment) {
+            eve.stop();
+            if (value instanceof Fragment && value.node.childNodes.length == 1) {
+                value = value.node.firstChild;
+                getSomeDefs(this).appendChild(value);
+                value = wrap(value);
+            }
+            if (value.type == "mask") {
+                var mask = value;
+            } else {
+                mask = make("mask", getSomeDefs(this));
+                mask.node.appendChild(value.node);
+            }
+            !mask.node.id && $(mask.node, {
+                id: mask.id
+            });
+            $(this.node, {
+                mask: URL(mask.id)
+            });
+        }
+    });
+    (function (clipIt) {
+        eve.on("snap.util.attr.clip", clipIt);
+        eve.on("snap.util.attr.clip-path", clipIt);
+        eve.on("snap.util.attr.clipPath", clipIt);
+    }(function (value) {
+        if (value instanceof Element || value instanceof Fragment) {
+            eve.stop();
+            var clip,
+                node = value.node;
+            while (node) {
+                if (node.nodeName === "clipPath") {
+                    clip = new Element(node);
+                    break;
+                }
+                if (node.nodeName === "svg") {
+                    clip = undefined;
+                    break;
+                }
+                node = node.parentNode;
+            }
+            if (!clip) {
+                clip = make("clipPath", getSomeDefs(this));
+                clip.node.appendChild(value.node);
+                !clip.node.id && $(clip.node, {
+                    id: clip.id
+                });
+            }
+            $(this.node, {
+                "clip-path": URL(clip.node.id || clip.id)
+            });
+        }
+    }));
+    function fillStroke(name) {
+        return function (value) {
+            eve.stop();
+            if (value instanceof Fragment && value.node.childNodes.length == 1 &&
+                (value.node.firstChild.tagName == "radialGradient" ||
+                value.node.firstChild.tagName == "linearGradient" ||
+                value.node.firstChild.tagName == "pattern")) {
+                value = value.node.firstChild;
+                getSomeDefs(this).appendChild(value);
+                value = wrap(value);
+            }
+            if (value instanceof Element) {
+                if (value.type == "radialGradient" || value.type == "linearGradient"
+                   || value.type == "pattern") {
+                    if (!value.node.id) {
+                        $(value.node, {
+                            id: value.id
+                        });
+                    }
+                    var fill = URL(value.node.id);
+                } else {
+                    fill = value.attr(name);
+                }
+            } else {
+                fill = Snap.color(value);
+                if (fill.error) {
+                    var grad = Snap(getSomeDefs(this).ownerSVGElement).gradient(value);
+                    if (grad) {
+                        if (!grad.node.id) {
+                            $(grad.node, {
+                                id: grad.id
+                            });
+                        }
+                        fill = URL(grad.node.id);
+                    } else {
+                        fill = value;
+                    }
+                } else {
+                    fill = Str(fill);
+                }
+            }
+            var attrs = {};
+            attrs[name] = fill;
+            $(this.node, attrs);
+            this.node.style[name] = E;
+        };
+    }
+    eve.on("snap.util.attr.fill", fillStroke("fill"));
+    eve.on("snap.util.attr.stroke", fillStroke("stroke"));
+    var gradrg = /^([lr])(?:\(([^)]*)\))?(.*)$/i;
+    eve.on("snap.util.grad.parse", function parseGrad(string) {
+        string = Str(string);
+        var tokens = string.match(gradrg);
+        if (!tokens) {
+            return null;
+        }
+        var type = tokens[1],
+            params = tokens[2],
+            stops = tokens[3];
+        params = params.split(/\s*,\s*/).map(function (el) {
+            return +el == el ? +el : el;
+        });
+        if (params.length == 1 && params[0] == 0) {
+            params = [];
+        }
+        stops = stops.split("-");
+        stops = stops.map(function (el) {
+            el = el.split(":");
+            var out = {
+                color: el[0]
+            };
+            if (el[1]) {
+                out.offset = parseFloat(el[1]);
+            }
+            return out;
+        });
+        var len = stops.length,
+            start = 0,
+            j = 0;
+        function seed(i, end) {
+            var step = (end - start) / (i - j);
+            for (var k = j; k < i; k++) {
+                stops[k].offset = +(+start + step * (k - j)).toFixed(2);
+            }
+            j = i;
+            start = end;
+        }
+        len--;
+        for (var i = 0; i < len; i++) if ("offset" in stops[i]) {
+            seed(i, stops[i].offset);
+        }
+        stops[len].offset = stops[len].offset || 100;
+        seed(len, stops[len].offset);
+        return {
+            type: type,
+            params: params,
+            stops: stops
+        };
+    });
+
+    eve.on("snap.util.attr.d", function (value) {
+        eve.stop();
+        if (is(value, "array") && is(value[0], "array")) {
+            value = Snap.path.toString.call(value);
+        }
+        value = Str(value);
+        if (value.match(/[ruo]/i)) {
+            value = Snap.path.toAbsolute(value);
+        }
+        $(this.node, {d: value});
+    })(-1);
+    eve.on("snap.util.attr.#text", function (value) {
+        eve.stop();
+        value = Str(value);
+        var txt = glob.doc.createTextNode(value);
+        while (this.node.firstChild) {
+            this.node.removeChild(this.node.firstChild);
+        }
+        this.node.appendChild(txt);
+    })(-1);
+    eve.on("snap.util.attr.path", function (value) {
+        eve.stop();
+        this.attr({d: value});
+    })(-1);
+    eve.on("snap.util.attr.class", function (value) {
+        eve.stop();
+        this.node.className.baseVal = value;
+    })(-1);
+    eve.on("snap.util.attr.viewBox", function (value) {
+        var vb;
+        if (is(value, "object") && "x" in value) {
+            vb = [value.x, value.y, value.width, value.height].join(" ");
+        } else if (is(value, "array")) {
+            vb = value.join(" ");
+        } else {
+            vb = value;
+        }
+        $(this.node, {
+            viewBox: vb
+        });
+        eve.stop();
+    })(-1);
+    eve.on("snap.util.attr.transform", function (value) {
+        this.transform(value);
+        eve.stop();
+    })(-1);
+    eve.on("snap.util.attr.r", function (value) {
+        if (this.type == "rect") {
+            eve.stop();
+            $(this.node, {
+                rx: value,
+                ry: value
+            });
+        }
+    })(-1);
+    eve.on("snap.util.attr.textpath", function (value) {
+        eve.stop();
+        if (this.type == "text") {
+            var id, tp, node;
+            if (!value && this.textPath) {
+                tp = this.textPath;
+                while (tp.node.firstChild) {
+                    this.node.appendChild(tp.node.firstChild);
+                }
+                tp.remove();
+                delete this.textPath;
+                return;
+            }
+            if (is(value, "string")) {
+                var defs = getSomeDefs(this),
+                    path = wrap(defs.parentNode).path(value);
+                defs.appendChild(path.node);
+                id = path.id;
+                path.attr({id: id});
+            } else {
+                value = wrap(value);
+                if (value instanceof Element) {
+                    id = value.attr("id");
+                    if (!id) {
+                        id = value.id;
+                        value.attr({id: id});
+                    }
+                }
+            }
+            if (id) {
+                tp = this.textPath;
+                node = this.node;
+                if (tp) {
+                    tp.attr({"xlink:href": "#" + id});
+                } else {
+                    tp = $("textPath", {
+                        "xlink:href": "#" + id
+                    });
+                    while (node.firstChild) {
+                        tp.appendChild(node.firstChild);
+                    }
+                    node.appendChild(tp);
+                    this.textPath = wrap(tp);
+                }
+            }
+        }
+    })(-1);
+    eve.on("snap.util.attr.text", function (value) {
+        if (this.type == "text") {
+            var i = 0,
+                node = this.node,
+                tuner = function (chunk) {
+                    var out = $("tspan");
+                    if (is(chunk, "array")) {
+                        for (var i = 0; i < chunk.length; i++) {
+                            out.appendChild(tuner(chunk[i]));
+                        }
+                    } else {
+                        out.appendChild(glob.doc.createTextNode(chunk));
+                    }
+                    out.normalize && out.normalize();
+                    return out;
+                };
+            while (node.firstChild) {
+                node.removeChild(node.firstChild);
+            }
+            var tuned = tuner(value);
+            while (tuned.firstChild) {
+                node.appendChild(tuned.firstChild);
+            }
+        }
+        eve.stop();
+    })(-1);
+    function setFontSize(value) {
+        eve.stop();
+        if (value == +value) {
+            value += "px";
+        }
+        this.node.style.fontSize = value;
+    }
+    eve.on("snap.util.attr.fontSize", setFontSize)(-1);
+    eve.on("snap.util.attr.font-size", setFontSize)(-1);
+
+
+    eve.on("snap.util.getattr.transform", function () {
+        eve.stop();
+        return this.transform();
+    })(-1);
+    eve.on("snap.util.getattr.textpath", function () {
+        eve.stop();
+        return this.textPath;
+    })(-1);
+    // Markers
+    (function () {
+        function getter(end) {
+            return function () {
+                eve.stop();
+                var style = glob.doc.defaultView.getComputedStyle(this.node, null).getPropertyValue("marker-" + end);
+                if (style == "none") {
+                    return style;
+                } else {
+                    return Snap(glob.doc.getElementById(style.match(reURLValue)[1]));
+                }
+            };
+        }
+        function setter(end) {
+            return function (value) {
+                eve.stop();
+                var name = "marker" + end.charAt(0).toUpperCase() + end.substring(1);
+                if (value == "" || !value) {
+                    this.node.style[name] = "none";
+                    return;
+                }
+                if (value.type == "marker") {
+                    var id = value.node.id;
+                    if (!id) {
+                        $(value.node, {id: value.id});
+                    }
+                    this.node.style[name] = URL(id);
+                    return;
+                }
+            };
+        }
+        eve.on("snap.util.getattr.marker-end", getter("end"))(-1);
+        eve.on("snap.util.getattr.markerEnd", getter("end"))(-1);
+        eve.on("snap.util.getattr.marker-start", getter("start"))(-1);
+        eve.on("snap.util.getattr.markerStart", getter("start"))(-1);
+        eve.on("snap.util.getattr.marker-mid", getter("mid"))(-1);
+        eve.on("snap.util.getattr.markerMid", getter("mid"))(-1);
+        eve.on("snap.util.attr.marker-end", setter("end"))(-1);
+        eve.on("snap.util.attr.markerEnd", setter("end"))(-1);
+        eve.on("snap.util.attr.marker-start", setter("start"))(-1);
+        eve.on("snap.util.attr.markerStart", setter("start"))(-1);
+        eve.on("snap.util.attr.marker-mid", setter("mid"))(-1);
+        eve.on("snap.util.attr.markerMid", setter("mid"))(-1);
+    }());
+    eve.on("snap.util.getattr.r", function () {
+        if (this.type == "rect" && $(this.node, "rx") == $(this.node, "ry")) {
+            eve.stop();
+            return $(this.node, "rx");
+        }
+    })(-1);
+    function textExtract(node) {
+        var out = [];
+        var children = node.childNodes;
+        for (var i = 0, ii = children.length; i < ii; i++) {
+            var chi = children[i];
+            if (chi.nodeType == 3) {
+                out.push(chi.nodeValue);
+            }
+            if (chi.tagName == "tspan") {
+                if (chi.childNodes.length == 1 && chi.firstChild.nodeType == 3) {
+                    out.push(chi.firstChild.nodeValue);
+                } else {
+                    out.push(textExtract(chi));
+                }
+            }
+        }
+        return out;
+    }
+    eve.on("snap.util.getattr.text", function () {
+        if (this.type == "text" || this.type == "tspan") {
+            eve.stop();
+            var out = textExtract(this.node);
+            return out.length == 1 ? out[0] : out;
+        }
+    })(-1);
+    eve.on("snap.util.getattr.#text", function () {
+        return this.node.textContent;
+    })(-1);
+    eve.on("snap.util.getattr.fill", function (internal) {
+        if (internal) {
+            return;
+        }
+        eve.stop();
+        var value = eve("snap.util.getattr.fill", this, true).firstDefined();
+        return Snap(Snap.deurl(value)) || value;
+    })(-1);
+    eve.on("snap.util.getattr.stroke", function (internal) {
+        if (internal) {
+            return;
+        }
+        eve.stop();
+        var value = eve("snap.util.getattr.stroke", this, true).firstDefined();
+        return Snap(Snap.deurl(value)) || value;
+    })(-1);
+    eve.on("snap.util.getattr.viewBox", function () {
+        eve.stop();
+        var vb = $(this.node, "viewBox");
+        if (vb) {
+            vb = vb.split(separator);
+            return Snap._.box(+vb[0], +vb[1], +vb[2], +vb[3]);
+        } else {
+            return;
+        }
+    })(-1);
+    eve.on("snap.util.getattr.points", function () {
+        var p = $(this.node, "points");
+        eve.stop();
+        if (p) {
+            return p.split(separator);
+        } else {
+            return;
+        }
+    })(-1);
+    eve.on("snap.util.getattr.path", function () {
+        var p = $(this.node, "d");
+        eve.stop();
+        return p;
+    })(-1);
+    eve.on("snap.util.getattr.class", function () {
+        return this.node.className.baseVal;
+    })(-1);
+    function getFontSize() {
+        eve.stop();
+        return this.node.style.fontSize;
+    }
+    eve.on("snap.util.getattr.fontSize", getFontSize)(-1);
+    eve.on("snap.util.getattr.font-size", getFontSize)(-1);
+});
+
+// Copyright (c) 2014 Adobe Systems Incorporated. All rights reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+Snap.plugin(function (Snap, Element, Paper, glob, Fragment) {
+    var rgNotSpace = /\S+/g,
+        rgBadSpace = /[\t\r\n\f]/g,
+        rgTrim = /(^\s+|\s+$)/g,
+        Str = String,
+        elproto = Element.prototype;
+    /*\
+     * Element.addClass
+     [ method ]
+     **
+     * Adds given class name or list of class names to the element.
+     - value (string) class name or space separated list of class names
+     **
+     = (Element) original element.
+    \*/
+    elproto.addClass = function (value) {
+        var classes = Str(value || "").match(rgNotSpace) || [],
+            elem = this.node,
+            className = elem.className.baseVal,
+            curClasses = className.match(rgNotSpace) || [],
+            j,
+            pos,
+            clazz,
+            finalValue;
+
+        if (classes.length) {
+            j = 0;
+            while (clazz = classes[j++]) {
+                pos = curClasses.indexOf(clazz);
+                if (!~pos) {
+                    curClasses.push(clazz);
+                }
+            }
+
+            finalValue = curClasses.join(" ");
+            if (className != finalValue) {
+                elem.className.baseVal = finalValue;
+            }
+        }
+        return this;
+    };
+    /*\
+     * Element.removeClass
+     [ method ]
+     **
+     * Removes given class name or list of class names from the element.
+     - value (string) class name or space separated list of class names
+     **
+     = (Element) original element.
+    \*/
+    elproto.removeClass = function (value) {
+        var classes = Str(value || "").match(rgNotSpace) || [],
+            elem = this.node,
+            className = elem.className.baseVal,
+            curClasses = className.match(rgNotSpace) || [],
+            j,
+            pos,
+            clazz,
+            finalValue;
+        if (curClasses.length) {
+            j = 0;
+            while (clazz = classes[j++]) {
+                pos = curClasses.indexOf(clazz);
+                if (~pos) {
+                    curClasses.splice(pos, 1);
+                }
+            }
+
+            finalValue = curClasses.join(" ");
+            if (className != finalValue) {
+                elem.className.baseVal = finalValue;
+            }
+        }
+        return this;
+    };
+    /*\
+     * Element.hasClass
+     [ method ]
+     **
+     * Checks if the element has a given class name in the list of class names applied to it.
+     - value (string) class name
+     **
+     = (boolean) `true` if the element has given class
+    \*/
+    elproto.hasClass = function (value) {
+        var elem = this.node,
+            className = elem.className.baseVal,
+            curClasses = className.match(rgNotSpace) || [];
+        return !!~curClasses.indexOf(value);
+    };
+    /*\
+     * Element.toggleClass
+     [ method ]
+     **
+     * Add or remove one or more classes from the element, depending on either
+     * the class’s presence or the value of the `flag` argument.
+     - value (string) class name or space separated list of class names
+     - flag (boolean) value to determine whether the class should be added or removed
+     **
+     = (Element) original element.
+    \*/
+    elproto.toggleClass = function (value, flag) {
+        if (flag != null) {
+            if (flag) {
+                return this.addClass(value);
+            } else {
+                return this.removeClass(value);
+            }
+        }
+        var classes = (value || "").match(rgNotSpace) || [],
+            elem = this.node,
+            className = elem.className.baseVal,
+            curClasses = className.match(rgNotSpace) || [],
+            j,
+            pos,
+            clazz,
+            finalValue;
+        j = 0;
+        while (clazz = classes[j++]) {
+            pos = curClasses.indexOf(clazz);
+            if (~pos) {
+                curClasses.splice(pos, 1);
+            } else {
+                curClasses.push(clazz);
+            }
+        }
+
+        finalValue = curClasses.join(" ");
+        if (className != finalValue) {
+            elem.className.baseVal = finalValue;
+        }
+        return this;
+    };
+});
+
+// Copyright (c) 2013 Adobe Systems Incorporated. All rights reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+Snap.plugin(function (Snap, Element, Paper, glob, Fragment) {
+    var operators = {
+            "+": function (x, y) {
+                    return x + y;
+                },
+            "-": function (x, y) {
+                    return x - y;
+                },
+            "/": function (x, y) {
+                    return x / y;
+                },
+            "*": function (x, y) {
+                    return x * y;
+                }
+        },
+        Str = String,
+        reUnit = /[a-z]+$/i,
+        reAddon = /^\s*([+\-\/*])\s*=\s*([\d.eE+\-]+)\s*([^\d\s]+)?\s*$/;
+    function getNumber(val) {
+        return val;
+    }
+    function getUnit(unit) {
+        return function (val) {
+            return +val.toFixed(3) + unit;
+        };
+    }
+    eve.on("snap.util.attr", function (val) {
+        var plus = Str(val).match(reAddon);
+        if (plus) {
+            var evnt = eve.nt(),
+                name = evnt.substring(evnt.lastIndexOf(".") + 1),
+                a = this.attr(name),
+                atr = {};
+            eve.stop();
+            var unit = plus[3] || "",
+                aUnit = a.match(reUnit),
+                op = operators[plus[1]];
+            if (aUnit && aUnit == unit) {
+                val = op(parseFloat(a), +plus[2]);
+            } else {
+                a = this.asPX(name);
+                val = op(this.asPX(name), this.asPX(name, plus[2] + unit));
+            }
+            if (isNaN(a) || isNaN(val)) {
+                return;
+            }
+            atr[name] = val;
+            this.attr(atr);
+        }
+    })(-10);
+    eve.on("snap.util.equal", function (name, b) {
+        var A, B, a = Str(this.attr(name) || ""),
+            el = this,
+            bplus = Str(b).match(reAddon);
+        if (bplus) {
+            eve.stop();
+            var unit = bplus[3] || "",
+                aUnit = a.match(reUnit),
+                op = operators[bplus[1]];
+            if (aUnit && aUnit == unit) {
+                return {
+                    from: parseFloat(a),
+                    to: op(parseFloat(a), +bplus[2]),
+                    f: getUnit(aUnit)
+                };
+            } else {
+                a = this.asPX(name);
+                return {
+                    from: a,
+                    to: op(a, this.asPX(name, bplus[2] + unit)),
+                    f: getNumber
+                };
+            }
+        }
+    })(-10);
+});
+
+// Copyright (c) 2013 Adobe Systems Incorporated. All rights reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+Snap.plugin(function (Snap, Element, Paper, glob, Fragment) {
+    var proto = Paper.prototype,
+        is = Snap.is;
+    /*\
+     * Paper.rect
+     [ method ]
+     *
+     * Draws a rectangle
+     **
+     - x (number) x coordinate of the top left corner
+     - y (number) y coordinate of the top left corner
+     - width (number) width
+     - height (number) height
+     - rx (number) #optional horizontal radius for rounded corners, default is 0
+     - ry (number) #optional vertical radius for rounded corners, default is rx or 0
+     = (object) the `rect` element
+     **
+     > Usage
+     | // regular rectangle
+     | var c = paper.rect(10, 10, 50, 50);
+     | // rectangle with rounded corners
+     | var c = paper.rect(40, 40, 50, 50, 10);
+    \*/
+    proto.rect = function (x, y, w, h, rx, ry) {
+        var attr;
+        if (ry == null) {
+            ry = rx;
+        }
+        if (is(x, "object") && x == "[object Object]") {
+            attr = x;
+        } else if (x != null) {
+            attr = {
+                x: x,
+                y: y,
+                width: w,
+                height: h
+            };
+            if (rx != null) {
+                attr.rx = rx;
+                attr.ry = ry;
+            }
+        }
+        return this.el("rect", attr);
+    };
+    /*\
+     * Paper.circle
+     [ method ]
+     **
+     * Draws a circle
+     **
+     - x (number) x coordinate of the centre
+     - y (number) y coordinate of the centre
+     - r (number) radius
+     = (object) the `circle` element
+     **
+     > Usage
+     | var c = paper.circle(50, 50, 40);
+    \*/
+    proto.circle = function (cx, cy, r) {
+        var attr;
+        if (is(cx, "object") && cx == "[object Object]") {
+            attr = cx;
+        } else if (cx != null) {
+            attr = {
+                cx: cx,
+                cy: cy,
+                r: r
+            };
+        }
+        return this.el("circle", attr);
+    };
+
+    var preload = (function () {
+        function onerror() {
+            this.parentNode.removeChild(this);
+        }
+        return function (src, f) {
+            var img = glob.doc.createElement("img"),
+                body = glob.doc.body;
+            img.style.cssText = "position:absolute;left:-9999em;top:-9999em";
+            img.onload = function () {
+                f.call(img);
+                img.onload = img.onerror = null;
+                body.removeChild(img);
+            };
+            img.onerror = onerror;
+            body.appendChild(img);
+            img.src = src;
+        };
+    }());
+
+    /*\
+     * Paper.image
+     [ method ]
+     **
+     * Places an image on the surface
+     **
+     - src (string) URI of the source image
+     - x (number) x offset position
+     - y (number) y offset position
+     - width (number) width of the image
+     - height (number) height of the image
+     = (object) the `image` element
+     * or
+     = (object) Snap element object with type `image`
+     **
+     > Usage
+     | var c = paper.image("apple.png", 10, 10, 80, 80);
+    \*/
+    proto.image = function (src, x, y, width, height) {
+        var el = this.el("image");
+        if (is(src, "object") && "src" in src) {
+            el.attr(src);
+        } else if (src != null) {
+            var set = {
+                "xlink:href": src,
+                preserveAspectRatio: "none"
+            };
+            if (x != null && y != null) {
+                set.x = x;
+                set.y = y;
+            }
+            if (width != null && height != null) {
+                set.width = width;
+                set.height = height;
+            } else {
+                preload(src, function () {
+                    Snap._.$(el.node, {
+                        width: this.offsetWidth,
+                        height: this.offsetHeight
+                    });
+                });
+            }
+            Snap._.$(el.node, set);
+        }
+        return el;
+    };
+    /*\
+     * Paper.ellipse
+     [ method ]
+     **
+     * Draws an ellipse
+     **
+     - x (number) x coordinate of the centre
+     - y (number) y coordinate of the centre
+     - rx (number) horizontal radius
+     - ry (number) vertical radius
+     = (object) the `ellipse` element
+     **
+     > Usage
+     | var c = paper.ellipse(50, 50, 40, 20);
+    \*/
+    proto.ellipse = function (cx, cy, rx, ry) {
+        var attr;
+        if (is(cx, "object") && cx == "[object Object]") {
+            attr = cx;
+        } else if (cx != null) {
+            attr ={
+                cx: cx,
+                cy: cy,
+                rx: rx,
+                ry: ry
+            };
+        }
+        return this.el("ellipse", attr);
+    };
+    // SIERRA Paper.path(): Unclear from the link what a Catmull-Rom curveto is, and why it would make life any easier.
+    /*\
+     * Paper.path
+     [ method ]
+     **
+     * Creates a `<path>` element using the given string as the path's definition
+     - pathString (string) #optional path string in SVG format
+     * Path string consists of one-letter commands, followed by comma seprarated arguments in numerical form. Example:
+     | "M10,20L30,40"
+     * This example features two commands: `M`, with arguments `(10, 20)` and `L` with arguments `(30, 40)`. Uppercase letter commands express coordinates in absolute terms, while lowercase commands express them in relative terms from the most recently declared coordinates.
+     *
+     # <p>Here is short list of commands available, for more details see <a href="http://www.w3.org/TR/SVG/paths.html#PathData" title="Details of a path's data attribute's format are described in the SVG specification.">SVG path string format</a> or <a href="https://developer.mozilla.org/en/SVG/Tutorial/Paths">article about path strings at MDN</a>.</p>
+     # <table><thead><tr><th>Command</th><th>Name</th><th>Parameters</th></tr></thead><tbody>
+     # <tr><td>M</td><td>moveto</td><td>(x y)+</td></tr>
+     # <tr><td>Z</td><td>closepath</td><td>(none)</td></tr>
+     # <tr><td>L</td><td>lineto</td><td>(x y)+</td></tr>
+     # <tr><td>H</td><td>horizontal lineto</td><td>x+</td></tr>
+     # <tr><td>V</td><td>vertical lineto</td><td>y+</td></tr>
+     # <tr><td>C</td><td>curveto</td><td>(x1 y1 x2 y2 x y)+</td></tr>
+     # <tr><td>S</td><td>smooth curveto</td><td>(x2 y2 x y)+</td></tr>
+     # <tr><td>Q</td><td>quadratic Bézier curveto</td><td>(x1 y1 x y)+</td></tr>
+     # <tr><td>T</td><td>smooth quadratic Bézier curveto</td><td>(x y)+</td></tr>
+     # <tr><td>A</td><td>elliptical arc</td><td>(rx ry x-axis-rotation large-arc-flag sweep-flag x y)+</td></tr>
+     # <tr><td>R</td><td><a href="http://en.wikipedia.org/wiki/Catmull–Rom_spline#Catmull.E2.80.93Rom_spline">Catmull-Rom curveto</a>*</td><td>x1 y1 (x y)+</td></tr></tbody></table>
+     * * _Catmull-Rom curveto_ is a not standard SVG command and added to make life easier.
+     * Note: there is a special case when a path consists of only three commands: `M10,10R…z`. In this case the path connects back to its starting point.
+     > Usage
+     | var c = paper.path("M10 10L90 90");
+     | // draw a diagonal line:
+     | // move to 10,10, line to 90,90
+    \*/
+    proto.path = function (d) {
+        var attr;
+        if (is(d, "object") && !is(d, "array")) {
+            attr = d;
+        } else if (d) {
+            attr = {d: d};
+        }
+        return this.el("path", attr);
+    };
+    /*\
+     * Paper.g
+     [ method ]
+     **
+     * Creates a group element
+     **
+     - varargs (…) #optional elements to nest within the group
+     = (object) the `g` element
+     **
+     > Usage
+     | var c1 = paper.circle(),
+     |     c2 = paper.rect(),
+     |     g = paper.g(c2, c1); // note that the order of elements is different
+     * or
+     | var c1 = paper.circle(),
+     |     c2 = paper.rect(),
+     |     g = paper.g();
+     | g.add(c2, c1);
+    \*/
+    /*\
+     * Paper.group
+     [ method ]
+     **
+     * See @Paper.g
+    \*/
+    proto.group = proto.g = function (first) {
+        var attr,
+            el = this.el("g");
+        if (arguments.length == 1 && first && !first.type) {
+            el.attr(first);
+        } else if (arguments.length) {
+            el.add(Array.prototype.slice.call(arguments, 0));
+        }
+        return el;
+    };
+    /*\
+     * Paper.svg
+     [ method ]
+     **
+     * Creates a nested SVG element.
+     - x (number) @optional X of the element
+     - y (number) @optional Y of the element
+     - width (number) @optional width of the element
+     - height (number) @optional height of the element
+     - vbx (number) @optional viewbox X
+     - vby (number) @optional viewbox Y
+     - vbw (number) @optional viewbox width
+     - vbh (number) @optional viewbox height
+     **
+     = (object) the `svg` element
+     **
+    \*/
+    proto.svg = function (x, y, width, height, vbx, vby, vbw, vbh) {
+        var attrs = {};
+        if (is(x, "object") && y == null) {
+            attrs = x;
+        } else {
+            if (x != null) {
+                attrs.x = x;
+            }
+            if (y != null) {
+                attrs.y = y;
+            }
+            if (width != null) {
+                attrs.width = width;
+            }
+            if (height != null) {
+                attrs.height = height;
+            }
+            if (vbx != null && vby != null && vbw != null && vbh != null) {
+                attrs.viewBox = [vbx, vby, vbw, vbh];
+            }
+        }
+        return this.el("svg", attrs);
+    };
+    /*\
+     * Paper.mask
+     [ method ]
+     **
+     * Equivalent in behaviour to @Paper.g, except it’s a mask.
+     **
+     = (object) the `mask` element
+     **
+    \*/
+    proto.mask = function (first) {
+        var attr,
+            el = this.el("mask");
+        if (arguments.length == 1 && first && !first.type) {
+            el.attr(first);
+        } else if (arguments.length) {
+            el.add(Array.prototype.slice.call(arguments, 0));
+        }
+        return el;
+    };
+    /*\
+     * Paper.ptrn
+     [ method ]
+     **
+     * Equivalent in behaviour to @Paper.g, except it’s a pattern.
+     - x (number) @optional X of the element
+     - y (number) @optional Y of the element
+     - width (number) @optional width of the element
+     - height (number) @optional height of the element
+     - vbx (number) @optional viewbox X
+     - vby (number) @optional viewbox Y
+     - vbw (number) @optional viewbox width
+     - vbh (number) @optional viewbox height
+     **
+     = (object) the `pattern` element
+     **
+    \*/
+    proto.ptrn = function (x, y, width, height, vx, vy, vw, vh) {
+        if (is(x, "object")) {
+            var attr = x;
+        } else {
+            attr = {patternUnits: "userSpaceOnUse"};
+            if (x) {
+                attr.x = x;
+            }
+            if (y) {
+                attr.y = y;
+            }
+            if (width != null) {
+                attr.width = width;
+            }
+            if (height != null) {
+                attr.height = height;
+            }
+            if (vx != null && vy != null && vw != null && vh != null) {
+                attr.viewBox = [vx, vy, vw, vh];
+            } else {
+                attr.viewBox = [x || 0, y || 0, width || 0, height || 0];
+            }
+        }
+        return this.el("pattern", attr);
+    };
+    /*\
+     * Paper.use
+     [ method ]
+     **
+     * Creates a <use> element.
+     - id (string) @optional id of element to link
+     * or
+     - id (Element) @optional element to link
+     **
+     = (object) the `use` element
+     **
+    \*/
+    proto.use = function (id) {
+        if (id != null) {
+            if (id instanceof Element) {
+                if (!id.attr("id")) {
+                    id.attr({id: Snap._.id(id)});
+                }
+                id = id.attr("id");
+            }
+            if (String(id).charAt() == "#") {
+                id = id.substring(1);
+            }
+            return this.el("use", {"xlink:href": "#" + id});
+        } else {
+            return Element.prototype.use.call(this);
+        }
+    };
+    /*\
+     * Paper.symbol
+     [ method ]
+     **
+     * Creates a <symbol> element.
+     - vbx (number) @optional viewbox X
+     - vby (number) @optional viewbox Y
+     - vbw (number) @optional viewbox width
+     - vbh (number) @optional viewbox height
+     = (object) the `symbol` element
+     **
+    \*/
+    proto.symbol = function (vx, vy, vw, vh) {
+        var attr = {};
+        if (vx != null && vy != null && vw != null && vh != null) {
+            attr.viewBox = [vx, vy, vw, vh];
+        }
+
+        return this.el("symbol", attr);
+    };
+    /*\
+     * Paper.text
+     [ method ]
+     **
+     * Draws a text string
+     **
+     - x (number) x coordinate position
+     - y (number) y coordinate position
+     - text (string|array) The text string to draw or array of strings to nest within separate `<tspan>` elements
+     = (object) the `text` element
+     **
+     > Usage
+     | var t1 = paper.text(50, 50, "Snap");
+     | var t2 = paper.text(50, 50, ["S","n","a","p"]);
+     | // Text path usage
+     | t1.attr({textpath: "M10,10L100,100"});
+     | // or
+     | var pth = paper.path("M10,10L100,100");
+     | t1.attr({textpath: pth});
+    \*/
+    proto.text = function (x, y, text) {
+        var attr = {};
+        if (is(x, "object")) {
+            attr = x;
+        } else if (x != null) {
+            attr = {
+                x: x,
+                y: y,
+                text: text || ""
+            };
+        }
+        return this.el("text", attr);
+    };
+    /*\
+     * Paper.line
+     [ method ]
+     **
+     * Draws a line
+     **
+     - x1 (number) x coordinate position of the start
+     - y1 (number) y coordinate position of the start
+     - x2 (number) x coordinate position of the end
+     - y2 (number) y coordinate position of the end
+     = (object) the `line` element
+     **
+     > Usage
+     | var t1 = paper.line(50, 50, 100, 100);
+    \*/
+    proto.line = function (x1, y1, x2, y2) {
+        var attr = {};
+        if (is(x1, "object")) {
+            attr = x1;
+        } else if (x1 != null) {
+            attr = {
+                x1: x1,
+                x2: x2,
+                y1: y1,
+                y2: y2
+            };
+        }
+        return this.el("line", attr);
+    };
+    /*\
+     * Paper.polyline
+     [ method ]
+     **
+     * Draws a polyline
+     **
+     - points (array) array of points
+     * or
+     - varargs (…) points
+     = (object) the `polyline` element
+     **
+     > Usage
+     | var p1 = paper.polyline([10, 10, 100, 100]);
+     | var p2 = paper.polyline(10, 10, 100, 100);
+    \*/
+    proto.polyline = function (points) {
+        if (arguments.length > 1) {
+            points = Array.prototype.slice.call(arguments, 0);
+        }
+        var attr = {};
+        if (is(points, "object") && !is(points, "array")) {
+            attr = points;
+        } else if (points != null) {
+            attr = {points: points};
+        }
+        return this.el("polyline", attr);
+    };
+    /*\
+     * Paper.polygon
+     [ method ]
+     **
+     * Draws a polygon. See @Paper.polyline
+    \*/
+    proto.polygon = function (points) {
+        if (arguments.length > 1) {
+            points = Array.prototype.slice.call(arguments, 0);
+        }
+        var attr = {};
+        if (is(points, "object") && !is(points, "array")) {
+            attr = points;
+        } else if (points != null) {
+            attr = {points: points};
+        }
+        return this.el("polygon", attr);
+    };
+    // gradients
+    (function () {
+        var $ = Snap._.$;
+        // gradients' helpers
+        /*\
+         * Element.stops
+         [ method ]
+         **
+         * Only for gradients!
+         * Returns array of gradient stops elements.
+         = (array) the stops array.
+        \*/
+        function Gstops() {
+            return this.selectAll("stop");
+        }
+        /*\
+         * Element.addStop
+         [ method ]
+         **
+         * Only for gradients!
+         * Adds another stop to the gradient.
+         - color (string) stops color
+         - offset (number) stops offset 0..100
+         = (object) gradient element
+        \*/
+        function GaddStop(color, offset) {
+            var stop = $("stop"),
+                attr = {
+                    offset: +offset + "%"
+                };
+            color = Snap.color(color);
+            attr["stop-color"] = color.hex;
+            if (color.opacity < 1) {
+                attr["stop-opacity"] = color.opacity;
+            }
+            $(stop, attr);
+            var stops = this.stops(),
+                inserted;
+            for (var i = 0; i < stops.length; i++) {
+                var stopOffset = parseFloat(stops[i].attr("offset"));
+                if (stopOffset > offset) {
+                    this.node.insertBefore(stop, stops[i].node);
+                    inserted = true;
+                    break;
+                }
+            }
+            if (!inserted) {
+                this.node.appendChild(stop);
+            }
+            return this;
+        }
+        function GgetBBox() {
+            if (this.type == "linearGradient") {
+                var x1 = $(this.node, "x1") || 0,
+                    x2 = $(this.node, "x2") || 1,
+                    y1 = $(this.node, "y1") || 0,
+                    y2 = $(this.node, "y2") || 0;
+                return Snap._.box(x1, y1, math.abs(x2 - x1), math.abs(y2 - y1));
+            } else {
+                var cx = this.node.cx || .5,
+                    cy = this.node.cy || .5,
+                    r = this.node.r || 0;
+                return Snap._.box(cx - r, cy - r, r * 2, r * 2);
+            }
+        }
+        /*\
+         * Element.setStops
+         [ method ]
+         **
+         * Only for gradients!
+         * Updates stops of the gradient based on passed gradient descriptor. See @Ppaer.gradient
+         - str (string) gradient descriptor part after `()`.
+         = (object) gradient element
+         | var g = paper.gradient("l(0, 0, 1, 1)#000-#f00-#fff");
+         | g.setStops("#fff-#000-#f00-#fc0");
+        \*/
+        function GsetStops(str) {
+            var grad = str,
+                stops = this.stops();
+            if (typeof str == "string") {
+                grad = eve("snap.util.grad.parse", null, "l(0,0,0,1)" + str).firstDefined().stops;
+            }
+            if (!Snap.is(grad, "array")) {
+                return;
+            }
+            for (var i = 0; i < stops.length; i++) {
+                if (grad[i]) {
+                    var color = Snap.color(grad[i].color),
+                        attr = {"offset": grad[i].offset + "%"};
+                    attr["stop-color"] = color.hex;
+                    if (color.opacity < 1) {
+                        attr["stop-opacity"] = color.opacity;
+                    }
+                    stops[i].attr(attr);
+                } else {
+                    stops[i].remove();
+                }
+            }
+            for (i = stops.length; i < grad.length; i++) {
+                this.addStop(grad[i].color, grad[i].offset);
+            }
+            return this;
+        }
+        function gradient(defs, str) {
+            var grad = eve("snap.util.grad.parse", null, str).firstDefined(),
+                el;
+            if (!grad) {
+                return null;
+            }
+            grad.params.unshift(defs);
+            if (grad.type.toLowerCase() == "l") {
+                el = gradientLinear.apply(0, grad.params);
+            } else {
+                el = gradientRadial.apply(0, grad.params);
+            }
+            if (grad.type != grad.type.toLowerCase()) {
+                $(el.node, {
+                    gradientUnits: "userSpaceOnUse"
+                });
+            }
+            var stops = grad.stops,
+                len = stops.length;
+            for (var i = 0; i < len; i++) {
+                var stop = stops[i];
+                el.addStop(stop.color, stop.offset);
+            }
+            return el;
+        }
+        function gradientLinear(defs, x1, y1, x2, y2) {
+            var el = Snap._.make("linearGradient", defs);
+            el.stops = Gstops;
+            el.addStop = GaddStop;
+            el.getBBox = GgetBBox;
+            el.setStops = GsetStops;
+            if (x1 != null) {
+                $(el.node, {
+                    x1: x1,
+                    y1: y1,
+                    x2: x2,
+                    y2: y2
+                });
+            }
+            return el;
+        }
+        function gradientRadial(defs, cx, cy, r, fx, fy) {
+            var el = Snap._.make("radialGradient", defs);
+            el.stops = Gstops;
+            el.addStop = GaddStop;
+            el.getBBox = GgetBBox;
+            if (cx != null) {
+                $(el.node, {
+                    cx: cx,
+                    cy: cy,
+                    r: r
+                });
+            }
+            if (fx != null && fy != null) {
+                $(el.node, {
+                    fx: fx,
+                    fy: fy
+                });
+            }
+            return el;
+        }
+        /*\
+         * Paper.gradient
+         [ method ]
+         **
+         * Creates a gradient element
+         **
+         - gradient (string) gradient descriptor
+         > Gradient Descriptor
+         * The gradient descriptor is an expression formatted as
+         * follows: `<type>(<coords>)<colors>`.  The `<type>` can be
+         * either linear or radial.  The uppercase `L` or `R` letters
+         * indicate absolute coordinates offset from the SVG surface.
+         * Lowercase `l` or `r` letters indicate coordinates
+         * calculated relative to the element to which the gradient is
+         * applied.  Coordinates specify a linear gradient vector as
+         * `x1`, `y1`, `x2`, `y2`, or a radial gradient as `cx`, `cy`,
+         * `r` and optional `fx`, `fy` specifying a focal point away
+         * from the center of the circle. Specify `<colors>` as a list
+         * of dash-separated CSS color values.  Each color may be
+         * followed by a custom offset value, separated with a colon
+         * character.
+         > Examples
+         * Linear gradient, relative from top-left corner to bottom-right
+         * corner, from black through red to white:
+         | var g = paper.gradient("l(0, 0, 1, 1)#000-#f00-#fff");
+         * Linear gradient, absolute from (0, 0) to (100, 100), from black
+         * through red at 25% to white:
+         | var g = paper.gradient("L(0, 0, 100, 100)#000-#f00:25-#fff");
+         * Radial gradient, relative from the center of the element with radius
+         * half the width, from black to white:
+         | var g = paper.gradient("r(0.5, 0.5, 0.5)#000-#fff");
+         * To apply the gradient:
+         | paper.circle(50, 50, 40).attr({
+         |     fill: g
+         | });
+         = (object) the `gradient` element
+        \*/
+        proto.gradient = function (str) {
+            return gradient(this.defs, str);
+        };
+        proto.gradientLinear = function (x1, y1, x2, y2) {
+            return gradientLinear(this.defs, x1, y1, x2, y2);
+        };
+        proto.gradientRadial = function (cx, cy, r, fx, fy) {
+            return gradientRadial(this.defs, cx, cy, r, fx, fy);
+        };
+        /*\
+         * Paper.toString
+         [ method ]
+         **
+         * Returns SVG code for the @Paper
+         = (string) SVG code for the @Paper
+        \*/
+        proto.toString = function () {
+            var doc = this.node.ownerDocument,
+                f = doc.createDocumentFragment(),
+                d = doc.createElement("div"),
+                svg = this.node.cloneNode(true),
+                res;
+            f.appendChild(d);
+            d.appendChild(svg);
+            Snap._.$(svg, {xmlns: "http://www.w3.org/2000/svg"});
+            res = d.innerHTML;
+            f.removeChild(f.firstChild);
+            return res;
+        };
+        /*\
+         * Paper.toDataURL
+         [ method ]
+         **
+         * Returns SVG code for the @Paper as Data URI string.
+         = (string) Data URI string
+        \*/
+        proto.toDataURL = function () {
+            if (window && window.btoa) {
+                return "data:image/svg+xml;base64," + btoa(unescape(encodeURIComponent(this)));
+            }
+        };
+        /*\
+         * Paper.clear
+         [ method ]
+         **
+         * Removes all child nodes of the paper, except <defs>.
+        \*/
+        proto.clear = function () {
+            var node = this.node.firstChild,
+                next;
+            while (node) {
+                next = node.nextSibling;
+                if (node.tagName != "defs") {
+                    node.parentNode.removeChild(node);
+                } else {
+                    proto.clear.call({node: node});
+                }
+                node = next;
+            }
+        };
+    }());
+});
+
+// Copyright (c) 2013 Adobe Systems Incorporated. All rights reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+Snap.plugin(function (Snap, Element, Paper, glob) {
+    var elproto = Element.prototype,
+        is = Snap.is,
+        clone = Snap._.clone,
+        has = "hasOwnProperty",
+        p2s = /,?([a-z]),?/gi,
+        toFloat = parseFloat,
+        math = Math,
+        PI = math.PI,
+        mmin = math.min,
+        mmax = math.max,
+        pow = math.pow,
+        abs = math.abs;
+    function paths(ps) {
+        var p = paths.ps = paths.ps || {};
+        if (p[ps]) {
+            p[ps].sleep = 100;
+        } else {
+            p[ps] = {
+                sleep: 100
+            };
+        }
+        setTimeout(function () {
+            for (var key in p) if (p[has](key) && key != ps) {
+                p[key].sleep--;
+                !p[key].sleep && delete p[key];
+            }
+        });
+        return p[ps];
+    }
+    function box(x, y, width, height) {
+        if (x == null) {
+            x = y = width = height = 0;
+        }
+        if (y == null) {
+            y = x.y;
+            width = x.width;
+            height = x.height;
+            x = x.x;
+        }
+        return {
+            x: x,
+            y: y,
+            width: width,
+            w: width,
+            height: height,
+            h: height,
+            x2: x + width,
+            y2: y + height,
+            cx: x + width / 2,
+            cy: y + height / 2,
+            r1: math.min(width, height) / 2,
+            r2: math.max(width, height) / 2,
+            r0: math.sqrt(width * width + height * height) / 2,
+            path: rectPath(x, y, width, height),
+            vb: [x, y, width, height].join(" ")
+        };
+    }
+    function toString() {
+        return this.join(",").replace(p2s, "$1");
+    }
+    function pathClone(pathArray) {
+        var res = clone(pathArray);
+        res.toString = toString;
+        return res;
+    }
+    function getPointAtSegmentLength(p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y, length) {
+        if (length == null) {
+            return bezlen(p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y);
+        } else {
+            return findDotsAtSegment(p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y,
+                getTotLen(p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y, length));
+        }
+    }
+    function getLengthFactory(istotal, subpath) {
+        function O(val) {
+            return +(+val).toFixed(3);
+        }
+        return Snap._.cacher(function (path, length, onlystart) {
+            if (path instanceof Element) {
+                path = path.attr("d");
+            }
+            path = path2curve(path);
+            var x, y, p, l, sp = "", subpaths = {}, point,
+                len = 0;
+            for (var i = 0, ii = path.length; i < ii; i++) {
+                p = path[i];
+                if (p[0] == "M") {
+                    x = +p[1];
+                    y = +p[2];
+                } else {
+                    l = getPointAtSegmentLength(x, y, p[1], p[2], p[3], p[4], p[5], p[6]);
+                    if (len + l > length) {
+                        if (subpath && !subpaths.start) {
+                            point = getPointAtSegmentLength(x, y, p[1], p[2], p[3], p[4], p[5], p[6], length - len);
+                            sp += [
+                                "C" + O(point.start.x),
+                                O(point.start.y),
+                                O(point.m.x),
+                                O(point.m.y),
+                                O(point.x),
+                                O(point.y)
+                            ];
+                            if (onlystart) {return sp;}
+                            subpaths.start = sp;
+                            sp = [
+                                "M" + O(point.x),
+                                O(point.y) + "C" + O(point.n.x),
+                                O(point.n.y),
+                                O(point.end.x),
+                                O(point.end.y),
+                                O(p[5]),
+                                O(p[6])
+                            ].join();
+                            len += l;
+                            x = +p[5];
+                            y = +p[6];
+                            continue;
+                        }
+                        if (!istotal && !subpath) {
+                            point = getPointAtSegmentLength(x, y, p[1], p[2], p[3], p[4], p[5], p[6], length - len);
+                            return point;
+                        }
+                    }
+                    len += l;
+                    x = +p[5];
+                    y = +p[6];
+                }
+                sp += p.shift() + p;
+            }
+            subpaths.end = sp;
+            point = istotal ? len : subpath ? subpaths : findDotsAtSegment(x, y, p[0], p[1], p[2], p[3], p[4], p[5], 1);
+            return point;
+        }, null, Snap._.clone);
+    }
+    var getTotalLength = getLengthFactory(1),
+        getPointAtLength = getLengthFactory(),
+        getSubpathsAtLength = getLengthFactory(0, 1);
+    function findDotsAtSegment(p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y, t) {
+        var t1 = 1 - t,
+            t13 = pow(t1, 3),
+            t12 = pow(t1, 2),
+            t2 = t * t,
+            t3 = t2 * t,
+            x = t13 * p1x + t12 * 3 * t * c1x + t1 * 3 * t * t * c2x + t3 * p2x,
+            y = t13 * p1y + t12 * 3 * t * c1y + t1 * 3 * t * t * c2y + t3 * p2y,
+            mx = p1x + 2 * t * (c1x - p1x) + t2 * (c2x - 2 * c1x + p1x),
+            my = p1y + 2 * t * (c1y - p1y) + t2 * (c2y - 2 * c1y + p1y),
+            nx = c1x + 2 * t * (c2x - c1x) + t2 * (p2x - 2 * c2x + c1x),
+            ny = c1y + 2 * t * (c2y - c1y) + t2 * (p2y - 2 * c2y + c1y),
+            ax = t1 * p1x + t * c1x,
+            ay = t1 * p1y + t * c1y,
+            cx = t1 * c2x + t * p2x,
+            cy = t1 * c2y + t * p2y,
+            alpha = 90 - math.atan2(mx - nx, my - ny) * 180 / PI;
+        // (mx > nx || my < ny) && (alpha += 180);
+        return {
+            x: x,
+            y: y,
+            m: {x: mx, y: my},
+            n: {x: nx, y: ny},
+            start: {x: ax, y: ay},
+            end: {x: cx, y: cy},
+            alpha: alpha
+        };
+    }
+    function bezierBBox(p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y) {
+        if (!Snap.is(p1x, "array")) {
+            p1x = [p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y];
+        }
+        var bbox = curveDim.apply(null, p1x);
+        return box(
+            bbox.min.x,
+            bbox.min.y,
+            bbox.max.x - bbox.min.x,
+            bbox.max.y - bbox.min.y
+        );
+    }
+    function isPointInsideBBox(bbox, x, y) {
+        return  x >= bbox.x &&
+                x <= bbox.x + bbox.width &&
+                y >= bbox.y &&
+                y <= bbox.y + bbox.height;
+    }
+    function isBBoxIntersect(bbox1, bbox2) {
+        bbox1 = box(bbox1);
+        bbox2 = box(bbox2);
+        return isPointInsideBBox(bbox2, bbox1.x, bbox1.y)
+            || isPointInsideBBox(bbox2, bbox1.x2, bbox1.y)
+            || isPointInsideBBox(bbox2, bbox1.x, bbox1.y2)
+            || isPointInsideBBox(bbox2, bbox1.x2, bbox1.y2)
+            || isPointInsideBBox(bbox1, bbox2.x, bbox2.y)
+            || isPointInsideBBox(bbox1, bbox2.x2, bbox2.y)
+            || isPointInsideBBox(bbox1, bbox2.x, bbox2.y2)
+            || isPointInsideBBox(bbox1, bbox2.x2, bbox2.y2)
+            || (bbox1.x < bbox2.x2 && bbox1.x > bbox2.x
+                || bbox2.x < bbox1.x2 && bbox2.x > bbox1.x)
+            && (bbox1.y < bbox2.y2 && bbox1.y > bbox2.y
+                || bbox2.y < bbox1.y2 && bbox2.y > bbox1.y);
+    }
+    function base3(t, p1, p2, p3, p4) {
+        var t1 = -3 * p1 + 9 * p2 - 9 * p3 + 3 * p4,
+            t2 = t * t1 + 6 * p1 - 12 * p2 + 6 * p3;
+        return t * t2 - 3 * p1 + 3 * p2;
+    }
+    function bezlen(x1, y1, x2, y2, x3, y3, x4, y4, z) {
+        if (z == null) {
+            z = 1;
+        }
+        z = z > 1 ? 1 : z < 0 ? 0 : z;
+        var z2 = z / 2,
+            n = 12,
+            Tvalues = [-.1252,.1252,-.3678,.3678,-.5873,.5873,-.7699,.7699,-.9041,.9041,-.9816,.9816],
+            Cvalues = [0.2491,0.2491,0.2335,0.2335,0.2032,0.2032,0.1601,0.1601,0.1069,0.1069,0.0472,0.0472],
+            sum = 0;
+        for (var i = 0; i < n; i++) {
+            var ct = z2 * Tvalues[i] + z2,
+                xbase = base3(ct, x1, x2, x3, x4),
+                ybase = base3(ct, y1, y2, y3, y4),
+                comb = xbase * xbase + ybase * ybase;
+            sum += Cvalues[i] * math.sqrt(comb);
+        }
+        return z2 * sum;
+    }
+    function getTotLen(x1, y1, x2, y2, x3, y3, x4, y4, ll) {
+        if (ll < 0 || bezlen(x1, y1, x2, y2, x3, y3, x4, y4) < ll) {
+            return;
+        }
+        var t = 1,
+            step = t / 2,
+            t2 = t - step,
+            l,
+            e = .01;
+        l = bezlen(x1, y1, x2, y2, x3, y3, x4, y4, t2);
+        while (abs(l - ll) > e) {
+            step /= 2;
+            t2 += (l < ll ? 1 : -1) * step;
+            l = bezlen(x1, y1, x2, y2, x3, y3, x4, y4, t2);
+        }
+        return t2;
+    }
+    function intersect(x1, y1, x2, y2, x3, y3, x4, y4) {
+        if (
+            mmax(x1, x2) < mmin(x3, x4) ||
+            mmin(x1, x2) > mmax(x3, x4) ||
+            mmax(y1, y2) < mmin(y3, y4) ||
+            mmin(y1, y2) > mmax(y3, y4)
+        ) {
+            return;
+        }
+        var nx = (x1 * y2 - y1 * x2) * (x3 - x4) - (x1 - x2) * (x3 * y4 - y3 * x4),
+            ny = (x1 * y2 - y1 * x2) * (y3 - y4) - (y1 - y2) * (x3 * y4 - y3 * x4),
+            denominator = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
+
+        if (!denominator) {
+            return;
+        }
+        var px = nx / denominator,
+            py = ny / denominator,
+            px2 = +px.toFixed(2),
+            py2 = +py.toFixed(2);
+        if (
+            px2 < +mmin(x1, x2).toFixed(2) ||
+            px2 > +mmax(x1, x2).toFixed(2) ||
+            px2 < +mmin(x3, x4).toFixed(2) ||
+            px2 > +mmax(x3, x4).toFixed(2) ||
+            py2 < +mmin(y1, y2).toFixed(2) ||
+            py2 > +mmax(y1, y2).toFixed(2) ||
+            py2 < +mmin(y3, y4).toFixed(2) ||
+            py2 > +mmax(y3, y4).toFixed(2)
+        ) {
+            return;
+        }
+        return {x: px, y: py};
+    }
+    function inter(bez1, bez2) {
+        return interHelper(bez1, bez2);
+    }
+    function interCount(bez1, bez2) {
+        return interHelper(bez1, bez2, 1);
+    }
+    function interHelper(bez1, bez2, justCount) {
+        var bbox1 = bezierBBox(bez1),
+            bbox2 = bezierBBox(bez2);
+        if (!isBBoxIntersect(bbox1, bbox2)) {
+            return justCount ? 0 : [];
+        }
+        var l1 = bezlen.apply(0, bez1),
+            l2 = bezlen.apply(0, bez2),
+            n1 = ~~(l1 / 8),
+            n2 = ~~(l2 / 8),
+            dots1 = [],
+            dots2 = [],
+            xy = {},
+            res = justCount ? 0 : [];
+        for (var i = 0; i < n1 + 1; i++) {
+            var p = findDotsAtSegment.apply(0, bez1.concat(i / n1));
+            dots1.push({x: p.x, y: p.y, t: i / n1});
+        }
+        for (i = 0; i < n2 + 1; i++) {
+            p = findDotsAtSegment.apply(0, bez2.concat(i / n2));
+            dots2.push({x: p.x, y: p.y, t: i / n2});
+        }
+        for (i = 0; i < n1; i++) {
+            for (var j = 0; j < n2; j++) {
+                var di = dots1[i],
+                    di1 = dots1[i + 1],
+                    dj = dots2[j],
+                    dj1 = dots2[j + 1],
+                    ci = abs(di1.x - di.x) < .001 ? "y" : "x",
+                    cj = abs(dj1.x - dj.x) < .001 ? "y" : "x",
+                    is = intersect(di.x, di.y, di1.x, di1.y, dj.x, dj.y, dj1.x, dj1.y);
+                if (is) {
+                    if (xy[is.x.toFixed(4)] == is.y.toFixed(4)) {
+                        continue;
+                    }
+                    xy[is.x.toFixed(4)] = is.y.toFixed(4);
+                    var t1 = di.t + abs((is[ci] - di[ci]) / (di1[ci] - di[ci])) * (di1.t - di.t),
+                        t2 = dj.t + abs((is[cj] - dj[cj]) / (dj1[cj] - dj[cj])) * (dj1.t - dj.t);
+                    if (t1 >= 0 && t1 <= 1 && t2 >= 0 && t2 <= 1) {
+                        if (justCount) {
+                            res++;
+                        } else {
+                            res.push({
+                                x: is.x,
+                                y: is.y,
+                                t1: t1,
+                                t2: t2
+                            });
+                        }
+                    }
+                }
+            }
+        }
+        return res;
+    }
+    function pathIntersection(path1, path2) {
+        return interPathHelper(path1, path2);
+    }
+    function pathIntersectionNumber(path1, path2) {
+        return interPathHelper(path1, path2, 1);
+    }
+    function interPathHelper(path1, path2, justCount) {
+        path1 = path2curve(path1);
+        path2 = path2curve(path2);
+        var x1, y1, x2, y2, x1m, y1m, x2m, y2m, bez1, bez2,
+            res = justCount ? 0 : [];
+        for (var i = 0, ii = path1.length; i < ii; i++) {
+            var pi = path1[i];
+            if (pi[0] == "M") {
+                x1 = x1m = pi[1];
+                y1 = y1m = pi[2];
+            } else {
+                if (pi[0] == "C") {
+                    bez1 = [x1, y1].concat(pi.slice(1));
+                    x1 = bez1[6];
+                    y1 = bez1[7];
+                } else {
+                    bez1 = [x1, y1, x1, y1, x1m, y1m, x1m, y1m];
+                    x1 = x1m;
+                    y1 = y1m;
+                }
+                for (var j = 0, jj = path2.length; j < jj; j++) {
+                    var pj = path2[j];
+                    if (pj[0] == "M") {
+                        x2 = x2m = pj[1];
+                        y2 = y2m = pj[2];
+                    } else {
+                        if (pj[0] == "C") {
+                            bez2 = [x2, y2].concat(pj.slice(1));
+                            x2 = bez2[6];
+                            y2 = bez2[7];
+                        } else {
+                            bez2 = [x2, y2, x2, y2, x2m, y2m, x2m, y2m];
+                            x2 = x2m;
+                            y2 = y2m;
+                        }
+                        var intr = interHelper(bez1, bez2, justCount);
+                        if (justCount) {
+                            res += intr;
+                        } else {
+                            for (var k = 0, kk = intr.length; k < kk; k++) {
+                                intr[k].segment1 = i;
+                                intr[k].segment2 = j;
+                                intr[k].bez1 = bez1;
+                                intr[k].bez2 = bez2;
+                            }
+                            res = res.concat(intr);
+                        }
+                    }
+                }
+            }
+        }
+        return res;
+    }
+    function isPointInsidePath(path, x, y) {
+        var bbox = pathBBox(path);
+        return isPointInsideBBox(bbox, x, y) &&
+               interPathHelper(path, [["M", x, y], ["H", bbox.x2 + 10]], 1) % 2 == 1;
+    }
+    function pathBBox(path) {
+        var pth = paths(path);
+        if (pth.bbox) {
+            return clone(pth.bbox);
+        }
+        if (!path) {
+            return box();
+        }
+        path = path2curve(path);
+        var x = 0,
+            y = 0,
+            X = [],
+            Y = [],
+            p;
+        for (var i = 0, ii = path.length; i < ii; i++) {
+            p = path[i];
+            if (p[0] == "M") {
+                x = p[1];
+                y = p[2];
+                X.push(x);
+                Y.push(y);
+            } else {
+                var dim = curveDim(x, y, p[1], p[2], p[3], p[4], p[5], p[6]);
+                X = X.concat(dim.min.x, dim.max.x);
+                Y = Y.concat(dim.min.y, dim.max.y);
+                x = p[5];
+                y = p[6];
+            }
+        }
+        var xmin = mmin.apply(0, X),
+            ymin = mmin.apply(0, Y),
+            xmax = mmax.apply(0, X),
+            ymax = mmax.apply(0, Y),
+            bb = box(xmin, ymin, xmax - xmin, ymax - ymin);
+        pth.bbox = clone(bb);
+        return bb;
+    }
+    function rectPath(x, y, w, h, r) {
+        if (r) {
+            return [
+                ["M", +x + +r, y],
+                ["l", w - r * 2, 0],
+                ["a", r, r, 0, 0, 1, r, r],
+                ["l", 0, h - r * 2],
+                ["a", r, r, 0, 0, 1, -r, r],
+                ["l", r * 2 - w, 0],
+                ["a", r, r, 0, 0, 1, -r, -r],
+                ["l", 0, r * 2 - h],
+                ["a", r, r, 0, 0, 1, r, -r],
+                ["z"]
+            ];
+        }
+        var res = [["M", x, y], ["l", w, 0], ["l", 0, h], ["l", -w, 0], ["z"]];
+        res.toString = toString;
+        return res;
+    }
+    function ellipsePath(x, y, rx, ry, a) {
+        if (a == null && ry == null) {
+            ry = rx;
+        }
+        x = +x;
+        y = +y;
+        rx = +rx;
+        ry = +ry;
+        if (a != null) {
+            var rad = Math.PI / 180,
+                x1 = x + rx * Math.cos(-ry * rad),
+                x2 = x + rx * Math.cos(-a * rad),
+                y1 = y + rx * Math.sin(-ry * rad),
+                y2 = y + rx * Math.sin(-a * rad),
+                res = [["M", x1, y1], ["A", rx, rx, 0, +(a - ry > 180), 0, x2, y2]];
+        } else {
+            res = [
+                ["M", x, y],
+                ["m", 0, -ry],
+                ["a", rx, ry, 0, 1, 1, 0, 2 * ry],
+                ["a", rx, ry, 0, 1, 1, 0, -2 * ry],
+                ["z"]
+            ];
+        }
+        res.toString = toString;
+        return res;
+    }
+    var unit2px = Snap._unit2px,
+        getPath = {
+        path: function (el) {
+            return el.attr("path");
+        },
+        circle: function (el) {
+            var attr = unit2px(el);
+            return ellipsePath(attr.cx, attr.cy, attr.r);
+        },
+        ellipse: function (el) {
+            var attr = unit2px(el);
+            return ellipsePath(attr.cx || 0, attr.cy || 0, attr.rx, attr.ry);
+        },
+        rect: function (el) {
+            var attr = unit2px(el);
+            return rectPath(attr.x || 0, attr.y || 0, attr.width, attr.height, attr.rx, attr.ry);
+        },
+        image: function (el) {
+            var attr = unit2px(el);
+            return rectPath(attr.x || 0, attr.y || 0, attr.width, attr.height);
+        },
+        line: function (el) {
+            return "M" + [el.attr("x1") || 0, el.attr("y1") || 0, el.attr("x2"), el.attr("y2")];
+        },
+        polyline: function (el) {
+            return "M" + el.attr("points");
+        },
+        polygon: function (el) {
+            return "M" + el.attr("points") + "z";
+        },
+        deflt: function (el) {
+            var bbox = el.node.getBBox();
+            return rectPath(bbox.x, bbox.y, bbox.width, bbox.height);
+        }
+    };
+    function pathToRelative(pathArray) {
+        var pth = paths(pathArray),
+            lowerCase = String.prototype.toLowerCase;
+        if (pth.rel) {
+            return pathClone(pth.rel);
+        }
+        if (!Snap.is(pathArray, "array") || !Snap.is(pathArray && pathArray[0], "array")) {
+            pathArray = Snap.parsePathString(pathArray);
+        }
+        var res = [],
+            x = 0,
+            y = 0,
+            mx = 0,
+            my = 0,
+            start = 0;
+        if (pathArray[0][0] == "M") {
+            x = pathArray[0][1];
+            y = pathArray[0][2];
+            mx = x;
+            my = y;
+            start++;
+            res.push(["M", x, y]);
+        }
+        for (var i = start, ii = pathArray.length; i < ii; i++) {
+            var r = res[i] = [],
+                pa = pathArray[i];
+            if (pa[0] != lowerCase.call(pa[0])) {
+                r[0] = lowerCase.call(pa[0]);
+                switch (r[0]) {
+                    case "a":
+                        r[1] = pa[1];
+                        r[2] = pa[2];
+                        r[3] = pa[3];
+                        r[4] = pa[4];
+                        r[5] = pa[5];
+                        r[6] = +(pa[6] - x).toFixed(3);
+                        r[7] = +(pa[7] - y).toFixed(3);
+                        break;
+                    case "v":
+                        r[1] = +(pa[1] - y).toFixed(3);
+                        break;
+                    case "m":
+                        mx = pa[1];
+                        my = pa[2];
+                    default:
+                        for (var j = 1, jj = pa.length; j < jj; j++) {
+                            r[j] = +(pa[j] - (j % 2 ? x : y)).toFixed(3);
+                        }
+                }
+            } else {
+                r = res[i] = [];
+                if (pa[0] == "m") {
+                    mx = pa[1] + x;
+                    my = pa[2] + y;
+                }
+                for (var k = 0, kk = pa.length; k < kk; k++) {
+                    res[i][k] = pa[k];
+                }
+            }
+            var len = res[i].length;
+            switch (res[i][0]) {
+                case "z":
+                    x = mx;
+                    y = my;
+                    break;
+                case "h":
+                    x += +res[i][len - 1];
+                    break;
+                case "v":
+                    y += +res[i][len - 1];
+                    break;
+                default:
+                    x += +res[i][len - 2];
+                    y += +res[i][len - 1];
+            }
+        }
+        res.toString = toString;
+        pth.rel = pathClone(res);
+        return res;
+    }
+    function pathToAbsolute(pathArray) {
+        var pth = paths(pathArray);
+        if (pth.abs) {
+            return pathClone(pth.abs);
+        }
+        if (!is(pathArray, "array") || !is(pathArray && pathArray[0], "array")) { // rough assumption
+            pathArray = Snap.parsePathString(pathArray);
+        }
+        if (!pathArray || !pathArray.length) {
+            return [["M", 0, 0]];
+        }
+        var res = [],
+            x = 0,
+            y = 0,
+            mx = 0,
+            my = 0,
+            start = 0,
+            pa0;
+        if (pathArray[0][0] == "M") {
+            x = +pathArray[0][1];
+            y = +pathArray[0][2];
+            mx = x;
+            my = y;
+            start++;
+            res[0] = ["M", x, y];
+        }
+        var crz = pathArray.length == 3 &&
+            pathArray[0][0] == "M" &&
+            pathArray[1][0].toUpperCase() == "R" &&
+            pathArray[2][0].toUpperCase() == "Z";
+        for (var r, pa, i = start, ii = pathArray.length; i < ii; i++) {
+            res.push(r = []);
+            pa = pathArray[i];
+            pa0 = pa[0];
+            if (pa0 != pa0.toUpperCase()) {
+                r[0] = pa0.toUpperCase();
+                switch (r[0]) {
+                    case "A":
+                        r[1] = pa[1];
+                        r[2] = pa[2];
+                        r[3] = pa[3];
+                        r[4] = pa[4];
+                        r[5] = pa[5];
+                        r[6] = +pa[6] + x;
+                        r[7] = +pa[7] + y;
+                        break;
+                    case "V":
+                        r[1] = +pa[1] + y;
+                        break;
+                    case "H":
+                        r[1] = +pa[1] + x;
+                        break;
+                    case "R":
+                        var dots = [x, y].concat(pa.slice(1));
+                        for (var j = 2, jj = dots.length; j < jj; j++) {
+                            dots[j] = +dots[j] + x;
+                            dots[++j] = +dots[j] + y;
+                        }
+                        res.pop();
+                        res = res.concat(catmullRom2bezier(dots, crz));
+                        break;
+                    case "O":
+                        res.pop();
+                        dots = ellipsePath(x, y, pa[1], pa[2]);
+                        dots.push(dots[0]);
+                        res = res.concat(dots);
+                        break;
+                    case "U":
+                        res.pop();
+                        res = res.concat(ellipsePath(x, y, pa[1], pa[2], pa[3]));
+                        r = ["U"].concat(res[res.length - 1].slice(-2));
+                        break;
+                    case "M":
+                        mx = +pa[1] + x;
+                        my = +pa[2] + y;
+                    default:
+                        for (j = 1, jj = pa.length; j < jj; j++) {
+                            r[j] = +pa[j] + (j % 2 ? x : y);
+                        }
+                }
+            } else if (pa0 == "R") {
+                dots = [x, y].concat(pa.slice(1));
+                res.pop();
+                res = res.concat(catmullRom2bezier(dots, crz));
+                r = ["R"].concat(pa.slice(-2));
+            } else if (pa0 == "O") {
+                res.pop();
+                dots = ellipsePath(x, y, pa[1], pa[2]);
+                dots.push(dots[0]);
+                res = res.concat(dots);
+            } else if (pa0 == "U") {
+                res.pop();
+                res = res.concat(ellipsePath(x, y, pa[1], pa[2], pa[3]));
+                r = ["U"].concat(res[res.length - 1].slice(-2));
+            } else {
+                for (var k = 0, kk = pa.length; k < kk; k++) {
+                    r[k] = pa[k];
+                }
+            }
+            pa0 = pa0.toUpperCase();
+            if (pa0 != "O") {
+                switch (r[0]) {
+                    case "Z":
+                        x = +mx;
+                        y = +my;
+                        break;
+                    case "H":
+                        x = r[1];
+                        break;
+                    case "V":
+                        y = r[1];
+                        break;
+                    case "M":
+                        mx = r[r.length - 2];
+                        my = r[r.length - 1];
+                    default:
+                        x = r[r.length - 2];
+                        y = r[r.length - 1];
+                }
+            }
+        }
+        res.toString = toString;
+        pth.abs = pathClone(res);
+        return res;
+    }
+    function l2c(x1, y1, x2, y2) {
+        return [x1, y1, x2, y2, x2, y2];
+    }
+    function q2c(x1, y1, ax, ay, x2, y2) {
+        var _13 = 1 / 3,
+            _23 = 2 / 3;
+        return [
+                _13 * x1 + _23 * ax,
+                _13 * y1 + _23 * ay,
+                _13 * x2 + _23 * ax,
+                _13 * y2 + _23 * ay,
+                x2,
+                y2
+            ];
+    }
+    function a2c(x1, y1, rx, ry, angle, large_arc_flag, sweep_flag, x2, y2, recursive) {
+        // for more information of where this math came from visit:
+        // http://www.w3.org/TR/SVG11/implnote.html#ArcImplementationNotes
+        var _120 = PI * 120 / 180,
+            rad = PI / 180 * (+angle || 0),
+            res = [],
+            xy,
+            rotate = Snap._.cacher(function (x, y, rad) {
+                var X = x * math.cos(rad) - y * math.sin(rad),
+                    Y = x * math.sin(rad) + y * math.cos(rad);
+                return {x: X, y: Y};
+            });
+        if (!rx || !ry) {
+            return [x1, y1, x2, y2, x2, y2];
+        }
+        if (!recursive) {
+            xy = rotate(x1, y1, -rad);
+            x1 = xy.x;
+            y1 = xy.y;
+            xy = rotate(x2, y2, -rad);
+            x2 = xy.x;
+            y2 = xy.y;
+            var cos = math.cos(PI / 180 * angle),
+                sin = math.sin(PI / 180 * angle),
+                x = (x1 - x2) / 2,
+                y = (y1 - y2) / 2;
+            var h = x * x / (rx * rx) + y * y / (ry * ry);
+            if (h > 1) {
+                h = math.sqrt(h);
+                rx = h * rx;
+                ry = h * ry;
+            }
+            var rx2 = rx * rx,
+                ry2 = ry * ry,
+                k = (large_arc_flag == sweep_flag ? -1 : 1) *
+                    math.sqrt(abs((rx2 * ry2 - rx2 * y * y - ry2 * x * x) / (rx2 * y * y + ry2 * x * x))),
+                cx = k * rx * y / ry + (x1 + x2) / 2,
+                cy = k * -ry * x / rx + (y1 + y2) / 2,
+                f1 = math.asin(((y1 - cy) / ry).toFixed(9)),
+                f2 = math.asin(((y2 - cy) / ry).toFixed(9));
+
+            f1 = x1 < cx ? PI - f1 : f1;
+            f2 = x2 < cx ? PI - f2 : f2;
+            f1 < 0 && (f1 = PI * 2 + f1);
+            f2 < 0 && (f2 = PI * 2 + f2);
+            if (sweep_flag && f1 > f2) {
+                f1 = f1 - PI * 2;
+            }
+            if (!sweep_flag && f2 > f1) {
+                f2 = f2 - PI * 2;
+            }
+        } else {
+            f1 = recursive[0];
+            f2 = recursive[1];
+            cx = recursive[2];
+            cy = recursive[3];
+        }
+        var df = f2 - f1;
+        if (abs(df) > _120) {
+            var f2old = f2,
+                x2old = x2,
+                y2old = y2;
+            f2 = f1 + _120 * (sweep_flag && f2 > f1 ? 1 : -1);
+            x2 = cx + rx * math.cos(f2);
+            y2 = cy + ry * math.sin(f2);
+            res = a2c(x2, y2, rx, ry, angle, 0, sweep_flag, x2old, y2old, [f2, f2old, cx, cy]);
+        }
+        df = f2 - f1;
+        var c1 = math.cos(f1),
+            s1 = math.sin(f1),
+            c2 = math.cos(f2),
+            s2 = math.sin(f2),
+            t = math.tan(df / 4),
+            hx = 4 / 3 * rx * t,
+            hy = 4 / 3 * ry * t,
+            m1 = [x1, y1],
+            m2 = [x1 + hx * s1, y1 - hy * c1],
+            m3 = [x2 + hx * s2, y2 - hy * c2],
+            m4 = [x2, y2];
+        m2[0] = 2 * m1[0] - m2[0];
+        m2[1] = 2 * m1[1] - m2[1];
+        if (recursive) {
+            return [m2, m3, m4].concat(res);
+        } else {
+            res = [m2, m3, m4].concat(res).join().split(",");
+            var newres = [];
+            for (var i = 0, ii = res.length; i < ii; i++) {
+                newres[i] = i % 2 ? rotate(res[i - 1], res[i], rad).y : rotate(res[i], res[i + 1], rad).x;
+            }
+            return newres;
+        }
+    }
+    function findDotAtSegment(p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y, t) {
+        var t1 = 1 - t;
+        return {
+            x: pow(t1, 3) * p1x + pow(t1, 2) * 3 * t * c1x + t1 * 3 * t * t * c2x + pow(t, 3) * p2x,
+            y: pow(t1, 3) * p1y + pow(t1, 2) * 3 * t * c1y + t1 * 3 * t * t * c2y + pow(t, 3) * p2y
+        };
+    }
+
+    // Returns bounding box of cubic bezier curve.
+    // Source: http://blog.hackers-cafe.net/2009/06/how-to-calculate-bezier-curves-bounding.html
+    // Original version: NISHIO Hirokazu
+    // Modifications: https://github.com/timo22345
+    function curveDim(x0, y0, x1, y1, x2, y2, x3, y3) {
+        var tvalues = [],
+            bounds = [[], []],
+            a, b, c, t, t1, t2, b2ac, sqrtb2ac;
+        for (var i = 0; i < 2; ++i) {
+            if (i == 0) {
+                b = 6 * x0 - 12 * x1 + 6 * x2;
+                a = -3 * x0 + 9 * x1 - 9 * x2 + 3 * x3;
+                c = 3 * x1 - 3 * x0;
+            } else {
+                b = 6 * y0 - 12 * y1 + 6 * y2;
+                a = -3 * y0 + 9 * y1 - 9 * y2 + 3 * y3;
+                c = 3 * y1 - 3 * y0;
+            }
+            if (abs(a) < 1e-12) {
+                if (abs(b) < 1e-12) {
+                    continue;
+                }
+                t = -c / b;
+                if (0 < t && t < 1) {
+                    tvalues.push(t);
+                }
+                continue;
+            }
+            b2ac = b * b - 4 * c * a;
+            sqrtb2ac = math.sqrt(b2ac);
+            if (b2ac < 0) {
+                continue;
+            }
+            t1 = (-b + sqrtb2ac) / (2 * a);
+            if (0 < t1 && t1 < 1) {
+                tvalues.push(t1);
+            }
+            t2 = (-b - sqrtb2ac) / (2 * a);
+            if (0 < t2 && t2 < 1) {
+                tvalues.push(t2);
+            }
+        }
+
+        var x, y, j = tvalues.length,
+            jlen = j,
+            mt;
+        while (j--) {
+            t = tvalues[j];
+            mt = 1 - t;
+            bounds[0][j] = mt * mt * mt * x0 + 3 * mt * mt * t * x1 + 3 * mt * t * t * x2 + t * t * t * x3;
+            bounds[1][j] = mt * mt * mt * y0 + 3 * mt * mt * t * y1 + 3 * mt * t * t * y2 + t * t * t * y3;
+        }
+
+        bounds[0][jlen] = x0;
+        bounds[1][jlen] = y0;
+        bounds[0][jlen + 1] = x3;
+        bounds[1][jlen + 1] = y3;
+        bounds[0].length = bounds[1].length = jlen + 2;
+
+
+        return {
+          min: {x: mmin.apply(0, bounds[0]), y: mmin.apply(0, bounds[1])},
+          max: {x: mmax.apply(0, bounds[0]), y: mmax.apply(0, bounds[1])}
+        };
+    }
+
+    function path2curve(path, path2) {
+        var pth = !path2 && paths(path);
+        if (!path2 && pth.curve) {
+            return pathClone(pth.curve);
+        }
+        var p = pathToAbsolute(path),
+            p2 = path2 && pathToAbsolute(path2),
+            attrs = {x: 0, y: 0, bx: 0, by: 0, X: 0, Y: 0, qx: null, qy: null},
+            attrs2 = {x: 0, y: 0, bx: 0, by: 0, X: 0, Y: 0, qx: null, qy: null},
+            processPath = function (path, d, pcom) {
+                var nx, ny;
+                if (!path) {
+                    return ["C", d.x, d.y, d.x, d.y, d.x, d.y];
+                }
+                !(path[0] in {T: 1, Q: 1}) && (d.qx = d.qy = null);
+                switch (path[0]) {
+                    case "M":
+                        d.X = path[1];
+                        d.Y = path[2];
+                        break;
+                    case "A":
+                        path = ["C"].concat(a2c.apply(0, [d.x, d.y].concat(path.slice(1))));
+                        break;
+                    case "S":
+                        if (pcom == "C" || pcom == "S") { // In "S" case we have to take into account, if the previous command is C/S.
+                            nx = d.x * 2 - d.bx;          // And reflect the previous
+                            ny = d.y * 2 - d.by;          // command's control point relative to the current point.
+                        }
+                        else {                            // or some else or nothing
+                            nx = d.x;
+                            ny = d.y;
+                        }
+                        path = ["C", nx, ny].concat(path.slice(1));
+                        break;
+                    case "T":
+                        if (pcom == "Q" || pcom == "T") { // In "T" case we have to take into account, if the previous command is Q/T.
+                            d.qx = d.x * 2 - d.qx;        // And make a reflection similar
+                            d.qy = d.y * 2 - d.qy;        // to case "S".
+                        }
+                        else {                            // or something else or nothing
+                            d.qx = d.x;
+                            d.qy = d.y;
+                        }
+                        path = ["C"].concat(q2c(d.x, d.y, d.qx, d.qy, path[1], path[2]));
+                        break;
+                    case "Q":
+                        d.qx = path[1];
+                        d.qy = path[2];
+                        path = ["C"].concat(q2c(d.x, d.y, path[1], path[2], path[3], path[4]));
+                        break;
+                    case "L":
+                        path = ["C"].concat(l2c(d.x, d.y, path[1], path[2]));
+                        break;
+                    case "H":
+                        path = ["C"].concat(l2c(d.x, d.y, path[1], d.y));
+                        break;
+                    case "V":
+                        path = ["C"].concat(l2c(d.x, d.y, d.x, path[1]));
+                        break;
+                    case "Z":
+                        path = ["C"].concat(l2c(d.x, d.y, d.X, d.Y));
+                        break;
+                }
+                return path;
+            },
+            fixArc = function (pp, i) {
+                if (pp[i].length > 7) {
+                    pp[i].shift();
+                    var pi = pp[i];
+                    while (pi.length) {
+                        pcoms1[i] = "A"; // if created multiple C:s, their original seg is saved
+                        p2 && (pcoms2[i] = "A"); // the same as above
+                        pp.splice(i++, 0, ["C"].concat(pi.splice(0, 6)));
+                    }
+                    pp.splice(i, 1);
+                    ii = mmax(p.length, p2 && p2.length || 0);
+                }
+            },
+            fixM = function (path1, path2, a1, a2, i) {
+                if (path1 && path2 && path1[i][0] == "M" && path2[i][0] != "M") {
+                    path2.splice(i, 0, ["M", a2.x, a2.y]);
+                    a1.bx = 0;
+                    a1.by = 0;
+                    a1.x = path1[i][1];
+                    a1.y = path1[i][2];
+                    ii = mmax(p.length, p2 && p2.length || 0);
+                }
+            },
+            pcoms1 = [], // path commands of original path p
+            pcoms2 = [], // path commands of original path p2
+            pfirst = "", // temporary holder for original path command
+            pcom = ""; // holder for previous path command of original path
+        for (var i = 0, ii = mmax(p.length, p2 && p2.length || 0); i < ii; i++) {
+            p[i] && (pfirst = p[i][0]); // save current path command
+
+            if (pfirst != "C") // C is not saved yet, because it may be result of conversion
+            {
+                pcoms1[i] = pfirst; // Save current path command
+                i && ( pcom = pcoms1[i - 1]); // Get previous path command pcom
+            }
+            p[i] = processPath(p[i], attrs, pcom); // Previous path command is inputted to processPath
+
+            if (pcoms1[i] != "A" && pfirst == "C") pcoms1[i] = "C"; // A is the only command
+            // which may produce multiple C:s
+            // so we have to make sure that C is also C in original path
+
+            fixArc(p, i); // fixArc adds also the right amount of A:s to pcoms1
+
+            if (p2) { // the same procedures is done to p2
+                p2[i] && (pfirst = p2[i][0]);
+                if (pfirst != "C") {
+                    pcoms2[i] = pfirst;
+                    i && (pcom = pcoms2[i - 1]);
+                }
+                p2[i] = processPath(p2[i], attrs2, pcom);
+
+                if (pcoms2[i] != "A" && pfirst == "C") {
+                    pcoms2[i] = "C";
+                }
+
+                fixArc(p2, i);
+            }
+            fixM(p, p2, attrs, attrs2, i);
+            fixM(p2, p, attrs2, attrs, i);
+            var seg = p[i],
+                seg2 = p2 && p2[i],
+                seglen = seg.length,
+                seg2len = p2 && seg2.length;
+            attrs.x = seg[seglen - 2];
+            attrs.y = seg[seglen - 1];
+            attrs.bx = toFloat(seg[seglen - 4]) || attrs.x;
+            attrs.by = toFloat(seg[seglen - 3]) || attrs.y;
+            attrs2.bx = p2 && (toFloat(seg2[seg2len - 4]) || attrs2.x);
+            attrs2.by = p2 && (toFloat(seg2[seg2len - 3]) || attrs2.y);
+            attrs2.x = p2 && seg2[seg2len - 2];
+            attrs2.y = p2 && seg2[seg2len - 1];
+        }
+        if (!p2) {
+            pth.curve = pathClone(p);
+        }
+        return p2 ? [p, p2] : p;
+    }
+    function mapPath(path, matrix) {
+        if (!matrix) {
+            return path;
+        }
+        var x, y, i, j, ii, jj, pathi;
+        path = path2curve(path);
+        for (i = 0, ii = path.length; i < ii; i++) {
+            pathi = path[i];
+            for (j = 1, jj = pathi.length; j < jj; j += 2) {
+                x = matrix.x(pathi[j], pathi[j + 1]);
+                y = matrix.y(pathi[j], pathi[j + 1]);
+                pathi[j] = x;
+                pathi[j + 1] = y;
+            }
+        }
+        return path;
+    }
+
+    // http://schepers.cc/getting-to-the-point
+    function catmullRom2bezier(crp, z) {
+        var d = [];
+        for (var i = 0, iLen = crp.length; iLen - 2 * !z > i; i += 2) {
+            var p = [
+                        {x: +crp[i - 2], y: +crp[i - 1]},
+                        {x: +crp[i],     y: +crp[i + 1]},
+                        {x: +crp[i + 2], y: +crp[i + 3]},
+                        {x: +crp[i + 4], y: +crp[i + 5]}
+                    ];
+            if (z) {
+                if (!i) {
+                    p[0] = {x: +crp[iLen - 2], y: +crp[iLen - 1]};
+                } else if (iLen - 4 == i) {
+                    p[3] = {x: +crp[0], y: +crp[1]};
+                } else if (iLen - 2 == i) {
+                    p[2] = {x: +crp[0], y: +crp[1]};
+                    p[3] = {x: +crp[2], y: +crp[3]};
+                }
+            } else {
+                if (iLen - 4 == i) {
+                    p[3] = p[2];
+                } else if (!i) {
+                    p[0] = {x: +crp[i], y: +crp[i + 1]};
+                }
+            }
+            d.push(["C",
+                  (-p[0].x + 6 * p[1].x + p[2].x) / 6,
+                  (-p[0].y + 6 * p[1].y + p[2].y) / 6,
+                  (p[1].x + 6 * p[2].x - p[3].x) / 6,
+                  (p[1].y + 6*p[2].y - p[3].y) / 6,
+                  p[2].x,
+                  p[2].y
+            ]);
+        }
+
+        return d;
+    }
+
+    // export
+    Snap.path = paths;
+
+    /*\
+     * Snap.path.getTotalLength
+     [ method ]
+     **
+     * Returns the length of the given path in pixels
+     **
+     - path (string) SVG path string
+     **
+     = (number) length
+    \*/
+    Snap.path.getTotalLength = getTotalLength;
+    /*\
+     * Snap.path.getPointAtLength
+     [ method ]
+     **
+     * Returns the coordinates of the point located at the given length along the given path
+     **
+     - path (string) SVG path string
+     - length (number) length, in pixels, from the start of the path, excluding non-rendering jumps
+     **
+     = (object) representation of the point:
+     o {
+     o     x: (number) x coordinate,
+     o     y: (number) y coordinate,
+     o     alpha: (number) angle of derivative
+     o }
+    \*/
+    Snap.path.getPointAtLength = getPointAtLength;
+    /*\
+     * Snap.path.getSubpath
+     [ method ]
+     **
+     * Returns the subpath of a given path between given start and end lengths
+     **
+     - path (string) SVG path string
+     - from (number) length, in pixels, from the start of the path to the start of the segment
+     - to (number) length, in pixels, from the start of the path to the end of the segment
+     **
+     = (string) path string definition for the segment
+    \*/
+    Snap.path.getSubpath = function (path, from, to) {
+        if (this.getTotalLength(path) - to < 1e-6) {
+            return getSubpathsAtLength(path, from).end;
+        }
+        var a = getSubpathsAtLength(path, to, 1);
+        return from ? getSubpathsAtLength(a, from).end : a;
+    };
+    /*\
+     * Element.getTotalLength
+     [ method ]
+     **
+     * Returns the length of the path in pixels (only works for `path` elements)
+     = (number) length
+    \*/
+    elproto.getTotalLength = function () {
+        if (this.node.getTotalLength) {
+            return this.node.getTotalLength();
+        }
+    };
+    // SIERRA Element.getPointAtLength()/Element.getTotalLength(): If a <path> is broken into different segments, is the jump distance to the new coordinates set by the _M_ or _m_ commands calculated as part of the path's total length?
+    /*\
+     * Element.getPointAtLength
+     [ method ]
+     **
+     * Returns coordinates of the point located at the given length on the given path (only works for `path` elements)
+     **
+     - length (number) length, in pixels, from the start of the path, excluding non-rendering jumps
+     **
+     = (object) representation of the point:
+     o {
+     o     x: (number) x coordinate,
+     o     y: (number) y coordinate,
+     o     alpha: (number) angle of derivative
+     o }
+    \*/
+    elproto.getPointAtLength = function (length) {
+        return getPointAtLength(this.attr("d"), length);
+    };
+    // SIERRA Element.getSubpath(): Similar to the problem for Element.getPointAtLength(). Unclear how this would work for a segmented path. Overall, the concept of _subpath_ and what I'm calling a _segment_ (series of non-_M_ or _Z_ commands) is unclear.
+    /*\
+     * Element.getSubpath
+     [ method ]
+     **
+     * Returns subpath of a given element from given start and end lengths (only works for `path` elements)
+     **
+     - from (number) length, in pixels, from the start of the path to the start of the segment
+     - to (number) length, in pixels, from the start of the path to the end of the segment
+     **
+     = (string) path string definition for the segment
+    \*/
+    elproto.getSubpath = function (from, to) {
+        return Snap.path.getSubpath(this.attr("d"), from, to);
+    };
+    Snap._.box = box;
+    /*\
+     * Snap.path.findDotsAtSegment
+     [ method ]
+     **
+     * Utility method
+     **
+     * Finds dot coordinates on the given cubic beziér curve at the given t
+     - p1x (number) x of the first point of the curve
+     - p1y (number) y of the first point of the curve
+     - c1x (number) x of the first anchor of the curve
+     - c1y (number) y of the first anchor of the curve
+     - c2x (number) x of the second anchor of the curve
+     - c2y (number) y of the second anchor of the curve
+     - p2x (number) x of the second point of the curve
+     - p2y (number) y of the second point of the curve
+     - t (number) position on the curve (0..1)
+     = (object) point information in format:
+     o {
+     o     x: (number) x coordinate of the point,
+     o     y: (number) y coordinate of the point,
+     o     m: {
+     o         x: (number) x coordinate of the left anchor,
+     o         y: (number) y coordinate of the left anchor
+     o     },
+     o     n: {
+     o         x: (number) x coordinate of the right anchor,
+     o         y: (number) y coordinate of the right anchor
+     o     },
+     o     start: {
+     o         x: (number) x coordinate of the start of the curve,
+     o         y: (number) y coordinate of the start of the curve
+     o     },
+     o     end: {
+     o         x: (number) x coordinate of the end of the curve,
+     o         y: (number) y coordinate of the end of the curve
+     o     },
+     o     alpha: (number) angle of the curve derivative at the point
+     o }
+    \*/
+    Snap.path.findDotsAtSegment = findDotsAtSegment;
+    /*\
+     * Snap.path.bezierBBox
+     [ method ]
+     **
+     * Utility method
+     **
+     * Returns the bounding box of a given cubic beziér curve
+     - p1x (number) x of the first point of the curve
+     - p1y (number) y of the first point of the curve
+     - c1x (number) x of the first anchor of the curve
+     - c1y (number) y of the first anchor of the curve
+     - c2x (number) x of the second anchor of the curve
+     - c2y (number) y of the second anchor of the curve
+     - p2x (number) x of the second point of the curve
+     - p2y (number) y of the second point of the curve
+     * or
+     - bez (array) array of six points for beziér curve
+     = (object) bounding box
+     o {
+     o     x: (number) x coordinate of the left top point of the box,
+     o     y: (number) y coordinate of the left top point of the box,
+     o     x2: (number) x coordinate of the right bottom point of the box,
+     o     y2: (number) y coordinate of the right bottom point of the box,
+     o     width: (number) width of the box,
+     o     height: (number) height of the box
+     o }
+    \*/
+    Snap.path.bezierBBox = bezierBBox;
+    /*\
+     * Snap.path.isPointInsideBBox
+     [ method ]
+     **
+     * Utility method
+     **
+     * Returns `true` if given point is inside bounding box
+     - bbox (string) bounding box
+     - x (string) x coordinate of the point
+     - y (string) y coordinate of the point
+     = (boolean) `true` if point is inside
+    \*/
+    Snap.path.isPointInsideBBox = isPointInsideBBox;
+    Snap.closest = function (x, y, X, Y) {
+        var r = 100,
+            b = box(x - r / 2, y - r / 2, r, r),
+            inside = [],
+            getter = X[0].hasOwnProperty("x") ? function (i) {
+                return {
+                    x: X[i].x,
+                    y: X[i].y
+                };
+            } : function (i) {
+                return {
+                    x: X[i],
+                    y: Y[i]
+                };
+            },
+            found = 0;
+        while (r <= 1e6 && !found) {
+            for (var i = 0, ii = X.length; i < ii; i++) {
+                var xy = getter(i);
+                if (isPointInsideBBox(b, xy.x, xy.y)) {
+                    found++;
+                    inside.push(xy);
+                    break;
+                }
+            }
+            if (!found) {
+                r *= 2;
+                b = box(x - r / 2, y - r / 2, r, r)
+            }
+        }
+        if (r == 1e6) {
+            return;
+        }
+        var len = Infinity,
+            res;
+        for (i = 0, ii = inside.length; i < ii; i++) {
+            var l = Snap.len(x, y, inside[i].x, inside[i].y);
+            if (len > l) {
+                len = l;
+                inside[i].len = l;
+                res = inside[i];
+            }
+        }
+        return res;
+    };
+    /*\
+     * Snap.path.isBBoxIntersect
+     [ method ]
+     **
+     * Utility method
+     **
+     * Returns `true` if two bounding boxes intersect
+     - bbox1 (string) first bounding box
+     - bbox2 (string) second bounding box
+     = (boolean) `true` if bounding boxes intersect
+    \*/
+    Snap.path.isBBoxIntersect = isBBoxIntersect;
+    /*\
+     * Snap.path.intersection
+     [ method ]
+     **
+     * Utility method
+     **
+     * Finds intersections of two paths
+     - path1 (string) path string
+     - path2 (string) path string
+     = (array) dots of intersection
+     o [
+     o     {
+     o         x: (number) x coordinate of the point,
+     o         y: (number) y coordinate of the point,
+     o         t1: (number) t value for segment of path1,
+     o         t2: (number) t value for segment of path2,
+     o         segment1: (number) order number for segment of path1,
+     o         segment2: (number) order number for segment of path2,
+     o         bez1: (array) eight coordinates representing beziér curve for the segment of path1,
+     o         bez2: (array) eight coordinates representing beziér curve for the segment of path2
+     o     }
+     o ]
+    \*/
+    Snap.path.intersection = pathIntersection;
+    Snap.path.intersectionNumber = pathIntersectionNumber;
+    /*\
+     * Snap.path.isPointInside
+     [ method ]
+     **
+     * Utility method
+     **
+     * Returns `true` if given point is inside a given closed path.
+     *
+     * Note: fill mode doesn’t affect the result of this method.
+     - path (string) path string
+     - x (number) x of the point
+     - y (number) y of the point
+     = (boolean) `true` if point is inside the path
+    \*/
+    Snap.path.isPointInside = isPointInsidePath;
+    /*\
+     * Snap.path.getBBox
+     [ method ]
+     **
+     * Utility method
+     **
+     * Returns the bounding box of a given path
+     - path (string) path string
+     = (object) bounding box
+     o {
+     o     x: (number) x coordinate of the left top point of the box,
+     o     y: (number) y coordinate of the left top point of the box,
+     o     x2: (number) x coordinate of the right bottom point of the box,
+     o     y2: (number) y coordinate of the right bottom point of the box,
+     o     width: (number) width of the box,
+     o     height: (number) height of the box
+     o }
+    \*/
+    Snap.path.getBBox = pathBBox;
+    Snap.path.get = getPath;
+    /*\
+     * Snap.path.toRelative
+     [ method ]
+     **
+     * Utility method
+     **
+     * Converts path coordinates into relative values
+     - path (string) path string
+     = (array) path string
+    \*/
+    Snap.path.toRelative = pathToRelative;
+    /*\
+     * Snap.path.toAbsolute
+     [ method ]
+     **
+     * Utility method
+     **
+     * Converts path coordinates into absolute values
+     - path (string) path string
+     = (array) path string
+    \*/
+    Snap.path.toAbsolute = pathToAbsolute;
+    /*\
+     * Snap.path.toCubic
+     [ method ]
+     **
+     * Utility method
+     **
+     * Converts path to a new path where all segments are cubic beziér curves
+     - pathString (string|array) path string or array of segments
+     = (array) array of segments
+    \*/
+    Snap.path.toCubic = path2curve;
+    /*\
+     * Snap.path.map
+     [ method ]
+     **
+     * Transform the path string with the given matrix
+     - path (string) path string
+     - matrix (object) see @Matrix
+     = (string) transformed path string
+    \*/
+    Snap.path.map = mapPath;
+    Snap.path.toString = toString;
+    Snap.path.clone = pathClone;
+});
+
+// Copyright (c) 2013 Adobe Systems Incorporated. All rights reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+Snap.plugin(function (Snap, Element, Paper, glob) {
+    var mmax = Math.max,
+        mmin = Math.min;
+
+    // Set
+    var Set = function (items) {
+        this.items = [];
+	this.bindings = {};
+        this.length = 0;
+        this.type = "set";
+        if (items) {
+            for (var i = 0, ii = items.length; i < ii; i++) {
+                if (items[i]) {
+                    this[this.items.length] = this.items[this.items.length] = items[i];
+                    this.length++;
+                }
+            }
+        }
+    },
+    setproto = Set.prototype;
+    /*\
+     * Set.push
+     [ method ]
+     **
+     * Adds each argument to the current set
+     = (object) original element
+    \*/
+    setproto.push = function () {
+        var item,
+            len;
+        for (var i = 0, ii = arguments.length; i < ii; i++) {
+            item = arguments[i];
+            if (item) {
+                len = this.items.length;
+                this[len] = this.items[len] = item;
+                this.length++;
+            }
+        }
+        return this;
+    };
+    /*\
+     * Set.pop
+     [ method ]
+     **
+     * Removes last element and returns it
+     = (object) element
+    \*/
+    setproto.pop = function () {
+        this.length && delete this[this.length--];
+        return this.items.pop();
+    };
+    /*\
+     * Set.forEach
+     [ method ]
+     **
+     * Executes given function for each element in the set
+     *
+     * If the function returns `false`, the loop stops running.
+     **
+     - callback (function) function to run
+     - thisArg (object) context object for the callback
+     = (object) Set object
+    \*/
+    setproto.forEach = function (callback, thisArg) {
+        for (var i = 0, ii = this.items.length; i < ii; i++) {
+            if (callback.call(thisArg, this.items[i], i) === false) {
+                return this;
+            }
+        }
+        return this;
+    };
+    /*\
+     * Set.animate
+     [ method ]
+     **
+     * Animates each element in set in sync.
+     *
+     **
+     - attrs (object) key-value pairs of destination attributes
+     - duration (number) duration of the animation in milliseconds
+     - easing (function) #optional easing function from @mina or custom
+     - callback (function) #optional callback function that executes when the animation ends
+     * or
+     - animation (array) array of animation parameter for each element in set in format `[attrs, duration, easing, callback]`
+     > Usage
+     | // animate all elements in set to radius 10
+     | set.animate({r: 10}, 500, mina.easein);
+     | // or
+     | // animate first element to radius 10, but second to radius 20 and in different time
+     | set.animate([{r: 10}, 500, mina.easein], [{r: 20}, 1500, mina.easein]);
+     = (Element) the current element
+    \*/
+    setproto.animate = function (attrs, ms, easing, callback) {
+        if (typeof easing == "function" && !easing.length) {
+            callback = easing;
+            easing = mina.linear;
+        }
+        if (attrs instanceof Snap._.Animation) {
+            callback = attrs.callback;
+            easing = attrs.easing;
+            ms = easing.dur;
+            attrs = attrs.attr;
+        }
+        var args = arguments;
+        if (Snap.is(attrs, "array") && Snap.is(args[args.length - 1], "array")) {
+            var each = true;
+        }
+        var begin,
+            handler = function () {
+                if (begin) {
+                    this.b = begin;
+                } else {
+                    begin = this.b;
+                }
+            },
+            cb = 0,
+            set = this,
+            callbacker = callback && function () {
+                if (++cb == set.length) {
+                    callback.call(this);
+                }
+            };
+        return this.forEach(function (el, i) {
+            eve.once("snap.animcreated." + el.id, handler);
+            if (each) {
+                args[i] && el.animate.apply(el, args[i]);
+            } else {
+                el.animate(attrs, ms, easing, callbacker);
+            }
+        });
+    };
+    /*\
+     * Set.remove
+     [ method ]
+     **
+     * Removes all children of the set.
+     *
+     = (object) Set object
+    \*/
+    setproto.remove = function () {
+        while (this.length) {
+            this.pop().remove();
+        }
+        return this;
+    };
+    /*\
+     * Set.bind
+     [ method ]
+     **
+     * Specifies how to handle a specific attribute when applied
+     * to a set.
+     *
+     **
+     - attr (string) attribute name
+     - callback (function) function to run
+     * or
+     - attr (string) attribute name
+     - element (Element) specific element in the set to apply the attribute to
+     * or
+     - attr (string) attribute name
+     - element (Element) specific element in the set to apply the attribute to
+     - eattr (string) attribute on the element to bind the attribute to
+     = (object) Set object
+    \*/
+    setproto.bind = function (attr, a, b) {
+        var data = {};
+        if (typeof a == "function") {
+            this.bindings[attr] = a;
+        } else {
+            var aname = b || attr;
+            this.bindings[attr] = function (v) {
+                data[aname] = v;
+                a.attr(data);
+            };
+        }
+        return this;
+    };
+    /*\
+     * Set.attr
+     [ method ]
+     **
+     * Equivalent of @Element.attr.
+     = (object) Set object
+    \*/
+    setproto.attr = function (value) {
+        var unbound = {};
+        for (var k in value) {
+            if (this.bindings[k]) {
+                this.bindings[k](value[k]);
+            } else {
+                unbound[k] = value[k];
+            }
+        }
+        for (var i = 0, ii = this.items.length; i < ii; i++) {
+            this.items[i].attr(unbound);
+        }
+        return this;
+    };
+    /*\
+     * Set.clear
+     [ method ]
+     **
+     * Removes all elements from the set
+    \*/
+    setproto.clear = function () {
+        while (this.length) {
+            this.pop();
+        }
+    };
+    /*\
+     * Set.splice
+     [ method ]
+     **
+     * Removes range of elements from the set
+     **
+     - index (number) position of the deletion
+     - count (number) number of element to remove
+     - insertion… (object) #optional elements to insert
+     = (object) set elements that were deleted
+    \*/
+    setproto.splice = function (index, count, insertion) {
+        index = index < 0 ? mmax(this.length + index, 0) : index;
+        count = mmax(0, mmin(this.length - index, count));
+        var tail = [],
+            todel = [],
+            args = [],
+            i;
+        for (i = 2; i < arguments.length; i++) {
+            args.push(arguments[i]);
+        }
+        for (i = 0; i < count; i++) {
+            todel.push(this[index + i]);
+        }
+        for (; i < this.length - index; i++) {
+            tail.push(this[index + i]);
+        }
+        var arglen = args.length;
+        for (i = 0; i < arglen + tail.length; i++) {
+            this.items[index + i] = this[index + i] = i < arglen ? args[i] : tail[i - arglen];
+        }
+        i = this.items.length = this.length -= count - arglen;
+        while (this[i]) {
+            delete this[i++];
+        }
+        return new Set(todel);
+    };
+    /*\
+     * Set.exclude
+     [ method ]
+     **
+     * Removes given element from the set
+     **
+     - element (object) element to remove
+     = (boolean) `true` if object was found and removed from the set
+    \*/
+    setproto.exclude = function (el) {
+        for (var i = 0, ii = this.length; i < ii; i++) if (this[i] == el) {
+            this.splice(i, 1);
+            return true;
+        }
+        return false;
+    };
+    /*\
+     * Set.insertAfter
+     [ method ]
+     **
+     * Inserts set elements after given element.
+     **
+     - element (object) set will be inserted after this element
+     = (object) Set object
+    \*/
+    setproto.insertAfter = function (el) {
+        var i = this.items.length;
+        while (i--) {
+            this.items[i].insertAfter(el);
+        }
+        return this;
+    };
+    /*\
+     * Set.getBBox
+     [ method ]
+     **
+     * Union of all bboxes of the set. See @Element.getBBox.
+     = (object) bounding box descriptor. See @Element.getBBox.
+    \*/
+    setproto.getBBox = function () {
+        var x = [],
+            y = [],
+            x2 = [],
+            y2 = [];
+        for (var i = this.items.length; i--;) if (!this.items[i].removed) {
+            var box = this.items[i].getBBox();
+            x.push(box.x);
+            y.push(box.y);
+            x2.push(box.x + box.width);
+            y2.push(box.y + box.height);
+        }
+        x = mmin.apply(0, x);
+        y = mmin.apply(0, y);
+        x2 = mmax.apply(0, x2);
+        y2 = mmax.apply(0, y2);
+        return {
+            x: x,
+            y: y,
+            x2: x2,
+            y2: y2,
+            width: x2 - x,
+            height: y2 - y,
+            cx: x + (x2 - x) / 2,
+            cy: y + (y2 - y) / 2
+        };
+    };
+    /*\
+     * Set.insertAfter
+     [ method ]
+     **
+     * Creates a clone of the set.
+     **
+     = (object) New Set object
+    \*/
+    setproto.clone = function (s) {
+        s = new Set;
+        for (var i = 0, ii = this.items.length; i < ii; i++) {
+            s.push(this.items[i].clone());
+        }
+        return s;
+    };
+    setproto.toString = function () {
+        return "Snap\u2018s set";
+    };
+    setproto.type = "set";
+    // export
+    /*\
+     * Snap.Set
+     [ property ]
+     **
+     * Set constructor.
+    \*/
+    Snap.Set = Set;
+    /*\
+     * Snap.set
+     [ method ]
+     **
+     * Creates a set and fills it with list of arguments.
+     **
+     = (object) New Set object
+     | var r = paper.rect(0, 0, 10, 10),
+     |     s1 = Snap.set(), // empty set
+     |     s2 = Snap.set(r, paper.circle(100, 100, 20)); // prefilled set
+    \*/
+    Snap.set = function () {
+        var set = new Set;
+        if (arguments.length) {
+            set.push.apply(set, Array.prototype.slice.call(arguments, 0));
+        }
+        return set;
+    };
+});
+
+// Copyright (c) 2013 Adobe Systems Incorporated. All rights reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+Snap.plugin(function (Snap, Element, Paper, glob) {
+    var names = {},
+        reUnit = /[%a-z]+$/i,
+        Str = String;
+    names.stroke = names.fill = "colour";
+    function getEmpty(item) {
+        var l = item[0];
+        switch (l.toLowerCase()) {
+            case "t": return [l, 0, 0];
+            case "m": return [l, 1, 0, 0, 1, 0, 0];
+            case "r": if (item.length == 4) {
+                return [l, 0, item[2], item[3]];
+            } else {
+                return [l, 0];
+            }
+            case "s": if (item.length == 5) {
+                return [l, 1, 1, item[3], item[4]];
+            } else if (item.length == 3) {
+                return [l, 1, 1];
+            } else {
+                return [l, 1];
+            }
+        }
+    }
+    function equaliseTransform(t1, t2, getBBox) {
+        t1 = t1 || new Snap.Matrix;
+        t2 = t2 || new Snap.Matrix;
+        t1 = Snap.parseTransformString(t1.toTransformString()) || [];
+        t2 = Snap.parseTransformString(t2.toTransformString()) || [];
+        var maxlength = Math.max(t1.length, t2.length),
+            from = [],
+            to = [],
+            i = 0, j, jj,
+            tt1, tt2;
+        for (; i < maxlength; i++) {
+            tt1 = t1[i] || getEmpty(t2[i]);
+            tt2 = t2[i] || getEmpty(tt1);
+            if (tt1[0] != tt2[0] ||
+                tt1[0].toLowerCase() == "r" && (tt1[2] != tt2[2] || tt1[3] != tt2[3]) ||
+                tt1[0].toLowerCase() == "s" && (tt1[3] != tt2[3] || tt1[4] != tt2[4])
+                ) {
+                    t1 = Snap._.transform2matrix(t1, getBBox());
+                    t2 = Snap._.transform2matrix(t2, getBBox());
+                    from = [["m", t1.a, t1.b, t1.c, t1.d, t1.e, t1.f]];
+                    to = [["m", t2.a, t2.b, t2.c, t2.d, t2.e, t2.f]];
+                    break;
+            }
+            from[i] = [];
+            to[i] = [];
+            for (j = 0, jj = Math.max(tt1.length, tt2.length); j < jj; j++) {
+                j in tt1 && (from[i][j] = tt1[j]);
+                j in tt2 && (to[i][j] = tt2[j]);
+            }
+        }
+        return {
+            from: path2array(from),
+            to: path2array(to),
+            f: getPath(from)
+        };
+    }
+    function getNumber(val) {
+        return val;
+    }
+    function getUnit(unit) {
+        return function (val) {
+            return +val.toFixed(3) + unit;
+        };
+    }
+    function getViewBox(val) {
+        return val.join(" ");
+    }
+    function getColour(clr) {
+        return Snap.rgb(clr[0], clr[1], clr[2], clr[3]);
+    }
+    function getPath(path) {
+        var k = 0, i, ii, j, jj, out, a, b = [];
+        for (i = 0, ii = path.length; i < ii; i++) {
+            out = "[";
+            a = ['"' + path[i][0] + '"'];
+            for (j = 1, jj = path[i].length; j < jj; j++) {
+                a[j] = "val[" + k++ + "]";
+            }
+            out += a + "]";
+            b[i] = out;
+        }
+        return Function("val", "return Snap.path.toString.call([" + b + "])");
+    }
+    function path2array(path) {
+        var out = [];
+        for (var i = 0, ii = path.length; i < ii; i++) {
+            for (var j = 1, jj = path[i].length; j < jj; j++) {
+                out.push(path[i][j]);
+            }
+        }
+        return out;
+    }
+    function isNumeric(obj) {
+        return isFinite(obj);
+    }
+    function arrayEqual(arr1, arr2) {
+        if (!Snap.is(arr1, "array") || !Snap.is(arr2, "array")) {
+            return false;
+        }
+        return arr1.toString() == arr2.toString();
+    }
+    Element.prototype.equal = function (name, b) {
+        return eve("snap.util.equal", this, name, b).firstDefined();
+    };
+    eve.on("snap.util.equal", function (name, b) {
+        var A, B, a = Str(this.attr(name) || ""),
+            el = this;
+        if (names[name] == "colour") {
+            A = Snap.color(a);
+            B = Snap.color(b);
+            return {
+                from: [A.r, A.g, A.b, A.opacity],
+                to: [B.r, B.g, B.b, B.opacity],
+                f: getColour
+            };
+        }
+        if (name == "viewBox") {
+            A = this.attr(name).vb.split(" ").map(Number);
+            B = b.split(" ").map(Number);
+            return {
+                from: A,
+                to: B,
+                f: getViewBox
+            };
+        }
+        if (name == "transform" || name == "gradientTransform" || name == "patternTransform") {
+            if (typeof b == "string") {
+                b = Str(b).replace(/\.{3}|\u2026/g, a);
+            }
+            a = this.matrix;
+            if (!Snap._.rgTransform.test(b)) {
+                b = Snap._.transform2matrix(Snap._.svgTransform2string(b), this.getBBox());
+            } else {
+                b = Snap._.transform2matrix(b, this.getBBox());
+            }
+            return equaliseTransform(a, b, function () {
+                return el.getBBox(1);
+            });
+        }
+        if (name == "d" || name == "path") {
+            A = Snap.path.toCubic(a, b);
+            return {
+                from: path2array(A[0]),
+                to: path2array(A[1]),
+                f: getPath(A[0])
+            };
+        }
+        if (name == "points") {
+            A = Str(a).split(Snap._.separator);
+            B = Str(b).split(Snap._.separator);
+            return {
+                from: A,
+                to: B,
+                f: function (val) { return val; }
+            };
+        }
+        if (isNumeric(a) && isNumeric(b)) {
+            return {
+                from: parseFloat(a),
+                to: parseFloat(b),
+                f: getNumber
+            };
+        }
+        var aUnit = a.match(reUnit),
+            bUnit = Str(b).match(reUnit);
+        if (aUnit && arrayEqual(aUnit, bUnit)) {
+            return {
+                from: parseFloat(a),
+                to: parseFloat(b),
+                f: getUnit(aUnit)
+            };
+        } else {
+            return {
+                from: this.asPX(name),
+                to: this.asPX(name, b),
+                f: getNumber
+            };
+        }
+    });
+});
+
+// Copyright (c) 2013 Adobe Systems Incorporated. All rights reserved.
+// 
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+// 
+// http://www.apache.org/licenses/LICENSE-2.0
+// 
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+Snap.plugin(function (Snap, Element, Paper, glob) {
+    var elproto = Element.prototype,
+    has = "hasOwnProperty",
+    supportsTouch = "createTouch" in glob.doc,
+    events = [
+        "click", "dblclick", "mousedown", "mousemove", "mouseout",
+        "mouseover", "mouseup", "touchstart", "touchmove", "touchend",
+        "touchcancel"
+    ],
+    touchMap = {
+        mousedown: "touchstart",
+        mousemove: "touchmove",
+        mouseup: "touchend"
+    },
+    getScroll = function (xy, el) {
+        var name = xy == "y" ? "scrollTop" : "scrollLeft",
+            doc = el && el.node ? el.node.ownerDocument : glob.doc;
+        return doc[name in doc.documentElement ? "documentElement" : "body"][name];
+    },
+    preventDefault = function () {
+        this.returnValue = false;
+    },
+    preventTouch = function () {
+        return this.originalEvent.preventDefault();
+    },
+    stopPropagation = function () {
+        this.cancelBubble = true;
+    },
+    stopTouch = function () {
+        return this.originalEvent.stopPropagation();
+    },
+    addEvent = function (obj, type, fn, element) {
+        var realName = supportsTouch && touchMap[type] ? touchMap[type] : type,
+            f = function (e) {
+                var scrollY = getScroll("y", element),
+                    scrollX = getScroll("x", element);
+                if (supportsTouch && touchMap[has](type)) {
+                    for (var i = 0, ii = e.targetTouches && e.targetTouches.length; i < ii; i++) {
+                        if (e.targetTouches[i].target == obj || obj.contains(e.targetTouches[i].target)) {
+                            var olde = e;
+                            e = e.targetTouches[i];
+                            e.originalEvent = olde;
+                            e.preventDefault = preventTouch;
+                            e.stopPropagation = stopTouch;
+                            break;
+                        }
+                    }
+                }
+                var x = e.clientX + scrollX,
+                    y = e.clientY + scrollY;
+                return fn.call(element, e, x, y);
+            };
+
+        if (type !== realName) {
+            obj.addEventListener(type, f, false);
+        }
+
+        obj.addEventListener(realName, f, false);
+
+        return function () {
+            if (type !== realName) {
+                obj.removeEventListener(type, f, false);
+            }
+
+            obj.removeEventListener(realName, f, false);
+            return true;
+        };
+    },
+    drag = [],
+    dragMove = function (e) {
+        var x = e.clientX,
+            y = e.clientY,
+            scrollY = getScroll("y"),
+            scrollX = getScroll("x"),
+            dragi,
+            j = drag.length;
+        while (j--) {
+            dragi = drag[j];
+            if (supportsTouch) {
+                var i = e.touches && e.touches.length,
+                    touch;
+                while (i--) {
+                    touch = e.touches[i];
+                    if (touch.identifier == dragi.el._drag.id || dragi.el.node.contains(touch.target)) {
+                        x = touch.clientX;
+                        y = touch.clientY;
+                        (e.originalEvent ? e.originalEvent : e).preventDefault();
+                        break;
+                    }
+                }
+            } else {
+                e.preventDefault();
+            }
+            var node = dragi.el.node,
+                o,
+                next = node.nextSibling,
+                parent = node.parentNode,
+                display = node.style.display;
+            // glob.win.opera && parent.removeChild(node);
+            // node.style.display = "none";
+            // o = dragi.el.paper.getElementByPoint(x, y);
+            // node.style.display = display;
+            // glob.win.opera && (next ? parent.insertBefore(node, next) : parent.appendChild(node));
+            // o && eve("snap.drag.over." + dragi.el.id, dragi.el, o);
+            x += scrollX;
+            y += scrollY;
+            eve("snap.drag.move." + dragi.el.id, dragi.move_scope || dragi.el, x - dragi.el._drag.x, y - dragi.el._drag.y, x, y, e);
+        }
+    },
+    dragUp = function (e) {
+        Snap.unmousemove(dragMove).unmouseup(dragUp);
+        var i = drag.length,
+            dragi;
+        while (i--) {
+            dragi = drag[i];
+            dragi.el._drag = {};
+            eve("snap.drag.end." + dragi.el.id, dragi.end_scope || dragi.start_scope || dragi.move_scope || dragi.el, e);
+            eve.off("snap.drag.*." + dragi.el.id);
+        }
+        drag = [];
+    };
+    /*\
+     * Element.click
+     [ method ]
+     **
+     * Adds a click event handler to the element
+     - handler (function) handler for the event
+     = (object) @Element
+    \*/
+    /*\
+     * Element.unclick
+     [ method ]
+     **
+     * Removes a click event handler from the element
+     - handler (function) handler for the event
+     = (object) @Element
+    \*/
+    
+    /*\
+     * Element.dblclick
+     [ method ]
+     **
+     * Adds a double click event handler to the element
+     - handler (function) handler for the event
+     = (object) @Element
+    \*/
+    /*\
+     * Element.undblclick
+     [ method ]
+     **
+     * Removes a double click event handler from the element
+     - handler (function) handler for the event
+     = (object) @Element
+    \*/
+    
+    /*\
+     * Element.mousedown
+     [ method ]
+     **
+     * Adds a mousedown event handler to the element
+     - handler (function) handler for the event
+     = (object) @Element
+    \*/
+    /*\
+     * Element.unmousedown
+     [ method ]
+     **
+     * Removes a mousedown event handler from the element
+     - handler (function) handler for the event
+     = (object) @Element
+    \*/
+    
+    /*\
+     * Element.mousemove
+     [ method ]
+     **
+     * Adds a mousemove event handler to the element
+     - handler (function) handler for the event
+     = (object) @Element
+    \*/
+    /*\
+     * Element.unmousemove
+     [ method ]
+     **
+     * Removes a mousemove event handler from the element
+     - handler (function) handler for the event
+     = (object) @Element
+    \*/
+    
+    /*\
+     * Element.mouseout
+     [ method ]
+     **
+     * Adds a mouseout event handler to the element
+     - handler (function) handler for the event
+     = (object) @Element
+    \*/
+    /*\
+     * Element.unmouseout
+     [ method ]
+     **
+     * Removes a mouseout event handler from the element
+     - handler (function) handler for the event
+     = (object) @Element
+    \*/
+    
+    /*\
+     * Element.mouseover
+     [ method ]
+     **
+     * Adds a mouseover event handler to the element
+     - handler (function) handler for the event
+     = (object) @Element
+    \*/
+    /*\
+     * Element.unmouseover
+     [ method ]
+     **
+     * Removes a mouseover event handler from the element
+     - handler (function) handler for the event
+     = (object) @Element
+    \*/
+    
+    /*\
+     * Element.mouseup
+     [ method ]
+     **
+     * Adds a mouseup event handler to the element
+     - handler (function) handler for the event
+     = (object) @Element
+    \*/
+    /*\
+     * Element.unmouseup
+     [ method ]
+     **
+     * Removes a mouseup event handler from the element
+     - handler (function) handler for the event
+     = (object) @Element
+    \*/
+    
+    /*\
+     * Element.touchstart
+     [ method ]
+     **
+     * Adds a touchstart event handler to the element
+     - handler (function) handler for the event
+     = (object) @Element
+    \*/
+    /*\
+     * Element.untouchstart
+     [ method ]
+     **
+     * Removes a touchstart event handler from the element
+     - handler (function) handler for the event
+     = (object) @Element
+    \*/
+    
+    /*\
+     * Element.touchmove
+     [ method ]
+     **
+     * Adds a touchmove event handler to the element
+     - handler (function) handler for the event
+     = (object) @Element
+    \*/
+    /*\
+     * Element.untouchmove
+     [ method ]
+     **
+     * Removes a touchmove event handler from the element
+     - handler (function) handler for the event
+     = (object) @Element
+    \*/
+    
+    /*\
+     * Element.touchend
+     [ method ]
+     **
+     * Adds a touchend event handler to the element
+     - handler (function) handler for the event
+     = (object) @Element
+    \*/
+    /*\
+     * Element.untouchend
+     [ method ]
+     **
+     * Removes a touchend event handler from the element
+     - handler (function) handler for the event
+     = (object) @Element
+    \*/
+    
+    /*\
+     * Element.touchcancel
+     [ method ]
+     **
+     * Adds a touchcancel event handler to the element
+     - handler (function) handler for the event
+     = (object) @Element
+    \*/
+    /*\
+     * Element.untouchcancel
+     [ method ]
+     **
+     * Removes a touchcancel event handler from the element
+     - handler (function) handler for the event
+     = (object) @Element
+    \*/
+    for (var i = events.length; i--;) {
+        (function (eventName) {
+            Snap[eventName] = elproto[eventName] = function (fn, scope) {
+                if (Snap.is(fn, "function")) {
+                    this.events = this.events || [];
+                    this.events.push({
+                        name: eventName,
+                        f: fn,
+                        unbind: addEvent(this.node || document, eventName, fn, scope || this)
+                    });
+                } else {
+                    for (var i = 0, ii = this.events.length; i < ii; i++) if (this.events[i].name == eventName) {
+                        try {
+                            this.events[i].f.call(this);
+                        } catch (e) {}
+                    }
+                }
+                return this;
+            };
+            Snap["un" + eventName] =
+            elproto["un" + eventName] = function (fn) {
+                var events = this.events || [],
+                    l = events.length;
+                while (l--) if (events[l].name == eventName &&
+                               (events[l].f == fn || !fn)) {
+                    events[l].unbind();
+                    events.splice(l, 1);
+                    !events.length && delete this.events;
+                    return this;
+                }
+                return this;
+            };
+        })(events[i]);
+    }
+    /*\
+     * Element.hover
+     [ method ]
+     **
+     * Adds hover event handlers to the element
+     - f_in (function) handler for hover in
+     - f_out (function) handler for hover out
+     - icontext (object) #optional context for hover in handler
+     - ocontext (object) #optional context for hover out handler
+     = (object) @Element
+    \*/
+    elproto.hover = function (f_in, f_out, scope_in, scope_out) {
+        return this.mouseover(f_in, scope_in).mouseout(f_out, scope_out || scope_in);
+    };
+    /*\
+     * Element.unhover
+     [ method ]
+     **
+     * Removes hover event handlers from the element
+     - f_in (function) handler for hover in
+     - f_out (function) handler for hover out
+     = (object) @Element
+    \*/
+    elproto.unhover = function (f_in, f_out) {
+        return this.unmouseover(f_in).unmouseout(f_out);
+    };
+    var draggable = [];
+    // SIERRA unclear what _context_ refers to for starting, ending, moving the drag gesture.
+    // SIERRA Element.drag(): _x position of the mouse_: Where are the x/y values offset from?
+    // SIERRA Element.drag(): much of this member's doc appears to be duplicated for some reason.
+    // SIERRA Unclear about this sentence: _Additionally following drag events will be triggered: drag.start.<id> on start, drag.end.<id> on end and drag.move.<id> on every move._ Is there a global _drag_ object to which you can assign handlers keyed by an element's ID?
+    /*\
+     * Element.drag
+     [ method ]
+     **
+     * Adds event handlers for an element's drag gesture
+     **
+     - onmove (function) handler for moving
+     - onstart (function) handler for drag start
+     - onend (function) handler for drag end
+     - mcontext (object) #optional context for moving handler
+     - scontext (object) #optional context for drag start handler
+     - econtext (object) #optional context for drag end handler
+     * Additionaly following `drag` events are triggered: `drag.start.<id>` on start, 
+     * `drag.end.<id>` on end and `drag.move.<id>` on every move. When element is dragged over another element 
+     * `drag.over.<id>` fires as well.
+     *
+     * Start event and start handler are called in specified context or in context of the element with following parameters:
+     o x (number) x position of the mouse
+     o y (number) y position of the mouse
+     o event (object) DOM event object
+     * Move event and move handler are called in specified context or in context of the element with following parameters:
+     o dx (number) shift by x from the start point
+     o dy (number) shift by y from the start point
+     o x (number) x position of the mouse
+     o y (number) y position of the mouse
+     o event (object) DOM event object
+     * End event and end handler are called in specified context or in context of the element with following parameters:
+     o event (object) DOM event object
+     = (object) @Element
+    \*/
+    elproto.drag = function (onmove, onstart, onend, move_scope, start_scope, end_scope) {
+        var el = this;
+        if (!arguments.length) {
+            var origTransform;
+            return el.drag(function (dx, dy) {
+                this.attr({
+                    transform: origTransform + (origTransform ? "T" : "t") + [dx, dy]
+                });
+            }, function () {
+                origTransform = this.transform().local;
+            });
+        }
+        function start(e, x, y) {
+            (e.originalEvent || e).preventDefault();
+            el._drag.x = x;
+            el._drag.y = y;
+            el._drag.id = e.identifier;
+            !drag.length && Snap.mousemove(dragMove).mouseup(dragUp);
+            drag.push({el: el, move_scope: move_scope, start_scope: start_scope, end_scope: end_scope});
+            onstart && eve.on("snap.drag.start." + el.id, onstart);
+            onmove && eve.on("snap.drag.move." + el.id, onmove);
+            onend && eve.on("snap.drag.end." + el.id, onend);
+            eve("snap.drag.start." + el.id, start_scope || move_scope || el, x, y, e);
+        }
+        function init(e, x, y) {
+            eve("snap.draginit." + el.id, el, e, x, y);
+        }
+        eve.on("snap.draginit." + el.id, start);
+        el._drag = {};
+        draggable.push({el: el, start: start, init: init});
+        el.mousedown(init);
+        return el;
+    };
+    /*
+     * Element.onDragOver
+     [ method ]
+     **
+     * Shortcut to assign event handler for `drag.over.<id>` event, where `id` is the element's `id` (see @Element.id)
+     - f (function) handler for event, first argument would be the element you are dragging over
+    \*/
+    // elproto.onDragOver = function (f) {
+    //     f ? eve.on("snap.drag.over." + this.id, f) : eve.unbind("snap.drag.over." + this.id);
+    // };
+    /*\
+     * Element.undrag
+     [ method ]
+     **
+     * Removes all drag event handlers from the given element
+    \*/
+    elproto.undrag = function () {
+        var i = draggable.length;
+        while (i--) if (draggable[i].el == this) {
+            this.unmousedown(draggable[i].init);
+            draggable.splice(i, 1);
+            eve.unbind("snap.drag.*." + this.id);
+            eve.unbind("snap.draginit." + this.id);
+        }
+        !draggable.length && Snap.unmousemove(dragMove).unmouseup(dragUp);
+        return this;
+    };
+});
+
+// Copyright (c) 2013 Adobe Systems Incorporated. All rights reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+Snap.plugin(function (Snap, Element, Paper, glob) {
+    var elproto = Element.prototype,
+        pproto = Paper.prototype,
+        rgurl = /^\s*url\((.+)\)/,
+        Str = String,
+        $ = Snap._.$;
+    Snap.filter = {};
+    /*\
+     * Paper.filter
+     [ method ]
+     **
+     * Creates a `<filter>` element
+     **
+     - filstr (string) SVG fragment of filter provided as a string
+     = (object) @Element
+     * Note: It is recommended to use filters embedded into the page inside an empty SVG element.
+     > Usage
+     | var f = paper.filter('<feGaussianBlur stdDeviation="2"/>'),
+     |     c = paper.circle(10, 10, 10).attr({
+     |         filter: f
+     |     });
+    \*/
+    pproto.filter = function (filstr) {
+        var paper = this;
+        if (paper.type != "svg") {
+            paper = paper.paper;
+        }
+        var f = Snap.parse(Str(filstr)),
+            id = Snap._.id(),
+            width = paper.node.offsetWidth,
+            height = paper.node.offsetHeight,
+            filter = $("filter");
+        $(filter, {
+            id: id,
+            filterUnits: "userSpaceOnUse"
+        });
+        filter.appendChild(f.node);
+        paper.defs.appendChild(filter);
+        return new Element(filter);
+    };
+
+    eve.on("snap.util.getattr.filter", function () {
+        eve.stop();
+        var p = $(this.node, "filter");
+        if (p) {
+            var match = Str(p).match(rgurl);
+            return match && Snap.select(match[1]);
+        }
+    });
+    eve.on("snap.util.attr.filter", function (value) {
+        if (value instanceof Element && value.type == "filter") {
+            eve.stop();
+            var id = value.node.id;
+            if (!id) {
+                $(value.node, {id: value.id});
+                id = value.id;
+            }
+            $(this.node, {
+                filter: Snap.url(id)
+            });
+        }
+        if (!value || value == "none") {
+            eve.stop();
+            this.node.removeAttribute("filter");
+        }
+    });
+    /*\
+     * Snap.filter.blur
+     [ method ]
+     **
+     * Returns an SVG markup string for the blur filter
+     **
+     - x (number) amount of horizontal blur, in pixels
+     - y (number) #optional amount of vertical blur, in pixels
+     = (string) filter representation
+     > Usage
+     | var f = paper.filter(Snap.filter.blur(5, 10)),
+     |     c = paper.circle(10, 10, 10).attr({
+     |         filter: f
+     |     });
+    \*/
+    Snap.filter.blur = function (x, y) {
+        if (x == null) {
+            x = 2;
+        }
+        var def = y == null ? x : [x, y];
+        return Snap.format('\<feGaussianBlur stdDeviation="{def}"/>', {
+            def: def
+        });
+    };
+    Snap.filter.blur.toString = function () {
+        return this();
+    };
+    /*\
+     * Snap.filter.shadow
+     [ method ]
+     **
+     * Returns an SVG markup string for the shadow filter
+     **
+     - dx (number) #optional horizontal shift of the shadow, in pixels
+     - dy (number) #optional vertical shift of the shadow, in pixels
+     - blur (number) #optional amount of blur
+     - color (string) #optional color of the shadow
+     - opacity (number) #optional `0..1` opacity of the shadow
+     * or
+     - dx (number) #optional horizontal shift of the shadow, in pixels
+     - dy (number) #optional vertical shift of the shadow, in pixels
+     - color (string) #optional color of the shadow
+     - opacity (number) #optional `0..1` opacity of the shadow
+     * which makes blur default to `4`. Or
+     - dx (number) #optional horizontal shift of the shadow, in pixels
+     - dy (number) #optional vertical shift of the shadow, in pixels
+     - opacity (number) #optional `0..1` opacity of the shadow
+     = (string) filter representation
+     > Usage
+     | var f = paper.filter(Snap.filter.shadow(0, 2, .3)),
+     |     c = paper.circle(10, 10, 10).attr({
+     |         filter: f
+     |     });
+    \*/
+    Snap.filter.shadow = function (dx, dy, blur, color, opacity) {
+        if (opacity == null) {
+            if (color == null) {
+                opacity = blur;
+                blur = 4;
+                color = "#000";
+            } else {
+                opacity = color;
+                color = blur;
+                blur = 4;
+            }
+        }
+        if (blur == null) {
+            blur = 4;
+        }
+        if (opacity == null) {
+            opacity = 1;
+        }
+        if (dx == null) {
+            dx = 0;
+            dy = 2;
+        }
+        if (dy == null) {
+            dy = dx;
+        }
+        color = Snap.color(color);
+        return Snap.format('<feGaussianBlur in="SourceAlpha" stdDeviation="{blur}"/><feOffset dx="{dx}" dy="{dy}" result="offsetblur"/><feFlood flood-color="{color}"/><feComposite in2="offsetblur" operator="in"/><feComponentTransfer><feFuncA type="linear" slope="{opacity}"/></feComponentTransfer><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>', {
+            color: color,
+            dx: dx,
+            dy: dy,
+            blur: blur,
+            opacity: opacity
+        });
+    };
+    Snap.filter.shadow.toString = function () {
+        return this();
+    };
+    /*\
+     * Snap.filter.grayscale
+     [ method ]
+     **
+     * Returns an SVG markup string for the grayscale filter
+     **
+     - amount (number) amount of filter (`0..1`)
+     = (string) filter representation
+    \*/
+    Snap.filter.grayscale = function (amount) {
+        if (amount == null) {
+            amount = 1;
+        }
+        return Snap.format('<feColorMatrix type="matrix" values="{a} {b} {c} 0 0 {d} {e} {f} 0 0 {g} {b} {h} 0 0 0 0 0 1 0"/>', {
+            a: 0.2126 + 0.7874 * (1 - amount),
+            b: 0.7152 - 0.7152 * (1 - amount),
+            c: 0.0722 - 0.0722 * (1 - amount),
+            d: 0.2126 - 0.2126 * (1 - amount),
+            e: 0.7152 + 0.2848 * (1 - amount),
+            f: 0.0722 - 0.0722 * (1 - amount),
+            g: 0.2126 - 0.2126 * (1 - amount),
+            h: 0.0722 + 0.9278 * (1 - amount)
+        });
+    };
+    Snap.filter.grayscale.toString = function () {
+        return this();
+    };
+    /*\
+     * Snap.filter.sepia
+     [ method ]
+     **
+     * Returns an SVG markup string for the sepia filter
+     **
+     - amount (number) amount of filter (`0..1`)
+     = (string) filter representation
+    \*/
+    Snap.filter.sepia = function (amount) {
+        if (amount == null) {
+            amount = 1;
+        }
+        return Snap.format('<feColorMatrix type="matrix" values="{a} {b} {c} 0 0 {d} {e} {f} 0 0 {g} {h} {i} 0 0 0 0 0 1 0"/>', {
+            a: 0.393 + 0.607 * (1 - amount),
+            b: 0.769 - 0.769 * (1 - amount),
+            c: 0.189 - 0.189 * (1 - amount),
+            d: 0.349 - 0.349 * (1 - amount),
+            e: 0.686 + 0.314 * (1 - amount),
+            f: 0.168 - 0.168 * (1 - amount),
+            g: 0.272 - 0.272 * (1 - amount),
+            h: 0.534 - 0.534 * (1 - amount),
+            i: 0.131 + 0.869 * (1 - amount)
+        });
+    };
+    Snap.filter.sepia.toString = function () {
+        return this();
+    };
+    /*\
+     * Snap.filter.saturate
+     [ method ]
+     **
+     * Returns an SVG markup string for the saturate filter
+     **
+     - amount (number) amount of filter (`0..1`)
+     = (string) filter representation
+    \*/
+    Snap.filter.saturate = function (amount) {
+        if (amount == null) {
+            amount = 1;
+        }
+        return Snap.format('<feColorMatrix type="saturate" values="{amount}"/>', {
+            amount: 1 - amount
+        });
+    };
+    Snap.filter.saturate.toString = function () {
+        return this();
+    };
+    /*\
+     * Snap.filter.hueRotate
+     [ method ]
+     **
+     * Returns an SVG markup string for the hue-rotate filter
+     **
+     - angle (number) angle of rotation
+     = (string) filter representation
+    \*/
+    Snap.filter.hueRotate = function (angle) {
+        angle = angle || 0;
+        return Snap.format('<feColorMatrix type="hueRotate" values="{angle}"/>', {
+            angle: angle
+        });
+    };
+    Snap.filter.hueRotate.toString = function () {
+        return this();
+    };
+    /*\
+     * Snap.filter.invert
+     [ method ]
+     **
+     * Returns an SVG markup string for the invert filter
+     **
+     - amount (number) amount of filter (`0..1`)
+     = (string) filter representation
+    \*/
+    Snap.filter.invert = function (amount) {
+        if (amount == null) {
+            amount = 1;
+        }
+//        <feColorMatrix type="matrix" values="-1 0 0 0 1  0 -1 0 0 1  0 0 -1 0 1  0 0 0 1 0" color-interpolation-filters="sRGB"/>
+        return Snap.format('<feComponentTransfer><feFuncR type="table" tableValues="{amount} {amount2}"/><feFuncG type="table" tableValues="{amount} {amount2}"/><feFuncB type="table" tableValues="{amount} {amount2}"/></feComponentTransfer>', {
+            amount: amount,
+            amount2: 1 - amount
+        });
+    };
+    Snap.filter.invert.toString = function () {
+        return this();
+    };
+    /*\
+     * Snap.filter.brightness
+     [ method ]
+     **
+     * Returns an SVG markup string for the brightness filter
+     **
+     - amount (number) amount of filter (`0..1`)
+     = (string) filter representation
+    \*/
+    Snap.filter.brightness = function (amount) {
+        if (amount == null) {
+            amount = 1;
+        }
+        return Snap.format('<feComponentTransfer><feFuncR type="linear" slope="{amount}"/><feFuncG type="linear" slope="{amount}"/><feFuncB type="linear" slope="{amount}"/></feComponentTransfer>', {
+            amount: amount
+        });
+    };
+    Snap.filter.brightness.toString = function () {
+        return this();
+    };
+    /*\
+     * Snap.filter.contrast
+     [ method ]
+     **
+     * Returns an SVG markup string for the contrast filter
+     **
+     - amount (number) amount of filter (`0..1`)
+     = (string) filter representation
+    \*/
+    Snap.filter.contrast = function (amount) {
+        if (amount == null) {
+            amount = 1;
+        }
+        return Snap.format('<feComponentTransfer><feFuncR type="linear" slope="{amount}" intercept="{amount2}"/><feFuncG type="linear" slope="{amount}" intercept="{amount2}"/><feFuncB type="linear" slope="{amount}" intercept="{amount2}"/></feComponentTransfer>', {
+            amount: amount,
+            amount2: .5 - amount / 2
+        });
+    };
+    Snap.filter.contrast.toString = function () {
+        return this();
+    };
+});
+
+// Copyright (c) 2014 Adobe Systems Incorporated. All rights reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+Snap.plugin(function (Snap, Element, Paper, glob, Fragment) {
+    var box = Snap._.box,
+        is = Snap.is,
+        firstLetter = /^[^a-z]*([tbmlrc])/i,
+        toString = function () {
+            return "T" + this.dx + "," + this.dy;
+        };
+    /*\
+     * Element.getAlign
+     [ method ]
+     **
+     * Returns shift needed to align the element relatively to given element.
+     * If no elements specified, parent `<svg>` container will be used.
+     - el (object) @optional alignment element
+     - way (string) one of six values: `"top"`, `"middle"`, `"bottom"`, `"left"`, `"center"`, `"right"`
+     = (object|string) Object in format `{dx: , dy: }` also has a string representation as a transformation string
+     > Usage
+     | el.transform(el.getAlign(el2, "top"));
+     * or
+     | var dy = el.getAlign(el2, "top").dy;
+    \*/
+    Element.prototype.getAlign = function (el, way) {
+        if (way == null && is(el, "string")) {
+            way = el;
+            el = null;
+        }
+        el = el || this.paper;
+        var bx = el.getBBox ? el.getBBox() : box(el),
+            bb = this.getBBox(),
+            out = {};
+        way = way && way.match(firstLetter);
+        way = way ? way[1].toLowerCase() : "c";
+        switch (way) {
+            case "t":
+                out.dx = 0;
+                out.dy = bx.y - bb.y;
+            break;
+            case "b":
+                out.dx = 0;
+                out.dy = bx.y2 - bb.y2;
+            break;
+            case "m":
+                out.dx = 0;
+                out.dy = bx.cy - bb.cy;
+            break;
+            case "l":
+                out.dx = bx.x - bb.x;
+                out.dy = 0;
+            break;
+            case "r":
+                out.dx = bx.x2 - bb.x2;
+                out.dy = 0;
+            break;
+            default:
+                out.dx = bx.cx - bb.cx;
+                out.dy = 0;
+            break;
+        }
+        out.toString = toString;
+        return out;
+    };
+    /*\
+     * Element.align
+     [ method ]
+     **
+     * Aligns the element relatively to given one via transformation.
+     * If no elements specified, parent `<svg>` container will be used.
+     - el (object) @optional alignment element
+     - way (string) one of six values: `"top"`, `"middle"`, `"bottom"`, `"left"`, `"center"`, `"right"`
+     = (object) this element
+     > Usage
+     | el.align(el2, "top");
+     * or
+     | el.align("middle");
+    \*/
+    Element.prototype.align = function (el, way) {
+        return this.transform("..." + this.getAlign(el, way));
+    };
+});
+
+// Copyright (c) 2016 Adobe Systems Incorporated. All rights reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+Snap.plugin(function (Snap, Element, Paper, glob, Fragment) {
+    var elproto = Element.prototype,
+        is = Snap.is,
+        Str = String,
+        has = "hasOwnProperty";
+    function slice(from, to, f) {
+        return function (arr) {
+            var res = arr.slice(from, to);
+            if (res.length == 1) {
+                res = res[0];
+            }
+            return f ? f(res) : res;
+        };
+    }
+    var Animation = function (attr, ms, easing, callback) {
+        if (typeof easing == "function" && !easing.length) {
+            callback = easing;
+            easing = mina.linear;
+        }
+        this.attr = attr;
+        this.dur = ms;
+        easing && (this.easing = easing);
+        callback && (this.callback = callback);
+    };
+    Snap._.Animation = Animation;
+    /*\
+     * Snap.animation
+     [ method ]
+     **
+     * Creates an animation object
+     **
+     - attr (object) attributes of final destination
+     - duration (number) duration of the animation, in milliseconds
+     - easing (function) #optional one of easing functions of @mina or custom one
+     - callback (function) #optional callback function that fires when animation ends
+     = (object) animation object
+    \*/
+    Snap.animation = function (attr, ms, easing, callback) {
+        return new Animation(attr, ms, easing, callback);
+    };
+    /*\
+     * Element.inAnim
+     [ method ]
+     **
+     * Returns a set of animations that may be able to manipulate the current element
+     **
+     = (object) in format:
+     o {
+     o     anim (object) animation object,
+     o     mina (object) @mina object,
+     o     curStatus (number) 0..1 — status of the animation: 0 — just started, 1 — just finished,
+     o     status (function) gets or sets the status of the animation,
+     o     stop (function) stops the animation
+     o }
+    \*/
+    elproto.inAnim = function () {
+        var el = this,
+            res = [];
+        for (var id in el.anims) if (el.anims[has](id)) {
+            (function (a) {
+                res.push({
+                    anim: new Animation(a._attrs, a.dur, a.easing, a._callback),
+                    mina: a,
+                    curStatus: a.status(),
+                    status: function (val) {
+                        return a.status(val);
+                    },
+                    stop: function () {
+                        a.stop();
+                    }
+                });
+            }(el.anims[id]));
+        }
+        return res;
+    };
+    /*\
+     * Snap.animate
+     [ method ]
+     **
+     * Runs generic animation of one number into another with a caring function
+     **
+     - from (number|array) number or array of numbers
+     - to (number|array) number or array of numbers
+     - setter (function) caring function that accepts one number argument
+     - duration (number) duration, in milliseconds
+     - easing (function) #optional easing function from @mina or custom
+     - callback (function) #optional callback function to execute when animation ends
+     = (object) animation object in @mina format
+     o {
+     o     id (string) animation id, consider it read-only,
+     o     duration (function) gets or sets the duration of the animation,
+     o     easing (function) easing,
+     o     speed (function) gets or sets the speed of the animation,
+     o     status (function) gets or sets the status of the animation,
+     o     stop (function) stops the animation
+     o }
+     | var rect = Snap().rect(0, 0, 10, 10);
+     | Snap.animate(0, 10, function (val) {
+     |     rect.attr({
+     |         x: val
+     |     });
+     | }, 1000);
+     | // in given context is equivalent to
+     | rect.animate({x: 10}, 1000);
+    \*/
+    Snap.animate = function (from, to, setter, ms, easing, callback) {
+        if (typeof easing == "function" && !easing.length) {
+            callback = easing;
+            easing = mina.linear;
+        }
+        var now = mina.time(),
+            anim = mina(from, to, now, now + ms, mina.time, setter, easing);
+        callback && eve.once("mina.finish." + anim.id, callback);
+        return anim;
+    };
+    /*\
+     * Element.stop
+     [ method ]
+     **
+     * Stops all the animations for the current element
+     **
+     = (Element) the current element
+    \*/
+    elproto.stop = function () {
+        var anims = this.inAnim();
+        for (var i = 0, ii = anims.length; i < ii; i++) {
+            anims[i].stop();
+        }
+        return this;
+    };
+    /*\
+     * Element.animate
+     [ method ]
+     **
+     * Animates the given attributes of the element
+     **
+     - attrs (object) key-value pairs of destination attributes
+     - duration (number) duration of the animation in milliseconds
+     - easing (function) #optional easing function from @mina or custom
+     - callback (function) #optional callback function that executes when the animation ends
+     = (Element) the current element
+    \*/
+    elproto.animate = function (attrs, ms, easing, callback) {
+        if (typeof easing == "function" && !easing.length) {
+            callback = easing;
+            easing = mina.linear;
+        }
+        if (attrs instanceof Animation) {
+            callback = attrs.callback;
+            easing = attrs.easing;
+            ms = attrs.dur;
+            attrs = attrs.attr;
+        }
+        var fkeys = [], tkeys = [], keys = {}, from, to, f, eq,
+            el = this;
+        for (var key in attrs) if (attrs[has](key)) {
+            if (el.equal) {
+                eq = el.equal(key, Str(attrs[key]));
+                from = eq.from;
+                to = eq.to;
+                f = eq.f;
+            } else {
+                from = +el.attr(key);
+                to = +attrs[key];
+            }
+            var len = is(from, "array") ? from.length : 1;
+            keys[key] = slice(fkeys.length, fkeys.length + len, f);
+            fkeys = fkeys.concat(from);
+            tkeys = tkeys.concat(to);
+        }
+        var now = mina.time(),
+            anim = mina(fkeys, tkeys, now, now + ms, mina.time, function (val) {
+                var attr = {};
+                for (var key in keys) if (keys[has](key)) {
+                    attr[key] = keys[key](val);
+                }
+                el.attr(attr);
+            }, easing);
+        el.anims[anim.id] = anim;
+        anim._attrs = attrs;
+        anim._callback = callback;
+        eve("snap.animcreated." + el.id, anim);
+        eve.once("mina.finish." + anim.id, function () {
+            eve.off("mina.*." + anim.id);
+            delete el.anims[anim.id];
+            callback && callback.call(el);
+        });
+        eve.once("mina.stop." + anim.id, function () {
+            eve.off("mina.*." + anim.id);
+            delete el.anims[anim.id];
+        });
+        return el;
+    };
+});
+
+// Copyright (c) 2017 Adobe Systems Incorporated. All rights reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+Snap.plugin(function (Snap, Element, Paper, glob) {
+    // Colours are from https://www.materialui.co
+    var red         = "#ffebee#ffcdd2#ef9a9a#e57373#ef5350#f44336#e53935#d32f2f#c62828#b71c1c#ff8a80#ff5252#ff1744#d50000",
+        pink        = "#FCE4EC#F8BBD0#F48FB1#F06292#EC407A#E91E63#D81B60#C2185B#AD1457#880E4F#FF80AB#FF4081#F50057#C51162",
+        purple      = "#F3E5F5#E1BEE7#CE93D8#BA68C8#AB47BC#9C27B0#8E24AA#7B1FA2#6A1B9A#4A148C#EA80FC#E040FB#D500F9#AA00FF",
+        deeppurple  = "#EDE7F6#D1C4E9#B39DDB#9575CD#7E57C2#673AB7#5E35B1#512DA8#4527A0#311B92#B388FF#7C4DFF#651FFF#6200EA",
+        indigo      = "#E8EAF6#C5CAE9#9FA8DA#7986CB#5C6BC0#3F51B5#3949AB#303F9F#283593#1A237E#8C9EFF#536DFE#3D5AFE#304FFE",
+        blue        = "#E3F2FD#BBDEFB#90CAF9#64B5F6#64B5F6#2196F3#1E88E5#1976D2#1565C0#0D47A1#82B1FF#448AFF#2979FF#2962FF",
+        lightblue   = "#E1F5FE#B3E5FC#81D4FA#4FC3F7#29B6F6#03A9F4#039BE5#0288D1#0277BD#01579B#80D8FF#40C4FF#00B0FF#0091EA",
+        cyan        = "#E0F7FA#B2EBF2#80DEEA#4DD0E1#26C6DA#00BCD4#00ACC1#0097A7#00838F#006064#84FFFF#18FFFF#00E5FF#00B8D4",
+        teal        = "#E0F2F1#B2DFDB#80CBC4#4DB6AC#26A69A#009688#00897B#00796B#00695C#004D40#A7FFEB#64FFDA#1DE9B6#00BFA5",
+        green       = "#E8F5E9#C8E6C9#A5D6A7#81C784#66BB6A#4CAF50#43A047#388E3C#2E7D32#1B5E20#B9F6CA#69F0AE#00E676#00C853",
+        lightgreen  = "#F1F8E9#DCEDC8#C5E1A5#AED581#9CCC65#8BC34A#7CB342#689F38#558B2F#33691E#CCFF90#B2FF59#76FF03#64DD17",
+        lime        = "#F9FBE7#F0F4C3#E6EE9C#DCE775#D4E157#CDDC39#C0CA33#AFB42B#9E9D24#827717#F4FF81#EEFF41#C6FF00#AEEA00",
+        yellow      = "#FFFDE7#FFF9C4#FFF59D#FFF176#FFEE58#FFEB3B#FDD835#FBC02D#F9A825#F57F17#FFFF8D#FFFF00#FFEA00#FFD600",
+        amber       = "#FFF8E1#FFECB3#FFE082#FFD54F#FFCA28#FFC107#FFB300#FFA000#FF8F00#FF6F00#FFE57F#FFD740#FFC400#FFAB00",
+        orange      = "#FFF3E0#FFE0B2#FFCC80#FFB74D#FFA726#FF9800#FB8C00#F57C00#EF6C00#E65100#FFD180#FFAB40#FF9100#FF6D00",
+        deeporange  = "#FBE9E7#FFCCBC#FFAB91#FF8A65#FF7043#FF5722#F4511E#E64A19#D84315#BF360C#FF9E80#FF6E40#FF3D00#DD2C00",
+        brown       = "#EFEBE9#D7CCC8#BCAAA4#A1887F#8D6E63#795548#6D4C41#5D4037#4E342E#3E2723",
+        grey        = "#FAFAFA#F5F5F5#EEEEEE#E0E0E0#BDBDBD#9E9E9E#757575#616161#424242#212121",
+        bluegrey    = "#ECEFF1#CFD8DC#B0BEC5#90A4AE#78909C#607D8B#546E7A#455A64#37474F#263238";
+    /*\
+     * Snap.mui
+     [ property ]
+     **
+     * Contain Material UI colours.
+     | Snap().rect(0, 0, 10, 10).attr({fill: Snap.mui.deeppurple, stroke: Snap.mui.amber[600]});
+     # For colour reference: <a href="https://www.materialui.co">https://www.materialui.co</a>.
+    \*/
+    Snap.mui = {};
+    /*\
+     * Snap.flat
+     [ property ]
+     **
+     * Contain Flat UI colours.
+     | Snap().rect(0, 0, 10, 10).attr({fill: Snap.flat.carrot, stroke: Snap.flat.wetasphalt});
+     # For colour reference: <a href="https://www.materialui.co">https://www.materialui.co</a>.
+    \*/
+    Snap.flat = {};
+    function saveColor(colors) {
+        colors = colors.split(/(?=#)/);
+        var color = new String(colors[5]);
+        color[50] = colors[0];
+        color[100] = colors[1];
+        color[200] = colors[2];
+        color[300] = colors[3];
+        color[400] = colors[4];
+        color[500] = colors[5];
+        color[600] = colors[6];
+        color[700] = colors[7];
+        color[800] = colors[8];
+        color[900] = colors[9];
+        if (colors[10]) {
+            color.A100 = colors[10];
+            color.A200 = colors[11];
+            color.A400 = colors[12];
+            color.A700 = colors[13];
+        }
+        return color;
+    }
+    Snap.mui.red = saveColor(red);
+    Snap.mui.pink = saveColor(pink);
+    Snap.mui.purple = saveColor(purple);
+    Snap.mui.deeppurple = saveColor(deeppurple);
+    Snap.mui.indigo = saveColor(indigo);
+    Snap.mui.blue = saveColor(blue);
+    Snap.mui.lightblue = saveColor(lightblue);
+    Snap.mui.cyan = saveColor(cyan);
+    Snap.mui.teal = saveColor(teal);
+    Snap.mui.green = saveColor(green);
+    Snap.mui.lightgreen = saveColor(lightgreen);
+    Snap.mui.lime = saveColor(lime);
+    Snap.mui.yellow = saveColor(yellow);
+    Snap.mui.amber = saveColor(amber);
+    Snap.mui.orange = saveColor(orange);
+    Snap.mui.deeporange = saveColor(deeporange);
+    Snap.mui.brown = saveColor(brown);
+    Snap.mui.grey = saveColor(grey);
+    Snap.mui.bluegrey = saveColor(bluegrey);
+    Snap.flat.turquoise = "#1abc9c";
+    Snap.flat.greensea = "#16a085";
+    Snap.flat.sunflower = "#f1c40f";
+    Snap.flat.orange = "#f39c12";
+    Snap.flat.emerland = "#2ecc71";
+    Snap.flat.nephritis = "#27ae60";
+    Snap.flat.carrot = "#e67e22";
+    Snap.flat.pumpkin = "#d35400";
+    Snap.flat.peterriver = "#3498db";
+    Snap.flat.belizehole = "#2980b9";
+    Snap.flat.alizarin = "#e74c3c";
+    Snap.flat.pomegranate = "#c0392b";
+    Snap.flat.amethyst = "#9b59b6";
+    Snap.flat.wisteria = "#8e44ad";
+    Snap.flat.clouds = "#ecf0f1";
+    Snap.flat.silver = "#bdc3c7";
+    Snap.flat.wetasphalt = "#34495e";
+    Snap.flat.midnightblue = "#2c3e50";
+    Snap.flat.concrete = "#95a5a6";
+    Snap.flat.asbestos = "#7f8c8d";
+    /*\
+     * Snap.importMUIColors
+     [ method ]
+     **
+     * Imports Material UI colours into global object.
+     | Snap.importMUIColors();
+     | Snap().rect(0, 0, 10, 10).attr({fill: deeppurple, stroke: amber[600]});
+     # For colour reference: <a href="https://www.materialui.co">https://www.materialui.co</a>.
+    \*/
+    Snap.importMUIColors = function () {
+        for (var color in Snap.mui) {
+            if (Snap.mui.hasOwnProperty(color)) {
+                window[color] = Snap.mui[color];
+            }
+        }
+    };
+});
+
+module.exports = Snap
+
+
+/***/ }),
+
+/***/ "./node_modules/transformation-matrix/src/applyToPoint.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/transformation-matrix/src/applyToPoint.js ***!
+  \****************************************************************/
+/*! namespace exports */
+/*! export applyToPoint [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export applyToPoints [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__.r, __webpack_exports__, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "applyToPoint": () => /* binding */ applyToPoint,
+/* harmony export */   "applyToPoints": () => /* binding */ applyToPoints
+/* harmony export */ });
+/**
+ * Calculate a point transformed with an affine matrix
+ * @param matrix {Matrix} Affine Matrix
+ * @param  point {Point} Point
+ * @returns {Point} Point
+ */
+function applyToPoint (matrix, point) {
+  return Array.isArray(point) ? [
+    matrix.a * point[0] + matrix.c * point[1] + matrix.e,
+    matrix.b * point[0] + matrix.d * point[1] + matrix.f
+  ] : {
+    x: matrix.a * point.x + matrix.c * point.y + matrix.e,
+    y: matrix.b * point.x + matrix.d * point.y + matrix.f
+  }
+}
+
+/**
+ * Calculate an array of points transformed with an affine matrix
+ * @param matrix {Matrix} Affine Matrix
+ * @param points {Point[]} Array of point
+ * @returns {Point[]} Array of point
+ */
+function applyToPoints (matrix, points) {
+  return points.map(point => applyToPoint(matrix, point))
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/transformation-matrix/src/fromDefinition.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/transformation-matrix/src/fromDefinition.js ***!
+  \******************************************************************/
+/*! namespace exports */
+/*! export fromDefinition [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_require__.r, __webpack_exports__, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "fromDefinition": () => /* binding */ fromDefinition
+/* harmony export */ });
+/* harmony import */ var _fromObject__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./fromObject */ "./node_modules/transformation-matrix/src/fromObject.js");
+/* harmony import */ var _translate__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./translate */ "./node_modules/transformation-matrix/src/translate.js");
+/* harmony import */ var _scale__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./scale */ "./node_modules/transformation-matrix/src/scale.js");
+/* harmony import */ var _rotate__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./rotate */ "./node_modules/transformation-matrix/src/rotate.js");
+/* harmony import */ var _skew__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./skew */ "./node_modules/transformation-matrix/src/skew.js");
+/* harmony import */ var _shear__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./shear */ "./node_modules/transformation-matrix/src/shear.js");
+;
+
+
+
+
+
+
+/**
+ * Converts array of matrix descriptor to array of matrix
+ * @param definitionOrArrayOfDefinition {Object[]} Array of object describing the matrix
+ * @returns {Matrix[]} Array of matrix
+ *
+ * @example
+ * > fromDefinition([
+ *  { type: 'matrix', a:1, b:2, c:3, d:4, e:5, f:6 },
+ *  { type: 'translate', tx: 10, ty: 20 },
+ *  { type: 'scale', sx: 2, sy: 4 },
+ *  { type: 'rotate', angle: 90, cx: 50, cy: 25 },
+ *  { type: 'skewX', angle: 45 },
+ *  { type: 'skewY',  angle: 45 },
+ *  { type: 'shear', shx: 10, shy: 20}
+ * ])
+ *
+ * [
+ *  { a: 1, b: 2, c: 3, d: 4, e: 5, f: 6 },
+ *  { a: 1, c: 0, e: 10, b: 0, d: 1, f: 20 },
+ *  { a: 2, c: 0, e: 0, b: 0, d: 4, f: 0 },
+ *  { a: 6.123, c: -1, e: 0, b: 1, d: 6.123, f: 0 },
+ *  { a: 1, c: 0.99.., e: 0, b: 0, d: 1, f: 0 },
+ *  { a: 1, c: 0, e: 0, b: 0.99, d: 1, f: 0 },
+ *  { a: 1, c: 10, e: 0, b: 20, d: 1, f: 0 }
+ * ]
+ **/
+function fromDefinition (definitionOrArrayOfDefinition) {
+  return Array.isArray(definitionOrArrayOfDefinition)
+    ? definitionOrArrayOfDefinition.map(mapper)
+    : mapper(definitionOrArrayOfDefinition)
+
+  function mapper (descriptor) {
+    switch (descriptor.type) {
+      case 'matrix':
+        if ('a' in descriptor &&
+          'b' in descriptor &&
+          'c' in descriptor &&
+          'd' in descriptor &&
+          'e' in descriptor &&
+          'f' in descriptor
+        ) {
+          return (0,_fromObject__WEBPACK_IMPORTED_MODULE_0__.fromObject)(descriptor)
+        } else {
+          throw new Error('MISSING_MANDATORY_PARAM')
+        }
+
+      case 'translate':
+        if (!('tx' in descriptor)) throw new Error('MISSING_MANDATORY_PARAM')
+
+        if ('ty' in descriptor) return (0,_translate__WEBPACK_IMPORTED_MODULE_1__.translate)(descriptor.tx, descriptor.ty)
+
+        return (0,_translate__WEBPACK_IMPORTED_MODULE_1__.translate)(descriptor.tx)
+
+      case 'scale':
+        if (!('sx' in descriptor)) throw new Error('MISSING_MANDATORY_PARAM')
+
+        if ('sy' in descriptor) return (0,_scale__WEBPACK_IMPORTED_MODULE_2__.scale)(descriptor.sx, descriptor.sy)
+
+        return (0,_scale__WEBPACK_IMPORTED_MODULE_2__.scale)(descriptor.sx)
+
+      case 'rotate':
+        if (!('angle' in descriptor)) throw new Error('MISSING_MANDATORY_PARAM')
+
+        if ('cx' in descriptor && 'cy' in descriptor) {
+          return (0,_rotate__WEBPACK_IMPORTED_MODULE_3__.rotateDEG)(descriptor.angle, descriptor.cx, descriptor.cy)
+        }
+        return (0,_rotate__WEBPACK_IMPORTED_MODULE_3__.rotateDEG)(descriptor.angle)
+
+      case 'skewX':
+        if (!('angle' in descriptor)) throw new Error('MISSING_MANDATORY_PARAM')
+        return (0,_skew__WEBPACK_IMPORTED_MODULE_4__.skewDEG)(descriptor.angle, 0)
+
+      case 'skewY':
+        if (!('angle' in descriptor)) throw new Error('MISSING_MANDATORY_PARAM')
+        return (0,_skew__WEBPACK_IMPORTED_MODULE_4__.skewDEG)(0, descriptor.angle)
+
+      case 'shear':
+        if (!('shx' in descriptor && 'shy' in descriptor)) throw new Error('MISSING_MANDATORY_PARAM')
+        return (0,_shear__WEBPACK_IMPORTED_MODULE_5__.shear)(descriptor.shx, descriptor.shy)
+
+      default:
+        throw new Error('UNSUPPORTED_DESCRIPTOR')
+    }
+  }
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/transformation-matrix/src/fromObject.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/transformation-matrix/src/fromObject.js ***!
+  \**************************************************************/
+/*! namespace exports */
+/*! export fromObject [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__.r, __webpack_exports__, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "fromObject": () => /* binding */ fromObject
+/* harmony export */ });
+/**
+ * Extract an affine matrix from an object that contains a,b,c,d,e,f keys
+ * Any value could be a float or a string that contains a float
+ * @param object {Object} Object that contains a,b,c,d,e,f keys
+ * @return {Matrix} Affine Matrix
+ */
+function fromObject (object) {
+  return {
+    a: parseFloat(object.a),
+    b: parseFloat(object.b),
+    c: parseFloat(object.c),
+    d: parseFloat(object.d),
+    e: parseFloat(object.e),
+    f: parseFloat(object.f)
+  }
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/transformation-matrix/src/fromString.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/transformation-matrix/src/fromString.js ***!
+  \**************************************************************/
+/*! namespace exports */
+/*! export fromString [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__.r, __webpack_exports__, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "fromString": () => /* binding */ fromString
+/* harmony export */ });
+/**
+ * @ignore
+ * @type {RegExp}
+ */
+const matrixRegex = /^matrix\(\s*([0-9_+-.e]+)\s*,\s*([0-9_+-.e]+)\s*,\s*([0-9_+-.e]+)\s*,\s*([0-9_+-.e]+)\s*,\s*([0-9_+-.e]+)\s*,\s*([0-9_+-.e]+)\s*\)$/i
+
+/**
+ * Parse a string formatted as matrix(a,b,c,d,e,f)
+ * @param string {string} String with an affine matrix
+ * @returns {Matrix} Affine Matrix
+ *
+ * @example
+ * > fromString('matrix(1,2,3,4,5,6)')
+ * {a: 1, b: 2, c: 3, d: 4, c: 5, e: 6}
+ */
+function fromString (string) {
+  const parsed = string.match(matrixRegex)
+  if (parsed === null || parsed.length < 7) throw new Error(`'${string}' is not a matrix`)
+  return {
+    a: parseFloat(parsed[1]),
+    b: parseFloat(parsed[2]),
+    c: parseFloat(parsed[3]),
+    d: parseFloat(parsed[4]),
+    e: parseFloat(parsed[5]),
+    f: parseFloat(parsed[6])
+  }
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/transformation-matrix/src/fromTransformAttribute.autogenerated.js":
+/*!****************************************************************************************!*\
+  !*** ./node_modules/transformation-matrix/src/fromTransformAttribute.autogenerated.js ***!
+  \****************************************************************************************/
+/*! namespace exports */
+/*! export SyntaxError [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export parse [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "SyntaxError": () => /* binding */ peg$SyntaxError,
+/* harmony export */   "parse": () => /* binding */ peg$parse,
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+// Generated by PEG.js v0.11.0-master.b7b87ea, https://pegjs.org/
+
+function peg$subclass(child, parent) {
+  function C() { this.constructor = child; }
+  C.prototype = parent.prototype;
+  child.prototype = new C();
+}
+
+function peg$SyntaxError(message, expected, found, location) {
+  this.message = message;
+  this.expected = expected;
+  this.found = found;
+  this.location = location;
+  this.name = "SyntaxError";
+
+  // istanbul ignore next
+  if (typeof Error.captureStackTrace === "function") {
+    Error.captureStackTrace(this, peg$SyntaxError);
+  }
+}
+
+peg$subclass(peg$SyntaxError, Error);
+
+peg$SyntaxError.buildMessage = function(expected, found, location) {
+  var DESCRIBE_EXPECTATION_FNS = {
+    literal: function(expectation) {
+      return "\"" + literalEscape(expectation.text) + "\"";
+    },
+
+    class: function(expectation) {
+      var escapedParts = expectation.parts.map(function(part) {
+        return Array.isArray(part)
+          ? classEscape(part[0]) + "-" + classEscape(part[1])
+          : classEscape(part);
+      });
+
+      return "[" + (expectation.inverted ? "^" : "") + escapedParts + "]";
+    },
+
+    any: function() {
+      return "any character";
+    },
+
+    end: function() {
+      return "end of input";
+    },
+
+    other: function(expectation) {
+      return expectation.description;
+    },
+
+    not: function(expectation) {
+      return "not " + describeExpectation(expectation.expected);
+    }
+  };
+
+  function hex(ch) {
+    return ch.charCodeAt(0).toString(16).toUpperCase();
+  }
+
+  function literalEscape(s) {
+    return s
+      .replace(/\\/g, "\\\\")
+      .replace(/"/g,  "\\\"")
+      .replace(/\0/g, "\\0")
+      .replace(/\t/g, "\\t")
+      .replace(/\n/g, "\\n")
+      .replace(/\r/g, "\\r")
+      .replace(/[\x00-\x0F]/g,          function(ch) { return "\\x0" + hex(ch); })
+      .replace(/[\x10-\x1F\x7F-\x9F]/g, function(ch) { return "\\x"  + hex(ch); });
+  }
+
+  function classEscape(s) {
+    return s
+      .replace(/\\/g, "\\\\")
+      .replace(/\]/g, "\\]")
+      .replace(/\^/g, "\\^")
+      .replace(/-/g,  "\\-")
+      .replace(/\0/g, "\\0")
+      .replace(/\t/g, "\\t")
+      .replace(/\n/g, "\\n")
+      .replace(/\r/g, "\\r")
+      .replace(/[\x00-\x0F]/g,          function(ch) { return "\\x0" + hex(ch); })
+      .replace(/[\x10-\x1F\x7F-\x9F]/g, function(ch) { return "\\x"  + hex(ch); });
+  }
+
+  function describeExpectation(expectation) {
+    return DESCRIBE_EXPECTATION_FNS[expectation.type](expectation);
+  }
+
+  function describeExpected(expected) {
+    var descriptions = expected.map(describeExpectation);
+    var i, j;
+
+    descriptions.sort();
+
+    if (descriptions.length > 0) {
+      for (i = 1, j = 1; i < descriptions.length; i++) {
+        if (descriptions[i - 1] !== descriptions[i]) {
+          descriptions[j] = descriptions[i];
+          j++;
+        }
+      }
+      descriptions.length = j;
+    }
+
+    switch (descriptions.length) {
+      case 1:
+        return descriptions[0];
+
+      case 2:
+        return descriptions[0] + " or " + descriptions[1];
+
+      default:
+        return descriptions.slice(0, -1).join(", ")
+          + ", or "
+          + descriptions[descriptions.length - 1];
+    }
+  }
+
+  function describeFound(found) {
+    return found ? "\"" + literalEscape(found) + "\"" : "end of input";
+  }
+
+  return "Expected " + describeExpected(expected) + " but " + describeFound(found) + " found.";
+};
+
+function peg$parse(input, options) {
+  options = options !== undefined ? options : {};
+
+  var peg$FAILED = {};
+
+  var peg$startRuleFunctions = { transformList: peg$parsetransformList };
+  var peg$startRuleFunction = peg$parsetransformList;
+
+  var peg$c0 = "matrix";
+  var peg$c1 = "(";
+  var peg$c2 = ")";
+  var peg$c3 = "translate";
+  var peg$c4 = "scale";
+  var peg$c5 = "rotate";
+  var peg$c6 = "skewX";
+  var peg$c7 = "skewY";
+  var peg$c8 = ",";
+  var peg$c9 = ".";
+
+  var peg$r0 = /^[eE]/;
+  var peg$r1 = /^[+\-]/;
+  var peg$r2 = /^[0-9]/;
+  var peg$r3 = /^[ \t\r\n]/;
+
+  var peg$e0 = peg$literalExpectation("matrix", false);
+  var peg$e1 = peg$literalExpectation("(", false);
+  var peg$e2 = peg$literalExpectation(")", false);
+  var peg$e3 = peg$literalExpectation("translate", false);
+  var peg$e4 = peg$literalExpectation("scale", false);
+  var peg$e5 = peg$literalExpectation("rotate", false);
+  var peg$e6 = peg$literalExpectation("skewX", false);
+  var peg$e7 = peg$literalExpectation("skewY", false);
+  var peg$e8 = peg$literalExpectation(",", false);
+  var peg$e9 = peg$otherExpectation("fractionalConstant");
+  var peg$e10 = peg$classExpectation(["e", "E"], false, false);
+  var peg$e11 = peg$classExpectation(["+", "-"], false, false);
+  var peg$e12 = peg$classExpectation([["0", "9"]], false, false);
+  var peg$e13 = peg$classExpectation([" ", "\t", "\r", "\n"], false, false);
+
+  var peg$f0 = function(ts) { return ts; };
+  var peg$f1 = function(t, ts) { return t.concat(ts) };
+  var peg$f2 = function(a, b, c, d, e, f) {
+        return [{type: 'matrix', a: a, b: b, c: c, d: d, e: e, f: f}];
+      };
+  var peg$f3 = function(tx, ty) {
+        var t = {type: 'translate', tx: tx};
+        if (ty) t.ty = ty;
+        return [t];
+      };
+  var peg$f4 = function(sx, sy) {
+        var s = {type:'scale', sx: sx};
+        if (sy) s.sy = sy;
+        return [s];
+      };
+  var peg$f5 = function(angle, c) {
+        var r = {type:'rotate', angle: angle};
+        if (c) {
+          r.cx = c[0];
+          r.cy = c[1];
+        }
+        return [r];
+      };
+  var peg$f6 = function(angle) {
+        return [{type: 'skewX', angle: angle}];
+      };
+  var peg$f7 = function(angle) {
+        return [{type: 'skewY', angle: angle}];
+      };
+  var peg$f8 = function(f) { return parseFloat(f.join("")); };
+  var peg$f9 = function(i) { return parseInt(i.join("")); };
+  var peg$f10 = function(n) { return n; };
+  var peg$f11 = function(n1, n2) { return [n1, n2]; };
+  var peg$f12 = function(ds) { return ds.join(""); };
+  var peg$f13 = function(d1, d2) { return [d1 ? d1.join("") : null, ".", d2.join("")].join(""); };
+  var peg$f14 = function(d) { return d.join(""); };
+
+  var peg$currPos = 0;
+  var peg$savedPos = 0;
+  var peg$posDetailsCache = [{ line: 1, column: 1 }];
+  var peg$expected = [];
+  var peg$silentFails = 0;
+
+  var peg$result;
+
+  if ("startRule" in options) {
+    if (!(options.startRule in peg$startRuleFunctions)) {
+      throw new Error("Can't start parsing from rule \"" + options.startRule + "\".");
+    }
+
+    peg$startRuleFunction = peg$startRuleFunctions[options.startRule];
+  }
+
+  function text() {
+    return input.substring(peg$savedPos, peg$currPos);
+  }
+
+  function offset() {
+    return peg$savedPos;
+  }
+
+  function range() {
+    return [peg$savedPos, peg$currPos];
+  }
+
+  function location() {
+    return peg$computeLocation(peg$savedPos, peg$currPos);
+  }
+
+  function expected(description, location) {
+    location = location !== undefined
+      ? location
+      : peg$computeLocation(peg$savedPos, peg$currPos);
+
+    throw peg$buildStructuredError(
+      [peg$otherExpectation(description)],
+      input.substring(peg$savedPos, peg$currPos),
+      location
+    );
+  }
+
+  function error(message, location) {
+    location = location !== undefined
+      ? location
+      : peg$computeLocation(peg$savedPos, peg$currPos);
+
+    throw peg$buildSimpleError(message, location);
+  }
+
+  function peg$literalExpectation(text, ignoreCase) {
+    return { type: "literal", text: text, ignoreCase: ignoreCase };
+  }
+
+  function peg$classExpectation(parts, inverted, ignoreCase) {
+    return { type: "class", parts: parts, inverted: inverted, ignoreCase: ignoreCase };
+  }
+
+  function peg$anyExpectation() {
+    return { type: "any" };
+  }
+
+  function peg$endExpectation() {
+    return { type: "end" };
+  }
+
+  function peg$otherExpectation(description) {
+    return { type: "other", description: description };
+  }
+
+  function peg$computePosDetails(pos) {
+    var details = peg$posDetailsCache[pos];
+    var p;
+
+    if (details) {
+      return details;
+    } else {
+      p = pos - 1;
+      while (!peg$posDetailsCache[p]) {
+        p--;
+      }
+
+      details = peg$posDetailsCache[p];
+      details = {
+        line: details.line,
+        column: details.column
+      };
+
+      while (p < pos) {
+        if (input.charCodeAt(p) === 10) {
+          details.line++;
+          details.column = 1;
+        } else {
+          details.column++;
+        }
+
+        p++;
+      }
+
+      peg$posDetailsCache[pos] = details;
+
+      return details;
+    }
+  }
+
+  var peg$VALIDFILENAME = typeof options.filename === "string" && options.filename.length > 0;
+  function peg$computeLocation(startPos, endPos) {
+    var loc = {};
+
+    if ( peg$VALIDFILENAME ) loc.filename = options.filename;
+
+    var startPosDetails = peg$computePosDetails(startPos);
+    loc.start = {
+      offset: startPos,
+      line: startPosDetails.line,
+      column: startPosDetails.column
+    };
+
+    var endPosDetails = peg$computePosDetails(endPos);
+    loc.end = {
+      offset: endPos,
+      line: endPosDetails.line,
+      column: endPosDetails.column
+    };
+
+    return loc;
+  }
+
+  function peg$begin() {
+    peg$expected.push({ pos: peg$currPos, variants: [] });
+  }
+
+  function peg$expect(expected) {
+    var top = peg$expected[peg$expected.length - 1];
+
+    if (peg$currPos < top.pos) { return; }
+
+    if (peg$currPos > top.pos) {
+      top.pos = peg$currPos;
+      top.variants = [];
+    }
+
+    top.variants.push(expected);
+  }
+
+  function peg$end(invert) {
+    var expected = peg$expected.pop();
+    var top = peg$expected[peg$expected.length - 1];
+    var variants = expected.variants;
+
+    if (top.pos !== expected.pos) { return; }
+
+    if (invert) {
+      variants = variants.map(function(e) {
+        return e.type === "not" ? e.expected : { type: "not", expected: e };
+      });
+    }
+
+    Array.prototype.push.apply(top.variants, variants);
+  }
+
+  function peg$buildSimpleError(message, location) {
+    return new peg$SyntaxError(message, null, null, location);
+  }
+
+  function peg$buildStructuredError(expected, found, location) {
+    return new peg$SyntaxError(
+      peg$SyntaxError.buildMessage(expected, found, location),
+      expected,
+      found,
+      location
+    );
+  }
+
+  function peg$buildError() {
+    var expected = peg$expected[0];
+    var failPos = expected.pos;
+
+    return peg$buildStructuredError(
+      expected.variants,
+      failPos < input.length ? input.charAt(failPos) : null,
+      failPos < input.length
+        ? peg$computeLocation(failPos, failPos + 1)
+        : peg$computeLocation(failPos, failPos)
+    );
+  }
+
+  function peg$parsetransformList() {
+    var s0, s1, s2, s3, s4;
+
+    var rule$expects = function (expected) {
+      if (peg$silentFails === 0) peg$expect(expected);
+    }
+
+    s0 = peg$currPos;
+    s1 = [];
+    s2 = peg$parsewsp();
+    while (s2 !== peg$FAILED) {
+      s1.push(s2);
+      s2 = peg$parsewsp();
+    }
+    s2 = peg$parsetransforms();
+    if (s2 === peg$FAILED) {
+      s2 = null;
+    }
+    s3 = [];
+    s4 = peg$parsewsp();
+    while (s4 !== peg$FAILED) {
+      s3.push(s4);
+      s4 = peg$parsewsp();
+    }
+    peg$savedPos = s0;
+    s0 = peg$f0(s2);
+
+    return s0;
+  }
+
+  function peg$parsetransforms() {
+    var s0, s1, s2, s3;
+
+    var rule$expects = function (expected) {
+      if (peg$silentFails === 0) peg$expect(expected);
+    }
+
+    s0 = peg$currPos;
+    s1 = peg$parsetransform();
+    if (s1 !== peg$FAILED) {
+      s2 = [];
+      s3 = peg$parsecommaWsp();
+      if (s3 !== peg$FAILED) {
+        while (s3 !== peg$FAILED) {
+          s2.push(s3);
+          s3 = peg$parsecommaWsp();
+        }
+      } else {
+        s2 = peg$FAILED;
+      }
+      if (s2 !== peg$FAILED) {
+        s3 = peg$parsetransforms();
+        if (s3 !== peg$FAILED) {
+          peg$savedPos = s0;
+          s0 = peg$f1(s1, s3);
+        } else {
+          peg$currPos = s0;
+          s0 = peg$FAILED;
+        }
+      } else {
+        peg$currPos = s0;
+        s0 = peg$FAILED;
+      }
+    } else {
+      peg$currPos = s0;
+      s0 = peg$FAILED;
+    }
+    if (s0 === peg$FAILED) {
+      s0 = peg$parsetransform();
+    }
+
+    return s0;
+  }
+
+  function peg$parsetransform() {
+    var s0;
+
+    var rule$expects = function (expected) {
+      if (peg$silentFails === 0) peg$expect(expected);
+    }
+
+    s0 = peg$parsematrix();
+    if (s0 === peg$FAILED) {
+      s0 = peg$parsetranslate();
+      if (s0 === peg$FAILED) {
+        s0 = peg$parsescale();
+        if (s0 === peg$FAILED) {
+          s0 = peg$parserotate();
+          if (s0 === peg$FAILED) {
+            s0 = peg$parseskewX();
+            if (s0 === peg$FAILED) {
+              s0 = peg$parseskewY();
+            }
+          }
+        }
+      }
+    }
+
+    return s0;
+  }
+
+  function peg$parsematrix() {
+    var s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16, s17;
+
+    var rule$expects = function (expected) {
+      if (peg$silentFails === 0) peg$expect(expected);
+    }
+
+    s0 = peg$currPos;
+    rule$expects(peg$e0);
+    if (input.substr(peg$currPos, 6) === peg$c0) {
+      s1 = peg$c0;
+      peg$currPos += 6;
+    } else {
+      s1 = peg$FAILED;
+    }
+    if (s1 !== peg$FAILED) {
+      s2 = [];
+      s3 = peg$parsewsp();
+      while (s3 !== peg$FAILED) {
+        s2.push(s3);
+        s3 = peg$parsewsp();
+      }
+      rule$expects(peg$e1);
+      if (input.charCodeAt(peg$currPos) === 40) {
+        s3 = peg$c1;
+        peg$currPos++;
+      } else {
+        s3 = peg$FAILED;
+      }
+      if (s3 !== peg$FAILED) {
+        s4 = [];
+        s5 = peg$parsewsp();
+        while (s5 !== peg$FAILED) {
+          s4.push(s5);
+          s5 = peg$parsewsp();
+        }
+        s5 = peg$parsenumber();
+        if (s5 !== peg$FAILED) {
+          s6 = peg$parsecommaWsp();
+          if (s6 !== peg$FAILED) {
+            s7 = peg$parsenumber();
+            if (s7 !== peg$FAILED) {
+              s8 = peg$parsecommaWsp();
+              if (s8 !== peg$FAILED) {
+                s9 = peg$parsenumber();
+                if (s9 !== peg$FAILED) {
+                  s10 = peg$parsecommaWsp();
+                  if (s10 !== peg$FAILED) {
+                    s11 = peg$parsenumber();
+                    if (s11 !== peg$FAILED) {
+                      s12 = peg$parsecommaWsp();
+                      if (s12 !== peg$FAILED) {
+                        s13 = peg$parsenumber();
+                        if (s13 !== peg$FAILED) {
+                          s14 = peg$parsecommaWsp();
+                          if (s14 !== peg$FAILED) {
+                            s15 = peg$parsenumber();
+                            if (s15 !== peg$FAILED) {
+                              s16 = [];
+                              s17 = peg$parsewsp();
+                              while (s17 !== peg$FAILED) {
+                                s16.push(s17);
+                                s17 = peg$parsewsp();
+                              }
+                              rule$expects(peg$e2);
+                              if (input.charCodeAt(peg$currPos) === 41) {
+                                s17 = peg$c2;
+                                peg$currPos++;
+                              } else {
+                                s17 = peg$FAILED;
+                              }
+                              if (s17 !== peg$FAILED) {
+                                peg$savedPos = s0;
+                                s0 = peg$f2(s5, s7, s9, s11, s13, s15);
+                              } else {
+                                peg$currPos = s0;
+                                s0 = peg$FAILED;
+                              }
+                            } else {
+                              peg$currPos = s0;
+                              s0 = peg$FAILED;
+                            }
+                          } else {
+                            peg$currPos = s0;
+                            s0 = peg$FAILED;
+                          }
+                        } else {
+                          peg$currPos = s0;
+                          s0 = peg$FAILED;
+                        }
+                      } else {
+                        peg$currPos = s0;
+                        s0 = peg$FAILED;
+                      }
+                    } else {
+                      peg$currPos = s0;
+                      s0 = peg$FAILED;
+                    }
+                  } else {
+                    peg$currPos = s0;
+                    s0 = peg$FAILED;
+                  }
+                } else {
+                  peg$currPos = s0;
+                  s0 = peg$FAILED;
+                }
+              } else {
+                peg$currPos = s0;
+                s0 = peg$FAILED;
+              }
+            } else {
+              peg$currPos = s0;
+              s0 = peg$FAILED;
+            }
+          } else {
+            peg$currPos = s0;
+            s0 = peg$FAILED;
+          }
+        } else {
+          peg$currPos = s0;
+          s0 = peg$FAILED;
+        }
+      } else {
+        peg$currPos = s0;
+        s0 = peg$FAILED;
+      }
+    } else {
+      peg$currPos = s0;
+      s0 = peg$FAILED;
+    }
+
+    return s0;
+  }
+
+  function peg$parsetranslate() {
+    var s0, s1, s2, s3, s4, s5, s6, s7, s8;
+
+    var rule$expects = function (expected) {
+      if (peg$silentFails === 0) peg$expect(expected);
+    }
+
+    s0 = peg$currPos;
+    rule$expects(peg$e3);
+    if (input.substr(peg$currPos, 9) === peg$c3) {
+      s1 = peg$c3;
+      peg$currPos += 9;
+    } else {
+      s1 = peg$FAILED;
+    }
+    if (s1 !== peg$FAILED) {
+      s2 = [];
+      s3 = peg$parsewsp();
+      while (s3 !== peg$FAILED) {
+        s2.push(s3);
+        s3 = peg$parsewsp();
+      }
+      rule$expects(peg$e1);
+      if (input.charCodeAt(peg$currPos) === 40) {
+        s3 = peg$c1;
+        peg$currPos++;
+      } else {
+        s3 = peg$FAILED;
+      }
+      if (s3 !== peg$FAILED) {
+        s4 = [];
+        s5 = peg$parsewsp();
+        while (s5 !== peg$FAILED) {
+          s4.push(s5);
+          s5 = peg$parsewsp();
+        }
+        s5 = peg$parsenumber();
+        if (s5 !== peg$FAILED) {
+          s6 = peg$parsecommaWspNumber();
+          if (s6 === peg$FAILED) {
+            s6 = null;
+          }
+          s7 = [];
+          s8 = peg$parsewsp();
+          while (s8 !== peg$FAILED) {
+            s7.push(s8);
+            s8 = peg$parsewsp();
+          }
+          rule$expects(peg$e2);
+          if (input.charCodeAt(peg$currPos) === 41) {
+            s8 = peg$c2;
+            peg$currPos++;
+          } else {
+            s8 = peg$FAILED;
+          }
+          if (s8 !== peg$FAILED) {
+            peg$savedPos = s0;
+            s0 = peg$f3(s5, s6);
+          } else {
+            peg$currPos = s0;
+            s0 = peg$FAILED;
+          }
+        } else {
+          peg$currPos = s0;
+          s0 = peg$FAILED;
+        }
+      } else {
+        peg$currPos = s0;
+        s0 = peg$FAILED;
+      }
+    } else {
+      peg$currPos = s0;
+      s0 = peg$FAILED;
+    }
+
+    return s0;
+  }
+
+  function peg$parsescale() {
+    var s0, s1, s2, s3, s4, s5, s6, s7, s8;
+
+    var rule$expects = function (expected) {
+      if (peg$silentFails === 0) peg$expect(expected);
+    }
+
+    s0 = peg$currPos;
+    rule$expects(peg$e4);
+    if (input.substr(peg$currPos, 5) === peg$c4) {
+      s1 = peg$c4;
+      peg$currPos += 5;
+    } else {
+      s1 = peg$FAILED;
+    }
+    if (s1 !== peg$FAILED) {
+      s2 = [];
+      s3 = peg$parsewsp();
+      while (s3 !== peg$FAILED) {
+        s2.push(s3);
+        s3 = peg$parsewsp();
+      }
+      rule$expects(peg$e1);
+      if (input.charCodeAt(peg$currPos) === 40) {
+        s3 = peg$c1;
+        peg$currPos++;
+      } else {
+        s3 = peg$FAILED;
+      }
+      if (s3 !== peg$FAILED) {
+        s4 = [];
+        s5 = peg$parsewsp();
+        while (s5 !== peg$FAILED) {
+          s4.push(s5);
+          s5 = peg$parsewsp();
+        }
+        s5 = peg$parsenumber();
+        if (s5 !== peg$FAILED) {
+          s6 = peg$parsecommaWspNumber();
+          if (s6 === peg$FAILED) {
+            s6 = null;
+          }
+          s7 = [];
+          s8 = peg$parsewsp();
+          while (s8 !== peg$FAILED) {
+            s7.push(s8);
+            s8 = peg$parsewsp();
+          }
+          rule$expects(peg$e2);
+          if (input.charCodeAt(peg$currPos) === 41) {
+            s8 = peg$c2;
+            peg$currPos++;
+          } else {
+            s8 = peg$FAILED;
+          }
+          if (s8 !== peg$FAILED) {
+            peg$savedPos = s0;
+            s0 = peg$f4(s5, s6);
+          } else {
+            peg$currPos = s0;
+            s0 = peg$FAILED;
+          }
+        } else {
+          peg$currPos = s0;
+          s0 = peg$FAILED;
+        }
+      } else {
+        peg$currPos = s0;
+        s0 = peg$FAILED;
+      }
+    } else {
+      peg$currPos = s0;
+      s0 = peg$FAILED;
+    }
+
+    return s0;
+  }
+
+  function peg$parserotate() {
+    var s0, s1, s2, s3, s4, s5, s6, s7, s8;
+
+    var rule$expects = function (expected) {
+      if (peg$silentFails === 0) peg$expect(expected);
+    }
+
+    s0 = peg$currPos;
+    rule$expects(peg$e5);
+    if (input.substr(peg$currPos, 6) === peg$c5) {
+      s1 = peg$c5;
+      peg$currPos += 6;
+    } else {
+      s1 = peg$FAILED;
+    }
+    if (s1 !== peg$FAILED) {
+      s2 = [];
+      s3 = peg$parsewsp();
+      while (s3 !== peg$FAILED) {
+        s2.push(s3);
+        s3 = peg$parsewsp();
+      }
+      rule$expects(peg$e1);
+      if (input.charCodeAt(peg$currPos) === 40) {
+        s3 = peg$c1;
+        peg$currPos++;
+      } else {
+        s3 = peg$FAILED;
+      }
+      if (s3 !== peg$FAILED) {
+        s4 = [];
+        s5 = peg$parsewsp();
+        while (s5 !== peg$FAILED) {
+          s4.push(s5);
+          s5 = peg$parsewsp();
+        }
+        s5 = peg$parsenumber();
+        if (s5 !== peg$FAILED) {
+          s6 = peg$parsecommaWspTwoNumbers();
+          if (s6 === peg$FAILED) {
+            s6 = null;
+          }
+          s7 = [];
+          s8 = peg$parsewsp();
+          while (s8 !== peg$FAILED) {
+            s7.push(s8);
+            s8 = peg$parsewsp();
+          }
+          rule$expects(peg$e2);
+          if (input.charCodeAt(peg$currPos) === 41) {
+            s8 = peg$c2;
+            peg$currPos++;
+          } else {
+            s8 = peg$FAILED;
+          }
+          if (s8 !== peg$FAILED) {
+            peg$savedPos = s0;
+            s0 = peg$f5(s5, s6);
+          } else {
+            peg$currPos = s0;
+            s0 = peg$FAILED;
+          }
+        } else {
+          peg$currPos = s0;
+          s0 = peg$FAILED;
+        }
+      } else {
+        peg$currPos = s0;
+        s0 = peg$FAILED;
+      }
+    } else {
+      peg$currPos = s0;
+      s0 = peg$FAILED;
+    }
+
+    return s0;
+  }
+
+  function peg$parseskewX() {
+    var s0, s1, s2, s3, s4, s5, s6, s7;
+
+    var rule$expects = function (expected) {
+      if (peg$silentFails === 0) peg$expect(expected);
+    }
+
+    s0 = peg$currPos;
+    rule$expects(peg$e6);
+    if (input.substr(peg$currPos, 5) === peg$c6) {
+      s1 = peg$c6;
+      peg$currPos += 5;
+    } else {
+      s1 = peg$FAILED;
+    }
+    if (s1 !== peg$FAILED) {
+      s2 = [];
+      s3 = peg$parsewsp();
+      while (s3 !== peg$FAILED) {
+        s2.push(s3);
+        s3 = peg$parsewsp();
+      }
+      rule$expects(peg$e1);
+      if (input.charCodeAt(peg$currPos) === 40) {
+        s3 = peg$c1;
+        peg$currPos++;
+      } else {
+        s3 = peg$FAILED;
+      }
+      if (s3 !== peg$FAILED) {
+        s4 = [];
+        s5 = peg$parsewsp();
+        while (s5 !== peg$FAILED) {
+          s4.push(s5);
+          s5 = peg$parsewsp();
+        }
+        s5 = peg$parsenumber();
+        if (s5 !== peg$FAILED) {
+          s6 = [];
+          s7 = peg$parsewsp();
+          while (s7 !== peg$FAILED) {
+            s6.push(s7);
+            s7 = peg$parsewsp();
+          }
+          rule$expects(peg$e2);
+          if (input.charCodeAt(peg$currPos) === 41) {
+            s7 = peg$c2;
+            peg$currPos++;
+          } else {
+            s7 = peg$FAILED;
+          }
+          if (s7 !== peg$FAILED) {
+            peg$savedPos = s0;
+            s0 = peg$f6(s5);
+          } else {
+            peg$currPos = s0;
+            s0 = peg$FAILED;
+          }
+        } else {
+          peg$currPos = s0;
+          s0 = peg$FAILED;
+        }
+      } else {
+        peg$currPos = s0;
+        s0 = peg$FAILED;
+      }
+    } else {
+      peg$currPos = s0;
+      s0 = peg$FAILED;
+    }
+
+    return s0;
+  }
+
+  function peg$parseskewY() {
+    var s0, s1, s2, s3, s4, s5, s6, s7;
+
+    var rule$expects = function (expected) {
+      if (peg$silentFails === 0) peg$expect(expected);
+    }
+
+    s0 = peg$currPos;
+    rule$expects(peg$e7);
+    if (input.substr(peg$currPos, 5) === peg$c7) {
+      s1 = peg$c7;
+      peg$currPos += 5;
+    } else {
+      s1 = peg$FAILED;
+    }
+    if (s1 !== peg$FAILED) {
+      s2 = [];
+      s3 = peg$parsewsp();
+      while (s3 !== peg$FAILED) {
+        s2.push(s3);
+        s3 = peg$parsewsp();
+      }
+      rule$expects(peg$e1);
+      if (input.charCodeAt(peg$currPos) === 40) {
+        s3 = peg$c1;
+        peg$currPos++;
+      } else {
+        s3 = peg$FAILED;
+      }
+      if (s3 !== peg$FAILED) {
+        s4 = [];
+        s5 = peg$parsewsp();
+        while (s5 !== peg$FAILED) {
+          s4.push(s5);
+          s5 = peg$parsewsp();
+        }
+        s5 = peg$parsenumber();
+        if (s5 !== peg$FAILED) {
+          s6 = [];
+          s7 = peg$parsewsp();
+          while (s7 !== peg$FAILED) {
+            s6.push(s7);
+            s7 = peg$parsewsp();
+          }
+          rule$expects(peg$e2);
+          if (input.charCodeAt(peg$currPos) === 41) {
+            s7 = peg$c2;
+            peg$currPos++;
+          } else {
+            s7 = peg$FAILED;
+          }
+          if (s7 !== peg$FAILED) {
+            peg$savedPos = s0;
+            s0 = peg$f7(s5);
+          } else {
+            peg$currPos = s0;
+            s0 = peg$FAILED;
+          }
+        } else {
+          peg$currPos = s0;
+          s0 = peg$FAILED;
+        }
+      } else {
+        peg$currPos = s0;
+        s0 = peg$FAILED;
+      }
+    } else {
+      peg$currPos = s0;
+      s0 = peg$FAILED;
+    }
+
+    return s0;
+  }
+
+  function peg$parsenumber() {
+    var s0, s1, s2, s3;
+
+    var rule$expects = function (expected) {
+      if (peg$silentFails === 0) peg$expect(expected);
+    }
+
+    s0 = peg$currPos;
+    s1 = peg$currPos;
+    s2 = peg$parsesign();
+    if (s2 === peg$FAILED) {
+      s2 = null;
+    }
+    s3 = peg$parsefloatingPointConstant();
+    if (s3 !== peg$FAILED) {
+      s2 = [s2, s3];
+      s1 = s2;
+    } else {
+      peg$currPos = s1;
+      s1 = peg$FAILED;
+    }
+    if (s1 !== peg$FAILED) {
+      peg$savedPos = s0;
+      s1 = peg$f8(s1);
+    }
+    s0 = s1;
+    if (s0 === peg$FAILED) {
+      s0 = peg$currPos;
+      s1 = peg$currPos;
+      s2 = peg$parsesign();
+      if (s2 === peg$FAILED) {
+        s2 = null;
+      }
+      s3 = peg$parseintegerConstant();
+      if (s3 !== peg$FAILED) {
+        s2 = [s2, s3];
+        s1 = s2;
+      } else {
+        peg$currPos = s1;
+        s1 = peg$FAILED;
+      }
+      if (s1 !== peg$FAILED) {
+        peg$savedPos = s0;
+        s1 = peg$f9(s1);
+      }
+      s0 = s1;
+    }
+
+    return s0;
+  }
+
+  function peg$parsecommaWspNumber() {
+    var s0, s1, s2;
+
+    var rule$expects = function (expected) {
+      if (peg$silentFails === 0) peg$expect(expected);
+    }
+
+    s0 = peg$currPos;
+    s1 = peg$parsecommaWsp();
+    if (s1 !== peg$FAILED) {
+      s2 = peg$parsenumber();
+      if (s2 !== peg$FAILED) {
+        peg$savedPos = s0;
+        s0 = peg$f10(s2);
+      } else {
+        peg$currPos = s0;
+        s0 = peg$FAILED;
+      }
+    } else {
+      peg$currPos = s0;
+      s0 = peg$FAILED;
+    }
+
+    return s0;
+  }
+
+  function peg$parsecommaWspTwoNumbers() {
+    var s0, s1, s2, s3, s4;
+
+    var rule$expects = function (expected) {
+      if (peg$silentFails === 0) peg$expect(expected);
+    }
+
+    s0 = peg$currPos;
+    s1 = peg$parsecommaWsp();
+    if (s1 !== peg$FAILED) {
+      s2 = peg$parsenumber();
+      if (s2 !== peg$FAILED) {
+        s3 = peg$parsecommaWsp();
+        if (s3 !== peg$FAILED) {
+          s4 = peg$parsenumber();
+          if (s4 !== peg$FAILED) {
+            peg$savedPos = s0;
+            s0 = peg$f11(s2, s4);
+          } else {
+            peg$currPos = s0;
+            s0 = peg$FAILED;
+          }
+        } else {
+          peg$currPos = s0;
+          s0 = peg$FAILED;
+        }
+      } else {
+        peg$currPos = s0;
+        s0 = peg$FAILED;
+      }
+    } else {
+      peg$currPos = s0;
+      s0 = peg$FAILED;
+    }
+
+    return s0;
+  }
+
+  function peg$parsecommaWsp() {
+    var s0, s1, s2, s3, s4;
+
+    var rule$expects = function (expected) {
+      if (peg$silentFails === 0) peg$expect(expected);
+    }
+
+    s0 = peg$currPos;
+    s1 = [];
+    s2 = peg$parsewsp();
+    if (s2 !== peg$FAILED) {
+      while (s2 !== peg$FAILED) {
+        s1.push(s2);
+        s2 = peg$parsewsp();
+      }
+    } else {
+      s1 = peg$FAILED;
+    }
+    if (s1 !== peg$FAILED) {
+      s2 = peg$parsecomma();
+      if (s2 === peg$FAILED) {
+        s2 = null;
+      }
+      s3 = [];
+      s4 = peg$parsewsp();
+      while (s4 !== peg$FAILED) {
+        s3.push(s4);
+        s4 = peg$parsewsp();
+      }
+      s1 = [s1, s2, s3];
+      s0 = s1;
+    } else {
+      peg$currPos = s0;
+      s0 = peg$FAILED;
+    }
+    if (s0 === peg$FAILED) {
+      s0 = peg$currPos;
+      s1 = peg$parsecomma();
+      if (s1 !== peg$FAILED) {
+        s2 = [];
+        s3 = peg$parsewsp();
+        while (s3 !== peg$FAILED) {
+          s2.push(s3);
+          s3 = peg$parsewsp();
+        }
+        s1 = [s1, s2];
+        s0 = s1;
+      } else {
+        peg$currPos = s0;
+        s0 = peg$FAILED;
+      }
+    }
+
+    return s0;
+  }
+
+  function peg$parsecomma() {
+    var s0;
+
+    var rule$expects = function (expected) {
+      if (peg$silentFails === 0) peg$expect(expected);
+    }
+
+    rule$expects(peg$e8);
+    if (input.charCodeAt(peg$currPos) === 44) {
+      s0 = peg$c8;
+      peg$currPos++;
+    } else {
+      s0 = peg$FAILED;
+    }
+
+    return s0;
+  }
+
+  function peg$parseintegerConstant() {
+    var s0, s1;
+
+    var rule$expects = function (expected) {
+      if (peg$silentFails === 0) peg$expect(expected);
+    }
+
+    s0 = peg$currPos;
+    s1 = peg$parsedigitSequence();
+    if (s1 !== peg$FAILED) {
+      peg$savedPos = s0;
+      s1 = peg$f12(s1);
+    }
+    s0 = s1;
+
+    return s0;
+  }
+
+  function peg$parsefloatingPointConstant() {
+    var s0, s1, s2;
+
+    var rule$expects = function (expected) {
+      if (peg$silentFails === 0) peg$expect(expected);
+    }
+
+    s0 = peg$currPos;
+    s1 = peg$parsefractionalConstant();
+    if (s1 !== peg$FAILED) {
+      s2 = peg$parseexponent();
+      if (s2 === peg$FAILED) {
+        s2 = null;
+      }
+      s1 = [s1, s2];
+      s0 = s1;
+    } else {
+      peg$currPos = s0;
+      s0 = peg$FAILED;
+    }
+    if (s0 === peg$FAILED) {
+      s0 = peg$currPos;
+      s1 = peg$parsedigitSequence();
+      if (s1 !== peg$FAILED) {
+        s2 = peg$parseexponent();
+        if (s2 !== peg$FAILED) {
+          s1 = [s1, s2];
+          s0 = s1;
+        } else {
+          peg$currPos = s0;
+          s0 = peg$FAILED;
+        }
+      } else {
+        peg$currPos = s0;
+        s0 = peg$FAILED;
+      }
+    }
+
+    return s0;
+  }
+
+  function peg$parsefractionalConstant() {
+    var s0, s1, s2, s3;
+
+    var rule$expects = function (expected) {
+      if (peg$silentFails === 0) peg$expect(expected);
+    }
+
+    rule$expects(peg$e9);
+    peg$silentFails++;
+    s0 = peg$currPos;
+    s1 = peg$parsedigitSequence();
+    if (s1 === peg$FAILED) {
+      s1 = null;
+    }
+    if (input.charCodeAt(peg$currPos) === 46) {
+      s2 = peg$c9;
+      peg$currPos++;
+    } else {
+      s2 = peg$FAILED;
+    }
+    if (s2 !== peg$FAILED) {
+      s3 = peg$parsedigitSequence();
+      if (s3 !== peg$FAILED) {
+        peg$savedPos = s0;
+        s0 = peg$f13(s1, s3);
+      } else {
+        peg$currPos = s0;
+        s0 = peg$FAILED;
+      }
+    } else {
+      peg$currPos = s0;
+      s0 = peg$FAILED;
+    }
+    if (s0 === peg$FAILED) {
+      s0 = peg$currPos;
+      s1 = peg$parsedigitSequence();
+      if (s1 !== peg$FAILED) {
+        if (input.charCodeAt(peg$currPos) === 46) {
+          s2 = peg$c9;
+          peg$currPos++;
+        } else {
+          s2 = peg$FAILED;
+        }
+        if (s2 !== peg$FAILED) {
+          peg$savedPos = s0;
+          s0 = peg$f14(s1);
+        } else {
+          peg$currPos = s0;
+          s0 = peg$FAILED;
+        }
+      } else {
+        peg$currPos = s0;
+        s0 = peg$FAILED;
+      }
+    }
+    peg$silentFails--;
+
+    return s0;
+  }
+
+  function peg$parseexponent() {
+    var s0, s1, s2, s3;
+
+    var rule$expects = function (expected) {
+      if (peg$silentFails === 0) peg$expect(expected);
+    }
+
+    s0 = peg$currPos;
+    rule$expects(peg$e10);
+    if (peg$r0.test(input.charAt(peg$currPos))) {
+      s1 = input.charAt(peg$currPos);
+      peg$currPos++;
+    } else {
+      s1 = peg$FAILED;
+    }
+    if (s1 !== peg$FAILED) {
+      s2 = peg$parsesign();
+      if (s2 === peg$FAILED) {
+        s2 = null;
+      }
+      s3 = peg$parsedigitSequence();
+      if (s3 !== peg$FAILED) {
+        s1 = [s1, s2, s3];
+        s0 = s1;
+      } else {
+        peg$currPos = s0;
+        s0 = peg$FAILED;
+      }
+    } else {
+      peg$currPos = s0;
+      s0 = peg$FAILED;
+    }
+
+    return s0;
+  }
+
+  function peg$parsesign() {
+    var s0;
+
+    var rule$expects = function (expected) {
+      if (peg$silentFails === 0) peg$expect(expected);
+    }
+
+    rule$expects(peg$e11);
+    if (peg$r1.test(input.charAt(peg$currPos))) {
+      s0 = input.charAt(peg$currPos);
+      peg$currPos++;
+    } else {
+      s0 = peg$FAILED;
+    }
+
+    return s0;
+  }
+
+  function peg$parsedigitSequence() {
+    var s0, s1;
+
+    var rule$expects = function (expected) {
+      if (peg$silentFails === 0) peg$expect(expected);
+    }
+
+    s0 = [];
+    s1 = peg$parsedigit();
+    if (s1 !== peg$FAILED) {
+      while (s1 !== peg$FAILED) {
+        s0.push(s1);
+        s1 = peg$parsedigit();
+      }
+    } else {
+      s0 = peg$FAILED;
+    }
+
+    return s0;
+  }
+
+  function peg$parsedigit() {
+    var s0;
+
+    var rule$expects = function (expected) {
+      if (peg$silentFails === 0) peg$expect(expected);
+    }
+
+    rule$expects(peg$e12);
+    if (peg$r2.test(input.charAt(peg$currPos))) {
+      s0 = input.charAt(peg$currPos);
+      peg$currPos++;
+    } else {
+      s0 = peg$FAILED;
+    }
+
+    return s0;
+  }
+
+  function peg$parsewsp() {
+    var s0;
+
+    var rule$expects = function (expected) {
+      if (peg$silentFails === 0) peg$expect(expected);
+    }
+
+    rule$expects(peg$e13);
+    if (peg$r3.test(input.charAt(peg$currPos))) {
+      s0 = input.charAt(peg$currPos);
+      peg$currPos++;
+    } else {
+      s0 = peg$FAILED;
+    }
+
+    return s0;
+  }
+
+  peg$begin();
+  peg$result = peg$startRuleFunction();
+
+  if (peg$result !== peg$FAILED && peg$currPos === input.length) {
+    return peg$result;
+  } else {
+    if (peg$result !== peg$FAILED && peg$currPos < input.length) {
+      peg$expect(peg$endExpectation());
+    }
+
+    throw peg$buildError();
+  }
+}
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  SyntaxError: peg$SyntaxError,
+  parse: peg$parse
+});
+
+
+/***/ }),
+
+/***/ "./node_modules/transformation-matrix/src/fromTransformAttribute.js":
+/*!**************************************************************************!*\
+  !*** ./node_modules/transformation-matrix/src/fromTransformAttribute.js ***!
+  \**************************************************************************/
+/*! namespace exports */
+/*! export fromTransformAttribute [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_require__.r, __webpack_exports__, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "fromTransformAttribute": () => /* binding */ fromTransformAttribute
+/* harmony export */ });
+/* harmony import */ var _fromTransformAttribute_autogenerated__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./fromTransformAttribute.autogenerated */ "./node_modules/transformation-matrix/src/fromTransformAttribute.autogenerated.js");
+;
+
+/**
+ * Parser for SVG Trasform Attribute http://www.w3.org/TR/SVG/coords.html#TransformAttribute <br/>
+ * Warning: This should be considered BETA until it is released a stable version of pegjs.
+ * @param transformString {string} Transform string as defined by w3 Consortium
+ * @returns {MatrixDescriptor[]} Array of MatrixDescriptor
+ *
+ * @example
+ * > fromTransformAttribute('translate(-10,-10) scale(2,2) translate(10,10)')
+ * [
+ *  { type: 'translate', tx: -10, ty: -10},
+ *  { type: 'scale', sx: 2, sy: 2 },
+ *  { type: 'translate', tx: 10, ty: 10}
+ * ]
+ *
+ * > compose(fromDefinition(fromTransformAttribute('translate(-10, -10) scale(10, 10)')))
+ * { a: 10, c: 0, e: -10, b: 0, d: 10, f: -10 }
+ */
+function fromTransformAttribute (transformString) {
+  return (0,_fromTransformAttribute_autogenerated__WEBPACK_IMPORTED_MODULE_0__.parse)(transformString)
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/transformation-matrix/src/fromTriangles.js":
+/*!*****************************************************************!*\
+  !*** ./node_modules/transformation-matrix/src/fromTriangles.js ***!
+  \*****************************************************************/
+/*! namespace exports */
+/*! export fromTriangles [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_require__.r, __webpack_exports__, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "fromTriangles": () => /* binding */ fromTriangles
+/* harmony export */ });
+/* harmony import */ var _inverse__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./inverse */ "./node_modules/transformation-matrix/src/inverse.js");
+/* harmony import */ var _transform__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./transform */ "./node_modules/transformation-matrix/src/transform.js");
+/* harmony import */ var _smoothMatrix__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./smoothMatrix */ "./node_modules/transformation-matrix/src/smoothMatrix.js");
+;
+
+
+
+/**
+ * Returns a matrix that transforms a triangle t1 into another triangle t2, or throws an exception if it is impossible.
+ * @param t1 {Point[]} Array of points containing the three points for the first triangle
+ * @param t2 {Point[]} Array of points containing the three points for the second triangle
+ * @returns {Matrix} Matrix which transforms t1 to t2
+ * @throws Exception if the matrix becomes not invertible
+ */
+function fromTriangles (t1, t2) {
+  // point p = first point of the triangle
+  const px1 = t1[0].x != null ? t1[0].x : t1[0][0]
+  const py1 = t1[0].y != null ? t1[0].y : t1[0][1]
+  const px2 = t2[0].x != null ? t2[0].x : t2[0][0]
+  const py2 = t2[0].y != null ? t2[0].y : t2[0][1]
+
+  // point q = second point of the triangle
+  const qx1 = t1[1].x != null ? t1[1].x : t1[1][0]
+  const qy1 = t1[1].y != null ? t1[1].y : t1[1][1]
+  const qx2 = t2[1].x != null ? t2[1].x : t2[1][0]
+  const qy2 = t2[1].y != null ? t2[1].y : t2[1][1]
+
+  // point r = third point of the triangle
+  const rx1 = t1[2].x != null ? t1[2].x : t1[2][0]
+  const ry1 = t1[2].y != null ? t1[2].y : t1[2][1]
+  const rx2 = t2[2].x != null ? t2[2].x : t2[2][0]
+  const ry2 = t2[2].y != null ? t2[2].y : t2[2][1]
+
+  const r1 = {
+    a: px1 - rx1,
+    b: py1 - ry1,
+    c: qx1 - rx1,
+    d: qy1 - ry1,
+    e: rx1,
+    f: ry1
+  }
+  const r2 = {
+    a: px2 - rx2,
+    b: py2 - ry2,
+    c: qx2 - rx2,
+    d: qy2 - ry2,
+    e: rx2,
+    f: ry2
+  }
+
+  const inverseR1 = (0,_inverse__WEBPACK_IMPORTED_MODULE_0__.inverse)(r1)
+  const affineMatrix = (0,_transform__WEBPACK_IMPORTED_MODULE_1__.transform)([r2, inverseR1])
+
+  // round the matrix elements to smooth the finite inversion
+  return (0,_smoothMatrix__WEBPACK_IMPORTED_MODULE_2__.smoothMatrix)(affineMatrix)
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/transformation-matrix/src/identity.js":
+/*!************************************************************!*\
+  !*** ./node_modules/transformation-matrix/src/identity.js ***!
+  \************************************************************/
+/*! namespace exports */
+/*! export identity [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__.r, __webpack_exports__, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "identity": () => /* binding */ identity
+/* harmony export */ });
+/**
+ * Identity matrix
+ * @returns {Matrix} Affine Matrix
+ */
+function identity () {
+  return {
+    a: 1,
+    c: 0,
+    e: 0,
+    b: 0,
+    d: 1,
+    f: 0
+  }
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/transformation-matrix/src/index.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/transformation-matrix/src/index.js ***!
+  \*********************************************************/
+/*! namespace exports */
+/*! export applyToPoint [provided] [no usage info] [missing usage info prevents renaming] -> ./node_modules/transformation-matrix/src/applyToPoint.js .applyToPoint */
+/*! export applyToPoints [provided] [no usage info] [missing usage info prevents renaming] -> ./node_modules/transformation-matrix/src/applyToPoint.js .applyToPoints */
+/*! export compose [provided] [no usage info] [missing usage info prevents renaming] -> ./node_modules/transformation-matrix/src/transform.js .compose */
+/*! export fromDefinition [provided] [no usage info] [missing usage info prevents renaming] -> ./node_modules/transformation-matrix/src/fromDefinition.js .fromDefinition */
+/*! export fromObject [provided] [no usage info] [missing usage info prevents renaming] -> ./node_modules/transformation-matrix/src/fromObject.js .fromObject */
+/*! export fromString [provided] [no usage info] [missing usage info prevents renaming] -> ./node_modules/transformation-matrix/src/fromString.js .fromString */
+/*! export fromTransformAttribute [provided] [no usage info] [missing usage info prevents renaming] -> ./node_modules/transformation-matrix/src/fromTransformAttribute.js .fromTransformAttribute */
+/*! export fromTriangles [provided] [no usage info] [missing usage info prevents renaming] -> ./node_modules/transformation-matrix/src/fromTriangles.js .fromTriangles */
+/*! export identity [provided] [no usage info] [missing usage info prevents renaming] -> ./node_modules/transformation-matrix/src/identity.js .identity */
+/*! export inverse [provided] [no usage info] [missing usage info prevents renaming] -> ./node_modules/transformation-matrix/src/inverse.js .inverse */
+/*! export isAffineMatrix [provided] [no usage info] [missing usage info prevents renaming] -> ./node_modules/transformation-matrix/src/isAffineMatrix.js .isAffineMatrix */
+/*! export rotate [provided] [no usage info] [missing usage info prevents renaming] -> ./node_modules/transformation-matrix/src/rotate.js .rotate */
+/*! export rotateDEG [provided] [no usage info] [missing usage info prevents renaming] -> ./node_modules/transformation-matrix/src/rotate.js .rotateDEG */
+/*! export scale [provided] [no usage info] [missing usage info prevents renaming] -> ./node_modules/transformation-matrix/src/scale.js .scale */
+/*! export shear [provided] [no usage info] [missing usage info prevents renaming] -> ./node_modules/transformation-matrix/src/shear.js .shear */
+/*! export skew [provided] [no usage info] [missing usage info prevents renaming] -> ./node_modules/transformation-matrix/src/skew.js .skew */
+/*! export skewDEG [provided] [no usage info] [missing usage info prevents renaming] -> ./node_modules/transformation-matrix/src/skew.js .skewDEG */
+/*! export smoothMatrix [provided] [no usage info] [missing usage info prevents renaming] -> ./node_modules/transformation-matrix/src/smoothMatrix.js .smoothMatrix */
+/*! export toCSS [provided] [no usage info] [missing usage info prevents renaming] -> ./node_modules/transformation-matrix/src/toString.js .toCSS */
+/*! export toSVG [provided] [no usage info] [missing usage info prevents renaming] -> ./node_modules/transformation-matrix/src/toString.js .toSVG */
+/*! export toString [provided] [no usage info] [missing usage info prevents renaming] -> ./node_modules/transformation-matrix/src/toString.js .toString */
+/*! export transform [provided] [no usage info] [missing usage info prevents renaming] -> ./node_modules/transformation-matrix/src/transform.js .transform */
+/*! export translate [provided] [no usage info] [missing usage info prevents renaming] -> ./node_modules/transformation-matrix/src/translate.js .translate */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_exports__, __webpack_require__.d, __webpack_require__.r, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "applyToPoint": () => /* reexport safe */ _applyToPoint__WEBPACK_IMPORTED_MODULE_0__.applyToPoint,
+/* harmony export */   "applyToPoints": () => /* reexport safe */ _applyToPoint__WEBPACK_IMPORTED_MODULE_0__.applyToPoints,
+/* harmony export */   "fromObject": () => /* reexport safe */ _fromObject__WEBPACK_IMPORTED_MODULE_1__.fromObject,
+/* harmony export */   "fromString": () => /* reexport safe */ _fromString__WEBPACK_IMPORTED_MODULE_2__.fromString,
+/* harmony export */   "identity": () => /* reexport safe */ _identity__WEBPACK_IMPORTED_MODULE_3__.identity,
+/* harmony export */   "inverse": () => /* reexport safe */ _inverse__WEBPACK_IMPORTED_MODULE_4__.inverse,
+/* harmony export */   "isAffineMatrix": () => /* reexport safe */ _isAffineMatrix__WEBPACK_IMPORTED_MODULE_5__.isAffineMatrix,
+/* harmony export */   "rotate": () => /* reexport safe */ _rotate__WEBPACK_IMPORTED_MODULE_6__.rotate,
+/* harmony export */   "rotateDEG": () => /* reexport safe */ _rotate__WEBPACK_IMPORTED_MODULE_6__.rotateDEG,
+/* harmony export */   "scale": () => /* reexport safe */ _scale__WEBPACK_IMPORTED_MODULE_7__.scale,
+/* harmony export */   "shear": () => /* reexport safe */ _shear__WEBPACK_IMPORTED_MODULE_8__.shear,
+/* harmony export */   "skew": () => /* reexport safe */ _skew__WEBPACK_IMPORTED_MODULE_9__.skew,
+/* harmony export */   "skewDEG": () => /* reexport safe */ _skew__WEBPACK_IMPORTED_MODULE_9__.skewDEG,
+/* harmony export */   "toCSS": () => /* reexport safe */ _toString__WEBPACK_IMPORTED_MODULE_10__.toCSS,
+/* harmony export */   "toSVG": () => /* reexport safe */ _toString__WEBPACK_IMPORTED_MODULE_10__.toSVG,
+/* harmony export */   "toString": () => /* reexport safe */ _toString__WEBPACK_IMPORTED_MODULE_10__.toString,
+/* harmony export */   "compose": () => /* reexport safe */ _transform__WEBPACK_IMPORTED_MODULE_11__.compose,
+/* harmony export */   "transform": () => /* reexport safe */ _transform__WEBPACK_IMPORTED_MODULE_11__.transform,
+/* harmony export */   "translate": () => /* reexport safe */ _translate__WEBPACK_IMPORTED_MODULE_12__.translate,
+/* harmony export */   "fromTriangles": () => /* reexport safe */ _fromTriangles__WEBPACK_IMPORTED_MODULE_13__.fromTriangles,
+/* harmony export */   "smoothMatrix": () => /* reexport safe */ _smoothMatrix__WEBPACK_IMPORTED_MODULE_14__.smoothMatrix,
+/* harmony export */   "fromDefinition": () => /* reexport safe */ _fromDefinition__WEBPACK_IMPORTED_MODULE_15__.fromDefinition,
+/* harmony export */   "fromTransformAttribute": () => /* reexport safe */ _fromTransformAttribute__WEBPACK_IMPORTED_MODULE_16__.fromTransformAttribute
+/* harmony export */ });
+/* harmony import */ var _applyToPoint__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./applyToPoint */ "./node_modules/transformation-matrix/src/applyToPoint.js");
+/* harmony import */ var _fromObject__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./fromObject */ "./node_modules/transformation-matrix/src/fromObject.js");
+/* harmony import */ var _fromString__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./fromString */ "./node_modules/transformation-matrix/src/fromString.js");
+/* harmony import */ var _identity__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./identity */ "./node_modules/transformation-matrix/src/identity.js");
+/* harmony import */ var _inverse__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./inverse */ "./node_modules/transformation-matrix/src/inverse.js");
+/* harmony import */ var _isAffineMatrix__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./isAffineMatrix */ "./node_modules/transformation-matrix/src/isAffineMatrix.js");
+/* harmony import */ var _rotate__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./rotate */ "./node_modules/transformation-matrix/src/rotate.js");
+/* harmony import */ var _scale__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./scale */ "./node_modules/transformation-matrix/src/scale.js");
+/* harmony import */ var _shear__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./shear */ "./node_modules/transformation-matrix/src/shear.js");
+/* harmony import */ var _skew__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./skew */ "./node_modules/transformation-matrix/src/skew.js");
+/* harmony import */ var _toString__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./toString */ "./node_modules/transformation-matrix/src/toString.js");
+/* harmony import */ var _transform__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./transform */ "./node_modules/transformation-matrix/src/transform.js");
+/* harmony import */ var _translate__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./translate */ "./node_modules/transformation-matrix/src/translate.js");
+/* harmony import */ var _fromTriangles__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./fromTriangles */ "./node_modules/transformation-matrix/src/fromTriangles.js");
+/* harmony import */ var _smoothMatrix__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./smoothMatrix */ "./node_modules/transformation-matrix/src/smoothMatrix.js");
+/* harmony import */ var _fromDefinition__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./fromDefinition */ "./node_modules/transformation-matrix/src/fromDefinition.js");
+/* harmony import */ var _fromTransformAttribute__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./fromTransformAttribute */ "./node_modules/transformation-matrix/src/fromTransformAttribute.js");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/***/ }),
+
+/***/ "./node_modules/transformation-matrix/src/inverse.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/transformation-matrix/src/inverse.js ***!
+  \***********************************************************/
+/*! namespace exports */
+/*! export inverse [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__.r, __webpack_exports__, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "inverse": () => /* binding */ inverse
+/* harmony export */ });
+/**
+ * Calculate a matrix that is the inverse of the provided matrix
+ * @param matrix {Matrix} Affine Matrix
+ * @returns {Matrix} Inverted Affine Matrix
+ */
+function inverse (matrix) {
+  // http://www.wolframalpha.com/input/?i=Inverse+%5B%7B%7Ba,c,e%7D,%7Bb,d,f%7D,%7B0,0,1%7D%7D%5D
+
+  const { a, b, c, d, e, f } = matrix
+
+  const denom = a * d - b * c
+
+  return {
+    a: d / denom,
+    b: b / -denom,
+    c: c / -denom,
+    d: a / denom,
+    e: (d * e - c * f) / -denom,
+    f: (b * e - a * f) / denom
+  }
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/transformation-matrix/src/isAffineMatrix.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/transformation-matrix/src/isAffineMatrix.js ***!
+  \******************************************************************/
+/*! namespace exports */
+/*! export isAffineMatrix [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_require__.r, __webpack_exports__, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "isAffineMatrix": () => /* binding */ isAffineMatrix
+/* harmony export */ });
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ "./node_modules/transformation-matrix/src/utils.js");
+;
+
+/**
+ * Check if the object contain an affine matrix
+ * @param object {Object} Generic Plain Object
+ * @return {boolean} True if is an object and contains an affine matrix
+ */
+
+function isAffineMatrix (object) {
+  return (0,_utils__WEBPACK_IMPORTED_MODULE_0__.isObject)(object) &&
+    'a' in object &&
+    (0,_utils__WEBPACK_IMPORTED_MODULE_0__.isNumeric)(object.a) &&
+    'b' in object &&
+    (0,_utils__WEBPACK_IMPORTED_MODULE_0__.isNumeric)(object.b) &&
+    'c' in object &&
+    (0,_utils__WEBPACK_IMPORTED_MODULE_0__.isNumeric)(object.c) &&
+    'd' in object &&
+    (0,_utils__WEBPACK_IMPORTED_MODULE_0__.isNumeric)(object.d) &&
+    'e' in object &&
+    (0,_utils__WEBPACK_IMPORTED_MODULE_0__.isNumeric)(object.e) &&
+    'f' in object &&
+    (0,_utils__WEBPACK_IMPORTED_MODULE_0__.isNumeric)(object.f)
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/transformation-matrix/src/rotate.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/transformation-matrix/src/rotate.js ***!
+  \**********************************************************/
+/*! namespace exports */
+/*! export rotate [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export rotateDEG [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_require__.r, __webpack_exports__, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "rotate": () => /* binding */ rotate,
+/* harmony export */   "rotateDEG": () => /* binding */ rotateDEG
+/* harmony export */ });
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ "./node_modules/transformation-matrix/src/utils.js");
+/* harmony import */ var _translate__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./translate */ "./node_modules/transformation-matrix/src/translate.js");
+/* harmony import */ var _transform__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./transform */ "./node_modules/transformation-matrix/src/transform.js");
+;
+
+
+
+const { cos, sin, PI } = Math
+/**
+ * Calculate a rotation matrix
+ * @param angle {number} Angle in radians
+ * @param [cx] {number} If (cx,cy) are supplied the rotate is about this point
+ * @param [cy] {number} If (cx,cy) are supplied the rotate is about this point
+ * @returns {Matrix} Affine Matrix
+ */
+function rotate (angle, cx, cy) {
+  const cosAngle = cos(angle)
+  const sinAngle = sin(angle)
+  const rotationMatrix = {
+    a: cosAngle,
+    c: -sinAngle,
+    e: 0,
+    b: sinAngle,
+    d: cosAngle,
+    f: 0
+  }
+  if ((0,_utils__WEBPACK_IMPORTED_MODULE_0__.isUndefined)(cx) || (0,_utils__WEBPACK_IMPORTED_MODULE_0__.isUndefined)(cy)) {
+    return rotationMatrix
+  }
+
+  return (0,_transform__WEBPACK_IMPORTED_MODULE_2__.transform)([
+    (0,_translate__WEBPACK_IMPORTED_MODULE_1__.translate)(cx, cy),
+    rotationMatrix,
+    (0,_translate__WEBPACK_IMPORTED_MODULE_1__.translate)(-cx, -cy)
+  ])
+}
+
+/**
+ * Calculate a rotation matrix with a DEG angle
+ * @param angle {number} Angle in degree
+ * @param [cx] {number} If (cx,cy) are supplied the rotate is about this point
+ * @param [cy] {number} If (cx,cy) are supplied the rotate is about this point
+ * @returns {Matrix} Affine Matrix
+ */
+function rotateDEG (angle, cx = undefined, cy = undefined) {
+  return rotate(angle * PI / 180, cx, cy)
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/transformation-matrix/src/scale.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/transformation-matrix/src/scale.js ***!
+  \*********************************************************/
+/*! namespace exports */
+/*! export scale [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_require__.r, __webpack_exports__, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "scale": () => /* binding */ scale
+/* harmony export */ });
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ "./node_modules/transformation-matrix/src/utils.js");
+/* harmony import */ var _translate__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./translate */ "./node_modules/transformation-matrix/src/translate.js");
+/* harmony import */ var _transform__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./transform */ "./node_modules/transformation-matrix/src/transform.js");
+;
+
+
+
+/**
+ * Calculate a scaling matrix
+ * @param sx {number} Scaling on axis x
+ * @param [sy = sx] {number} Scaling on axis y (default sx)
+ * @param [cx] {number} If (cx,cy) are supplied the scaling is about this point
+ * @param [cy] {number} If (cx,cy) are supplied the scaling is about this point
+ * @returns {Matrix} Affine Matrix
+ */
+function scale (sx, sy = undefined, cx = undefined, cy = undefined) {
+  if ((0,_utils__WEBPACK_IMPORTED_MODULE_0__.isUndefined)(sy)) sy = sx
+
+  const scaleMatrix = {
+    a: sx,
+    c: 0,
+    e: 0,
+    b: 0,
+    d: sy,
+    f: 0
+  }
+
+  if ((0,_utils__WEBPACK_IMPORTED_MODULE_0__.isUndefined)(cx) || (0,_utils__WEBPACK_IMPORTED_MODULE_0__.isUndefined)(cy)) {
+    return scaleMatrix
+  }
+
+  return (0,_transform__WEBPACK_IMPORTED_MODULE_2__.transform)([
+    (0,_translate__WEBPACK_IMPORTED_MODULE_1__.translate)(cx, cy),
+    scaleMatrix,
+    (0,_translate__WEBPACK_IMPORTED_MODULE_1__.translate)(-cx, -cy)
+  ])
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/transformation-matrix/src/shear.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/transformation-matrix/src/shear.js ***!
+  \*********************************************************/
+/*! namespace exports */
+/*! export shear [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__.r, __webpack_exports__, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "shear": () => /* binding */ shear
+/* harmony export */ });
+/**
+ * Calculate a shear matrix
+ * @param shx {number} Shear on axis x
+ * @param shy {number} Shear on axis y
+ * @returns {Matrix} Affine Matrix
+ */
+function shear (shx, shy) {
+  return {
+    a: 1,
+    c: shx,
+    e: 0,
+    b: shy,
+    d: 1,
+    f: 0
+  }
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/transformation-matrix/src/skew.js":
+/*!********************************************************!*\
+  !*** ./node_modules/transformation-matrix/src/skew.js ***!
+  \********************************************************/
+/*! namespace exports */
+/*! export skew [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export skewDEG [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__.r, __webpack_exports__, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "skew": () => /* binding */ skew,
+/* harmony export */   "skewDEG": () => /* binding */ skewDEG
+/* harmony export */ });
+// https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/skew
+const { tan } = Math
+
+/**
+ * Calculate a skew matrix
+ * @param ax {number} Skew on axis x
+ * @param ay {number} Skew on axis y
+ * @returns {Matrix} Affine Matrix
+ */
+function skew (ax, ay) {
+  return {
+    a: 1,
+    c: tan(ax),
+    e: 0,
+    b: tan(ay),
+    d: 1,
+    f: 0
+  }
+}
+
+/**
+ * Calculate a skew matrix using DEG angles
+ * @param ax {number} Skew on axis x
+ * @param ay {number} Skew on axis y
+ * @returns {Matrix} Affine Matrix
+ */
+function skewDEG (ax, ay) {
+  return skew(ax * Math.PI / 180, ay * Math.PI / 180)
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/transformation-matrix/src/smoothMatrix.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/transformation-matrix/src/smoothMatrix.js ***!
+  \****************************************************************/
+/*! namespace exports */
+/*! export smoothMatrix [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__.r, __webpack_exports__, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "smoothMatrix": () => /* binding */ smoothMatrix
+/* harmony export */ });
+/**
+ * Rounds all elements of the given matrix using the given precision
+ * @param matrix {Matrix} An affine matrix to round
+ * @param [precision] {number} A precision to use for Math.round. Defaults to 10000000000 (meaning which rounds to the 10th digit after the comma).
+ * @returns {Matrix} The rounded Affine Matrix
+ */
+function smoothMatrix (matrix, precision = 10000000000) {
+  return {
+    a: Math.round(matrix.a * precision) / precision,
+    b: Math.round(matrix.b * precision) / precision,
+    c: Math.round(matrix.c * precision) / precision,
+    d: Math.round(matrix.d * precision) / precision,
+    e: Math.round(matrix.e * precision) / precision,
+    f: Math.round(matrix.f * precision) / precision
+  }
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/transformation-matrix/src/toString.js":
+/*!************************************************************!*\
+  !*** ./node_modules/transformation-matrix/src/toString.js ***!
+  \************************************************************/
+/*! namespace exports */
+/*! export toCSS [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export toSVG [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export toString [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__.r, __webpack_exports__, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "toCSS": () => /* binding */ toCSS,
+/* harmony export */   "toSVG": () => /* binding */ toSVG,
+/* harmony export */   "toString": () => /* binding */ toString
+/* harmony export */ });
+/**
+ * Serialize an affine matrix to a string that can be used with CSS or SVG
+ * @param matrix {Matrix} Affine Matrix
+ * @returns {string} String that contains an affine matrix formatted as matrix(a,b,c,d,e,f)
+ */
+function toCSS (matrix) {
+  return toString(matrix)
+}
+
+/**
+ * Serialize an affine matrix to a string that can be used with CSS or SVG
+ * @param matrix {Matrix} Affine Matrix
+ * @returns {string} String that contains an affine matrix formatted as matrix(a,b,c,d,e,f)
+ */
+function toSVG (matrix) {
+  return toString(matrix)
+}
+
+/**
+ * Serialize an affine matrix to a string that can be used with CSS or SVG
+ * @param matrix {Matrix} Affine Matrix
+ * @returns {string} String that contains an affine matrix formatted as matrix(a,b,c,d,e,f)
+ */
+function toString (matrix) {
+  return `matrix(${matrix.a},${matrix.b},${matrix.c},${matrix.d},${matrix.e},${matrix.f})`
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/transformation-matrix/src/transform.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/transformation-matrix/src/transform.js ***!
+  \*************************************************************/
+/*! namespace exports */
+/*! export compose [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export transform [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__.r, __webpack_exports__, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "transform": () => /* binding */ transform,
+/* harmony export */   "compose": () => /* binding */ compose
+/* harmony export */ });
+/**
+ * Merge multiple matrices into one
+ * @param matrices {...Matrix | Matrix[]} Matrices listed as separate parameters or in an array
+ * @returns {Matrix} Affine Matrix
+ */
+function transform (...matrices) {
+  matrices = Array.isArray(matrices[0]) ? matrices[0] : matrices
+
+  const multiply = (m1, m2) => {
+    return {
+      a: m1.a * m2.a + m1.c * m2.b,
+      c: m1.a * m2.c + m1.c * m2.d,
+      e: m1.a * m2.e + m1.c * m2.f + m1.e,
+      b: m1.b * m2.a + m1.d * m2.b,
+      d: m1.b * m2.c + m1.d * m2.d,
+      f: m1.b * m2.e + m1.d * m2.f + m1.f
+    }
+  }
+
+  switch (matrices.length) {
+    case 0:
+      throw new Error('no matrices provided')
+
+    case 1:
+      return matrices[0]
+
+    case 2:
+      return multiply(matrices[0], matrices[1])
+
+    default: {
+      const [m1, m2, ...rest] = matrices
+      const m = multiply(m1, m2)
+      return transform(m, ...rest)
+    }
+  }
+}
+
+/**
+ * Merge multiple matrices into one
+ * @param matrices {...Matrix | Matrix[]} Matrices listed as separate parameters or in an array
+ * @returns {Matrix} Affine Matrix
+ */
+function compose (...matrices) {
+  return transform(...matrices)
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/transformation-matrix/src/translate.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/transformation-matrix/src/translate.js ***!
+  \*************************************************************/
+/*! namespace exports */
+/*! export translate [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__.r, __webpack_exports__, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "translate": () => /* binding */ translate
+/* harmony export */ });
+/**
+ * Calculate a translate matrix
+ * @param tx {number} Translation on axis x
+ * @param [ty = 0] {number} Translation on axis y
+ * @returns {Matrix} Affine Matrix
+ */
+function translate (tx, ty = 0) {
+  return {
+    a: 1,
+    c: 0,
+    e: tx,
+    b: 0,
+    d: 1,
+    f: ty
+  }
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/transformation-matrix/src/utils.js":
+/*!*********************************************************!*\
+  !*** ./node_modules/transformation-matrix/src/utils.js ***!
+  \*********************************************************/
+/*! namespace exports */
+/*! export isNumeric [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export isObject [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export isUndefined [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export matchesShape [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__.r, __webpack_exports__, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "isUndefined": () => /* binding */ isUndefined,
+/* harmony export */   "isNumeric": () => /* binding */ isNumeric,
+/* harmony export */   "isObject": () => /* binding */ isObject,
+/* harmony export */   "matchesShape": () => /* binding */ matchesShape
+/* harmony export */ });
+function isUndefined (val) {
+  return typeof val === 'undefined'
+}
+
+function isNumeric (n) {
+  return typeof n === 'number' &&
+    !Number.isNaN(n) &&
+    Number.isFinite(n)
+}
+
+function isObject (obj) {
+  return typeof obj === 'object' &&
+    obj !== null &&
+    !Array.isArray(obj)
+}
+
+function matchesShape (obj, keys) {
+  return keys.every(key => key in obj)
+}
 
 
 /***/ }),

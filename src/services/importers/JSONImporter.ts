@@ -14,6 +14,11 @@ import { v1 as uuidv1 } from 'uuid'
  * @class JSONImporter
  */
 class JSONImporter {
+	/**
+	 * Empty project with default value
+	 *
+	 * @static
+	 */
 	static createEmptyProject = (): IProject => {
 		return {
 			id: uuidv1(),
@@ -39,6 +44,13 @@ class JSONImporter {
 		}
 	}
 
+	/**
+	 * Parse string to DrawerCanvas
+	 *
+	 * @static
+	 * @param {string} project_json
+	 * @returns {(DrawerCanvas | null)}
+	 */
 	static parse(project_json: string): DrawerCanvas | null {
 		if (!project_json) return null
 

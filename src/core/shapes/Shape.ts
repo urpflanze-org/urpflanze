@@ -1,8 +1,8 @@
 import ShapeBase from '@core/shapes/ShapeBase'
 import SceneChild from '@core/SceneChild'
-import { IShapeBounding, IShapeSettings } from '@core/types/shape-base'
+import { IParentBufferIndex, IShapeBounding, IShapeSettings } from '@core/types/shape-base'
 import Scene from '@core/Scene'
-import { IRepetition, ISceneChildPropArguments } from '@core/types/scene-child'
+import { IRepetition, ISceneChildPropArguments, ISceneChildProps } from '@core/types/scene-child'
 import { IBufferIndex } from '@core/types/shape-base'
 
 /**
@@ -10,12 +10,11 @@ import { IBufferIndex } from '@core/types/shape-base'
  *
  * @category Core.Shapes
  */
-class Shape extends ShapeBase {
+class Shape<K extends ISceneChildProps = ISceneChildProps> extends ShapeBase<K> {
 	/**
 	 * child shape
 	 *
 	 * @type {(SceneChild)}
-	 * @memberof ShapeBase
 	 */
 	public shape?: SceneChild
 
@@ -23,7 +22,6 @@ class Shape extends ShapeBase {
 	 * Creates an instance of Shape.
 	 *
 	 * @param {ShapeSettings} [settings={}]
-	 * @memberof Shape
 	 */
 	constructor(settings: IShapeSettings = {}) {
 		settings.type = settings.type || 'Shape'
@@ -46,7 +44,6 @@ class Shape extends ShapeBase {
 	 * Check if shape is static
 	 *
 	 * @returns {boolean}
-	 * @memberof Shape
 	 */
 	public isStatic(): boolean {
 		return super.isStatic() && (this.shape ? this.shape.isStatic() : true)
@@ -56,7 +53,6 @@ class Shape extends ShapeBase {
 	 * Check if shape has static index
 	 *
 	 * @returns {boolean}
-	 * @memberof Shape
 	 */
 	public isStaticIndexed(): boolean {
 		return super.isStaticIndexed() && (this.shape ? this.shape.isStaticIndexed() : true)
@@ -67,7 +63,6 @@ class Shape extends ShapeBase {
 	 *
 	 * @param {number | string} idOrName
 	 * @returns {(SceneChild | null)}
-	 * @memberof Shape
 	 */
 	public find(idOrName: number | string): SceneChild | null {
 		if (this.id === idOrName || this.name === idOrName) return this
@@ -82,7 +77,6 @@ class Shape extends ShapeBase {
 	 *
 	 * @param {ISceneChildPropArguments} propArguments
 	 * @returns {number}
-	 * @memberof Shape
 	 */
 	public getBufferLength(propArguments: ISceneChildPropArguments): number {
 		if (this.bStatic && this.buffer && this.buffer.length > 0) return this.buffer.length
@@ -99,7 +93,6 @@ class Shape extends ShapeBase {
 	 * @param {number} generateId
 	 * @param {ISceneChildPropArguments} propArguments
 	 * @returns {Float32Array}
-	 * @memberof ShapeBase
 	 */
 	protected generateBuffer(generateId: number, propArguments: ISceneChildPropArguments): Float32Array {
 		if (this.shape) {
@@ -131,14 +124,19 @@ class Shape extends ShapeBase {
 	 * @protected
 	 * @param {number} frameLength
 	 * @param {IRepetition} repetition
+	 * @returns {number} nextIndex
 	 */
-	protected addIndex(frameLength: number, repetition: IRepetition): void {
+	protected addIndex(
+		frameLength: number,
+		repetition: IRepetition
+		// singleRepetitionBounding: IShapeBounding
+	): void {
 		if (this.shape) {
-			const indexedBuffer = this.indexedBuffer as Array<IBufferIndex>
 			const childIndexedBuffer = this.shape.getIndexedBuffer() || []
-			const parent: IBufferIndex = {
+			const parent: IParentBufferIndex = {
 				shape: this,
 				frameLength,
+				// singleRepetitionBounding,
 				repetition: {
 					type: repetition.type,
 					angle: repetition.angle,
@@ -160,8 +158,8 @@ class Shape extends ShapeBase {
 
 			for (let i = 0, len = childIndexedBuffer.length; i < len; i++) {
 				const currentIndexed = { ...childIndexedBuffer[i] }
-				currentIndexed.parent = currentIndexed.parent ? this.setIndexedParent(currentIndexed.parent, parent) : parent
-				indexedBuffer.push(currentIndexed)
+				currentIndexed.parent = currentIndexed.parent ? Shape.setIndexedParent(currentIndexed.parent, parent) : parent
+				this.indexedBuffer.push(currentIndexed)
 			}
 		}
 	}
@@ -169,17 +167,26 @@ class Shape extends ShapeBase {
 	/**
 	 * Set parent of indexed
 	 *
-	 * @private
-	 * @param {IBufferIndex} current
-	 * @param {IBufferIndex} parent
-	 * @return {*}  {IBufferIndex}
+	 * @static
+	 * @param {(IBufferIndex | IParentBufferIndex)} current
+	 * @param {IParentBufferIndex} parent
+	 * @returns {(IBufferIndex | IParentBufferIndex)}
 	 */
-	private setIndexedParent(current: IBufferIndex, parent: IBufferIndex): IBufferIndex {
+	static setIndexedParent(
+		current: IBufferIndex | IParentBufferIndex,
+		parent: IParentBufferIndex,
+		maxLevel?: number,
+		currentLevel = 0
+	): IBufferIndex | IParentBufferIndex {
 		return {
 			shape: current.shape,
+			// singleRepetitionBounding: current.singleRepetitionBounding,
 			repetition: current.repetition,
 			frameLength: current.frameLength,
-			parent: current.parent ? this.setIndexedParent(current.parent, parent) : parent,
+			parent:
+				current.parent && typeof maxLevel !== 'undefined' && currentLevel < maxLevel
+					? Shape.setIndexedParent(current.parent, parent, maxLevel, currentLevel++)
+					: parent,
 		}
 	}
 
@@ -187,7 +194,6 @@ class Shape extends ShapeBase {
 	 * Set shape
 	 *
 	 * @param {(SceneChild | undefined)} [shape]
-	 * @memberof ShapeBase
 	 */
 	public setShape(shape: SceneChild | undefined): void {
 		if (typeof shape === 'undefined') {

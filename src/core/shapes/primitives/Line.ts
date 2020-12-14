@@ -1,5 +1,5 @@
 import { EShapePrimitiveAdaptMode } from '@core/types/shape-base'
-import { IShapeBufferSettings } from '@core/types/shape-primitive'
+import { IShapeBufferSettings } from '@core/types/shape-primitives'
 
 import ShapeBuffer from '@core/shapes/ShapeBuffer'
 

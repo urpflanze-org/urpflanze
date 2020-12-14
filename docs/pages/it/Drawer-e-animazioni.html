@@ -1,0 +1,137 @@
+<h1>Drawer e animazioni</h1>
+
+<h2>DrawerCanvas e Timeline</h2>
+Urpflanze è principalmente una libreria per la generazione di punti, tuttavia esiste di base una classe per mostrare il
+risultato dell'elaborazione degli stessi: il
+<a href="#/ref/DrawerCanvas">DrawerCanvas</a>.<br />
+Negli esempi precedenti abbiamo già visto che possiamo utilizzare il metodo <mark>draw()</mark> per renderizzare
+l'immagine in un dato momento ed il metodo <mark>startAnimation()</mark> per far partire l'animazione.
+<p>
+	Per gestire un'animazione è possibile utilizzare la classe <a href="#/ref/Timeline">Timeline</a> per settare la durata
+	e il framerate.
+</p>
+
+<!-- prettier-ignore -->
+<script id="d-t_1" class="runnable-script">/** 
+ * Esempi di utilizzo della Timeline
+ */
+const scene = new Urpflanze.Scene()
+
+const shape = new Urpflanze.Rect({
+    repetitions: [6, 6],
+    sideLength: 10,
+    distance: 20,
+})
+
+const container = new Urpflanze.Shape({
+    shape: shape,
+    repetitions: 4,
+    distance: 100,
+    rotateY: ({ time }) => time * Urpflanze.PI2 / 4000,
+    perspective: .92
+})
+
+scene.add(container) 
+
+const drawer = new Urpflanze.DrawerCanvas(scene, document.body)
+
+const timeline = drawer.getTimeline()
+timeline.setFramerate(4) // Set animation framerate
+timeline.setDurate(4000) // Set animation duration
+
+drawer.startAnimation()
+</script>
+
+<h2>Animazioni semplici</h2>
+Se hai poca dimstichezza con le funzioni periodiche puoi utilizzare le
+<a href="#/ref/ISimpleAnimation">ISimpleAnimation</a>. Essere posso essere di tre tipi, settando la proprietà
+<mark>type</mark>:
+
+<ul class="details">
+	<li>
+		<mark>loop</mark>
+		<i
+			>l'animazione si ripeterà da <mark>from</mark> a <mark>to</mark> e da <mark>to</mark> a <mark>from</mark> per la
+			durata specificata</i
+		>
+	</li>
+	<li>
+		<mark>uncontrolled-loop</mark>
+		<i
+			><i>l'animazione si ripeterà da <mark>from</mark> a <mark>to</mark> per la durata specificata</i></i
+		>
+	</li>
+	<li>
+		<mark>static</mark>
+		<i>
+			<i
+				>l'animazione verra eseguita una sola volta da <mark>from</mark> a <mark>to</mark> per la durata specificata,
+				puoi utilizare la proprietà <mark>delay</mark> per farla partire al tempo desiderato</i
+			>
+		</i>
+	</li>
+</ul>
+
+<p>
+	Attraverso la proprietà <mark>mode</mark> è possibile specificare se essa deve seguire un andamento sinusoidale oppure
+	un <a href="#/ref/TEasing">easing</a>.
+</p>
+
+<h2>Opzioni per il DrawerCanvas</h2>
+Al DrawerCanvas è possibile passare alcuni argomenti per altre sperimentazioni attraverso l'oggetto
+<a href="#/ref/IDrawerCanvasOptions">DrawerCanvasOptions</a>. Proviamo a fare un esempio settando i
+<mark>ghosts</mark> e con l'utilizzo delle <mark>SimpleAnimation</mark>
+
+<!-- prettier-ignore -->
+<script id="d-t_2" class="runnable-script">/** 
+ * DrawerCanvas options e SimpleAnimation
+ */
+ const scene = new Urpflanze.Scene()
+
+const circles = new Urpflanze.Circle({
+    repetitions: 4,
+    sideLength: 60,
+    scale: Urpflanze.Animation.loop({
+        from: 0.6,
+        to: 0.1,
+        durate: 2000,
+        mode: 'easing',
+        modeFunction: 'quadraticInOut'
+    }),
+    distance: Urpflanze.Animation.loop({
+        from: 20,
+        to: 100,
+        durate: 2000
+    }),
+    displace: Urpflanze.Animation.uncontrolledLoop({
+        from: 0,
+        to: Math.PI * 2,
+        durate: 4000,
+        mode: 'easing',
+        modeFunction: 'linear'
+    }),
+    rotateX: Urpflanze.Animation.uncontrolledLoop({
+        from: 0,
+        to: Math.PI * 2,
+        durate: 4000,
+    }),
+
+    style: {
+        stroke: Urpflanze.Animation.loop({
+            from: 'hsl(0, 50%, 50%)',
+            to: 'hsl(140, 100%, 40%)',
+            colorTransitionMode: 'rgb',
+            durate: 2000,
+        })
+    }
+})
+
+scene.add(circles)
+
+const drawer = new Urpflanze.DrawerCanvas(scene, document.body, {
+    ghosts: 120,
+    ghostSkipFunction: ghostRepetition => ghostRepetition.index ** 1.65,
+}, 1, 4000)
+
+drawer.startAnimation()
+</script>

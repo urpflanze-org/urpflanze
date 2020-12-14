@@ -23,7 +23,7 @@ drawer.draw() // Disegna la scena su canvas
 </script>
 
 <p>
-	Per ripetere il rettangolo in maniara <a href="#/ref/ERepetitionType">Circolare</a> basterà aggiungere ai parametri di
+	Per ripetere il rettangolo in maniera <a href="#/ref/ERepetitionType">Circolare</a> basterà aggiungere ai parametri di
 	<mark>Rect</mark>, la proprietà <mark>repetitions</mark> che indica il numero di ripetizioni e la proprietà
 	<mark>distance</mark> che indica la distanza delle ripetizioni dal centro della scena.
 </p>
@@ -37,7 +37,7 @@ const scene = new Urpflanze.Scene()
 const rect = new Urpflanze.Rect({
 	repetitions: 8, 
 	distance: 100,
-	sideLength: 20 // Dimensione del raggio rettangolo
+	sideLength: 20 // Dimensione del raggio del rettangolo
 })
 
 // Aggiunge il rettangolo alla scena
@@ -63,13 +63,17 @@ Prima di continuare è importante spiegare la gerarchia delle classi aggiungibil
 	<li><mark>Shape</mark> <i>è un'incapsulatore di SceneChild su cui è possibile applicare le proprietà</i></li>
 	<li><mark>ShapeBuffer</mark> <i>è una forma primitiva generata da un buffer statico</i></li>
 	<li><mark>ShapeLoop</mark> <i>è una forma primitiva generata da un ciclo</i></li>
+	<li>
+		<mark>ShapeRecursive</mark>
+		<i>è una forma che ripete su ogni vertice uno SceneChild ed è possibile applicare le proprietà</i>
+	</li>
 </ul>
 
 Puoi utilizzare di base alcune ShapeBuffer e ShapeLoop
 
 <ul class="details">
 	<li><mark>ShapeBuffer</mark> <i>Line, Triangle, Rect</i></li>
-	<li><mark>ShapeLoop</mark> <i>RegularPolygon, Circle, Spiral, Rose, Lissajous</i></li>
+	<li><mark>ShapeLoop</mark> <i>Polygon, Circle, Spiral, Rose, Lissajous</i></li>
 </ul>
 
 <h2>Contenitori: Group e Shape</h2>
@@ -147,3 +151,64 @@ scene.add(container)
 const drawer = new Urpflanze.DrawerCanvas(scene, document.body)
 drawer.draw()
 </script>
+
+<h2>Styling</h2>
+
+Per le <a href="#/ref/ShapePrimitive">ShapePrimitive</a> - che sono le forme che verranno disegnate - è possibile
+settare il colore del bordo o di riempimento attraverso la proprietà <mark>style</mark>.
+
+<!-- prettier-ignore -->
+<script id="c-e_5" class="runnable-script">/**
+ * ShapePrimitive style
+ */
+const scene = new Urpflanze.Scene({
+	color: '#f70',
+	background: '#fff'
+})
+
+const group = new Urpflanze.Group({ repetitions: 4 })
+
+const rects = new Urpflanze.Shape({
+	distance: 110,
+
+	shape: new Urpflanze.Circle({
+		repetitions: [3, 1],
+		sideLength: 7.5,
+		style: { fill: '#f70' }
+	})
+})
+
+const triangles = new Urpflanze.Triangle({
+	sideLength: 10,
+	distance: 150,
+	style: { fill: '#fff' }
+})
+
+const lines = new Urpflanze.Line({
+	sideLength: 65,
+	distance: 75
+})
+
+group.add(triangles, lines, rects)
+
+const center = new Urpflanze.Circle({
+	distance: 0,
+	sideLength: 10,
+})
+
+const circles = new Urpflanze.Circle({
+	repetitions: 8,
+	distance: 90,
+	sideLength: 80,
+	style: { fill: 'hsla(200, 100%, 60%, .2)' }
+})
+
+scene.add(circles, group, center)
+
+const drawer = new Urpflanze.DrawerCanvas(scene, document.body)
+drawer.draw()
+</script>
+
+<div class="next-page">
+	<a href="#/it/Gestire-le-ripetizioni">Gestire le ripetizioni -></a>
+</div>

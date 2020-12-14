@@ -4,7 +4,7 @@
 export * from '@core/types/scene'
 export * from '@core/types/scene-child'
 export * from '@core/types/shape-base'
-export * from '@core/types/shape-primitive'
+export * from '@core/types/shape-primitives'
 
 export * from './index-light'
 

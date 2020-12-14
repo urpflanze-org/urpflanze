@@ -4,6 +4,7 @@ import { ERepetitionType, IRepetition } from '@core/types/scene-child'
 
 import SceneChild from '@core/SceneChild'
 import { vec2 } from 'gl-matrix'
+import Scene from './Scene'
 
 /**
  * @internal
@@ -135,7 +136,9 @@ const Context = {
 	 * @param {SceneChild} sceneChild
 	 * @returns {number}
 	 */
-	percW: (percentage: number, sceneChild: SceneChild): number => {
+	percW: (percentage: number, sceneChild: SceneChild | Scene): number => {
+		if (sceneChild instanceof Scene) return (sceneChild.width * percentage) / 100
+
 		return sceneChild && sceneChild.scene ? (sceneChild.scene.width * percentage) / 100 : percentage
 	},
 
@@ -146,7 +149,9 @@ const Context = {
 	 * @param {SceneChild} sceneChild
 	 * @returns {number}
 	 */
-	percH: (percentage: number, sceneChild: SceneChild): number => {
+	percH: (percentage: number, sceneChild: SceneChild | Scene): number => {
+		if (sceneChild instanceof Scene) return (sceneChild.height * percentage) / 100
+
 		return sceneChild && sceneChild.scene ? (sceneChild.scene.height * percentage) / 100 : percentage
 	},
 }

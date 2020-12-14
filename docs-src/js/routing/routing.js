@@ -12,6 +12,10 @@ export function bindRouting() {
 	})
 }
 
+export function getCurrentPage() {
+	return currentPage
+}
+
 /**
  * Dynamic content
  */
@@ -19,12 +23,14 @@ export function goto(page) {
 	const content = document.getElementById('content')
 
 	if (page.length === 0) {
-		page = document.querySelector('#nav a').getAttribute('href')
+		page = document.querySelector('#nav .link').getAttribute('href')
 	}
 
+	console.log('page', page)
+	activateLink(page)
 	if (currentPage !== page) {
+		currentPage = page
 		closeMenu()
-		activateLink(page)
 
 		const endpoint = `pages${page.substr(1)}.html`
 
@@ -40,7 +46,6 @@ export function goto(page) {
 			fetch(endpoint)
 				.then(reponse => reponse.text())
 				.then(data => {
-					currentPage = endpoint
 					content.innerHTML = data
 					onLoadContent()
 				})
@@ -53,6 +58,7 @@ export function goto(page) {
  */
 function onLoadContent() {
 	let title = window.location.href.split('/').pop()
+
 	if (title.length > 0) {
 		title = title.replace('.html', '')
 	} else {
@@ -68,11 +74,6 @@ function onLoadContent() {
 	document.title = title
 
 	const content = document.getElementById('content')
-
-	window.scrollTo({
-		top: 0,
-		behavior: 'smooth',
-	})
 
 	// scripts
 	const scripts = content.getElementsByTagName('script')
@@ -128,11 +129,19 @@ function onLoadContent() {
 	function openContainer(e) {
 		const container = document.getElementById(e.target.getAttribute('data-container'))
 		if (container) {
-			container.style.height = parseFloat(container.style.height) > 0 ? '0px' : window.innerHeight * 0.4 + 'px'
+			container.style.height = parseFloat(container.style.height) > 0 ? '0px' : window.innerHeight * 0.5 + 'px'
 		}
 	}
-	for (let i = 0; i < cliccables.length; i++) cliccables[i].addEventListener('click', openContainer, false)
+	for (let i = 0; i < cliccables.length; i++) {
+		cliccables[i].addEventListener('click', openContainer, false)
+		openContainer({ target: cliccables[i] })
+	}
 
 	// code prettyprint
 	PR.prettyPrint()
+
+	window.scrollTo({
+		top: 0,
+		behavior: 'smooth',
+	})
 }
