@@ -1,4 +1,4 @@
-/** @license Urpflanze v0.1.0-alpha.2
+/** @license Urpflanze v0.2.0-beta.1
  * urpflanze-light.js
  *
  * Github: https://github.com/genbs/urpflanze/
