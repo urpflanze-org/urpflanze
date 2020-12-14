@@ -18,18 +18,19 @@
 			const scene = new Urpflanze.Scene()
 
 			const lines = new Urpflanze.Line({
-				repetitions: [500, 1],
+				repetitions: [1, 500],
 				sideLength: 100,
 				rotateZ: Math.PI / 2,
 				translate: propArguments => {
 					const x = propArguments.repetition.col.offset * -330 + scene.center[0] / 1.2
 					const y = Math.sin(propArguments.repetition.col.offset * Math.PI * 2) * 30
 
-					// invert the values because the line is rotated on z axis
-					return [y, x]
+					return [x, y]
 				},
 				style: {
-					strokeColor: propArguments => `hsl(${Math.floor(propArguments.repetition.col.offset * 360)}, 100%, 50%)`,
+					stroke: propArguments => {
+						return `hsl(${Math.floor(propArguments.repetition.col.offset * 360)}, 100%, 50%)`
+					},
 				},
 			})
 
