@@ -46,7 +46,7 @@
 
 			const drawer = new Urpflanze.DrawerCanvas(scene, document.body, {
 				ghosts: 80,
-				ghostSkipFunction: i => i ** 1.5,
+				ghostSkipFunction: ghostsRepetition => ghostsRepetition.index ** 1.5,
 			})
 			drawer.startAnimation()
 		</script>
