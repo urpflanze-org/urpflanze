@@ -1,19 +1,19 @@
-<h1>Drawer e animazioni</h1>
+<h1>Drawer and animations</h1>
 
-<h2>DrawerCanvas e Timeline</h2>
-Urpflanze è principalmente una libreria per la generazione di punti, tuttavia esiste di base una classe per mostrare il
-risultato dell'elaborazione degli stessi: il
+<h2>DrawerCanvas and Timeline</h2>
+Urpflanze is primarily a library for generating points, however there is a basic class to show the result of their
+processing: the
 <a href="#/ref/DrawerCanvas">DrawerCanvas</a>.<br />
-Negli esempi precedenti abbiamo già visto che possiamo utilizzare il metodo <mark>draw()</mark> per renderizzare
-l'immagine in un dato momento ed il metodo <mark>startAnimation()</mark> per far partire l'animazione.
+In the previous examples we have already seen that we can use the <mark>draw()</mark> method to render the image at a
+given moment and the <mark>startAnimation()</mark> method to start the animation.
 <p>
-	Per gestire un'animazione è possibile utilizzare la classe <a href="#/ref/Timeline">Timeline</a> per settare la durata
-	e il framerate.
+	To manage an animation, you can use the <a href="#/ref/Timeline">Timeline</a> class to set the duration and the
+	framerate.
 </p>
 
 <!-- prettier-ignore -->
 <script id="d-t_1" class="runnable-script">/** 
- * Esempi di utilizzo della Timeline
+ * Examples of using the Timeline
  */
 const scene = new Urpflanze.Scene()
 
@@ -42,47 +42,48 @@ timeline.setDurate(4000) // Set animation duration
 drawer.startAnimation()
 </script>
 
-<h2>Animazioni semplici</h2>
-Se hai poca dimestichezza con le funzioni periodiche puoi utilizzare le
-<a href="#/ref/ISimpleAnimation">ISimpleAnimation</a>. Essere posso essere di tre tipi, settando la proprietà
-<mark>type</mark>:
+<h2>Simple animations</h2>
+If you are unfamiliar with periodic functions you can use the
+<a href="#/ref/ISimpleAnimation">SimpleAnimation</a>. There can be three types by setting the
+<mark>type</mark> property:
 
 <ul class="details">
 	<li>
 		<mark>loop</mark>
-		<i
-			>l'animazione si ripeterà da <mark>from</mark> a <mark>to</mark> e da <mark>to</mark> a <mark>from</mark> per la
-			durata specificata</i
-		>
+		<i>
+			the animation will repeat from <mark>from</mark> to <mark>to</mark> and from <mark>to</mark> to
+			<mark>from</mark> for the specified duration
+		</i>
 	</li>
 	<li>
 		<mark>uncontrolled-loop</mark>
-		<i>l'animazione si ripeterà da <mark>from</mark> a <mark>to</mark> per la durata specificata</i>
+		<i>the animation will repeat from <mark>from</mark> to <mark>to</mark> for the specified duration</i>
 	</li>
 	<li>
 		<mark>static</mark>
 		<i>
-			l'animazione verra eseguita una sola volta da <mark>from</mark> a <mark>to</mark> per la durata specificata, puoi
-			utilizare la proprietà <mark>delay</mark> per farla partire al tempo desiderato
+			the animation will run once from <mark>from</mark> to <mark>to</mark> for the specified duration, you can use the
+			<mark>delay</mark> property to start it at the desired time
 		</i>
 	</li>
 </ul>
 
 <p>
-	Attraverso la proprietà <mark>mode</mark> è possibile specificare se essa deve seguire un andamento sinusoidale oppure
-	un <a href="#/ref/TEasing">easing</a>.
+	Through the property <mark>mode</mark> it is possible to specify whether it must follow a sinusoidal trend or a
+	<a href="#/ref/TEasing">easing</a>.
 </p>
 
-<h2>Opzioni per il DrawerCanvas</h2>
-Al DrawerCanvas è possibile passare alcuni argomenti per altre sperimentazioni attraverso l'oggetto
-<a href="#/ref/IDrawerCanvasOptions">DrawerCanvasOptions</a>. Proviamo a fare un esempio settando i
-<mark>ghosts</mark> e con l'utilizzo delle <mark>SimpleAnimation</mark>
+<h2>Options for the DrawerCanvas</h2> 
+At DrawerCanvas it is possible to pass some topics for other experimentations through
+the object <a href="#/ref/IDrawerCanvasOptions">DrawerCanvasOptions</a>. Let's try to make an example by setting i
+<mark>ghosts</mark> and with the use of <mark>SimpleAnimation</mark>
+    
 
 <!-- prettier-ignore -->
 <script id="d-t_2" class="runnable-script">/** 
  * DrawerCanvas options e SimpleAnimation
  */
- const scene = new Urpflanze.Scene()
+const scene = new Urpflanze.Scene()
 
 const circles = new Urpflanze.Circle({
     repetitions: 4,
@@ -131,3 +132,4 @@ const drawer = new Urpflanze.DrawerCanvas(scene, document.body, {
 
 drawer.startAnimation()
 </script>
+</h2>

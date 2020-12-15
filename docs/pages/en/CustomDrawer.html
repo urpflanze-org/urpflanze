@@ -1,0 +1,64 @@
+<h1>Custom Drawer</h1>
+
+<!-- prettier-ignore -->
+<script id="c-d_2" class="runnable-script">/**
+ * Custom Drawer
+ */
+
+// Create Scene
+const scene = new Urpflanze.Scene()
+
+scene.add(
+    new Urpflanze.Circle({ 
+        repetitions: 100,
+        distance: ({ time }) => Math.sin(time / 600) * 100
+    })
+) 
+
+// Create Canvas
+const canvas = document.querySelector('#c-d_2')
+canvas.width = scene.width
+canvas.height = scene.height
+const context = canvas.getContext('2d')
+
+
+// Render Scene
+requestAnimationFrame(render)
+
+function render(time) {
+    requestAnimationFrame(render)
+    
+    context.fillStyle = scene.background
+    context.fillRect(0, 0, scene.width, scene.height)
+
+    scene.update(time)
+    scene.stream(drawShape)
+    
+    // Or...
+    // scene.currentTime = time
+    // const sceneChilds = scene.getChildren()
+    // for(let i = 0, len = sceneChilds.length; i < len; i++) {
+    //     sceneChilds[i].generate(time, true)
+    //     sceneChilds[i].stream(drawShape)
+    // }
+}
+
+function drawShape(streamArgs) {
+    let i = streamArgs.frameBufferIndex
+
+    context.beginPath()
+    context.moveTo(streamArgs.buffer[i], streamArgs.buffer[i + 1])
+    i += 2
+    
+    for (let len = streamArgs.frameBufferIndex + streamArgs.frameLength; i < len; i += 2) {
+        context.lineTo(streamArgs.buffer[i], streamArgs.buffer[i + 1])
+    }
+
+    if (streamArgs.currentIndexing.shape.isClosed())
+        context.closePath()
+    
+    context.lineWidth = 1
+    context.strokeStyle = scene.color
+    context.stroke()
+}
+</script>

@@ -160,3 +160,13 @@ blockquote {
 .first-block {
 	white-space: pre-line;
 }
+
+/**
+ * Repetition grid
+ */
+.repetition-grid {
+	margin: 2rem 0;
+	display: grid;
+	grid-template-columns: 1fr 1.618fr;
+	gap: 2rem;
+}

@@ -26,7 +26,6 @@ export function goto(page) {
 		page = document.querySelector('#nav .link').getAttribute('href')
 	}
 
-	console.log('page', page)
 	activateLink(page)
 	if (currentPage !== page) {
 		currentPage = page
@@ -60,7 +59,7 @@ function onLoadContent() {
 	let title = window.location.href.split('/').pop()
 
 	if (title.length > 0) {
-		title = title.replace('.html', '')
+		title = title.replace(/-/gi, ' ').replace('.html', '')
 	} else {
 		title = 'Urpflanze'
 	}
@@ -86,7 +85,7 @@ function onLoadContent() {
 			script_container.innerHTML = `
 			<pre class="prettyprint"><code translate="no" class="language-js">${script}</code></pre>
 			<div class="code-desc">
-				<span class="open-container" data-container="${script_id}_c">Mostra / Nascondi il risultato ▸</span>
+				<span class="open-container" data-container="${script_id}_c">Hide / Show result ▸</span>
 			</div>
 
 			<div class="upflanze-container" id="${script_id}_c">
@@ -138,7 +137,7 @@ function onLoadContent() {
 	}
 
 	// code prettyprint
-	PR.prettyPrint()
+	setTimeout(() => PR.prettyPrint())
 
 	window.scrollTo({
 		top: 0,

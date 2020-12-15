@@ -19,7 +19,25 @@ const wiki = {
 		},
 	},
 
-	en: {},
+	en: {
+		Wiki: {
+			Introduzione: {
+				'What is Urpflanze?': 'en/Introduction',
+			},
+
+			'Primi passi': {
+				Installation: 'en/Installation',
+				'Creating a scene': 'en/Creating-a-scene',
+				'Manage repetitions': 'en/Manage-repetitions',
+				'Drawer and animations': 'en/Drawer-and-animations',
+			},
+			Avanzate: {
+				ShapeLoop: 'en/ShapeLoop',
+				'Vertex Callback': 'en/VertexCallback',
+				'Custom Drawer': 'en/CustomDrawer',
+			},
+		},
+	},
 }
 
 export default wiki

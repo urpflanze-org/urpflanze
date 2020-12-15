@@ -1,0 +1,82 @@
+<h1>Installation</h1>
+
+<h2>Install from CDN</h2>
+The most immediate way to include Urpflanze in your project is to use an online hosted version.
+
+<pre class="prettyprint">
+<code translate="no" class="language-html">&lt;!-- Link to the latest minified full version --&gt;
+&lt;script src="https://cdn.jsdelivr.net/npm/urpflanze"&gt;&lt;/script&gt;
+&lt;!-- Customizable link --&gt;
+&lt;script src="https://cdn.jsdelivr.net/npm/urpflanze[@version]/build/urpflanze[-light][.min].js"&gt;&lt;/script&gt;</code>
+</pre>
+<div class="code-desc">
+	<a href="https://cdn.jsdelivr.net/npm/urpflanze" target="_blank">Full version</a>
+	<a href="https://cdn.jsdelivr.net/npm/urpflanze/build/" target="_blank">All versions</a>
+</div>
+
+<h2>Download</h2>
+If you prefer, you can download the full version, save it somewhere in your project and include it in your code.
+
+<pre class="prettyprint">
+<code translate="no" class="language-html">&lt;!-- Full version --&gt;
+&lt;script src="path-to/urpflanze.js"&gt;&lt;/script&gt;
+
+&lt;!-- Minified version--&gt;
+&lt;script src="path-to/urpflanze.min.js"&gt;&lt;/script&gt;</code>
+</pre>
+<div class="code-desc">
+	<a href="https://raw.githubusercontent.com/genbs/urpflanze/dev/build/urpflanze.js" target="_blank">Full version</a>
+	<a href="https://raw.githubusercontent.com/genbs/urpflanze/dev/build/urpflanze.min.js" target="_blank"
+		>Minified full version</a
+	>
+</div>
+
+If you are starting out and don't need all the features you can download the lite version
+
+<pre class="prettyprint">
+<code translate="no" class="language-html">&lt;!-- Light version --&gt;
+&lt;script src="path-to/urpflanze-light.js"&gt;&lt;/script&gt;
+
+&lt;!-- Minified light version--&gt;
+&lt;script src="path-to/urpflanze-light.min.js"&gt;&lt;/script&gt;</code>
+</pre>
+<div class="code-desc">
+	<a href="https://raw.githubusercontent.com/genbs/urpflanze/dev/build/urpflanze-light.js" target="_blank"></a>
+		Light version</a
+	>
+	<a href="https://raw.githubusercontent.com/genbs/urpflanze/dev/build/urpflanze-light.min.js" target="_blank"
+		>Minified light version</a
+	>
+</div>
+
+<h2>Install from npm</h2>
+
+To install it just run the command:
+
+<pre class="prettyprint">
+<code translate="no" class="language-text">npm i urpflanze --save</code>
+</pre>
+
+After the installation is complete, we will be able to use Urpflanze in your code
+<pre class="prettyprint">
+<code translate="no" class="language-js">/**
+ * Full importing
+ */
+import * as Urpflanze from 'urpflanze'
+
+const scene = new Urpflanze.Scene()
+
+/**
+ * Selective import
+ */
+import { Scene } from 'urpflanze'
+
+const scene = new Scene()</code>
+</pre>
+<div class="code-desc">
+	<div>To include the light version use <i>urpflanze/dist/index-light</i></div>
+</div>
+
+<div class="next-page">
+	<a href="#/en/Creating-a-scene">Creating a scene -></a>
+</div>

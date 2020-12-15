@@ -1,4 +1,4 @@
-/** @license Urpflanze v0.2.0-beta.1
+/** @license Urpflanze v0.2.2-beta
  * urpflanze.js
  *
  * Github: https://github.com/genbs/urpflanze/
@@ -2380,7 +2380,7 @@ var ShapeBase = /** @class */ (function (_super) {
                             gl_matrix__WEBPACK_IMPORTED_MODULE_11__.rotateZ(offset, offset, _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_3__.VEC3_ZERO, repetition.angle + displace);
                             break;
                         case _types_scene_child__WEBPACK_IMPORTED_MODULE_0__.ERepetitionType.Matrix:
-                            offset = gl_matrix__WEBPACK_IMPORTED_MODULE_11__.fromValues(distance[0] * (currentColRepetition - centerMatrix[0]), distance[1] * (currentRowRepetition - centerMatrix[1]), 0);
+                            offset = gl_matrix__WEBPACK_IMPORTED_MODULE_11__.fromValues(distance[1] * (currentColRepetition - centerMatrix[0]), distance[0] * (currentRowRepetition - centerMatrix[1]), 0);
                             break;
                     }
                     var perspectiveSize = perspective > 0 ? Math.max(bounding.width, bounding.height) / 2 : 1;

@@ -51,6 +51,17 @@
 				background: #111413;
 			}
 		</style>
+
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-YE22SL0KVQ"></script>
+		<script>
+			window.dataLayer = window.dataLayer || []
+			function gtag() {
+				dataLayer.push(arguments)
+			}
+			gtag('js', new Date())
+
+			gtag('config', 'G-YE22SL0KVQ')
+		</script>
 	</head>
 	<body>
 		<main style="display: none">
@@ -71,7 +82,7 @@
 							<input id="search" type="search" placeholder="Search in wiki and docs" name="urpflanze-search" />
 							<select id="lang">
 								<option value="it">it</option>
-								<!-- <option value="en">en</option> -->
+								<option value="en">en</option>
 							</select>
 						</div>
 						<nav id="nav"></nav>
@@ -87,6 +98,11 @@
 								<a href="https://www.instagram.com/urpflanzejs/" target="_blank" title="follow on instagram">
 									<img src="assets/images/instagram-logo.svg" alt="Instagram logo" />
 								</a>
+
+								<a href="https://www.facebook.com/urpflanzejs" target="_blank" title="follow on facebook">
+									<img src="assets/images/facebook-logo.svg" alt="Facebook logo" />
+								</a>
+
 								<a href="https://discord.com/invite/JftrSVMkFg" target="_blank" title="join discord">
 									<img src="assets/images/discord-logo.svg" alt="Discord logo" />
 								</a>
@@ -95,9 +111,11 @@
 
 						<div class="support">
 							<small>supported by</small>
-							<a href="https://www.desidus.it" target="_blank">
-								<img src="assets/images/desidus-logo.svg" alt="Desidus logo" />
-							</a>
+							<div>
+								<a href="https://www.desidus.it" target="_blank">
+									<img src="assets/images/desidus-logo.svg" alt="Desidus logo" />
+								</a>
+							</div>
 						</div>
 					</footer>
 				</aside>
@@ -106,16 +124,5 @@
 				<section id="content"></section>
 			</section>
 		</main>
-
-		<script async src="https://www.googletagmanager.com/gtag/js?id=G-Z1C9TRSDM1"></script>
-		<script>
-			window.dataLayer = window.dataLayer || []
-			function gtag() {
-				dataLayer.push(arguments)
-			}
-			gtag('js', new Date())
-
-			gtag('config', 'G-Z1C9TRSDM1')
-		</script>
 	</body>
 </html>

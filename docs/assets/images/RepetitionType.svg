@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 25.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Livello_2_1_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+	 y="0px" viewBox="0 0 400 400" style="enable-background:new 0 0 400 400;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:none;stroke:#3A3D3B;stroke-width:2;stroke-miterlimit:10;}
+	.st1{opacity:0.6;}
+	.st2{fill:#3A3D3B;}
+	.st3{font-family:'JetBrainsMono-Regular';}
+	.st4{font-size:12px;}
+	.st5{opacity:0.25;fill:none;stroke:#3A3D3B;stroke-width:2;stroke-miterlimit:10;enable-background:new    ;}
+	.st6{opacity:0.6;fill:#3A3D3B;enable-background:new    ;}
+	.st7{font-size:16px;}
+	.st8{fill:none;stroke:#1FCC9A;stroke-width:2;stroke-miterlimit:10;}
+	.st9{opacity:0.57;}
+	.st10{fill:none;stroke:#3A3D3B;stroke-width:2;stroke-miterlimit:10;stroke-dasharray:4.0089,4.0089;}
+	.st11{opacity:0.25;enable-background:new    ;}
+	.st12{opacity:0.57;fill:none;stroke:#3A3D3B;stroke-width:2;stroke-miterlimit:10;stroke-dasharray:4;enable-background:new    ;}
+	.st13{font-size:10px;}
+	.st14{display:none;fill:#111413;stroke:#000000;stroke-miterlimit:10;}
+</style>
+<g>
+	<rect class="st0" width="400" height="400"/>
+	<g class="st1">
+		<line class="st0" x1="8.6" y1="362.1" x2="391.4" y2="362.1"/>
+		<line class="st0" x1="391.4" y1="354.9" x2="391.4" y2="370.9"/>
+		<line class="st0" x1="8.6" y1="354.6" x2="8.6" y2="370.5"/>
+	</g>
+	<text transform="matrix(1 0 0 1 286.2377 192.96)" class="st2 st3 st4">Rect</text>
+	<text transform="matrix(1 0 0 1 167.6002 242.3582)" class="st2 st3 st4">(20</text>
+	<text transform="matrix(1 0 0 1 189.2002 242.3582)" class="st2 st3 st4">0</text>
+	<text transform="matrix(1 0 0 1 196.6002 242.3582)" class="st2 st3 st4">,20</text>
+	<text transform="matrix(1 0 0 1 218.2002 242.3582)" class="st2 st3 st4">0</text>
+	<text transform="matrix(1 0 0 1 225.2002 242.3582)" class="st2 st3 st4">)</text>
+	<rect x="197.4" y="197.4" class="st2" width="5.2" height="5.2"/>
+	<rect x="297.8" y="197.8" class="st2" width="4.3" height="4.3"/>
+	<rect x="275" y="175" class="st0" width="50" height="50"/>
+	<rect x="75" y="175" class="st5" width="50" height="50"/>
+	<text transform="matrix(1 0 0 1 113.6018 385.804)" class="st6 st3 st7">Scene Width: 400px</text>
+	<text transform="matrix(6.123234e-17 -1 1 6.123234e-17 27.377 291.1982)" class="st6 st3 st7">Scene Height: 400px</text>
+	<g>
+		<line class="st0" x1="274.8" y1="159.9" x2="299.8" y2="159.9"/>
+		<line class="st0" x1="299.8" y1="152.7" x2="299.8" y2="168.6"/>
+		<line class="st0" x1="274.8" y1="152.3" x2="274.8" y2="168.3"/>
+	</g>
+	<g>
+		<line class="st0" x1="340.8" y1="200" x2="340.8" y2="175"/>
+		<line class="st0" x1="333.6" y1="175" x2="349.6" y2="175"/>
+		<line class="st0" x1="333.3" y1="200" x2="349.2" y2="200"/>
+	</g>
+	<g>
+		<line class="st8" x1="200" y1="276.1" x2="300" y2="276.1"/>
+		<line class="st8" x1="300" y1="269" x2="300" y2="284.9"/>
+		<line class="st8" x1="200" y1="268.6" x2="200" y2="284.6"/>
+	</g>
+	<g class="st9">
+		<g>
+			<line class="st0" x1="200" y1="200" x2="200" y2="202"/>
+			<line class="st10" x1="200" y1="206" x2="200" y2="260.1"/>
+			<line class="st0" x1="200" y1="262.1" x2="200" y2="264.1"/>
+		</g>
+	</g>
+	<g class="st9">
+		<g>
+			<line class="st0" x1="300" y1="200" x2="300" y2="202"/>
+			<line class="st10" x1="300" y1="206" x2="300" y2="260.1"/>
+			<line class="st0" x1="300" y1="262.1" x2="300" y2="264.1"/>
+		</g>
+	</g>
+	<g>
+		<text transform="matrix(1 0 0 1 177.1523 304.3922)" class="st2 st3 st7">distance: 100px</text>
+	</g>
+	<g>
+		<g>
+			<text transform="matrix(1 0 0 1 234.744 90.2414)" class="st2 st3 st7">sideLength</text>
+		</g>
+		<g>
+			<text transform="matrix(1 0 0 1 225.6133 109.6815)" class="st2 st3 st7">[25px, 25px]</text>
+		</g>
+	</g>
+	<g class="st11">
+		<g>
+			<text transform="matrix(1 0 0 1 70.0001 164.3578)" class="st2 st3 st7">2° rep</text>
+		</g>
+	</g>
+	<g class="st1">
+		<line class="st0" x1="40.3" y1="11.3" x2="40.3" y2="388.7"/>
+		<line class="st0" x1="47.5" y1="388.7" x2="31.5" y2="388.7"/>
+		<line class="st0" x1="47.8" y1="11.3" x2="31.9" y2="11.3"/>
+	</g>
+	<circle class="st0" cx="250" cy="120.8" r="3"/>
+	<circle class="st0" cx="314.1" cy="120.8" r="3"/>
+	<polyline class="st12" points="287.3,155.2 287.3,144.2 250,143.5 250.3,121.8 	"/>
+	<polyline class="st12" points="314.1,123.8 314.1,155.8 340.8,156 340.8,169.9 	"/>
+	<g>
+		<line class="st0" x1="325" y1="238.5" x2="274.8" y2="238.5"/>
+		<line class="st0" x1="274.8" y1="245.7" x2="274.8" y2="229.7"/>
+		<line class="st0" x1="325" y1="246" x2="325" y2="230.1"/>
+	</g>
+	<g>
+		<text transform="matrix(1 0 0 1 331.4877 242.3586)" class="st2 st3 st13">Total 50px</text>
+	</g>
+</g>
+<g>
+	<rect x="600" class="st0" width="400" height="400"/>
+	<g class="st1">
+		<line class="st0" x1="608.6" y1="362.1" x2="991.4" y2="362.1"/>
+		<line class="st0" x1="991.4" y1="354.9" x2="991.4" y2="370.9"/>
+		<line class="st0" x1="608.6" y1="354.6" x2="608.6" y2="370.5"/>
+	</g>
+	<text transform="matrix(1 0 0 1 835.2222 248.0075)" class="st2 st3 st4">(20</text>
+	<text transform="matrix(1 0 0 1 856.8223 248.0075)" class="st2 st3 st4">0</text>
+	<text transform="matrix(1 0 0 1 864.2222 248.0075)" class="st2 st3 st4">,20</text>
+	<text transform="matrix(1 0 0 1 885.8223 248.0075)" class="st2 st3 st4">0</text>
+	<text transform="matrix(1 0 0 1 892.8223 248.0075)" class="st2 st3 st4">)</text>
+	<text transform="matrix(1 0 0 1 724.3519 255.9114)" class="st2 st3 st13">25px</text>
+	<text transform="matrix(1 0 0 1 750.6116 255.9114)" class="st2 st3 st13">25px</text>
+	<text transform="matrix(1 0 0 1 776.2036 255.9114)" class="st2 st3 st13">25px</text>
+	<text transform="matrix(6.123234e-17 -1 1 6.123234e-17 846.5016 124.999)" class="st2 st3 st13">25px</text>
+	<text transform="matrix(6.123234e-17 -1 1 6.123234e-17 846.5016 198.999)" class="st2 st3 st13">25px</text>
+	<text transform="matrix(6.123234e-17 -1 1 6.123234e-17 846.5016 161.2119)" class="st2 st3 st13">50px</text>
+	<rect x="797.4" y="197.4" class="st2" width="5.2" height="5.2"/>
+	<rect x="797.4" y="272.4" class="st2" width="5.2" height="5.2"/>
+	<rect x="797.4" y="97.4" class="st2" width="5.2" height="5.2"/>
+	<rect x="872.4" y="197.4" class="st2" width="5.2" height="5.2"/>
+	<rect x="722.4" y="197.4" class="st2" width="5.2" height="5.2"/>
+	<rect x="775" y="175" class="st0" width="50" height="50"/>
+	<rect x="700" y="175" class="st0" width="50" height="50"/>
+	<rect x="850" y="175" class="st0" width="50" height="50"/>
+	<rect x="775" y="75" class="st0" width="50" height="50"/>
+	<rect x="700" y="75" class="st0" width="50" height="50"/>
+	<rect x="850" y="75" class="st0" width="50" height="50"/>
+	<rect x="775" y="275" class="st0" width="50" height="50"/>
+	<rect x="700" y="275" class="st0" width="50" height="50"/>
+	<rect x="850" y="275" class="st0" width="50" height="50"/>
+	<text transform="matrix(1 0 0 1 713.6018 385.804)" class="st6 st3 st7">Scene Width: 400px</text>
+	<text transform="matrix(6.123234e-17 -1 1 6.123234e-17 627.377 291.1982)" class="st6 st3 st7">Scene Height: 400px</text>
+	<g>
+		<line class="st8" x1="814.1" y1="100" x2="814.1" y2="200"/>
+		<line class="st8" x1="821.5" y1="200" x2="805.7" y2="200"/>
+		<line class="st8" x1="821.6" y1="100" x2="805.7" y2="100"/>
+	</g>
+	<g>
+		<line class="st8" x1="724.8" y1="213.4" x2="799.8" y2="213.4"/>
+		<line class="st8" x1="799.8" y1="205.8" x2="799.8" y2="221.8"/>
+		<line class="st8" x1="724.8" y1="205.9" x2="724.8" y2="221.8"/>
+	</g>
+	<g class="st1">
+		<line class="st0" x1="640.3" y1="11.3" x2="640.3" y2="388.7"/>
+		<line class="st0" x1="647.5" y1="388.7" x2="631.5" y2="388.7"/>
+		<line class="st0" x1="647.8" y1="11.3" x2="631.9" y2="11.3"/>
+	</g>
+	<g>
+		<g>
+			<text transform="matrix(1 0 0 1 683.8494 35.9521)" class="st2 st3 st7">distance</text>
+		</g>
+		<g>
+			<text transform="matrix(1 0 0 1 659.8496 52.6237)" class="st2 st3 st7">[100px, 75px]</text>
+		</g>
+	</g>
+	<circle class="st0" cx="685.6" cy="64.6" r="3"/>
+	<circle class="st0" cx="760.3" cy="64.6" r="3"/>
+	<polyline class="st12" points="685.6,67.6 685.7,150.9 799.4,151.3 	"/>
+	<line class="st12" x1="760.4" y1="68.1" x2="761.2" y2="207.9"/>
+	<g>
+		<line class="st0" x1="835.2" y1="200.1" x2="835.2" y2="175.1"/>
+		<line class="st0" x1="828.1" y1="175.1" x2="844" y2="175.1"/>
+		<line class="st0" x1="827.7" y1="200.1" x2="843.7" y2="200.1"/>
+	</g>
+	<g>
+		<line class="st0" x1="776.2" y1="237.2" x2="799.8" y2="237.2"/>
+		<line class="st0" x1="799.8" y1="230" x2="799.8" y2="246"/>
+		<line class="st0" x1="776.2" y1="229.7" x2="776.2" y2="245.6"/>
+	</g>
+	<g>
+		<line class="st0" x1="750.6" y1="236.9" x2="773.6" y2="236.9"/>
+		<line class="st0" x1="773.6" y1="229.7" x2="773.6" y2="245.6"/>
+		<line class="st0" x1="750.6" y1="229.4" x2="750.6" y2="245.3"/>
+	</g>
+	<g>
+		<line class="st0" x1="724.4" y1="236.6" x2="748.1" y2="236.6"/>
+		<line class="st0" x1="748.1" y1="229.4" x2="748.1" y2="245.4"/>
+		<line class="st0" x1="724.4" y1="229.1" x2="724.4" y2="245"/>
+	</g>
+	<g>
+		<line class="st0" x1="835.4" y1="125" x2="835.4" y2="100"/>
+		<line class="st0" x1="828.2" y1="100" x2="844.2" y2="100"/>
+		<line class="st0" x1="827.9" y1="125" x2="843.8" y2="125"/>
+	</g>
+	<g>
+		<line class="st0" x1="835.4" y1="172.3" x2="835.4" y2="127.7"/>
+		<line class="st0" x1="827.9" y1="127.7" x2="843.8" y2="127.7"/>
+		<line class="st0" x1="828.1" y1="172.3" x2="844" y2="172.3"/>
+	</g>
+	<line class="st12" x1="807.4" y1="205.9" x2="833.2" y2="236.6"/>
+</g>
+<rect x="-60.8" y="-60.8" class="st14" width="521.5" height="521.5"/>
+<rect x="539.2" y="-62.9" class="st14" width="521.5" height="521.5"/>
+</svg>

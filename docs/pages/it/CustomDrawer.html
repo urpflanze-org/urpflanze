@@ -1,5 +1,28 @@
 <h1>Custom Drawer</h1>
 
+<p>
+    Quando una <a href="#/ref/ShapeBase">ShapeBase</a> viene generata vengono creati 2 tipi di buffer:
+
+    <ul class="details">
+        <li>
+            <mark>buffer</mark>
+            <i>
+                Float32Array contente tutti i punti da stampare, inclusi quelli dei figli incapsulati e delle ripetizioni
+            </i>
+        </li>
+        <li>
+            <mark>indexedBuffer</mark>
+            <i>
+                Array di <a href="#/ref/IBufferIndex">IBufferIndex</a> contenente l'informazioni sulla lunghezza del frame, il riferimento alla <a href="#/ref/ShapePrimitive">ShapePrimitive</a> e alla ripetizione corrente.
+            </i>
+        </li>
+    </ul>
+
+    <div>
+        <img src="assets/images/buffers.svg" class="repetition-type" style="width: max(40vw, 320px); display: block; margin: 0 auto;" />
+    </div>
+</p>
+
 <!-- prettier-ignore -->
 <script id="c-d_2" class="runnable-script">/**
  * Custom Drawer
@@ -32,8 +55,8 @@ function render(time) {
     context.fillRect(0, 0, scene.width, scene.height)
 
     scene.update(time)
-    scene.stream(drawShape)
-    
+    scene.stream(draw)
+
     // Or...
     // scene.currentTime = time
     // const sceneChilds = scene.getChildren()
@@ -41,9 +64,39 @@ function render(time) {
     //     sceneChilds[i].generate(time, true)
     //     sceneChilds[i].stream(drawShape)
     // }
+
+    // Or...
+    // scene.currentTime = time
+    // const sceneChilds = scene.getChildren()
+    // for(let i = 0, len = sceneChilds.length; i < len; i++) {
+    //     sceneChilds[i].generate(time, true)
+
+    //     const childBuffer = sceneChilds[i].getBuffer()
+    //     const childIndexedBuffer = sceneChilds[i].getIndexedBuffer()
+
+    //     for (let currentBufferIndex = 0, vertexIndex = 0, len = childIndexedBuffer.length; currentBufferIndex < len; currentBufferIndex++) {
+    //             const currentIndexing = childIndexedBuffer[i]
+                
+    //             context.beginPath()
+    //             context.moveTo(childBuffer[vertexIndex], childBuffer[vertexIndex + 1])
+
+    //             vertexIndex += 2
+    //             for (let len = vertexIndex + currentIndexing.frameLength - 2; vertexIndex < len; vertexIndex += 2) {
+    //                 context.lineTo(childBuffer[vertexIndex], childBuffer[vertexIndex + 1])
+    //             }
+
+    //             if (currentIndexing.shape.isClosed())
+    //                 context.closePath()
+                
+    //             context.lineWidth = 1
+    //             context.strokeStyle = scene.color
+    //             context.stroke()
+	// 		}
+    // }
+
 }
 
-function drawShape(streamArgs) {
+function draw(streamArgs) {
     let i = streamArgs.frameBufferIndex
 
     context.beginPath()

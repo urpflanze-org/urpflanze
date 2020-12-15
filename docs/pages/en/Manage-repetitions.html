@@ -1,0 +1,104 @@
+<h1>Manage repetitions</h1>
+
+<h2>The propArguments object</h2>
+To manage repetitions, we can pass a function instead of a constant to the properties.<br />
+It accepts only one argument which is of type
+<a href="#/ref/ISceneChildPropArguments">ISceneChildPropArguments</a> that we will call <mark>propArguments</mark>.
+<p>
+	Inside <mark>propArguments</mark> we find the <mark>repetition</mark> property which is of type
+	<a href="#/ref/IRepetition">IRepetition</a>. Any object that extends a
+	<a href="#/ref/IBaseRepetition">IBaseRepetition</a> contains the following properties:
+</p>
+<ul class="details">
+	<li>
+		<mark>index</mark> <i>the current index, from 1 to <mark>count</mark></i>
+	</li>
+	<li><mark>count</mark> <i>the total number of repetitions</i></li>
+	<li>
+		<mark>offset</mark>
+		<i>
+			an index ranging from 0 to 1 that does not depend on the number of repetitions. For example, if the number of
+			repetitions are 3, the offset value will be 0 - 0.5 - 1
+		</i>
+	</li>
+</ul>
+
+<h2>A spiral of squares</h2>
+We use the <mark>repetition</mark> property of the <mark>propArguments</mark> argument to generate a spiral.
+<p>
+	By passing a numeric constant to the <mark>repetitions</mark> parameter, the repetitions will be distributed in a
+	manner circular. Using this behavior we can increase the distance from the center and the scale for each repetition
+</p>
+
+<!-- prettier-ignore -->
+<script id="g-r_1" class="runnable-script">/**
+ * Spiral of squares
+ */
+const scene = new Urpflanze.Scene()
+
+const spiral = new Urpflanze.Rect({
+        repetitions: 20,
+        sideLength: 30,
+
+        distance: propArguments => propArguments.repetition.offset * 140, 
+        scale: propArguments =>  propArguments.repetition.offset 
+})
+
+scene.add(spiral) 
+
+new Urpflanze.DrawerCanvas(scene, document.body).draw() 
+</script>
+
+<h2>Encapsulation and repetition</h2>
+
+Let's try to encapsulate the previous shape and animate it by rotating it clockwise or counterclockwise according to the
+repetition of the container that encapsulates it.
+
+<!-- prettier-ignore -->
+<script id="g-r_2" class="runnable-script">/** 
+ * Spiral of squares pt.2
+ */
+const scene = new Urpflanze.Scene()
+
+const spiral = new Urpflanze.Rect({
+        bUseParent: true, // Set this parameter to true to use the `parent` object in propArguments
+
+        repetitions: 20,
+        sideLength: 30,
+
+        // `propArguments.parent` refers to the `propArguments` object of the `container`
+        displace: propArguments => (propArguments.time / 1000) * (propArguments.parent.repetition.index % 2 === 0 ? 1: -1),
+        distance: propArguments => propArguments.repetition.offset * 140, 
+        scale: propArguments =>  propArguments.repetition.offset,
+
+})
+
+const continer = new Urpflanze.Shape({
+    shape: spiral,
+    repetitions: 6,
+    distance: 120,
+    scale: .4
+})
+
+scene.add(continer) 
+
+new Urpflanze.DrawerCanvas(scene, document.body).startAnimation() 
+</script>
+
+<p>
+	By setting the parameter <mark>bUseParent</mark> the shape will be generated at each repetition of the shape that
+	encapsulates it.
+</p>
+
+<h2>Manage matrices</h2>
+
+<p>
+	For repetitions of type <a href="#/it/Create-una-scena">matrix</a> in the <mark>repetition</mark> property of
+	<mark>propArguments</mark> we will find two more properties of type
+	<a href="#/ref/IBaseRepetition">BaseRepetition</a> call <mark>row</mark> and <mark>col</mark> which will contain the
+	information for rows and columns
+</p>
+
+<div class="next-page">
+	<a href="#/en/Drawer-and-animations">Drawer and animations -></a>
+</div>

@@ -3,7 +3,7 @@ $textColor: rgba(255, 255, 255, 0.4);
 $dark: #111413;
 $dark-light: lighten($dark, 10%);
 
-$asideWidth: 400px;
+$asideWidth: max(20vw, 300px);
 
 $headerHeight: 3.2rem;
 $searchHeight: 3.2rem;

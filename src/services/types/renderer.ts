@@ -48,16 +48,3 @@ export interface IRenderEvents {
 	'renderer:start': IRenderStart
 	'renderer:render-frame': IRenderFrame
 }
-
-/**
- * @category Services.Renderer
- */
-export interface IRenderMP4Frame {
-	frame: number
-	total_frames: number
-	render_time: number
-}
-
-export interface IRenderMP4Events {
-	'renderer:render-frame': IRenderMP4Frame
-}

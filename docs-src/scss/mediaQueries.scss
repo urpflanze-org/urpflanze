@@ -43,8 +43,7 @@
 		border-left: 1px solid $dark-light;
 		gap: 0.618rem;
 
-		.follow > div,
-		.support {
+		.follow > div {
 			gap: 0.618rem;
 		}
 	}
@@ -84,6 +83,20 @@
 		flex-direction: column;
 		align-items: flex-end;
 		gap: 0em;
+	}
+
+	.upflanze-container canvas {
+		height: calc(100vw - 2rem) !important;
+		width: calc(100vw - 2rem) !important;
+	}
+
+	.repetition-grid {
+		grid-template-columns: 1fr;
+
+		& > div:nth-child(1),
+		& :nth-child(3) {
+			order: 2;
+		}
 	}
 }
 

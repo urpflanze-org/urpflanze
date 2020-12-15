@@ -22,10 +22,37 @@ const drawer = new Urpflanze.DrawerCanvas(scene, document.body)
 drawer.draw() // Disegna la scena su canvas
 </script>
 
+<h2>Ripetizioni</h2>
 <p>
-	Per ripetere il rettangolo in maniera <a href="#/ref/ERepetitionType">Circolare</a> basterà aggiungere ai parametri di
-	<mark>Rect</mark>, la proprietà <mark>repetitions</mark> che indica il numero di ripetizioni e la proprietà
-	<mark>distance</mark> che indica la distanza delle ripetizioni dal centro della scena.
+	Con Urpflanze puoi gestire due tipi di ripetizioni: circolari o matrici.
+
+	<div class="repetition-grid">
+		<div>
+			<img src="assets/images/repetition-type-ring.svg" class="repetition-type" />
+		</div>
+		<div>
+			<h3>Circolari</h3>
+			<p>
+				Per definire una ripetizione <a href="#/ref/ERepetitionType">Circolare</a> basterà settare un valore numerico alla proprietà <mark>repetitions</mark>.
+				Le forme si distribuiranno su tutta la circonferenza il cui raggio è definito dalla proprietà <mark>distance</mark> e verranno ruotate verso il centro.
+			</p>
+		</div>
+	</div>
+	<div class="repetition-grid">
+		<div>
+			<img src="assets/images/repetition-type-matrix.svg" class="repetition-type" />
+		</div>
+		<div>
+			<h3>Matrici</h3>
+			<p>
+				Per definire una ripetizione a <a href="#/ref/ERepetitionType">Matrice</a> basterà settare un array di uno o due numeri alla proprietà <mark>repetitions</mark>.
+				Se viene inserito un solo valore (es [3]) la matrice avrà 3 righe e 3 colonne. Se, invece, verranno passati due numeri ad esempio [3, 5] la matrice avrà 3 righe e 5 colonne.
+			</p>
+			<p>
+				Per questo tipo di ripetizione è possibile settare nella proprietà <mark>distance</mark> come la distanza tra le righe e le colonne partendo dal centro della scena.
+			</p>
+		</div>
+	</div>
 </p>
 
 <!-- prettier-ignore -->
@@ -35,9 +62,9 @@ drawer.draw() // Disegna la scena su canvas
 const scene = new Urpflanze.Scene()
 
 const rect = new Urpflanze.Rect({
-	repetitions: 8, 
+	repetitions: 8, // Con un numero avremo una ripetizione circolare
 	distance: 100,
-	sideLength: 20 // Dimensione del raggio del rettangolo
+	sideLength: 25 // Dimensione del raggio del rettangolo
 })
 
 // Aggiunge il rettangolo alla scena

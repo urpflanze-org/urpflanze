@@ -110,11 +110,17 @@ footer {
 		gap: 0.2rem;
 	}
 
-	.follow > div,
-	.support {
+	.follow > div {
 		display: flex;
 		gap: 1rem;
 		align-items: center;
+	}
+
+	.support {
+		display: flex;
+		flex-direction: column;
+		gap: 0.2rem;
+		align-items: flex-end;
 	}
 
 	a {

@@ -13,19 +13,21 @@ import ShapePrimitive from '@core/shapes/ShapePrimitive'
 import { IDrawerStreamProps } from '@services/types/drawer'
 
 /**
- * Parent Index
+ * Parent object for index the buffer
  *
- * @internal
+ * @category Core.Interfaces
  */
 export interface IParentBufferIndex {
 	/**
 	 * Reference to shape
 	 */
 	shape: ShapeBase
+
 	/**
 	 * Parent indexing
 	 */
 	parent?: IParentBufferIndex
+
 	/**
 	 * Frame length
 	 */
@@ -48,11 +50,26 @@ export interface IParentBufferIndex {
  *
  * @category Core.Interfaces
  */
-export interface IBufferIndex extends Omit<IParentBufferIndex, 'shape' | 'recursion'> {
+export interface IBufferIndex {
 	/**
 	 * Reference to shape
 	 */
 	shape: ShapePrimitive
+
+	/**
+	 * Parent indexing
+	 */
+	parent?: IParentBufferIndex
+
+	/**
+	 * Frame length
+	 */
+	frameLength: number
+
+	/**
+	 * Current repetition reference of frame
+	 */
+	repetition: IRepetition
 }
 
 /**
