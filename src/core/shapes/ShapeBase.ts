@@ -468,7 +468,7 @@ abstract class ShapeBase<GShapeBaseProps extends ISceneChildProps = ISceneChildP
 							break
 						case ERepetitionType.Matrix:
 							offset = vec3.fromValues(
-								distance[0] * (currentColRepetition - centerMatrix[0]),
+								distance[1] * (currentColRepetition - centerMatrix[0]),
 								distance[1] * (currentRowRepetition - centerMatrix[1]),
 								0
 							)
