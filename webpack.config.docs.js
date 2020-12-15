@@ -21,23 +21,6 @@ module.exports = (env, argv) => {
 				VERSION: JSON.stringify(require('./package.json').version),
 			}),
 		],
-		module: {
-			rules: [
-				{
-					test: /\.s[ac]ss$/i,
-					use: [
-						'style-loader',
-						{
-							loader: 'css-loader',
-							options: {
-								url: false,
-							},
-						},
-						'sass-loader',
-					],
-				},
-			],
-		},
 		watchOptions: {
 			ignored: /node_modules/,
 		},
