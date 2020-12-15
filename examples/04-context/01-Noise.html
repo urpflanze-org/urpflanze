@@ -18,7 +18,7 @@
 			const scene = new Urpflanze.Scene()
 
 			const lines = new Urpflanze.Line({
-				repetitions: [1, 60],
+				repetitions: [60, 1],
 				sideLength: () => 160, // Add a function for dynamic generation
 				distance: [0, 4],
 				vertexCallback: (vertex, vertexRepetition, propArguments) => {
