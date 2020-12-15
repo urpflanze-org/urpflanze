@@ -1,4 +1,26 @@
 <h1>Custom Drawer</h1>
+<p>
+    When a <a href="#/ref/ShapeBase">shapeBase</a> is generated 2 types of buffers are created:
+
+    <ul class="details">
+        <li>
+            <mark>buffer</mark>
+            <i>
+                Float32Array containing all points to be printed, including those of encapsulated children and repetitions.
+            </i>
+        </li>
+        <li>
+            <mark>indexedBuffer</mark>
+            <i>
+                Array of <a href="#/ref/IBufferIndex">IBufferIndex</a> containing frame length information, reference to <a href="#/ref/ShapePrimitive">ShapePrimitive</a> and current repetition.
+            </i>
+        </li>
+    </ul>
+
+    <div>
+        <img src="assets/images/buffers.svg" class="repetition-type" style="width: max(40vw, 320px); display: block; margin: 0 auto;" />
+    </div>
+</p>
 
 <!-- prettier-ignore -->
 <script id="c-d_2" class="runnable-script">/**
