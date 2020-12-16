@@ -128,7 +128,7 @@ function onLoadContent() {
 	function openContainer(e) {
 		const container = document.getElementById(e.target.getAttribute('data-container'))
 		if (container) {
-			container.style.height = parseFloat(container.style.height) > 0 ? '0px' : window.innerHeight * 0.5 + 'px'
+			container.style.height = parseFloat(container.style.height) > 0 ? '0px' : container.querySelector('canvas').offsetWidth + 'px'
 		}
 	}
 	for (let i = 0; i < cliccables.length; i++) {

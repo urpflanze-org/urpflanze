@@ -1,6 +1,14 @@
-![Banner](./docs/assets/images/cover.png)
+![Urpflanze Logo](./docs/assets/images/logo-github.png)
 
 A library for developers who want to approach to creative coding, for artists who want to approach to programming or for anyone else who wants to play with math.
+
+[Full docs and Examples](https://genbs.github.io/urpflanze/)
+##
+
+| | | |
+|:-------------------------:|:-------------------------:|:-------------------------:|
+|<img src="./docs/assets/images/readme/cadere.gif">|<img src="./docs/assets/images/readme/crepuscolar-soul.gif"> |<img src="./docs/assets/images/readme/four.gif">|
+|<img src="./docs/assets/images/readme/triangleloop.gif">|<img src="./docs/assets/images/readme/psychedelic.gif">|<img src="./docs/assets/images/readme/particles.gif">|
 
 ## Installation
 
@@ -66,6 +74,5 @@ drawer.draw() // Draw scene on canvas
 
 ![Example output](./docs/assets/images/readme/output-1.png)
 
-## Full docs
-
-[Docs (only Italian for now) and Examples](https://genbs.github.io/urpflanze/)
+[Full docs and Examples](https://genbs.github.io/urpflanze/)
+##
