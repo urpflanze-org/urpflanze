@@ -20,7 +20,7 @@
 			const lines = new Urpflanze.Line({
 				repetitions: [60, 1],
 				sideLength: () => 160, // Add a function for dynamic generation
-				distance: [0, 4],
+				distance: [4, 0],
 				vertexCallback: (vertex, vertexRepetition, propArguments) => {
 					const y = propArguments.context.noise(
 						'seed',

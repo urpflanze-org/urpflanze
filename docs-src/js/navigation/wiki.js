@@ -21,17 +21,17 @@ const wiki = {
 
 	en: {
 		Wiki: {
-			Introduzione: {
+			Introduction: {
 				'What is Urpflanze?': 'en/Introduction',
 			},
 
-			'Primi passi': {
+			'First steps': {
 				Installation: 'en/Installation',
 				'Creating a scene': 'en/Creating-a-scene',
 				'Manage repetitions': 'en/Manage-repetitions',
 				'Drawer and animations': 'en/Drawer-and-animations',
 			},
-			Avanzate: {
+			Advanced: {
 				ShapeLoop: 'en/ShapeLoop',
 				'Vertex Callback': 'en/VertexCallback',
 				'Custom Drawer': 'en/CustomDrawer',
