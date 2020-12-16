@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>Urpflanze | Animations | 01 - Basic prop animation</title>
+		<script src="https://cdn.jsdelivr.net/npm/urpflanze"></script>
+		<style>
+			* {
+				margin: 0;
+				overflow: hidden;
+			}
+		</style>
+	</head>
+	<body>
+		<script>
+			const scene = new Urpflanze.Scene()
+
+			const circle = new Urpflanze.ShapeLoop({
+				sideLength: 50,
+				loop: {
+					start: 0,
+					end: Urpflanze.PI2,
+					inc: Urpflanze.PI2 / 30,
+					vertex: ({ angle }) => [Math.cos(angle), Math.sin(angle)],
+				},
+
+				scale: propArguments => {
+					return Urpflanze.Animation.static({
+						from: 0,
+						to: 1,
+						durate: 1000,
+						delay: 1000 * (propArguments.parent.recursion.level.index - 1),
+						mode: 'easing',
+						modeFunction: 'sinusoidalInOut',
+					})(propArguments)
+				},
+
+				bUseRecursion: true,
+
+				style: {
+					fill: ({ parent }) => {
+						const hue = 60 + parent.recursion.level.offset * 280
+						const sat = parent.recursion.offset * 100
+						const lum = 20 + parent.recursion.offset * 60
+						const opacity = (1 - parent.recursion.level.offset * 0.9) * 0.2
+
+						return `hsla(${Math.floor(hue % 360)}, ${sat}%, ${lum}%, ${opacity})`
+					},
+				},
+			})
+
+			const recursion = new Urpflanze.ShapeRecursive({
+				shape: circle,
+				recursions: 5,
+				recursionVertex: 6,
+				recursionScale: 1,
+			})
+
+			scene.add(recursion)
+
+			const drawer = new Urpflanze.DrawerCanvas(scene, document.body)
+			drawer.getTimeline().setDurate(6000)
+			drawer.startAnimation()
+		</script>
+	</body>
+</html>
