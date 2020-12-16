@@ -1,4 +1,4 @@
-![Urpflanze Logo](./docs/assets/images/logo-github.png)
+![Urpflanze Logo](./docs/assets/images/logo-for-github.png)
 
 A library for developers who want to approach to creative coding, for artists who want to approach to programming or for anyone else who wants to play with math.
 
