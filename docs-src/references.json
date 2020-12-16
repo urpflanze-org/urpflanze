@@ -6757,7 +6757,7 @@
 		"type": "Enumeration",
 		"source": {
 			"fileName": "src/core/types/shape-base.ts",
-			"line": 130,
+			"line": 134,
 			"character": 36
 		},
 		"order": 9999,
@@ -6924,6 +6924,32 @@
 			{
 				"name": "bUseParent",
 				"description": "With this parameter the shape will be created at each repetition,\nuseful if you want to encapsulate this shape in another and use its <mark>repetition</mark> object.\nIn the case of ShapePrimitive fillColor, strokeColor and lineWidth don't need to as they are generated during the buffer stream.",
+				"type": {
+					"type": "union",
+					"types": [
+						{
+							"name": "undefined",
+							"type": "intrinsic",
+							"order": 9999
+						},
+						{
+							"name": "false",
+							"type": "intrinsic",
+							"order": 9999
+						},
+						{
+							"name": "true",
+							"type": "intrinsic",
+							"order": 9999
+						}
+					]
+				},
+				"order": -15,
+				"bOptional": true
+			},
+			{
+				"name": "bUseRecursion",
+				"description": "If container is SHapeRecursive, will this parameter the shape will be created at each recursion,",
 				"type": {
 					"type": "union",
 					"types": [
@@ -7454,31 +7480,6 @@
 				},
 				"order": 15,
 				"bOptional": true
-			},
-			{
-				"name": "bUseRecursion",
-				"type": {
-					"type": "union",
-					"types": [
-						{
-							"name": "undefined",
-							"type": "intrinsic",
-							"order": 9999
-						},
-						{
-							"name": "false",
-							"type": "intrinsic",
-							"order": 9999
-						},
-						{
-							"name": "true",
-							"type": "intrinsic",
-							"order": 9999
-						}
-					]
-				},
-				"order": 9999,
-				"bOptional": true
 			}
 		],
 		"category": "Core.Props and Settings Interfaces"
@@ -7489,7 +7490,7 @@
 		"order": 9999,
 		"source": {
 			"fileName": "src/core/types/shape-base.ts",
-			"line": 224,
+			"line": 235,
 			"character": 31
 		},
 		"description": "Size of a buffer and its position relative to the scene.\ncx|y is the center",
@@ -7551,7 +7552,7 @@
 		"order": 9999,
 		"source": {
 			"fileName": "src/core/types/shape-base.ts",
-			"line": 160,
+			"line": 164,
 			"character": 37
 		},
 		"extends": [
@@ -8002,7 +8003,7 @@
 		"order": 9999,
 		"source": {
 			"fileName": "src/core/types/shape-base.ts",
-			"line": 172,
+			"line": 176,
 			"character": 40
 		},
 		"extends": [
@@ -8080,6 +8081,32 @@
 				"bOptional": true
 			},
 			{
+				"name": "bUseParent",
+				"description": "With this parameter the shape will be created at each repetition,\nuseful if you want to encapsulate this shape in another and use its <mark>repetition</mark> object.\nIn the case of ShapePrimitive fillColor, strokeColor and lineWidth don't need to as they are generated during the buffer stream.",
+				"type": {
+					"type": "union",
+					"types": [
+						{
+							"name": "undefined",
+							"type": "intrinsic",
+							"order": 9999
+						},
+						{
+							"name": "false",
+							"type": "intrinsic",
+							"order": 9999
+						},
+						{
+							"name": "true",
+							"type": "intrinsic",
+							"order": 9999
+						}
+					]
+				},
+				"order": -15,
+				"bOptional": true
+			},
+			{
 				"name": "style",
 				"type": {
 					"type": "reference",
@@ -8090,8 +8117,8 @@
 				"bOptional": true
 			},
 			{
-				"name": "bUseParent",
-				"description": "With this parameter the shape will be created at each repetition,\nuseful if you want to encapsulate this shape in another and use its <mark>repetition</mark> object.\nIn the case of ShapePrimitive fillColor, strokeColor and lineWidth don't need to as they are generated during the buffer stream.",
+				"name": "bUseRecursion",
+				"description": "If container is SHapeRecursive, will this parameter the shape will be created at each recursion,",
 				"type": {
 					"type": "union",
 					"types": [
@@ -8622,31 +8649,6 @@
 				},
 				"order": 15,
 				"bOptional": true
-			},
-			{
-				"name": "bUseRecursion",
-				"type": {
-					"type": "union",
-					"types": [
-						{
-							"name": "undefined",
-							"type": "intrinsic",
-							"order": 9999
-						},
-						{
-							"name": "false",
-							"type": "intrinsic",
-							"order": 9999
-						},
-						{
-							"name": "true",
-							"type": "intrinsic",
-							"order": 9999
-						}
-					]
-				},
-				"order": 9999,
-				"bOptional": true
 			}
 		],
 		"typeParameters": [
@@ -8673,7 +8675,7 @@
 		"order": 9999,
 		"source": {
 			"fileName": "src/core/types/shape-base.ts",
-			"line": 197,
+			"line": 201,
 			"character": 37
 		},
 		"extends": [
@@ -8681,6 +8683,57 @@
 		],
 		"description": "Shape recursive animate props",
 		"properties": [
+			{
+				"name": "recursions",
+				"description": "number of recursions",
+				"type": {
+					"type": "reference",
+					"id": 919,
+					"typeArguments": [
+						{
+							"type": "intrinsic",
+							"name": "number"
+						}
+					],
+					"name": "TSceneChildProp"
+				},
+				"order": -25,
+				"bOptional": true
+			},
+			{
+				"name": "recursionScale",
+				"description": "scale factor for recursion",
+				"type": {
+					"type": "reference",
+					"id": 919,
+					"typeArguments": [
+						{
+							"type": "intrinsic",
+							"name": "number"
+						}
+					],
+					"name": "TSceneChildProp"
+				},
+				"order": -24,
+				"bOptional": true
+			},
+			{
+				"name": "recursionVertex",
+				"description": "number of vertext to start recursion",
+				"type": {
+					"type": "reference",
+					"id": 919,
+					"typeArguments": [
+						{
+							"type": "intrinsic",
+							"name": "number"
+						}
+					],
+					"name": "TSceneChildProp"
+				},
+				"order": -23,
+				"bOptional": true
+			},
 			{
 				"name": "repetitions",
 				"description": "It defines the type of repetition.\nIf a number is passed the repetition will be Ring.\nIf an array (1) is passed the repetition will be nxn,\nif an array (2) the repetition will be mxn [rows x columns]",
@@ -9083,54 +9136,6 @@
 				},
 				"order": 15,
 				"bOptional": true
-			},
-			{
-				"name": "recursionScale",
-				"type": {
-					"type": "reference",
-					"id": 919,
-					"typeArguments": [
-						{
-							"type": "intrinsic",
-							"name": "number"
-						}
-					],
-					"name": "TSceneChildProp"
-				},
-				"order": 9999,
-				"bOptional": true
-			},
-			{
-				"name": "recursionVertex",
-				"type": {
-					"type": "reference",
-					"id": 919,
-					"typeArguments": [
-						{
-							"type": "intrinsic",
-							"name": "number"
-						}
-					],
-					"name": "TSceneChildProp"
-				},
-				"order": 9999,
-				"bOptional": true
-			},
-			{
-				"name": "recursions",
-				"type": {
-					"type": "reference",
-					"id": 919,
-					"typeArguments": [
-						{
-							"type": "intrinsic",
-							"name": "number"
-						}
-					],
-					"name": "TSceneChildProp"
-				},
-				"order": 9999,
-				"bOptional": true
 			}
 		],
 		"category": "Other"
@@ -9141,7 +9146,7 @@
 		"order": 9999,
 		"source": {
 			"fileName": "src/core/types/shape-base.ts",
-			"line": 208,
+			"line": 226,
 			"character": 40
 		},
 		"extends": [
@@ -9150,6 +9155,57 @@
 		],
 		"description": "ShapeRecursive settings",
 		"properties": [
+			{
+				"name": "recursions",
+				"description": "number of recursions",
+				"type": {
+					"type": "reference",
+					"id": 919,
+					"typeArguments": [
+						{
+							"type": "intrinsic",
+							"name": "number"
+						}
+					],
+					"name": "TSceneChildProp"
+				},
+				"order": -25,
+				"bOptional": true
+			},
+			{
+				"name": "recursionScale",
+				"description": "scale factor for recursion",
+				"type": {
+					"type": "reference",
+					"id": 919,
+					"typeArguments": [
+						{
+							"type": "intrinsic",
+							"name": "number"
+						}
+					],
+					"name": "TSceneChildProp"
+				},
+				"order": -24,
+				"bOptional": true
+			},
+			{
+				"name": "recursionVertex",
+				"description": "number of vertext to start recursion",
+				"type": {
+					"type": "reference",
+					"id": 919,
+					"typeArguments": [
+						{
+							"type": "intrinsic",
+							"name": "number"
+						}
+					],
+					"name": "TSceneChildProp"
+				},
+				"order": -23,
+				"bOptional": true
+			},
 			{
 				"name": "shape",
 				"description": "shape to apply repetitions and transformation",
@@ -9184,6 +9240,32 @@
 						}
 					]
 				},
+				"order": -15,
+				"bOptional": true
+			},
+			{
+				"name": "bUseRecursion",
+				"description": "If container is SHapeRecursive, will this parameter the shape will be created at each recursion,",
+				"type": {
+					"type": "union",
+					"types": [
+						{
+							"name": "undefined",
+							"type": "intrinsic",
+							"order": 9999
+						},
+						{
+							"name": "false",
+							"type": "intrinsic",
+							"order": 9999
+						},
+						{
+							"name": "true",
+							"type": "intrinsic",
+							"order": 9999
+						}
+					]
+				},
 				"order": -14,
 				"bOptional": true
 			},
@@ -9694,79 +9776,6 @@
 				},
 				"order": 15,
 				"bOptional": true
-			},
-			{
-				"name": "bUseRecursion",
-				"type": {
-					"type": "union",
-					"types": [
-						{
-							"name": "undefined",
-							"type": "intrinsic",
-							"order": 9999
-						},
-						{
-							"name": "false",
-							"type": "intrinsic",
-							"order": 9999
-						},
-						{
-							"name": "true",
-							"type": "intrinsic",
-							"order": 9999
-						}
-					]
-				},
-				"order": 9999,
-				"bOptional": true
-			},
-			{
-				"name": "recursionScale",
-				"type": {
-					"type": "reference",
-					"id": 919,
-					"typeArguments": [
-						{
-							"type": "intrinsic",
-							"name": "number"
-						}
-					],
-					"name": "TSceneChildProp"
-				},
-				"order": 9999,
-				"bOptional": true
-			},
-			{
-				"name": "recursionVertex",
-				"type": {
-					"type": "reference",
-					"id": 919,
-					"typeArguments": [
-						{
-							"type": "intrinsic",
-							"name": "number"
-						}
-					],
-					"name": "TSceneChildProp"
-				},
-				"order": 9999,
-				"bOptional": true
-			},
-			{
-				"name": "recursions",
-				"type": {
-					"type": "reference",
-					"id": 919,
-					"typeArguments": [
-						{
-							"type": "intrinsic",
-							"name": "number"
-						}
-					],
-					"name": "TSceneChildProp"
-				},
-				"order": 9999,
-				"bOptional": true
 			}
 		],
 		"category": "Core.Props and Settings Interfaces"
@@ -9777,7 +9786,7 @@
 		"order": 9999,
 		"source": {
 			"fileName": "src/core/types/shape-base.ts",
-			"line": 117,
+			"line": 121,
 			"character": 31
 		},
 		"extends": [
@@ -9819,6 +9828,32 @@
 						}
 					]
 				},
+				"order": -15,
+				"bOptional": true
+			},
+			{
+				"name": "bUseRecursion",
+				"description": "If container is SHapeRecursive, will this parameter the shape will be created at each recursion,",
+				"type": {
+					"type": "union",
+					"types": [
+						{
+							"name": "undefined",
+							"type": "intrinsic",
+							"order": 9999
+						},
+						{
+							"name": "false",
+							"type": "intrinsic",
+							"order": 9999
+						},
+						{
+							"name": "true",
+							"type": "intrinsic",
+							"order": 9999
+						}
+					]
+				},
 				"order": -14,
 				"bOptional": true
 			},
@@ -10328,31 +10363,6 @@
 					"name": "TSceneChildProp"
 				},
 				"order": 15,
-				"bOptional": true
-			},
-			{
-				"name": "bUseRecursion",
-				"type": {
-					"type": "union",
-					"types": [
-						{
-							"name": "undefined",
-							"type": "intrinsic",
-							"order": 9999
-						},
-						{
-							"name": "false",
-							"type": "intrinsic",
-							"order": 9999
-						},
-						{
-							"name": "true",
-							"type": "intrinsic",
-							"order": 9999
-						}
-					]
-				},
-				"order": 9999,
 				"bOptional": true
 			}
 		],
@@ -11159,6 +11169,32 @@
 				"bOptional": true
 			},
 			{
+				"name": "bUseParent",
+				"description": "With this parameter the shape will be created at each repetition,\nuseful if you want to encapsulate this shape in another and use its <mark>repetition</mark> object.\nIn the case of ShapePrimitive fillColor, strokeColor and lineWidth don't need to as they are generated during the buffer stream.",
+				"type": {
+					"type": "union",
+					"types": [
+						{
+							"name": "undefined",
+							"type": "intrinsic",
+							"order": 9999
+						},
+						{
+							"name": "false",
+							"type": "intrinsic",
+							"order": 9999
+						},
+						{
+							"name": "true",
+							"type": "intrinsic",
+							"order": 9999
+						}
+					]
+				},
+				"order": -15,
+				"bOptional": true
+			},
+			{
 				"name": "style",
 				"type": {
 					"type": "reference",
@@ -11169,8 +11205,8 @@
 				"bOptional": true
 			},
 			{
-				"name": "bUseParent",
-				"description": "With this parameter the shape will be created at each repetition,\nuseful if you want to encapsulate this shape in another and use its <mark>repetition</mark> object.\nIn the case of ShapePrimitive fillColor, strokeColor and lineWidth don't need to as they are generated during the buffer stream.",
+				"name": "bUseRecursion",
+				"description": "If container is SHapeRecursive, will this parameter the shape will be created at each recursion,",
 				"type": {
 					"type": "union",
 					"types": [
@@ -11700,31 +11736,6 @@
 					"name": "TSceneChildProp"
 				},
 				"order": 15,
-				"bOptional": true
-			},
-			{
-				"name": "bUseRecursion",
-				"type": {
-					"type": "union",
-					"types": [
-						{
-							"name": "undefined",
-							"type": "intrinsic",
-							"order": 9999
-						},
-						{
-							"name": "false",
-							"type": "intrinsic",
-							"order": 9999
-						},
-						{
-							"name": "true",
-							"type": "intrinsic",
-							"order": 9999
-						}
-					]
-				},
-				"order": 9999,
 				"bOptional": true
 			}
 		],
@@ -12371,6 +12382,32 @@
 				"bOptional": true
 			},
 			{
+				"name": "bUseParent",
+				"description": "With this parameter the shape will be created at each repetition,\nuseful if you want to encapsulate this shape in another and use its <mark>repetition</mark> object.\nIn the case of ShapePrimitive fillColor, strokeColor and lineWidth don't need to as they are generated during the buffer stream.",
+				"type": {
+					"type": "union",
+					"types": [
+						{
+							"name": "undefined",
+							"type": "intrinsic",
+							"order": 9999
+						},
+						{
+							"name": "false",
+							"type": "intrinsic",
+							"order": 9999
+						},
+						{
+							"name": "true",
+							"type": "intrinsic",
+							"order": 9999
+						}
+					]
+				},
+				"order": -15,
+				"bOptional": true
+			},
+			{
 				"name": "style",
 				"type": {
 					"type": "reference",
@@ -12381,8 +12418,8 @@
 				"bOptional": true
 			},
 			{
-				"name": "bUseParent",
-				"description": "With this parameter the shape will be created at each repetition,\nuseful if you want to encapsulate this shape in another and use its <mark>repetition</mark> object.\nIn the case of ShapePrimitive fillColor, strokeColor and lineWidth don't need to as they are generated during the buffer stream.",
+				"name": "bUseRecursion",
+				"description": "If container is SHapeRecursive, will this parameter the shape will be created at each recursion,",
 				"type": {
 					"type": "union",
 					"types": [
@@ -12912,31 +12949,6 @@
 					"name": "TSceneChildProp"
 				},
 				"order": 15,
-				"bOptional": true
-			},
-			{
-				"name": "bUseRecursion",
-				"type": {
-					"type": "union",
-					"types": [
-						{
-							"name": "undefined",
-							"type": "intrinsic",
-							"order": 9999
-						},
-						{
-							"name": "false",
-							"type": "intrinsic",
-							"order": 9999
-						},
-						{
-							"name": "true",
-							"type": "intrinsic",
-							"order": 9999
-						}
-					]
-				},
-				"order": 9999,
 				"bOptional": true
 			}
 		],
@@ -13618,6 +13630,32 @@
 				"bOptional": true
 			},
 			{
+				"name": "bUseParent",
+				"description": "With this parameter the shape will be created at each repetition,\nuseful if you want to encapsulate this shape in another and use its <mark>repetition</mark> object.\nIn the case of ShapePrimitive fillColor, strokeColor and lineWidth don't need to as they are generated during the buffer stream.",
+				"type": {
+					"type": "union",
+					"types": [
+						{
+							"name": "undefined",
+							"type": "intrinsic",
+							"order": 9999
+						},
+						{
+							"name": "false",
+							"type": "intrinsic",
+							"order": 9999
+						},
+						{
+							"name": "true",
+							"type": "intrinsic",
+							"order": 9999
+						}
+					]
+				},
+				"order": -15,
+				"bOptional": true
+			},
+			{
 				"name": "style",
 				"type": {
 					"type": "reference",
@@ -13628,8 +13666,8 @@
 				"bOptional": true
 			},
 			{
-				"name": "bUseParent",
-				"description": "With this parameter the shape will be created at each repetition,\nuseful if you want to encapsulate this shape in another and use its <mark>repetition</mark> object.\nIn the case of ShapePrimitive fillColor, strokeColor and lineWidth don't need to as they are generated during the buffer stream.",
+				"name": "bUseRecursion",
+				"description": "If container is SHapeRecursive, will this parameter the shape will be created at each recursion,",
 				"type": {
 					"type": "union",
 					"types": [
@@ -14159,31 +14197,6 @@
 					"name": "TSceneChildProp"
 				},
 				"order": 15,
-				"bOptional": true
-			},
-			{
-				"name": "bUseRecursion",
-				"type": {
-					"type": "union",
-					"types": [
-						{
-							"name": "undefined",
-							"type": "intrinsic",
-							"order": 9999
-						},
-						{
-							"name": "false",
-							"type": "intrinsic",
-							"order": 9999
-						},
-						{
-							"name": "true",
-							"type": "intrinsic",
-							"order": 9999
-						}
-					]
-				},
-				"order": 9999,
 				"bOptional": true
 			}
 		],
@@ -14767,6 +14780,32 @@
 				"bOptional": true
 			},
 			{
+				"name": "bUseParent",
+				"description": "With this parameter the shape will be created at each repetition,\nuseful if you want to encapsulate this shape in another and use its <mark>repetition</mark> object.\nIn the case of ShapePrimitive fillColor, strokeColor and lineWidth don't need to as they are generated during the buffer stream.",
+				"type": {
+					"type": "union",
+					"types": [
+						{
+							"name": "undefined",
+							"type": "intrinsic",
+							"order": 9999
+						},
+						{
+							"name": "false",
+							"type": "intrinsic",
+							"order": 9999
+						},
+						{
+							"name": "true",
+							"type": "intrinsic",
+							"order": 9999
+						}
+					]
+				},
+				"order": -15,
+				"bOptional": true
+			},
+			{
 				"name": "style",
 				"type": {
 					"type": "reference",
@@ -14777,8 +14816,8 @@
 				"bOptional": true
 			},
 			{
-				"name": "bUseParent",
-				"description": "With this parameter the shape will be created at each repetition,\nuseful if you want to encapsulate this shape in another and use its <mark>repetition</mark> object.\nIn the case of ShapePrimitive fillColor, strokeColor and lineWidth don't need to as they are generated during the buffer stream.",
+				"name": "bUseRecursion",
+				"description": "If container is SHapeRecursive, will this parameter the shape will be created at each recursion,",
 				"type": {
 					"type": "union",
 					"types": [
@@ -15308,31 +15347,6 @@
 					"name": "TSceneChildProp"
 				},
 				"order": 15,
-				"bOptional": true
-			},
-			{
-				"name": "bUseRecursion",
-				"type": {
-					"type": "union",
-					"types": [
-						{
-							"name": "undefined",
-							"type": "intrinsic",
-							"order": 9999
-						},
-						{
-							"name": "false",
-							"type": "intrinsic",
-							"order": 9999
-						},
-						{
-							"name": "true",
-							"type": "intrinsic",
-							"order": 9999
-						}
-					]
-				},
-				"order": 9999,
 				"bOptional": true
 			}
 		],
@@ -16017,6 +16031,32 @@
 				"bOptional": true
 			},
 			{
+				"name": "bUseParent",
+				"description": "With this parameter the shape will be created at each repetition,\nuseful if you want to encapsulate this shape in another and use its <mark>repetition</mark> object.\nIn the case of ShapePrimitive fillColor, strokeColor and lineWidth don't need to as they are generated during the buffer stream.",
+				"type": {
+					"type": "union",
+					"types": [
+						{
+							"name": "undefined",
+							"type": "intrinsic",
+							"order": 9999
+						},
+						{
+							"name": "false",
+							"type": "intrinsic",
+							"order": 9999
+						},
+						{
+							"name": "true",
+							"type": "intrinsic",
+							"order": 9999
+						}
+					]
+				},
+				"order": -15,
+				"bOptional": true
+			},
+			{
 				"name": "style",
 				"type": {
 					"type": "reference",
@@ -16027,8 +16067,8 @@
 				"bOptional": true
 			},
 			{
-				"name": "bUseParent",
-				"description": "With this parameter the shape will be created at each repetition,\nuseful if you want to encapsulate this shape in another and use its <mark>repetition</mark> object.\nIn the case of ShapePrimitive fillColor, strokeColor and lineWidth don't need to as they are generated during the buffer stream.",
+				"name": "bUseRecursion",
+				"description": "If container is SHapeRecursive, will this parameter the shape will be created at each recursion,",
 				"type": {
 					"type": "union",
 					"types": [
@@ -16558,31 +16598,6 @@
 					"name": "TSceneChildProp"
 				},
 				"order": 15,
-				"bOptional": true
-			},
-			{
-				"name": "bUseRecursion",
-				"type": {
-					"type": "union",
-					"types": [
-						{
-							"name": "undefined",
-							"type": "intrinsic",
-							"order": 9999
-						},
-						{
-							"name": "false",
-							"type": "intrinsic",
-							"order": 9999
-						},
-						{
-							"name": "true",
-							"type": "intrinsic",
-							"order": 9999
-						}
-					]
-				},
-				"order": 9999,
 				"bOptional": true
 			}
 		],
@@ -17285,6 +17300,32 @@
 				"bOptional": true
 			},
 			{
+				"name": "bUseParent",
+				"description": "With this parameter the shape will be created at each repetition,\nuseful if you want to encapsulate this shape in another and use its <mark>repetition</mark> object.\nIn the case of ShapePrimitive fillColor, strokeColor and lineWidth don't need to as they are generated during the buffer stream.",
+				"type": {
+					"type": "union",
+					"types": [
+						{
+							"name": "undefined",
+							"type": "intrinsic",
+							"order": 9999
+						},
+						{
+							"name": "false",
+							"type": "intrinsic",
+							"order": 9999
+						},
+						{
+							"name": "true",
+							"type": "intrinsic",
+							"order": 9999
+						}
+					]
+				},
+				"order": -15,
+				"bOptional": true
+			},
+			{
 				"name": "style",
 				"type": {
 					"type": "reference",
@@ -17295,8 +17336,8 @@
 				"bOptional": true
 			},
 			{
-				"name": "bUseParent",
-				"description": "With this parameter the shape will be created at each repetition,\nuseful if you want to encapsulate this shape in another and use its <mark>repetition</mark> object.\nIn the case of ShapePrimitive fillColor, strokeColor and lineWidth don't need to as they are generated during the buffer stream.",
+				"name": "bUseRecursion",
+				"description": "If container is SHapeRecursive, will this parameter the shape will be created at each recursion,",
 				"type": {
 					"type": "union",
 					"types": [
@@ -17826,31 +17867,6 @@
 					"name": "TSceneChildProp"
 				},
 				"order": 15,
-				"bOptional": true
-			},
-			{
-				"name": "bUseRecursion",
-				"type": {
-					"type": "union",
-					"types": [
-						{
-							"name": "undefined",
-							"type": "intrinsic",
-							"order": 9999
-						},
-						{
-							"name": "false",
-							"type": "intrinsic",
-							"order": 9999
-						},
-						{
-							"name": "true",
-							"type": "intrinsic",
-							"order": 9999
-						}
-					]
-				},
-				"order": 9999,
 				"bOptional": true
 			}
 		],

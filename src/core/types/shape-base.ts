@@ -93,10 +93,14 @@ export interface IShapeBaseSettings extends ISceneChildSettings {
 	 * With this parameter the shape will be created at each repetition,
 	 * useful if you want to encapsulate this shape in another and use its <mark>repetition</mark> object.
 	 * In the case of ShapePrimitive fillColor, strokeColor and lineWidth don't need to as they are generated during the buffer stream.
-	 * @order -14
+	 * @order -15
 	 */
 	bUseParent?: boolean
 
+	/**
+	 * If container is SHapeRecursive, will this parameter the shape will be created at each recursion,
+	 * @order -14
+	 */
 	bUseRecursion?: boolean
 
 	/**
@@ -195,8 +199,22 @@ export interface IShapePrimitiveSettings<T extends IDrawerStreamProps = IDrawerS
  * Shape recursive animate props
  */
 export interface IShapeRecursiveProps extends ISceneChildProps {
+	/**
+	 * number of recursions
+	 * @order -25
+	 */
 	recursions?: TSceneChildProp<number>
+
+	/**
+	 * scale factor for recursion
+	 * @order -24
+	 */
 	recursionScale?: TSceneChildProp<number>
+
+	/**
+	 * number of vertext to start recursion
+	 * @order -23
+	 */
 	recursionVertex?: TSceneChildProp<number>
 }
 
@@ -206,13 +224,6 @@ export interface IShapeRecursiveProps extends ISceneChildProps {
  * @category Core.Props and Settings Interfaces
  */
 export interface IShapeRecursiveSettings extends IShapeRecursiveProps, IShapeSettings {
-	// /**
-	//  * Decide position of recursions
-	//  *
-	//  *
-	//  * @order -21
-	//  */
-	// bInner?: boolean
 }
 
 /**
