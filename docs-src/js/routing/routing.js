@@ -128,7 +128,12 @@ function onLoadContent() {
 	function openContainer(e) {
 		const container = document.getElementById(e.target.getAttribute('data-container'))
 		if (container) {
-			container.style.height = parseFloat(container.style.height) > 0 ? '0px' : container.querySelector('canvas').offsetWidth + 'px'
+			const height = parseFloat(container.style.height)
+			if (height > 0) {
+				container.style.height = '0px'
+			} else {
+				container.style.height = Math.min(container.parentNode.getBoundingClientRect().width, 400) + 'px'
+			}
 		}
 	}
 	for (let i = 0; i < cliccables.length; i++) {
