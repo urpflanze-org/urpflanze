@@ -1,4 +1,4 @@
-## 0.2.0-beta.1 (December 14, 2020)
+## 0.2.2-beta (December 14, 2020)
 
 ### Core
 
