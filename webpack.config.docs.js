@@ -7,7 +7,7 @@ module.exports = (env, argv) => {
 	return {
 		entry: path.join(__dirname, './docs-src/js/index.js'),
 		output: {
-			filename: 'index.js',
+			filename: 'index-v0001.js',
 			path: path.join(__dirname, './docs'),
 		},
 		plugins: [
