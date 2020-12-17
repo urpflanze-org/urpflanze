@@ -1,0 +1,120 @@
+<h1>Renderer <small style="font-size: 1rem">(alpha)</small></h1>
+
+<h2>Esportare i frame in formato zip</h2>
+<p>Con la classe <a href="#/ref/Renderer">Renderer</a> puoi esportare tutti i frame dell'animazione</p>
+
+<pre class="prettyprint">
+<code translate="no" class="language-html">&lt;script type="module"&gt;
+	// Create a scene
+	// const scene = ...
+	// const drawer = new Urpflanze.DrawerCanvas(scene, document.body)
+	// const timeline = drawer.getTimeline()
+
+	timeline.setFramerate([framerate])
+	timeline.setDurate([durate])
+
+	const renderer = new Urpflanze.Renderer()
+
+	renderer.attach('renderer:start', e => console.log('renderer start', e))
+	renderer.attach('renderer:render-frame', e => console.log('renderer render frame', e))
+
+	function render() {
+		drawer.stopAnimation()
+
+		renderer.renderAnimation(drawer, { quality: 1, type: 'image/png' }).then(zipParts => {
+			for (let i = 0, len = zipParts.length; i < len; i++) {
+				const zip = zipParts[i]
+				const name = 'part_' + (i + 1)
+
+				const url = URL.createObjectURL(zip, { type: 'application/octet-stream' })
+
+				const link = document.createElement('a')
+				link.setAttribute('_target', '_blank')
+				link.setAttribute('download', name + '.zip')
+				link.setAttribute('href', url)
+				link.innerText = name
+				document.body.appendChild(link)
+			}
+		})
+	}
+&lt;/script&gt;</code>
+</pre>
+
+<p>
+	Dopo aver scompattato gli zip in un'unica cartella puoi montare il video con un software di montaggio oppure da
+	terminale con <a href="https://ffmpeg.org/" target="_blank">ffmpeg</a>
+</p>
+
+<pre class="prettyprint">
+<code translate="no" class="language-bash">
+	ffmpeg -i %05d.png -c:v libx264 -pix_fmt yuv420p out.mp4
+</code>
+</pre>
+
+<h2>Alternative</h2>
+
+Un'altra possibilità è quella di utilizzare questa libreria
+<a href="https://github.com/mattdesl/mp4-h264" target="_blank">mattdesl/mp4-h264</a>
+
+<pre class="prettyprint">
+<code translate="no" class="language-html">&lt;script type="module"&gt;
+	import loadEncoder from 'https://unpkg.com/mp4-h264'
+
+
+	// Creating a scene
+	// const scene = ...
+	// const drawer = ...
+	// const timeline = drawer.getTimeline()
+
+	timeline.setDurate([durate])
+
+	function createMP4() {
+		render().then(mp4 => {
+			const url = URL.createObjectURL(new Blob([mp4], { type: 'video/mp4' }))
+
+			const video = document.createElement('video')
+			video.src = url
+			video.width = scene.width
+			video.height = scene.height
+			video.controls = true
+
+			document.body.appendChild(video)
+		})
+	}
+
+	async function render() {
+		return new Promise(resolve => {
+			requestAnimationFrame(async () => {
+				drawer.stopAnimation()
+				const timeline = drawer.getTimeline()
+				const sequence = timeline.getSequence()
+				const frames = sequence.frames
+
+				const Encoder = await loadEncoder()
+
+				const encoder = Encoder.create({
+					width: scene.width,
+					height: scene.height,
+					fps: timeline.getFramerate(),
+					sequential: true,
+				})
+
+				const context = drawer.getContext()
+
+				for (let current_frame = 0; current_frame < frames; current_frame++) {
+					// draw current frame
+					timeline.setFrame(current_frame)
+					drawer.draw()
+
+					// store image
+					const imagedata = context.getImageData(0, 0, scene.width, scene.height)
+					encoder.encodeRGB(imagedata.data)
+				}
+
+				resolve(encoder.end())
+			})
+		})
+	}
+&lt;/script&gt;
+</code>
+</pre>
