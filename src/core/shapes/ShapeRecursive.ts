@@ -1,5 +1,4 @@
 import Bounding from '@core/math/bounding'
-import ShapePrimitive from '@core/shapes/ShapePrimitive'
 import { IRecursionRepetition, IRepetition, ISceneChildPropArguments } from '@core/types/scene-child'
 import {
 	IParentBufferIndex,
@@ -50,7 +49,7 @@ class ShapeRecursive extends Shape<IShapeRecursiveProps> {
 		this.bStatic = this.isStatic()
 		this.bStaticIndexed = this.isStaticIndexed()
 
-		this.currentGenerationRecursiveBounding = { ...ShapePrimitive.EMPTY_BOUNDING }
+		this.currentGenerationRecursiveBounding = Bounding.empty()
 	}
 
 	// /**

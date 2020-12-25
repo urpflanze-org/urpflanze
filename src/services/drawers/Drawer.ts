@@ -140,24 +140,6 @@ abstract class Drawer<IADrawerOptions extends IDrawerOptions, IDrawerEvents> ext
 	}
 
 	/**
-	 * Get scene value scaled based on resolution
-	 *
-	 * @param {number} value
-	 */
-	public getValueFromResolution(value: number): number {
-		return (value * this.resolution) / 200
-	}
-
-	/**
-	 * Get scene value scaled based on resolution
-	 *
-	 * @param {number} value
-	 */
-	public getValueFromResolutionScaled(value: number): number {
-		return (value * 200) / this.resolution
-	}
-
-	/**
 	 * Set draw option
 	 *
 	 * @template K

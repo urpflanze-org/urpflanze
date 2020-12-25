@@ -131,25 +131,27 @@ class ScenePropUtilities {
 		const sceneChildProp = SceneChildPropsData[name as TSceneChildPropsDataKeys]
 
 		if (ScenePropUtilities.bPropTransformable(name, value)) {
-			let transformedValueFunction
-
 			switch (sceneChildProp.transformation) {
 				case 'angle':
-					transformedValueFunction = toRadians
-					break
-				case 'resolution-based':
-					transformedValueFunction = drawer.getValueFromResolution.bind(drawer)
-					break
-				case 'resolution-scaled-based':
-					transformedValueFunction = drawer.getValueFromResolutionScaled.bind(drawer)
-					break
-			}
+					if (Array.isArray(value)) {
+						return [toRadians(value[0]), toRadians(value[1])]
+					}
+					return toRadians(value)
+				case 'scene-size-percentage': {
+					const scene = drawer.getScene()
 
-			return transformedValueFunction
-				? Array.isArray(value)
-					? [transformedValueFunction(value[0]), transformedValueFunction(value[1])]
-					: transformedValueFunction(value)
-				: value
+					if (typeof scene !== 'undefined') {
+						if (Array.isArray(value)) {
+							return [(value[0] * scene.width) / 100, (value[1] * scene.height) / 100]
+						}
+						// TODO: hypot? or scene-width/height-percentage?
+						return (value * scene.width) / 100
+					}
+				}
+				// case 'resolution-scaled-based':
+				// 	transformedValueFunction = drawer.getValueFromResolutionScaled.bind(drawer)
+				// 	break
+			}
 		}
 
 		return value
@@ -163,24 +165,28 @@ class ScenePropUtilities {
 		const sceneChildProp = SceneChildPropsData[name] as ISceneChildPropData
 
 		if (ScenePropUtilities.bPropTransformable(name, value)) {
-			let transformedValueFunction
-
 			switch (sceneChildProp.transformation) {
-				case 'angle':
-					transformedValueFunction = toDegrees
-					break
-				case 'resolution-based':
-					transformedValueFunction = drawer.getValueFromResolutionScaled.bind(drawer)
-					break
-				case 'resolution-scaled-based':
-					transformedValueFunction = drawer.getValueFromResolution.bind(drawer)
-					break
-			}
+				case 'angle': {
+					if (Array.isArray(value)) {
+						return [toDegrees(value[0]), toDegrees(value[1])]
+					}
+					return toDegrees(value)
+				}
+				case 'scene-size-percentage': {
+					const scene = drawer.getScene()
 
-			if (transformedValueFunction)
-				return Array.isArray(value)
-					? [transformedValueFunction(value[0]), transformedValueFunction(value[1])]
-					: transformedValueFunction(value)
+					if (typeof scene !== 'undefined') {
+						if (Array.isArray(value)) {
+							return [(value[0] * 100) / scene.width, (value[1] * 100) / scene.height]
+						}
+						// TODO: hypot? or scene-width/height-percentage?
+						return (value * 100) / scene.width
+					}
+				}
+				// case 'resolution-scaled-based':
+				// 	transformedValueFunction = drawer.getValueFromResolution.bind(drawer)
+				// 	break
+			}
 		}
 
 		return value

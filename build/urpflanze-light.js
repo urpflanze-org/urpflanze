@@ -1,11 +1,3 @@
-/** @license Urpflanze v0.2.2-beta
- * urpflanze-light.js
- *
- * Github: https://github.com/genbs/urpflanze/
- * 
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
@@ -423,12 +415,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var simplex_noise__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! simplex-noise */ "./node_modules/simplex-noise/simplex-noise.js");
 /* harmony import */ var simplex_noise__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(simplex_noise__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _types_scene_child__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./types/scene-child */ "./dist/core/types/scene-child.js");
-/* harmony import */ var gl_matrix__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! gl-matrix */ "./node_modules/gl-matrix/esm/vec2.js");
-/* harmony import */ var _Scene__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Scene */ "./dist/core/Scene.js");
+/* harmony import */ var gl_matrix__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! gl-matrix */ "./node_modules/gl-matrix/esm/vec2.js");
 ;
 
+// import SceneChild from '@core/SceneChild'
 
-
+// import Scene from '@core/Scene'
 /**
  * @internal
  * @ignore
@@ -481,7 +473,7 @@ var Context = {
     angle: function (repetition, offsetFromCenter) {
         if (offsetFromCenter === void 0) { offsetFromCenter = [0, 0]; }
         if (repetition.type == _types_scene_child__WEBPACK_IMPORTED_MODULE_1__.ERepetitionType.Matrix) {
-            var centerMatrix = gl_matrix__WEBPACK_IMPORTED_MODULE_3__.fromValues((repetition.col.count - 1) / 2, (repetition.row.count - 1) / 2);
+            var centerMatrix = gl_matrix__WEBPACK_IMPORTED_MODULE_2__.fromValues((repetition.col.count - 1) / 2, (repetition.row.count - 1) / 2);
             centerMatrix[0] += centerMatrix[0] * offsetFromCenter[0];
             centerMatrix[1] += centerMatrix[1] * offsetFromCenter[1];
             var x = repetition.col.index - 1 - centerMatrix[0];
@@ -502,7 +494,7 @@ var Context = {
     angle2: function (repetition, offsetFromCenter) {
         if (offsetFromCenter === void 0) { offsetFromCenter = [0, 0]; }
         if (repetition.type == _types_scene_child__WEBPACK_IMPORTED_MODULE_1__.ERepetitionType.Matrix) {
-            var centerMatrix = gl_matrix__WEBPACK_IMPORTED_MODULE_3__.fromValues((repetition.col.count - 1) / 2, (repetition.row.count - 1) / 2);
+            var centerMatrix = gl_matrix__WEBPACK_IMPORTED_MODULE_2__.fromValues((repetition.col.count - 1) / 2, (repetition.row.count - 1) / 2);
             centerMatrix[0] += centerMatrix[0] * offsetFromCenter[0];
             centerMatrix[1] += centerMatrix[1] * offsetFromCenter[1];
             var x = repetition.col.index - 1 - centerMatrix[0];
@@ -522,37 +514,13 @@ var Context = {
     distance: function (repetition, offsetFromCenter) {
         if (offsetFromCenter === void 0) { offsetFromCenter = [0, 0]; }
         if (repetition.type == _types_scene_child__WEBPACK_IMPORTED_MODULE_1__.ERepetitionType.Matrix) {
-            var centerMatrix = gl_matrix__WEBPACK_IMPORTED_MODULE_3__.fromValues(0.5, 0.5);
+            var centerMatrix = gl_matrix__WEBPACK_IMPORTED_MODULE_2__.fromValues(0.5, 0.5);
             centerMatrix[0] += centerMatrix[0] * offsetFromCenter[0];
             centerMatrix[1] += centerMatrix[1] * offsetFromCenter[1];
-            var current = gl_matrix__WEBPACK_IMPORTED_MODULE_3__.fromValues(repetition.col.offset - 0.5 / repetition.col.count, repetition.row.offset - 0.5 / repetition.row.count);
-            return gl_matrix__WEBPACK_IMPORTED_MODULE_3__.distance(current, centerMatrix);
+            var current = gl_matrix__WEBPACK_IMPORTED_MODULE_2__.fromValues(repetition.col.offset - 0.5 / repetition.col.count, repetition.row.offset - 0.5 / repetition.row.count);
+            return gl_matrix__WEBPACK_IMPORTED_MODULE_2__.distance(current, centerMatrix);
         }
         return 1;
-    },
-    /**
-     * Get value percentage of scene width.
-     *
-     * @param {number} percentage
-     * @param {SceneChild} sceneChild
-     * @returns {number}
-     */
-    percW: function (percentage, sceneChild) {
-        if (sceneChild instanceof _Scene__WEBPACK_IMPORTED_MODULE_2__.default)
-            return (sceneChild.width * percentage) / 100;
-        return sceneChild && sceneChild.scene ? (sceneChild.scene.width * percentage) / 100 : percentage;
-    },
-    /**
-     * Get value percentage of scene height.
-     *
-     * @param {number} percentage
-     * @param {SceneChild} sceneChild
-     * @returns {number}
-     */
-    percH: function (percentage, sceneChild) {
-        if (sceneChild instanceof _Scene__WEBPACK_IMPORTED_MODULE_2__.default)
-            return (sceneChild.height * percentage) / 100;
-        return sceneChild && sceneChild.scene ? (sceneChild.scene.height * percentage) / 100 : percentage;
     },
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Context);
@@ -578,7 +546,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Scene__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Scene */ "./dist/core/Scene.js");
 /* harmony import */ var _SceneChild__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SceneChild */ "./dist/core/SceneChild.js");
 /* harmony import */ var _shapes_ShapeBase__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./shapes/ShapeBase */ "./dist/core/shapes/ShapeBase.js");
-/* harmony import */ var _shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./shapes/ShapePrimitive */ "./dist/core/shapes/ShapePrimitive.js");
+/* harmony import */ var _math_bounding__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./math/bounding */ "./dist/core/math/bounding.js");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -592,17 +560,6 @@ var __extends = (undefined && undefined.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var __assign = (undefined && undefined.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 
 
 
@@ -809,7 +766,7 @@ var Group = /** @class */ (function (_super) {
      */
     Group.prototype.getBounding = function () {
         var boundings = [];
-        var bounding = __assign({}, _shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_3__.default.EMPTY_BOUNDING);
+        var bounding = _math_bounding__WEBPACK_IMPORTED_MODULE_3__.default.empty();
         if (this.children.length > 0) {
             this.children.forEach(function (item) { return boundings.push(item.getBounding()); });
             for (var i = 0, len = this.children.length; i < len; i++) {
@@ -1614,6 +1571,14 @@ __webpack_require__.r(__webpack_exports__);
  * @ignore
  */
 var Bounding = {
+    empty: function () { return ({
+        cx: 0,
+        cy: 0,
+        x: -1,
+        y: -1,
+        width: 2,
+        height: 2,
+    }); },
     clear: function (tmpBounding) {
         tmpBounding[0] = undefined;
         tmpBounding[1] = undefined;
@@ -2801,11 +2766,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-/* harmony import */ var _ShapePrimitive__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ShapePrimitive */ "./dist/core/shapes/ShapePrimitive.js");
-/* harmony import */ var _ShapeBase__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ShapeBase */ "./dist/core/shapes/ShapeBase.js");
-/* harmony import */ var _types_shape_base__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../types/shape-base */ "./dist/core/types/shape-base.js");
-/* harmony import */ var _math_bounding__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../math/bounding */ "./dist/core/math/bounding.js");
-/* harmony import */ var _math__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../math */ "./dist/core/math/index.js");
+/* harmony import */ var _types_shape_base__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../types/shape-base */ "./dist/core/types/shape-base.js");
+/* harmony import */ var _math_bounding__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../math/bounding */ "./dist/core/math/bounding.js");
+/* harmony import */ var _math__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../math */ "./dist/core/math/index.js");
+/* harmony import */ var _ShapeBase__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ShapeBase */ "./dist/core/shapes/ShapeBase.js");
+/* harmony import */ var _ShapePrimitive__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ShapePrimitive */ "./dist/core/shapes/ShapePrimitive.js");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -2862,8 +2827,8 @@ var ShapeLoop = /** @class */ (function (_super) {
         if (!bPreventGeneration) {
             _this.loop = {
                 start: 0,
-                end: _math__WEBPACK_IMPORTED_MODULE_4__.PI2,
-                inc: _math__WEBPACK_IMPORTED_MODULE_4__.PI2 / 10,
+                end: _math__WEBPACK_IMPORTED_MODULE_2__.PI2,
+                inc: _math__WEBPACK_IMPORTED_MODULE_2__.PI2 / 10,
                 vertex: function () { return [0, 0]; },
             };
             _this.bStaticLoop = _this.isStaticLoop();
@@ -2991,7 +2956,7 @@ var ShapeLoop = /** @class */ (function (_super) {
         var vertexLength = shapeLoop.count;
         var bufferLength = vertexLength * 2;
         var currentOrSingleLoopBuffer = new Float32Array(bufferLength);
-        var bNoAdapt = this.adaptMode === _types_shape_base__WEBPACK_IMPORTED_MODULE_2__.EShapePrimitiveAdaptMode.None;
+        var bNoAdapt = this.adaptMode === _types_shape_base__WEBPACK_IMPORTED_MODULE_0__.EShapePrimitiveAdaptMode.None;
         var tmpBounding = [undefined, undefined, undefined, undefined];
         for (var i = 0, j = 0; i < vertexLength; i++, j += 2) {
             var angle = start + inc * i;
@@ -3006,24 +2971,24 @@ var ShapeLoop = /** @class */ (function (_super) {
             if (bNoAdapt) {
                 currentOrSingleLoopBuffer[j] *= sideLength[0];
                 currentOrSingleLoopBuffer[j + 1] *= sideLength[1];
-                _math_bounding__WEBPACK_IMPORTED_MODULE_3__.default.add(tmpBounding, currentOrSingleLoopBuffer[j], currentOrSingleLoopBuffer[j + 1]);
+                _math_bounding__WEBPACK_IMPORTED_MODULE_1__.default.add(tmpBounding, currentOrSingleLoopBuffer[j], currentOrSingleLoopBuffer[j + 1]);
             }
         }
         if (bNoAdapt) {
-            _math_bounding__WEBPACK_IMPORTED_MODULE_3__.default.bind(this.currentGenerationPrimitiveBounding, tmpBounding);
+            _math_bounding__WEBPACK_IMPORTED_MODULE_1__.default.bind(this.currentGenerationPrimitiveBounding, tmpBounding);
         }
         else {
             /**
              * Adapt and apply side length
              */
-            var buffer = _ShapePrimitive__WEBPACK_IMPORTED_MODULE_0__.default.adaptBuffer(currentOrSingleLoopBuffer, this.adaptMode);
-            _math_bounding__WEBPACK_IMPORTED_MODULE_3__.default.clear(tmpBounding);
+            var buffer = _ShapePrimitive__WEBPACK_IMPORTED_MODULE_4__.default.adaptBuffer(currentOrSingleLoopBuffer, this.adaptMode);
+            _math_bounding__WEBPACK_IMPORTED_MODULE_1__.default.clear(tmpBounding);
             for (var i = 0; i < bufferLength; i += 2) {
                 buffer[i] = buffer[i] * sideLength[0];
                 buffer[i + 1] = buffer[i + 1] * sideLength[1];
-                _math_bounding__WEBPACK_IMPORTED_MODULE_3__.default.add(tmpBounding, buffer[i], buffer[i + 1]);
+                _math_bounding__WEBPACK_IMPORTED_MODULE_1__.default.add(tmpBounding, buffer[i], buffer[i + 1]);
             }
-            _math_bounding__WEBPACK_IMPORTED_MODULE_3__.default.bind(this.currentGenerationPrimitiveBounding, tmpBounding);
+            _math_bounding__WEBPACK_IMPORTED_MODULE_1__.default.bind(this.currentGenerationPrimitiveBounding, tmpBounding);
             return buffer;
         }
         return currentOrSingleLoopBuffer;
@@ -3037,7 +3002,7 @@ var ShapeLoop = /** @class */ (function (_super) {
      */
     ShapeLoop.prototype.getLoop = function (propArguments) {
         var _a, _b, _c, _d, _e, _f, _g;
-        if (propArguments === void 0) { propArguments = _ShapeBase__WEBPACK_IMPORTED_MODULE_1__.default.EMPTY_PROP_ARGUMENTS; }
+        if (propArguments === void 0) { propArguments = _ShapeBase__WEBPACK_IMPORTED_MODULE_3__.default.EMPTY_PROP_ARGUMENTS; }
         propArguments.time = ((_a = this.scene) === null || _a === void 0 ? void 0 : _a.currentTime) || 0;
         var start = (_c = (_b = this.props.loop) === null || _b === void 0 ? void 0 : _b.start) !== null && _c !== void 0 ? _c : this.loop.start;
         var end = (_e = (_d = this.props.loop) === null || _d === void 0 ? void 0 : _d.end) !== null && _e !== void 0 ? _e : this.loop.end;
@@ -3058,7 +3023,7 @@ var ShapeLoop = /** @class */ (function (_super) {
     };
     ShapeLoop.PId2 = Math.PI / 2;
     return ShapeLoop;
-}(_ShapePrimitive__WEBPACK_IMPORTED_MODULE_0__.default));
+}(_ShapePrimitive__WEBPACK_IMPORTED_MODULE_4__.default));
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ShapeLoop);
 //# sourceMappingURL=ShapeLoop.js.map
 
@@ -3096,17 +3061,6 @@ var __extends = (undefined && undefined.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var __assign = (undefined && undefined.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 
 
 
@@ -3130,7 +3084,7 @@ var ShapePrimitive = /** @class */ (function (_super) {
          *
          * @type {IShapeBounding}
          */
-        _this.currentGenerationPrimitiveBounding = __assign({}, ShapePrimitive.EMPTY_BOUNDING);
+        _this.currentGenerationPrimitiveBounding = _math_bounding__WEBPACK_IMPORTED_MODULE_3__.default.empty();
         _this.props.sideLength =
             typeof settings.sideLength === 'undefined'
                 ? undefined
@@ -3254,7 +3208,7 @@ var ShapePrimitive = /** @class */ (function (_super) {
      */
     ShapePrimitive.getBounding = function (buffer, bounding) {
         if (typeof bounding === 'undefined')
-            bounding = __assign({}, ShapePrimitive.EMPTY_BOUNDING);
+            bounding = _math_bounding__WEBPACK_IMPORTED_MODULE_3__.default.empty();
         var tmp_bounding = [undefined, undefined, undefined, undefined];
         for (var i = 0, len = buffer.length; i < len; i += 2) {
             _math_bounding__WEBPACK_IMPORTED_MODULE_3__.default.add(tmp_bounding, buffer[i], buffer[i + 1]);
@@ -3292,20 +3246,6 @@ var ShapePrimitive = /** @class */ (function (_super) {
         }
         return output;
     };
-    /**
-     * Empty buffer bounding
-     *
-     * @static
-     * @type {IShapeBounding}
-     */
-    ShapePrimitive.EMPTY_BOUNDING = {
-        cx: 0,
-        cy: 0,
-        x: -1,
-        y: -1,
-        width: 2,
-        height: 2,
-    };
     return ShapePrimitive;
 }(_ShapeBase__WEBPACK_IMPORTED_MODULE_0__.default));
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ShapePrimitive);
@@ -3329,9 +3269,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
 /* harmony import */ var _math_bounding__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../math/bounding */ "./dist/core/math/bounding.js");
-/* harmony import */ var _ShapePrimitive__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ShapePrimitive */ "./dist/core/shapes/ShapePrimitive.js");
-/* harmony import */ var _Shape__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Shape */ "./dist/core/shapes/Shape.js");
-/* harmony import */ var _Context__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Context */ "./dist/core/Context.js");
+/* harmony import */ var _Shape__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Shape */ "./dist/core/shapes/Shape.js");
+/* harmony import */ var _Context__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Context */ "./dist/core/Context.js");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -3359,7 +3298,6 @@ var __assign = (undefined && undefined.__assign) || function () {
 
 
 
-
 /**
  * @category Core.Shapes
  */
@@ -3381,7 +3319,7 @@ var ShapeRecursive = /** @class */ (function (_super) {
         // this.bInner = settings.bInner ?? false
         _this.bStatic = _this.isStatic();
         _this.bStaticIndexed = _this.isStaticIndexed();
-        _this.currentGenerationRecursiveBounding = __assign({}, _ShapePrimitive__WEBPACK_IMPORTED_MODULE_1__.default.EMPTY_BOUNDING);
+        _this.currentGenerationRecursiveBounding = _math_bounding__WEBPACK_IMPORTED_MODULE_0__.default.empty();
         return _this;
     }
     // /**
@@ -3433,7 +3371,7 @@ var ShapeRecursive = /** @class */ (function (_super) {
      */
     ShapeRecursive.prototype.bindBuffer = function (generateId, propArguments) {
         if (typeof this.shape === 'undefined') {
-            this.shapeRecursiveBuffer = _Shape__WEBPACK_IMPORTED_MODULE_2__.default.EMPTY_BUFFER;
+            this.shapeRecursiveBuffer = _Shape__WEBPACK_IMPORTED_MODULE_1__.default.EMPTY_BUFFER;
             return;
         }
         var recursions = Math.floor(this.getProp('recursions', propArguments, 1));
@@ -3540,7 +3478,7 @@ var ShapeRecursive = /** @class */ (function (_super) {
         if (this.shape) {
             var propArguments = {
                 repetition: repetition,
-                context: _Context__WEBPACK_IMPORTED_MODULE_3__.default,
+                context: _Context__WEBPACK_IMPORTED_MODULE_2__.default,
                 time: ((_a = this.scene) === null || _a === void 0 ? void 0 : _a.currentTime) || 0,
                 shape: this,
             };
@@ -3580,7 +3518,7 @@ var ShapeRecursive = /** @class */ (function (_super) {
                 };
                 var recursionBufferIndex = __assign(__assign({}, bufferIndex), { recursion: currentRecursionRepetition });
                 currentIndexed.parent = currentIndexed.parent
-                    ? _Shape__WEBPACK_IMPORTED_MODULE_2__.default.setIndexedParent(currentIndexed.parent, recursionBufferIndex)
+                    ? _Shape__WEBPACK_IMPORTED_MODULE_1__.default.setIndexedParent(currentIndexed.parent, recursionBufferIndex)
                     : recursionBufferIndex;
                 this.indexedBuffer.push(currentIndexed);
                 if (recursions > 1) {
@@ -3602,7 +3540,7 @@ var ShapeRecursive = /** @class */ (function (_super) {
                             };
                             recursionBufferIndex = __assign(__assign({}, bufferIndex), { recursion: currentRecursionRepetition });
                             currentIndexed.parent = currentIndexed.parent
-                                ? _Shape__WEBPACK_IMPORTED_MODULE_2__.default.setIndexedParent(currentIndexed.parent, recursionBufferIndex)
+                                ? _Shape__WEBPACK_IMPORTED_MODULE_1__.default.setIndexedParent(currentIndexed.parent, recursionBufferIndex)
                                 : recursionBufferIndex;
                             this.indexedBuffer.push(currentIndexed);
                             storedRecursion.push(currentRecursionRepetition);
@@ -3632,7 +3570,7 @@ var ShapeRecursive = /** @class */ (function (_super) {
         return result;
     };
     return ShapeRecursive;
-}(_Shape__WEBPACK_IMPORTED_MODULE_2__.default));
+}(_Shape__WEBPACK_IMPORTED_MODULE_1__.default));
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ShapeRecursive);
 //# sourceMappingURL=ShapeRecursive.js.map
 
@@ -4191,7 +4129,7 @@ var Spiral = /** @class */ (function (_super) {
                 return rep / (radius * twists);
             },
             vertex: function (shapeLoopRepetition) {
-                var r = Spiral.getRFromTSpiralType(_this.spiral, shapeLoopRepetition.angle);
+                var r = _this.r(shapeLoopRepetition.angle);
                 return [r * Math.cos(shapeLoopRepetition.angle), r * Math.sin(shapeLoopRepetition.angle)];
             },
         };
@@ -4202,6 +4140,7 @@ var Spiral = /** @class */ (function (_super) {
     }
     Spiral.prototype.generateLoopBuffer = function (propArguments) {
         this.spiral = this.getProp('spiral', propArguments);
+        this.r = Spiral.getRFromTSpiralType(this.spiral);
         return _super.prototype.generateLoopBuffer.call(this, propArguments);
     };
     // /**
@@ -4224,24 +4163,23 @@ var Spiral = /** @class */ (function (_super) {
      *
      * @static
      * @param {TSpiralType} spiral
-     * @param {number} angle
      * @returns {number}
      * @memberof Spiral
      */
-    Spiral.getRFromTSpiralType = function (spiral, angle) {
+    Spiral.getRFromTSpiralType = function (spiral) {
         switch (spiral) {
             case Spiral.types.ARCHIMEDE:
-                return angle / 10;
+                return function (angle) { return angle / 10; };
             case Spiral.types.HYPERBOLIC:
-                return (1 / angle) * 3;
+                return function (angle) { return (1 / angle) * 3; };
             case Spiral.types.FERMAT:
-                return Math.pow(angle, 0.5) / 3;
+                return function (angle) { return Math.pow(angle, 0.5) / 3; };
             case Spiral.types.LITUUS:
-                return Math.pow(angle, -0.5);
+                return function (angle) { return Math.pow(angle, -0.5); };
             case Spiral.types.LOGARITHMIC:
-                return Math.pow(Math.E, (angle * 0.2)) / 10;
+                return function (angle) { return Math.pow(Math.E, (angle * 0.2)) / 10; };
         }
-        return 1;
+        return function (angle) { return angle; };
     };
     /**
      * Spural types
@@ -4261,6 +4199,107 @@ var Spiral = /** @class */ (function (_super) {
 }(_ShapeLoop__WEBPACK_IMPORTED_MODULE_0__.default));
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Spiral);
 //# sourceMappingURL=Spiral.js.map
+
+/***/ }),
+
+/***/ "./dist/core/shapes/primitives/SuperShape.js":
+/*!***************************************************!*\
+  !*** ./dist/core/shapes/primitives/SuperShape.js ***!
+  \***************************************************/
+/*! namespace exports */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony import */ var _ShapeLoop__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../ShapeLoop */ "./dist/core/shapes/ShapeLoop.js");
+/* harmony import */ var _types_shape_base__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../types/shape-base */ "./dist/core/types/shape-base.js");
+/* harmony import */ var _math__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../math */ "./dist/core/math/index.js");
+var __extends = (undefined && undefined.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+
+
+
+/**
+ * ShperShape
+ *
+ * @category Core.Primitives
+ * @class SuperShape
+ * @extends {ShapeLoop}
+ */
+var SuperShape = /** @class */ (function (_super) {
+    __extends(SuperShape, _super);
+    /**
+     * Creates an instance of SuperShape.
+     *
+     * @param {ISuperShapeSettings} [settings={}]
+     * @memberof SuperShape
+     */
+    function SuperShape(settings) {
+        if (settings === void 0) { settings = {}; }
+        var _a, _b, _c, _d, _e, _f, _g;
+        var _this = this;
+        settings.type = 'SuperShape';
+        settings.loopDependencies = (settings.loopDependencies || []).concat(['a', 'b', 'm', 'n1', 'n2', 'n3']);
+        settings.adaptMode = (_a = settings.adaptMode) !== null && _a !== void 0 ? _a : _types_shape_base__WEBPACK_IMPORTED_MODULE_1__.EShapePrimitiveAdaptMode.Scale;
+        _this = _super.call(this, settings, true) || this;
+        _this.props.a = (_b = settings.a) !== null && _b !== void 0 ? _b : 1;
+        _this.props.b = (_c = settings.b) !== null && _c !== void 0 ? _c : 1;
+        _this.props.m = (_d = settings.m) !== null && _d !== void 0 ? _d : 6;
+        _this.props.n1 = (_e = settings.n1) !== null && _e !== void 0 ? _e : 1;
+        _this.props.n2 = (_f = settings.n2) !== null && _f !== void 0 ? _f : 1;
+        _this.props.n3 = (_g = settings.n3) !== null && _g !== void 0 ? _g : 1;
+        _this.loop = {
+            start: 0,
+            end: _math__WEBPACK_IMPORTED_MODULE_2__.PI2,
+            inc: function (propArguments) {
+                var sideLength = _this.getRepetitionSideLength(propArguments);
+                return Math.PI / Math.pow(sideLength[0] * sideLength[1], 0.5);
+            },
+            vertex: function (shapeLoopRepetition) {
+                var angle = shapeLoopRepetition.angle;
+                var m = (_this.m * angle) / 4;
+                var a = Math.pow(Math.abs(Math.cos(m) / _this.a), _this.n2);
+                var b = Math.pow(Math.abs(Math.sin(m) / _this.b), _this.n3);
+                var raux = Math.pow((a + b), (1 / _this.n1));
+                var r = raux === 0 ? 1 : 1 / raux;
+                return [r * Math.cos(angle), r * Math.sin(angle)];
+            },
+        };
+        _this.bStaticLoop = _this.isStaticLoop();
+        _this.bStatic = _this.isStatic();
+        _this.bStaticIndexed = _this.isStaticIndexed();
+        return _this;
+    }
+    SuperShape.prototype.generateLoopBuffer = function (propArguments) {
+        this.a = this.getProp('a', propArguments);
+        this.b = this.getProp('b', propArguments);
+        this.m = this.getProp('m', propArguments);
+        this.n1 = this.getProp('n1', propArguments);
+        this.n2 = this.getProp('n2', propArguments);
+        this.n3 = this.getProp('n3', propArguments);
+        return _super.prototype.generateLoopBuffer.call(this, propArguments);
+    };
+    return SuperShape;
+}(_ShapeLoop__WEBPACK_IMPORTED_MODULE_0__.default));
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SuperShape);
+//# sourceMappingURL=SuperShape.js.map
 
 /***/ }),
 
@@ -4438,6 +4477,7 @@ var EShapePrimitiveAdaptMode;
 /*! export ShapePrimitive [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/ShapePrimitive.js .default */
 /*! export ShapeRecursive [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/ShapeRecursive.js .default */
 /*! export Spiral [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/Spiral.js .default */
+/*! export SuperShape [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/SuperShape.js .default */
 /*! export Triangle [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/Triangle.js .default */
 /*! export Vec2 [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/math/Vec2.js .default */
 /*! export clamp [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .clamp */
@@ -4459,8 +4499,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "ShapePrimitive": () => /* reexport safe */ _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_3__.default,
 /* harmony export */   "ShapeLoop": () => /* reexport safe */ _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_4__.default,
 /* harmony export */   "ShapeBuffer": () => /* reexport safe */ _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_5__.default,
-/* harmony export */   "ShapeRecursive": () => /* reexport safe */ _core_shapes_ShapeRecursive__WEBPACK_IMPORTED_MODULE_6__.default,
-/* harmony export */   "Shape": () => /* reexport safe */ _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_7__.default,
+/* harmony export */   "Shape": () => /* reexport safe */ _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_6__.default,
+/* harmony export */   "ShapeRecursive": () => /* reexport safe */ _core_shapes_ShapeRecursive__WEBPACK_IMPORTED_MODULE_7__.default,
 /* harmony export */   "Line": () => /* reexport safe */ _core_shapes_primitives_Line__WEBPACK_IMPORTED_MODULE_8__.default,
 /* harmony export */   "Triangle": () => /* reexport safe */ _core_shapes_primitives_Triangle__WEBPACK_IMPORTED_MODULE_9__.default,
 /* harmony export */   "Rect": () => /* reexport safe */ _core_shapes_primitives_Rect__WEBPACK_IMPORTED_MODULE_10__.default,
@@ -4469,19 +4509,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Rose": () => /* reexport safe */ _core_shapes_primitives_Rose__WEBPACK_IMPORTED_MODULE_13__.default,
 /* harmony export */   "Spiral": () => /* reexport safe */ _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_14__.default,
 /* harmony export */   "Lissajous": () => /* reexport safe */ _core_shapes_primitives_Lissajous__WEBPACK_IMPORTED_MODULE_15__.default,
-/* harmony export */   "lerp": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_16__.lerp,
-/* harmony export */   "clamp": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_16__.clamp,
-/* harmony export */   "relativeClamp": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_16__.relativeClamp,
-/* harmony export */   "toDegrees": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_16__.toDegrees,
-/* harmony export */   "toRadians": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_16__.toRadians,
-/* harmony export */   "Vec2": () => /* reexport safe */ _core_math_Vec2__WEBPACK_IMPORTED_MODULE_17__.default,
-/* harmony export */   "Context": () => /* reexport safe */ _core_Context__WEBPACK_IMPORTED_MODULE_18__.default,
-/* harmony export */   "PHI": () => /* reexport safe */ _core_math__WEBPACK_IMPORTED_MODULE_19__.PHI,
-/* harmony export */   "PI2": () => /* reexport safe */ _core_math__WEBPACK_IMPORTED_MODULE_19__.PI2,
-/* harmony export */   "log": () => /* reexport safe */ _core_math__WEBPACK_IMPORTED_MODULE_19__.log,
-/* harmony export */   "DrawerCanvas": () => /* reexport safe */ _services_drawers_drawer_canvas_DrawerCanvas__WEBPACK_IMPORTED_MODULE_20__.default,
-/* harmony export */   "Animation": () => /* reexport safe */ _services_animation_Simple__WEBPACK_IMPORTED_MODULE_21__.default,
-/* harmony export */   "Easings": () => /* reexport safe */ _services_animation_Easings__WEBPACK_IMPORTED_MODULE_22__.default
+/* harmony export */   "SuperShape": () => /* reexport safe */ _core_shapes_primitives_SuperShape__WEBPACK_IMPORTED_MODULE_16__.default,
+/* harmony export */   "lerp": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_17__.lerp,
+/* harmony export */   "clamp": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_17__.clamp,
+/* harmony export */   "relativeClamp": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_17__.relativeClamp,
+/* harmony export */   "toDegrees": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_17__.toDegrees,
+/* harmony export */   "toRadians": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_17__.toRadians,
+/* harmony export */   "Vec2": () => /* reexport safe */ _core_math_Vec2__WEBPACK_IMPORTED_MODULE_18__.default,
+/* harmony export */   "Context": () => /* reexport safe */ _core_Context__WEBPACK_IMPORTED_MODULE_19__.default,
+/* harmony export */   "PHI": () => /* reexport safe */ _core_math__WEBPACK_IMPORTED_MODULE_20__.PHI,
+/* harmony export */   "PI2": () => /* reexport safe */ _core_math__WEBPACK_IMPORTED_MODULE_20__.PI2,
+/* harmony export */   "log": () => /* reexport safe */ _core_math__WEBPACK_IMPORTED_MODULE_20__.log,
+/* harmony export */   "DrawerCanvas": () => /* reexport safe */ _services_drawers_drawer_canvas_DrawerCanvas__WEBPACK_IMPORTED_MODULE_21__.default,
+/* harmony export */   "Animation": () => /* reexport safe */ _services_animation_Simple__WEBPACK_IMPORTED_MODULE_22__.default,
+/* harmony export */   "Easings": () => /* reexport safe */ _services_animation_Easings__WEBPACK_IMPORTED_MODULE_23__.default
 /* harmony export */ });
 /* harmony import */ var _core_Scene__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./core/Scene */ "./dist/core/Scene.js");
 /* harmony import */ var _core_SceneChild__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./core/SceneChild */ "./dist/core/SceneChild.js");
@@ -4489,8 +4530,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./core/shapes/ShapePrimitive */ "./dist/core/shapes/ShapePrimitive.js");
 /* harmony import */ var _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./core/shapes/ShapeLoop */ "./dist/core/shapes/ShapeLoop.js");
 /* harmony import */ var _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./core/shapes/ShapeBuffer */ "./dist/core/shapes/ShapeBuffer.js");
-/* harmony import */ var _core_shapes_ShapeRecursive__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./core/shapes/ShapeRecursive */ "./dist/core/shapes/ShapeRecursive.js");
-/* harmony import */ var _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./core/shapes/Shape */ "./dist/core/shapes/Shape.js");
+/* harmony import */ var _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./core/shapes/Shape */ "./dist/core/shapes/Shape.js");
+/* harmony import */ var _core_shapes_ShapeRecursive__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./core/shapes/ShapeRecursive */ "./dist/core/shapes/ShapeRecursive.js");
 /* harmony import */ var _core_shapes_primitives_Line__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./core/shapes/primitives/Line */ "./dist/core/shapes/primitives/Line.js");
 /* harmony import */ var _core_shapes_primitives_Triangle__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./core/shapes/primitives/Triangle */ "./dist/core/shapes/primitives/Triangle.js");
 /* harmony import */ var _core_shapes_primitives_Rect__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./core/shapes/primitives/Rect */ "./dist/core/shapes/primitives/Rect.js");
@@ -4499,13 +4540,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _core_shapes_primitives_Rose__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./core/shapes/primitives/Rose */ "./dist/core/shapes/primitives/Rose.js");
 /* harmony import */ var _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./core/shapes/primitives/Spiral */ "./dist/core/shapes/primitives/Spiral.js");
 /* harmony import */ var _core_shapes_primitives_Lissajous__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./core/shapes/primitives/Lissajous */ "./dist/core/shapes/primitives/Lissajous.js");
-/* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./Utilites */ "./dist/Utilites.js");
-/* harmony import */ var _core_math_Vec2__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./core/math/Vec2 */ "./dist/core/math/Vec2.js");
-/* harmony import */ var _core_Context__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./core/Context */ "./dist/core/Context.js");
-/* harmony import */ var _core_math__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./core/math */ "./dist/core/math/index.js");
-/* harmony import */ var _services_drawers_drawer_canvas_DrawerCanvas__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./services/drawers/drawer-canvas/DrawerCanvas */ "./dist/services/drawers/drawer-canvas/DrawerCanvas.js");
-/* harmony import */ var _services_animation_Simple__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./services/animation/Simple */ "./dist/services/animation/Simple.js");
-/* harmony import */ var _services_animation_Easings__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./services/animation/Easings */ "./dist/services/animation/Easings.js");
+/* harmony import */ var _core_shapes_primitives_SuperShape__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./core/shapes/primitives/SuperShape */ "./dist/core/shapes/primitives/SuperShape.js");
+/* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./Utilites */ "./dist/Utilites.js");
+/* harmony import */ var _core_math_Vec2__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./core/math/Vec2 */ "./dist/core/math/Vec2.js");
+/* harmony import */ var _core_Context__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./core/Context */ "./dist/core/Context.js");
+/* harmony import */ var _core_math__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./core/math */ "./dist/core/math/index.js");
+/* harmony import */ var _services_drawers_drawer_canvas_DrawerCanvas__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./services/drawers/drawer-canvas/DrawerCanvas */ "./dist/services/drawers/drawer-canvas/DrawerCanvas.js");
+/* harmony import */ var _services_animation_Simple__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./services/animation/Simple */ "./dist/services/animation/Simple.js");
+/* harmony import */ var _services_animation_Easings__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./services/animation/Easings */ "./dist/services/animation/Easings.js");
 /**
  * Core
  */
@@ -4513,6 +4555,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 // Shapes
+
 
 
 
@@ -11858,13 +11901,18 @@ __webpack_require__.r(__webpack_exports__);
 // Unique ID creation requires a high quality random # generator. In the browser we therefore
 // require the crypto API and do not support built-in fallback to lower quality random number
 // generators (like Math.random()).
-// getRandomValues needs to be invoked in a context where "this" is a Crypto implementation. Also,
-// find the complete implementation of crypto (msCrypto) on IE11.
-var getRandomValues = typeof crypto !== 'undefined' && crypto.getRandomValues && crypto.getRandomValues.bind(crypto) || typeof msCrypto !== 'undefined' && typeof msCrypto.getRandomValues === 'function' && msCrypto.getRandomValues.bind(msCrypto);
+var getRandomValues;
 var rnds8 = new Uint8Array(16);
 function rng() {
+  // lazy load so that environments that need to polyfill have a chance to do so
   if (!getRandomValues) {
-    throw new Error('crypto.getRandomValues() not supported. See https://github.com/uuidjs/uuid#getrandomvalues-not-supported');
+    // getRandomValues needs to be invoked in a context where "this" is a Crypto implementation. Also,
+    // find the complete implementation of crypto (msCrypto) on IE11.
+    getRandomValues = typeof crypto !== 'undefined' && crypto.getRandomValues && crypto.getRandomValues.bind(crypto) || typeof msCrypto !== 'undefined' && typeof msCrypto.getRandomValues === 'function' && msCrypto.getRandomValues.bind(msCrypto);
+
+    if (!getRandomValues) {
+      throw new Error('crypto.getRandomValues() not supported. See https://github.com/uuidjs/uuid#getrandomvalues-not-supported');
+    }
   }
 
   return getRandomValues(rnds8);

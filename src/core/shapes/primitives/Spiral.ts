@@ -14,6 +14,8 @@ import { PI2 } from '@core/math'
  */
 class Spiral extends ShapeLoop<ISpiralProps> {
 	private spiral!: TSpiralType
+	private r!: (angle: number) => number
+
 	/**
 	 * Spural types
 	 *
@@ -62,7 +64,7 @@ class Spiral extends ShapeLoop<ISpiralProps> {
 				return rep / (radius * twists)
 			},
 			vertex: (shapeLoopRepetition: IShapeLoopRepetition): vec2 => {
-				const r = Spiral.getRFromTSpiralType(this.spiral, shapeLoopRepetition.angle)
+				const r = this.r(shapeLoopRepetition.angle)
 				return [r * Math.cos(shapeLoopRepetition.angle), r * Math.sin(shapeLoopRepetition.angle)]
 			},
 		}
@@ -74,6 +76,8 @@ class Spiral extends ShapeLoop<ISpiralProps> {
 
 	protected generateLoopBuffer(propArguments: ISceneChildPropArguments): Float32Array {
 		this.spiral = this.getProp('spiral', propArguments)
+		this.r = Spiral.getRFromTSpiralType(this.spiral)
+
 		return super.generateLoopBuffer(propArguments)
 	}
 
@@ -100,25 +104,24 @@ class Spiral extends ShapeLoop<ISpiralProps> {
 	 *
 	 * @static
 	 * @param {TSpiralType} spiral
-	 * @param {number} angle
 	 * @returns {number}
 	 * @memberof Spiral
 	 */
-	static getRFromTSpiralType(spiral: TSpiralType, angle: number): number {
+	static getRFromTSpiralType(spiral: TSpiralType): (angle: number) => number {
 		switch (spiral) {
 			case Spiral.types.ARCHIMEDE:
-				return angle / 10
+				return angle => angle / 10
 			case Spiral.types.HYPERBOLIC:
-				return (1 / angle) * 3
+				return angle => (1 / angle) * 3
 			case Spiral.types.FERMAT:
-				return angle ** 0.5 / 3
+				return angle => angle ** 0.5 / 3
 			case Spiral.types.LITUUS:
-				return angle ** -0.5
+				return angle => angle ** -0.5
 			case Spiral.types.LOGARITHMIC:
-				return Math.E ** (angle * 0.2) / 10
+				return angle => Math.E ** (angle * 0.2) / 10
 		}
 
-		return 1
+		return angle => angle
 	}
 }
 

@@ -187,7 +187,56 @@ export interface ILissajousProps extends IShapeLoopProps {
 }
 
 /**
+ * http://paulbourke.net/geometry/supershape/
  *
  * @category Core.Primitive Interfaces
  */
 export interface ILissajousSettings extends ILissajousProps, IShapeLoopSettings {}
+
+/**
+ *
+ * @category Core.Primitive Interfaces
+ */
+export interface ISuperShapeProps extends IShapeLoopProps {
+	/**
+	 * a coefficient
+	 * @order -35
+	 */
+	a?: TSceneChildProp<number>
+
+	/**
+	 * b coefficient
+	 * @order -34
+	 */
+	b?: TSceneChildProp<number>
+
+	/**
+	 * m coefficient
+	 * @order -33
+	 */
+	m?: TSceneChildProp<number>
+
+	/**
+	 * n1 coefficient
+	 * @order -32
+	 */
+	n1?: TSceneChildProp<number>
+
+	/**
+	 * n2 coefficient
+	 * @order -31
+	 */
+	n2?: TSceneChildProp<number>
+
+	/**
+	 * n3 coefficient
+	 * @order -30
+	 */
+	n3?: TSceneChildProp<number>
+}
+
+/**
+ *
+ * @category Core.Primitive Interfaces
+ */
+export interface ISuperShapeSettings extends ISuperShapeProps, IShapeLoopSettings {}

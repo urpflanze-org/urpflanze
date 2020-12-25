@@ -60,10 +60,7 @@ export interface IDrawerSVGOptions extends IDrawerOptions {
  */
 export interface IDrawerCanvasOptions extends IDrawerOptions {
 	clear?: boolean
-	// scale?: number
-	// translate?: Array<number>
 	simmetricLines?: number
-	// fixedLineWidth?: boolean
 	backgroundImage?: CanvasImageSource
 	backgroundImageFit?: 'cover' | 'contain'
 }
@@ -94,7 +91,7 @@ export interface IDrawerSVGEvents {
 /**
  * @category Services.Drawer
  */
-export type TDrawerTransformation = 'none' | 'angle' | 'resolution-based' | 'resolution-scaled-based'
+export type TDrawerTransformation = 'none' | 'angle' | 'scene-size-percentage'
 
 /**
  * @category Services.Drawer

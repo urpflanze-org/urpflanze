@@ -7,7 +7,7 @@ class FrameBuffer {
 	private frames: { [frameNumber: number]: ImageData } = {}
 
 	public exist(frameNumber: number): boolean {
-		return frameNumber in this.frames
+		return typeof this.frames[frameNumber] !== 'undefined'
 	}
 
 	public get(frameNumber: number): ImageData | null {

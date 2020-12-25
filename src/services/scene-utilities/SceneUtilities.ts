@@ -149,11 +149,8 @@ class SceneUtilities {
 
 			if (sceneChild && drawer && this.isAPrimitive(sceneChild)) {
 				const sideLength = SceneChildPropsData.sideLength?.default
-				;(sceneChild as ShapePrimitive).setProp(
-					'sideLength' as keyof ISceneChildProps,
-					ScenePropUtilities.getTransformedValue(drawer, 'sideLength', sideLength)
-				)
-				sceneChild.data.props.sideLength = sideLength
+
+				this.setProp(sceneChild, 'sideLength', { type: 'drawer-transformation', value: sideLength }, drawer)
 			}
 
 			this.getChildren(sceneChild).forEach(child => this.create(child))

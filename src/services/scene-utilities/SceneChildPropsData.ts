@@ -1,6 +1,6 @@
 import Spiral from '@core/shapes/primitives/Spiral'
 import { EShapePrimitiveAdaptMode } from '@core/types/shape-base'
-import { IDrawerStreamProps, TDrawerTransformation } from '@services/types/drawer'
+import { TDrawerTransformation } from '@services/types/drawer'
 import { TSceneChildProps } from '@services/types/scene-utilities'
 
 /**
@@ -30,12 +30,10 @@ export interface ISceneChildPropData {
 /**
  * @category Services.Scene Utilities
  */
-export type TSceneChildPropsDataKeys =
-	| Exclude<
-			keyof TSceneChildProps | 'loop.start' | 'loop.end' | 'loop.inc',
-			'style' | 'loopDependencies' | 'vertexCallback' | 'loop' | 'name' | 'order' | 'type' | 'data' | 'shape' | 'id'
-	  >
-	| keyof IDrawerStreamProps
+export type TSceneChildPropsDataKeys = Exclude<
+	keyof TSceneChildProps | 'style.fill' | 'style.stroke' | 'style.lineWidth' | 'loop.start' | 'loop.end' | 'loop.inc',
+	'style' | 'loopDependencies' | 'vertexCallback' | 'loop' | 'name' | 'order' | 'type' | 'data' | 'shape' | 'id'
+>
 
 type TSceneChildUtilityProps = {
 	[key in TSceneChildPropsDataKeys]: ISceneChildPropData
@@ -66,7 +64,7 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 		label: 'Repetitions',
 		type: 'range',
 		min: 1,
-		max: 100,
+		max: 200,
 		step: 1,
 		default: 1,
 		default_animate: 20,
@@ -79,13 +77,13 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 		name: 'distance',
 		label: 'Distance',
 		type: 'range',
-		min: -200,
-		max: 200,
+		min: -100,
+		max: 100,
 		step: 1,
 		default: 0,
 		canBArray: true,
-		default_animate: 50,
-		transformation: 'resolution-based',
+		default_animate: 75,
+		transformation: 'scene-size-percentage',
 	},
 	displace: {
 		animable: true,
@@ -110,7 +108,7 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 		step: 0.001,
 		default: 0,
 		default_animate: 0.01,
-		transformation: 'resolution-scaled-based',
+		transformation: 'scene-size-percentage',
 	},
 	squeezeY: {
 		animable: true,
@@ -122,7 +120,7 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 		step: 0.001,
 		default: 0,
 		default_animate: 0.01,
-		transformation: 'resolution-scaled-based',
+		transformation: 'scene-size-percentage',
 	},
 
 	rotateX: {
@@ -190,12 +188,12 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 		name: 'translate',
 		label: 'Translate',
 		type: 'multiple-range',
-		min: -200,
-		max: 200,
+		min: -100,
+		max: 100,
 		step: 1,
 		default: [0, 0],
 		default_animate: 0,
-		transformation: 'resolution-based',
+		transformation: 'scene-size-percentage',
 	},
 	scale: {
 		animable: true,
@@ -248,21 +246,9 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 		default_animate: [-1, 1],
 		transformation: 'none',
 	},
-	// rotationOrigin: {
-	// 	animable: true,
-	// 	name: 'rotationOrigin',
-	// 	label: 'Rotation Origin',
-	// 	type: 'multiple-range',
-	// 	min: -1,
-	// 	max: 1,
-	// 	step: 0.01,
-	// 	default: [1, 1],
-	// 	default_animate: [-1, 1],
-	// 	transformation: 'none',
-	// },
 
-	// primitive
-	fill: {
+	// primitive style
+	'style.fill': {
 		animable: true,
 		name: 'fill',
 		label: 'Fill',
@@ -271,7 +257,7 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 		default_animate: '#fff',
 		transformation: 'none',
 	},
-	stroke: {
+	'style.stroke': {
 		animable: true,
 		name: 'stroke',
 		label: 'Stroke',
@@ -280,7 +266,7 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 		default_animate: '#000',
 		transformation: 'none',
 	},
-	lineWidth: {
+	'style.lineWidth': {
 		animable: true,
 		name: 'lineWidth',
 		label: 'Stroke weight',
@@ -319,6 +305,8 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 		transformation: 'none',
 	},
 
+	// primitive
+
 	sideLength: {
 		animable: true,
 		name: 'sideLength',
@@ -329,8 +317,10 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 		step: 0.1,
 		default: [10, 10],
 		default_animate: 20,
-		transformation: 'resolution-based',
+		transformation: 'scene-size-percentage',
 	},
+
+	// polygon
 	sideNumber: {
 		animable: true,
 		name: 'sideNumber',

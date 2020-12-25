@@ -11,8 +11,8 @@ export { default as Group } from '@core/Group'
 export { default as ShapePrimitive } from '@core/shapes/ShapePrimitive'
 export { default as ShapeLoop } from '@core/shapes/ShapeLoop'
 export { default as ShapeBuffer } from '@core/shapes/ShapeBuffer'
-export { default as ShapeRecursive } from '@core/shapes/ShapeRecursive'
 export { default as Shape } from '@core/shapes/Shape'
+export { default as ShapeRecursive } from '@core/shapes/ShapeRecursive'
 
 export { default as Line } from '@core/shapes/primitives/Line'
 export { default as Triangle } from '@core/shapes/primitives/Triangle'
@@ -23,6 +23,7 @@ export { default as Circle } from '@core/shapes/primitives/Circle'
 export { default as Rose } from '@core/shapes/primitives/Rose'
 export { default as Spiral } from '@core/shapes/primitives/Spiral'
 export { default as Lissajous } from '@core/shapes/primitives/Lissajous'
+export { default as SuperShape } from '@core/shapes/primitives/SuperShape'
 
 // Utilities
 export { lerp, clamp, relativeClamp, toDegrees, toRadians } from 'src/Utilites'

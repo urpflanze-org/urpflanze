@@ -42,26 +42,11 @@ abstract class ShapePrimitive<
 	public bClosed: boolean
 
 	/**
-	 * Empty buffer bounding
-	 *
-	 * @static
-	 * @type {IShapeBounding}
-	 */
-	static readonly EMPTY_BOUNDING: IShapeBounding = {
-		cx: 0,
-		cy: 0,
-		x: -1,
-		y: -1,
-		width: 2,
-		height: 2,
-	}
-
-	/**
 	 * Contain the bounding of the last generated buffer
 	 *
 	 * @type {IShapeBounding}
 	 */
-	public currentGenerationPrimitiveBounding: IShapeBounding = { ...ShapePrimitive.EMPTY_BOUNDING }
+	public currentGenerationPrimitiveBounding: IShapeBounding = Bounding.empty()
 
 	/**
 	 * Creates an instance of ShapePrimitive.
@@ -205,7 +190,7 @@ abstract class ShapePrimitive<
 	 * @memberof ShapePrimitive
 	 */
 	public static getBounding(buffer: Float32Array, bounding?: IShapeBounding): IShapeBounding {
-		if (typeof bounding === 'undefined') bounding = { ...ShapePrimitive.EMPTY_BOUNDING }
+		if (typeof bounding === 'undefined') bounding = Bounding.empty()
 		const tmp_bounding = [undefined, undefined, undefined, undefined]
 
 		for (let i = 0, len = buffer.length; i < len; i += 2) {

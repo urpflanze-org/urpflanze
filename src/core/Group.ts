@@ -9,7 +9,7 @@ import { IBufferIndex, IShapeBounding } from '@core/types/shape-base'
 import Scene from '@core/Scene'
 import SceneChild from '@core/SceneChild'
 import ShapeBase from '@core/shapes/ShapeBase'
-import ShapePrimitive from './shapes/ShapePrimitive'
+import Bounding from './math/bounding'
 
 /**
  * A SceneChild container, propagates properties to children
@@ -232,7 +232,7 @@ class Group extends SceneChild {
 	 */
 	public getBounding(): IShapeBounding {
 		const boundings: Array<IShapeBounding> = []
-		const bounding: IShapeBounding = { ...ShapePrimitive.EMPTY_BOUNDING }
+		const bounding: IShapeBounding = Bounding.empty()
 
 		if (this.children.length > 0) {
 			this.children.forEach(item => boundings.push(item.getBounding()))

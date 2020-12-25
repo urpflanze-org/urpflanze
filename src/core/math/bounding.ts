@@ -5,6 +5,15 @@ import { IShapeBounding } from '@core/types/shape-base'
  * @ignore
  */
 const Bounding = {
+	empty: (): IShapeBounding => ({
+		cx: 0,
+		cy: 0,
+		x: -1,
+		y: -1,
+		width: 2,
+		height: 2,
+	}),
+
 	clear: (tmpBounding: Array<number | undefined>): void => {
 		tmpBounding[0] = undefined
 		tmpBounding[1] = undefined
