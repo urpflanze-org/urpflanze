@@ -100,14 +100,14 @@ class JSONImporter {
 		const sceneChilds: Array<IProjectSceneChild> = Object.values(project.scene || [])
 
 		for (let i = 0, len = sceneChilds.length; i < len; i++) {
-			const sceneChild = JSONImporter.parseSceneChild(sceneChilds[i], drawer)
+			const sceneChild = JSONImporter.parseSceneChild(sceneChilds[i], scene)
 			sceneChild && scene.add(sceneChild)
 		}
 
 		return drawer
 	}
 
-	static parseSceneChild(projectSceneChild: IProjectSceneChild, drawer: DrawerCanvas): SceneChild | null {
+	static parseSceneChild(projectSceneChild: IProjectSceneChild, scene: Scene): SceneChild | null {
 		const shape: Float32Array | undefined =
 			typeof projectSceneChild.shape !== 'undefined'
 				? Float32Array.from(Object.values(projectSceneChild.shape) as Array<number> | Float32Array)
@@ -132,12 +132,12 @@ class JSONImporter {
 		if (sceneChild) {
 			const propKeys = Object.keys(props) as Array<keyof IProjectSceneChildProps>
 			propKeys.forEach(propKey => {
-				SceneUtilities.setProp(sceneChild, propKey as string, parseFunction.unparse(props[propKey]), drawer)
+				SceneUtilities.setProp(sceneChild, propKey, parseFunction.unparse(props[propKey]), scene)
 			})
 
 			if (projectSceneChild.children && projectSceneChild.children.length > 0) {
 				for (let i = 0, len = projectSceneChild.children.length; i < len; i++) {
-					const child = JSONImporter.parseSceneChild(projectSceneChild.children[i], drawer)
+					const child = JSONImporter.parseSceneChild(projectSceneChild.children[i], scene)
 					child && SceneUtilities.add(sceneChild, child)
 				}
 			}

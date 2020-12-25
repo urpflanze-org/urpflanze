@@ -8,6 +8,7 @@ import { IDrawerOptions, IDrawerPropArguments, IDrawerStreamProps, TDrawerProp }
 import { parseColor } from 'src/Color'
 import ShapePrimitive from '@core/shapes/ShapePrimitive'
 import { pmod } from '@core/math'
+import { IProjectSceneChildProps } from '@services/types/exporters-importers'
 
 /**
  * Abstract Drawer
@@ -115,7 +116,7 @@ abstract class Drawer<IADrawerOptions extends IDrawerOptions, IDrawerEvents> ext
 					const props = sceneChild.data.props
 
 					Object.keys(props).forEach(name => {
-						SceneUtilities.setProp(sceneChild, name, props[name], this)
+						SceneUtilities.setProp(sceneChild, name as keyof IProjectSceneChildProps, props[name], this.scene as Scene)
 					})
 				}
 			}, this.scene)

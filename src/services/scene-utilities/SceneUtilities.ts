@@ -12,6 +12,7 @@ import Circle from '@core/shapes/primitives/Circle'
 import Rose from '@core/shapes/primitives/Rose'
 import Spiral from '@core/shapes/primitives/Spiral'
 import Lissajous from '@core/shapes/primitives/Lissajous'
+import SuperShape from '@core/shapes/primitives/SuperShape'
 
 import Shape from '@core/shapes/Shape'
 import ShapePrimitive from '@core/shapes/ShapePrimitive'
@@ -28,7 +29,7 @@ import Animation from '@services/animation/Animation'
 import { TSceneChildProps } from '@services/types/scene-utilities'
 import { ISceneChildProps } from '@core/types/scene-child'
 import { IShapeLoopAnimation } from '@services/types/animation'
-import Drawer from '@services/drawers/Drawer'
+import { IProjectSceneChildProps } from '@services/types/exporters-importers'
 
 type SceneChildInstance = new (props: any) => SceneChild
 
@@ -52,6 +53,7 @@ class SceneUtilities {
 			Rose,
 			Spiral,
 			Lissajous,
+			SuperShape,
 			Group,
 			Shape,
 			ShapeLoop,
@@ -112,20 +114,14 @@ class SceneUtilities {
 	 * @param {(string | SceneChild)} item
 	 * @param {TSceneChildProps} [props]
 	 * @param {Scene} [scene]
-	 * @param {DrawerCanvas} [drawer]
 	 * @returns {(SceneChild | null)}
 	 * @memberof SceneUtilities
 	 */
-	create(
-		item: string | SceneChild,
-		props?: TSceneChildProps,
-		scene?: Scene,
-		drawer?: Drawer<any, any>
-	): SceneChild | null {
+	create(item: string | SceneChild, props?: TSceneChildProps, scene?: Scene): SceneChild | null {
 		scene = scene ? scene : typeof item !== 'string' ? item.scene : undefined
 
 		if (item instanceof SceneChild) {
-			this.getChildren(item).forEach(child => this.create(child, undefined, scene, drawer))
+			this.getChildren(item).forEach(child => this.create(child, undefined, scene))
 			return item
 		}
 
@@ -147,10 +143,13 @@ class SceneUtilities {
 
 			const sceneChild: SceneChild = new this.registeredSceneChilds[item](props) as SceneChild
 
-			if (sceneChild && drawer && this.isAPrimitive(sceneChild)) {
-				const sideLength = SceneChildPropsData.sideLength?.default
-
-				this.setProp(sceneChild, 'sideLength', { type: 'drawer-transformation', value: sideLength }, drawer)
+			if (sceneChild && scene && this.isAPrimitive(sceneChild)) {
+				this.setProp(
+					sceneChild,
+					'sideLength',
+					{ type: 'transformable-prop', value: SceneChildPropsData.sideLength?.default },
+					scene
+				)
 			}
 
 			this.getChildren(sceneChild).forEach(child => this.create(child))
@@ -186,12 +185,11 @@ class SceneUtilities {
 	 *
 	 * @param {SceneChild} sceneChild
 	 * @param {Scene} [scene]
-	 * @param {DrawerCanvas} [drawer]
 	 * @param {boolean} [strict]
 	 * @returns {(SceneChild | null)}
 	 * @memberof SceneUtilities
 	 */
-	copy(sceneChild: SceneChild, scene?: Scene, drawer?: Drawer<any, any>, strict = false): SceneChild | null {
+	copy(sceneChild: SceneChild, scene?: Scene, strict = false): SceneChild | null {
 		// copy only props, without name, id
 		const props: TSceneChildProps = sceneChild.getProps()
 
@@ -224,16 +222,16 @@ class SceneUtilities {
 			props.data = JSON.parse(JSON.stringify(sceneChild.data || {}))
 		}
 
-		const copied: SceneChild | null = this.create(sceneChild.type, props, scene, drawer)
+		const copied: SceneChild | null = this.create(sceneChild.type, props, scene)
 
 		if (copied) {
 			if (sceneChild instanceof Group) {
 				sceneChild.getChildren().forEach((child: SceneChild) => {
-					const copiedChild: SceneChild | null = this.copy(child, scene, drawer)
+					const copiedChild: SceneChild | null = this.copy(child, scene)
 					copiedChild && (copied as Group).add(copiedChild)
 				})
 			} else if (sceneChild instanceof Shape && copied instanceof Shape && sceneChild.shape) {
-				const copiedShape: SceneChild | null = this.copy(sceneChild.shape, scene, drawer)
+				const copiedShape: SceneChild | null = this.copy(sceneChild.shape, scene)
 				copiedShape && (copied.shape = copiedShape)
 			} else if (sceneChild instanceof ShapeBuffer && copied instanceof ShapeBuffer && sceneChild.shape) {
 				copied.setShape(new Float32Array(sceneChild.shape))
@@ -502,10 +500,10 @@ class SceneUtilities {
 	 * @static
 	 * @param {SceneChild} sceneChild
 	 * @param {*} value
-	 * @param {DrawerCanvas} drawer
+	 * @param {Scene} scene
 	 * @memberof SceneUtilities
 	 */
-	setProp(sceneChild: SceneChild, name: string, value: any, drawer: Drawer<any, any>): void {
+	setProp(sceneChild: SceneChild, name: keyof IProjectSceneChildProps, value: any, scene: Scene): void {
 		if (typeof sceneChild.data === 'undefined') {
 			sceneChild.data = { props: [] }
 		} else if (typeof sceneChild.data.props === 'undefined') {
@@ -514,7 +512,7 @@ class SceneUtilities {
 
 		if (ScenePropUtilities.bValueAnimation(value)) {
 			sceneChild.data.props[name] = value
-			sceneChild.setProp(name as keyof ISceneChildProps, Animation.composeAnimation(drawer, name, value))
+			sceneChild.setProp(name as keyof ISceneChildProps, Animation.composeAnimation(scene, name, value))
 			return
 		}
 
@@ -548,11 +546,11 @@ class SceneUtilities {
 		}
 
 		if (ScenePropUtilities.bPropTransformable(name, value)) {
-			if (ScenePropUtilities.bValueDrawer(value)) {
+			if (ScenePropUtilities.bTransformableValue(value)) {
 				sceneChild.data.props[name] = value
 				;(sceneChild as ShapePrimitive).setProp(
 					name as keyof ISceneChildProps,
-					ScenePropUtilities.getTransformedValue(drawer, name, value.value)
+					ScenePropUtilities.getTransformedValue(scene, name, value.value)
 				)
 			} else {
 				sceneChild.setProp(name as keyof ISceneChildProps, value)
@@ -570,7 +568,7 @@ class SceneUtilities {
 			case 'bClosed':
 				if (sceneChild instanceof ShapePrimitive) sceneChild.setClosed(value)
 				break
-			case 'bAdaptBuffer':
+			case 'adaptMode':
 				if (sceneChild instanceof ShapePrimitive) sceneChild.adapt(value)
 				break
 			default:

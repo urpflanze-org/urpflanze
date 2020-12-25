@@ -1,15 +1,16 @@
 import { toRadians, toDegrees } from 'src/Utilites'
 
-import DrawerCanvas from '@services/drawers/drawer-canvas/DrawerCanvas'
+import { TVertexCallback } from '@core/types/shape-base'
+
+import { IShapeLoopAnimation, TAnimation } from '@services/types/animation'
+import { IShapeLoopGenerator, TShapeLoopGeneratorFormula } from '@core/types/shape-primitives'
+import { TSceneUtilityPropTransformation, TSceneUtilityPropValue } from '@services/types/scene-utilities'
+
+import Scene from '@core/Scene'
 import SceneChildPropsData, {
 	ISceneChildPropData,
 	TSceneChildPropsDataKeys,
 } from '@services/scene-utilities/SceneChildPropsData'
-import { IShapeLoopAnimation, TAnimation } from '@services/types/animation'
-import { IShapeLoopGenerator, TShapeLoopGeneratorFormula } from '@core/types/shape-primitives'
-import { TVertexCallback } from '@core/types/shape-base'
-import { TDrawerTransformation, TDrawerValue } from '@services/types/drawer'
-import Drawer from '@services/drawers/Drawer'
 
 /**
  *
@@ -43,9 +44,8 @@ class ScenePropUtilities {
 		if (value && value.raw) {
 			const vertexCallback = new Function(
 				'vertex',
+				'vertexRepetition',
 				ScenePropUtilities.RAW_ARGUMENTS,
-				'vertex_index',
-				'vertex_lenght',
 				`return ${value.raw}`
 			) as TVertexCallback
 
@@ -56,7 +56,7 @@ class ScenePropUtilities {
 	static composeLoop(loop: IShapeLoopAnimation): IShapeLoopGenerator {
 		const vertex = loop.vertex.raw
 			? (new Function(
-					'index',
+					'shapeLoopRepetition',
 					ScenePropUtilities.RAW_ARGUMENTS,
 					`return ${loop.vertex.raw}`
 			  ) as TShapeLoopGeneratorFormula)
@@ -105,8 +105,13 @@ class ScenePropUtilities {
 		)
 	}
 
-	static bValueDrawer(value: TDrawerValue | any): boolean {
-		return value && typeof value === 'object' && value.type && value.type === 'drawer-transformation'
+	static bTransformableValue(value: TSceneUtilityPropValue | any): boolean {
+		return (
+			value !== null &&
+			typeof value === 'object' &&
+			typeof value.type === 'string' &&
+			value.type === 'transformable-prop'
+		)
 	}
 
 	static bPropTransformable(name: string, value: any): boolean {
@@ -121,13 +126,13 @@ class ScenePropUtilities {
 		)
 	}
 
-	static getValueDrawerTransformationType(name: string): TDrawerTransformation | null {
+	static getValueDrawerTransformationType(name: string): TSceneUtilityPropTransformation | null {
 		const sceneChildProp = SceneChildPropsData[name as TSceneChildPropsDataKeys]
 
 		return sceneChildProp && sceneChildProp.transformation !== 'none' ? sceneChildProp.transformation : null
 	}
 
-	static getTransformedValue(drawer: Drawer<any, any>, name: string, value: any): string | number | Array<number> {
+	static getTransformedValue(scene: Scene, name: string, value: any): string | number | Array<number> {
 		const sceneChildProp = SceneChildPropsData[name as TSceneChildPropsDataKeys]
 
 		if (ScenePropUtilities.bPropTransformable(name, value)) {
@@ -138,8 +143,6 @@ class ScenePropUtilities {
 					}
 					return toRadians(value)
 				case 'scene-size-percentage': {
-					const scene = drawer.getScene()
-
 					if (typeof scene !== 'undefined') {
 						if (Array.isArray(value)) {
 							return [(value[0] * scene.width) / 100, (value[1] * scene.height) / 100]
@@ -147,6 +150,17 @@ class ScenePropUtilities {
 						// TODO: hypot? or scene-width/height-percentage?
 						return (value * scene.width) / 100
 					}
+					break
+				}
+				case 'scene-size-percentage-inverse': {
+					if (typeof scene !== 'undefined') {
+						if (Array.isArray(value)) {
+							return [(value[0] * 100) / scene.width, (value[1] * 100) / scene.height]
+						}
+						// TODO: hypot? or scene-width/height-percentage?
+						return (value * 100) / scene.width
+					}
+					break
 				}
 				// case 'resolution-scaled-based':
 				// 	transformedValueFunction = drawer.getValueFromResolutionScaled.bind(drawer)
@@ -157,11 +171,7 @@ class ScenePropUtilities {
 		return value
 	}
 
-	static getTransformedValueInverse(
-		drawer: DrawerCanvas,
-		name: TSceneChildPropsDataKeys,
-		value: any
-	): number | Array<number> {
+	static getTransformedValueInverse(scene: Scene, name: TSceneChildPropsDataKeys, value: any): number | Array<number> {
 		const sceneChildProp = SceneChildPropsData[name] as ISceneChildPropData
 
 		if (ScenePropUtilities.bPropTransformable(name, value)) {
@@ -173,8 +183,6 @@ class ScenePropUtilities {
 					return toDegrees(value)
 				}
 				case 'scene-size-percentage': {
-					const scene = drawer.getScene()
-
 					if (typeof scene !== 'undefined') {
 						if (Array.isArray(value)) {
 							return [(value[0] * 100) / scene.width, (value[1] * 100) / scene.height]
@@ -182,6 +190,17 @@ class ScenePropUtilities {
 						// TODO: hypot? or scene-width/height-percentage?
 						return (value * 100) / scene.width
 					}
+					break
+				}
+				case 'scene-size-percentage-inverse': {
+					if (typeof scene !== 'undefined') {
+						if (Array.isArray(value)) {
+							return [(value[0] * scene.width) / 100, (value[1] * scene.height) / 100]
+						}
+						// TODO: hypot? or scene-width/height-percentage?
+						return (value * scene.width) / 100
+					}
+					break
 				}
 				// case 'resolution-scaled-based':
 				// 	transformedValueFunction = drawer.getValueFromResolution.bind(drawer)

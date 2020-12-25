@@ -289,6 +289,12 @@ class Timeline extends Emitter<ITimelineEvents> {
 	public setFrame(frame: number): void {
 		this.current_frame = pmod(frame, this.sequence.frames)
 		this.current_time = this.getFrameTime(this.current_frame)
+
+		this.dispatch('timeline:progress', {
+			current_frame: this.current_frame,
+			current_time: this.current_time,
+			fps: this.fps,
+		})
 	}
 
 	/**
@@ -319,6 +325,12 @@ class Timeline extends Emitter<ITimelineEvents> {
 
 		this.current_time = time
 		this.current_frame = this.getFrameAtTime(time)
+
+		this.dispatch('timeline:progress', {
+			current_frame: this.current_frame,
+			current_time: this.current_time,
+			fps: this.fps,
+		})
 	}
 
 	//#endregion

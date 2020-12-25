@@ -1,7 +1,6 @@
 import Spiral from '@core/shapes/primitives/Spiral'
 import { EShapePrimitiveAdaptMode } from '@core/types/shape-base'
-import { TDrawerTransformation } from '@services/types/drawer'
-import { TSceneChildProps } from '@services/types/scene-utilities'
+import { TSceneChildProps, TSceneUtilityPropTransformation } from '@services/types/scene-utilities'
 
 /**
  * @category Services.Scene Utilities
@@ -22,7 +21,7 @@ export interface ISceneChildPropData {
 	default: any
 	default_animate?: any
 	canBArray?: boolean
-	transformation: TDrawerTransformation
+	transformation: TSceneUtilityPropTransformation
 	animable?: boolean
 	type_value?: 'float' | 'int'
 }
@@ -82,7 +81,7 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 		step: 1,
 		default: 0,
 		canBArray: true,
-		default_animate: 75,
+		default_animate: 25,
 		transformation: 'scene-size-percentage',
 	},
 	displace: {
@@ -105,10 +104,10 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 		type: 'range',
 		min: -0.2,
 		max: 0.2,
-		step: 0.001,
+		step: 0.01,
 		default: 0,
-		default_animate: 0.01,
-		transformation: 'scene-size-percentage',
+		default_animate: 0.1,
+		transformation: 'scene-size-percentage-inverse',
 	},
 	squeezeY: {
 		animable: true,
@@ -117,10 +116,10 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 		type: 'range',
 		min: -0.2,
 		max: 0.2,
-		step: 0.001,
+		step: 0.01,
 		default: 0,
-		default_animate: 0.01,
-		transformation: 'scene-size-percentage',
+		default_animate: 0.1,
+		transformation: 'scene-size-percentage-inverse',
 	},
 
 	rotateX: {
@@ -216,7 +215,7 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 		min: -1,
 		max: 1,
 		step: 0.01,
-		default: [1, 1],
+		default: [0, 0],
 		default_animate: [-1, 1],
 		transformation: 'none',
 	},
@@ -416,7 +415,7 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 		name: 'twists_start',
 		label: 'Twists start',
 		type: 'range',
-		min: 1,
+		min: 0,
 		max: 60,
 		step: 0.1,
 		default: 0,
@@ -430,6 +429,81 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 		type: 'select',
 		options: OptionSpiralType,
 		default: Spiral.types.ARCHIMEDE,
+		transformation: 'none',
+	},
+
+	// supershape
+	a: {
+		animable: true,
+		name: 'a',
+		label: 'A',
+		type: 'range',
+		min: 0,
+		max: 10,
+		step: 0.01,
+		default: 1,
+		default_animate: 0.1,
+		transformation: 'none',
+	},
+	b: {
+		animable: true,
+		name: 'b',
+		label: 'B',
+		type: 'range',
+		min: -10,
+		max: 10,
+		step: 0.01,
+		default: 1,
+		default_animate: 0.1,
+		transformation: 'none',
+	},
+	m: {
+		animable: true,
+		name: 'm',
+		label: 'm',
+		type: 'range',
+		min: 1,
+		max: 20,
+		step: 1,
+		default: 1,
+		default_animate: 6,
+		transformation: 'none',
+		type_value: 'int',
+	},
+	n1: {
+		animable: true,
+		name: 'n1',
+		label: 'n1',
+		type: 'range',
+		min: -10,
+		max: 10,
+		step: 0.01,
+		default: 1,
+		default_animate: 0.1,
+		transformation: 'none',
+	},
+	n2: {
+		animable: true,
+		name: 'n2',
+		label: 'n2',
+		type: 'range',
+		min: -10,
+		max: 10,
+		step: 0.01,
+		default: 1,
+		default_animate: 0.1,
+		transformation: 'none',
+	},
+	n3: {
+		animable: true,
+		name: 'n3',
+		label: 'n3',
+		type: 'range',
+		min: -10,
+		max: 10,
+		step: 0.01,
+		default: 1,
+		default_animate: 0.1,
 		transformation: 'none',
 	},
 

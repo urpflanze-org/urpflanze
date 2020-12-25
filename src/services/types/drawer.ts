@@ -88,19 +88,6 @@ export interface IDrawerSVGEvents {
 	}
 }
 
-/**
- * @category Services.Drawer
- */
-export type TDrawerTransformation = 'none' | 'angle' | 'scene-size-percentage'
-
-/**
- * @category Services.Drawer
- */
-export type TDrawerValue = {
-	type: 'drawer-transformation'
-	value: any
-}
-
 type TCanvasContexComposite =
 	| 'source-over'
 	| 'source-in'

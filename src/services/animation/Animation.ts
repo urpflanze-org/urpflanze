@@ -4,6 +4,7 @@ import { TAnimation } from '@services/types/animation'
 import Simple from '@services/animation/Simple'
 import { TSceneChildProp } from '@core/types/scene-child'
 import Drawer from '@services/drawers/Drawer'
+import Scene from '@core/Scene'
 
 /**
  * @ignore
@@ -11,13 +12,13 @@ import Drawer from '@services/drawers/Drawer'
  * @category Services.Animation
  */
 const Animation = {
-	composeAnimation: (drawer: Drawer<any, any>, prop_name: string, animation: TAnimation): TSceneChildProp<any> => {
+	composeAnimation: (scene: Scene, prop_name: string, animation: TAnimation): TSceneChildProp<any> => {
 		switch (animation.type) {
 			case 'simple': {
 				const simpleAnimation = { ...animation.value }
 
-				simpleAnimation.from = ScenePropUtilities.getTransformedValue(drawer, prop_name, simpleAnimation.from)
-				simpleAnimation.to = ScenePropUtilities.getTransformedValue(drawer, prop_name, simpleAnimation.to)
+				simpleAnimation.from = ScenePropUtilities.getTransformedValue(scene, prop_name, simpleAnimation.from)
+				simpleAnimation.to = ScenePropUtilities.getTransformedValue(scene, prop_name, simpleAnimation.to)
 
 				return Simple.compose(simpleAnimation)
 			}

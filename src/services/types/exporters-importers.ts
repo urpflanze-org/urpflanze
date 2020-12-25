@@ -1,7 +1,7 @@
 import { EShapePrimitiveAdaptMode } from '@core/types/shape-base'
 import { IShapeLoopAnimation, IVertexCallbackAnimation, TAnimation, TCallableValue } from '@services/types/animation'
-import { ISceneChildDrawerData, TDrawerValue } from './drawer'
-import { TSceneChildProps } from './scene-utilities'
+import { ISceneChildDrawerData } from '@services/types/drawer'
+import { TSceneChildProps, TSceneUtilityPropValue } from '@services/types/scene-utilities'
 
 /**
  * @category Services.Export/Import
@@ -57,8 +57,8 @@ export interface IProjectSceneChildData extends ISceneChildDrawerData {
 export type IProjectSceneChildProps = {
 	[k in keyof Omit<
 		TSceneChildProps,
-		'id' | 'name' | 'order' | 'data' | 'adaptMode' | 'bClosed' | 'shape' | 'loop' | 'vertexCallback'
-	>]: TAnimation | TCallableValue<number | Array<number> | string> | TDrawerValue
+		'id' | 'name' | 'order' | 'data' | 'shape' | 'loop' | 'vertexCallback' // 'adaptMode' | 'bClosed'
+	>]: TAnimation | TCallableValue<number | Array<number> | string> | TSceneUtilityPropValue
 } & {
 	loop?: IShapeLoopAnimation
 	vertexCallback?: IVertexCallbackAnimation
