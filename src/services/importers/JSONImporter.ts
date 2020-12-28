@@ -3,10 +3,16 @@ import SceneChild from '@core/SceneChild'
 
 import DrawerCanvas from '@services/drawers/drawer-canvas/DrawerCanvas'
 
-import { IProject, IProjectSceneChild, IProjectSceneChildProps } from '@services/types/exporters-importers'
+import {
+	IProject,
+	IProjectSceneChild,
+	TProjectDrawerProps,
+	TProjectSceneChildProps,
+} from '@services/types/exporters-importers'
 import { parseFunction } from 'src/Utilites'
 import SceneUtilities from '@services/scene-utilities/SceneUtilities'
 import { v1 as uuidv1 } from 'uuid'
+import { version } from 'src/meta'
 
 /**
  *
@@ -22,6 +28,7 @@ class JSONImporter {
 	static createEmptyProject = (): IProject => {
 		return {
 			id: uuidv1(),
+			urpflanze_version: version,
 			name: '',
 
 			width: 600,
@@ -62,6 +69,7 @@ class JSONImporter {
 
 		const project: IProject = {
 			id: parsed.id ?? emptyProject.id,
+			urpflanze_version: parsed.urpflanze_version ?? emptyProject.urpflanze_version,
 			name: parsed.name ?? emptyProject.name,
 			width: parsed.width ?? emptyProject.width,
 			height: parsed.height ?? emptyProject.height,
@@ -117,7 +125,7 @@ class JSONImporter {
 			id: projectSceneChild.id,
 			name: projectSceneChild.name,
 			order: projectSceneChild.order,
-			data: projectSceneChild.data,
+			// data: projectSceneChild.data,
 			bUseParent: projectSceneChild.bUseParent,
 			adaptMode: projectSceneChild.adaptMode,
 			bClosed: projectSceneChild.bClosed,
@@ -125,14 +133,19 @@ class JSONImporter {
 			shape: shape,
 		}
 
-		const props: IProjectSceneChildProps = { ...projectSceneChild.props }
-
 		const sceneChild = SceneUtilities.create(projectSceneChild.type, settings)
 
 		if (sceneChild) {
-			const propKeys = Object.keys(props) as Array<keyof IProjectSceneChildProps>
+			const props: TProjectSceneChildProps = { ...projectSceneChild.props }
+			const propKeys = Object.keys(props) as Array<keyof TProjectSceneChildProps>
 			propKeys.forEach(propKey => {
 				SceneUtilities.setProp(sceneChild, propKey, parseFunction.unparse(props[propKey]), scene)
+			})
+
+			const style: TProjectDrawerProps = { ...projectSceneChild.style }
+			const styleKeys = Object.keys(style) as Array<keyof TProjectDrawerProps>
+			styleKeys.forEach(styleKey => {
+				SceneUtilities.setDrawerProp(sceneChild, styleKey, parseFunction.unparse(style[styleKey]), scene)
 			})
 
 			if (projectSceneChild.children && projectSceneChild.children.length > 0) {

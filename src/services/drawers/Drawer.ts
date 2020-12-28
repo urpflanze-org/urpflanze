@@ -8,7 +8,7 @@ import { IDrawerOptions, IDrawerPropArguments, IDrawerStreamProps, TDrawerProp }
 import { parseColor } from 'src/Color'
 import ShapePrimitive from '@core/shapes/ShapePrimitive'
 import { pmod } from '@core/math'
-import { IProjectSceneChildProps } from '@services/types/exporters-importers'
+import { TProjectDrawerProps, TProjectSceneChildProps } from '@services/types/exporters-importers'
 
 /**
  * Abstract Drawer
@@ -112,12 +112,32 @@ abstract class Drawer<IADrawerOptions extends IDrawerOptions, IDrawerEvents> ext
 			this.scene.resize(width, height)
 
 			Scene.walk((sceneChild: SceneChild) => {
-				if (sceneChild.data && sceneChild.data.props) {
-					const props = sceneChild.data.props
+				if (sceneChild.data) {
+					if (sceneChild.data.props) {
+						const props = sceneChild.data.props
 
-					Object.keys(props).forEach(name => {
-						SceneUtilities.setProp(sceneChild, name as keyof IProjectSceneChildProps, props[name], this.scene as Scene)
-					})
+						Object.keys(props).forEach(name => {
+							SceneUtilities.setProp(
+								sceneChild,
+								name as keyof TProjectSceneChildProps,
+								props[name],
+								this.scene as Scene
+							)
+						})
+					}
+
+					if (sceneChild.data.style) {
+						const style = sceneChild.data.style
+
+						Object.keys(style).forEach(name => {
+							SceneUtilities.setDrawerProp(
+								sceneChild,
+								name as keyof TProjectDrawerProps,
+								style[name],
+								this.scene as Scene
+							)
+						})
+					}
 				}
 			}, this.scene)
 		}

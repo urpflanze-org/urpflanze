@@ -120,8 +120,8 @@ type TCanvasContexComposite =
  * @category Services.Drawer
  */
 export interface ISceneChildDrawerData {
-	highlighted: boolean
-	visible: boolean
-	disableGhost: boolean
-	composite: TCanvasContexComposite
+	highlighted?: boolean
+	visible?: boolean
+	disableGhost?: boolean
+	composite?: TCanvasContexComposite
 }

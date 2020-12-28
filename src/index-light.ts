@@ -1,4 +1,10 @@
 /**
+ * Meta
+ */
+
+export { version, author, license } from './meta'
+
+/**
  * Core
  */
 

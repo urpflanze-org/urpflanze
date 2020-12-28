@@ -1,10 +1,9 @@
-import ScenePropUtilities from '@services/scene-utilities/ScenePropUtilities'
-
 import { TAnimation } from '@services/types/animation'
 import Simple from '@services/animation/Simple'
 import { TSceneChildProp } from '@core/types/scene-child'
-import Drawer from '@services/drawers/Drawer'
 import Scene from '@core/Scene'
+import SceneUtilitiesExtended from '@services/scene-utilities/SceneUtilitiesExtended'
+import { TDrawerPropsExtendedKeys, TSceneChildPropsExtendedKeys } from '@services/types/scene-utilities'
 
 /**
  * @ignore
@@ -12,13 +11,17 @@ import Scene from '@core/Scene'
  * @category Services.Animation
  */
 const Animation = {
-	composeAnimation: (scene: Scene, prop_name: string, animation: TAnimation): TSceneChildProp<any> => {
+	composeAnimation: (
+		scene: Scene,
+		prop_name: Exclude<TSceneChildPropsExtendedKeys | TDrawerPropsExtendedKeys, 'loop'>,
+		animation: TAnimation
+	): TSceneChildProp<any> => {
 		switch (animation.type) {
 			case 'simple': {
 				const simpleAnimation = { ...animation.value }
 
-				simpleAnimation.from = ScenePropUtilities.getTransformedValue(scene, prop_name, simpleAnimation.from)
-				simpleAnimation.to = ScenePropUtilities.getTransformedValue(scene, prop_name, simpleAnimation.to)
+				simpleAnimation.from = SceneUtilitiesExtended.getTransformedValue(scene, prop_name, simpleAnimation.from)
+				simpleAnimation.to = SceneUtilitiesExtended.getTransformedValue(scene, prop_name, simpleAnimation.to)
 
 				return Simple.compose(simpleAnimation)
 			}

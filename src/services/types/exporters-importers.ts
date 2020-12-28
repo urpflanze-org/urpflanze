@@ -1,7 +1,12 @@
 import { EShapePrimitiveAdaptMode } from '@core/types/shape-base'
 import { IShapeLoopAnimation, IVertexCallbackAnimation, TAnimation, TCallableValue } from '@services/types/animation'
-import { ISceneChildDrawerData } from '@services/types/drawer'
-import { TSceneChildProps, TSceneUtilityPropValue } from '@services/types/scene-utilities'
+import { ISceneChildDrawerData } from './drawer'
+import {
+	TDrawerPropsExtendedKeys,
+	TSceneChildPropsExtendedKeys,
+	TSceneChildPropExtendedValue,
+	TDrawerPropExtendedValue,
+} from './scene-utilities'
 
 /**
  * @category Services.Export/Import
@@ -15,6 +20,7 @@ export interface IProjectSequence {
  * @category Services.Export/Import
  */
 export interface IProject {
+	urpflanze_version: string
 	id: string
 	name: string
 	background: string
@@ -44,48 +50,78 @@ export interface IProject {
 /**
  * @category Services.Export/Import
  */
-export interface IProjectSceneChildData extends ISceneChildDrawerData {
-	imported?: boolean
-	fill?: { r: number; g: number; b: number; a: number }
-	stroke?: { r: number; g: number; b: number; a: number }
-	lineWidth?: number
-}
+export interface IProjectSceneChild {
+	type: string
+	id: string
+	name: string
+	order: number
+	data: Partial<ISceneChildDrawerData>
 
-/**
- * @category Services.Export/Import
- */
-export type IProjectSceneChildProps = {
-	[k in keyof Omit<
-		TSceneChildProps,
-		'id' | 'name' | 'order' | 'data' | 'shape' | 'loop' | 'vertexCallback' // 'adaptMode' | 'bClosed'
-	>]: TAnimation | TCallableValue<number | Array<number> | string> | TSceneUtilityPropValue
-} & {
-	loop?: IShapeLoopAnimation
+	// Only TSceneChildProp<T>
+	props: TProjectSceneChildProps
+
+	bPrimitive: boolean
+	// exists if is Primitive
+	style: TProjectDrawerProps
+
+	parentId?: string | number
+	// exist if Shape or Group
+	children?: Array<IProjectSceneChild>
+	// exist if ShapeBuffer
+	shape?: Float32Array
+	depth: number
+
+	adaptMode?: EShapePrimitiveAdaptMode
+
+	bClosed?: boolean
+	bUseParent?: boolean
+	bUseRecursion?: boolean
 	vertexCallback?: IVertexCallbackAnimation
 }
 
 /**
  * @category Services.Export/Import
  */
-export interface IProjectSceneChild {
-	type: string
-	id: string
-	name: string
-	order: number
-	data: IProjectSceneChildData
-	adaptMode?: EShapePrimitiveAdaptMode
-	bClosed?: boolean
-	bUseParent?: boolean
-	vertexCallback?: string
-	shape?: Float32Array
+// export interface IProjectSceneChildData extends ISceneChildDrawerData {
+// 	imported?: boolean
+// 	fill?: { r: number; g: number; b: number; a: number }
+// 	stroke?: { r: number; g: number; b: number; a: number }
+// 	lineWidth?: number
+// }
 
-	bPrimitive: boolean
-	depth: number
+/**
+ * @category Services.Export/Import
+ */
+// export type TProjectSceneChildProps =
+// 	| {
+// 			// Map TSceneChildProp to TSceneChildUtilityPropValue
+// 			[key in TSceneChildPropsExtendedKeys]?: TSceneChildPropExtendedValue
+// 			// Convert ShapeLoopGenerato to IShapeLoopAnimation
+// 	  }
+// 	| {
+// 			loop?: IShapeLoopAnimation
+// 	  }
 
-	props: IProjectSceneChildProps
-	parentId?: string | number
-	children?: Array<IProjectSceneChild>
+export type TProjectSceneChildProps = Partial<Record<TSceneChildPropsExtendedKeys, TSceneChildPropExtendedValue>> & {
+	loop?: IShapeLoopAnimation
 }
+
+export type TProjectDrawerProps = {
+	[key in TDrawerPropsExtendedKeys]?: TDrawerPropExtendedValue
+}
+
+// /**
+//  * @category Services.Export/Import
+//  */
+// export type IProjectSceneChildProps = {
+// 	[k in keyof Omit<
+// 		TSceneChildProps,
+// 		'id' | 'name' | 'order' | 'data' | 'shape' | 'loop' | 'vertexCallback' // 'adaptMode' | 'bClosed'
+// 	>]: TSceneUtilityPropValue | TAnimation | TCallableValue<number | Array<number> | vec2 | string>
+// } & {
+// 	loop?: IShapeLoopAnimation
+// 	vertexCallback?: IVertexCallbackAnimation
+// }
 
 /**
  * @category Services.Export/Import

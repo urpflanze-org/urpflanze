@@ -14,6 +14,7 @@ import Timeline from '@services/timeline/Timeline'
 import { IProject, IProjectSceneChild } from '@services/types/exporters-importers'
 import SceneUtilities from '@services/scene-utilities/SceneUtilities'
 import { ISceneChildProps } from '@core/types/scene-child'
+import { IDrawerStreamProps } from '@services/types/drawer'
 
 /**
  *
@@ -71,18 +72,18 @@ class JSONExporter {
 			type: sceneChild.type,
 			name: sceneChild.name,
 			order: sceneChild.order as number,
-			data: { ...sceneChild.data, props: undefined },
+			data: { ...sceneChild.data, props: undefined, style: undefined },
+			// data: {},
 			depth,
 			bPrimitive: sceneChild instanceof ShapePrimitive,
 			props: {},
+			style: {},
 			parentId,
 		}
 
 		const props = sceneChild.getProps()
 		const propsKeys = Object.keys(props) as Array<keyof ISceneChildProps>
-
 		for (let i = 0, len = propsKeys.length; i < len; i++) props[propsKeys[i]] = parseFunction.parse(props[propsKeys[i]])
-
 		projectSceneChild.props = { ...props, ...sceneChild.data.props }
 
 		if (sceneChild instanceof ShapeBuffer) {
@@ -91,12 +92,19 @@ class JSONExporter {
 
 		if (sceneChild instanceof ShapeBase) {
 			projectSceneChild.bUseParent = sceneChild.bUseParent
+			projectSceneChild.bUseRecursion = sceneChild.bUseRecursion
+			projectSceneChild.vertexCallback = parseFunction.parse(sceneChild.vertexCallback)
 		}
 
 		if (sceneChild instanceof ShapePrimitive) {
+			const style = sceneChild.style
+			const styleKeys = Object.keys(style) as Array<keyof IDrawerStreamProps>
+			for (let i = 0, len = styleKeys.length; i < len; i++)
+				style[styleKeys[i]] = parseFunction.parse(style[styleKeys[i]])
+			projectSceneChild.style = { ...style, ...sceneChild.data.style }
+
 			projectSceneChild.adaptMode = sceneChild.adaptMode
 			projectSceneChild.bClosed = sceneChild.bClosed
-			projectSceneChild.vertexCallback = parseFunction.parse(sceneChild.vertexCallback)
 		} else if (sceneChild instanceof Shape || sceneChild instanceof Group) {
 			const children: Array<IProjectSceneChild> = []
 			const shapeChildren = SceneUtilities.getChildren(sceneChild)

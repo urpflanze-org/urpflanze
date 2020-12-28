@@ -2,22 +2,20 @@ import { toRadians, toDegrees } from 'src/Utilites'
 
 import { TVertexCallback } from '@core/types/shape-base'
 
-import { IShapeLoopAnimation, TAnimation } from '@services/types/animation'
+import { TAnimation } from '@services/types/animation'
 import { IShapeLoopGenerator, TShapeLoopGeneratorFormula } from '@core/types/shape-primitives'
-import { TSceneUtilityPropTransformation, TSceneUtilityPropValue } from '@services/types/scene-utilities'
+import { ISceneChildPropsExtendedShapeLoop, TTransformable } from '@services/types/scene-utilities'
 
 import Scene from '@core/Scene'
-import SceneChildPropsData, {
-	ISceneChildPropData,
-	TSceneChildPropsDataKeys,
-} from '@services/scene-utilities/SceneChildPropsData'
+
+import SceneChildUtilitiesData from '@services/scene-utilities/SceneChildUtilitiesData'
 
 /**
  *
  * @category Services.Scene Utilities
- * @class ScenePropUtilities
+ * @class SceneUtilitiesExtended
  */
-class ScenePropUtilities {
+class SceneUtilitiesExtended {
 	public static readonly RAW_ARGUMENTS: string = '{ context, repetition, time, shape, shape_loop, data }'
 	public static readonly RAW_ARGUMENTS_WITH_PARENT: string =
 		'{ context, repetition, parent, time, shape, shape_loop, data }'
@@ -45,7 +43,7 @@ class ScenePropUtilities {
 			const vertexCallback = new Function(
 				'vertex',
 				'vertexRepetition',
-				ScenePropUtilities.RAW_ARGUMENTS,
+				SceneUtilitiesExtended.RAW_ARGUMENTS,
 				`return ${value.raw}`
 			) as TVertexCallback
 
@@ -53,11 +51,11 @@ class ScenePropUtilities {
 		}
 	}
 
-	static composeLoop(loop: IShapeLoopAnimation): IShapeLoopGenerator {
+	static composeLoop(loop: ISceneChildPropsExtendedShapeLoop): IShapeLoopGenerator {
 		const vertex = loop.vertex.raw
 			? (new Function(
 					'shapeLoopRepetition',
-					ScenePropUtilities.RAW_ARGUMENTS,
+					SceneUtilitiesExtended.RAW_ARGUMENTS,
 					`return ${loop.vertex.raw}`
 			  ) as TShapeLoopGeneratorFormula)
 			: undefined
@@ -96,6 +94,10 @@ class ScenePropUtilities {
 
 	//#region Props relative to drawer
 
+	/**
+	 * Check value is TAnimation
+	 * @param value
+	 */
 	static bValueAnimation(value: TAnimation | any): boolean {
 		return (
 			value &&
@@ -105,7 +107,11 @@ class ScenePropUtilities {
 		)
 	}
 
-	static bTransformableValue(value: TSceneUtilityPropValue | any): boolean {
+	/**
+	 * Check value is TTransformableProp
+	 * @param value
+	 */
+	static bValueTransformable(value: TTransformable | any): boolean {
 		return (
 			value !== null &&
 			typeof value === 'object' &&
@@ -114,28 +120,35 @@ class ScenePropUtilities {
 		)
 	}
 
-	static bPropTransformable(name: string, value: any): boolean {
-		const sceneChildProp = SceneChildPropsData[name as TSceneChildPropsDataKeys]
-
+	/**
+	 * Check the prop need transformation when set
+	 * @param name
+	 */
+	static bPropInSceneChildUtilitiesData(name: keyof typeof SceneChildUtilitiesData): boolean {
 		return (
-			sceneChildProp &&
-			sceneChildProp.transformation !== 'none' &&
-			typeof value !== 'undefined' &&
-			typeof value !== 'function' &&
-			!ScenePropUtilities.bValueAnimation(value)
+			typeof SceneChildUtilitiesData[name] !== 'undefined' && SceneChildUtilitiesData[name].transformation !== 'none'
 		)
 	}
 
-	static getValueDrawerTransformationType(name: string): TSceneUtilityPropTransformation | null {
-		const sceneChildProp = SceneChildPropsData[name as TSceneChildPropsDataKeys]
+	/**
+	 * Transform value
+	 * @param scene
+	 * @param name
+	 * @param value
+	 */
+	static getTransformedValue(
+		scene: Scene,
+		name: keyof typeof SceneChildUtilitiesData,
+		value: TTransformable | any
+	): string | number | Array<number> {
+		const sceneChildProp = SceneChildUtilitiesData[name]
 
-		return sceneChildProp && sceneChildProp.transformation !== 'none' ? sceneChildProp.transformation : null
-	}
+		if (
+			SceneUtilitiesExtended.bPropInSceneChildUtilitiesData(name) &&
+			SceneUtilitiesExtended.bValueTransformable(value)
+		) {
+			value = value.value
 
-	static getTransformedValue(scene: Scene, name: string, value: any): string | number | Array<number> {
-		const sceneChildProp = SceneChildPropsData[name as TSceneChildPropsDataKeys]
-
-		if (ScenePropUtilities.bPropTransformable(name, value)) {
 			switch (sceneChildProp.transformation) {
 				case 'angle':
 					if (Array.isArray(value)) {
@@ -162,19 +175,31 @@ class ScenePropUtilities {
 					}
 					break
 				}
-				// case 'resolution-scaled-based':
-				// 	transformedValueFunction = drawer.getValueFromResolutionScaled.bind(drawer)
-				// 	break
 			}
 		}
 
 		return value
 	}
 
-	static getTransformedValueInverse(scene: Scene, name: TSceneChildPropsDataKeys, value: any): number | Array<number> {
-		const sceneChildProp = SceneChildPropsData[name] as ISceneChildPropData
+	/**
+	 * Transform value inverse
+	 * @param scene
+	 * @param name
+	 * @param value
+	 */
+	static getTransformedValueInverse(
+		scene: Scene,
+		name: keyof typeof SceneChildUtilitiesData,
+		value: any
+	): number | Array<number> {
+		const sceneChildProp = SceneChildUtilitiesData[name]
 
-		if (ScenePropUtilities.bPropTransformable(name, value)) {
+		if (
+			SceneUtilitiesExtended.bPropInSceneChildUtilitiesData(name) &&
+			SceneUtilitiesExtended.bValueTransformable(value)
+		) {
+			value = value.value
+
 			switch (sceneChildProp.transformation) {
 				case 'angle': {
 					if (Array.isArray(value)) {
@@ -202,9 +227,6 @@ class ScenePropUtilities {
 					}
 					break
 				}
-				// case 'resolution-scaled-based':
-				// 	transformedValueFunction = drawer.getValueFromResolution.bind(drawer)
-				// 	break
 			}
 		}
 
@@ -212,4 +234,4 @@ class ScenePropUtilities {
 	}
 }
 
-export default ScenePropUtilities
+export default SceneUtilitiesExtended

@@ -1,4 +1,6 @@
 import Easings from '@services/animation/Easings'
+import { vec2 } from 'gl-matrix'
+import { TTransformable } from './scene-utilities'
 
 /**
  * @category Services.Animation
@@ -96,10 +98,10 @@ export interface ISimpleAnimation {
 	/**
 	 * Supported color string format:
 	 * rgba([0-255], [0-255], [0-255], 0-1)
-	 * hsla([0-350], [0-100]%, [0-100]%, 0-1)
+	 * hsla([0-360], [0-100]%, [0-100]%, 0-1)
 	 * @order 1
 	 */
-	from: number | Array<number> | string
+	from: TTransformable | number | [number, number] | string
 
 	/**
 	 * Supported color string format:
@@ -107,7 +109,7 @@ export interface ISimpleAnimation {
 	 * hsla([0-360], [0-100]%, [0-100]%, 0-1)
 	 * @order 2
 	 */
-	to: number | Array<number> | string
+	to: TTransformable | number | [number, number] | string
 
 	/**
 	 * Duratin in millisecond
@@ -182,4 +184,4 @@ export type TSimpleAnimationStatic = Omit<ISimpleAnimation, 'type'>
 /**
  * @category Services.Animation
  */
-export interface IRawState extends ICallableValue<number | Array<number> | Float32Array | string> {}
+export interface IRawState extends ICallableValue<number | vec2 | Float32Array | string> {}

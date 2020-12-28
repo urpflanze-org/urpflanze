@@ -1,6 +1,11 @@
 import Spiral from '@core/shapes/primitives/Spiral'
 import { EShapePrimitiveAdaptMode } from '@core/types/shape-base'
-import { TSceneChildProps, TSceneUtilityPropTransformation } from '@services/types/scene-utilities'
+import {
+	TTransformableType,
+	TDrawerPropsExtendedKeys,
+	TSceneChildPropsExtendedKeys,
+	TSettingsExtendedKeys,
+} from '@services/types/scene-utilities'
 
 /**
  * @category Services.Scene Utilities
@@ -10,7 +15,7 @@ export type TPropInputType = 'range' | 'multiple-range' | 'color' | 'select' | '
 /**
  * @category Services.Scene Utilities
  */
-export interface ISceneChildPropData {
+export interface ISceneChildUtiltiesData {
 	label: string
 	name: string
 	type: TPropInputType
@@ -21,21 +26,23 @@ export interface ISceneChildPropData {
 	default: any
 	default_animate?: any
 	canBArray?: boolean
-	transformation: TSceneUtilityPropTransformation
+	initialArray?: boolean
+	transformation: TTransformableType
 	animable?: boolean
 	type_value?: 'float' | 'int'
+	dataType: 'props' | 'drawer' | 'settings'
 }
 
 /**
  * @category Services.Scene Utilities
  */
-export type TSceneChildPropsDataKeys = Exclude<
-	keyof TSceneChildProps | 'style.fill' | 'style.stroke' | 'style.lineWidth' | 'loop.start' | 'loop.end' | 'loop.inc',
-	'style' | 'loopDependencies' | 'vertexCallback' | 'loop' | 'name' | 'order' | 'type' | 'data' | 'shape' | 'id'
->
+export type TSceneChildPropsDataKeys =
+	| (Exclude<TSceneChildPropsExtendedKeys, 'loop'> | ('loop.start' | 'loop.end' | 'loop.inc'))
+	| TDrawerPropsExtendedKeys
+	| Exclude<TSettingsExtendedKeys, 'id' | 'name' | 'order' | 'vertexCallback'>
 
-type TSceneChildUtilityProps = {
-	[key in TSceneChildPropsDataKeys]: ISceneChildPropData
+type TSceneChildUtilitiesData = {
+	[key in TSceneChildPropsDataKeys]: ISceneChildUtiltiesData
 }
 
 const OptionShapePrimitiveAdaptMode = [
@@ -56,7 +63,7 @@ const OptionSpiralType = [
 /**
  * @category Services.Scene Utilities
  */
-const SceneChildPropsData: TSceneChildUtilityProps = {
+const SceneChildUtilitiesData: TSceneChildUtilitiesData = {
 	repetitions: {
 		animable: true,
 		name: 'repetitions',
@@ -69,6 +76,7 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 		default_animate: 20,
 		canBArray: true,
 		transformation: 'none',
+		dataType: 'props',
 		type_value: 'int',
 	},
 	distance: {
@@ -78,11 +86,12 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 		type: 'range',
 		min: -100,
 		max: 100,
-		step: 1,
+		step: 0.1,
 		default: 0,
 		canBArray: true,
 		default_animate: 25,
 		transformation: 'scene-size-percentage',
+		dataType: 'props',
 	},
 	displace: {
 		animable: true,
@@ -95,6 +104,7 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 		default: 0,
 		default_animate: 360,
 		transformation: 'angle',
+		dataType: 'props',
 	},
 
 	squeezeX: {
@@ -108,6 +118,7 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 		default: 0,
 		default_animate: 0.1,
 		transformation: 'scene-size-percentage-inverse',
+		dataType: 'props',
 	},
 	squeezeY: {
 		animable: true,
@@ -120,6 +131,7 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 		default: 0,
 		default_animate: 0.1,
 		transformation: 'scene-size-percentage-inverse',
+		dataType: 'props',
 	},
 
 	rotateX: {
@@ -133,6 +145,7 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 		default: 0,
 		default_animate: 360,
 		transformation: 'angle',
+		dataType: 'props',
 	},
 	rotateY: {
 		animable: true,
@@ -145,6 +158,7 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 		default: 0,
 		default_animate: 360,
 		transformation: 'angle',
+		dataType: 'props',
 	},
 	rotateZ: {
 		animable: true,
@@ -157,6 +171,7 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 		default: 0,
 		default_animate: 360,
 		transformation: 'angle',
+		dataType: 'props',
 	},
 	skewX: {
 		animable: true,
@@ -169,6 +184,7 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 		default: 0,
 		default_animate: 1,
 		transformation: 'angle',
+		dataType: 'props',
 	},
 	skewY: {
 		animable: true,
@@ -181,6 +197,7 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 		default: 0,
 		default_animate: 1,
 		transformation: 'angle',
+		dataType: 'props',
 	},
 	translate: {
 		animable: true,
@@ -192,7 +209,9 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 		step: 1,
 		default: [0, 0],
 		default_animate: 0,
+		initialArray: true,
 		transformation: 'scene-size-percentage',
+		dataType: 'props',
 	},
 	scale: {
 		animable: true,
@@ -205,6 +224,7 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 		default: [1, 1],
 		default_animate: 3,
 		transformation: 'none',
+		dataType: 'props',
 	},
 
 	transformOrigin: {
@@ -217,7 +237,9 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 		step: 0.01,
 		default: [0, 0],
 		default_animate: [-1, 1],
+		initialArray: true,
 		transformation: 'none',
+		dataType: 'props',
 	},
 
 	perspective: {
@@ -231,6 +253,7 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 		default: 0,
 		default_animate: 0.8,
 		transformation: 'none',
+		dataType: 'props',
 	},
 
 	perspectiveOrigin: {
@@ -243,11 +266,13 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 		step: 0.01,
 		default: [1, 1],
 		default_animate: [-1, 1],
+		initialArray: true,
 		transformation: 'none',
+		dataType: 'props',
 	},
 
 	// primitive style
-	'style.fill': {
+	fill: {
 		animable: true,
 		name: 'fill',
 		label: 'Fill',
@@ -255,8 +280,9 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 		default: '#000',
 		default_animate: '#fff',
 		transformation: 'none',
+		dataType: 'drawer',
 	},
-	'style.stroke': {
+	stroke: {
 		animable: true,
 		name: 'stroke',
 		label: 'Stroke',
@@ -264,8 +290,9 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 		default: '#fff',
 		default_animate: '#000',
 		transformation: 'none',
+		dataType: 'drawer',
 	},
-	'style.lineWidth': {
+	lineWidth: {
 		animable: true,
 		name: 'lineWidth',
 		label: 'Stroke weight',
@@ -276,15 +303,24 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 		default: 1,
 		default_animate: 3,
 		transformation: 'none',
+		dataType: 'drawer',
 	},
 
-	bClosed: { name: 'bClosed', label: 'Closed', type: 'checkbox', default: undefined, transformation: 'none' },
+	bClosed: {
+		name: 'bClosed',
+		label: 'Closed',
+		type: 'checkbox',
+		default: undefined,
+		transformation: 'none',
+		dataType: 'settings',
+	},
 	bUseParent: {
 		name: 'bUseParent',
 		label: 'Use parent repetition',
 		type: 'checkbox',
 		default: false,
 		transformation: 'none',
+		dataType: 'settings',
 	},
 
 	bUseRecursion: {
@@ -293,6 +329,7 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 		type: 'checkbox',
 		default: false,
 		transformation: 'none',
+		dataType: 'settings',
 	},
 
 	adaptMode: {
@@ -302,6 +339,7 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 		options: OptionShapePrimitiveAdaptMode,
 		default: undefined,
 		transformation: 'none',
+		dataType: 'settings',
 	},
 
 	// primitive
@@ -317,6 +355,7 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 		default: [10, 10],
 		default_animate: 20,
 		transformation: 'scene-size-percentage',
+		dataType: 'props',
 	},
 
 	// polygon
@@ -331,6 +370,7 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 		default: 5,
 		default_animate: 2,
 		transformation: 'none',
+		dataType: 'props',
 	},
 
 	// rose
@@ -345,6 +385,7 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 		default: 1,
 		default_animate: 3,
 		transformation: 'none',
+		dataType: 'props',
 	},
 	d: {
 		animable: true,
@@ -357,6 +398,7 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 		default: 2,
 		default_animate: 4,
 		transformation: 'none',
+		dataType: 'props',
 	},
 
 	// lissajous
@@ -371,6 +413,7 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 		default: 1,
 		default_animate: 3,
 		transformation: 'none',
+		dataType: 'props',
 	},
 	wy: {
 		animable: true,
@@ -383,6 +426,7 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 		default: 2,
 		default_animate: 4,
 		transformation: 'none',
+		dataType: 'props',
 	},
 	wz: {
 		animable: true,
@@ -395,6 +439,7 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 		default: 0,
 		default_animate: 360,
 		transformation: 'angle',
+		dataType: 'props',
 	},
 
 	// spiral
@@ -409,6 +454,7 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 		default: 1,
 		default_animate: 3,
 		transformation: 'none',
+		dataType: 'props',
 	},
 	twistsStart: {
 		animable: true,
@@ -421,6 +467,7 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 		default: 0,
 		default_animate: 1,
 		transformation: 'none',
+		dataType: 'props',
 	},
 
 	spiral: {
@@ -430,6 +477,7 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 		options: OptionSpiralType,
 		default: Spiral.types.ARCHIMEDE,
 		transformation: 'none',
+		dataType: 'props',
 	},
 
 	// supershape
@@ -438,24 +486,26 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 		name: 'a',
 		label: 'A',
 		type: 'range',
-		min: 0,
-		max: 10,
-		step: 0.01,
+		min: -5,
+		max: 5,
+		step: 0.1,
 		default: 1,
 		default_animate: 0.1,
 		transformation: 'none',
+		dataType: 'props',
 	},
 	b: {
 		animable: true,
 		name: 'b',
 		label: 'B',
 		type: 'range',
-		min: -10,
-		max: 10,
-		step: 0.01,
+		min: -5,
+		max: 5,
+		step: 0.1,
 		default: 1,
 		default_animate: 0.1,
 		transformation: 'none',
+		dataType: 'props',
 	},
 	m: {
 		animable: true,
@@ -468,6 +518,7 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 		default: 1,
 		default_animate: 6,
 		transformation: 'none',
+		dataType: 'props',
 		type_value: 'int',
 	},
 	n1: {
@@ -475,36 +526,39 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 		name: 'n1',
 		label: 'n1',
 		type: 'range',
-		min: -10,
-		max: 10,
-		step: 0.01,
+		min: -3,
+		max: 3,
+		step: 0.1,
 		default: 1,
 		default_animate: 0.1,
 		transformation: 'none',
+		dataType: 'props',
 	},
 	n2: {
 		animable: true,
 		name: 'n2',
 		label: 'n2',
 		type: 'range',
-		min: -10,
-		max: 10,
-		step: 0.01,
+		min: -3,
+		max: 3,
+		step: 0.1,
 		default: 1,
 		default_animate: 0.1,
 		transformation: 'none',
+		dataType: 'props',
 	},
 	n3: {
 		animable: true,
 		name: 'n3',
 		label: 'n3',
 		type: 'range',
-		min: -10,
-		max: 10,
-		step: 0.01,
+		min: -3,
+		max: 3,
+		step: 0.1,
 		default: 1,
 		default_animate: 0.1,
 		transformation: 'none',
+		dataType: 'props',
 	},
 
 	// loop
@@ -517,6 +571,7 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 		max: 100,
 		step: 0.01,
 		transformation: 'none',
+		dataType: 'props',
 	},
 	'loop.end': {
 		name: 'loop.end',
@@ -527,6 +582,7 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 		max: 100,
 		step: 0.01,
 		transformation: 'none',
+		dataType: 'props',
 	},
 	'loop.inc': {
 		name: 'loop.inc',
@@ -537,7 +593,8 @@ const SceneChildPropsData: TSceneChildUtilityProps = {
 		max: 100,
 		step: 0.01,
 		transformation: 'none',
+		dataType: 'props',
 	},
 }
 
-export default SceneChildPropsData
+export default SceneChildUtilitiesData
