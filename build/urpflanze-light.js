@@ -1977,16 +1977,29 @@ var Shape = /** @class */ (function (_super) {
      * @param {IParentBufferIndex} parent
      * @returns {(IBufferIndex | IParentBufferIndex)}
      */
-    Shape.setIndexedParent = function (current, parent, maxLevel, currentLevel) {
-        if (currentLevel === void 0) { currentLevel = 0; }
+    Shape.setIndexedParent = function (current, parent) {
         return {
             shape: current.shape,
             // singleRepetitionBounding: current.singleRepetitionBounding,
-            repetition: current.repetition,
+            repetition: {
+                type: current.repetition.type,
+                angle: current.repetition.angle,
+                index: current.repetition.index,
+                count: current.repetition.count,
+                offset: current.repetition.offset,
+                row: {
+                    index: current.repetition.row.index,
+                    count: current.repetition.row.count,
+                    offset: current.repetition.row.offset,
+                },
+                col: {
+                    index: current.repetition.col.index,
+                    count: current.repetition.col.count,
+                    offset: current.repetition.col.offset,
+                },
+            },
             frameLength: current.frameLength,
-            parent: current.parent && typeof maxLevel !== 'undefined' && currentLevel < maxLevel
-                ? Shape.setIndexedParent(current.parent, parent, maxLevel, currentLevel++)
-                : parent,
+            parent: current.parent ? Shape.setIndexedParent(current.parent, parent) : parent,
         };
     };
     /**
@@ -4480,12 +4493,15 @@ var EShapePrimitiveAdaptMode;
 /*! export SuperShape [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/SuperShape.js .default */
 /*! export Triangle [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/Triangle.js .default */
 /*! export Vec2 [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/math/Vec2.js .default */
+/*! export author [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/meta.js .author */
 /*! export clamp [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .clamp */
 /*! export lerp [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .lerp */
+/*! export license [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/meta.js .license */
 /*! export log [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/math/index.js .log */
 /*! export relativeClamp [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .relativeClamp */
 /*! export toDegrees [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .toDegrees */
 /*! export toRadians [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .toRadians */
+/*! export version [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/meta.js .version */
 /*! other exports [not provided] [maybe used in urpflanze-light (runtime-defined)] */
 /*! runtime requirements: __webpack_require__, __webpack_exports__, __webpack_require__.d, __webpack_require__.r, __webpack_require__.* */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
@@ -4493,61 +4509,69 @@ var EShapePrimitiveAdaptMode;
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Scene": () => /* reexport safe */ _core_Scene__WEBPACK_IMPORTED_MODULE_0__.default,
-/* harmony export */   "SceneChild": () => /* reexport safe */ _core_SceneChild__WEBPACK_IMPORTED_MODULE_1__.default,
-/* harmony export */   "Group": () => /* reexport safe */ _core_Group__WEBPACK_IMPORTED_MODULE_2__.default,
-/* harmony export */   "ShapePrimitive": () => /* reexport safe */ _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_3__.default,
-/* harmony export */   "ShapeLoop": () => /* reexport safe */ _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_4__.default,
-/* harmony export */   "ShapeBuffer": () => /* reexport safe */ _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_5__.default,
-/* harmony export */   "Shape": () => /* reexport safe */ _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_6__.default,
-/* harmony export */   "ShapeRecursive": () => /* reexport safe */ _core_shapes_ShapeRecursive__WEBPACK_IMPORTED_MODULE_7__.default,
-/* harmony export */   "Line": () => /* reexport safe */ _core_shapes_primitives_Line__WEBPACK_IMPORTED_MODULE_8__.default,
-/* harmony export */   "Triangle": () => /* reexport safe */ _core_shapes_primitives_Triangle__WEBPACK_IMPORTED_MODULE_9__.default,
-/* harmony export */   "Rect": () => /* reexport safe */ _core_shapes_primitives_Rect__WEBPACK_IMPORTED_MODULE_10__.default,
-/* harmony export */   "Polygon": () => /* reexport safe */ _core_shapes_primitives_Polygon__WEBPACK_IMPORTED_MODULE_11__.default,
-/* harmony export */   "Circle": () => /* reexport safe */ _core_shapes_primitives_Circle__WEBPACK_IMPORTED_MODULE_12__.default,
-/* harmony export */   "Rose": () => /* reexport safe */ _core_shapes_primitives_Rose__WEBPACK_IMPORTED_MODULE_13__.default,
-/* harmony export */   "Spiral": () => /* reexport safe */ _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_14__.default,
-/* harmony export */   "Lissajous": () => /* reexport safe */ _core_shapes_primitives_Lissajous__WEBPACK_IMPORTED_MODULE_15__.default,
-/* harmony export */   "SuperShape": () => /* reexport safe */ _core_shapes_primitives_SuperShape__WEBPACK_IMPORTED_MODULE_16__.default,
-/* harmony export */   "lerp": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_17__.lerp,
-/* harmony export */   "clamp": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_17__.clamp,
-/* harmony export */   "relativeClamp": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_17__.relativeClamp,
-/* harmony export */   "toDegrees": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_17__.toDegrees,
-/* harmony export */   "toRadians": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_17__.toRadians,
-/* harmony export */   "Vec2": () => /* reexport safe */ _core_math_Vec2__WEBPACK_IMPORTED_MODULE_18__.default,
-/* harmony export */   "Context": () => /* reexport safe */ _core_Context__WEBPACK_IMPORTED_MODULE_19__.default,
-/* harmony export */   "PHI": () => /* reexport safe */ _core_math__WEBPACK_IMPORTED_MODULE_20__.PHI,
-/* harmony export */   "PI2": () => /* reexport safe */ _core_math__WEBPACK_IMPORTED_MODULE_20__.PI2,
-/* harmony export */   "log": () => /* reexport safe */ _core_math__WEBPACK_IMPORTED_MODULE_20__.log,
-/* harmony export */   "DrawerCanvas": () => /* reexport safe */ _services_drawers_drawer_canvas_DrawerCanvas__WEBPACK_IMPORTED_MODULE_21__.default,
-/* harmony export */   "Animation": () => /* reexport safe */ _services_animation_Simple__WEBPACK_IMPORTED_MODULE_22__.default,
-/* harmony export */   "Easings": () => /* reexport safe */ _services_animation_Easings__WEBPACK_IMPORTED_MODULE_23__.default
+/* harmony export */   "version": () => /* reexport safe */ _meta__WEBPACK_IMPORTED_MODULE_0__.version,
+/* harmony export */   "author": () => /* reexport safe */ _meta__WEBPACK_IMPORTED_MODULE_0__.author,
+/* harmony export */   "license": () => /* reexport safe */ _meta__WEBPACK_IMPORTED_MODULE_0__.license,
+/* harmony export */   "Scene": () => /* reexport safe */ _core_Scene__WEBPACK_IMPORTED_MODULE_1__.default,
+/* harmony export */   "SceneChild": () => /* reexport safe */ _core_SceneChild__WEBPACK_IMPORTED_MODULE_2__.default,
+/* harmony export */   "Group": () => /* reexport safe */ _core_Group__WEBPACK_IMPORTED_MODULE_3__.default,
+/* harmony export */   "ShapePrimitive": () => /* reexport safe */ _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_4__.default,
+/* harmony export */   "ShapeLoop": () => /* reexport safe */ _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_5__.default,
+/* harmony export */   "ShapeBuffer": () => /* reexport safe */ _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_6__.default,
+/* harmony export */   "Shape": () => /* reexport safe */ _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_7__.default,
+/* harmony export */   "ShapeRecursive": () => /* reexport safe */ _core_shapes_ShapeRecursive__WEBPACK_IMPORTED_MODULE_8__.default,
+/* harmony export */   "Line": () => /* reexport safe */ _core_shapes_primitives_Line__WEBPACK_IMPORTED_MODULE_9__.default,
+/* harmony export */   "Triangle": () => /* reexport safe */ _core_shapes_primitives_Triangle__WEBPACK_IMPORTED_MODULE_10__.default,
+/* harmony export */   "Rect": () => /* reexport safe */ _core_shapes_primitives_Rect__WEBPACK_IMPORTED_MODULE_11__.default,
+/* harmony export */   "Polygon": () => /* reexport safe */ _core_shapes_primitives_Polygon__WEBPACK_IMPORTED_MODULE_12__.default,
+/* harmony export */   "Circle": () => /* reexport safe */ _core_shapes_primitives_Circle__WEBPACK_IMPORTED_MODULE_13__.default,
+/* harmony export */   "Rose": () => /* reexport safe */ _core_shapes_primitives_Rose__WEBPACK_IMPORTED_MODULE_14__.default,
+/* harmony export */   "Spiral": () => /* reexport safe */ _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_15__.default,
+/* harmony export */   "Lissajous": () => /* reexport safe */ _core_shapes_primitives_Lissajous__WEBPACK_IMPORTED_MODULE_16__.default,
+/* harmony export */   "SuperShape": () => /* reexport safe */ _core_shapes_primitives_SuperShape__WEBPACK_IMPORTED_MODULE_17__.default,
+/* harmony export */   "lerp": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_18__.lerp,
+/* harmony export */   "clamp": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_18__.clamp,
+/* harmony export */   "relativeClamp": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_18__.relativeClamp,
+/* harmony export */   "toDegrees": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_18__.toDegrees,
+/* harmony export */   "toRadians": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_18__.toRadians,
+/* harmony export */   "Vec2": () => /* reexport safe */ _core_math_Vec2__WEBPACK_IMPORTED_MODULE_19__.default,
+/* harmony export */   "Context": () => /* reexport safe */ _core_Context__WEBPACK_IMPORTED_MODULE_20__.default,
+/* harmony export */   "PHI": () => /* reexport safe */ _core_math__WEBPACK_IMPORTED_MODULE_21__.PHI,
+/* harmony export */   "PI2": () => /* reexport safe */ _core_math__WEBPACK_IMPORTED_MODULE_21__.PI2,
+/* harmony export */   "log": () => /* reexport safe */ _core_math__WEBPACK_IMPORTED_MODULE_21__.log,
+/* harmony export */   "DrawerCanvas": () => /* reexport safe */ _services_drawers_drawer_canvas_DrawerCanvas__WEBPACK_IMPORTED_MODULE_22__.default,
+/* harmony export */   "Animation": () => /* reexport safe */ _services_animation_Simple__WEBPACK_IMPORTED_MODULE_23__.default,
+/* harmony export */   "Easings": () => /* reexport safe */ _services_animation_Easings__WEBPACK_IMPORTED_MODULE_24__.default
 /* harmony export */ });
-/* harmony import */ var _core_Scene__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./core/Scene */ "./dist/core/Scene.js");
-/* harmony import */ var _core_SceneChild__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./core/SceneChild */ "./dist/core/SceneChild.js");
-/* harmony import */ var _core_Group__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./core/Group */ "./dist/core/Group.js");
-/* harmony import */ var _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./core/shapes/ShapePrimitive */ "./dist/core/shapes/ShapePrimitive.js");
-/* harmony import */ var _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./core/shapes/ShapeLoop */ "./dist/core/shapes/ShapeLoop.js");
-/* harmony import */ var _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./core/shapes/ShapeBuffer */ "./dist/core/shapes/ShapeBuffer.js");
-/* harmony import */ var _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./core/shapes/Shape */ "./dist/core/shapes/Shape.js");
-/* harmony import */ var _core_shapes_ShapeRecursive__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./core/shapes/ShapeRecursive */ "./dist/core/shapes/ShapeRecursive.js");
-/* harmony import */ var _core_shapes_primitives_Line__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./core/shapes/primitives/Line */ "./dist/core/shapes/primitives/Line.js");
-/* harmony import */ var _core_shapes_primitives_Triangle__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./core/shapes/primitives/Triangle */ "./dist/core/shapes/primitives/Triangle.js");
-/* harmony import */ var _core_shapes_primitives_Rect__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./core/shapes/primitives/Rect */ "./dist/core/shapes/primitives/Rect.js");
-/* harmony import */ var _core_shapes_primitives_Polygon__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./core/shapes/primitives/Polygon */ "./dist/core/shapes/primitives/Polygon.js");
-/* harmony import */ var _core_shapes_primitives_Circle__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./core/shapes/primitives/Circle */ "./dist/core/shapes/primitives/Circle.js");
-/* harmony import */ var _core_shapes_primitives_Rose__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./core/shapes/primitives/Rose */ "./dist/core/shapes/primitives/Rose.js");
-/* harmony import */ var _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./core/shapes/primitives/Spiral */ "./dist/core/shapes/primitives/Spiral.js");
-/* harmony import */ var _core_shapes_primitives_Lissajous__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./core/shapes/primitives/Lissajous */ "./dist/core/shapes/primitives/Lissajous.js");
-/* harmony import */ var _core_shapes_primitives_SuperShape__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./core/shapes/primitives/SuperShape */ "./dist/core/shapes/primitives/SuperShape.js");
-/* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./Utilites */ "./dist/Utilites.js");
-/* harmony import */ var _core_math_Vec2__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./core/math/Vec2 */ "./dist/core/math/Vec2.js");
-/* harmony import */ var _core_Context__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./core/Context */ "./dist/core/Context.js");
-/* harmony import */ var _core_math__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./core/math */ "./dist/core/math/index.js");
-/* harmony import */ var _services_drawers_drawer_canvas_DrawerCanvas__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./services/drawers/drawer-canvas/DrawerCanvas */ "./dist/services/drawers/drawer-canvas/DrawerCanvas.js");
-/* harmony import */ var _services_animation_Simple__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./services/animation/Simple */ "./dist/services/animation/Simple.js");
-/* harmony import */ var _services_animation_Easings__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./services/animation/Easings */ "./dist/services/animation/Easings.js");
+/* harmony import */ var _meta__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./meta */ "./dist/meta.js");
+/* harmony import */ var _core_Scene__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./core/Scene */ "./dist/core/Scene.js");
+/* harmony import */ var _core_SceneChild__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./core/SceneChild */ "./dist/core/SceneChild.js");
+/* harmony import */ var _core_Group__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./core/Group */ "./dist/core/Group.js");
+/* harmony import */ var _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./core/shapes/ShapePrimitive */ "./dist/core/shapes/ShapePrimitive.js");
+/* harmony import */ var _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./core/shapes/ShapeLoop */ "./dist/core/shapes/ShapeLoop.js");
+/* harmony import */ var _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./core/shapes/ShapeBuffer */ "./dist/core/shapes/ShapeBuffer.js");
+/* harmony import */ var _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./core/shapes/Shape */ "./dist/core/shapes/Shape.js");
+/* harmony import */ var _core_shapes_ShapeRecursive__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./core/shapes/ShapeRecursive */ "./dist/core/shapes/ShapeRecursive.js");
+/* harmony import */ var _core_shapes_primitives_Line__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./core/shapes/primitives/Line */ "./dist/core/shapes/primitives/Line.js");
+/* harmony import */ var _core_shapes_primitives_Triangle__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./core/shapes/primitives/Triangle */ "./dist/core/shapes/primitives/Triangle.js");
+/* harmony import */ var _core_shapes_primitives_Rect__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./core/shapes/primitives/Rect */ "./dist/core/shapes/primitives/Rect.js");
+/* harmony import */ var _core_shapes_primitives_Polygon__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./core/shapes/primitives/Polygon */ "./dist/core/shapes/primitives/Polygon.js");
+/* harmony import */ var _core_shapes_primitives_Circle__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./core/shapes/primitives/Circle */ "./dist/core/shapes/primitives/Circle.js");
+/* harmony import */ var _core_shapes_primitives_Rose__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./core/shapes/primitives/Rose */ "./dist/core/shapes/primitives/Rose.js");
+/* harmony import */ var _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./core/shapes/primitives/Spiral */ "./dist/core/shapes/primitives/Spiral.js");
+/* harmony import */ var _core_shapes_primitives_Lissajous__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./core/shapes/primitives/Lissajous */ "./dist/core/shapes/primitives/Lissajous.js");
+/* harmony import */ var _core_shapes_primitives_SuperShape__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./core/shapes/primitives/SuperShape */ "./dist/core/shapes/primitives/SuperShape.js");
+/* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./Utilites */ "./dist/Utilites.js");
+/* harmony import */ var _core_math_Vec2__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./core/math/Vec2 */ "./dist/core/math/Vec2.js");
+/* harmony import */ var _core_Context__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./core/Context */ "./dist/core/Context.js");
+/* harmony import */ var _core_math__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./core/math */ "./dist/core/math/index.js");
+/* harmony import */ var _services_drawers_drawer_canvas_DrawerCanvas__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./services/drawers/drawer-canvas/DrawerCanvas */ "./dist/services/drawers/drawer-canvas/DrawerCanvas.js");
+/* harmony import */ var _services_animation_Simple__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./services/animation/Simple */ "./dist/services/animation/Simple.js");
+/* harmony import */ var _services_animation_Easings__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./services/animation/Easings */ "./dist/services/animation/Easings.js");
+/**
+ * Meta
+ */
+
 /**
  * Core
  */
@@ -4584,6 +4608,33 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./dist/meta.js":
+/*!**********************!*\
+  !*** ./dist/meta.js ***!
+  \**********************/
+/*! namespace exports */
+/*! export author [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export license [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export version [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__.r, __webpack_exports__, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "version": () => /* binding */ version,
+/* harmony export */   "author": () => /* binding */ author,
+/* harmony export */   "license": () => /* binding */ license
+/* harmony export */ });
+var version = '%VERSION%';
+var author = 'Gennaro Bosone <gennaro.bs@gmail.com>';
+var license = '%LICENSE%';
+
+//# sourceMappingURL=meta.js.map
+
+/***/ }),
+
 /***/ "./dist/services/animation/Animation.js":
 /*!**********************************************!*\
   !*** ./dist/services/animation/Animation.js ***!
@@ -4599,8 +4650,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-/* harmony import */ var _scene_utilities_ScenePropUtilities__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../scene-utilities/ScenePropUtilities */ "./dist/services/scene-utilities/ScenePropUtilities.js");
-/* harmony import */ var _Simple__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Simple */ "./dist/services/animation/Simple.js");
+/* harmony import */ var _Simple__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Simple */ "./dist/services/animation/Simple.js");
+/* harmony import */ var _scene_utilities_SceneUtilitiesExtended__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../scene-utilities/SceneUtilitiesExtended */ "./dist/services/scene-utilities/SceneUtilitiesExtended.js");
 var __assign = (undefined && undefined.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -4620,13 +4671,13 @@ var __assign = (undefined && undefined.__assign) || function () {
  * @category Services.Animation
  */
 var Animation = {
-    composeAnimation: function (drawer, prop_name, animation) {
+    composeAnimation: function (scene, prop_name, animation) {
         switch (animation.type) {
             case 'simple': {
                 var simpleAnimation = __assign({}, animation.value);
-                simpleAnimation.from = _scene_utilities_ScenePropUtilities__WEBPACK_IMPORTED_MODULE_0__.default.getTransformedValue(drawer, prop_name, simpleAnimation.from);
-                simpleAnimation.to = _scene_utilities_ScenePropUtilities__WEBPACK_IMPORTED_MODULE_0__.default.getTransformedValue(drawer, prop_name, simpleAnimation.to);
-                return _Simple__WEBPACK_IMPORTED_MODULE_1__.default.compose(simpleAnimation);
+                simpleAnimation.from = _scene_utilities_SceneUtilitiesExtended__WEBPACK_IMPORTED_MODULE_1__.default.getTransformedValue(scene, prop_name, simpleAnimation.from);
+                simpleAnimation.to = _scene_utilities_SceneUtilitiesExtended__WEBPACK_IMPORTED_MODULE_1__.default.getTransformedValue(scene, prop_name, simpleAnimation.to);
+                return _Simple__WEBPACK_IMPORTED_MODULE_0__.default.compose(simpleAnimation);
             }
             case 'raw': {
                 var rawValue = animation.value;
@@ -5121,9 +5172,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-/* harmony import */ var _Easings__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Easings */ "./dist/services/animation/Easings.js");
+/* harmony import */ var _Color__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Color */ "./dist/Color.js");
 /* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Utilites */ "./dist/Utilites.js");
-/* harmony import */ var _Color__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Color */ "./dist/Color.js");
+/* harmony import */ var _Easings__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Easings */ "./dist/services/animation/Easings.js");
 var __assign = (undefined && undefined.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -5154,7 +5205,9 @@ var Simple = {
     compose: function (simpleAnimation) {
         if (typeof simpleAnimation.from !== 'string' && typeof simpleAnimation.to !== 'string') {
             var bArray = Array.isArray(simpleAnimation.from) || Array.isArray(simpleAnimation.to);
+            //@ts-ignore
             var from_1 = bArray ? (0,_Utilites__WEBPACK_IMPORTED_MODULE_1__.toArray)(simpleAnimation.from) : simpleAnimation.from;
+            //@ts-ignore
             var to_1 = bArray ? (0,_Utilites__WEBPACK_IMPORTED_MODULE_1__.toArray)(simpleAnimation.to) : simpleAnimation.to;
             var vCallback_1 = bArray
                 ? function (current_index, v) {
@@ -5174,8 +5227,8 @@ var Simple = {
             });
         }
         else {
-            var from_2 = (0,_Color__WEBPACK_IMPORTED_MODULE_2__.parseColorAndConvert)(simpleAnimation.from);
-            var to_2 = (0,_Color__WEBPACK_IMPORTED_MODULE_2__.parseColorAndConvert)(simpleAnimation.to);
+            var from_2 = (0,_Color__WEBPACK_IMPORTED_MODULE_0__.parseColorAndConvert)(simpleAnimation.from);
+            var to_2 = (0,_Color__WEBPACK_IMPORTED_MODULE_0__.parseColorAndConvert)(simpleAnimation.to);
             var vCallback_2 = simpleAnimation.colorTransitionMode == 'hue' ? interpolateColorHSL : interpolateColorRGB;
             if (typeof from_2 !== 'undefined' && typeof to_2 !== 'undefined') {
                 return createSimpleAnimationCallback(simpleAnimation, function (props, v) {
@@ -5197,11 +5250,11 @@ function createSimpleAnimationCallback(animation, value) {
                     ? 0
                     : props.time - delay >= durate
                         ? 1
-                        : _Easings__WEBPACK_IMPORTED_MODULE_0__.default[modeFunction](props.time - delay, 0, 1, durate));
+                        : _Easings__WEBPACK_IMPORTED_MODULE_2__.default[modeFunction](props.time - delay, 0, 1, durate));
             };
         else
             return function SimpleAnimation(props) {
-                return value(props, props.time <= durate ? _Easings__WEBPACK_IMPORTED_MODULE_0__.default[modeFunction](props.time, 0, 1 - 0, durate) : 1);
+                return value(props, props.time <= durate ? _Easings__WEBPACK_IMPORTED_MODULE_2__.default[modeFunction](props.time, 0, 1 - 0, durate) : 1);
             };
     }
     else {
@@ -5217,8 +5270,8 @@ function createSimpleAnimationCallback(animation, value) {
                     var d2 = durate / 2;
                     var t = props.time % durate;
                     return value(props, t <= d2
-                        ? _Easings__WEBPACK_IMPORTED_MODULE_0__.default[modeFunction](t, 0, 1, d2)
-                        : _Easings__WEBPACK_IMPORTED_MODULE_0__.default[modeFunction](d2 - (t - d2), 0, 1, d2));
+                        ? _Easings__WEBPACK_IMPORTED_MODULE_2__.default[modeFunction](t, 0, 1, d2)
+                        : _Easings__WEBPACK_IMPORTED_MODULE_2__.default[modeFunction](d2 - (t - d2), 0, 1, d2));
                 };
             }
         } // uncontrolled-loop
@@ -5239,12 +5292,12 @@ function createSimpleAnimationCallback(animation, value) {
                             ? 0
                             : time - delay >= durate
                                 ? 1
-                                : _Easings__WEBPACK_IMPORTED_MODULE_0__.default[modeFunction](time - delay, 0, 1, durate));
+                                : _Easings__WEBPACK_IMPORTED_MODULE_2__.default[modeFunction](time - delay, 0, 1, durate));
                     };
                 else
                     return function SimpleAnimation(props) {
                         var time = props.time % durate;
-                        return value(props, time <= durate ? _Easings__WEBPACK_IMPORTED_MODULE_0__.default[modeFunction](time, 0, 1 - 0, durate) : 1);
+                        return value(props, time <= durate ? _Easings__WEBPACK_IMPORTED_MODULE_2__.default[modeFunction](time, 0, 1 - 0, durate) : 1);
                     };
             }
         }
@@ -5395,11 +5448,19 @@ var Drawer = /** @class */ (function (_super) {
         if (this.scene) {
             this.scene.resize(width, height);
             _core_Scene__WEBPACK_IMPORTED_MODULE_0__.default.walk(function (sceneChild) {
-                if (sceneChild.data && sceneChild.data.props) {
-                    var props_1 = sceneChild.data.props;
-                    Object.keys(props_1).forEach(function (name) {
-                        _scene_utilities_SceneUtilities__WEBPACK_IMPORTED_MODULE_2__.default.setProp(sceneChild, name, props_1[name], _this);
-                    });
+                if (sceneChild.data) {
+                    if (sceneChild.data.props) {
+                        var props_1 = sceneChild.data.props;
+                        Object.keys(props_1).forEach(function (name) {
+                            _scene_utilities_SceneUtilities__WEBPACK_IMPORTED_MODULE_2__.default.setProp(sceneChild, name, props_1[name], _this.scene);
+                        });
+                    }
+                    if (sceneChild.data.style) {
+                        var style_1 = sceneChild.data.style;
+                        Object.keys(style_1).forEach(function (name) {
+                            _scene_utilities_SceneUtilities__WEBPACK_IMPORTED_MODULE_2__.default.setDrawerProp(sceneChild, name, style_1[name], _this.scene);
+                        });
+                    }
                 }
             }, this.scene);
         }
@@ -5418,22 +5479,6 @@ var Drawer = /** @class */ (function (_super) {
      */
     Drawer.prototype.getRatio = function () {
         return this.ratio;
-    };
-    /**
-     * Get scene value scaled based on resolution
-     *
-     * @param {number} value
-     */
-    Drawer.prototype.getValueFromResolution = function (value) {
-        return (value * this.resolution) / 200;
-    };
-    /**
-     * Get scene value scaled based on resolution
-     *
-     * @param {number} value
-     */
-    Drawer.prototype.getValueFromResolutionScaled = function (value) {
-        return (value * 200) / this.resolution;
     };
     /**
      * Set draw option
@@ -5663,27 +5708,22 @@ var __assign = (undefined && undefined.__assign) || function () {
 var DrawerCanvas = /** @class */ (function (_super) {
     __extends(DrawerCanvas, _super);
     function DrawerCanvas(scene, canvasOrContainer, drawerOptions, ratio, duration, framerate, bBuffering) {
-        if (drawerOptions === void 0) { drawerOptions = {}; }
         if (ratio === void 0) { ratio = undefined; }
         if (bBuffering === void 0) { bBuffering = false; }
         var _a, _b, _c, _d, _e;
         var _this = _super.call(this, scene, ratio, duration, framerate) || this;
         _this.bBuffering = false;
-        _this.drawerOptions = {
-            // scale: drawerOptions.scale ?? 1,
-            // translate: drawerOptions.translate ?? [0, 0],
-            time: (_a = drawerOptions.time) !== null && _a !== void 0 ? _a : 0,
-            simmetricLines: (_b = drawerOptions.simmetricLines) !== null && _b !== void 0 ? _b : 0,
-            clear: (_c = drawerOptions.clear) !== null && _c !== void 0 ? _c : true,
-            // fixedLineWidth: drawerOptions.fixedLineWidth ?? false,
-            noBackground: (_d = drawerOptions.noBackground) !== null && _d !== void 0 ? _d : false,
-            ghosts: drawerOptions.ghosts || 0,
-            ghostAlpha: drawerOptions.ghostAlpha === false ? false : true,
-            ghostSkipTime: (_e = drawerOptions.ghostSkipTime) !== null && _e !== void 0 ? _e : 30,
-            ghostSkipFunction: drawerOptions.ghostSkipFunction,
-            backgroundImage: drawerOptions.backgroundImage,
-            backgroundImageFit: drawerOptions.backgroundImageFit || 'cover',
-        };
+        _this.drawerOptions = {};
+        _this.drawerOptions.clear = (_a = drawerOptions === null || drawerOptions === void 0 ? void 0 : drawerOptions.clear) !== null && _a !== void 0 ? _a : true;
+        _this.drawerOptions.time = (_b = drawerOptions === null || drawerOptions === void 0 ? void 0 : drawerOptions.time) !== null && _b !== void 0 ? _b : 0;
+        _this.drawerOptions.simmetricLines = (_c = drawerOptions === null || drawerOptions === void 0 ? void 0 : drawerOptions.simmetricLines) !== null && _c !== void 0 ? _c : 0;
+        _this.drawerOptions.noBackground = (_d = drawerOptions === null || drawerOptions === void 0 ? void 0 : drawerOptions.noBackground) !== null && _d !== void 0 ? _d : false;
+        _this.drawerOptions.ghosts = (drawerOptions === null || drawerOptions === void 0 ? void 0 : drawerOptions.ghosts) || 0;
+        _this.drawerOptions.ghostAlpha = (drawerOptions === null || drawerOptions === void 0 ? void 0 : drawerOptions.ghostAlpha) === false ? false : true;
+        _this.drawerOptions.ghostSkipTime = (_e = drawerOptions === null || drawerOptions === void 0 ? void 0 : drawerOptions.ghostSkipTime) !== null && _e !== void 0 ? _e : 30;
+        _this.drawerOptions.ghostSkipFunction = drawerOptions === null || drawerOptions === void 0 ? void 0 : drawerOptions.ghostSkipFunction;
+        _this.drawerOptions.backgroundImage = drawerOptions === null || drawerOptions === void 0 ? void 0 : drawerOptions.backgroundImage;
+        _this.drawerOptions.backgroundImageFit = (drawerOptions === null || drawerOptions === void 0 ? void 0 : drawerOptions.backgroundImageFit) || 'cover';
         _this.bBuffering = bBuffering;
         _this.buffer = new _FrameBuffer__WEBPACK_IMPORTED_MODULE_1__.default();
         if ((typeof HTMLCanvasElement !== 'undefined' && canvasOrContainer instanceof HTMLCanvasElement) ||
@@ -5743,7 +5783,7 @@ var DrawerCanvas = /** @class */ (function (_super) {
         this.canvas = canvas;
         this.context = this.canvas.getContext('2d', {
             alpha: true,
-            desynchronized: true,
+            desynchronized: this.bBuffering !== true,
         });
         if (this.scene) {
             this.resize(this.scene.width, this.scene.height); // and flush
@@ -5892,11 +5932,11 @@ var DrawerCanvas = /** @class */ (function (_super) {
             if (drawerOptions.ghosts) {
                 _Drawer__WEBPACK_IMPORTED_MODULE_0__.default.eachGhosts(drawerOptions, timeline, function (ghostDrawerOptions) {
                     ghostDrawerOptions.clear = drawerOptions.clear && ghostDrawerOptions.ghostIndex === 1;
-                    draw_time += DrawerCanvas.draw(_this.scene, _this.context, ghostDrawerOptions);
+                    draw_time += _this.applyDraw(ghostDrawerOptions);
                 });
                 drawerOptions.clear = false;
             }
-            draw_time += DrawerCanvas.draw(this.scene, this.context, drawerOptions);
+            draw_time += this.applyDraw(drawerOptions);
             if (this.bBuffering && this.context) {
                 this.buffer.push(currentFrame, this.context);
                 if (this.buffer.count() >= this.timeline.getFramesCount()) {
@@ -5927,198 +5967,162 @@ var DrawerCanvas = /** @class */ (function (_super) {
             this.redraw_id = requestAnimationFrame(this.startAnimation);
         }
     };
-    /**
-     * Static draw scene
-     *
-     * @static
-     * @param {Scene} scene
-     * @param {(CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D | null)} context
-     * @param {DrawerOptions} options
-     * @returns {number}
-     * @memberof DrawerCanvas
-     */
-    DrawerCanvas.draw = function (scene, context, options) {
+    DrawerCanvas.prototype.applyDraw = function (options) {
         var _a, _b;
         var start_time = (0,_Utilites__WEBPACK_IMPORTED_MODULE_2__.now)();
-        if (context) {
-            context.globalCompositeOperation = 'source-over';
-            // const scale: number = options.scale ?? 1
-            // const translate: Array<number> = options.translate ?? [0, 0]
-            var time_1 = (_a = options.time) !== null && _a !== void 0 ? _a : 0;
-            var simmetricLines = (_b = options.simmetricLines) !== null && _b !== void 0 ? _b : 0;
-            // const fixedLineWidth: boolean | undefined = options.fixedLineWidth
-            var clear = options.clear;
-            var noBackground = options.noBackground;
-            var backgroundImage = options.backgroundImage;
-            var bGhost_1 = typeof options.ghosts !== 'undefined' &&
-                options.ghosts > 0 &&
-                typeof options.ghostIndex !== 'undefined' &&
-                options.ghostIndex > 0;
-            var ghostMultiplier_1 = bGhost_1
-                ? 1 - options.ghostIndex / (options.ghosts + 0.5)
-                : 0;
-            var ghostAlpha_1 = options.ghostAlpha === true;
-            var width = scene.width;
-            var height = scene.height;
-            var ratio = width / height;
-            // const ratio_x = width > height ? 1 : height / width
-            // const ratio_y = width > height ? width / height : 1
-            // resolution = resolution || width
-            // const final_scale = [(width / (resolution / ratio_x)) * scale, (height / (resolution / ratio_y)) * scale]
-            // const final_translate = [
-            // 	width / 2 - (scale > 1 ? (translate[0] * width) / (1 / ((scale - 1) / 2)) : 0),
-            // 	height / 2 - (scale > 1 ? (translate[1] * height) / (1 / ((scale - 1) / 2)) : 0),
-            // ]
-            if (clear) {
-                if (noBackground) {
-                    context.clearRect(0, 0, width, height);
-                }
-                else {
-                    context.fillStyle = scene.background;
-                    context.fillRect(0, 0, width, height);
-                    if (backgroundImage) {
-                        var sourceWidth = backgroundImage instanceof SVGImageElement ? backgroundImage.width.baseVal.value : backgroundImage.width;
-                        var sourceHeight = backgroundImage instanceof SVGImageElement ? backgroundImage.height.baseVal.value : backgroundImage.height;
-                        var sourceRatio = sourceWidth / sourceHeight;
-                        var x = 0, y = 0, bgWidth = width, bgHeight = height;
-                        if (sourceRatio !== ratio) {
-                            if (options.backgroundImageFit === 'contain') {
-                                bgWidth = ratio > sourceRatio ? (sourceWidth * height) / sourceHeight : width;
-                                bgHeight = ratio > sourceRatio ? height : (sourceHeight * width) / sourceWidth;
-                            }
-                            else {
-                                bgWidth = ratio < sourceRatio ? (sourceWidth * height) / sourceHeight : width;
-                                bgHeight = ratio < sourceRatio ? height : (sourceHeight * width) / sourceWidth;
-                            }
-                            x = (width - bgWidth) / 2;
-                            y = (height - bgHeight) / 2;
+        var scene = this.scene;
+        var context = this.context;
+        context.globalCompositeOperation = 'source-over';
+        var time = (_a = options.time) !== null && _a !== void 0 ? _a : 0;
+        var simmetricLines = (_b = options.simmetricLines) !== null && _b !== void 0 ? _b : 0;
+        var clear = options.clear;
+        var noBackground = options.noBackground;
+        var backgroundImage = options.backgroundImage;
+        var bGhost = typeof options.ghosts !== 'undefined' &&
+            options.ghosts > 0 &&
+            typeof options.ghostIndex !== 'undefined' &&
+            options.ghostIndex > 0;
+        var ghostMultiplier = bGhost ? 1 - options.ghostIndex / (options.ghosts + 0.5) : 0;
+        var ghostAlpha = options.ghostAlpha === true;
+        var width = scene.width;
+        var height = scene.height;
+        var ratio = width / height;
+        if (clear) {
+            if (noBackground) {
+                context.clearRect(0, 0, width, height);
+            }
+            else {
+                context.fillStyle = scene.background;
+                context.fillRect(0, 0, width, height);
+                if (backgroundImage) {
+                    var sourceWidth = backgroundImage instanceof SVGImageElement ? backgroundImage.width.baseVal.value : backgroundImage.width;
+                    var sourceHeight = backgroundImage instanceof SVGImageElement ? backgroundImage.height.baseVal.value : backgroundImage.height;
+                    var sourceRatio = sourceWidth / sourceHeight;
+                    var x = 0, y = 0, bgWidth = width, bgHeight = height;
+                    if (sourceRatio !== ratio) {
+                        if (options.backgroundImageFit === 'contain') {
+                            bgWidth = ratio > sourceRatio ? (sourceWidth * height) / sourceHeight : width;
+                            bgHeight = ratio > sourceRatio ? height : (sourceHeight * width) / sourceWidth;
                         }
-                        context.drawImage(backgroundImage, x, y, bgWidth, bgHeight);
+                        else {
+                            bgWidth = ratio < sourceRatio ? (sourceWidth * height) / sourceHeight : width;
+                            bgHeight = ratio < sourceRatio ? height : (sourceHeight * width) / sourceWidth;
+                        }
+                        x = (width - bgWidth) / 2;
+                        y = (height - bgHeight) / 2;
                     }
-                }
-                if (simmetricLines > 0) {
-                    DrawerCanvas.drawSimmetricLines(context, simmetricLines, width, height, 
-                    // final_scale,
-                    // final_translate,
-                    scene.color);
+                    context.drawImage(backgroundImage, x, y, bgWidth, bgHeight);
                 }
             }
-            {
-                var logFillColorWarn_1 = false;
-                var logStrokeColorWarn_1 = false;
-                var oldComposite_1 = 'source-over';
-                scene.currentTime = time_1;
-                scene.getChildren().forEach(function (sceneChild) {
-                    if (!sceneChild.data ||
-                        (!(sceneChild.data.visible === false) && !(bGhost_1 && sceneChild.data.disableGhost === true))) {
-                        sceneChild.generate(time_1, true);
-                        context.save();
-                        sceneChild.stream(function (stream) {
-                            var currentIndex = stream.currentIndexing;
-                            var shape = currentIndex.shape;
-                            var propArguments = {
-                                canvasContext: context,
-                                shape: shape,
-                                // singleRepetitionBounding: currentIndex.singleRepetitionBounding,
-                                repetition: currentIndex.repetition,
-                                parent: currentIndex.parent,
-                                time: scene.currentTime,
-                                context: _core_Context__WEBPACK_IMPORTED_MODULE_4__.default,
-                            };
-                            var composite = _Drawer__WEBPACK_IMPORTED_MODULE_0__.default.getStreamDrawerProp(shape, 'composite', propArguments, 'source-over');
-                            if (oldComposite_1 !== composite) {
-                                context.globalCompositeOperation = composite;
-                                oldComposite_1 = composite;
-                            }
-                            context.beginPath();
-                            // context.moveTo(
-                            // 	(stream.buffer[stream.frameBufferIndex] - width / 2) * final_scale[0] +
-                            // 		final_translate[0],
-                            // 	(stream.buffer[stream.frameBufferIndex + 1] - height / 2) * final_scale[1] +
-                            // 		final_translate[1]
-                            // )
-                            context.moveTo(stream.buffer[stream.frameBufferIndex], stream.buffer[stream.frameBufferIndex + 1]);
-                            for (var i = 2; i < stream.frameLength; i += 2) {
-                                // context.lineTo(
-                                // 	(stream.buffer[stream.frameBufferIndex + i] - width / 2) * final_scale[0] +
-                                // 		final_translate[0],
-                                // 	(stream.buffer[stream.frameBufferIndex + i + 1] - height / 2) * final_scale[1] +
-                                // 		final_translate[1]
-                                // )
-                                context.lineTo(stream.buffer[stream.frameBufferIndex + i], stream.buffer[stream.frameBufferIndex + i + 1]);
-                            }
-                            currentIndex.shape.isClosed() && context.closePath();
-                            // if (shapeData && shapeData.highlighted) {
-                            // 	context.lineWidth = (stream.lineWidth || 1) * 3 * scale
-                            // 	context.strokeStyle = scene.color
-                            // 	context.stroke()
-                            // 	return
-                            // }
-                            var shadowColor = _Drawer__WEBPACK_IMPORTED_MODULE_0__.default.getStreamDrawerProp(shape, 'shadowColor', propArguments);
-                            var shadowBlur = _Drawer__WEBPACK_IMPORTED_MODULE_0__.default.getStreamDrawerProp(shape, 'shadowBlur', propArguments);
-                            var shadowOffsetX = _Drawer__WEBPACK_IMPORTED_MODULE_0__.default.getStreamDrawerProp(shape, 'shadowOffsetX', propArguments);
-                            var shadowOffsetY = _Drawer__WEBPACK_IMPORTED_MODULE_0__.default.getStreamDrawerProp(shape, 'shadowOffsetY', propArguments);
-                            context.shadowColor = shadowColor;
-                            context.shadowBlur = shadowBlur;
-                            shadowOffsetX && (context.shadowOffsetX = shadowOffsetX);
-                            shadowOffsetY && (context.shadowOffsetY = shadowOffsetY);
-                            var fill = _Drawer__WEBPACK_IMPORTED_MODULE_0__.default.getStreamDrawerProp(shape, 'fill', propArguments);
-                            if (typeof fill !== 'undefined') {
-                                if (bGhost_1 && ghostAlpha_1) {
-                                    var color = _Drawer__WEBPACK_IMPORTED_MODULE_0__.default.ghostifyColor(fill, ghostMultiplier_1);
-                                    if (color) {
-                                        fill = color;
-                                    }
-                                    else if (!logFillColorWarn_1) {
-                                        console.warn("[Urpflanze:DrawerCanvas] Unable ghost fill color '" + fill + "',\n\t\t\t\t\t\t\t\t\tplease enter a rgba or hsla color");
-                                        logFillColorWarn_1 = true;
-                                    }
-                                }
-                                context.fillStyle = fill;
-                                context.fill();
-                            }
-                            var stroke = _Drawer__WEBPACK_IMPORTED_MODULE_0__.default.getStreamDrawerProp(shape, 'stroke', propArguments, typeof fill === 'undefined' ? scene.color : undefined);
-                            var lineWidth = _Drawer__WEBPACK_IMPORTED_MODULE_0__.default.getStreamDrawerProp(shape, 'lineWidth', propArguments, 1);
-                            if (stroke) {
-                                if (bGhost_1 && ghostAlpha_1) {
-                                    var color = _Drawer__WEBPACK_IMPORTED_MODULE_0__.default.ghostifyColor(stroke, ghostMultiplier_1);
-                                    if (color) {
-                                        stroke = color;
-                                    }
-                                    else if (!logStrokeColorWarn_1) {
-                                        console.warn("[Urpflanze:DrawerCanvas] Unable ghost stroke color '" + stroke + "',\n\t\t\t\t\t\t\t\t\tplease enter a rgba or hsla color");
-                                        logStrokeColorWarn_1 = true;
-                                    }
-                                    lineWidth *= ghostMultiplier_1;
-                                }
-                                var lineJoin = _Drawer__WEBPACK_IMPORTED_MODULE_0__.default.getStreamDrawerProp(shape, 'lineJoin', propArguments);
-                                var lineCap = _Drawer__WEBPACK_IMPORTED_MODULE_0__.default.getStreamDrawerProp(shape, 'lineCap', propArguments);
-                                var lineDash = _Drawer__WEBPACK_IMPORTED_MODULE_0__.default.getStreamDrawerProp(shape, 'lineDash', propArguments);
-                                var lineDashOffset = _Drawer__WEBPACK_IMPORTED_MODULE_0__.default.getStreamDrawerProp(shape, 'lineDashOffset', propArguments);
-                                var miterLimit = _Drawer__WEBPACK_IMPORTED_MODULE_0__.default.getStreamDrawerProp(shape, 'miterLimit', propArguments);
-                                context.setLineDash.call(context, lineDash || []);
-                                context.lineJoin = lineJoin;
-                                context.lineCap = lineCap;
-                                context.lineDashOffset = lineDashOffset;
-                                context.miterLimit = miterLimit;
-                                // context.lineWidth = fixedLineWidth ? streamCallback.lineWidth : streamCallback.lineWidth * scale
-                                context.lineWidth = lineWidth;
-                                context.strokeStyle = stroke;
-                                context.stroke();
-                            }
-                        });
-                        context.restore();
-                    }
-                });
+            if (simmetricLines > 0) {
+                DrawerCanvas.drawSimmetricLines(context, simmetricLines, width, height, scene.color);
             }
+        }
+        {
+            var logFillColorWarn_1 = false;
+            var logStrokeColorWarn_1 = false;
+            scene.currentTime = time;
+            scene.getChildren().forEach(function (sceneChild) {
+                if (!sceneChild.data ||
+                    (!(sceneChild.data.visible === false) && !(bGhost && sceneChild.data.disableGhost === true))) {
+                    sceneChild.generate(time, true);
+                    context.save();
+                    sceneChild.stream(function (stream) {
+                        var currentIndex = stream.currentIndexing;
+                        var shape = currentIndex.shape;
+                        var propArguments = {
+                            canvasContext: context,
+                            shape: shape,
+                            // singleRepetitionBounding: currentIndex.singleRepetitionBounding,
+                            repetition: {
+                                type: currentIndex.repetition.type,
+                                angle: currentIndex.repetition.angle,
+                                index: currentIndex.repetition.index,
+                                count: currentIndex.repetition.count,
+                                offset: currentIndex.repetition.offset,
+                                row: {
+                                    index: currentIndex.repetition.row.index,
+                                    count: currentIndex.repetition.row.count,
+                                    offset: currentIndex.repetition.row.offset,
+                                },
+                                col: {
+                                    index: currentIndex.repetition.col.index,
+                                    count: currentIndex.repetition.col.count,
+                                    offset: currentIndex.repetition.col.offset,
+                                },
+                            },
+                            parent: currentIndex.parent,
+                            time: scene.currentTime,
+                            context: _core_Context__WEBPACK_IMPORTED_MODULE_4__.default,
+                        };
+                        var composite = _Drawer__WEBPACK_IMPORTED_MODULE_0__.default.getStreamDrawerProp(shape, 'composite', propArguments, 'source-over');
+                        context.globalCompositeOperation = composite;
+                        context.beginPath();
+                        context.moveTo(stream.buffer[stream.frameBufferIndex], stream.buffer[stream.frameBufferIndex + 1]);
+                        for (var i = 2; i < stream.frameLength; i += 2) {
+                            context.lineTo(stream.buffer[stream.frameBufferIndex + i], stream.buffer[stream.frameBufferIndex + i + 1]);
+                        }
+                        currentIndex.shape.isClosed() && context.closePath();
+                        var shadowColor = _Drawer__WEBPACK_IMPORTED_MODULE_0__.default.getStreamDrawerProp(shape, 'shadowColor', propArguments);
+                        var shadowBlur = _Drawer__WEBPACK_IMPORTED_MODULE_0__.default.getStreamDrawerProp(shape, 'shadowBlur', propArguments);
+                        var shadowOffsetX = _Drawer__WEBPACK_IMPORTED_MODULE_0__.default.getStreamDrawerProp(shape, 'shadowOffsetX', propArguments);
+                        var shadowOffsetY = _Drawer__WEBPACK_IMPORTED_MODULE_0__.default.getStreamDrawerProp(shape, 'shadowOffsetY', propArguments);
+                        context.shadowColor = shadowColor;
+                        context.shadowBlur = shadowBlur;
+                        shadowOffsetX && (context.shadowOffsetX = shadowOffsetX);
+                        shadowOffsetY && (context.shadowOffsetY = shadowOffsetY);
+                        var fill = _Drawer__WEBPACK_IMPORTED_MODULE_0__.default.getStreamDrawerProp(shape, 'fill', propArguments);
+                        if (typeof fill !== 'undefined') {
+                            if (bGhost && ghostAlpha) {
+                                var color = _Drawer__WEBPACK_IMPORTED_MODULE_0__.default.ghostifyColor(fill, ghostMultiplier);
+                                if (color) {
+                                    fill = color;
+                                }
+                                else if (!logFillColorWarn_1) {
+                                    console.warn("[Urpflanze:DrawerCanvas] Unable ghost fill color '" + fill + "',\n\t\t\t\t\t\t\t\t\tplease enter a rgba or hsla color");
+                                    logFillColorWarn_1 = true;
+                                }
+                            }
+                            context.fillStyle = fill;
+                            context.fill();
+                        }
+                        var stroke = _Drawer__WEBPACK_IMPORTED_MODULE_0__.default.getStreamDrawerProp(shape, 'stroke', propArguments, typeof fill === 'undefined' ? scene.color : undefined);
+                        var lineWidth = _Drawer__WEBPACK_IMPORTED_MODULE_0__.default.getStreamDrawerProp(shape, 'lineWidth', propArguments, 1);
+                        if (stroke) {
+                            if (bGhost && ghostAlpha) {
+                                var color = _Drawer__WEBPACK_IMPORTED_MODULE_0__.default.ghostifyColor(stroke, ghostMultiplier);
+                                if (color) {
+                                    stroke = color;
+                                }
+                                else if (!logStrokeColorWarn_1) {
+                                    console.warn("[Urpflanze:DrawerCanvas] Unable ghost stroke color '" + stroke + "',\n\t\t\t\t\t\t\t\t\tplease enter a rgba or hsla color");
+                                    logStrokeColorWarn_1 = true;
+                                }
+                                lineWidth *= ghostMultiplier;
+                            }
+                            var lineJoin = _Drawer__WEBPACK_IMPORTED_MODULE_0__.default.getStreamDrawerProp(shape, 'lineJoin', propArguments);
+                            var lineCap = _Drawer__WEBPACK_IMPORTED_MODULE_0__.default.getStreamDrawerProp(shape, 'lineCap', propArguments);
+                            var lineDash = _Drawer__WEBPACK_IMPORTED_MODULE_0__.default.getStreamDrawerProp(shape, 'lineDash', propArguments);
+                            var lineDashOffset = _Drawer__WEBPACK_IMPORTED_MODULE_0__.default.getStreamDrawerProp(shape, 'lineDashOffset', propArguments);
+                            var miterLimit = _Drawer__WEBPACK_IMPORTED_MODULE_0__.default.getStreamDrawerProp(shape, 'miterLimit', propArguments);
+                            context.setLineDash.call(context, lineDash || []);
+                            context.lineJoin = lineJoin;
+                            context.lineCap = lineCap;
+                            context.lineDashOffset = lineDashOffset;
+                            context.miterLimit = miterLimit;
+                            context.lineWidth = lineWidth;
+                            context.strokeStyle = stroke;
+                            context.stroke();
+                        }
+                    });
+                    context.restore();
+                }
+            });
         }
         var end_time = (0,_Utilites__WEBPACK_IMPORTED_MODULE_2__.now)();
         return end_time - start_time;
     };
-    DrawerCanvas.drawSimmetricLines = function (context, simmetricLines, width, height, 
-    // scale: Array<number>,
-    // translate: Array<number>,
-    color) {
+    DrawerCanvas.drawSimmetricLines = function (context, simmetricLines, width, height, color) {
         var offset = Math.PI / simmetricLines;
         var size = Math.max(width, height);
         var center = [size / 2, size / 2];
@@ -6133,8 +6137,6 @@ var DrawerCanvas = /** @class */ (function (_super) {
             context.lineWidth = 1;
             context.moveTo(a[0], a[1]);
             context.lineTo(b[0], b[1]);
-            // context.moveTo((a[0] - size / 2) * scale[0] + translate[0], (a[1] - size / 2) * scale[1] + translate[1])
-            // context.lineTo((b[0] - size / 2) * scale[0] + translate[0], (b[1] - size / 2) * scale[1] + translate[1])
             context.stroke();
         }
     };
@@ -6170,7 +6172,7 @@ var FrameBuffer = /** @class */ (function () {
         this.frames = {};
     }
     FrameBuffer.prototype.exist = function (frameNumber) {
-        return frameNumber in this.frames;
+        return typeof this.frames[frameNumber] !== 'undefined';
     };
     FrameBuffer.prototype.get = function (frameNumber) {
         return this.exist(frameNumber) ? this.frames[frameNumber] : null;
@@ -6270,10 +6272,10 @@ var Emitter = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./dist/services/scene-utilities/SceneChildPropsData.js":
-/*!**************************************************************!*\
-  !*** ./dist/services/scene-utilities/SceneChildPropsData.js ***!
-  \**************************************************************/
+/***/ "./dist/services/scene-utilities/SceneChildUtilitiesData.js":
+/*!******************************************************************!*\
+  !*** ./dist/services/scene-utilities/SceneChildUtilitiesData.js ***!
+  \******************************************************************/
 /*! namespace exports */
 /*! export default [provided] [no usage info] [missing usage info prevents renaming] */
 /*! other exports [not provided] [no usage info] */
@@ -6305,19 +6307,20 @@ var OptionSpiralType = [
 /**
  * @category Services.Scene Utilities
  */
-var SceneChildPropsData = {
+var SceneChildUtilitiesData = {
     repetitions: {
         animable: true,
         name: 'repetitions',
         label: 'Repetitions',
         type: 'range',
         min: 1,
-        max: 100,
+        max: 200,
         step: 1,
         default: 1,
         default_animate: 20,
         canBArray: true,
         transformation: 'none',
+        dataType: 'props',
         type_value: 'int',
     },
     distance: {
@@ -6325,13 +6328,14 @@ var SceneChildPropsData = {
         name: 'distance',
         label: 'Distance',
         type: 'range',
-        min: -200,
-        max: 200,
-        step: 1,
+        min: -100,
+        max: 100,
+        step: 0.1,
         default: 0,
         canBArray: true,
-        default_animate: 50,
-        transformation: 'resolution-based',
+        default_animate: 25,
+        transformation: 'scene-size-percentage',
+        dataType: 'props',
     },
     displace: {
         animable: true,
@@ -6344,6 +6348,7 @@ var SceneChildPropsData = {
         default: 0,
         default_animate: 360,
         transformation: 'angle',
+        dataType: 'props',
     },
     squeezeX: {
         animable: true,
@@ -6352,10 +6357,11 @@ var SceneChildPropsData = {
         type: 'range',
         min: -0.2,
         max: 0.2,
-        step: 0.001,
+        step: 0.01,
         default: 0,
-        default_animate: 0.01,
-        transformation: 'resolution-scaled-based',
+        default_animate: 0.1,
+        transformation: 'scene-size-percentage-inverse',
+        dataType: 'props',
     },
     squeezeY: {
         animable: true,
@@ -6364,10 +6370,11 @@ var SceneChildPropsData = {
         type: 'range',
         min: -0.2,
         max: 0.2,
-        step: 0.001,
+        step: 0.01,
         default: 0,
-        default_animate: 0.01,
-        transformation: 'resolution-scaled-based',
+        default_animate: 0.1,
+        transformation: 'scene-size-percentage-inverse',
+        dataType: 'props',
     },
     rotateX: {
         animable: true,
@@ -6380,6 +6387,7 @@ var SceneChildPropsData = {
         default: 0,
         default_animate: 360,
         transformation: 'angle',
+        dataType: 'props',
     },
     rotateY: {
         animable: true,
@@ -6392,6 +6400,7 @@ var SceneChildPropsData = {
         default: 0,
         default_animate: 360,
         transformation: 'angle',
+        dataType: 'props',
     },
     rotateZ: {
         animable: true,
@@ -6404,6 +6413,7 @@ var SceneChildPropsData = {
         default: 0,
         default_animate: 360,
         transformation: 'angle',
+        dataType: 'props',
     },
     skewX: {
         animable: true,
@@ -6416,6 +6426,7 @@ var SceneChildPropsData = {
         default: 0,
         default_animate: 1,
         transformation: 'angle',
+        dataType: 'props',
     },
     skewY: {
         animable: true,
@@ -6428,18 +6439,21 @@ var SceneChildPropsData = {
         default: 0,
         default_animate: 1,
         transformation: 'angle',
+        dataType: 'props',
     },
     translate: {
         animable: true,
         name: 'translate',
         label: 'Translate',
         type: 'multiple-range',
-        min: -200,
-        max: 200,
-        step: 1,
+        min: -100,
+        max: 100,
+        step: 0.1,
         default: [0, 0],
         default_animate: 0,
-        transformation: 'resolution-based',
+        initialArray: true,
+        transformation: 'scene-size-percentage',
+        dataType: 'props',
     },
     scale: {
         animable: true,
@@ -6452,6 +6466,7 @@ var SceneChildPropsData = {
         default: [1, 1],
         default_animate: 3,
         transformation: 'none',
+        dataType: 'props',
     },
     transformOrigin: {
         animable: true,
@@ -6461,9 +6476,11 @@ var SceneChildPropsData = {
         min: -1,
         max: 1,
         step: 0.01,
-        default: [1, 1],
+        default: [0, 0],
         default_animate: [-1, 1],
+        initialArray: true,
         transformation: 'none',
+        dataType: 'props',
     },
     perspective: {
         animable: true,
@@ -6476,6 +6493,7 @@ var SceneChildPropsData = {
         default: 0,
         default_animate: 0.8,
         transformation: 'none',
+        dataType: 'props',
     },
     perspectiveOrigin: {
         animable: true,
@@ -6485,23 +6503,13 @@ var SceneChildPropsData = {
         min: -1,
         max: 1,
         step: 0.01,
-        default: [1, 1],
+        default: [0, 0],
         default_animate: [-1, 1],
+        initialArray: true,
         transformation: 'none',
+        dataType: 'props',
     },
-    // rotationOrigin: {
-    // 	animable: true,
-    // 	name: 'rotationOrigin',
-    // 	label: 'Rotation Origin',
-    // 	type: 'multiple-range',
-    // 	min: -1,
-    // 	max: 1,
-    // 	step: 0.01,
-    // 	default: [1, 1],
-    // 	default_animate: [-1, 1],
-    // 	transformation: 'none',
-    // },
-    // primitive
+    // primitive style
     fill: {
         animable: true,
         name: 'fill',
@@ -6510,6 +6518,7 @@ var SceneChildPropsData = {
         default: '#000',
         default_animate: '#fff',
         transformation: 'none',
+        dataType: 'drawer',
     },
     stroke: {
         animable: true,
@@ -6519,6 +6528,7 @@ var SceneChildPropsData = {
         default: '#fff',
         default_animate: '#000',
         transformation: 'none',
+        dataType: 'drawer',
     },
     lineWidth: {
         animable: true,
@@ -6531,14 +6541,23 @@ var SceneChildPropsData = {
         default: 1,
         default_animate: 3,
         transformation: 'none',
+        dataType: 'drawer',
     },
-    bClosed: { name: 'bClosed', label: 'Closed', type: 'checkbox', default: undefined, transformation: 'none' },
+    bClosed: {
+        name: 'bClosed',
+        label: 'Closed',
+        type: 'checkbox',
+        default: undefined,
+        transformation: 'none',
+        dataType: 'settings',
+    },
     bUseParent: {
         name: 'bUseParent',
         label: 'Use parent repetition',
         type: 'checkbox',
         default: false,
         transformation: 'none',
+        dataType: 'settings',
     },
     bUseRecursion: {
         name: 'bUseRecursion',
@@ -6546,6 +6565,15 @@ var SceneChildPropsData = {
         type: 'checkbox',
         default: false,
         transformation: 'none',
+        dataType: 'settings',
+    },
+    vertexCallback: {
+        name: 'vertexCallback',
+        label: 'vertexCallback',
+        type: 'function',
+        default: undefined,
+        transformation: 'none',
+        dataType: 'settings',
     },
     adaptMode: {
         name: 'adaptMode',
@@ -6554,7 +6582,9 @@ var SceneChildPropsData = {
         options: OptionShapePrimitiveAdaptMode,
         default: undefined,
         transformation: 'none',
+        dataType: 'settings',
     },
+    // primitive
     sideLength: {
         animable: true,
         name: 'sideLength',
@@ -6563,10 +6593,12 @@ var SceneChildPropsData = {
         min: 0.1,
         max: 100,
         step: 0.1,
-        default: [10, 10],
+        default: 10,
         default_animate: 20,
-        transformation: 'resolution-based',
+        transformation: 'scene-size-percentage',
+        dataType: 'props',
     },
+    // polygon
     sideNumber: {
         animable: true,
         name: 'sideNumber',
@@ -6578,6 +6610,7 @@ var SceneChildPropsData = {
         default: 5,
         default_animate: 2,
         transformation: 'none',
+        dataType: 'props',
     },
     // rose
     n: {
@@ -6591,6 +6624,7 @@ var SceneChildPropsData = {
         default: 1,
         default_animate: 3,
         transformation: 'none',
+        dataType: 'props',
     },
     d: {
         animable: true,
@@ -6603,6 +6637,7 @@ var SceneChildPropsData = {
         default: 2,
         default_animate: 4,
         transformation: 'none',
+        dataType: 'props',
     },
     // lissajous
     wx: {
@@ -6616,6 +6651,7 @@ var SceneChildPropsData = {
         default: 1,
         default_animate: 3,
         transformation: 'none',
+        dataType: 'props',
     },
     wy: {
         animable: true,
@@ -6628,6 +6664,7 @@ var SceneChildPropsData = {
         default: 2,
         default_animate: 4,
         transformation: 'none',
+        dataType: 'props',
     },
     wz: {
         animable: true,
@@ -6640,6 +6677,7 @@ var SceneChildPropsData = {
         default: 0,
         default_animate: 360,
         transformation: 'angle',
+        dataType: 'props',
     },
     // spiral
     twists: {
@@ -6653,18 +6691,20 @@ var SceneChildPropsData = {
         default: 1,
         default_animate: 3,
         transformation: 'none',
+        dataType: 'props',
     },
     twistsStart: {
         animable: true,
         name: 'twists_start',
         label: 'Twists start',
         type: 'range',
-        min: 1,
+        min: 0,
         max: 60,
         step: 0.1,
         default: 0,
         default_animate: 1,
         transformation: 'none',
+        dataType: 'props',
     },
     spiral: {
         name: 'spiral',
@@ -6673,6 +6713,87 @@ var SceneChildPropsData = {
         options: OptionSpiralType,
         default: _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_0__.default.types.ARCHIMEDE,
         transformation: 'none',
+        dataType: 'props',
+    },
+    // supershape
+    a: {
+        animable: true,
+        name: 'a',
+        label: 'A',
+        type: 'range',
+        min: -5,
+        max: 5,
+        step: 0.1,
+        default: 1,
+        default_animate: 0.1,
+        transformation: 'none',
+        dataType: 'props',
+    },
+    b: {
+        animable: true,
+        name: 'b',
+        label: 'B',
+        type: 'range',
+        min: -5,
+        max: 5,
+        step: 0.1,
+        default: 1,
+        default_animate: 0.1,
+        transformation: 'none',
+        dataType: 'props',
+    },
+    m: {
+        animable: true,
+        name: 'm',
+        label: 'm',
+        type: 'range',
+        min: 1,
+        max: 20,
+        step: 1,
+        default: 1,
+        default_animate: 6,
+        transformation: 'none',
+        dataType: 'props',
+        type_value: 'int',
+    },
+    n1: {
+        animable: true,
+        name: 'n1',
+        label: 'n1',
+        type: 'range',
+        min: -3,
+        max: 3,
+        step: 0.1,
+        default: 1,
+        default_animate: 0.1,
+        transformation: 'none',
+        dataType: 'props',
+    },
+    n2: {
+        animable: true,
+        name: 'n2',
+        label: 'n2',
+        type: 'range',
+        min: -3,
+        max: 3,
+        step: 0.1,
+        default: 1,
+        default_animate: 0.1,
+        transformation: 'none',
+        dataType: 'props',
+    },
+    n3: {
+        animable: true,
+        name: 'n3',
+        label: 'n3',
+        type: 'range',
+        min: -3,
+        max: 3,
+        step: 0.1,
+        default: 1,
+        default_animate: 0.1,
+        transformation: 'none',
+        dataType: 'props',
     },
     // loop
     'loop.start': {
@@ -6684,6 +6805,7 @@ var SceneChildPropsData = {
         max: 100,
         step: 0.01,
         transformation: 'none',
+        dataType: 'props',
     },
     'loop.end': {
         name: 'loop.end',
@@ -6694,6 +6816,7 @@ var SceneChildPropsData = {
         max: 100,
         step: 0.01,
         transformation: 'none',
+        dataType: 'props',
     },
     'loop.inc': {
         name: 'loop.inc',
@@ -6704,163 +6827,11 @@ var SceneChildPropsData = {
         max: 100,
         step: 0.01,
         transformation: 'none',
+        dataType: 'props',
     },
 };
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SceneChildPropsData);
-//# sourceMappingURL=SceneChildPropsData.js.map
-
-/***/ }),
-
-/***/ "./dist/services/scene-utilities/ScenePropUtilities.js":
-/*!*************************************************************!*\
-  !*** ./dist/services/scene-utilities/ScenePropUtilities.js ***!
-  \*************************************************************/
-/*! namespace exports */
-/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
-/*! other exports [not provided] [no usage info] */
-/*! runtime requirements: __webpack_require__, __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
-/* harmony export */ });
-/* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Utilites */ "./dist/Utilites.js");
-/* harmony import */ var _SceneChildPropsData__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SceneChildPropsData */ "./dist/services/scene-utilities/SceneChildPropsData.js");
-;
-
-/**
- *
- * @category Services.Scene Utilities
- * @class ScenePropUtilities
- */
-var ScenePropUtilities = /** @class */ (function () {
-    function ScenePropUtilities() {
-    }
-    //#region ShapeLoop
-    ScenePropUtilities.bValueLoop = function (value) {
-        return (typeof value === 'object' &&
-            'start' in value &&
-            'end' in value &&
-            'inc' in value &&
-            'vertex' in value &&
-            value.vertex.raw &&
-            value.vertex.raw.length > 0);
-    };
-    ScenePropUtilities.bValueVertexCallback = function (value) {
-        return value && value.raw && value.raw.length > 0;
-    };
-    ScenePropUtilities.composeVertexCallback = function (value) {
-        if (value && value.raw) {
-            var vertexCallback = new Function('vertex', ScenePropUtilities.RAW_ARGUMENTS, 'vertex_index', 'vertex_lenght', "return " + value.raw);
-            return vertexCallback;
-        }
-    };
-    ScenePropUtilities.composeLoop = function (loop) {
-        var vertex = loop.vertex.raw
-            ? new Function('index', ScenePropUtilities.RAW_ARGUMENTS, "return " + loop.vertex.raw)
-            : undefined;
-        //Todo: number -> resolve function
-        return {
-            start: loop.start,
-            end: loop.end,
-            inc: loop.inc,
-            vertex: vertex,
-        };
-    };
-    //#endregion
-    // static getRandomFunctionForProp(name): (rand: number) => any {
-    //     const prop: ISceneChildProp = UISceneChildUtilitiesStatic.sceneChildProps[name]
-    //     switch (prop.type)
-    //     {
-    //         case 'multiple-range': case 'range': case 'slider':
-    //             return (rand: number) => {
-    //                 const min = prop.min as number / 2
-    //                 const max = prop.max as number / 2
-    //                 const value = min + ((max - min) * rand)
-    //                 return prop.bAngle ? toRadians(value) : value
-    //             }
-    //         case 'color':
-    //             return (rand: number) => `hsl(${Math.floor(360 * rand)}, ${Math.floor(25 + 75 * rand)}%, ${Math.floor(25 + 75 * rand)}%)`
-    //         default:
-    //             return (rand: number) => undefined
-    //     }
-    // }
-    //#endregion
-    //#region Props relative to drawer
-    ScenePropUtilities.bValueAnimation = function (value) {
-        return (value &&
-            typeof value === 'object' &&
-            value.type &&
-            (value.type === 'simple' || value.type === 'raw') /*|| value.type == 'random'*/);
-    };
-    ScenePropUtilities.bValueDrawer = function (value) {
-        return value && typeof value === 'object' && value.type && value.type === 'drawer-transformation';
-    };
-    ScenePropUtilities.bPropTransformable = function (name, value) {
-        var sceneChildProp = _SceneChildPropsData__WEBPACK_IMPORTED_MODULE_1__.default[name];
-        return (sceneChildProp &&
-            sceneChildProp.transformation !== 'none' &&
-            typeof value !== 'undefined' &&
-            typeof value !== 'function' &&
-            !ScenePropUtilities.bValueAnimation(value));
-    };
-    ScenePropUtilities.getValueDrawerTransformationType = function (name) {
-        var sceneChildProp = _SceneChildPropsData__WEBPACK_IMPORTED_MODULE_1__.default[name];
-        return sceneChildProp && sceneChildProp.transformation !== 'none' ? sceneChildProp.transformation : null;
-    };
-    ScenePropUtilities.getTransformedValue = function (drawer, name, value) {
-        var sceneChildProp = _SceneChildPropsData__WEBPACK_IMPORTED_MODULE_1__.default[name];
-        if (ScenePropUtilities.bPropTransformable(name, value)) {
-            var transformedValueFunction = void 0;
-            switch (sceneChildProp.transformation) {
-                case 'angle':
-                    transformedValueFunction = _Utilites__WEBPACK_IMPORTED_MODULE_0__.toRadians;
-                    break;
-                case 'resolution-based':
-                    transformedValueFunction = drawer.getValueFromResolution.bind(drawer);
-                    break;
-                case 'resolution-scaled-based':
-                    transformedValueFunction = drawer.getValueFromResolutionScaled.bind(drawer);
-                    break;
-            }
-            return transformedValueFunction
-                ? Array.isArray(value)
-                    ? [transformedValueFunction(value[0]), transformedValueFunction(value[1])]
-                    : transformedValueFunction(value)
-                : value;
-        }
-        return value;
-    };
-    ScenePropUtilities.getTransformedValueInverse = function (drawer, name, value) {
-        var sceneChildProp = _SceneChildPropsData__WEBPACK_IMPORTED_MODULE_1__.default[name];
-        if (ScenePropUtilities.bPropTransformable(name, value)) {
-            var transformedValueFunction = void 0;
-            switch (sceneChildProp.transformation) {
-                case 'angle':
-                    transformedValueFunction = _Utilites__WEBPACK_IMPORTED_MODULE_0__.toDegrees;
-                    break;
-                case 'resolution-based':
-                    transformedValueFunction = drawer.getValueFromResolutionScaled.bind(drawer);
-                    break;
-                case 'resolution-scaled-based':
-                    transformedValueFunction = drawer.getValueFromResolution.bind(drawer);
-                    break;
-            }
-            if (transformedValueFunction)
-                return Array.isArray(value)
-                    ? [transformedValueFunction(value[0]), transformedValueFunction(value[1])]
-                    : transformedValueFunction(value);
-        }
-        return value;
-    };
-    ScenePropUtilities.RAW_ARGUMENTS = '{ context, repetition, time, shape, shape_loop, data }';
-    ScenePropUtilities.RAW_ARGUMENTS_WITH_PARENT = '{ context, repetition, parent, time, shape, shape_loop, data }';
-    return ScenePropUtilities;
-}());
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ScenePropUtilities);
-//# sourceMappingURL=ScenePropUtilities.js.map
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SceneChildUtilitiesData);
+//# sourceMappingURL=SceneChildUtilitiesData.js.map
 
 /***/ }),
 
@@ -6879,7 +6850,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/v1.js");
+/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/v1.js");
 /* harmony import */ var _core_SceneChild__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../core/SceneChild */ "./dist/core/SceneChild.js");
 /* harmony import */ var _core_shapes_primitives_Line__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../core/shapes/primitives/Line */ "./dist/core/shapes/primitives/Line.js");
 /* harmony import */ var _core_shapes_primitives_Triangle__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../core/shapes/primitives/Triangle */ "./dist/core/shapes/primitives/Triangle.js");
@@ -6889,16 +6860,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _core_shapes_primitives_Rose__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../core/shapes/primitives/Rose */ "./dist/core/shapes/primitives/Rose.js");
 /* harmony import */ var _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../core/shapes/primitives/Spiral */ "./dist/core/shapes/primitives/Spiral.js");
 /* harmony import */ var _core_shapes_primitives_Lissajous__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../core/shapes/primitives/Lissajous */ "./dist/core/shapes/primitives/Lissajous.js");
-/* harmony import */ var _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../core/shapes/Shape */ "./dist/core/shapes/Shape.js");
-/* harmony import */ var _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../core/shapes/ShapePrimitive */ "./dist/core/shapes/ShapePrimitive.js");
-/* harmony import */ var _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../core/shapes/ShapeLoop */ "./dist/core/shapes/ShapeLoop.js");
-/* harmony import */ var _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../core/shapes/ShapeBuffer */ "./dist/core/shapes/ShapeBuffer.js");
-/* harmony import */ var _core_Scene__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../core/Scene */ "./dist/core/Scene.js");
-/* harmony import */ var _core_Group__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../core/Group */ "./dist/core/Group.js");
-/* harmony import */ var _core_shapes_ShapeBase__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../core/shapes/ShapeBase */ "./dist/core/shapes/ShapeBase.js");
-/* harmony import */ var _SceneChildPropsData__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./SceneChildPropsData */ "./dist/services/scene-utilities/SceneChildPropsData.js");
-/* harmony import */ var _ScenePropUtilities__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./ScenePropUtilities */ "./dist/services/scene-utilities/ScenePropUtilities.js");
-/* harmony import */ var _animation_Animation__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../animation/Animation */ "./dist/services/animation/Animation.js");
+/* harmony import */ var _core_shapes_primitives_SuperShape__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../core/shapes/primitives/SuperShape */ "./dist/core/shapes/primitives/SuperShape.js");
+/* harmony import */ var _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../core/shapes/Shape */ "./dist/core/shapes/Shape.js");
+/* harmony import */ var _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../core/shapes/ShapePrimitive */ "./dist/core/shapes/ShapePrimitive.js");
+/* harmony import */ var _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../core/shapes/ShapeLoop */ "./dist/core/shapes/ShapeLoop.js");
+/* harmony import */ var _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../core/shapes/ShapeBuffer */ "./dist/core/shapes/ShapeBuffer.js");
+/* harmony import */ var _core_Scene__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../core/Scene */ "./dist/core/Scene.js");
+/* harmony import */ var _core_Group__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../core/Group */ "./dist/core/Group.js");
+/* harmony import */ var _core_shapes_ShapeBase__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../../core/shapes/ShapeBase */ "./dist/core/shapes/ShapeBase.js");
+/* harmony import */ var _animation_Animation__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../animation/Animation */ "./dist/services/animation/Animation.js");
+/* harmony import */ var _SceneChildUtilitiesData__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./SceneChildUtilitiesData */ "./dist/services/scene-utilities/SceneChildUtilitiesData.js");
+/* harmony import */ var _SceneUtilitiesExtended__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./SceneUtilitiesExtended */ "./dist/services/scene-utilities/SceneUtilitiesExtended.js");
 var __spreadArrays = (undefined && undefined.__spreadArrays) || function () {
     for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
     for (var r = Array(s), k = 0, i = 0; i < il; i++)
@@ -6909,6 +6881,7 @@ var __spreadArrays = (undefined && undefined.__spreadArrays) || function () {
 
 
 // Shapes
+
 
 
 
@@ -6945,10 +6918,11 @@ var SceneUtilities = /** @class */ (function () {
             Rose: _core_shapes_primitives_Rose__WEBPACK_IMPORTED_MODULE_6__.default,
             Spiral: _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_7__.default,
             Lissajous: _core_shapes_primitives_Lissajous__WEBPACK_IMPORTED_MODULE_8__.default,
-            Group: _core_Group__WEBPACK_IMPORTED_MODULE_14__.default,
-            Shape: _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_9__.default,
-            ShapeLoop: _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_11__.default,
-            ShapeBuffer: _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_12__.default,
+            SuperShape: _core_shapes_primitives_SuperShape__WEBPACK_IMPORTED_MODULE_9__.default,
+            Group: _core_Group__WEBPACK_IMPORTED_MODULE_15__.default,
+            Shape: _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_10__.default,
+            ShapeLoop: _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_12__.default,
+            ShapeBuffer: _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_13__.default,
         };
     }
     //#region Register scene child
@@ -6998,45 +6972,47 @@ var SceneUtilities = /** @class */ (function () {
      *
      *
      * @param {(string | SceneChild)} item
-     * @param {TSceneChildProps} [props]
+     * @param {TSceneChildUtilitiesSettings} [setting]
      * @param {Scene} [scene]
-     * @param {DrawerCanvas} [drawer]
      * @returns {(SceneChild | null)}
      * @memberof SceneUtilities
      */
-    SceneUtilities.prototype.create = function (item, props, scene, drawer) {
+    SceneUtilities.prototype.create = function (item, settings, scene) {
         var _this = this;
         var _a;
         scene = scene ? scene : typeof item !== 'string' ? item.scene : undefined;
         if (item instanceof _core_SceneChild__WEBPACK_IMPORTED_MODULE_0__.default) {
-            this.getChildren(item).forEach(function (child) { return _this.create(child, undefined, scene, drawer); });
+            this.getChildren(item).forEach(function (child) { return _this.create(child, undefined, scene); });
             return item;
         }
         if (item in this.registeredSceneChilds) {
-            if (!props)
-                props = {};
-            props.id = props.id || (0,uuid__WEBPACK_IMPORTED_MODULE_19__.default)();
-            if (!props.name && scene)
-                props.name = item + '_' + (this.getCountSceneChildOfType(scene, item) + 1);
-            if (!props.data)
-                props.data = {};
-            if (!('props' in props.data))
-                props.data.props = {};
-            if (!('visible' in props.data))
-                props.data.visible = true;
-            if (!('highlighted' in props.data))
-                props.data.highlighted = false;
-            if (!('disableGhost' in props.data))
-                props.data.disableGhost = false;
-            if (item === 'ShapeLoop') {
-                if (!('loop' in props))
-                    props.loop = { start: 0, end: Math.PI * 2, inc: (Math.PI * 2) / 20 };
-            }
-            var sceneChild = new this.registeredSceneChilds[item](props);
-            if (sceneChild && drawer && this.isAPrimitive(sceneChild)) {
-                var sideLength = (_a = _SceneChildPropsData__WEBPACK_IMPORTED_MODULE_16__.default.sideLength) === null || _a === void 0 ? void 0 : _a.default;
-                sceneChild.setProp('sideLength', _ScenePropUtilities__WEBPACK_IMPORTED_MODULE_17__.default.getTransformedValue(drawer, 'sideLength', sideLength));
-                sceneChild.data.props.sideLength = sideLength;
+            if (!settings)
+                settings = {};
+            settings.id = settings.id || (0,uuid__WEBPACK_IMPORTED_MODULE_20__.default)();
+            if (!settings.name && scene)
+                settings.name = item + '_' + (this.getCountSceneChildOfType(scene, item) + 1);
+            if (!settings.data)
+                settings.data = {};
+            if (!('props' in settings.data))
+                settings.data.props = {};
+            if (!('style' in settings.data))
+                settings.data.style = {};
+            if (!('visible' in settings.data))
+                settings.data.visible = true;
+            // if (!('highlighted' in settings.data)) settings.data.highlighted = false
+            // if (!('disableGhost' in settings.data)) settings.data.disableGhost = false
+            // if (item === 'ShapeLoop') {
+            // 	if (!('loop' in settings)) settings.loop = { start: 0, end: Math.PI * 2, inc: (Math.PI * 2) / 20 }
+            // }
+            var sceneChild = new this.registeredSceneChilds[item](settings);
+            if (sceneChild && scene && this.isAPrimitive(sceneChild)) {
+                this.set(sceneChild, 'sideLength', { type: 'transformable-prop', value: (_a = _SceneChildUtilitiesData__WEBPACK_IMPORTED_MODULE_18__.default.sideLength) === null || _a === void 0 ? void 0 : _a.default }, scene);
+                // this.setProp(
+                // 	sceneChild,
+                // 	'sideLength',
+                // 	{ type: 'transformable-prop', value: SceneChildUtilitiesData.sideLength?.default },
+                // 	scene
+                // )
             }
             this.getChildren(sceneChild).forEach(function (child) { return _this.create(child); });
             return sceneChild;
@@ -7054,7 +7030,7 @@ var SceneUtilities = /** @class */ (function () {
      */
     SceneUtilities.prototype.getCountSceneChildOfType = function (scene, type) {
         var count = 0;
-        _core_Scene__WEBPACK_IMPORTED_MODULE_13__.default.walk(function (sceneChild) {
+        _core_Scene__WEBPACK_IMPORTED_MODULE_14__.default.walk(function (sceneChild) {
             count += sceneChild.type == type ? 1 : 0;
         }, scene);
         return count;
@@ -7064,52 +7040,52 @@ var SceneUtilities = /** @class */ (function () {
      *
      * @param {SceneChild} sceneChild
      * @param {Scene} [scene]
-     * @param {DrawerCanvas} [drawer]
      * @param {boolean} [strict]
      * @returns {(SceneChild | null)}
      * @memberof SceneUtilities
      */
-    SceneUtilities.prototype.copy = function (sceneChild, scene, drawer, strict) {
+    SceneUtilities.prototype.copy = function (sceneChild, scene, strict) {
         var _this = this;
         if (strict === void 0) { strict = false; }
         // copy only props, without name, id
-        var props = sceneChild.getProps();
-        if (sceneChild instanceof _core_shapes_ShapeBase__WEBPACK_IMPORTED_MODULE_15__.default) {
-            props.bUseParent = sceneChild.bUseParent;
+        var setting = sceneChild.getProps();
+        if (sceneChild instanceof _core_shapes_ShapeBase__WEBPACK_IMPORTED_MODULE_16__.default) {
+            setting.bUseParent = sceneChild.bUseParent;
+            setting.bUseRecursion = sceneChild.bUseRecursion;
         }
-        if (sceneChild instanceof _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_12__.default) {
-            props.shape = sceneChild.shape;
+        if (sceneChild instanceof _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_13__.default) {
+            setting.shape = sceneChild.shape;
         }
-        if (sceneChild instanceof _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_10__.default) {
-            props.bClosed = sceneChild.bClosed;
-            props.adaptMode = sceneChild.adaptMode;
-            props.vertexCallback = sceneChild.vertexCallback;
+        if (sceneChild instanceof _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_11__.default) {
+            setting.bClosed = sceneChild.bClosed;
+            setting.adaptMode = sceneChild.adaptMode;
+            setting.vertexCallback = sceneChild.vertexCallback;
         }
-        if (sceneChild instanceof _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_11__.default) {
-            props.loopDependencies = sceneChild.loopDependencies;
+        if (sceneChild instanceof _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_12__.default) {
+            setting.loopDependencies = sceneChild.loopDependencies;
         }
-        if (sceneChild instanceof _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_11__.default) {
-            props.loopDependencies = sceneChild.loopDependencies;
+        if (sceneChild instanceof _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_12__.default) {
+            setting.loopDependencies = sceneChild.loopDependencies;
         }
         if (strict) {
-            props.id = sceneChild.id;
-            props.name = sceneChild.name;
-            props.order = sceneChild.order;
-            props.data = JSON.parse(JSON.stringify(sceneChild.data || {}));
+            setting.id = sceneChild.id;
+            setting.name = sceneChild.name;
+            setting.order = sceneChild.order;
+            setting.data = JSON.parse(JSON.stringify(sceneChild.data || {}));
         }
-        var copied = this.create(sceneChild.type, props, scene, drawer);
+        var copied = this.create(sceneChild.type, setting, scene);
         if (copied) {
-            if (sceneChild instanceof _core_Group__WEBPACK_IMPORTED_MODULE_14__.default) {
+            if (sceneChild instanceof _core_Group__WEBPACK_IMPORTED_MODULE_15__.default) {
                 sceneChild.getChildren().forEach(function (child) {
-                    var copiedChild = _this.copy(child, scene, drawer);
+                    var copiedChild = _this.copy(child, scene);
                     copiedChild && copied.add(copiedChild);
                 });
             }
-            else if (sceneChild instanceof _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_9__.default && copied instanceof _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_9__.default && sceneChild.shape) {
-                var copiedShape = this.copy(sceneChild.shape, scene, drawer);
+            else if (sceneChild instanceof _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_10__.default && copied instanceof _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_10__.default && sceneChild.shape) {
+                var copiedShape = this.copy(sceneChild.shape, scene);
                 copiedShape && (copied.shape = copiedShape);
             }
-            else if (sceneChild instanceof _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_12__.default && copied instanceof _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_12__.default && sceneChild.shape) {
+            else if (sceneChild instanceof _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_13__.default && copied instanceof _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_13__.default && sceneChild.shape) {
                 copied.setShape(new Float32Array(sceneChild.shape));
             }
             return copied;
@@ -7123,24 +7099,24 @@ var SceneUtilities = /** @class */ (function () {
      *
      * @param {(SceneChild | Scene)} parent
      * @param {(string | SceneChild)} sceneChild
-     * @param {TSceneChildProps} [props]
+     * @param {TSceneChildUtilityProps} [props]
      * @param {Scene} [scene]
      * @returns {(SceneChild | null)}
      * @memberof SceneUtilities
      */
-    SceneUtilities.prototype.add = function (parent, sceneChild, props, scene) {
+    SceneUtilities.prototype.add = function (parent, sceneChild, settings, scene) {
         var newSceneChild = null;
-        if (parent instanceof _core_Group__WEBPACK_IMPORTED_MODULE_14__.default || parent instanceof _core_Scene__WEBPACK_IMPORTED_MODULE_13__.default) {
-            newSceneChild = this.create(sceneChild, props, scene);
+        if (parent instanceof _core_Group__WEBPACK_IMPORTED_MODULE_15__.default || parent instanceof _core_Scene__WEBPACK_IMPORTED_MODULE_14__.default) {
+            newSceneChild = this.create(sceneChild, settings, scene);
             newSceneChild && parent.add(newSceneChild);
         }
-        else if (parent instanceof _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_9__.default) {
+        else if (parent instanceof _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_10__.default) {
             if (parent.shape == undefined) {
-                newSceneChild = this.create(sceneChild, props, scene);
+                newSceneChild = this.create(sceneChild, settings, scene);
                 newSceneChild && parent.setShape(newSceneChild);
             }
-            else if (parent.shape instanceof _core_shapes_ShapeBase__WEBPACK_IMPORTED_MODULE_15__.default) {
-                newSceneChild = this.create(sceneChild, props, scene);
+            else if (parent.shape instanceof _core_shapes_ShapeBase__WEBPACK_IMPORTED_MODULE_16__.default) {
+                newSceneChild = this.create(sceneChild, settings, scene);
                 if (newSceneChild) {
                     var newGroup = this.create('Group', undefined, scene);
                     var sibling = parent.shape;
@@ -7150,7 +7126,7 @@ var SceneUtilities = /** @class */ (function () {
                     newGroup.add(newSceneChild);
                 }
             }
-            else if (parent.shape instanceof _core_Group__WEBPACK_IMPORTED_MODULE_14__.default) {
+            else if (parent.shape instanceof _core_Group__WEBPACK_IMPORTED_MODULE_15__.default) {
                 this.add(parent.shape, sceneChild, undefined, scene);
             }
         }
@@ -7175,9 +7151,9 @@ var SceneUtilities = /** @class */ (function () {
             }
         }
         else {
-            if (from instanceof _core_Group__WEBPACK_IMPORTED_MODULE_14__.default)
+            if (from instanceof _core_Group__WEBPACK_IMPORTED_MODULE_15__.default)
                 from.removeFromId(item.id);
-            else if (from instanceof _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_9__.default)
+            else if (from instanceof _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_10__.default)
                 from.setShape(undefined);
         }
     };
@@ -7224,9 +7200,9 @@ var SceneUtilities = /** @class */ (function () {
      * @memberof SceneUtilities
      */
     SceneUtilities.prototype.getChildren = function (sceneChild) {
-        if (sceneChild instanceof _core_Group__WEBPACK_IMPORTED_MODULE_14__.default)
+        if (sceneChild instanceof _core_Group__WEBPACK_IMPORTED_MODULE_15__.default)
             return sceneChild.getChildren();
-        return sceneChild instanceof _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_9__.default && sceneChild.shape ? [sceneChild.shape] : [];
+        return sceneChild instanceof _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_10__.default && sceneChild.shape ? [sceneChild.shape] : [];
     };
     /**
      * Return only primitive children
@@ -7239,7 +7215,7 @@ var SceneUtilities = /** @class */ (function () {
         var result = [];
         var children = this.getChildren(sceneChild);
         for (var i = 0, len = children.length; i < len; i++) {
-            if (children[i] instanceof _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_10__.default)
+            if (children[i] instanceof _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_11__.default)
                 result.push(children[i]);
             else
                 result = result.concat.apply(result, this.getChildrenPrimitives(children[i]));
@@ -7270,7 +7246,7 @@ var SceneUtilities = /** @class */ (function () {
      */
     SceneUtilities.prototype.getCountOfSceneChildType = function (scene, type) {
         var count = 0;
-        _core_Scene__WEBPACK_IMPORTED_MODULE_13__.default.walk(function (sceneChild) {
+        _core_Scene__WEBPACK_IMPORTED_MODULE_14__.default.walk(function (sceneChild) {
             count += sceneChild.type == type ? 1 : 0;
         }, scene);
         return count;
@@ -7296,7 +7272,7 @@ var SceneUtilities = /** @class */ (function () {
      * @memberof SceneUtilities
      */
     SceneUtilities.prototype.isGroup = function (sceneChild) {
-        return sceneChild instanceof _core_Group__WEBPACK_IMPORTED_MODULE_14__.default;
+        return sceneChild instanceof _core_Group__WEBPACK_IMPORTED_MODULE_15__.default;
     };
     /**
      * Check sceneChild are Shape and has a child
@@ -7306,7 +7282,7 @@ var SceneUtilities = /** @class */ (function () {
      * @memberof SceneUtilities
      */
     SceneUtilities.prototype.hasShapeChild = function (sceneChild) {
-        return sceneChild instanceof _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_9__.default ? sceneChild.shape !== undefined : false;
+        return sceneChild instanceof _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_10__.default ? sceneChild.shape !== undefined : false;
     };
     /**
      * Check sceneChild is a ShapeBuffer an are binded
@@ -7316,7 +7292,7 @@ var SceneUtilities = /** @class */ (function () {
      * @memberof SceneUtilities
      */
     SceneUtilities.prototype.hasShapeBuffer = function (sceneChild) {
-        return sceneChild instanceof _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_12__.default;
+        return sceneChild instanceof _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_13__.default;
     };
     /**
      * Check scene child is a Primitive
@@ -7326,7 +7302,7 @@ var SceneUtilities = /** @class */ (function () {
      * @memberof SceneUtilities
      */
     SceneUtilities.prototype.isAPrimitive = function (sceneChild) {
-        return sceneChild instanceof _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_10__.default;
+        return sceneChild instanceof _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_11__.default;
     };
     /**
      * Check scene child is a ShapeLoop
@@ -7336,91 +7312,144 @@ var SceneUtilities = /** @class */ (function () {
      * @memberof SceneUtilities
      */
     SceneUtilities.prototype.hasLoop = function (sceneChild) {
-        return sceneChild instanceof _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_11__.default;
+        return sceneChild instanceof _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_12__.default;
     };
     //#endregion
+    SceneUtilities.prototype.set = function (sceneChild, name, value, scene) {
+        switch (_SceneChildUtilitiesData__WEBPACK_IMPORTED_MODULE_18__.default[name].dataType) {
+            case 'props':
+                return this.setProp(sceneChild, name, value, scene);
+            case 'drawer':
+                return this.setDrawerProp(sceneChild, name, value, scene);
+            case 'settings':
+                return this.setSetting(sceneChild, name, value, scene);
+        }
+    };
     /**
-     * Set UISceneChild prop, convert animation on transformable props
+     * Set prop: convert animation or transformable props
      *
      * @static
      * @param {SceneChild} sceneChild
-     * @param {*} value
-     * @param {DrawerCanvas} drawer
+     * @param {TSceheChildUtilityPropValue} value
+     * @param {Scene} scene
      * @memberof SceneUtilities
      */
-    SceneUtilities.prototype.setProp = function (sceneChild, name, value, drawer) {
-        var _a, _b;
+    SceneUtilities.prototype.setProp = function (sceneChild, name, value, scene) {
         if (typeof sceneChild.data === 'undefined') {
-            sceneChild.data = { props: [] };
+            sceneChild.data = { props: {} };
         }
         else if (typeof sceneChild.data.props === 'undefined') {
-            sceneChild.data.props = [];
+            sceneChild.data.props = {};
         }
-        if (_ScenePropUtilities__WEBPACK_IMPORTED_MODULE_17__.default.bValueAnimation(value)) {
-            sceneChild.data.props[name] = value;
-            sceneChild.setProp(name, _animation_Animation__WEBPACK_IMPORTED_MODULE_18__.default.composeAnimation(drawer, name, value));
-            return;
-        }
+        // Check LoopAnimation
         if (name === 'loop') {
-            if (sceneChild instanceof _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_11__.default && _ScenePropUtilities__WEBPACK_IMPORTED_MODULE_17__.default.bValueLoop(value)) {
+            if (sceneChild instanceof _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_12__.default && _SceneUtilitiesExtended__WEBPACK_IMPORTED_MODULE_19__.default.bValueLoop(value)) {
+                var shapeLoopAnimation = value;
                 sceneChild.data.props.loop = value;
-                sceneChild.setProp('loop', _ScenePropUtilities__WEBPACK_IMPORTED_MODULE_17__.default.composeLoop(value));
-                var dynamic = value.dynamyc;
-                var realDynamic = sceneChild.loopDependencies.indexOf('prop_argumens') >= 0;
+                sceneChild.setProp('loop', _SceneUtilitiesExtended__WEBPACK_IMPORTED_MODULE_19__.default.composeLoop(shapeLoopAnimation));
+                // Set loopDependencies
+                var dynamic = shapeLoopAnimation.dynamyc;
+                var realDynamic = sceneChild.loopDependencies.indexOf('propArguments') >= 0;
                 if (dynamic !== realDynamic) {
                     var dependencies = __spreadArrays(sceneChild.loopDependencies);
                     if (dynamic)
-                        !(dependencies.indexOf('prop_argumens') >= 0) && dependencies.push('propArguments');
+                        !(dependencies.indexOf('propArguments') >= 0) && dependencies.push('propArguments');
                     else
-                        dependencies.indexOf('prop_argumens') >= 0 && dependencies.splice(dependencies.indexOf('propArguments', 1));
+                        dependencies.indexOf('propArguments') >= 0 && dependencies.splice(dependencies.indexOf('propArguments', 1));
                     sceneChild.loopDependencies = dependencies;
                 }
                 sceneChild.clearBuffer(true, true);
             }
             return;
         }
+        // Check Animation
+        if (_SceneUtilitiesExtended__WEBPACK_IMPORTED_MODULE_19__.default.bValueAnimation(value)) {
+            sceneChild.data.props[name] = value;
+            sceneChild.setProp(name, _animation_Animation__WEBPACK_IMPORTED_MODULE_17__.default.composeAnimation(scene, name, value));
+            return;
+        }
+        // Check Transormable prop
+        if (_SceneUtilitiesExtended__WEBPACK_IMPORTED_MODULE_19__.default.bPropInSceneChildUtilitiesData(name) &&
+            _SceneUtilitiesExtended__WEBPACK_IMPORTED_MODULE_19__.default.bValueTransformable(value)) {
+            sceneChild.data.props[name] = value;
+            sceneChild.setProp(name, _SceneUtilitiesExtended__WEBPACK_IMPORTED_MODULE_19__.default.getTransformedValue(scene, name, value));
+            return;
+        }
+        // Otherwise, set prop without transformation
+        //Equivalent of: if (name in SceneChildPropsData && SceneChildPropsData[name].transformation !== 'none')
+        sceneChild.setProp(name, value);
+        delete sceneChild.data.props[name];
+        // Not set to data because exporter override sceneChild.data.props on sceneChild.props (default)
+        //sceneChild.data.props[name] = value
+    };
+    /**
+     * Set prop, convert raw function, animation on transformable prop
+     *
+     * @static
+     * @param {SceneChild} sceneChild
+     * @param {TDrawerPropsExtendedKeys} name
+     * @param {*} value
+     * @param {Scene} scene
+     * @memberof SceneUtilities
+     */
+    SceneUtilities.prototype.setDrawerProp = function (sceneChild, name, value, scene) {
+        if (this.isAPrimitive(sceneChild)) {
+            if (typeof sceneChild.data === 'undefined') {
+                sceneChild.data = { style: {} };
+            }
+            else if (typeof sceneChild.data.style === 'undefined') {
+                sceneChild.data.style = {};
+            }
+            if (_SceneUtilitiesExtended__WEBPACK_IMPORTED_MODULE_19__.default.bValueAnimation(value)) {
+                sceneChild.data.style[name] = value;
+                sceneChild.style[name] = _animation_Animation__WEBPACK_IMPORTED_MODULE_17__.default.composeAnimation(scene, name, value);
+                return;
+            }
+            // Otherwise, set prop without transformation
+            //Equivalent of: if (name in SceneChildPropsData && SceneChildPropsData[name].transformation !== 'none')
+            // @ts-ignore
+            sceneChild.style[name] = value;
+            delete sceneChild.data.style[name];
+        }
+    };
+    /**
+     * TODO:
+     * Set Args (props, drawer, other settings)
+     * SceneChildPropData refactoring
+     */
+    SceneUtilities.prototype.setSetting = function (sceneChild, name, value, scene) {
         if (name === 'vertexCallback') {
-            if (sceneChild instanceof _core_shapes_ShapeBase__WEBPACK_IMPORTED_MODULE_15__.default && _ScenePropUtilities__WEBPACK_IMPORTED_MODULE_17__.default.bValueVertexCallback(value)) {
-                sceneChild.data.props.vertexCallback = value;
-                sceneChild.vertexCallback = _ScenePropUtilities__WEBPACK_IMPORTED_MODULE_17__.default.composeVertexCallback(value);
-                sceneChild.bUseParent = true;
+            if (sceneChild instanceof _core_shapes_ShapeBase__WEBPACK_IMPORTED_MODULE_16__.default && _SceneUtilitiesExtended__WEBPACK_IMPORTED_MODULE_19__.default.bValueVertexCallback(value)) {
+                sceneChild.data.vertexCallback = value;
+                sceneChild.vertexCallback = _SceneUtilitiesExtended__WEBPACK_IMPORTED_MODULE_19__.default.composeVertexCallback(value);
+                // If shape is static vertexCallback has no effect
+                // sceneChild.bUseParent = true
                 sceneChild.clearBuffer(true, true);
             }
             return;
         }
-        if (_ScenePropUtilities__WEBPACK_IMPORTED_MODULE_17__.default.bPropTransformable(name, value)) {
-            if (_ScenePropUtilities__WEBPACK_IMPORTED_MODULE_17__.default.bValueDrawer(value)) {
-                sceneChild.data.props[name] = value;
-                sceneChild.setProp(name, _ScenePropUtilities__WEBPACK_IMPORTED_MODULE_17__.default.getTransformedValue(drawer, name, value.value));
-            }
-            else {
-                sceneChild.setProp(name, value);
-            }
-            return;
-        }
-        if (name in _SceneChildPropsData__WEBPACK_IMPORTED_MODULE_16__.default && _SceneChildPropsData__WEBPACK_IMPORTED_MODULE_16__.default[name].transformation !== 'none')
-            sceneChild.data.props[name] = value;
         switch (name) {
             case 'bUseParent':
-                if (sceneChild instanceof _core_shapes_ShapeBase__WEBPACK_IMPORTED_MODULE_15__.default)
+                if (sceneChild instanceof _core_shapes_ShapeBase__WEBPACK_IMPORTED_MODULE_16__.default)
                     sceneChild.bUseParent = value;
                 break;
+            case 'bUseRecursion':
+                if (sceneChild instanceof _core_shapes_ShapeBase__WEBPACK_IMPORTED_MODULE_16__.default)
+                    sceneChild.bUseRecursion = value;
+                break;
             case 'bClosed':
-                if (sceneChild instanceof _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_10__.default)
+                if (sceneChild instanceof _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_11__.default)
                     sceneChild.setClosed(value);
                 break;
-            case 'bAdaptBuffer':
-                if (sceneChild instanceof _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_10__.default)
+            case 'adaptMode':
+                if (sceneChild instanceof _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_11__.default)
                     sceneChild.adapt(value);
                 break;
             default:
-                // loop
-                if (name.indexOf('.') > 0) {
-                    var splitted = name.split('.');
-                    sceneChild.setProp((_a = {}, _a[splitted[0]] = (_b = {}, _b[splitted[1]] = value, _b), _a));
+                if (typeof sceneChild[name] !== 'undefined') {
+                    //@ts-ignore
+                    sceneChild[name] = value;
                 }
-                else
-                    sceneChild.setProp(name, value);
                 break;
         }
     };
@@ -7428,6 +7457,203 @@ var SceneUtilities = /** @class */ (function () {
 }());
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new SceneUtilities());
 //# sourceMappingURL=SceneUtilities.js.map
+
+/***/ }),
+
+/***/ "./dist/services/scene-utilities/SceneUtilitiesExtended.js":
+/*!*****************************************************************!*\
+  !*** ./dist/services/scene-utilities/SceneUtilitiesExtended.js ***!
+  \*****************************************************************/
+/*! namespace exports */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Utilites */ "./dist/Utilites.js");
+/* harmony import */ var _SceneChildUtilitiesData__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SceneChildUtilitiesData */ "./dist/services/scene-utilities/SceneChildUtilitiesData.js");
+;
+
+/**
+ *
+ * @category Services.Scene Utilities
+ * @class SceneUtilitiesExtended
+ */
+var SceneUtilitiesExtended = /** @class */ (function () {
+    function SceneUtilitiesExtended() {
+    }
+    //#region ShapeLoop
+    SceneUtilitiesExtended.bValueLoop = function (value) {
+        return (typeof value === 'object' &&
+            'start' in value &&
+            'end' in value &&
+            'inc' in value &&
+            'vertex' in value &&
+            value.vertex.raw &&
+            value.vertex.raw.length > 0);
+    };
+    SceneUtilitiesExtended.bValueVertexCallback = function (value) {
+        return value && value.raw && value.raw.length > 0;
+    };
+    SceneUtilitiesExtended.composeVertexCallback = function (value) {
+        if (value && value.raw) {
+            var vertexCallback = new Function('vertex', 'vertexRepetition', SceneUtilitiesExtended.RAW_ARGUMENTS, "return " + value.raw);
+            return vertexCallback;
+        }
+    };
+    SceneUtilitiesExtended.composeLoop = function (loop) {
+        var vertex = loop.vertex.raw
+            ? new Function('shapeLoopRepetition', SceneUtilitiesExtended.RAW_ARGUMENTS, "return " + loop.vertex.raw)
+            : undefined;
+        //Todo: number -> resolve function
+        return {
+            start: loop.start,
+            end: loop.end,
+            inc: loop.inc,
+            vertex: vertex,
+        };
+    };
+    //#endregion
+    // static getRandomFunctionForProp(name): (rand: number) => any {
+    //     const prop: ISceneChildProp = UISceneChildUtilitiesStatic.sceneChildProps[name]
+    //     switch (prop.type)
+    //     {
+    //         case 'multiple-range': case 'range': case 'slider':
+    //             return (rand: number) => {
+    //                 const min = prop.min as number / 2
+    //                 const max = prop.max as number / 2
+    //                 const value = min + ((max - min) * rand)
+    //                 return prop.bAngle ? toRadians(value) : value
+    //             }
+    //         case 'color':
+    //             return (rand: number) => `hsl(${Math.floor(360 * rand)}, ${Math.floor(25 + 75 * rand)}%, ${Math.floor(25 + 75 * rand)}%)`
+    //         default:
+    //             return (rand: number) => undefined
+    //     }
+    // }
+    //#endregion
+    //#region Props relative to drawer
+    /**
+     * Check value is TAnimation
+     * @param value
+     */
+    SceneUtilitiesExtended.bValueAnimation = function (value) {
+        return (value &&
+            typeof value === 'object' &&
+            value.type &&
+            (value.type === 'simple' || value.type === 'raw') /*|| value.type == 'random'*/);
+    };
+    /**
+     * Check value is TTransformableProp
+     * @param value
+     */
+    SceneUtilitiesExtended.bValueTransformable = function (value) {
+        return (value !== null &&
+            typeof value === 'object' &&
+            typeof value.type === 'string' &&
+            value.type === 'transformable-prop');
+    };
+    /**
+     * Check the prop need transformation when set
+     * @param name
+     */
+    SceneUtilitiesExtended.bPropInSceneChildUtilitiesData = function (name) {
+        return (typeof _SceneChildUtilitiesData__WEBPACK_IMPORTED_MODULE_1__.default[name] !== 'undefined' && _SceneChildUtilitiesData__WEBPACK_IMPORTED_MODULE_1__.default[name].transformation !== 'none');
+    };
+    /**
+     * Transform value
+     * @param scene
+     * @param name
+     * @param value
+     */
+    SceneUtilitiesExtended.getTransformedValue = function (scene, name, value) {
+        var sceneChildProp = _SceneChildUtilitiesData__WEBPACK_IMPORTED_MODULE_1__.default[name];
+        if (SceneUtilitiesExtended.bPropInSceneChildUtilitiesData(name) &&
+            SceneUtilitiesExtended.bValueTransformable(value)) {
+            value = value.value;
+            var sceneX = name === 'distance' ? scene.height : scene.width;
+            var sceneY = name === 'distance' ? scene.width : scene.height;
+            switch (sceneChildProp.transformation) {
+                case 'angle':
+                    if (Array.isArray(value)) {
+                        return [(0,_Utilites__WEBPACK_IMPORTED_MODULE_0__.toRadians)(value[0]), (0,_Utilites__WEBPACK_IMPORTED_MODULE_0__.toRadians)(value[1])];
+                    }
+                    return (0,_Utilites__WEBPACK_IMPORTED_MODULE_0__.toRadians)(value);
+                case 'scene-size-percentage': {
+                    if (typeof scene !== 'undefined') {
+                        if (Array.isArray(value)) {
+                            return [(value[0] * sceneX) / 100, (value[1] * sceneY) / 100];
+                        }
+                        return (value * (scene.center[0] + scene.center[1])) / 100;
+                    }
+                    break;
+                }
+                case 'scene-size-percentage-inverse': {
+                    if (typeof scene !== 'undefined') {
+                        if (Array.isArray(value)) {
+                            return [(value[0] * 100) / sceneX, (value[1] * 100) / sceneY];
+                        }
+                        return (value * 100) / (scene.center[0] + scene.center[1]);
+                    }
+                    break;
+                }
+            }
+        }
+        return value;
+    };
+    /**
+     * Transform value inverse
+     * @param scene
+     * @param name
+     * @param value
+     */
+    SceneUtilitiesExtended.getTransformedValueInverse = function (scene, name, value) {
+        var sceneChildProp = _SceneChildUtilitiesData__WEBPACK_IMPORTED_MODULE_1__.default[name];
+        if (SceneUtilitiesExtended.bPropInSceneChildUtilitiesData(name) &&
+            SceneUtilitiesExtended.bValueTransformable(value)) {
+            value = value.value;
+            var sceneX = name === 'distance' ? scene.height : scene.width;
+            var sceneY = name === 'distance' ? scene.width : scene.height;
+            switch (sceneChildProp.transformation) {
+                case 'angle': {
+                    if (Array.isArray(value)) {
+                        return [(0,_Utilites__WEBPACK_IMPORTED_MODULE_0__.toDegrees)(value[0]), (0,_Utilites__WEBPACK_IMPORTED_MODULE_0__.toDegrees)(value[1])];
+                    }
+                    return (0,_Utilites__WEBPACK_IMPORTED_MODULE_0__.toDegrees)(value);
+                }
+                case 'scene-size-percentage': {
+                    if (typeof scene !== 'undefined') {
+                        if (Array.isArray(value)) {
+                            return [(value[0] * 100) / sceneX, (value[1] * 100) / sceneY];
+                        }
+                        return (value * 100) / (scene.center[0] + scene.center[1]);
+                    }
+                    break;
+                }
+                case 'scene-size-percentage-inverse': {
+                    if (typeof scene !== 'undefined') {
+                        if (Array.isArray(value)) {
+                            return [(value[0] * sceneX) / 100, (value[1] * sceneY) / 100];
+                        }
+                        return (value * (scene.center[0] + scene.center[1])) / 100;
+                    }
+                    break;
+                }
+            }
+        }
+        return value;
+    };
+    SceneUtilitiesExtended.RAW_ARGUMENTS = '{ context, repetition, time, shape, shape_loop, data }';
+    SceneUtilitiesExtended.RAW_ARGUMENTS_WITH_PARENT = '{ context, repetition, parent, time, shape, shape_loop, data }';
+    return SceneUtilitiesExtended;
+}());
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SceneUtilitiesExtended);
+//# sourceMappingURL=SceneUtilitiesExtended.js.map
 
 /***/ }),
 
@@ -7694,6 +7920,11 @@ var Timeline = /** @class */ (function (_super) {
     Timeline.prototype.setFrame = function (frame) {
         this.current_frame = (0,_core_math__WEBPACK_IMPORTED_MODULE_0__.pmod)(frame, this.sequence.frames);
         this.current_time = this.getFrameTime(this.current_frame);
+        this.dispatch('timeline:progress', {
+            current_frame: this.current_frame,
+            current_time: this.current_time,
+            fps: this.fps,
+        });
     };
     /**
      * Return tick time (based on framerate)
@@ -7720,6 +7951,11 @@ var Timeline = /** @class */ (function (_super) {
         time = (0,_core_math__WEBPACK_IMPORTED_MODULE_0__.pmod)(time, this.sequence.durate);
         this.current_time = time;
         this.current_frame = this.getFrameAtTime(time);
+        this.dispatch('timeline:progress', {
+            current_frame: this.current_frame,
+            current_time: this.current_time,
+            fps: this.fps,
+        });
     };
     /**
      * Animation status started
@@ -11901,18 +12137,13 @@ __webpack_require__.r(__webpack_exports__);
 // Unique ID creation requires a high quality random # generator. In the browser we therefore
 // require the crypto API and do not support built-in fallback to lower quality random number
 // generators (like Math.random()).
-var getRandomValues;
+// getRandomValues needs to be invoked in a context where "this" is a Crypto implementation. Also,
+// find the complete implementation of crypto (msCrypto) on IE11.
+var getRandomValues = typeof crypto !== 'undefined' && crypto.getRandomValues && crypto.getRandomValues.bind(crypto) || typeof msCrypto !== 'undefined' && typeof msCrypto.getRandomValues === 'function' && msCrypto.getRandomValues.bind(msCrypto);
 var rnds8 = new Uint8Array(16);
 function rng() {
-  // lazy load so that environments that need to polyfill have a chance to do so
   if (!getRandomValues) {
-    // getRandomValues needs to be invoked in a context where "this" is a Crypto implementation. Also,
-    // find the complete implementation of crypto (msCrypto) on IE11.
-    getRandomValues = typeof crypto !== 'undefined' && crypto.getRandomValues && crypto.getRandomValues.bind(crypto) || typeof msCrypto !== 'undefined' && typeof msCrypto.getRandomValues === 'function' && msCrypto.getRandomValues.bind(msCrypto);
-
-    if (!getRandomValues) {
-      throw new Error('crypto.getRandomValues() not supported. See https://github.com/uuidjs/uuid#getrandomvalues-not-supported');
-    }
+    throw new Error('crypto.getRandomValues() not supported. See https://github.com/uuidjs/uuid#getrandomvalues-not-supported');
   }
 
   return getRandomValues(rnds8);

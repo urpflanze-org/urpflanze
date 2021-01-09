@@ -1,3 +1,9 @@
+## 0.2.3-beta (January 9, 2021)
+
+### Core
+
+- Fix parent when indexing
+
 ## 0.2.2-beta (December 14, 2020)
 
 ### Core

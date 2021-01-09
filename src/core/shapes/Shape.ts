@@ -97,7 +97,6 @@ class Shape<K extends ISceneChildProps = ISceneChildProps> extends ShapeBase<K> 
 	protected generateBuffer(generateId: number, propArguments: ISceneChildPropArguments): Float32Array {
 		if (this.shape) {
 			this.shape.generate(generateId, false, propArguments)
-
 			return this.shape.getBuffer() || Shape.EMPTY_BUFFER
 		}
 
@@ -174,19 +173,30 @@ class Shape<K extends ISceneChildProps = ISceneChildProps> extends ShapeBase<K> 
 	 */
 	static setIndexedParent(
 		current: IBufferIndex | IParentBufferIndex,
-		parent: IParentBufferIndex,
-		maxLevel?: number,
-		currentLevel = 0
+		parent: IParentBufferIndex
 	): IBufferIndex | IParentBufferIndex {
 		return {
 			shape: current.shape,
 			// singleRepetitionBounding: current.singleRepetitionBounding,
-			repetition: current.repetition,
+			repetition: {
+				type: current.repetition.type,
+				angle: current.repetition.angle,
+				index: current.repetition.index,
+				count: current.repetition.count,
+				offset: current.repetition.offset,
+				row: {
+					index: current.repetition.row.index,
+					count: current.repetition.row.count,
+					offset: current.repetition.row.offset,
+				},
+				col: {
+					index: current.repetition.col.index,
+					count: current.repetition.col.count,
+					offset: current.repetition.col.offset,
+				},
+			},
 			frameLength: current.frameLength,
-			parent:
-				current.parent && typeof maxLevel !== 'undefined' && currentLevel < maxLevel
-					? Shape.setIndexedParent(current.parent, parent, maxLevel, currentLevel++)
-					: parent,
+			parent: current.parent ? Shape.setIndexedParent(current.parent, parent) : parent,
 		}
 	}
 
