@@ -30,7 +30,7 @@
 					return Urpflanze.Animation.static({
 						from: 0,
 						to: 1,
-						durate: 1000,
+						duration: 1000,
 						delay: 1000 * (propArguments.parent.recursion.level.index - 1),
 						mode: 'easing',
 						modeFunction: 'sinusoidalInOut',
@@ -61,7 +61,7 @@
 			scene.add(recursion)
 
 			const drawer = new Urpflanze.DrawerCanvas(scene, document.body)
-			drawer.getTimeline().setDurate(6000)
+			drawer.getTimeline().setDuration(6000)
 			drawer.startAnimation()
 		</script>
 	</body>

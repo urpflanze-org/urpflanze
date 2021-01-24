@@ -37,7 +37,7 @@ const drawer = new Urpflanze.DrawerCanvas(scene, document.body)
 
 const timeline = drawer.getTimeline()
 timeline.setFramerate(4) // Set animation framerate
-timeline.setDurate(4000) // Set animation duration
+timeline.setDuration(4000) // Set animation duration
 
 drawer.startAnimation()
 </script>
@@ -90,26 +90,26 @@ const circles = new Urpflanze.Circle({
     scale: Urpflanze.Animation.loop({
         from: 0.6,
         to: 0.1,
-        durate: 2000,
+        duration: 2000,
         mode: 'easing',
         modeFunction: 'quadraticInOut'
     }),
     distance: Urpflanze.Animation.loop({
         from: 20,
         to: 100,
-        durate: 2000
+        duration: 2000
     }),
     displace: Urpflanze.Animation.uncontrolledLoop({
         from: 0,
         to: Math.PI * 2,
-        durate: 4000,
+        duration: 4000,
         mode: 'easing',
         modeFunction: 'linear'
     }),
     rotateX: Urpflanze.Animation.uncontrolledLoop({
         from: 0,
         to: Math.PI * 2,
-        durate: 4000,
+        duration: 4000,
     }),
 
     style: {
@@ -117,7 +117,7 @@ const circles = new Urpflanze.Circle({
             from: 'hsl(0, 50%, 50%)',
             to: 'hsl(140, 100%, 40%)',
             colorTransitionMode: 'rgb',
-            durate: 2000,
+            duration: 2000,
         })
     }
 })

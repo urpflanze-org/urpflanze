@@ -17544,7 +17544,7 @@
 						"order": 9999
 					},
 					{
-						"name": "durate",
+						"name": "duration",
 						"description": "duration",
 						"type": {
 							"type": "intrinsic",
@@ -17611,7 +17611,7 @@
 						"order": 9999
 					},
 					{
-						"name": "durate",
+						"name": "duration",
 						"description": "duration",
 						"type": {
 							"type": "intrinsic",
@@ -17678,7 +17678,7 @@
 						"order": 9999
 					},
 					{
-						"name": "durate",
+						"name": "duration",
 						"description": "duration",
 						"type": {
 							"type": "intrinsic",
@@ -17742,7 +17742,7 @@
 						"order": 9999
 					},
 					{
-						"name": "durate",
+						"name": "duration",
 						"type": {
 							"type": "intrinsic",
 							"name": "number"
@@ -17784,7 +17784,7 @@
 						"order": 9999
 					},
 					{
-						"name": "durate",
+						"name": "duration",
 						"type": {
 							"type": "intrinsic",
 							"name": "number"
@@ -17826,7 +17826,7 @@
 						"order": 9999
 					},
 					{
-						"name": "durate",
+						"name": "duration",
 						"type": {
 							"type": "intrinsic",
 							"name": "number"
@@ -17871,7 +17871,7 @@
 						"order": 9999
 					},
 					{
-						"name": "durate",
+						"name": "duration",
 						"description": "duration",
 						"type": {
 							"type": "intrinsic",
@@ -17917,7 +17917,7 @@
 						"order": 9999
 					},
 					{
-						"name": "durate",
+						"name": "duration",
 						"description": "duration",
 						"type": {
 							"type": "intrinsic",
@@ -17963,7 +17963,7 @@
 						"order": 9999
 					},
 					{
-						"name": "durate",
+						"name": "duration",
 						"description": "duration",
 						"type": {
 							"type": "intrinsic",
@@ -18009,7 +18009,7 @@
 						"order": 9999
 					},
 					{
-						"name": "durate",
+						"name": "duration",
 						"description": "duration",
 						"type": {
 							"type": "intrinsic",
@@ -18055,7 +18055,7 @@
 						"order": 9999
 					},
 					{
-						"name": "durate",
+						"name": "duration",
 						"description": "duration",
 						"type": {
 							"type": "intrinsic",
@@ -18101,7 +18101,7 @@
 						"order": 9999
 					},
 					{
-						"name": "durate",
+						"name": "duration",
 						"description": "duration",
 						"type": {
 							"type": "intrinsic",
@@ -18147,7 +18147,7 @@
 						"order": 9999
 					},
 					{
-						"name": "durate",
+						"name": "duration",
 						"description": "duration",
 						"type": {
 							"type": "intrinsic",
@@ -18235,7 +18235,7 @@
 						"order": 9999
 					},
 					{
-						"name": "durate",
+						"name": "duration",
 						"description": "duration",
 						"type": {
 							"type": "intrinsic",
@@ -18323,7 +18323,7 @@
 						"order": 9999
 					},
 					{
-						"name": "durate",
+						"name": "duration",
 						"description": "duration",
 						"type": {
 							"type": "intrinsic",
@@ -18411,7 +18411,7 @@
 						"order": 9999
 					},
 					{
-						"name": "durate",
+						"name": "duration",
 						"description": "duration",
 						"type": {
 							"type": "intrinsic",
@@ -18457,7 +18457,7 @@
 						"order": 9999
 					},
 					{
-						"name": "durate",
+						"name": "duration",
 						"description": "duration",
 						"type": {
 							"type": "intrinsic",
@@ -18503,7 +18503,7 @@
 						"order": 9999
 					},
 					{
-						"name": "durate",
+						"name": "duration",
 						"description": "duration",
 						"type": {
 							"type": "intrinsic",
@@ -18549,7 +18549,7 @@
 						"order": 9999
 					},
 					{
-						"name": "durate",
+						"name": "duration",
 						"description": "duration",
 						"type": {
 							"type": "intrinsic",
@@ -18641,7 +18641,7 @@
 						"order": 9999
 					},
 					{
-						"name": "durate",
+						"name": "duration",
 						"description": "duration",
 						"type": {
 							"type": "intrinsic",
@@ -18687,7 +18687,7 @@
 						"order": 9999
 					},
 					{
-						"name": "durate",
+						"name": "duration",
 						"description": "duration",
 						"type": {
 							"type": "intrinsic",
@@ -18733,7 +18733,7 @@
 						"order": 9999
 					},
 					{
-						"name": "durate",
+						"name": "duration",
 						"description": "duration",
 						"type": {
 							"type": "intrinsic",
@@ -18779,7 +18779,7 @@
 						"order": 9999
 					},
 					{
-						"name": "durate",
+						"name": "duration",
 						"description": "duration",
 						"type": {
 							"type": "intrinsic",
@@ -18825,7 +18825,7 @@
 						"order": 9999
 					},
 					{
-						"name": "durate",
+						"name": "duration",
 						"description": "duration",
 						"type": {
 							"type": "intrinsic",
@@ -18871,7 +18871,7 @@
 						"order": 9999
 					},
 					{
-						"name": "durate",
+						"name": "duration",
 						"description": "duration",
 						"type": {
 							"type": "intrinsic",
@@ -18917,7 +18917,7 @@
 						"order": 9999
 					},
 					{
-						"name": "durate",
+						"name": "duration",
 						"description": "duration",
 						"type": {
 							"type": "intrinsic",
@@ -18963,7 +18963,7 @@
 						"order": 9999
 					},
 					{
-						"name": "durate",
+						"name": "duration",
 						"description": "duration",
 						"type": {
 							"type": "intrinsic",
@@ -19009,7 +19009,7 @@
 						"order": 9999
 					},
 					{
-						"name": "durate",
+						"name": "duration",
 						"description": "duration",
 						"type": {
 							"type": "intrinsic",
@@ -19055,7 +19055,7 @@
 						"order": 9999
 					},
 					{
-						"name": "durate",
+						"name": "duration",
 						"description": "duration",
 						"type": {
 							"type": "intrinsic",
@@ -19101,7 +19101,7 @@
 						"order": 9999
 					},
 					{
-						"name": "durate",
+						"name": "duration",
 						"description": "duration",
 						"type": {
 							"type": "intrinsic",
@@ -21140,7 +21140,7 @@
 		"order": 9999,
 		"source": {
 			"fileName": "src/services/drawers/drawer-svg/DrawerSVG.ts",
-			"line": 18,
+			"line": 19,
 			"character": 15
 		},
 		"extends": [
@@ -21344,14 +21344,14 @@
 								{
 									"type": "reflection",
 									"declaration": {
-										"id": 5122,
+										"id": 5127,
 										"name": "__type",
 										"kind": 65536,
 										"kindString": "Type literal",
 										"flags": {},
 										"children": [
 											{
-												"id": 5123,
+												"id": 5128,
 												"name": "ghostIndex",
 												"kind": 32,
 												"kindString": "Variable",
@@ -21361,7 +21361,7 @@
 												"sources": [
 													{
 														"fileName": "src/services/drawers/drawer-svg/DrawerSVG.ts",
-														"line": 118,
+														"line": 134,
 														"character": 43
 													}
 												],
@@ -21385,14 +21385,14 @@
 												"title": "Variables",
 												"kind": 32,
 												"children": [
-													5123
+													5128
 												]
 											}
 										],
 										"sources": [
 											{
 												"fileName": "src/services/drawers/drawer-svg/DrawerSVG.ts",
-												"line": 118,
+												"line": 134,
 												"character": 30
 											}
 										]
@@ -21407,6 +21407,53 @@
 				"return_type": {
 					"type": "intrinsic",
 					"name": "number"
+				},
+				"order": 9999,
+				"bPublic": true,
+				"bStatic": true
+			},
+			{
+				"name": "setColor",
+				"parameters": [
+					{
+						"name": "element",
+						"type": {
+							"type": "reference",
+							"name": "SVGElement"
+						},
+						"order": 9999
+					},
+					{
+						"name": "type",
+						"type": {
+							"type": "union",
+							"types": [
+								{
+									"type": "stringLiteral",
+									"value": "fill",
+									"order": 9999
+								},
+								{
+									"type": "stringLiteral",
+									"value": "stroke",
+									"order": 9999
+								}
+							]
+						},
+						"order": 9999
+					},
+					{
+						"name": "color",
+						"type": {
+							"type": "intrinsic",
+							"name": "string"
+						},
+						"order": 9999
+					}
+				],
+				"return_type": {
+					"type": "intrinsic",
+					"name": "void"
 				},
 				"order": 9999,
 				"bPublic": true,
@@ -22324,7 +22371,7 @@
 						"name": "settings",
 						"type": {
 							"type": "reference",
-							"id": 5212,
+							"id": 5217,
 							"name": "IRenderSettings"
 						},
 						"order": 9999
@@ -22363,7 +22410,7 @@
 						"name": "settings",
 						"type": {
 							"type": "reference",
-							"id": 5212,
+							"id": 5217,
 							"name": "IRenderSettings"
 						},
 						"order": 9999
@@ -22984,7 +23031,7 @@
 					"name": "settings",
 					"type": {
 						"type": "reference",
-						"id": 5236,
+						"id": 5241,
 						"name": "ICapturerSettings"
 					},
 					"defaultValue": "{}",
@@ -23085,7 +23132,7 @@
 				"name": "type",
 				"type": {
 					"type": "reference",
-					"id": 5234,
+					"id": 5239,
 					"name": "TRenderType"
 				},
 				"order": 9999
@@ -23163,7 +23210,7 @@
 						"name": "settings",
 						"type": {
 							"type": "reference",
-							"id": 5236,
+							"id": 5241,
 							"name": "ICapturerSettings"
 						},
 						"order": 9999
@@ -23228,7 +23275,7 @@
 						"name": "type",
 						"type": {
 							"type": "reference",
-							"id": 5234,
+							"id": 5239,
 							"name": "TRenderType"
 						},
 						"order": 9999
@@ -23281,7 +23328,7 @@
 						"name": "type",
 						"type": {
 							"type": "reference",
-							"id": 5233,
+							"id": 5238,
 							"name": "TRenderImageType"
 						},
 						"order": 9999
@@ -23334,7 +23381,7 @@
 						"name": "type",
 						"type": {
 							"type": "reference",
-							"id": 5234,
+							"id": 5239,
 							"name": "TRenderType"
 						},
 						"order": 9999
@@ -23381,7 +23428,7 @@
 				"name": "capturer",
 				"type": {
 					"type": "reference",
-					"id": 5239,
+					"id": 5244,
 					"name": "Capturer"
 				},
 				"order": 9999,
@@ -23453,7 +23500,7 @@
 						"name": "settings",
 						"type": {
 							"type": "reference",
-							"id": 5212,
+							"id": 5217,
 							"name": "IRenderSettings"
 						},
 						"order": 9999
@@ -23464,7 +23511,7 @@
 					"typeArguments": [
 						{
 							"type": "reference",
-							"id": 5218,
+							"id": 5223,
 							"name": "IRenderStart"
 						}
 					],
@@ -23489,7 +23536,7 @@
 						"name": "settings",
 						"type": {
 							"type": "reference",
-							"id": 5212,
+							"id": 5217,
 							"name": "IRenderSettings"
 						},
 						"order": 9999
@@ -23530,7 +23577,7 @@
 						"name": "settings",
 						"type": {
 							"type": "reference",
-							"id": 5212,
+							"id": 5217,
 							"name": "IRenderSettings"
 						},
 						"order": 9999
@@ -23614,7 +23661,7 @@
 						"name": "settings",
 						"type": {
 							"type": "reference",
-							"id": 5212,
+							"id": 5217,
 							"name": "IRenderSettings"
 						},
 						"order": 9999
@@ -25429,7 +25476,7 @@
 		"constructor_ref": {
 			"parameters": [
 				{
-					"name": "durate",
+					"name": "duration",
 					"type": {
 						"type": "intrinsic",
 						"name": "number"
@@ -25653,7 +25700,7 @@
 				"bPublic": true
 			},
 			{
-				"name": "getDurate",
+				"name": "getDuration",
 				"description": "Get timeline duration",
 				"parameters": [],
 				"return_type": {
@@ -25771,11 +25818,11 @@
 				"bPublic": true
 			},
 			{
-				"name": "setDurate",
-				"description": "Set durate of timeline",
+				"name": "setDuration",
+				"description": "Set duration of timeline",
 				"parameters": [
 					{
-						"name": "durate",
+						"name": "duration",
 						"type": {
 							"type": "intrinsic",
 							"name": "number"
@@ -25837,7 +25884,7 @@
 				"description": "Set Sequence",
 				"parameters": [
 					{
-						"name": "durate",
+						"name": "duration",
 						"type": {
 							"type": "intrinsic",
 							"name": "number"
@@ -26170,8 +26217,8 @@
 				"order": 2
 			},
 			{
-				"name": "durate",
-				"description": "Duratin in millisecond",
+				"name": "duration",
+				"description": "Duration in millisecond",
 				"type": {
 					"type": "intrinsic",
 					"name": "number"
@@ -28889,7 +28936,7 @@
 		},
 		"properties": [
 			{
-				"name": "durate",
+				"name": "duration",
 				"type": {
 					"type": "intrinsic",
 					"name": "number"
@@ -29193,7 +29240,7 @@
 				"name": "renderer:render-frame",
 				"type": {
 					"type": "reference",
-					"id": 5223,
+					"id": 5228,
 					"name": "IRenderFrame"
 				},
 				"order": 9999
@@ -29202,7 +29249,7 @@
 				"name": "renderer:start",
 				"type": {
 					"type": "reference",
-					"id": 5218,
+					"id": 5223,
 					"name": "IRenderStart"
 				},
 				"order": 9999
@@ -29317,7 +29364,7 @@
 				"name": "type",
 				"type": {
 					"type": "reference",
-					"id": 5234,
+					"id": 5239,
 					"name": "TRenderType"
 				},
 				"order": 9999
@@ -30150,7 +30197,7 @@
 		},
 		"properties": [
 			{
-				"name": "durate",
+				"name": "duration",
 				"type": {
 					"type": "intrinsic",
 					"name": "number"
