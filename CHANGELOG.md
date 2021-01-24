@@ -1,3 +1,12 @@
+## 0.2.4-beta (January 24, 2021)
+
+### Core
+
+- Renaming durate to duration
+- Add GCODEExporter
+- Fix fill and stroke opacity in DrawerSVG
+- Minor fix
+
 ## 0.2.3-beta (January 9, 2021)
 
 ### Core

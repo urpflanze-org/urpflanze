@@ -4627,9 +4627,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "author": () => /* binding */ author,
 /* harmony export */   "license": () => /* binding */ license
 /* harmony export */ });
-var version = '%VERSION%';
+var version = '0.2.3-beta';
 var author = 'Gennaro Bosone <gennaro.bs@gmail.com>';
-var license = '%LICENSE%';
+var license = 'GPL-3.0-or-later';
 
 //# sourceMappingURL=meta.js.map
 
@@ -4720,10 +4720,10 @@ var Easings = {
      * @param {number} time current time
      * @param {number} start start value
      * @param {number} end end value
-     * @param {number} durate duration
+     * @param {number} duration duration
      * @returns {number}
      */
-    linear: function (time, start, end, durate) { return (end * time) / durate + start; },
+    linear: function (time, start, end, duration) { return (end * time) / duration + start; },
     /**
      * @param {number} time current time
      * @param {number} start start value
@@ -4739,22 +4739,22 @@ var Easings = {
      * @param {number} time current time
      * @param {number} start start value
      * @param {number} end end value
-     * @param {number} durate duration
+     * @param {number} duration duration
      * @returns {number}
      */
-    quadraticOut: function (time, start, end, durate) {
-        time /= durate;
+    quadraticOut: function (time, start, end, duration) {
+        time /= duration;
         return -end * time * (time - 2) + start;
     },
     /**
      * @param {number} time current time
      * @param {number} start start value
      * @param {number} end end value
-     * @param {number} durate duration
+     * @param {number} duration duration
      * @returns {number}
      */
-    quadraticInOut: function (time, start, end, durate) {
-        time /= durate / 2;
+    quadraticInOut: function (time, start, end, duration) {
+        time /= duration / 2;
         if (time < 1)
             return (end / 2) * time * time + start;
         time--;
@@ -4764,22 +4764,22 @@ var Easings = {
      * @param {number} time current time
      * @param {number} start start value
      * @param {number} end end value
-     * @param {number} durate duration
+     * @param {number} duration duration
      * @returns {number}
      */
-    cubicIn: function (time, start, end, durate) {
-        time /= durate;
+    cubicIn: function (time, start, end, duration) {
+        time /= duration;
         return end * time * time * time + start;
     },
     /**
      * @param {number} time current time
      * @param {number} start start value
      * @param {number} end end value
-     * @param {number} durate duration
+     * @param {number} duration duration
      * @returns {number}
      */
-    cubicOut: function (time, start, end, durate) {
-        time /= durate;
+    cubicOut: function (time, start, end, duration) {
+        time /= duration;
         time--;
         return end * (time * time * time + 1) + start;
     },
@@ -4787,11 +4787,11 @@ var Easings = {
      * @param {number} time current time
      * @param {number} start start value
      * @param {number} end end value
-     * @param {number} durate duration
+     * @param {number} duration duration
      * @returns {number}
      */
-    cubicInOut: function (time, start, end, durate) {
-        time /= durate / 2;
+    cubicInOut: function (time, start, end, duration) {
+        time /= duration / 2;
         if (time < 1)
             return (end / 2) * time * time * time + start;
         time -= 2;
@@ -4801,22 +4801,22 @@ var Easings = {
      * @param {number} time current time
      * @param {number} start start value
      * @param {number} end end value
-     * @param {number} durate duration
+     * @param {number} duration duration
      * @returns {number}
      */
-    quarticIn: function (time, start, end, durate) {
-        time /= durate;
+    quarticIn: function (time, start, end, duration) {
+        time /= duration;
         return end * time * time * time * time + start;
     },
     /**
      * @param {number} time current time
      * @param {number} start start value
      * @param {number} end end value
-     * @param {number} durate duration
+     * @param {number} duration duration
      * @returns {number}
      */
-    quarticOut: function (time, start, end, durate) {
-        time /= durate;
+    quarticOut: function (time, start, end, duration) {
+        time /= duration;
         time--;
         return -end * (time * time * time * time - 1) + start;
     },
@@ -4824,11 +4824,11 @@ var Easings = {
      * @param {number} time current time
      * @param {number} start start value
      * @param {number} end end value
-     * @param {number} durate duration
+     * @param {number} duration duration
      * @returns {number}
      */
-    quarticInOut: function (time, start, end, durate) {
-        time /= durate / 2;
+    quarticInOut: function (time, start, end, duration) {
+        time /= duration / 2;
         if (time < 1)
             return (end / 2) * time * time * time * time + start;
         time -= 2;
@@ -4838,22 +4838,22 @@ var Easings = {
      * @param {number} time current time
      * @param {number} start start value
      * @param {number} end end value
-     * @param {number} durate duration
+     * @param {number} duration duration
      * @returns {number}
      */
-    quinticIn: function (time, start, end, durate) {
-        time /= durate;
+    quinticIn: function (time, start, end, duration) {
+        time /= duration;
         return end * time * time * time * time * time + start;
     },
     /**
      * @param {number} time current time
      * @param {number} start start value
      * @param {number} end end value
-     * @param {number} durate duration
+     * @param {number} duration duration
      * @returns {number}
      */
-    quinticOut: function (time, start, end, durate) {
-        time /= durate;
+    quinticOut: function (time, start, end, duration) {
+        time /= duration;
         time--;
         return end * (time * time * time * time * time + 1) + start;
     },
@@ -4861,11 +4861,11 @@ var Easings = {
      * @param {number} time current time
      * @param {number} start start value
      * @param {number} end end value
-     * @param {number} durate duration
+     * @param {number} duration duration
      * @returns {number}
      */
-    quinticInOut: function (time, start, end, durate) {
-        time /= durate / 2;
+    quinticInOut: function (time, start, end, duration) {
+        time /= duration / 2;
         if (time < 1)
             return (end / 2) * time * time * time * time * time + start;
         time -= 2;
@@ -4875,61 +4875,61 @@ var Easings = {
      * @param {number} time current time
      * @param {number} start start value
      * @param {number} end end value
-     * @param {number} durate duration
+     * @param {number} duration duration
      * @returns {number}
      */
-    sinusoidalIn: function (time, start, end, durate) {
-        return -end * Math.cos((time / durate) * (Math.PI / 2)) + end + start;
+    sinusoidalIn: function (time, start, end, duration) {
+        return -end * Math.cos((time / duration) * (Math.PI / 2)) + end + start;
     },
     /**
      * @param {number} time current time
      * @param {number} start start value
      * @param {number} end end value
-     * @param {number} durate duration
+     * @param {number} duration duration
      * @returns {number}
      */
-    sinusoidalOut: function (time, start, end, durate) {
-        return end * Math.sin((time / durate) * (Math.PI / 2)) + start;
+    sinusoidalOut: function (time, start, end, duration) {
+        return end * Math.sin((time / duration) * (Math.PI / 2)) + start;
     },
     /**
      * @param {number} time current time
      * @param {number} start start value
      * @param {number} end end value
-     * @param {number} durate duration
+     * @param {number} duration duration
      * @returns {number}
      */
-    sinusoidalInOut: function (time, start, end, durate) {
-        return (-end / 2) * (Math.cos((Math.PI * time) / durate) - 1) + start;
+    sinusoidalInOut: function (time, start, end, duration) {
+        return (-end / 2) * (Math.cos((Math.PI * time) / duration) - 1) + start;
     },
     /**
      * @param {number} time current time
      * @param {number} start start value
      * @param {number} end end value
-     * @param {number} durate duration
+     * @param {number} duration duration
      * @returns {number}
      */
-    exponentialIn: function (time, start, end, durate) {
-        return end * Math.pow(2, 10 * (time / durate - 1)) + start;
+    exponentialIn: function (time, start, end, duration) {
+        return end * Math.pow(2, 10 * (time / duration - 1)) + start;
     },
     /**
      * @param {number} time current time
      * @param {number} start start value
      * @param {number} end end value
-     * @param {number} durate duration
+     * @param {number} duration duration
      * @returns {number}
      */
-    exponentialOut: function (time, start, end, durate) {
-        return end * (-Math.pow(2, (-10 * time) / durate) + 1) + start;
+    exponentialOut: function (time, start, end, duration) {
+        return end * (-Math.pow(2, (-10 * time) / duration) + 1) + start;
     },
     /**
      * @param {number} time current time
      * @param {number} start start value
      * @param {number} end end value
-     * @param {number} durate duration
+     * @param {number} duration duration
      * @returns {number}
      */
-    exponentialInOut: function (time, start, end, durate) {
-        time /= durate / 2;
+    exponentialInOut: function (time, start, end, duration) {
+        time /= duration / 2;
         if (time < 1)
             return (end / 2) * Math.pow(2, 10 * (time - 1)) + start;
         time--;
@@ -4939,22 +4939,22 @@ var Easings = {
      * @param {number} time current time
      * @param {number} start start value
      * @param {number} end end value
-     * @param {number} durate duration
+     * @param {number} duration duration
      * @returns {number}
      */
-    circularIn: function (time, start, end, durate) {
-        time /= durate;
+    circularIn: function (time, start, end, duration) {
+        time /= duration;
         return -end * (Math.sqrt(1 - time * time) - 1) + start;
     },
     /**
      * @param {number} time current time
      * @param {number} start start value
      * @param {number} end end value
-     * @param {number} durate duration
+     * @param {number} duration duration
      * @returns {number}
      */
-    circularOut: function (time, start, end, durate) {
-        time /= durate;
+    circularOut: function (time, start, end, duration) {
+        time /= duration;
         time--;
         return end * Math.sqrt(1 - time * time) + start;
     },
@@ -4962,11 +4962,11 @@ var Easings = {
      * @param {number} time current time
      * @param {number} start start value
      * @param {number} end end value
-     * @param {number} durate duration
+     * @param {number} duration duration
      * @returns {number}
      */
-    circularInOut: function (time, start, end, durate) {
-        time /= durate / 2;
+    circularInOut: function (time, start, end, duration) {
+        time /= duration / 2;
         if (time < 1)
             return (-end / 2) * (Math.sqrt(1 - time * time) - 1) + start;
         time -= 2;
@@ -4976,20 +4976,20 @@ var Easings = {
      * @param {number} time current time
      * @param {number} start start value
      * @param {number} end end value
-     * @param {number} durate duration
+     * @param {number} duration duration
      * @param {number} a amplitude (optional)
      * @param {number} p period (optional)
      * @return {number}
      */
-    elasticIn: function (time, start, end, durate, a, p) {
+    elasticIn: function (time, start, end, duration, a, p) {
         if (time == 0) {
             return start;
         }
-        if ((time /= durate) == 1) {
+        if ((time /= duration) == 1) {
             return start + end;
         }
         if (!p) {
-            p = durate * 0.3;
+            p = duration * 0.3;
         }
         var s = 0;
         if (!a || a < Math.abs(end)) {
@@ -4999,26 +4999,26 @@ var Easings = {
         else {
             s = (p / (2 * Math.PI)) * Math.asin(end / a);
         }
-        return -(a * Math.pow(2, 10 * (time -= 1)) * Math.sin(((time * durate - s) * (2 * Math.PI)) / p)) + start;
+        return -(a * Math.pow(2, 10 * (time -= 1)) * Math.sin(((time * duration - s) * (2 * Math.PI)) / p)) + start;
     },
     /**
      * @param {number} time current time
      * @param {number} start start value
      * @param {number} end end value
-     * @param {number} durate duration
+     * @param {number} duration duration
      * @param {number} a amplitude (optional)
      * @param {number} p period (optional)
      * @return {number}
      */
-    elasticOut: function (time, start, end, durate, a, p) {
+    elasticOut: function (time, start, end, duration, a, p) {
         if (time == 0) {
             return start;
         }
-        if ((time /= durate) == 1) {
+        if ((time /= duration) == 1) {
             return start + end;
         }
         if (!p) {
-            p = durate * 0.3;
+            p = duration * 0.3;
         }
         var s = 0;
         if (!a || a < Math.abs(end)) {
@@ -5028,26 +5028,26 @@ var Easings = {
         else {
             s = (p / (2 * Math.PI)) * Math.asin(end / a);
         }
-        return a * Math.pow(2, -10 * time) * Math.sin(((time * durate - s) * (2 * Math.PI)) / p) + end + start;
+        return a * Math.pow(2, -10 * time) * Math.sin(((time * duration - s) * (2 * Math.PI)) / p) + end + start;
     },
     /**
      * @param {number} time current time
      * @param {number} start start value
      * @param {number} end end value
-     * @param {number} durate duration
+     * @param {number} duration duration
      * @param {number} a amplitude (optional)
      * @param {number} p period (optional)
      * @return {number}
      */
-    elasticInOut: function (time, start, end, durate, a, p) {
+    elasticInOut: function (time, start, end, duration, a, p) {
         if (time == 0) {
             return start;
         }
-        if ((time /= durate / 2) == 2) {
+        if ((time /= duration / 2) == 2) {
             return start + end;
         }
         if (!p) {
-            p = durate * (0.3 * 1.5);
+            p = duration * (0.3 * 1.5);
         }
         var s = 0;
         if (!a || a < Math.abs(end)) {
@@ -5058,51 +5058,51 @@ var Easings = {
             s = (p / (2 * Math.PI)) * Math.asin(end / a);
         }
         if (time < 1) {
-            return -0.5 * (a * Math.pow(2, 10 * (time -= 1)) * Math.sin(((time * durate - s) * (2 * Math.PI)) / p)) + start;
+            return -0.5 * (a * Math.pow(2, 10 * (time -= 1)) * Math.sin(((time * duration - s) * (2 * Math.PI)) / p)) + start;
         }
-        return a * Math.pow(2, -10 * (time -= 1)) * Math.sin(((time * durate - s) * (2 * Math.PI)) / p) * 0.5 + end + start;
+        return (a * Math.pow(2, -10 * (time -= 1)) * Math.sin(((time * duration - s) * (2 * Math.PI)) / p) * 0.5 + end + start);
     },
     /**
      * @param {number} time current time
      * @param {number} start start value
      * @param {number} end end value
-     * @param {number} durate duration
+     * @param {number} duration duration
      * @param {number} s overshoot (optional)
      * @return {number}
      */
-    backIn: function (time, start, end, durate, s) {
+    backIn: function (time, start, end, duration, s) {
         if (typeof s == 'undefined') {
             s = 1.70158;
         }
-        return end * (time /= durate) * time * ((s + 1) * time - s) + start;
+        return end * (time /= duration) * time * ((s + 1) * time - s) + start;
     },
     /**
      * @param {number} time current time
      * @param {number} start start value
      * @param {number} end end value
-     * @param {number} durate duration
+     * @param {number} duration duration
      * @param {number} s overshoot (optional)
      * @return {number}
      */
-    backOut: function (time, start, end, durate, s) {
+    backOut: function (time, start, end, duration, s) {
         if (typeof s == 'undefined') {
             s = 1.70158;
         }
-        return end * ((time = time / durate - 1) * time * ((s + 1) * time + s) + 1) + start;
+        return end * ((time = time / duration - 1) * time * ((s + 1) * time + s) + 1) + start;
     },
     /**
      * @param {number} time current time
      * @param {number} start start value
      * @param {number} end end value
-     * @param {number} durate duration
+     * @param {number} duration duration
      * @param {number} s overshoot (optional)
      * @return {number}
      */
-    backInOut: function (time, start, end, durate, s) {
+    backInOut: function (time, start, end, duration, s) {
         if (typeof s == 'undefined') {
             s = 1.70158;
         }
-        if ((time /= durate / 2) < 1) {
+        if ((time /= duration / 2) < 1) {
             return (end / 2) * (time * time * (((s *= 1.525) + 1) * time - s)) + start;
         }
         return (end / 2) * ((time -= 2) * time * (((s *= 1.525) + 1) * time + s) + 2) + start;
@@ -5114,8 +5114,8 @@ var Easings = {
      * @param {number} d duration
      * @return {number}
      */
-    bounceIn: function (time, start, end, durate) {
-        return end - Easings.bounceOut(durate - time, 0, end, durate) + start;
+    bounceIn: function (time, start, end, duration) {
+        return end - Easings.bounceOut(duration - time, 0, end, duration) + start;
     },
     /**
      * @param {number} t current time
@@ -5124,8 +5124,8 @@ var Easings = {
      * @param {number} d duration
      * @return {number}
      */
-    bounceOut: function (time, start, end, durate) {
-        if ((time /= durate) < 1 / 2.75) {
+    bounceOut: function (time, start, end, duration) {
+        if ((time /= duration) < 1 / 2.75) {
             return end * (7.5625 * time * time) + start;
         }
         else if (time < 2 / 2.75) {
@@ -5142,14 +5142,14 @@ var Easings = {
      * @param {number} time
      * @param {number} start
      * @param {number} end
-     * @param {number} durate
+     * @param {number} duration
      * @returns
      */
-    bounceInOut: function (time, start, end, durate) {
-        if (time < durate / 2) {
-            return Easings.bounceIn(time * 2, 0, end, durate) * 0.5 + start;
+    bounceInOut: function (time, start, end, duration) {
+        if (time < duration / 2) {
+            return Easings.bounceIn(time * 2, 0, end, duration) * 0.5 + start;
         }
-        return Easings.bounceOut(time * 2 - durate, 0, end, durate) * 0.5 + end * 0.5 + start;
+        return Easings.bounceOut(time * 2 - duration, 0, end, duration) * 0.5 + end * 0.5 + start;
     },
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Easings);
@@ -5242,33 +5242,33 @@ var Simple = {
     },
 };
 function createSimpleAnimationCallback(animation, value) {
-    var _a = animation, durate = _a.durate, type = _a.type, mode = _a.mode, modeFunction = _a.modeFunction, delay = _a.delay;
+    var _a = animation, duration = _a.duration, type = _a.type, mode = _a.mode, modeFunction = _a.modeFunction, delay = _a.delay;
     if (type === 'static') {
         if (delay && delay > 0)
             return function SimpleAnimation(props) {
                 return value(props, props.time <= delay
                     ? 0
-                    : props.time - delay >= durate
+                    : props.time - delay >= duration
                         ? 1
-                        : _Easings__WEBPACK_IMPORTED_MODULE_2__.default[modeFunction](props.time - delay, 0, 1, durate));
+                        : _Easings__WEBPACK_IMPORTED_MODULE_2__.default[modeFunction](props.time - delay, 0, 1, duration));
             };
         else
             return function SimpleAnimation(props) {
-                return value(props, props.time <= durate ? _Easings__WEBPACK_IMPORTED_MODULE_2__.default[modeFunction](props.time, 0, 1 - 0, durate) : 1);
+                return value(props, props.time <= duration ? _Easings__WEBPACK_IMPORTED_MODULE_2__.default[modeFunction](props.time, 0, 1 - 0, duration) : 1);
             };
     }
     else {
         if (type === 'loop') {
             if (mode == 'sinusoidal') {
                 return function SimpleAnimation(props) {
-                    var frequency = ((props.time || 0) * 2 * Math.PI) / durate;
+                    var frequency = ((props.time || 0) * 2 * Math.PI) / duration;
                     return value(props, 0.5 + Math[modeFunction](frequency) * 0.5);
                 };
             } /* easing */
             else {
                 return function SimpleAnimation(props) {
-                    var d2 = durate / 2;
-                    var t = props.time % durate;
+                    var d2 = duration / 2;
+                    var t = props.time % duration;
                     return value(props, t <= d2
                         ? _Easings__WEBPACK_IMPORTED_MODULE_2__.default[modeFunction](t, 0, 1, d2)
                         : _Easings__WEBPACK_IMPORTED_MODULE_2__.default[modeFunction](d2 - (t - d2), 0, 1, d2));
@@ -5278,26 +5278,26 @@ function createSimpleAnimationCallback(animation, value) {
         else {
             if (mode == 'sinusoidal') {
                 return function SimpleAnimation(props) {
-                    var time = props.time % (durate + delay);
+                    var time = props.time % (duration + delay);
                     time = time <= delay ? 0 : time - delay;
-                    var frequency = ((time || 0) * 2 * Math.PI) / durate;
+                    var frequency = ((time || 0) * 2 * Math.PI) / duration;
                     return value(props, 0.5 + Math[modeFunction](frequency) * 0.5);
                 };
             }
             else {
                 if (delay && delay > 0)
                     return function SimpleAnimation(props) {
-                        var time = props.time % (durate + delay);
+                        var time = props.time % (duration + delay);
                         return value(props, time <= delay
                             ? 0
-                            : time - delay >= durate
+                            : time - delay >= duration
                                 ? 1
-                                : _Easings__WEBPACK_IMPORTED_MODULE_2__.default[modeFunction](time - delay, 0, 1, durate));
+                                : _Easings__WEBPACK_IMPORTED_MODULE_2__.default[modeFunction](time - delay, 0, 1, duration));
                     };
                 else
                     return function SimpleAnimation(props) {
-                        var time = props.time % durate;
-                        return value(props, time <= durate ? _Easings__WEBPACK_IMPORTED_MODULE_2__.default[modeFunction](time, 0, 1 - 0, durate) : 1);
+                        var time = props.time % duration;
+                        return value(props, time <= duration ? _Easings__WEBPACK_IMPORTED_MODULE_2__.default[modeFunction](time, 0, 1 - 0, duration) : 1);
                     };
             }
         }
@@ -5605,7 +5605,7 @@ var Drawer = /** @class */ (function (_super) {
         if (drawerOptions.ghosts) {
             var ghostDrawerOptions = __assign({}, drawerOptions);
             var drawAtTime = timeline.getTime();
-            var sequenceDurate = timeline.getDurate();
+            var sequenceDuration = timeline.getDuration();
             var ghostRepetition = {
                 offset: 0,
                 index: 0,
@@ -5619,7 +5619,7 @@ var Drawer = /** @class */ (function (_super) {
                         ? drawerOptions.ghostSkipFunction(ghostRepetition, drawAtTime)
                         : i * drawerOptions.ghostSkipTime);
                 ghostDrawerOptions.ghostIndex = i;
-                ghostDrawerOptions.time = (0,_core_math__WEBPACK_IMPORTED_MODULE_5__.pmod)(ghostTime, sequenceDurate);
+                ghostDrawerOptions.time = (0,_core_math__WEBPACK_IMPORTED_MODULE_5__.pmod)(ghostTime, sequenceDuration);
                 ghostCallback(ghostDrawerOptions);
             }
         }
@@ -6487,7 +6487,7 @@ var SceneChildUtilitiesData = {
         name: 'perspective',
         label: 'Perspective',
         type: 'range',
-        min: -1,
+        min: 0,
         max: 1,
         step: 0.01,
         default: 0,
@@ -6590,10 +6590,10 @@ var SceneChildUtilitiesData = {
         name: 'sideLength',
         label: 'Side Length',
         type: 'multiple-range',
-        min: 0.1,
+        min: 0.01,
         max: 100,
         step: 0.1,
-        default: 10,
+        default: [10, 10],
         default_animate: 20,
         transformation: 'scene-size-percentage',
         dataType: 'props',
@@ -7712,8 +7712,8 @@ var __assign = (undefined && undefined.__assign) || function () {
  */
 var Timeline = /** @class */ (function (_super) {
     __extends(Timeline, _super);
-    function Timeline(durate, framerate) {
-        if (durate === void 0) { durate = 60000; }
+    function Timeline(duration, framerate) {
+        if (duration === void 0) { duration = 60000; }
         if (framerate === void 0) { framerate = 60; }
         var _this = _super.call(this) || this;
         _this.fps_samples_size = 30;
@@ -7721,9 +7721,9 @@ var Timeline = /** @class */ (function (_super) {
         _this.fps_samples_index = 0;
         _this.paused_time = 0;
         _this.sequence = {
-            durate: durate,
+            duration: duration,
             framerate: framerate,
-            frames: Math.round((durate / 1000) * framerate),
+            frames: Math.round((duration / 1000) * framerate),
         };
         _this.tick_time = 1000 / _this.sequence.framerate;
         _this.fps = _this.sequence.framerate;
@@ -7746,31 +7746,31 @@ var Timeline = /** @class */ (function (_super) {
     /**
      * Set Sequence
      *
-     * @param {number} durate
+     * @param {number} duration
      * @param {number} framerate
      */
-    Timeline.prototype.setSequence = function (durate, framerate) {
-        this.sequence.durate = durate;
+    Timeline.prototype.setSequence = function (duration, framerate) {
+        this.sequence.duration = duration;
         this.sequence.framerate = framerate;
         this.tick_time = 1000 / this.sequence.framerate;
-        this.sequence.frames = Math.round((this.sequence.durate / 1000) * this.sequence.framerate);
+        this.sequence.frames = Math.round((this.sequence.duration / 1000) * this.sequence.framerate);
         this.dispatch('timeline:update_sequence', this.getSequence());
     };
     /**
-     * Set durate of timeline
+     * Set duration of timeline
      *
      * @param {number} framerate
      */
-    Timeline.prototype.setDurate = function (durate) {
-        this.setSequence(durate, this.sequence.framerate);
+    Timeline.prototype.setDuration = function (duration) {
+        this.setSequence(duration, this.sequence.framerate);
     };
     /**
      * Get timeline duration
      *
      * @returns {number}
      */
-    Timeline.prototype.getDurate = function () {
-        return this.sequence.durate;
+    Timeline.prototype.getDuration = function () {
+        return this.sequence.duration;
     };
     /**
      * Return framerate
@@ -7786,7 +7786,7 @@ var Timeline = /** @class */ (function (_super) {
      * @param {number} framerate
      */
     Timeline.prototype.setFramerate = function (framerate) {
-        this.setSequence(this.sequence.durate, framerate);
+        this.setSequence(this.sequence.duration, framerate);
     };
     /**
      * Get number of frames based on duration and framerate
@@ -7854,7 +7854,7 @@ var Timeline = /** @class */ (function (_super) {
             if (elapsed >= this.tick_time) {
                 this.calculateFPS(1 / (elapsed / 1000));
                 this.last_tick = currentTime;
-                this.current_time = (currentTime - (elapsed % this.tick_time)) % this.sequence.durate;
+                this.current_time = (currentTime - (elapsed % this.tick_time)) % this.sequence.duration;
                 this.current_frame = this.getFrameAtTime(this.current_time);
                 this.dispatch('timeline:progress', {
                     current_frame: this.current_frame,
@@ -7901,7 +7901,7 @@ var Timeline = /** @class */ (function (_super) {
      */
     Timeline.prototype.getFrameTime = function (frame) {
         frame = (0,_core_math__WEBPACK_IMPORTED_MODULE_0__.pmod)(frame, this.sequence.frames);
-        return (frame * this.tick_time) % this.sequence.durate;
+        return (frame * this.tick_time) % this.sequence.duration;
     };
     /**
      * Return frame number at time
@@ -7910,7 +7910,7 @@ var Timeline = /** @class */ (function (_super) {
      * @returns {number}
      */
     Timeline.prototype.getFrameAtTime = function (time) {
-        return Math.round((time % this.sequence.durate) / this.tick_time);
+        return Math.round((time % this.sequence.duration) / this.tick_time);
     };
     /**
      * set current frame
@@ -7948,7 +7948,7 @@ var Timeline = /** @class */ (function (_super) {
      * @param {number} time
      */
     Timeline.prototype.setTime = function (time) {
-        time = (0,_core_math__WEBPACK_IMPORTED_MODULE_0__.pmod)(time, this.sequence.durate);
+        time = (0,_core_math__WEBPACK_IMPORTED_MODULE_0__.pmod)(time, this.sequence.duration);
         this.current_time = time;
         this.current_frame = this.getFrameAtTime(time);
         this.dispatch('timeline:progress', {
@@ -12137,13 +12137,18 @@ __webpack_require__.r(__webpack_exports__);
 // Unique ID creation requires a high quality random # generator. In the browser we therefore
 // require the crypto API and do not support built-in fallback to lower quality random number
 // generators (like Math.random()).
-// getRandomValues needs to be invoked in a context where "this" is a Crypto implementation. Also,
-// find the complete implementation of crypto (msCrypto) on IE11.
-var getRandomValues = typeof crypto !== 'undefined' && crypto.getRandomValues && crypto.getRandomValues.bind(crypto) || typeof msCrypto !== 'undefined' && typeof msCrypto.getRandomValues === 'function' && msCrypto.getRandomValues.bind(msCrypto);
+var getRandomValues;
 var rnds8 = new Uint8Array(16);
 function rng() {
+  // lazy load so that environments that need to polyfill have a chance to do so
   if (!getRandomValues) {
-    throw new Error('crypto.getRandomValues() not supported. See https://github.com/uuidjs/uuid#getrandomvalues-not-supported');
+    // getRandomValues needs to be invoked in a context where "this" is a Crypto implementation. Also,
+    // find the complete implementation of crypto (msCrypto) on IE11.
+    getRandomValues = typeof crypto !== 'undefined' && crypto.getRandomValues && crypto.getRandomValues.bind(crypto) || typeof msCrypto !== 'undefined' && typeof msCrypto.getRandomValues === 'function' && msCrypto.getRandomValues.bind(msCrypto);
+
+    if (!getRandomValues) {
+      throw new Error('crypto.getRandomValues() not supported. See https://github.com/uuidjs/uuid#getrandomvalues-not-supported');
+    }
   }
 
   return getRandomValues(rnds8);
