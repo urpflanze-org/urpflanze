@@ -44,8 +44,8 @@ class JSONExporter {
 
 		project.ratio = drawer.getRatio()
 
-		const { durate, framerate } = timeline.getSequence()
-		project.sequence = { durate, framerate }
+		const { duration, framerate } = timeline.getSequence()
+		project.sequence = { duration, framerate }
 
 		project.scene = {}
 
@@ -93,7 +93,10 @@ class JSONExporter {
 		if (sceneChild instanceof ShapeBase) {
 			projectSceneChild.bUseParent = sceneChild.bUseParent
 			projectSceneChild.bUseRecursion = sceneChild.bUseRecursion
-			projectSceneChild.vertexCallback = parseFunction.parse(sceneChild.vertexCallback)
+			projectSceneChild.vertexCallback = parseFunction.parse(
+				sceneChild.data.vertexCallback || sceneChild.vertexCallback
+			)
+			console.log('export', projectSceneChild.vertexCallback, sceneChild.vertexCallback)
 		}
 
 		if (sceneChild instanceof ShapePrimitive) {
@@ -101,6 +104,7 @@ class JSONExporter {
 			const styleKeys = Object.keys(style) as Array<keyof IDrawerStreamProps>
 			for (let i = 0, len = styleKeys.length; i < len; i++)
 				style[styleKeys[i]] = parseFunction.parse(style[styleKeys[i]])
+
 			projectSceneChild.style = { ...style, ...sceneChild.data.style }
 
 			projectSceneChild.adaptMode = sceneChild.adaptMode

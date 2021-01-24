@@ -47,13 +47,13 @@ class Timeline extends Emitter<ITimelineEvents> {
 
 	private sequence: ISequenceMeta
 
-	constructor(durate = 60000, framerate = 60) {
+	constructor(duration = 60000, framerate = 60) {
 		super()
 
 		this.sequence = {
-			durate,
+			duration,
 			framerate,
-			frames: Math.round((durate / 1000) * framerate),
+			frames: Math.round((duration / 1000) * framerate),
 		}
 
 		this.tick_time = 1000 / this.sequence.framerate
@@ -82,26 +82,26 @@ class Timeline extends Emitter<ITimelineEvents> {
 	/**
 	 * Set Sequence
 	 *
-	 * @param {number} durate
+	 * @param {number} duration
 	 * @param {number} framerate
 	 */
-	public setSequence(durate: number, framerate: number): void {
-		this.sequence.durate = durate
+	public setSequence(duration: number, framerate: number): void {
+		this.sequence.duration = duration
 		this.sequence.framerate = framerate
 
 		this.tick_time = 1000 / this.sequence.framerate
-		this.sequence.frames = Math.round((this.sequence.durate / 1000) * this.sequence.framerate)
+		this.sequence.frames = Math.round((this.sequence.duration / 1000) * this.sequence.framerate)
 
 		this.dispatch('timeline:update_sequence', this.getSequence())
 	}
 
 	/**
-	 * Set durate of timeline
+	 * Set duration of timeline
 	 *
 	 * @param {number} framerate
 	 */
-	public setDurate(durate: number): void {
-		this.setSequence(durate, this.sequence.framerate)
+	public setDuration(duration: number): void {
+		this.setSequence(duration, this.sequence.framerate)
 	}
 
 	/**
@@ -109,8 +109,8 @@ class Timeline extends Emitter<ITimelineEvents> {
 	 *
 	 * @returns {number}
 	 */
-	public getDurate(): number {
-		return this.sequence.durate
+	public getDuration(): number {
+		return this.sequence.duration
 	}
 
 	/**
@@ -128,7 +128,7 @@ class Timeline extends Emitter<ITimelineEvents> {
 	 * @param {number} framerate
 	 */
 	public setFramerate(framerate: number): void {
-		this.setSequence(this.sequence.durate, framerate)
+		this.setSequence(this.sequence.duration, framerate)
 	}
 
 	/**
@@ -210,7 +210,7 @@ class Timeline extends Emitter<ITimelineEvents> {
 				this.calculateFPS(1 / (elapsed / 1000))
 				this.last_tick = currentTime
 
-				this.current_time = (currentTime - (elapsed % this.tick_time)) % this.sequence.durate
+				this.current_time = (currentTime - (elapsed % this.tick_time)) % this.sequence.duration
 				this.current_frame = this.getFrameAtTime(this.current_time)
 
 				this.dispatch('timeline:progress', {
@@ -268,7 +268,7 @@ class Timeline extends Emitter<ITimelineEvents> {
 	 */
 	public getFrameTime(frame: number): number {
 		frame = pmod(frame, this.sequence.frames)
-		return (frame * this.tick_time) % this.sequence.durate
+		return (frame * this.tick_time) % this.sequence.duration
 	}
 
 	/**
@@ -278,7 +278,7 @@ class Timeline extends Emitter<ITimelineEvents> {
 	 * @returns {number}
 	 */
 	public getFrameAtTime(time: number): number {
-		return Math.round((time % this.sequence.durate) / this.tick_time)
+		return Math.round((time % this.sequence.duration) / this.tick_time)
 	}
 
 	/**
@@ -321,7 +321,7 @@ class Timeline extends Emitter<ITimelineEvents> {
 	 * @param {number} time
 	 */
 	public setTime(time: number): void {
-		time = pmod(time, this.sequence.durate)
+		time = pmod(time, this.sequence.duration)
 
 		this.current_time = time
 		this.current_frame = this.getFrameAtTime(time)

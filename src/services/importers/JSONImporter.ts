@@ -45,7 +45,7 @@ class JSONImporter {
 			scene: {},
 
 			sequence: {
-				durate: 6000,
+				duration: 6000,
 				framerate: 60,
 			},
 		}
@@ -103,7 +103,7 @@ class JSONImporter {
 		const drawer = new DrawerCanvas(scene, undefined, drawOptions, project.ratio, project.resolution)
 
 		const timeline = drawer.getTimeline()
-		timeline.setSequence(project.sequence.durate, project.sequence.framerate)
+		timeline.setSequence(project.sequence.duration, project.sequence.framerate)
 
 		const sceneChilds: Array<IProjectSceneChild> = Object.values(project.scene || [])
 
@@ -127,9 +127,9 @@ class JSONImporter {
 			order: projectSceneChild.order,
 			// data: projectSceneChild.data,
 			bUseParent: projectSceneChild.bUseParent,
+			bUseRecursion: projectSceneChild.bUseRecursion,
 			adaptMode: projectSceneChild.adaptMode,
 			bClosed: projectSceneChild.bClosed,
-			vertexCallback: parseFunction.unparse(projectSceneChild.vertexCallback),
 			shape: shape,
 		}
 
@@ -147,6 +147,9 @@ class JSONImporter {
 			styleKeys.forEach(styleKey => {
 				SceneUtilities.setDrawerProp(sceneChild, styleKey, parseFunction.unparse(style[styleKey]), scene)
 			})
+
+			if (typeof projectSceneChild.vertexCallback !== 'undefined')
+				SceneUtilities.setSetting(sceneChild, 'vertexCallback', projectSceneChild.vertexCallback, scene)
 
 			if (projectSceneChild.children && projectSceneChild.children.length > 0) {
 				for (let i = 0, len = projectSceneChild.children.length; i < len; i++) {

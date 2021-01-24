@@ -41,7 +41,7 @@ class Renderer extends Emitter<IRenderEvents> {
 			const sequence = timeline.getSequence()
 
 			if (!bClear) {
-				const needFrame = settings.time >= sequence.durate ? sequence.frames : timeline.getFrameAtTime(settings.time)
+				const needFrame = settings.time >= sequence.duration ? sequence.frames : timeline.getFrameAtTime(settings.time)
 				for (let i = 0; i <= needFrame; i++) {
 					timeline.setFrame(i)
 					drawer.draw()

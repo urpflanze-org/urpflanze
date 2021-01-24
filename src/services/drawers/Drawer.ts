@@ -318,7 +318,7 @@ abstract class Drawer<IADrawerOptions extends IDrawerOptions, IDrawerEvents> ext
 				...drawerOptions,
 			}
 			const drawAtTime = timeline.getTime()
-			const sequenceDurate = timeline.getDurate()
+			const sequenceDuration = timeline.getDuration()
 
 			const ghostRepetition = {
 				offset: 0,
@@ -336,7 +336,7 @@ abstract class Drawer<IADrawerOptions extends IDrawerOptions, IDrawerEvents> ext
 						: i * (drawerOptions.ghostSkipTime as number))
 
 				ghostDrawerOptions.ghostIndex = i
-				ghostDrawerOptions.time = pmod(ghostTime, sequenceDurate)
+				ghostDrawerOptions.time = pmod(ghostTime, sequenceDuration)
 				ghostCallback(ghostDrawerOptions)
 			}
 		}

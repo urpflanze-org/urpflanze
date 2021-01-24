@@ -112,10 +112,10 @@ export interface ISimpleAnimation {
 	to: TTransformable | number | [number, number] | string
 
 	/**
-	 * Duratin in millisecond
+	 * Duration in millisecond
 	 * @order 3
 	 */
-	durate: number
+	duration: number
 
 	/**
 	 * Invert animation on odd repetition index

@@ -1,18 +1,18 @@
 import { EShapePrimitiveAdaptMode } from '@core/types/shape-base'
 import { IShapeLoopAnimation, IVertexCallbackAnimation, TAnimation, TCallableValue } from '@services/types/animation'
-import { ISceneChildDrawerData } from './drawer'
+import { ISceneChildDrawerData } from '@services/types/drawer'
 import {
 	TDrawerPropsExtendedKeys,
 	TSceneChildPropsExtendedKeys,
 	TSceneChildPropExtendedValue,
 	TDrawerPropExtendedValue,
-} from './scene-utilities'
+} from '@services/types/scene-utilities'
 
 /**
  * @category Services.Export/Import
  */
 export interface IProjectSequence {
-	durate: number
+	duration: number
 	framerate: number
 }
 
@@ -140,4 +140,19 @@ export interface ISVGParsedPath {
 export interface ISVGParsed {
 	viewBox: [number, number, number, number]
 	buffers: Array<ISVGParsedPath>
+}
+
+/**
+ * @category Services.Export/Import
+ */
+export interface IGCODESettings {
+	atTime?: number
+	minX?: number
+	minY?: number
+	maxX?: number
+	maxY?: number
+	velocity?: number
+	round?: number
+	penUpCommand: string
+	penDownCommand: string
 }
