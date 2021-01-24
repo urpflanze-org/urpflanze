@@ -213,9 +213,13 @@ function rgbToHsl(r, g, b) {
   !*** ./dist/Utilites.js ***!
   \**************************/
 /*! namespace exports */
+/*! export angle2FromRepetition [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export angleFromRepetition [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export cancelablePromise [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export clamp [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export distanceFromRepetition [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export lerp [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export noise [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export now [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export parseFunction [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export relativeClamp [provided] [no usage info] [missing usage info prevents renaming] */
@@ -223,7 +227,7 @@ function rgbToHsl(r, g, b) {
 /*! export toDegrees [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export toRadians [provided] [no usage info] [missing usage info prevents renaming] */
 /*! other exports [not provided] [no usage info] */
-/*! runtime requirements: __webpack_require__.r, __webpack_exports__, __webpack_require__.d, __webpack_require__.* */
+/*! runtime requirements: __webpack_require__, __webpack_require__.n, __webpack_require__.r, __webpack_exports__, __webpack_require__.d, __webpack_require__.* */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -237,8 +241,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "toArray": () => /* binding */ toArray,
 /* harmony export */   "lerp": () => /* binding */ lerp,
 /* harmony export */   "clamp": () => /* binding */ clamp,
-/* harmony export */   "relativeClamp": () => /* binding */ relativeClamp
+/* harmony export */   "relativeClamp": () => /* binding */ relativeClamp,
+/* harmony export */   "noise": () => /* binding */ noise,
+/* harmony export */   "angleFromRepetition": () => /* binding */ angleFromRepetition,
+/* harmony export */   "angle2FromRepetition": () => /* binding */ angle2FromRepetition,
+/* harmony export */   "distanceFromRepetition": () => /* binding */ distanceFromRepetition
 /* harmony export */ });
+/* harmony import */ var simplex_noise__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! simplex-noise */ "./node_modules/simplex-noise/simplex-noise.js");
+/* harmony import */ var simplex_noise__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(simplex_noise__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _core_types_scene_child__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./core/types/scene-child */ "./dist/core/types/scene-child.js");
+/* harmony import */ var gl_matrix__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! gl-matrix */ "./node_modules/gl-matrix/esm/vec2.js");
+;
+
+// import SceneChild from '@core/SceneChild'
+
+// import Scene from '@core/Scene'
 /**
  * @ignore
  */
@@ -393,34 +410,6 @@ function clamp(min, max, value) {
 function relativeClamp(refMin, refMax, value, toMin, toMax) {
     return clamp(toMin, toMax, ((value - refMin) / (refMax - refMin)) * (toMax - toMin) + toMin);
 }
-//# sourceMappingURL=Utilites.js.map
-
-/***/ }),
-
-/***/ "./dist/core/Context.js":
-/*!******************************!*\
-  !*** ./dist/core/Context.js ***!
-  \******************************/
-/*! namespace exports */
-/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
-/*! other exports [not provided] [no usage info] */
-/*! runtime requirements: __webpack_require__, __webpack_require__.n, __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
-/* harmony export */ });
-/* harmony import */ var simplex_noise__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! simplex-noise */ "./node_modules/simplex-noise/simplex-noise.js");
-/* harmony import */ var simplex_noise__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(simplex_noise__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _types_scene_child__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./types/scene-child */ "./dist/core/types/scene-child.js");
-/* harmony import */ var gl_matrix__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! gl-matrix */ "./node_modules/gl-matrix/esm/vec2.js");
-;
-
-// import SceneChild from '@core/SceneChild'
-
-// import Scene from '@core/Scene'
 /**
  * @internal
  * @ignore
@@ -429,102 +418,110 @@ var noises = {
     random: new (simplex_noise__WEBPACK_IMPORTED_MODULE_0___default())(Math.random),
 };
 /**
- * Utilities function passed to <a href="[base_url]/ISceneChildPropArguments">ISceneChildPropArguments</a>
+ * <a href="https://github.com/jwagner/simplex-noise.js" target="_blank">SimplexNoise</a>
+ * Use 'random' as seed property for random seed.
+ * Return value between -1 and 1
  *
- * @category Core.Utilities
- * @example
- * ```javascript
- * const circle = new Urpflanze.Circle({
- * 	distance: ({ context, repetition }) => context.noise('seed', repetition.index) * 200
- * })
- * ```
+ * @param {string} [seed='random']
+ * @param {number} [x=0]
+ * @param {number} [y=0]
+ * @param {number} [z=0]
+ * @returns {number}
  */
-var Context = {
-    /**
-     * <a href="https://github.com/jwagner/simplex-noise.js" target="_blank">SimplexNoise</a>
-     * Use 'random' as seed property for random seed.
-     * Return value between -1 and 1
-     *
-     * @param {string} [seed='random']
-     * @param {number} [x=0]
-     * @param {number} [y=0]
-     * @param {number} [z=0]
-     * @returns {number}
-     */
-    noise: function (seed, x, y, z) {
-        if (seed === void 0) { seed = 'random'; }
-        if (x === void 0) { x = 0; }
-        if (y === void 0) { y = 0; }
-        if (z === void 0) { z = 0; }
-        if (!noises[seed]) {
-            noises[seed] = new (simplex_noise__WEBPACK_IMPORTED_MODULE_0___default())(seed);
-        }
-        return noises[seed].noise3D(x, y, z);
-    },
-    /**
-     * Return angle (atan) from offset (or center) for matrix repetition.
-     * Offset is array between [-1, -1] and [1, 1].
-     * The return value is bettween -Math.PI / 2 and Math.PI / 2
-     *
-     * @param {IRepetition} repetition
-     * @param {vec2} offsetFromCenter
-     * @returns {number}
-     */
-    angle: function (repetition, offsetFromCenter) {
-        if (offsetFromCenter === void 0) { offsetFromCenter = [0, 0]; }
-        if (repetition.type == _types_scene_child__WEBPACK_IMPORTED_MODULE_1__.ERepetitionType.Matrix) {
-            var centerMatrix = gl_matrix__WEBPACK_IMPORTED_MODULE_2__.fromValues((repetition.col.count - 1) / 2, (repetition.row.count - 1) / 2);
-            centerMatrix[0] += centerMatrix[0] * offsetFromCenter[0];
-            centerMatrix[1] += centerMatrix[1] * offsetFromCenter[1];
-            var x = repetition.col.index - 1 - centerMatrix[0];
-            var y = repetition.row.index - 1 - centerMatrix[1];
-            return x === 0 ? 0 : Math.atan(y / x);
-        }
-        return repetition.angle;
-    },
-    /**
-     * Return angle (atan2, 4 quadrants) from offset (or center) for matrix repetition.
-     * Offset is array between [-1, -1] and [1, 1].
-     * The return value is bettween -Math.PI an Math.PI
-     *
-     * @param {IRepetition} repetition
-     * @param {vec2} offsetFromCenter
-     * @returns {number}
-     */
-    angle2: function (repetition, offsetFromCenter) {
-        if (offsetFromCenter === void 0) { offsetFromCenter = [0, 0]; }
-        if (repetition.type == _types_scene_child__WEBPACK_IMPORTED_MODULE_1__.ERepetitionType.Matrix) {
-            var centerMatrix = gl_matrix__WEBPACK_IMPORTED_MODULE_2__.fromValues((repetition.col.count - 1) / 2, (repetition.row.count - 1) / 2);
-            centerMatrix[0] += centerMatrix[0] * offsetFromCenter[0];
-            centerMatrix[1] += centerMatrix[1] * offsetFromCenter[1];
-            var x = repetition.col.index - 1 - centerMatrix[0];
-            var y = repetition.col.index - 1 - centerMatrix[1];
-            return x === 0 ? 0 : Math.atan2(y, x);
-        }
-        return repetition.angle;
-    },
-    /**
-     * Return distance from offset (or center) for matrix repetition.
-     * The return value is between 0 and 1
-     *
-     * @param {IRepetition} repetition
-     * @param {vec2} offsetFromCenter offset relative to distance prop
-     * @returns {number}
-     */
-    distance: function (repetition, offsetFromCenter) {
-        if (offsetFromCenter === void 0) { offsetFromCenter = [0, 0]; }
-        if (repetition.type == _types_scene_child__WEBPACK_IMPORTED_MODULE_1__.ERepetitionType.Matrix) {
-            var centerMatrix = gl_matrix__WEBPACK_IMPORTED_MODULE_2__.fromValues(0.5, 0.5);
-            centerMatrix[0] += centerMatrix[0] * offsetFromCenter[0];
-            centerMatrix[1] += centerMatrix[1] * offsetFromCenter[1];
-            var current = gl_matrix__WEBPACK_IMPORTED_MODULE_2__.fromValues(repetition.col.offset - 0.5 / repetition.col.count, repetition.row.offset - 0.5 / repetition.row.count);
-            return gl_matrix__WEBPACK_IMPORTED_MODULE_2__.distance(current, centerMatrix);
-        }
-        return 1;
-    },
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Context);
-//# sourceMappingURL=Context.js.map
+function noise(seed, x, y, z) {
+    if (seed === void 0) { seed = 'random'; }
+    if (x === void 0) { x = 0; }
+    if (y === void 0) { y = 0; }
+    if (z === void 0) { z = 0; }
+    if (typeof noises[seed] === 'undefined') {
+        noises[seed] = new (simplex_noise__WEBPACK_IMPORTED_MODULE_0___default())(seed);
+    }
+    return noises[seed].noise3D(x, y, z);
+}
+/**
+ * Return angle (atan) from offset (or center) for matrix repetition.
+ * Offset is array between [-1, -1] and [1, 1].
+ * The return value is between -Math.PI / 2 and Math.PI / 2
+ *
+ * @param {IRepetition} repetition
+ * @param {vec2} offsetFromCenter
+ * @returns {number}
+ */
+function angleFromRepetition(repetition, offsetFromCenter) {
+    if (offsetFromCenter === void 0) { offsetFromCenter = [0, 0]; }
+    if (repetition.type == _core_types_scene_child__WEBPACK_IMPORTED_MODULE_1__.ERepetitionType.Matrix) {
+        var centerMatrix = gl_matrix__WEBPACK_IMPORTED_MODULE_2__.fromValues((repetition.col.count - 1) / 2, (repetition.row.count - 1) / 2);
+        centerMatrix[0] += centerMatrix[0] * offsetFromCenter[0];
+        centerMatrix[1] += centerMatrix[1] * offsetFromCenter[1];
+        var x = repetition.col.index - 1 - centerMatrix[0];
+        var y = repetition.row.index - 1 - centerMatrix[1];
+        return x === 0 ? 0 : Math.atan(y / x);
+    }
+    return (repetition.angle - Math.PI) / 2;
+}
+/**
+ * Return angle (atan2, 4 quadrants) from offset (or center) for matrix repetition.
+ * Offset is array between [-1, -1] and [1, 1].
+ * The return value is between -Math.PI an Math.PI
+ *
+ * @param {IRepetition} repetition
+ * @param {vec2} offsetFromCenter
+ * @returns {number}
+ */
+function angle2FromRepetition(repetition, offsetFromCenter) {
+    if (offsetFromCenter === void 0) { offsetFromCenter = [0, 0]; }
+    if (repetition.type == _core_types_scene_child__WEBPACK_IMPORTED_MODULE_1__.ERepetitionType.Matrix) {
+        var centerMatrix = gl_matrix__WEBPACK_IMPORTED_MODULE_2__.fromValues((repetition.col.count - 1) / 2, (repetition.row.count - 1) / 2);
+        centerMatrix[0] += centerMatrix[0] * offsetFromCenter[0];
+        centerMatrix[1] += centerMatrix[1] * offsetFromCenter[1];
+        var x = repetition.col.index - 1 - centerMatrix[0];
+        var y = repetition.col.index - 1 - centerMatrix[1];
+        return x === 0 ? 0 : Math.atan2(y, x);
+    }
+    return repetition.angle - Math.PI;
+}
+/**
+ * Return distance from offset (or center) for matrix repetition.
+ * The return value is between 0 and 1
+ *
+ * @param {IRepetition} repetition
+ * @param {vec2} offsetFromCenter offset relative to distance prop
+ * @returns {number}
+ */
+function distanceFromRepetition(repetition, offsetFromCenter) {
+    if (offsetFromCenter === void 0) { offsetFromCenter = [0, 0]; }
+    if (repetition.type == _core_types_scene_child__WEBPACK_IMPORTED_MODULE_1__.ERepetitionType.Matrix) {
+        var centerMatrix = gl_matrix__WEBPACK_IMPORTED_MODULE_2__.fromValues(0.5, 0.5);
+        centerMatrix[0] += centerMatrix[0] * offsetFromCenter[0];
+        centerMatrix[1] += centerMatrix[1] * offsetFromCenter[1];
+        var current = gl_matrix__WEBPACK_IMPORTED_MODULE_2__.fromValues(repetition.col.offset - 0.5 / repetition.col.count, repetition.row.offset - 0.5 / repetition.row.count);
+        return gl_matrix__WEBPACK_IMPORTED_MODULE_2__.distance(current, centerMatrix);
+    }
+    return 1;
+}
+// /**
+//  * Get value percentage of scene width.
+//  *
+//  * @param {number} percentage
+//  * @param {SceneChild} sceneChild
+//  * @returns {number}
+//  */
+// percW: (percentage: number, sceneChild: SceneChild | Scene): number => {
+// 	if (sceneChild instanceof Scene) return (sceneChild.width * percentage) / 100
+// 	return sceneChild && sceneChild.scene ? (sceneChild.scene.width * percentage) / 100 : percentage
+// },
+// /**
+//  * Get value percentage of scene height.
+//  *
+//  * @param {number} percentage
+//  * @param {SceneChild} sceneChild
+//  * @returns {number}
+//  */
+// percH: (percentage: number, sceneChild: SceneChild | Scene): number => {
+// 	if (sceneChild instanceof Scene) return (sceneChild.height * percentage) / 100
+// 	return sceneChild && sceneChild.scene ? (sceneChild.scene.height * percentage) / 100 : percentage
+// },
+//# sourceMappingURL=Utilites.js.map
 
 /***/ }),
 
@@ -2040,18 +2037,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-/* harmony import */ var gl_matrix__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! gl-matrix */ "./node_modules/gl-matrix/esm/common.js");
-/* harmony import */ var gl_matrix__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! gl-matrix */ "./node_modules/gl-matrix/esm/mat4.js");
-/* harmony import */ var gl_matrix__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! gl-matrix */ "./node_modules/gl-matrix/esm/vec2.js");
-/* harmony import */ var gl_matrix__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! gl-matrix */ "./node_modules/gl-matrix/esm/vec3.js");
+/* harmony import */ var gl_matrix__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! gl-matrix */ "./node_modules/gl-matrix/esm/mat4.js");
+/* harmony import */ var gl_matrix__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! gl-matrix */ "./node_modules/gl-matrix/esm/vec2.js");
+/* harmony import */ var gl_matrix__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! gl-matrix */ "./node_modules/gl-matrix/esm/vec3.js");
 /* harmony import */ var _types_scene_child__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../types/scene-child */ "./dist/core/types/scene-child.js");
-/* harmony import */ var _SceneChild__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../SceneChild */ "./dist/core/SceneChild.js");
-/* harmony import */ var _Context__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Context */ "./dist/core/Context.js");
-/* harmony import */ var _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../math/gl-matrix-extensions */ "./dist/core/math/gl-matrix-extensions.js");
-/* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../Utilites */ "./dist/Utilites.js");
-/* harmony import */ var _math_Vec2__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../math/Vec2 */ "./dist/core/math/Vec2.js");
-/* harmony import */ var _math_bounding__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../math/bounding */ "./dist/core/math/bounding.js");
-/* harmony import */ var _math__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../math */ "./dist/core/math/index.js");
+/* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Utilites */ "./dist/Utilites.js");
+/* harmony import */ var _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../math/gl-matrix-extensions */ "./dist/core/math/gl-matrix-extensions.js");
+/* harmony import */ var _math_Vec2__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../math/Vec2 */ "./dist/core/math/Vec2.js");
+/* harmony import */ var _math__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../math */ "./dist/core/math/index.js");
+/* harmony import */ var _math_bounding__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../math/bounding */ "./dist/core/math/bounding.js");
+/* harmony import */ var _SceneChild__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../SceneChild */ "./dist/core/SceneChild.js");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -2084,12 +2079,10 @@ var __assign = (undefined && undefined.__assign) || function () {
 
 
 
-
-gl_matrix__WEBPACK_IMPORTED_MODULE_8__.setMatrixArrayType(Array);
-var tmpMatrix = gl_matrix__WEBPACK_IMPORTED_MODULE_9__.create();
-var transformMatrix = gl_matrix__WEBPACK_IMPORTED_MODULE_9__.create();
-var perspectiveMatrix = gl_matrix__WEBPACK_IMPORTED_MODULE_9__.create();
-var repetitionMatrix = gl_matrix__WEBPACK_IMPORTED_MODULE_9__.create();
+var tmpMatrix = gl_matrix__WEBPACK_IMPORTED_MODULE_7__.create();
+var transformMatrix = gl_matrix__WEBPACK_IMPORTED_MODULE_7__.create();
+var perspectiveMatrix = gl_matrix__WEBPACK_IMPORTED_MODULE_7__.create();
+var repetitionMatrix = gl_matrix__WEBPACK_IMPORTED_MODULE_7__.create();
 /**
  * Main class for shape generation
  *
@@ -2206,12 +2199,8 @@ var ShapeBase = /** @class */ (function (_super) {
      * @returns {*}
      */
     ShapeBase.prototype.getProp = function (key, propArguments, defaultValue) {
-        var _a;
         var attribute = this.props[key];
         if (typeof attribute === 'function') {
-            propArguments = propArguments || ShapeBase.EMPTY_PROP_ARGUMENTS;
-            propArguments.shape = this;
-            propArguments.time = ((_a = this.scene) === null || _a === void 0 ? void 0 : _a.currentTime) || 0;
             attribute = attribute(propArguments);
         }
         return typeof attribute === 'undefined' || Number.isNaN(attribute) ? defaultValue : attribute;
@@ -2267,7 +2256,7 @@ var ShapeBase = /** @class */ (function (_super) {
      * @param {ISceneChildPropArguments} [parentPropArguments]
      */
     ShapeBase.prototype.generate = function (generateId, bDirectSceneChild, parentPropArguments) {
-        var _a, _b, _c;
+        var _a, _b;
         if (bDirectSceneChild === void 0) { bDirectSceneChild = false; }
         if (this.buffer && (this.bStatic || (generateId === this.generateId && !this.bUseParent && !this.bUseRecursion))) {
             return;
@@ -2275,24 +2264,18 @@ var ShapeBase = /** @class */ (function (_super) {
         this.generateId = generateId;
         if (!this.bStaticIndexed || !this.bIndexed)
             this.indexedBuffer = [];
+        // prettier-ignore
         var repetition = {
-            type: _types_scene_child__WEBPACK_IMPORTED_MODULE_0__.ERepetitionType.Ring,
-            angle: 0,
-            index: 1,
-            offset: 1,
-            count: 1,
-            row: {
-                index: 1,
-                offset: 1,
-                count: 1,
-            },
-            col: {
-                index: 1,
-                offset: 1,
-                count: 1,
-            },
+            type: _types_scene_child__WEBPACK_IMPORTED_MODULE_0__.ERepetitionType.Ring, angle: 0, index: 1, offset: 1, count: 1,
+            row: { index: 1, offset: 1, count: 1 },
+            col: { index: 1, offset: 1, count: 1 },
         };
-        var repetitions = this.getProp('repetitions', { parent: parentPropArguments, repetition: repetition, time: 1, context: _Context__WEBPACK_IMPORTED_MODULE_2__.default }, 1);
+        var propArguments = {
+            repetition: repetition,
+            shape: this,
+            parent: parentPropArguments,
+        };
+        var repetitions = this.getProp('repetitions', propArguments, 1);
         var repetitionType = Array.isArray(repetitions) ? _types_scene_child__WEBPACK_IMPORTED_MODULE_0__.ERepetitionType.Matrix : _types_scene_child__WEBPACK_IMPORTED_MODULE_0__.ERepetitionType.Ring;
         var repetitionCount = Array.isArray(repetitions)
             ? repetitions[0] * ((_a = repetitions[1]) !== null && _a !== void 0 ? _a : repetitions[0])
@@ -2307,17 +2290,10 @@ var ShapeBase = /** @class */ (function (_super) {
         repetition.col.count = repetitionColCount;
         repetition.row.count = repetitionRowCount;
         repetition.type = repetitionType;
-        var propArguments = {
-            repetition: repetition,
-            context: _Context__WEBPACK_IMPORTED_MODULE_2__.default,
-            time: ((_c = this.scene) === null || _c === void 0 ? void 0 : _c.currentTime) || 0,
-            shape: this,
-            parent: parentPropArguments,
-        };
         var totalBufferLength = 0;
         var buffers = [];
         var currentIndex = 0;
-        var centerMatrix = gl_matrix__WEBPACK_IMPORTED_MODULE_10__.fromValues((repetitionColCount - 1) / 2, (repetitionRowCount - 1) / 2);
+        var centerMatrix = gl_matrix__WEBPACK_IMPORTED_MODULE_8__.fromValues((repetitionColCount - 1) / 2, (repetitionRowCount - 1) / 2);
         var sceneCenter = this.scene ? [this.scene.center[0], this.scene.center[1], 0] : [0, 0, 0];
         var tmpTotalShapeBounding = [undefined, undefined, undefined, undefined];
         var tmpSingleRepetitionBounding = [undefined, undefined, undefined, undefined];
@@ -2325,7 +2301,7 @@ var ShapeBase = /** @class */ (function (_super) {
             for (var currentColRepetition = 0; currentColRepetition < repetitionColCount; currentColRepetition++, currentIndex++) {
                 repetition.index = currentIndex + 1;
                 repetition.offset = repetitionCount > 1 ? currentIndex / (repetitionCount - 1) : 1;
-                repetition.angle = repetitionType === _types_scene_child__WEBPACK_IMPORTED_MODULE_0__.ERepetitionType.Ring ? (_math__WEBPACK_IMPORTED_MODULE_7__.PI2 / repetitionCount) * currentIndex : 0;
+                repetition.angle = repetitionType === _types_scene_child__WEBPACK_IMPORTED_MODULE_0__.ERepetitionType.Ring ? (_math__WEBPACK_IMPORTED_MODULE_4__.PI2 / repetitionCount) * currentIndex : 0;
                 colRepetition.index = currentColRepetition + 1;
                 colRepetition.offset = repetitionColCount > 1 ? currentColRepetition / (repetitionColCount - 1) : 1;
                 rowRepetition.index = currentRowRepetition + 1;
@@ -2337,10 +2313,10 @@ var ShapeBase = /** @class */ (function (_super) {
                 buffers[currentIndex] = new Float32Array(bufferLength);
                 totalBufferLength += bufferLength;
                 {
-                    var distance = _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_3__.toVec2(this.getProp('distance', propArguments, _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_3__.VEC2_ZERO));
+                    var distance = _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_2__.toVec2(this.getProp('distance', propArguments, _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_2__.VEC2_ZERO));
                     var displace = this.getProp('displace', propArguments, 0);
-                    var scale = _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_3__.toVec3(this.getProp('scale', propArguments, _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_3__.VEC2_ONE), 1);
-                    var translate = _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_3__.toVec3(this.getProp('translate', propArguments, _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_3__.VEC2_ZERO), 0);
+                    var scale = _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_2__.toVec3(this.getProp('scale', propArguments, _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_2__.VEC2_ONE), 1);
+                    var translate = _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_2__.toVec3(this.getProp('translate', propArguments, _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_2__.VEC2_ZERO), 0);
                     var skewX = this.getProp('skewX', propArguments, 0);
                     var skewY = this.getProp('skewY', propArguments, 0);
                     var squeezeX = this.getProp('squeezeX', propArguments, 0);
@@ -2348,17 +2324,17 @@ var ShapeBase = /** @class */ (function (_super) {
                     var rotateX = this.getProp('rotateX', propArguments, 0);
                     var rotateY = this.getProp('rotateY', propArguments, 0);
                     var rotateZ = this.getProp('rotateZ', propArguments, 0);
-                    var perspective = (0,_Utilites__WEBPACK_IMPORTED_MODULE_4__.clamp)(0, 1, this.getProp('perspective', propArguments, 0));
-                    var perspectiveOrigin = _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_3__.toVec3(this.getProp('perspectiveOrigin', propArguments, _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_3__.VEC2_ZERO), 0);
-                    var transformOrigin = _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_3__.toVec3(this.getProp('transformOrigin', propArguments, _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_3__.VEC2_ZERO), 0);
+                    var perspective = (0,_Utilites__WEBPACK_IMPORTED_MODULE_1__.clamp)(0, 1, this.getProp('perspective', propArguments, 0));
+                    var perspectiveOrigin = _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_2__.toVec3(this.getProp('perspectiveOrigin', propArguments, _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_2__.VEC2_ZERO), 0);
+                    var transformOrigin = _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_2__.toVec3(this.getProp('transformOrigin', propArguments, _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_2__.VEC2_ZERO), 0);
                     var offset = void 0;
                     switch (repetitionType) {
                         case _types_scene_child__WEBPACK_IMPORTED_MODULE_0__.ERepetitionType.Ring:
-                            offset = gl_matrix__WEBPACK_IMPORTED_MODULE_11__.fromValues(distance[0], 0, 0);
-                            gl_matrix__WEBPACK_IMPORTED_MODULE_11__.rotateZ(offset, offset, _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_3__.VEC3_ZERO, repetition.angle + displace);
+                            offset = gl_matrix__WEBPACK_IMPORTED_MODULE_9__.fromValues(distance[0], 0, 0);
+                            gl_matrix__WEBPACK_IMPORTED_MODULE_9__.rotateZ(offset, offset, _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_2__.VEC3_ZERO, repetition.angle + displace);
                             break;
                         case _types_scene_child__WEBPACK_IMPORTED_MODULE_0__.ERepetitionType.Matrix:
-                            offset = gl_matrix__WEBPACK_IMPORTED_MODULE_11__.fromValues(distance[1] * (currentColRepetition - centerMatrix[0]), distance[0] * (currentRowRepetition - centerMatrix[1]), 0);
+                            offset = gl_matrix__WEBPACK_IMPORTED_MODULE_9__.fromValues(distance[1] * (currentColRepetition - centerMatrix[0]), distance[0] * (currentRowRepetition - centerMatrix[1]), 0);
                             break;
                     }
                     var perspectiveSize = perspective > 0 ? Math.max(bounding.width, bounding.height) / 2 : 1;
@@ -2377,21 +2353,21 @@ var ShapeBase = /** @class */ (function (_super) {
                         /**
                          * Create Transformation matrix
                          */
-                        gl_matrix__WEBPACK_IMPORTED_MODULE_9__.identity(transformMatrix);
-                        bTransformOrigin && gl_matrix__WEBPACK_IMPORTED_MODULE_9__.translate(transformMatrix, transformMatrix, transformOrigin);
+                        gl_matrix__WEBPACK_IMPORTED_MODULE_7__.identity(transformMatrix);
+                        bTransformOrigin && gl_matrix__WEBPACK_IMPORTED_MODULE_7__.translate(transformMatrix, transformMatrix, transformOrigin);
                         if (translate[0] !== 0 || translate[1] !== 0)
-                            gl_matrix__WEBPACK_IMPORTED_MODULE_9__.translate(transformMatrix, transformMatrix, translate);
+                            gl_matrix__WEBPACK_IMPORTED_MODULE_7__.translate(transformMatrix, transformMatrix, translate);
                         if (skewX !== 0 || skewY !== 0) {
-                            _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_3__.fromSkew(tmpMatrix, [skewX, skewY]);
-                            gl_matrix__WEBPACK_IMPORTED_MODULE_9__.multiply(transformMatrix, transformMatrix, tmpMatrix);
+                            _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_2__.fromSkew(tmpMatrix, [skewX, skewY]);
+                            gl_matrix__WEBPACK_IMPORTED_MODULE_7__.multiply(transformMatrix, transformMatrix, tmpMatrix);
                         }
-                        rotateX !== 0 && gl_matrix__WEBPACK_IMPORTED_MODULE_9__.rotateX(transformMatrix, transformMatrix, rotateX);
-                        rotateY !== 0 && gl_matrix__WEBPACK_IMPORTED_MODULE_9__.rotateY(transformMatrix, transformMatrix, rotateY);
-                        rotateZ !== 0 && gl_matrix__WEBPACK_IMPORTED_MODULE_9__.rotateZ(transformMatrix, transformMatrix, rotateZ);
+                        rotateX !== 0 && gl_matrix__WEBPACK_IMPORTED_MODULE_7__.rotateX(transformMatrix, transformMatrix, rotateX);
+                        rotateY !== 0 && gl_matrix__WEBPACK_IMPORTED_MODULE_7__.rotateY(transformMatrix, transformMatrix, rotateY);
+                        rotateZ !== 0 && gl_matrix__WEBPACK_IMPORTED_MODULE_7__.rotateZ(transformMatrix, transformMatrix, rotateZ);
                         if (scale[0] !== 1 || scale[1] !== 1)
-                            gl_matrix__WEBPACK_IMPORTED_MODULE_9__.scale(transformMatrix, transformMatrix, scale);
+                            gl_matrix__WEBPACK_IMPORTED_MODULE_7__.scale(transformMatrix, transformMatrix, scale);
                         bTransformOrigin &&
-                            gl_matrix__WEBPACK_IMPORTED_MODULE_9__.translate(transformMatrix, transformMatrix, gl_matrix__WEBPACK_IMPORTED_MODULE_11__.scale(transformOrigin, transformOrigin, -1));
+                            gl_matrix__WEBPACK_IMPORTED_MODULE_7__.translate(transformMatrix, transformMatrix, gl_matrix__WEBPACK_IMPORTED_MODULE_9__.scale(transformOrigin, transformOrigin, -1));
                         /**
                          * Create Perspective matrix
                          */
@@ -2401,35 +2377,35 @@ var ShapeBase = /** @class */ (function (_super) {
                                 perspectiveOrigin[1] *= bounding.height / 2;
                                 perspectiveOrigin[2] = 0;
                             }
-                            gl_matrix__WEBPACK_IMPORTED_MODULE_9__.perspective(perspectiveMatrix, -Math.PI / 2, 1, 0, Infinity);
+                            gl_matrix__WEBPACK_IMPORTED_MODULE_7__.perspective(perspectiveMatrix, -Math.PI / 2, 1, 0, Infinity);
                         }
                         /**
                          * Create Repetition matrix
                          */
-                        gl_matrix__WEBPACK_IMPORTED_MODULE_9__.identity(repetitionMatrix);
-                        gl_matrix__WEBPACK_IMPORTED_MODULE_9__.translate(repetitionMatrix, repetitionMatrix, offset);
+                        gl_matrix__WEBPACK_IMPORTED_MODULE_7__.identity(repetitionMatrix);
+                        gl_matrix__WEBPACK_IMPORTED_MODULE_7__.translate(repetitionMatrix, repetitionMatrix, offset);
                         if (bDirectSceneChild) {
-                            gl_matrix__WEBPACK_IMPORTED_MODULE_9__.translate(repetitionMatrix, repetitionMatrix, sceneCenter);
+                            gl_matrix__WEBPACK_IMPORTED_MODULE_7__.translate(repetitionMatrix, repetitionMatrix, sceneCenter);
                         }
                         if (repetitionType === _types_scene_child__WEBPACK_IMPORTED_MODULE_0__.ERepetitionType.Ring)
-                            gl_matrix__WEBPACK_IMPORTED_MODULE_9__.rotateZ(repetitionMatrix, repetitionMatrix, repetition.angle + displace);
+                            gl_matrix__WEBPACK_IMPORTED_MODULE_7__.rotateZ(repetitionMatrix, repetitionMatrix, repetition.angle + displace);
                     }
-                    _math_bounding__WEBPACK_IMPORTED_MODULE_6__.default.clear(tmpSingleRepetitionBounding);
+                    _math_bounding__WEBPACK_IMPORTED_MODULE_5__.default.clear(tmpSingleRepetitionBounding);
                     // Apply matrices on vertex
                     for (var bufferIndex = 0; bufferIndex < bufferLength; bufferIndex += 2) {
                         var vertex = [buffer[bufferIndex], buffer[bufferIndex + 1], perspectiveValue];
                         {
                             // Apply squeeze, can be insert into transformMatrix?
-                            squeezeX !== 0 && _math_Vec2__WEBPACK_IMPORTED_MODULE_5__.default.squeezeX(vertex, squeezeX);
-                            squeezeY !== 0 && _math_Vec2__WEBPACK_IMPORTED_MODULE_5__.default.squeezeY(vertex, squeezeY);
+                            squeezeX !== 0 && _math_Vec2__WEBPACK_IMPORTED_MODULE_3__.default.squeezeX(vertex, squeezeX);
+                            squeezeY !== 0 && _math_Vec2__WEBPACK_IMPORTED_MODULE_3__.default.squeezeY(vertex, squeezeY);
                             // Apply transforms
-                            gl_matrix__WEBPACK_IMPORTED_MODULE_11__.transformMat4(vertex, vertex, transformMatrix);
+                            gl_matrix__WEBPACK_IMPORTED_MODULE_9__.transformMat4(vertex, vertex, transformMatrix);
                             // Apply perspective
                             if (perspectiveValue > 0) {
-                                bPerspectiveOrigin && gl_matrix__WEBPACK_IMPORTED_MODULE_11__.add(vertex, vertex, perspectiveOrigin);
-                                gl_matrix__WEBPACK_IMPORTED_MODULE_11__.transformMat4(vertex, vertex, perspectiveMatrix);
-                                gl_matrix__WEBPACK_IMPORTED_MODULE_11__.scale(vertex, vertex, perspectiveValue);
-                                bPerspectiveOrigin && gl_matrix__WEBPACK_IMPORTED_MODULE_11__.sub(vertex, vertex, perspectiveOrigin);
+                                bPerspectiveOrigin && gl_matrix__WEBPACK_IMPORTED_MODULE_9__.add(vertex, vertex, perspectiveOrigin);
+                                gl_matrix__WEBPACK_IMPORTED_MODULE_9__.transformMat4(vertex, vertex, perspectiveMatrix);
+                                gl_matrix__WEBPACK_IMPORTED_MODULE_9__.scale(vertex, vertex, perspectiveValue);
+                                bPerspectiveOrigin && gl_matrix__WEBPACK_IMPORTED_MODULE_9__.sub(vertex, vertex, perspectiveOrigin);
                             }
                             // custom vertex manipulation
                             if (this.vertexCallback) {
@@ -2443,12 +2419,12 @@ var ShapeBase = /** @class */ (function (_super) {
                                 this.vertexCallback(vertex, vertexRepetition, propArguments);
                             }
                             // final, apply repetition matrix
-                            gl_matrix__WEBPACK_IMPORTED_MODULE_11__.transformMat4(vertex, vertex, repetitionMatrix);
+                            gl_matrix__WEBPACK_IMPORTED_MODULE_9__.transformMat4(vertex, vertex, repetitionMatrix);
                         }
                         buffers[currentIndex][bufferIndex] = vertex[0];
                         buffers[currentIndex][bufferIndex + 1] = vertex[1];
                         // Bounding.add(tmpSingleRepetitionBounding, vertex[0], vertex[1])
-                        _math_bounding__WEBPACK_IMPORTED_MODULE_6__.default.add(tmpTotalShapeBounding, vertex[0], vertex[1]);
+                        _math_bounding__WEBPACK_IMPORTED_MODULE_5__.default.add(tmpTotalShapeBounding, vertex[0], vertex[1]);
                     }
                 }
                 // Bounding.sum(tmpTotalShapeBounding, tmpSingleRepetitionBounding)
@@ -2460,7 +2436,7 @@ var ShapeBase = /** @class */ (function (_super) {
                 }
             }
         }
-        _math_bounding__WEBPACK_IMPORTED_MODULE_6__.default.bind(this.bounding, tmpTotalShapeBounding);
+        _math_bounding__WEBPACK_IMPORTED_MODULE_5__.default.bind(this.bounding, tmpTotalShapeBounding);
         this.buffer = new Float32Array(totalBufferLength);
         for (var i = 0, offset = 0, len = buffers.length; i < len; offset += buffers[i].length, i++)
             this.buffer.set(buffers[i], offset);
@@ -2563,19 +2539,8 @@ var ShapeBase = /** @class */ (function (_super) {
      * @ignore
      */
     ShapeBase.getEmptyRepetition = function () { return (__assign(__assign({ type: _types_scene_child__WEBPACK_IMPORTED_MODULE_0__.ERepetitionType.Ring, angle: 0 }, ShapeBase.getEmptySimpleRepetition()), { row: ShapeBase.getEmptySimpleRepetition(), col: ShapeBase.getEmptySimpleRepetition() })); };
-    /**
-     * Empty Prop Arguments
-     *
-     * @internal
-     * @ignore
-     */
-    ShapeBase.EMPTY_PROP_ARGUMENTS = {
-        time: 0,
-        context: _Context__WEBPACK_IMPORTED_MODULE_2__.default,
-        repetition: ShapeBase.getEmptyRepetition(),
-    };
     return ShapeBase;
-}(_SceneChild__WEBPACK_IMPORTED_MODULE_1__.default));
+}(_SceneChild__WEBPACK_IMPORTED_MODULE_6__.default));
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ShapeBase);
 //# sourceMappingURL=ShapeBase.js.map
 
@@ -2782,8 +2747,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _types_shape_base__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../types/shape-base */ "./dist/core/types/shape-base.js");
 /* harmony import */ var _math_bounding__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../math/bounding */ "./dist/core/math/bounding.js");
 /* harmony import */ var _math__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../math */ "./dist/core/math/index.js");
-/* harmony import */ var _ShapeBase__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ShapeBase */ "./dist/core/shapes/ShapeBase.js");
-/* harmony import */ var _ShapePrimitive__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ShapePrimitive */ "./dist/core/shapes/ShapePrimitive.js");
+/* harmony import */ var _ShapePrimitive__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ShapePrimitive */ "./dist/core/shapes/ShapePrimitive.js");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -2808,7 +2772,6 @@ var __assign = (undefined && undefined.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-
 
 
 
@@ -2994,7 +2957,7 @@ var ShapeLoop = /** @class */ (function (_super) {
             /**
              * Adapt and apply side length
              */
-            var buffer = _ShapePrimitive__WEBPACK_IMPORTED_MODULE_4__.default.adaptBuffer(currentOrSingleLoopBuffer, this.adaptMode);
+            var buffer = _ShapePrimitive__WEBPACK_IMPORTED_MODULE_3__.default.adaptBuffer(currentOrSingleLoopBuffer, this.adaptMode);
             _math_bounding__WEBPACK_IMPORTED_MODULE_1__.default.clear(tmpBounding);
             for (var i = 0; i < bufferLength; i += 2) {
                 buffer[i] = buffer[i] * sideLength[0];
@@ -3014,12 +2977,10 @@ var ShapeLoop = /** @class */ (function (_super) {
      * @returns {ShapeLoopInformation}
      */
     ShapeLoop.prototype.getLoop = function (propArguments) {
-        var _a, _b, _c, _d, _e, _f, _g;
-        if (propArguments === void 0) { propArguments = _ShapeBase__WEBPACK_IMPORTED_MODULE_3__.default.EMPTY_PROP_ARGUMENTS; }
-        propArguments.time = ((_a = this.scene) === null || _a === void 0 ? void 0 : _a.currentTime) || 0;
-        var start = (_c = (_b = this.props.loop) === null || _b === void 0 ? void 0 : _b.start) !== null && _c !== void 0 ? _c : this.loop.start;
-        var end = (_e = (_d = this.props.loop) === null || _d === void 0 ? void 0 : _d.end) !== null && _e !== void 0 ? _e : this.loop.end;
-        var inc = (_g = (_f = this.props.loop) === null || _f === void 0 ? void 0 : _f.inc) !== null && _g !== void 0 ? _g : this.loop.inc;
+        var _a, _b, _c, _d, _e, _f;
+        var start = (_b = (_a = this.props.loop) === null || _a === void 0 ? void 0 : _a.start) !== null && _b !== void 0 ? _b : this.loop.start;
+        var end = (_d = (_c = this.props.loop) === null || _c === void 0 ? void 0 : _c.end) !== null && _d !== void 0 ? _d : this.loop.end;
+        var inc = (_f = (_e = this.props.loop) === null || _e === void 0 ? void 0 : _e.inc) !== null && _f !== void 0 ? _f : this.loop.inc;
         start = (typeof start === 'function' ? start(propArguments) : start);
         end = (typeof end === 'function' ? end(propArguments) : end);
         inc = (typeof inc === 'function' ? inc(propArguments) : inc);
@@ -3036,7 +2997,7 @@ var ShapeLoop = /** @class */ (function (_super) {
     };
     ShapeLoop.PId2 = Math.PI / 2;
     return ShapeLoop;
-}(_ShapePrimitive__WEBPACK_IMPORTED_MODULE_4__.default));
+}(_ShapePrimitive__WEBPACK_IMPORTED_MODULE_3__.default));
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ShapeLoop);
 //# sourceMappingURL=ShapeLoop.js.map
 
@@ -3283,7 +3244,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _math_bounding__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../math/bounding */ "./dist/core/math/bounding.js");
 /* harmony import */ var _Shape__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Shape */ "./dist/core/shapes/Shape.js");
-/* harmony import */ var _Context__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Context */ "./dist/core/Context.js");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -3308,7 +3268,6 @@ var __assign = (undefined && undefined.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-
 
 
 /**
@@ -3487,14 +3446,8 @@ var ShapeRecursive = /** @class */ (function (_super) {
     ShapeRecursive.prototype.addIndex = function (frameLength, repetition
     // singleRepetitionBounding: IShapeBounding
     ) {
-        var _a;
         if (this.shape) {
-            var propArguments = {
-                repetition: repetition,
-                context: _Context__WEBPACK_IMPORTED_MODULE_2__.default,
-                time: ((_a = this.scene) === null || _a === void 0 ? void 0 : _a.currentTime) || 0,
-                shape: this,
-            };
+            var propArguments = { repetition: repetition, shape: this };
             var recursions = Math.floor(this.getProp('recursions', propArguments, 1));
             var recursionVertex = Math.floor(this.getProp('recursionVertex', propArguments, 0));
             // const realFrameLength = ShapeRecursive.summmation(recursions, this.shape.getBufferLength() / 2)
@@ -4503,7 +4456,6 @@ __webpack_require__.r(__webpack_exports__);
 /*! namespace exports */
 /*! export Animation [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/services/animation/Simple.js .default */
 /*! export Circle [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/Circle.js .default */
-/*! export Context [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/Context.js .default */
 /*! export DrawerCanvas [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/services/drawers/drawer-canvas/DrawerCanvas.js .default */
 /*! export Easings [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/services/animation/Easings.js .default */
 /*! export Group [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/Group.js .default */
@@ -4525,11 +4477,16 @@ __webpack_require__.r(__webpack_exports__);
 /*! export SuperShape [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/SuperShape.js .default */
 /*! export Triangle [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/Triangle.js .default */
 /*! export Vec2 [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/math/Vec2.js .default */
+/*! export angle2FromRepetition [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .angle2FromRepetition */
+/*! export angleFromRepetition [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .angleFromRepetition */
 /*! export author [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/meta.js .author */
 /*! export clamp [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .clamp */
+/*! export distanceFromRepetition [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .distanceFromRepetition */
 /*! export lerp [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .lerp */
 /*! export license [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/meta.js .license */
 /*! export log [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/math/index.js .log */
+/*! export noise [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .noise */
+/*! export now [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .now */
 /*! export relativeClamp [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .relativeClamp */
 /*! export toDegrees [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .toDegrees */
 /*! export toRadians [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .toRadians */
@@ -4544,30 +4501,34 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "version": () => /* reexport safe */ _meta__WEBPACK_IMPORTED_MODULE_0__.version,
 /* harmony export */   "author": () => /* reexport safe */ _meta__WEBPACK_IMPORTED_MODULE_0__.author,
 /* harmony export */   "license": () => /* reexport safe */ _meta__WEBPACK_IMPORTED_MODULE_0__.license,
-/* harmony export */   "Scene": () => /* reexport safe */ _core_Scene__WEBPACK_IMPORTED_MODULE_1__.default,
-/* harmony export */   "SceneChild": () => /* reexport safe */ _core_SceneChild__WEBPACK_IMPORTED_MODULE_2__.default,
-/* harmony export */   "Group": () => /* reexport safe */ _core_Group__WEBPACK_IMPORTED_MODULE_3__.default,
-/* harmony export */   "ShapePrimitive": () => /* reexport safe */ _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_4__.default,
-/* harmony export */   "ShapeLoop": () => /* reexport safe */ _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_5__.default,
-/* harmony export */   "ShapeBuffer": () => /* reexport safe */ _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_6__.default,
-/* harmony export */   "Shape": () => /* reexport safe */ _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_7__.default,
-/* harmony export */   "ShapeRecursive": () => /* reexport safe */ _core_shapes_ShapeRecursive__WEBPACK_IMPORTED_MODULE_8__.default,
-/* harmony export */   "Line": () => /* reexport safe */ _core_shapes_primitives_Line__WEBPACK_IMPORTED_MODULE_9__.default,
-/* harmony export */   "Triangle": () => /* reexport safe */ _core_shapes_primitives_Triangle__WEBPACK_IMPORTED_MODULE_10__.default,
-/* harmony export */   "Rect": () => /* reexport safe */ _core_shapes_primitives_Rect__WEBPACK_IMPORTED_MODULE_11__.default,
-/* harmony export */   "Polygon": () => /* reexport safe */ _core_shapes_primitives_Polygon__WEBPACK_IMPORTED_MODULE_12__.default,
-/* harmony export */   "Circle": () => /* reexport safe */ _core_shapes_primitives_Circle__WEBPACK_IMPORTED_MODULE_13__.default,
-/* harmony export */   "Rose": () => /* reexport safe */ _core_shapes_primitives_Rose__WEBPACK_IMPORTED_MODULE_14__.default,
-/* harmony export */   "Spiral": () => /* reexport safe */ _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_15__.default,
-/* harmony export */   "Lissajous": () => /* reexport safe */ _core_shapes_primitives_Lissajous__WEBPACK_IMPORTED_MODULE_16__.default,
-/* harmony export */   "SuperShape": () => /* reexport safe */ _core_shapes_primitives_SuperShape__WEBPACK_IMPORTED_MODULE_17__.default,
-/* harmony export */   "lerp": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_18__.lerp,
-/* harmony export */   "clamp": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_18__.clamp,
-/* harmony export */   "relativeClamp": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_18__.relativeClamp,
-/* harmony export */   "toDegrees": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_18__.toDegrees,
-/* harmony export */   "toRadians": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_18__.toRadians,
-/* harmony export */   "Vec2": () => /* reexport safe */ _core_math_Vec2__WEBPACK_IMPORTED_MODULE_19__.default,
-/* harmony export */   "Context": () => /* reexport safe */ _core_Context__WEBPACK_IMPORTED_MODULE_20__.default,
+/* harmony export */   "Scene": () => /* reexport safe */ _core_Scene__WEBPACK_IMPORTED_MODULE_2__.default,
+/* harmony export */   "SceneChild": () => /* reexport safe */ _core_SceneChild__WEBPACK_IMPORTED_MODULE_3__.default,
+/* harmony export */   "Group": () => /* reexport safe */ _core_Group__WEBPACK_IMPORTED_MODULE_4__.default,
+/* harmony export */   "ShapePrimitive": () => /* reexport safe */ _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_5__.default,
+/* harmony export */   "ShapeLoop": () => /* reexport safe */ _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_6__.default,
+/* harmony export */   "ShapeBuffer": () => /* reexport safe */ _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_7__.default,
+/* harmony export */   "Shape": () => /* reexport safe */ _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_8__.default,
+/* harmony export */   "ShapeRecursive": () => /* reexport safe */ _core_shapes_ShapeRecursive__WEBPACK_IMPORTED_MODULE_9__.default,
+/* harmony export */   "Line": () => /* reexport safe */ _core_shapes_primitives_Line__WEBPACK_IMPORTED_MODULE_10__.default,
+/* harmony export */   "Triangle": () => /* reexport safe */ _core_shapes_primitives_Triangle__WEBPACK_IMPORTED_MODULE_11__.default,
+/* harmony export */   "Rect": () => /* reexport safe */ _core_shapes_primitives_Rect__WEBPACK_IMPORTED_MODULE_12__.default,
+/* harmony export */   "Polygon": () => /* reexport safe */ _core_shapes_primitives_Polygon__WEBPACK_IMPORTED_MODULE_13__.default,
+/* harmony export */   "Circle": () => /* reexport safe */ _core_shapes_primitives_Circle__WEBPACK_IMPORTED_MODULE_14__.default,
+/* harmony export */   "Rose": () => /* reexport safe */ _core_shapes_primitives_Rose__WEBPACK_IMPORTED_MODULE_15__.default,
+/* harmony export */   "Spiral": () => /* reexport safe */ _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_16__.default,
+/* harmony export */   "Lissajous": () => /* reexport safe */ _core_shapes_primitives_Lissajous__WEBPACK_IMPORTED_MODULE_17__.default,
+/* harmony export */   "SuperShape": () => /* reexport safe */ _core_shapes_primitives_SuperShape__WEBPACK_IMPORTED_MODULE_18__.default,
+/* harmony export */   "lerp": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_19__.lerp,
+/* harmony export */   "clamp": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_19__.clamp,
+/* harmony export */   "relativeClamp": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_19__.relativeClamp,
+/* harmony export */   "toDegrees": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_19__.toDegrees,
+/* harmony export */   "toRadians": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_19__.toRadians,
+/* harmony export */   "now": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_19__.now,
+/* harmony export */   "noise": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_19__.noise,
+/* harmony export */   "angleFromRepetition": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_19__.angleFromRepetition,
+/* harmony export */   "angle2FromRepetition": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_19__.angle2FromRepetition,
+/* harmony export */   "distanceFromRepetition": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_19__.distanceFromRepetition,
+/* harmony export */   "Vec2": () => /* reexport safe */ _core_math_Vec2__WEBPACK_IMPORTED_MODULE_20__.default,
 /* harmony export */   "PHI": () => /* reexport safe */ _core_math__WEBPACK_IMPORTED_MODULE_21__.PHI,
 /* harmony export */   "PI2": () => /* reexport safe */ _core_math__WEBPACK_IMPORTED_MODULE_21__.PI2,
 /* harmony export */   "log": () => /* reexport safe */ _core_math__WEBPACK_IMPORTED_MODULE_21__.log,
@@ -4576,26 +4537,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Easings": () => /* reexport safe */ _services_animation_Easings__WEBPACK_IMPORTED_MODULE_24__.default
 /* harmony export */ });
 /* harmony import */ var _meta__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./meta */ "./dist/meta.js");
-/* harmony import */ var _core_Scene__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./core/Scene */ "./dist/core/Scene.js");
-/* harmony import */ var _core_SceneChild__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./core/SceneChild */ "./dist/core/SceneChild.js");
-/* harmony import */ var _core_Group__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./core/Group */ "./dist/core/Group.js");
-/* harmony import */ var _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./core/shapes/ShapePrimitive */ "./dist/core/shapes/ShapePrimitive.js");
-/* harmony import */ var _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./core/shapes/ShapeLoop */ "./dist/core/shapes/ShapeLoop.js");
-/* harmony import */ var _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./core/shapes/ShapeBuffer */ "./dist/core/shapes/ShapeBuffer.js");
-/* harmony import */ var _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./core/shapes/Shape */ "./dist/core/shapes/Shape.js");
-/* harmony import */ var _core_shapes_ShapeRecursive__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./core/shapes/ShapeRecursive */ "./dist/core/shapes/ShapeRecursive.js");
-/* harmony import */ var _core_shapes_primitives_Line__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./core/shapes/primitives/Line */ "./dist/core/shapes/primitives/Line.js");
-/* harmony import */ var _core_shapes_primitives_Triangle__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./core/shapes/primitives/Triangle */ "./dist/core/shapes/primitives/Triangle.js");
-/* harmony import */ var _core_shapes_primitives_Rect__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./core/shapes/primitives/Rect */ "./dist/core/shapes/primitives/Rect.js");
-/* harmony import */ var _core_shapes_primitives_Polygon__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./core/shapes/primitives/Polygon */ "./dist/core/shapes/primitives/Polygon.js");
-/* harmony import */ var _core_shapes_primitives_Circle__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./core/shapes/primitives/Circle */ "./dist/core/shapes/primitives/Circle.js");
-/* harmony import */ var _core_shapes_primitives_Rose__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./core/shapes/primitives/Rose */ "./dist/core/shapes/primitives/Rose.js");
-/* harmony import */ var _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./core/shapes/primitives/Spiral */ "./dist/core/shapes/primitives/Spiral.js");
-/* harmony import */ var _core_shapes_primitives_Lissajous__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./core/shapes/primitives/Lissajous */ "./dist/core/shapes/primitives/Lissajous.js");
-/* harmony import */ var _core_shapes_primitives_SuperShape__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./core/shapes/primitives/SuperShape */ "./dist/core/shapes/primitives/SuperShape.js");
-/* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./Utilites */ "./dist/Utilites.js");
-/* harmony import */ var _core_math_Vec2__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./core/math/Vec2 */ "./dist/core/math/Vec2.js");
-/* harmony import */ var _core_Context__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./core/Context */ "./dist/core/Context.js");
+/* harmony import */ var gl_matrix__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! gl-matrix */ "./node_modules/gl-matrix/esm/common.js");
+/* harmony import */ var _core_Scene__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./core/Scene */ "./dist/core/Scene.js");
+/* harmony import */ var _core_SceneChild__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./core/SceneChild */ "./dist/core/SceneChild.js");
+/* harmony import */ var _core_Group__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./core/Group */ "./dist/core/Group.js");
+/* harmony import */ var _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./core/shapes/ShapePrimitive */ "./dist/core/shapes/ShapePrimitive.js");
+/* harmony import */ var _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./core/shapes/ShapeLoop */ "./dist/core/shapes/ShapeLoop.js");
+/* harmony import */ var _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./core/shapes/ShapeBuffer */ "./dist/core/shapes/ShapeBuffer.js");
+/* harmony import */ var _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./core/shapes/Shape */ "./dist/core/shapes/Shape.js");
+/* harmony import */ var _core_shapes_ShapeRecursive__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./core/shapes/ShapeRecursive */ "./dist/core/shapes/ShapeRecursive.js");
+/* harmony import */ var _core_shapes_primitives_Line__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./core/shapes/primitives/Line */ "./dist/core/shapes/primitives/Line.js");
+/* harmony import */ var _core_shapes_primitives_Triangle__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./core/shapes/primitives/Triangle */ "./dist/core/shapes/primitives/Triangle.js");
+/* harmony import */ var _core_shapes_primitives_Rect__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./core/shapes/primitives/Rect */ "./dist/core/shapes/primitives/Rect.js");
+/* harmony import */ var _core_shapes_primitives_Polygon__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./core/shapes/primitives/Polygon */ "./dist/core/shapes/primitives/Polygon.js");
+/* harmony import */ var _core_shapes_primitives_Circle__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./core/shapes/primitives/Circle */ "./dist/core/shapes/primitives/Circle.js");
+/* harmony import */ var _core_shapes_primitives_Rose__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./core/shapes/primitives/Rose */ "./dist/core/shapes/primitives/Rose.js");
+/* harmony import */ var _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./core/shapes/primitives/Spiral */ "./dist/core/shapes/primitives/Spiral.js");
+/* harmony import */ var _core_shapes_primitives_Lissajous__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./core/shapes/primitives/Lissajous */ "./dist/core/shapes/primitives/Lissajous.js");
+/* harmony import */ var _core_shapes_primitives_SuperShape__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./core/shapes/primitives/SuperShape */ "./dist/core/shapes/primitives/SuperShape.js");
+/* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./Utilites */ "./dist/Utilites.js");
+/* harmony import */ var _core_math_Vec2__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./core/math/Vec2 */ "./dist/core/math/Vec2.js");
 /* harmony import */ var _core_math__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./core/math */ "./dist/core/math/index.js");
 /* harmony import */ var _services_drawers_drawer_canvas_DrawerCanvas__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./services/drawers/drawer-canvas/DrawerCanvas */ "./dist/services/drawers/drawer-canvas/DrawerCanvas.js");
 /* harmony import */ var _services_animation_Simple__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./services/animation/Simple */ "./dist/services/animation/Simple.js");
@@ -4604,6 +4565,9 @@ __webpack_require__.r(__webpack_exports__);
  * Meta
  */
 
+// Set glMatrixArrayType
+
+gl_matrix__WEBPACK_IMPORTED_MODULE_1__.setMatrixArrayType(Array);
 /**
  * Core
  */
@@ -4629,7 +4593,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 /**
  * Services
  */
@@ -4647,7 +4610,6 @@ __webpack_require__.r(__webpack_exports__);
 /*! namespace exports */
 /*! export Animation [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/services/animation/Simple.js .default */
 /*! export Circle [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/Circle.js .default */
-/*! export Context [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/core/Context.js .default */
 /*! export DrawerCanvas [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/services/drawers/drawer-canvas/DrawerCanvas.js .default */
 /*! export DrawerSVG [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/services/drawers/drawer-svg/DrawerSVG.js .default */
 /*! export ERepetitionType [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/core/types/scene-child.js .ERepetitionType */
@@ -4678,11 +4640,16 @@ __webpack_require__.r(__webpack_exports__);
 /*! export SuperShape [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/SuperShape.js .default */
 /*! export Triangle [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/Triangle.js .default */
 /*! export Vec2 [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/core/math/Vec2.js .default */
+/*! export angle2FromRepetition [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .angle2FromRepetition */
+/*! export angleFromRepetition [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .angleFromRepetition */
 /*! export author [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/meta.js .author */
 /*! export clamp [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .clamp */
+/*! export distanceFromRepetition [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .distanceFromRepetition */
 /*! export lerp [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .lerp */
 /*! export license [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/meta.js .license */
 /*! export log [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/core/math/index.js .log */
+/*! export noise [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .noise */
+/*! export now [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .now */
 /*! export relativeClamp [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .relativeClamp */
 /*! export toDegrees [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .toDegrees */
 /*! export toRadians [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .toRadians */
@@ -4698,7 +4665,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "EShapePrimitiveAdaptMode": () => /* reexport safe */ _core_types_shape_base__WEBPACK_IMPORTED_MODULE_2__.EShapePrimitiveAdaptMode,
 /* harmony export */   "Animation": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.Animation,
 /* harmony export */   "Circle": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.Circle,
-/* harmony export */   "Context": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.Context,
 /* harmony export */   "DrawerCanvas": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.DrawerCanvas,
 /* harmony export */   "Easings": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.Easings,
 /* harmony export */   "Group": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.Group,
@@ -4720,11 +4686,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "SuperShape": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.SuperShape,
 /* harmony export */   "Triangle": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.Triangle,
 /* harmony export */   "Vec2": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.Vec2,
+/* harmony export */   "angle2FromRepetition": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.angle2FromRepetition,
+/* harmony export */   "angleFromRepetition": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.angleFromRepetition,
 /* harmony export */   "author": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.author,
 /* harmony export */   "clamp": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.clamp,
+/* harmony export */   "distanceFromRepetition": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.distanceFromRepetition,
 /* harmony export */   "lerp": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.lerp,
 /* harmony export */   "license": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.license,
 /* harmony export */   "log": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.log,
+/* harmony export */   "noise": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.noise,
+/* harmony export */   "now": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.now,
 /* harmony export */   "relativeClamp": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.relativeClamp,
 /* harmony export */   "toDegrees": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.toDegrees,
 /* harmony export */   "toRadians": () => /* reexport safe */ _index_light__WEBPACK_IMPORTED_MODULE_4__.toRadians,
@@ -5406,29 +5377,35 @@ function createSimpleAnimationCallback(animation, value) {
     if (type === 'static') {
         if (delay && delay > 0)
             return function SimpleAnimation(props) {
-                return value(props, props.time <= delay
+                var _a, _b, _c;
+                return value(props, (((_a = props.shape.scene) === null || _a === void 0 ? void 0 : _a.currentTime) || 0) <= delay
                     ? 0
-                    : props.time - delay >= duration
+                    : (((_b = props.shape.scene) === null || _b === void 0 ? void 0 : _b.currentTime) || 0) - delay >= duration
                         ? 1
-                        : _Easings__WEBPACK_IMPORTED_MODULE_2__.default[modeFunction](props.time - delay, 0, 1, duration));
+                        : _Easings__WEBPACK_IMPORTED_MODULE_2__.default[modeFunction]((((_c = props.shape.scene) === null || _c === void 0 ? void 0 : _c.currentTime) || 0) - delay, 0, 1, duration));
             };
         else
             return function SimpleAnimation(props) {
-                return value(props, props.time <= duration ? _Easings__WEBPACK_IMPORTED_MODULE_2__.default[modeFunction](props.time, 0, 1 - 0, duration) : 1);
+                var _a, _b;
+                return value(props, (((_a = props.shape.scene) === null || _a === void 0 ? void 0 : _a.currentTime) || 0) <= duration
+                    ? _Easings__WEBPACK_IMPORTED_MODULE_2__.default[modeFunction](((_b = props.shape.scene) === null || _b === void 0 ? void 0 : _b.currentTime) || 0, 0, 1 - 0, duration)
+                    : 1);
             };
     }
     else {
         if (type === 'loop') {
             if (mode == 'sinusoidal') {
                 return function SimpleAnimation(props) {
-                    var frequency = ((props.time || 0) * 2 * Math.PI) / duration;
+                    var _a;
+                    var frequency = ((((_a = props.shape.scene) === null || _a === void 0 ? void 0 : _a.currentTime) || 0 || 0) * 2 * Math.PI) / duration;
                     return value(props, 0.5 + Math[modeFunction](frequency) * 0.5);
                 };
             } /* easing */
             else {
                 return function SimpleAnimation(props) {
+                    var _a;
                     var d2 = duration / 2;
-                    var t = props.time % duration;
+                    var t = (((_a = props.shape.scene) === null || _a === void 0 ? void 0 : _a.currentTime) || 0) % duration;
                     return value(props, t <= d2
                         ? _Easings__WEBPACK_IMPORTED_MODULE_2__.default[modeFunction](t, 0, 1, d2)
                         : _Easings__WEBPACK_IMPORTED_MODULE_2__.default[modeFunction](d2 - (t - d2), 0, 1, d2));
@@ -5438,7 +5415,8 @@ function createSimpleAnimationCallback(animation, value) {
         else {
             if (mode == 'sinusoidal') {
                 return function SimpleAnimation(props) {
-                    var time = props.time % (duration + delay);
+                    var _a;
+                    var time = (((_a = props.shape.scene) === null || _a === void 0 ? void 0 : _a.currentTime) || 0) % (duration + delay);
                     time = time <= delay ? 0 : time - delay;
                     var frequency = ((time || 0) * 2 * Math.PI) / duration;
                     return value(props, 0.5 + Math[modeFunction](frequency) * 0.5);
@@ -5447,7 +5425,8 @@ function createSimpleAnimationCallback(animation, value) {
             else {
                 if (delay && delay > 0)
                     return function SimpleAnimation(props) {
-                        var time = props.time % (duration + delay);
+                        var _a;
+                        var time = (((_a = props.shape.scene) === null || _a === void 0 ? void 0 : _a.currentTime) || 0) % (duration + delay);
                         return value(props, time <= delay
                             ? 0
                             : time - delay >= duration
@@ -5456,7 +5435,8 @@ function createSimpleAnimationCallback(animation, value) {
                     };
                 else
                     return function SimpleAnimation(props) {
-                        var time = props.time % duration;
+                        var _a;
+                        var time = (((_a = props.shape.scene) === null || _a === void 0 ? void 0 : _a.currentTime) || 0) % duration;
                         return value(props, time <= duration ? _Easings__WEBPACK_IMPORTED_MODULE_2__.default[modeFunction](time, 0, 1 - 0, duration) : 1);
                     };
             }
@@ -5830,7 +5810,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _FrameBuffer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FrameBuffer */ "./dist/services/drawers/drawer-canvas/FrameBuffer.js");
 /* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../Utilites */ "./dist/Utilites.js");
 /* harmony import */ var _core_math_Vec2__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../core/math/Vec2 */ "./dist/core/math/Vec2.js");
-/* harmony import */ var _core_Context__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../core/Context */ "./dist/core/Context.js");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -5855,7 +5834,6 @@ var __assign = (undefined && undefined.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-
 
 
 
@@ -6212,8 +6190,6 @@ var DrawerCanvas = /** @class */ (function (_super) {
                                 },
                             },
                             parent: currentIndex.parent,
-                            time: scene.currentTime,
-                            context: _core_Context__WEBPACK_IMPORTED_MODULE_4__.default,
                         };
                         var composite = _Drawer__WEBPACK_IMPORTED_MODULE_0__.default.getStreamDrawerProp(shape, 'composite', propArguments, 'source-over');
                         context.globalCompositeOperation = composite;
@@ -6371,10 +6347,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-/* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../Utilites */ "./dist/Utilites.js");
-/* harmony import */ var _Drawer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Drawer */ "./dist/services/drawers/Drawer.js");
-/* harmony import */ var ___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../.. */ "./dist/index.js");
-/* harmony import */ var _Color__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../Color */ "./dist/Color.js");
+/* harmony import */ var _Color__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../Color */ "./dist/Color.js");
+/* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../Utilites */ "./dist/Utilites.js");
+/* harmony import */ var _Drawer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Drawer */ "./dist/services/drawers/Drawer.js");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -6399,7 +6374,6 @@ var __assign = (undefined && undefined.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-
 
 
 
@@ -6453,7 +6427,7 @@ var DrawerSVG = /** @class */ (function (_super) {
         });
         var paths = [];
         if (drawerOptions.ghosts) {
-            _Drawer__WEBPACK_IMPORTED_MODULE_1__.default.eachGhosts(drawerOptions, timeline, function (ghostDrawerOptions) {
+            _Drawer__WEBPACK_IMPORTED_MODULE_2__.default.eachGhosts(drawerOptions, timeline, function (ghostDrawerOptions) {
                 drawTime += DrawerSVG.draw(_this.scene, paths, ghostDrawerOptions);
             });
         }
@@ -6487,7 +6461,7 @@ var DrawerSVG = /** @class */ (function (_super) {
             element.setAttribute(type, 'none');
         }
         else {
-            var parsed = (0,_Color__WEBPACK_IMPORTED_MODULE_3__.parseColorAndConvert)(color);
+            var parsed = (0,_Color__WEBPACK_IMPORTED_MODULE_0__.parseColorAndConvert)(color);
             if (parsed) {
                 element.setAttribute(type, "rgb(" + parsed.r + ", " + parsed.g + ", " + parsed.b + ")");
                 if (parsed.alpha !== 1) {
@@ -6499,7 +6473,7 @@ var DrawerSVG = /** @class */ (function (_super) {
     };
     DrawerSVG.draw = function (scene, paths, options) {
         var _a;
-        var start_time = (0,_Utilites__WEBPACK_IMPORTED_MODULE_0__.now)();
+        var start_time = (0,_Utilites__WEBPACK_IMPORTED_MODULE_1__.now)();
         var time = (_a = options.time) !== null && _a !== void 0 ? _a : 0;
         var decimals = options.decimals;
         var bGhost = typeof options.ghosts !== 'undefined' &&
@@ -6525,18 +6499,16 @@ var DrawerSVG = /** @class */ (function (_super) {
                         // singleRepetitionBounding: currentIndex.singleRepetitionBounding,
                         repetition: currentIndex.repetition,
                         parent: currentIndex.parent,
-                        time: scene.currentTime,
-                        context: ___WEBPACK_IMPORTED_MODULE_2__.Context,
                     };
                     for (var i = 0; i < stream.frameLength; i += 2) {
                         tempPath.push(stream.buffer[stream.frameBufferIndex + i].toFixed(decimals) +
                             ' ' +
                             stream.buffer[stream.frameBufferIndex + i + 1].toFixed(decimals));
                     }
-                    var fill = _Drawer__WEBPACK_IMPORTED_MODULE_1__.default.getStreamDrawerProp(shape, 'fill', propArguments);
+                    var fill = _Drawer__WEBPACK_IMPORTED_MODULE_2__.default.getStreamDrawerProp(shape, 'fill', propArguments);
                     if (fill) {
                         if (bGhost && ghostAlpha) {
-                            var color = _Drawer__WEBPACK_IMPORTED_MODULE_1__.default.ghostifyColor(fill, ghostMultiplier);
+                            var color = _Drawer__WEBPACK_IMPORTED_MODULE_2__.default.ghostifyColor(fill, ghostMultiplier);
                             if (color) {
                                 fill = color;
                             }
@@ -6546,11 +6518,11 @@ var DrawerSVG = /** @class */ (function (_super) {
                             }
                         }
                     }
-                    var stroke = _Drawer__WEBPACK_IMPORTED_MODULE_1__.default.getStreamDrawerProp(shape, 'stroke', propArguments, typeof fill === 'undefined' ? scene.color : undefined);
-                    var lineWidth = _Drawer__WEBPACK_IMPORTED_MODULE_1__.default.getStreamDrawerProp(shape, 'lineWidth', propArguments, 1);
+                    var stroke = _Drawer__WEBPACK_IMPORTED_MODULE_2__.default.getStreamDrawerProp(shape, 'stroke', propArguments, typeof fill === 'undefined' ? scene.color : undefined);
+                    var lineWidth = _Drawer__WEBPACK_IMPORTED_MODULE_2__.default.getStreamDrawerProp(shape, 'lineWidth', propArguments, 1);
                     if (stroke) {
                         if (bGhost && ghostAlpha) {
-                            var color = _Drawer__WEBPACK_IMPORTED_MODULE_1__.default.ghostifyColor(stroke, ghostMultiplier);
+                            var color = _Drawer__WEBPACK_IMPORTED_MODULE_2__.default.ghostifyColor(stroke, ghostMultiplier);
                             if (color) {
                                 stroke = color;
                             }
@@ -6572,11 +6544,11 @@ var DrawerSVG = /** @class */ (function (_super) {
                 });
             }
         });
-        var end_time = (0,_Utilites__WEBPACK_IMPORTED_MODULE_0__.now)();
+        var end_time = (0,_Utilites__WEBPACK_IMPORTED_MODULE_1__.now)();
         return end_time - start_time;
     };
     return DrawerSVG;
-}(_Drawer__WEBPACK_IMPORTED_MODULE_1__.default));
+}(_Drawer__WEBPACK_IMPORTED_MODULE_2__.default));
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (DrawerSVG);
 //# sourceMappingURL=DrawerSVG.js.map
 
@@ -7050,15 +7022,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
 /* harmony import */ var transformation_matrix__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! transformation-matrix */ "./node_modules/transformation-matrix/src/index.js");
-/* harmony import */ var snapsvg_cjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! snapsvg-cjs */ "./node_modules/snapsvg-cjs/dist/snap.svg-cjs.js");
-/* harmony import */ var snapsvg_cjs__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(snapsvg_cjs__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var simplify_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! simplify-js */ "./node_modules/simplify-js/simplify.js");
-/* harmony import */ var simplify_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(simplify_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var simplify_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! simplify-js */ "./node_modules/simplify-js/simplify.js");
+/* harmony import */ var simplify_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(simplify_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var svgpath__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! svgpath */ "./node_modules/svgpath/index.js");
+/* harmony import */ var svgpath__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(svgpath__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _JSONImporter__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./JSONImporter */ "./dist/services/importers/JSONImporter.js");
 /* harmony import */ var _drawers_drawer_canvas_DrawerCanvas__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../drawers/drawer-canvas/DrawerCanvas */ "./dist/services/drawers/drawer-canvas/DrawerCanvas.js");
 /* harmony import */ var _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../core/shapes/ShapePrimitive */ "./dist/core/shapes/ShapePrimitive.js");
 /* harmony import */ var _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../core/shapes/ShapeBuffer */ "./dist/core/shapes/ShapeBuffer.js");
 /* harmony import */ var _core_Scene__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../core/Scene */ "./dist/core/Scene.js");
+/* harmony import */ var _Color__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../Color */ "./dist/Color.js");
 var __spreadArrays = (undefined && undefined.__spreadArrays) || function () {
     for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
     for (var r = Array(s), k = 0, i = 0; i < il; i++)
@@ -7066,6 +7039,7 @@ var __spreadArrays = (undefined && undefined.__spreadArrays) || function () {
             r[k] = a[j];
     return r;
 };
+
 
 
 
@@ -7141,6 +7115,11 @@ var SVGImporter = /** @class */ (function () {
             scene.add(new _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_6__.default({
                 shape: buffer.buffer,
                 bClosed: buffer.closed,
+                style: {
+                    fill: buffer.fill,
+                    stroke: buffer.stroke,
+                    lineWidth: buffer.lineWidth,
+                },
             }));
         });
         return new _drawers_drawer_canvas_DrawerCanvas__WEBPACK_IMPORTED_MODULE_4__.default(scene, undefined);
@@ -7193,8 +7172,8 @@ var SVGImporter = /** @class */ (function () {
             result.push({
                 buffer: buffers[i],
                 closed: SVGImporter.pathIsClosed(paths[i]),
-                fill: SVGImporter.getColor('fill', paths[i]) || (fill ? fill : undefined),
-                stroke: SVGImporter.getColor('stroke', paths[i]) || (stroke ? stroke : undefined),
+                fill: SVGImporter.getColor('fill', paths[i], fill ? fill : undefined),
+                stroke: SVGImporter.getColor('stroke', paths[i], stroke ? stroke : undefined),
                 lineWidth: strokeWidth ? strokeWidth : lineWidth ? parseFloat(lineWidth) : undefined,
             });
         }
@@ -7210,11 +7189,24 @@ var SVGImporter = /** @class */ (function () {
      * @param {SVGPathElement} path
      * @returns {(string | undefined)}
      */
-    SVGImporter.getColor = function (name, path) {
+    SVGImporter.getColor = function (name, path, defaultColor) {
+        // get color from attribute
         var value = path.getAttribute(name);
-        if (value) {
-            return value === 'none' ? undefined : value;
+        if (value === 'none')
+            return undefined;
+        if (typeof value !== 'undefined' && value !== null) {
+            var parsed = (0,_Color__WEBPACK_IMPORTED_MODULE_8__.parseColor)(value);
+            if (parsed) {
+                return parsed.type === 'rgb'
+                    ? "rgb(" + parsed.a + ", " + parsed.b + ", " + parsed.c + ")"
+                    : "hsl(" + parsed.a + ", " + parsed.b + "%, " + parsed.c + "%)";
+            }
         }
+        // otherwise get color from style
+        if (typeof path.style[name] !== 'undefined') {
+            return path.style[name];
+        }
+        return defaultColor;
     };
     /**
      * Return SVG viewBox
@@ -7279,7 +7271,7 @@ var SVGImporter = /** @class */ (function () {
         var simplifiedBuffer = [];
         for (var i = 0, len = buffer.length; i < len; i += 2)
             simplifiedBuffer.push({ x: buffer[i], y: buffer[i + 1] });
-        var points = simplify_js__WEBPACK_IMPORTED_MODULE_2___default()(simplifiedBuffer, simplifyLevel, true);
+        var points = simplify_js__WEBPACK_IMPORTED_MODULE_1___default()(simplifiedBuffer, simplifyLevel, true);
         points.forEach(function (point, index) {
             buffer[index * 2] = point.x;
             buffer[index * 2 + 1] = point.y;
@@ -7304,18 +7296,29 @@ var SVGImporter = /** @class */ (function () {
         var rh = width > height ? height / width : 1;
         // Apply transform matrix to path
         var transform = path.getAttribute('transform') || '';
-        var matrix;
+        var matrix = [1, 0, 0, 0, 1, 0];
         if (transform.length > 0) {
             var transformMatrix = (0,transformation_matrix__WEBPACK_IMPORTED_MODULE_0__.compose)((0,transformation_matrix__WEBPACK_IMPORTED_MODULE_0__.fromDefinition)((0,transformation_matrix__WEBPACK_IMPORTED_MODULE_0__.fromTransformAttribute)(transform)));
-            matrix = new snapsvg_cjs__WEBPACK_IMPORTED_MODULE_1__.Matrix(transformMatrix.a, transformMatrix.b, transformMatrix.c, transformMatrix.d, transformMatrix.e, transformMatrix.f);
+            matrix = [
+                transformMatrix.a,
+                transformMatrix.b,
+                transformMatrix.c,
+                transformMatrix.d,
+                transformMatrix.e,
+                transformMatrix.f,
+            ];
         }
-        var pathString = snapsvg_cjs__WEBPACK_IMPORTED_MODULE_1__.path.map(path.getAttribute('d') || '', matrix);
-        var path_length = Math.floor(snapsvg_cjs__WEBPACK_IMPORTED_MODULE_1__.path.getTotalLength(pathString));
+        var pathString = svgpath__WEBPACK_IMPORTED_MODULE_2___default()(path.getAttribute('d') || '')
+            .matrix(matrix)
+            .toString();
+        var path_length = Math.floor(path.getTotalLength());
         var buffer_length = Math.floor(path_length / steps) * 2;
+        var pathFromMatrix = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        pathFromMatrix.setAttribute('d', pathString);
         // Generate buffer
         var buffer = new Float32Array(buffer_length);
         for (var i = 0, j = 0; i < path_length; i += steps, j += 2) {
-            var _a = snapsvg_cjs__WEBPACK_IMPORTED_MODULE_1__.path.getPointAtLength(pathString, i), x = _a.x, y = _a.y;
+            var _a = pathFromMatrix.getPointAtLength(i), x = _a.x, y = _a.y;
             buffer[j] = rw * (x / width) * 2 - 1;
             buffer[j + 1] = rh * (y / height) * 2 - 1;
             if (rw < 1)
@@ -7367,16 +7370,17 @@ var SVGImporter = /** @class */ (function () {
      * @returns {Array<SVGPathElement>}
      */
     SVGImporter.elementToPath = function (element) {
+        var _a, _b, _c;
         var transform = element.getAttribute('transform') || '';
-        var fill = element.getAttribute('fill');
-        var stroke = element.getAttribute('stroke');
-        var lineWidth = element.getAttribute('lineWidth');
+        var fill = element.getAttribute('fill') || ((_a = element.style) === null || _a === void 0 ? void 0 : _a.fill);
+        var stroke = element.getAttribute('stroke') || ((_b = element.style) === null || _b === void 0 ? void 0 : _b.stroke);
+        var lineWidth = element.getAttribute('lineWidth') || ((_c = element.style) === null || _c === void 0 ? void 0 : _c.strokeWidth);
         if (element.nodeName == 'path') {
             // Separate multiple path
             var d = element.getAttribute('d') || '';
-            var result = snapsvg_cjs__WEBPACK_IMPORTED_MODULE_1__.path.toAbsolute(d)
-                .map(function (e) { return "" + e.shift() + e.join(','); })
-                .join(' ')
+            var result = svgpath__WEBPACK_IMPORTED_MODULE_2___default()(d)
+                .abs()
+                .toString()
                 .split('M')
                 .filter(function (e) { return e.length > 0; })
                 .map(function (e) { return 'M' + e; });
@@ -7433,6 +7437,11 @@ var SVGImporter = /** @class */ (function () {
             results.push(arr.splice(0, size));
         return results;
     };
+    /**
+     * Match hex color
+     * @static
+     */
+    SVGImporter.HEX_REGEX = '#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})';
     /**
      * Match string is SVG
      * @static
@@ -7658,7 +7667,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-/* harmony import */ var jszip__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jszip */ "./node_modules/jszip/dist/jszip.min.js");
+/* harmony import */ var jszip__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jszip */ "./node_modules/jszip/lib/index.js");
 /* harmony import */ var jszip__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jszip__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Utilites */ "./dist/Utilites.js");
 /* harmony import */ var _events_Emitter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../events/Emitter */ "./dist/services/events/Emitter.js");
@@ -9622,457 +9631,6 @@ var Timeline = /** @class */ (function (_super) {
 }(_events_Emitter__WEBPACK_IMPORTED_MODULE_1__.default));
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Timeline);
 //# sourceMappingURL=Timeline.js.map
-
-/***/ }),
-
-/***/ "./node_modules/eve/eve.js":
-/*!*********************************!*\
-  !*** ./node_modules/eve/eve.js ***!
-  \*********************************/
-/*! unknown exports (runtime-defined) */
-/*! runtime requirements: module, top-level-this-exports, __webpack_exports__ */
-/*! CommonJS bailout: this is used directly at 435:43-47 */
-/*! CommonJS bailout: module.exports is used directly at 434:36-50 */
-/*! CommonJS bailout: module.exports is used directly at 434:53-67 */
-/***/ (function(module, exports) {
-
-var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;// Copyright (c) 2017 Adobe Systems Incorporated. All rights reserved.
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-// ┌────────────────────────────────────────────────────────────┐ \\
-// │ Eve 0.5.4 - JavaScript Events Library                      │ \\
-// ├────────────────────────────────────────────────────────────┤ \\
-// │ Author Dmitry Baranovskiy (http://dmitry.baranovskiy.com/) │ \\
-// └────────────────────────────────────────────────────────────┘ \\
-
-(function (glob) {
-    var version = "0.5.4",
-        has = "hasOwnProperty",
-        separator = /[\.\/]/,
-        comaseparator = /\s*,\s*/,
-        wildcard = "*",
-        numsort = function (a, b) {
-            return a - b;
-        },
-        current_event,
-        stop,
-        events = {n: {}},
-        firstDefined = function () {
-            for (var i = 0, ii = this.length; i < ii; i++) {
-                if (typeof this[i] != "undefined") {
-                    return this[i];
-                }
-            }
-        },
-        lastDefined = function () {
-            var i = this.length;
-            while (--i) {
-                if (typeof this[i] != "undefined") {
-                    return this[i];
-                }
-            }
-        },
-        objtos = Object.prototype.toString,
-        Str = String,
-        isArray = Array.isArray || function (ar) {
-            return ar instanceof Array || objtos.call(ar) == "[object Array]";
-        },
-    /*\
-     * eve
-     [ method ]
-
-     * Fires event with given `name`, given scope and other parameters.
-
-     - name (string) name of the *event*, dot (`.`) or slash (`/`) separated
-     - scope (object) context for the event handlers
-     - varargs (...) the rest of arguments will be sent to event handlers
-
-     = (object) array of returned values from the listeners. Array has two methods `.firstDefined()` and `.lastDefined()` to get first or last not `undefined` value.
-    \*/
-        eve = function (name, scope) {
-            var oldstop = stop,
-                args = Array.prototype.slice.call(arguments, 2),
-                listeners = eve.listeners(name),
-                z = 0,
-                l,
-                indexed = [],
-                queue = {},
-                out = [],
-                ce = current_event;
-            out.firstDefined = firstDefined;
-            out.lastDefined = lastDefined;
-            current_event = name;
-            stop = 0;
-            for (var i = 0, ii = listeners.length; i < ii; i++) if ("zIndex" in listeners[i]) {
-                indexed.push(listeners[i].zIndex);
-                if (listeners[i].zIndex < 0) {
-                    queue[listeners[i].zIndex] = listeners[i];
-                }
-            }
-            indexed.sort(numsort);
-            while (indexed[z] < 0) {
-                l = queue[indexed[z++]];
-                out.push(l.apply(scope, args));
-                if (stop) {
-                    stop = oldstop;
-                    return out;
-                }
-            }
-            for (i = 0; i < ii; i++) {
-                l = listeners[i];
-                if ("zIndex" in l) {
-                    if (l.zIndex == indexed[z]) {
-                        out.push(l.apply(scope, args));
-                        if (stop) {
-                            break;
-                        }
-                        do {
-                            z++;
-                            l = queue[indexed[z]];
-                            l && out.push(l.apply(scope, args));
-                            if (stop) {
-                                break;
-                            }
-                        } while (l)
-                    } else {
-                        queue[l.zIndex] = l;
-                    }
-                } else {
-                    out.push(l.apply(scope, args));
-                    if (stop) {
-                        break;
-                    }
-                }
-            }
-            stop = oldstop;
-            current_event = ce;
-            return out;
-        };
-    // Undocumented. Debug only.
-    eve._events = events;
-    /*\
-     * eve.listeners
-     [ method ]
-
-     * Internal method which gives you array of all event handlers that will be triggered by the given `name`.
-
-     - name (string) name of the event, dot (`.`) or slash (`/`) separated
-
-     = (array) array of event handlers
-    \*/
-    eve.listeners = function (name) {
-        var names = isArray(name) ? name : name.split(separator),
-            e = events,
-            item,
-            items,
-            k,
-            i,
-            ii,
-            j,
-            jj,
-            nes,
-            es = [e],
-            out = [];
-        for (i = 0, ii = names.length; i < ii; i++) {
-            nes = [];
-            for (j = 0, jj = es.length; j < jj; j++) {
-                e = es[j].n;
-                items = [e[names[i]], e[wildcard]];
-                k = 2;
-                while (k--) {
-                    item = items[k];
-                    if (item) {
-                        nes.push(item);
-                        out = out.concat(item.f || []);
-                    }
-                }
-            }
-            es = nes;
-        }
-        return out;
-    };
-    /*\
-     * eve.separator
-     [ method ]
-
-     * If for some reasons you don’t like default separators (`.` or `/`) you can specify yours
-     * here. Be aware that if you pass a string longer than one character it will be treated as
-     * a list of characters.
-
-     - separator (string) new separator. Empty string resets to default: `.` or `/`.
-    \*/
-    eve.separator = function (sep) {
-        if (sep) {
-            sep = Str(sep).replace(/(?=[\.\^\]\[\-])/g, "\\");
-            sep = "[" + sep + "]";
-            separator = new RegExp(sep);
-        } else {
-            separator = /[\.\/]/;
-        }
-    };
-    /*\
-     * eve.on
-     [ method ]
-     **
-     * Binds given event handler with a given name. You can use wildcards “`*`” for the names:
-     | eve.on("*.under.*", f);
-     | eve("mouse.under.floor"); // triggers f
-     * Use @eve to trigger the listener.
-     **
-     - name (string) name of the event, dot (`.`) or slash (`/`) separated, with optional wildcards
-     - f (function) event handler function
-     **
-     - name (array) if you don’t want to use separators, you can use array of strings
-     - f (function) event handler function
-     **
-     = (function) returned function accepts a single numeric parameter that represents z-index of the handler. It is an optional feature and only used when you need to ensure that some subset of handlers will be invoked in a given order, despite of the order of assignment.
-     > Example:
-     | eve.on("mouse", eatIt)(2);
-     | eve.on("mouse", scream);
-     | eve.on("mouse", catchIt)(1);
-     * This will ensure that `catchIt` function will be called before `eatIt`.
-     *
-     * If you want to put your handler before non-indexed handlers, specify a negative value.
-     * Note: I assume most of the time you don’t need to worry about z-index, but it’s nice to have this feature “just in case”.
-    \*/
-    eve.on = function (name, f) {
-        if (typeof f != "function") {
-            return function () {};
-        }
-        var names = isArray(name) ? isArray(name[0]) ? name : [name] : Str(name).split(comaseparator);
-        for (var i = 0, ii = names.length; i < ii; i++) {
-            (function (name) {
-                var names = isArray(name) ? name : Str(name).split(separator),
-                    e = events,
-                    exist;
-                for (var i = 0, ii = names.length; i < ii; i++) {
-                    e = e.n;
-                    e = e.hasOwnProperty(names[i]) && e[names[i]] || (e[names[i]] = {n: {}});
-                }
-                e.f = e.f || [];
-                for (i = 0, ii = e.f.length; i < ii; i++) if (e.f[i] == f) {
-                    exist = true;
-                    break;
-                }
-                !exist && e.f.push(f);
-            }(names[i]));
-        }
-        return function (zIndex) {
-            if (+zIndex == +zIndex) {
-                f.zIndex = +zIndex;
-            }
-        };
-    };
-    /*\
-     * eve.f
-     [ method ]
-     **
-     * Returns function that will fire given event with optional arguments.
-     * Arguments that will be passed to the result function will be also
-     * concated to the list of final arguments.
-     | el.onclick = eve.f("click", 1, 2);
-     | eve.on("click", function (a, b, c) {
-     |     console.log(a, b, c); // 1, 2, [event object]
-     | });
-     - event (string) event name
-     - varargs (…) and any other arguments
-     = (function) possible event handler function
-    \*/
-    eve.f = function (event) {
-        var attrs = [].slice.call(arguments, 1);
-        return function () {
-            eve.apply(null, [event, null].concat(attrs).concat([].slice.call(arguments, 0)));
-        };
-    };
-    /*\
-     * eve.stop
-     [ method ]
-     **
-     * Is used inside an event handler to stop the event, preventing any subsequent listeners from firing.
-    \*/
-    eve.stop = function () {
-        stop = 1;
-    };
-    /*\
-     * eve.nt
-     [ method ]
-     **
-     * Could be used inside event handler to figure out actual name of the event.
-     **
-     - subname (string) #optional subname of the event
-     **
-     = (string) name of the event, if `subname` is not specified
-     * or
-     = (boolean) `true`, if current event’s name contains `subname`
-    \*/
-    eve.nt = function (subname) {
-        var cur = isArray(current_event) ? current_event.join(".") : current_event;
-        if (subname) {
-            return new RegExp("(?:\\.|\\/|^)" + subname + "(?:\\.|\\/|$)").test(cur);
-        }
-        return cur;
-    };
-    /*\
-     * eve.nts
-     [ method ]
-     **
-     * Could be used inside event handler to figure out actual name of the event.
-     **
-     **
-     = (array) names of the event
-    \*/
-    eve.nts = function () {
-        return isArray(current_event) ? current_event : current_event.split(separator);
-    };
-    /*\
-     * eve.off
-     [ method ]
-     **
-     * Removes given function from the list of event listeners assigned to given name.
-     * If no arguments specified all the events will be cleared.
-     **
-     - name (string) name of the event, dot (`.`) or slash (`/`) separated, with optional wildcards
-     - f (function) event handler function
-    \*/
-    /*\
-     * eve.unbind
-     [ method ]
-     **
-     * See @eve.off
-    \*/
-    eve.off = eve.unbind = function (name, f) {
-        if (!name) {
-            eve._events = events = {n: {}};
-            return;
-        }
-        var names = isArray(name) ? isArray(name[0]) ? name : [name] : Str(name).split(comaseparator);
-        if (names.length > 1) {
-            for (var i = 0, ii = names.length; i < ii; i++) {
-                eve.off(names[i], f);
-            }
-            return;
-        }
-        names = isArray(name) ? name : Str(name).split(separator);
-        var e,
-            key,
-            splice,
-            i, ii, j, jj,
-            cur = [events],
-            inodes = [];
-        for (i = 0, ii = names.length; i < ii; i++) {
-            for (j = 0; j < cur.length; j += splice.length - 2) {
-                splice = [j, 1];
-                e = cur[j].n;
-                if (names[i] != wildcard) {
-                    if (e[names[i]]) {
-                        splice.push(e[names[i]]);
-                        inodes.unshift({
-                            n: e,
-                            name: names[i]
-                        });
-                    }
-                } else {
-                    for (key in e) if (e[has](key)) {
-                        splice.push(e[key]);
-                        inodes.unshift({
-                            n: e,
-                            name: key
-                        });
-                    }
-                }
-                cur.splice.apply(cur, splice);
-            }
-        }
-        for (i = 0, ii = cur.length; i < ii; i++) {
-            e = cur[i];
-            while (e.n) {
-                if (f) {
-                    if (e.f) {
-                        for (j = 0, jj = e.f.length; j < jj; j++) if (e.f[j] == f) {
-                            e.f.splice(j, 1);
-                            break;
-                        }
-                        !e.f.length && delete e.f;
-                    }
-                    for (key in e.n) if (e.n[has](key) && e.n[key].f) {
-                        var funcs = e.n[key].f;
-                        for (j = 0, jj = funcs.length; j < jj; j++) if (funcs[j] == f) {
-                            funcs.splice(j, 1);
-                            break;
-                        }
-                        !funcs.length && delete e.n[key].f;
-                    }
-                } else {
-                    delete e.f;
-                    for (key in e.n) if (e.n[has](key) && e.n[key].f) {
-                        delete e.n[key].f;
-                    }
-                }
-                e = e.n;
-            }
-        }
-        // prune inner nodes in path
-        prune: for (i = 0, ii = inodes.length; i < ii; i++) {
-            e = inodes[i];
-            for (key in e.n[e.name].f) {
-                // not empty (has listeners)
-                continue prune;
-            }
-            for (key in e.n[e.name].n) {
-                // not empty (has children)
-                continue prune;
-            }
-            // is empty
-            delete e.n[e.name];
-        }
-    };
-    /*\
-     * eve.once
-     [ method ]
-     **
-     * Binds given event handler with a given name to only run once then unbind itself.
-     | eve.once("login", f);
-     | eve("login"); // triggers f
-     | eve("login"); // no listeners
-     * Use @eve to trigger the listener.
-     **
-     - name (string) name of the event, dot (`.`) or slash (`/`) separated, with optional wildcards
-     - f (function) event handler function
-     **
-     = (function) same return function as @eve.on
-    \*/
-    eve.once = function (name, f) {
-        var f2 = function () {
-            eve.off(name, f2);
-            return f.apply(this, arguments);
-        };
-        return eve.on(name, f2);
-    };
-    /*\
-     * eve.version
-     [ property (string) ]
-     **
-     * Current version of the library.
-    \*/
-    eve.version = version;
-    eve.toString = function () {
-        return "You are running Eve " + version;
-    };
-    glob.eve = eve;
-     true && module.exports ? module.exports = eve :  true ? !(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = (function () { return eve; }).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
-		__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)) : 0;
-})(typeof window != "undefined" ? window : this);
-
 
 /***/ }),
 
@@ -13710,28 +13268,12117 @@ var forEach = function () {
 
 /***/ }),
 
-/***/ "./node_modules/jszip/dist/jszip.min.js":
-/*!**********************************************!*\
-  !*** ./node_modules/jszip/dist/jszip.min.js ***!
-  \**********************************************/
+/***/ "./node_modules/immediate/lib/browser.js":
+/*!***********************************************!*\
+  !*** ./node_modules/immediate/lib/browser.js ***!
+  \***********************************************/
 /*! unknown exports (runtime-defined) */
 /*! runtime requirements: module, __webpack_require__.g, __webpack_require__.* */
-/*! CommonJS bailout: module.exports is used directly at 13:69-83 */
+/*! CommonJS bailout: module.exports is used directly at 64:0-14 */
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-/*!
+"use strict";
 
-JSZip v3.5.0 - A JavaScript class for generating and reading zip files
-<http://stuartk.com/jszip>
+var Mutation = __webpack_require__.g.MutationObserver || __webpack_require__.g.WebKitMutationObserver;
 
-(c) 2009-2016 Stuart Knightley <stuart [at] stuartk.com>
-Dual licenced under the MIT license or GPLv3. See https://raw.github.com/Stuk/jszip/master/LICENSE.markdown.
+var scheduleDrain;
 
-JSZip uses the library pako released under the MIT license :
-https://github.com/nodeca/pako/blob/master/LICENSE
+{
+  if (Mutation) {
+    var called = 0;
+    var observer = new Mutation(nextTick);
+    var element = __webpack_require__.g.document.createTextNode('');
+    observer.observe(element, {
+      characterData: true
+    });
+    scheduleDrain = function () {
+      element.data = (called = ++called % 2);
+    };
+  } else if (!__webpack_require__.g.setImmediate && typeof __webpack_require__.g.MessageChannel !== 'undefined') {
+    var channel = new __webpack_require__.g.MessageChannel();
+    channel.port1.onmessage = nextTick;
+    scheduleDrain = function () {
+      channel.port2.postMessage(0);
+    };
+  } else if ('document' in __webpack_require__.g && 'onreadystatechange' in __webpack_require__.g.document.createElement('script')) {
+    scheduleDrain = function () {
+
+      // Create a <script> element; its readystatechange event will be fired asynchronously once it is inserted
+      // into the document. Do so, thus queuing up the task. Remember to clean up once it's been called.
+      var scriptEl = __webpack_require__.g.document.createElement('script');
+      scriptEl.onreadystatechange = function () {
+        nextTick();
+
+        scriptEl.onreadystatechange = null;
+        scriptEl.parentNode.removeChild(scriptEl);
+        scriptEl = null;
+      };
+      __webpack_require__.g.document.documentElement.appendChild(scriptEl);
+    };
+  } else {
+    scheduleDrain = function () {
+      setTimeout(nextTick, 0);
+    };
+  }
+}
+
+var draining;
+var queue = [];
+//named nextTick for less confusing stack traces
+function nextTick() {
+  draining = true;
+  var i, oldQueue;
+  var len = queue.length;
+  while (len) {
+    oldQueue = queue;
+    queue = [];
+    i = -1;
+    while (++i < len) {
+      oldQueue[i]();
+    }
+    len = queue.length;
+  }
+  draining = false;
+}
+
+module.exports = immediate;
+function immediate(task) {
+  if (queue.push(task) === 1 && !draining) {
+    scheduleDrain();
+  }
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/jszip/lib/base64.js":
+/*!******************************************!*\
+  !*** ./node_modules/jszip/lib/base64.js ***!
+  \******************************************/
+/*! default exports */
+/*! export decode [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export encode [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_exports__, __webpack_require__ */
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+var utils = __webpack_require__(/*! ./utils */ "./node_modules/jszip/lib/utils.js");
+var support = __webpack_require__(/*! ./support */ "./node_modules/jszip/lib/support.js");
+// private property
+var _keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+
+
+// public method for encoding
+exports.encode = function(input) {
+    var output = [];
+    var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
+    var i = 0, len = input.length, remainingBytes = len;
+
+    var isArray = utils.getTypeOf(input) !== "string";
+    while (i < input.length) {
+        remainingBytes = len - i;
+
+        if (!isArray) {
+            chr1 = input.charCodeAt(i++);
+            chr2 = i < len ? input.charCodeAt(i++) : 0;
+            chr3 = i < len ? input.charCodeAt(i++) : 0;
+        } else {
+            chr1 = input[i++];
+            chr2 = i < len ? input[i++] : 0;
+            chr3 = i < len ? input[i++] : 0;
+        }
+
+        enc1 = chr1 >> 2;
+        enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
+        enc3 = remainingBytes > 1 ? (((chr2 & 15) << 2) | (chr3 >> 6)) : 64;
+        enc4 = remainingBytes > 2 ? (chr3 & 63) : 64;
+
+        output.push(_keyStr.charAt(enc1) + _keyStr.charAt(enc2) + _keyStr.charAt(enc3) + _keyStr.charAt(enc4));
+
+    }
+
+    return output.join("");
+};
+
+// public method for decoding
+exports.decode = function(input) {
+    var chr1, chr2, chr3;
+    var enc1, enc2, enc3, enc4;
+    var i = 0, resultIndex = 0;
+
+    var dataUrlPrefix = "data:";
+
+    if (input.substr(0, dataUrlPrefix.length) === dataUrlPrefix) {
+        // This is a common error: people give a data url
+        // (data:image/png;base64,iVBOR...) with a {base64: true} and
+        // wonders why things don't work.
+        // We can detect that the string input looks like a data url but we
+        // *can't* be sure it is one: removing everything up to the comma would
+        // be too dangerous.
+        throw new Error("Invalid base64 input, it looks like a data url.");
+    }
+
+    input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
+
+    var totalLength = input.length * 3 / 4;
+    if(input.charAt(input.length - 1) === _keyStr.charAt(64)) {
+        totalLength--;
+    }
+    if(input.charAt(input.length - 2) === _keyStr.charAt(64)) {
+        totalLength--;
+    }
+    if (totalLength % 1 !== 0) {
+        // totalLength is not an integer, the length does not match a valid
+        // base64 content. That can happen if:
+        // - the input is not a base64 content
+        // - the input is *almost* a base64 content, with a extra chars at the
+        //   beginning or at the end
+        // - the input uses a base64 variant (base64url for example)
+        throw new Error("Invalid base64 input, bad content length.");
+    }
+    var output;
+    if (support.uint8array) {
+        output = new Uint8Array(totalLength|0);
+    } else {
+        output = new Array(totalLength|0);
+    }
+
+    while (i < input.length) {
+
+        enc1 = _keyStr.indexOf(input.charAt(i++));
+        enc2 = _keyStr.indexOf(input.charAt(i++));
+        enc3 = _keyStr.indexOf(input.charAt(i++));
+        enc4 = _keyStr.indexOf(input.charAt(i++));
+
+        chr1 = (enc1 << 2) | (enc2 >> 4);
+        chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);
+        chr3 = ((enc3 & 3) << 6) | enc4;
+
+        output[resultIndex++] = chr1;
+
+        if (enc3 !== 64) {
+            output[resultIndex++] = chr2;
+        }
+        if (enc4 !== 64) {
+            output[resultIndex++] = chr3;
+        }
+
+    }
+
+    return output;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/jszip/lib/compressedObject.js":
+/*!****************************************************!*\
+  !*** ./node_modules/jszip/lib/compressedObject.js ***!
+  \****************************************************/
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module, __webpack_require__ */
+/*! CommonJS bailout: module.exports is used directly at 75:0-14 */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+
+var external = __webpack_require__(/*! ./external */ "./node_modules/jszip/lib/external.js");
+var DataWorker = __webpack_require__(/*! ./stream/DataWorker */ "./node_modules/jszip/lib/stream/DataWorker.js");
+var DataLengthProbe = __webpack_require__(/*! ./stream/DataLengthProbe */ "./node_modules/jszip/lib/stream/DataLengthProbe.js");
+var Crc32Probe = __webpack_require__(/*! ./stream/Crc32Probe */ "./node_modules/jszip/lib/stream/Crc32Probe.js");
+var DataLengthProbe = __webpack_require__(/*! ./stream/DataLengthProbe */ "./node_modules/jszip/lib/stream/DataLengthProbe.js");
+
+/**
+ * Represent a compressed object, with everything needed to decompress it.
+ * @constructor
+ * @param {number} compressedSize the size of the data compressed.
+ * @param {number} uncompressedSize the size of the data after decompression.
+ * @param {number} crc32 the crc32 of the decompressed file.
+ * @param {object} compression the type of compression, see lib/compressions.js.
+ * @param {String|ArrayBuffer|Uint8Array|Buffer} data the compressed data.
+ */
+function CompressedObject(compressedSize, uncompressedSize, crc32, compression, data) {
+    this.compressedSize = compressedSize;
+    this.uncompressedSize = uncompressedSize;
+    this.crc32 = crc32;
+    this.compression = compression;
+    this.compressedContent = data;
+}
+
+CompressedObject.prototype = {
+    /**
+     * Create a worker to get the uncompressed content.
+     * @return {GenericWorker} the worker.
+     */
+    getContentWorker : function () {
+        var worker = new DataWorker(external.Promise.resolve(this.compressedContent))
+        .pipe(this.compression.uncompressWorker())
+        .pipe(new DataLengthProbe("data_length"));
+
+        var that = this;
+        worker.on("end", function () {
+            if(this.streamInfo['data_length'] !== that.uncompressedSize) {
+                throw new Error("Bug : uncompressed data size mismatch");
+            }
+        });
+        return worker;
+    },
+    /**
+     * Create a worker to get the compressed content.
+     * @return {GenericWorker} the worker.
+     */
+    getCompressedWorker : function () {
+        return new DataWorker(external.Promise.resolve(this.compressedContent))
+        .withStreamInfo("compressedSize", this.compressedSize)
+        .withStreamInfo("uncompressedSize", this.uncompressedSize)
+        .withStreamInfo("crc32", this.crc32)
+        .withStreamInfo("compression", this.compression)
+        ;
+    }
+};
+
+/**
+ * Chain the given worker with other workers to compress the content with the
+ * given compression.
+ * @param {GenericWorker} uncompressedWorker the worker to pipe.
+ * @param {Object} compression the compression object.
+ * @param {Object} compressionOptions the options to use when compressing.
+ * @return {GenericWorker} the new worker compressing the content.
+ */
+CompressedObject.createWorkerFrom = function (uncompressedWorker, compression, compressionOptions) {
+    return uncompressedWorker
+    .pipe(new Crc32Probe())
+    .pipe(new DataLengthProbe("uncompressedSize"))
+    .pipe(compression.compressWorker(compressionOptions))
+    .pipe(new DataLengthProbe("compressedSize"))
+    .withStreamInfo("compression", compression);
+};
+
+module.exports = CompressedObject;
+
+
+/***/ }),
+
+/***/ "./node_modules/jszip/lib/compressions.js":
+/*!************************************************!*\
+  !*** ./node_modules/jszip/lib/compressions.js ***!
+  \************************************************/
+/*! default exports */
+/*! export DEFLATE [provided] [no usage info] [provision prevents renaming (no use info)] -> ./node_modules/jszip/lib/flate.js */
+/*!   export compressWorker [provided] [no usage info] [missing usage info prevents renaming] */
+/*!   export magic [provided] [no usage info] [missing usage info prevents renaming] */
+/*!   export uncompressWorker [provided] [no usage info] [missing usage info prevents renaming] */
+/*!   other exports [not provided] [no usage info] */
+/*! export STORE [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_exports__, __webpack_require__ */
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+
+var GenericWorker = __webpack_require__(/*! ./stream/GenericWorker */ "./node_modules/jszip/lib/stream/GenericWorker.js");
+
+exports.STORE = {
+    magic: "\x00\x00",
+    compressWorker : function (compressionOptions) {
+        return new GenericWorker("STORE compression");
+    },
+    uncompressWorker : function () {
+        return new GenericWorker("STORE decompression");
+    }
+};
+exports.DEFLATE = __webpack_require__(/*! ./flate */ "./node_modules/jszip/lib/flate.js");
+
+
+/***/ }),
+
+/***/ "./node_modules/jszip/lib/crc32.js":
+/*!*****************************************!*\
+  !*** ./node_modules/jszip/lib/crc32.js ***!
+  \*****************************************/
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module, __webpack_require__ */
+/*! CommonJS bailout: module.exports is used directly at 65:0-14 */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+
+var utils = __webpack_require__(/*! ./utils */ "./node_modules/jszip/lib/utils.js");
+
+/**
+ * The following functions come from pako, from pako/lib/zlib/crc32.js
+ * released under the MIT license, see pako https://github.com/nodeca/pako/
+ */
+
+// Use ordinary array, since untyped makes no boost here
+function makeTable() {
+    var c, table = [];
+
+    for(var n =0; n < 256; n++){
+        c = n;
+        for(var k =0; k < 8; k++){
+            c = ((c&1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1));
+        }
+        table[n] = c;
+    }
+
+    return table;
+}
+
+// Create table on load. Just 255 signed longs. Not a problem.
+var crcTable = makeTable();
+
+
+function crc32(crc, buf, len, pos) {
+    var t = crcTable, end = pos + len;
+
+    crc = crc ^ (-1);
+
+    for (var i = pos; i < end; i++ ) {
+        crc = (crc >>> 8) ^ t[(crc ^ buf[i]) & 0xFF];
+    }
+
+    return (crc ^ (-1)); // >>> 0;
+}
+
+// That's all for the pako functions.
+
+/**
+ * Compute the crc32 of a string.
+ * This is almost the same as the function crc32, but for strings. Using the
+ * same function for the two use cases leads to horrible performances.
+ * @param {Number} crc the starting value of the crc.
+ * @param {String} str the string to use.
+ * @param {Number} len the length of the string.
+ * @param {Number} pos the starting position for the crc32 computation.
+ * @return {Number} the computed crc32.
+ */
+function crc32str(crc, str, len, pos) {
+    var t = crcTable, end = pos + len;
+
+    crc = crc ^ (-1);
+
+    for (var i = pos; i < end; i++ ) {
+        crc = (crc >>> 8) ^ t[(crc ^ str.charCodeAt(i)) & 0xFF];
+    }
+
+    return (crc ^ (-1)); // >>> 0;
+}
+
+module.exports = function crc32wrapper(input, crc) {
+    if (typeof input === "undefined" || !input.length) {
+        return 0;
+    }
+
+    var isArray = utils.getTypeOf(input) !== "string";
+
+    if(isArray) {
+        return crc32(crc|0, input, input.length, 0);
+    } else {
+        return crc32str(crc|0, input, input.length, 0);
+    }
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/jszip/lib/defaults.js":
+/*!********************************************!*\
+  !*** ./node_modules/jszip/lib/defaults.js ***!
+  \********************************************/
+/*! default exports */
+/*! export base64 [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export binary [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export comment [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export compression [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export compressionOptions [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export createFolders [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export date [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export dir [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export dosPermissions [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export unixPermissions [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_exports__ */
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+exports.base64 = false;
+exports.binary = false;
+exports.dir = false;
+exports.createFolders = true;
+exports.date = null;
+exports.compression = null;
+exports.compressionOptions = null;
+exports.comment = null;
+exports.unixPermissions = null;
+exports.dosPermissions = null;
+
+
+/***/ }),
+
+/***/ "./node_modules/jszip/lib/external.js":
+/*!********************************************!*\
+  !*** ./node_modules/jszip/lib/external.js ***!
+  \********************************************/
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module, __webpack_require__ */
+/*! CommonJS bailout: module.exports is used directly at 17:0-14 */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+/* global Promise */
+
+
+// load the global object first:
+// - it should be better integrated in the system (unhandledRejection in node)
+// - the environment may have a custom Promise implementation (see zone.js)
+var ES6Promise = null;
+if (typeof Promise !== "undefined") {
+    ES6Promise = Promise;
+} else {
+    ES6Promise = __webpack_require__(/*! lie */ "./node_modules/lie/lib/browser.js");
+}
+
+/**
+ * Let the user use/change some implementations.
+ */
+module.exports = {
+    Promise: ES6Promise
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/jszip/lib/flate.js":
+/*!*****************************************!*\
+  !*** ./node_modules/jszip/lib/flate.js ***!
+  \*****************************************/
+/*! default exports */
+/*! export compressWorker [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export magic [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export uncompressWorker [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_exports__, __webpack_require__ */
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+var USE_TYPEDARRAY = (typeof Uint8Array !== 'undefined') && (typeof Uint16Array !== 'undefined') && (typeof Uint32Array !== 'undefined');
+
+var pako = __webpack_require__(/*! pako */ "./node_modules/pako/index.js");
+var utils = __webpack_require__(/*! ./utils */ "./node_modules/jszip/lib/utils.js");
+var GenericWorker = __webpack_require__(/*! ./stream/GenericWorker */ "./node_modules/jszip/lib/stream/GenericWorker.js");
+
+var ARRAY_TYPE = USE_TYPEDARRAY ? "uint8array" : "array";
+
+exports.magic = "\x08\x00";
+
+/**
+ * Create a worker that uses pako to inflate/deflate.
+ * @constructor
+ * @param {String} action the name of the pako function to call : either "Deflate" or "Inflate".
+ * @param {Object} options the options to use when (de)compressing.
+ */
+function FlateWorker(action, options) {
+    GenericWorker.call(this, "FlateWorker/" + action);
+
+    this._pako = null;
+    this._pakoAction = action;
+    this._pakoOptions = options;
+    // the `meta` object from the last chunk received
+    // this allow this worker to pass around metadata
+    this.meta = {};
+}
+
+utils.inherits(FlateWorker, GenericWorker);
+
+/**
+ * @see GenericWorker.processChunk
+ */
+FlateWorker.prototype.processChunk = function (chunk) {
+    this.meta = chunk.meta;
+    if (this._pako === null) {
+        this._createPako();
+    }
+    this._pako.push(utils.transformTo(ARRAY_TYPE, chunk.data), false);
+};
+
+/**
+ * @see GenericWorker.flush
+ */
+FlateWorker.prototype.flush = function () {
+    GenericWorker.prototype.flush.call(this);
+    if (this._pako === null) {
+        this._createPako();
+    }
+    this._pako.push([], true);
+};
+/**
+ * @see GenericWorker.cleanUp
+ */
+FlateWorker.prototype.cleanUp = function () {
+    GenericWorker.prototype.cleanUp.call(this);
+    this._pako = null;
+};
+
+/**
+ * Create the _pako object.
+ * TODO: lazy-loading this object isn't the best solution but it's the
+ * quickest. The best solution is to lazy-load the worker list. See also the
+ * issue #446.
+ */
+FlateWorker.prototype._createPako = function () {
+    this._pako = new pako[this._pakoAction]({
+        raw: true,
+        level: this._pakoOptions.level || -1 // default compression
+    });
+    var self = this;
+    this._pako.onData = function(data) {
+        self.push({
+            data : data,
+            meta : self.meta
+        });
+    };
+};
+
+exports.compressWorker = function (compressionOptions) {
+    return new FlateWorker("Deflate", compressionOptions);
+};
+exports.uncompressWorker = function () {
+    return new FlateWorker("Inflate", {});
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/jszip/lib/generate/ZipFileWorker.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/jszip/lib/generate/ZipFileWorker.js ***!
+  \**********************************************************/
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module, __webpack_require__ */
+/*! CommonJS bailout: module.exports is used directly at 540:0-14 */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+
+var utils = __webpack_require__(/*! ../utils */ "./node_modules/jszip/lib/utils.js");
+var GenericWorker = __webpack_require__(/*! ../stream/GenericWorker */ "./node_modules/jszip/lib/stream/GenericWorker.js");
+var utf8 = __webpack_require__(/*! ../utf8 */ "./node_modules/jszip/lib/utf8.js");
+var crc32 = __webpack_require__(/*! ../crc32 */ "./node_modules/jszip/lib/crc32.js");
+var signature = __webpack_require__(/*! ../signature */ "./node_modules/jszip/lib/signature.js");
+
+/**
+ * Transform an integer into a string in hexadecimal.
+ * @private
+ * @param {number} dec the number to convert.
+ * @param {number} bytes the number of bytes to generate.
+ * @returns {string} the result.
+ */
+var decToHex = function(dec, bytes) {
+    var hex = "", i;
+    for (i = 0; i < bytes; i++) {
+        hex += String.fromCharCode(dec & 0xff);
+        dec = dec >>> 8;
+    }
+    return hex;
+};
+
+/**
+ * Generate the UNIX part of the external file attributes.
+ * @param {Object} unixPermissions the unix permissions or null.
+ * @param {Boolean} isDir true if the entry is a directory, false otherwise.
+ * @return {Number} a 32 bit integer.
+ *
+ * adapted from http://unix.stackexchange.com/questions/14705/the-zip-formats-external-file-attribute :
+ *
+ * TTTTsstrwxrwxrwx0000000000ADVSHR
+ * ^^^^____________________________ file type, see zipinfo.c (UNX_*)
+ *     ^^^_________________________ setuid, setgid, sticky
+ *        ^^^^^^^^^________________ permissions
+ *                 ^^^^^^^^^^______ not used ?
+ *                           ^^^^^^ DOS attribute bits : Archive, Directory, Volume label, System file, Hidden, Read only
+ */
+var generateUnixExternalFileAttr = function (unixPermissions, isDir) {
+
+    var result = unixPermissions;
+    if (!unixPermissions) {
+        // I can't use octal values in strict mode, hence the hexa.
+        //  040775 => 0x41fd
+        // 0100664 => 0x81b4
+        result = isDir ? 0x41fd : 0x81b4;
+    }
+    return (result & 0xFFFF) << 16;
+};
+
+/**
+ * Generate the DOS part of the external file attributes.
+ * @param {Object} dosPermissions the dos permissions or null.
+ * @param {Boolean} isDir true if the entry is a directory, false otherwise.
+ * @return {Number} a 32 bit integer.
+ *
+ * Bit 0     Read-Only
+ * Bit 1     Hidden
+ * Bit 2     System
+ * Bit 3     Volume Label
+ * Bit 4     Directory
+ * Bit 5     Archive
+ */
+var generateDosExternalFileAttr = function (dosPermissions, isDir) {
+
+    // the dir flag is already set for compatibility
+    return (dosPermissions || 0)  & 0x3F;
+};
+
+/**
+ * Generate the various parts used in the construction of the final zip file.
+ * @param {Object} streamInfo the hash with information about the compressed file.
+ * @param {Boolean} streamedContent is the content streamed ?
+ * @param {Boolean} streamingEnded is the stream finished ?
+ * @param {number} offset the current offset from the start of the zip file.
+ * @param {String} platform let's pretend we are this platform (change platform dependents fields)
+ * @param {Function} encodeFileName the function to encode the file name / comment.
+ * @return {Object} the zip parts.
+ */
+var generateZipParts = function(streamInfo, streamedContent, streamingEnded, offset, platform, encodeFileName) {
+    var file = streamInfo['file'],
+    compression = streamInfo['compression'],
+    useCustomEncoding = encodeFileName !== utf8.utf8encode,
+    encodedFileName = utils.transformTo("string", encodeFileName(file.name)),
+    utfEncodedFileName = utils.transformTo("string", utf8.utf8encode(file.name)),
+    comment = file.comment,
+    encodedComment = utils.transformTo("string", encodeFileName(comment)),
+    utfEncodedComment = utils.transformTo("string", utf8.utf8encode(comment)),
+    useUTF8ForFileName = utfEncodedFileName.length !== file.name.length,
+    useUTF8ForComment = utfEncodedComment.length !== comment.length,
+    dosTime,
+    dosDate,
+    extraFields = "",
+    unicodePathExtraField = "",
+    unicodeCommentExtraField = "",
+    dir = file.dir,
+    date = file.date;
+
+
+    var dataInfo = {
+        crc32 : 0,
+        compressedSize : 0,
+        uncompressedSize : 0
+    };
+
+    // if the content is streamed, the sizes/crc32 are only available AFTER
+    // the end of the stream.
+    if (!streamedContent || streamingEnded) {
+        dataInfo.crc32 = streamInfo['crc32'];
+        dataInfo.compressedSize = streamInfo['compressedSize'];
+        dataInfo.uncompressedSize = streamInfo['uncompressedSize'];
+    }
+
+    var bitflag = 0;
+    if (streamedContent) {
+        // Bit 3: the sizes/crc32 are set to zero in the local header.
+        // The correct values are put in the data descriptor immediately
+        // following the compressed data.
+        bitflag |= 0x0008;
+    }
+    if (!useCustomEncoding && (useUTF8ForFileName || useUTF8ForComment)) {
+        // Bit 11: Language encoding flag (EFS).
+        bitflag |= 0x0800;
+    }
+
+
+    var extFileAttr = 0;
+    var versionMadeBy = 0;
+    if (dir) {
+        // dos or unix, we set the dos dir flag
+        extFileAttr |= 0x00010;
+    }
+    if(platform === "UNIX") {
+        versionMadeBy = 0x031E; // UNIX, version 3.0
+        extFileAttr |= generateUnixExternalFileAttr(file.unixPermissions, dir);
+    } else { // DOS or other, fallback to DOS
+        versionMadeBy = 0x0014; // DOS, version 2.0
+        extFileAttr |= generateDosExternalFileAttr(file.dosPermissions, dir);
+    }
+
+    // date
+    // @see http://www.delorie.com/djgpp/doc/rbinter/it/52/13.html
+    // @see http://www.delorie.com/djgpp/doc/rbinter/it/65/16.html
+    // @see http://www.delorie.com/djgpp/doc/rbinter/it/66/16.html
+
+    dosTime = date.getUTCHours();
+    dosTime = dosTime << 6;
+    dosTime = dosTime | date.getUTCMinutes();
+    dosTime = dosTime << 5;
+    dosTime = dosTime | date.getUTCSeconds() / 2;
+
+    dosDate = date.getUTCFullYear() - 1980;
+    dosDate = dosDate << 4;
+    dosDate = dosDate | (date.getUTCMonth() + 1);
+    dosDate = dosDate << 5;
+    dosDate = dosDate | date.getUTCDate();
+
+    if (useUTF8ForFileName) {
+        // set the unicode path extra field. unzip needs at least one extra
+        // field to correctly handle unicode path, so using the path is as good
+        // as any other information. This could improve the situation with
+        // other archive managers too.
+        // This field is usually used without the utf8 flag, with a non
+        // unicode path in the header (winrar, winzip). This helps (a bit)
+        // with the messy Windows' default compressed folders feature but
+        // breaks on p7zip which doesn't seek the unicode path extra field.
+        // So for now, UTF-8 everywhere !
+        unicodePathExtraField =
+            // Version
+            decToHex(1, 1) +
+            // NameCRC32
+            decToHex(crc32(encodedFileName), 4) +
+            // UnicodeName
+            utfEncodedFileName;
+
+        extraFields +=
+            // Info-ZIP Unicode Path Extra Field
+            "\x75\x70" +
+            // size
+            decToHex(unicodePathExtraField.length, 2) +
+            // content
+            unicodePathExtraField;
+    }
+
+    if(useUTF8ForComment) {
+
+        unicodeCommentExtraField =
+            // Version
+            decToHex(1, 1) +
+            // CommentCRC32
+            decToHex(crc32(encodedComment), 4) +
+            // UnicodeName
+            utfEncodedComment;
+
+        extraFields +=
+            // Info-ZIP Unicode Path Extra Field
+            "\x75\x63" +
+            // size
+            decToHex(unicodeCommentExtraField.length, 2) +
+            // content
+            unicodeCommentExtraField;
+    }
+
+    var header = "";
+
+    // version needed to extract
+    header += "\x0A\x00";
+    // general purpose bit flag
+    header += decToHex(bitflag, 2);
+    // compression method
+    header += compression.magic;
+    // last mod file time
+    header += decToHex(dosTime, 2);
+    // last mod file date
+    header += decToHex(dosDate, 2);
+    // crc-32
+    header += decToHex(dataInfo.crc32, 4);
+    // compressed size
+    header += decToHex(dataInfo.compressedSize, 4);
+    // uncompressed size
+    header += decToHex(dataInfo.uncompressedSize, 4);
+    // file name length
+    header += decToHex(encodedFileName.length, 2);
+    // extra field length
+    header += decToHex(extraFields.length, 2);
+
+
+    var fileRecord = signature.LOCAL_FILE_HEADER + header + encodedFileName + extraFields;
+
+    var dirRecord = signature.CENTRAL_FILE_HEADER +
+        // version made by (00: DOS)
+        decToHex(versionMadeBy, 2) +
+        // file header (common to file and central directory)
+        header +
+        // file comment length
+        decToHex(encodedComment.length, 2) +
+        // disk number start
+        "\x00\x00" +
+        // internal file attributes TODO
+        "\x00\x00" +
+        // external file attributes
+        decToHex(extFileAttr, 4) +
+        // relative offset of local header
+        decToHex(offset, 4) +
+        // file name
+        encodedFileName +
+        // extra field
+        extraFields +
+        // file comment
+        encodedComment;
+
+    return {
+        fileRecord: fileRecord,
+        dirRecord: dirRecord
+    };
+};
+
+/**
+ * Generate the EOCD record.
+ * @param {Number} entriesCount the number of entries in the zip file.
+ * @param {Number} centralDirLength the length (in bytes) of the central dir.
+ * @param {Number} localDirLength the length (in bytes) of the local dir.
+ * @param {String} comment the zip file comment as a binary string.
+ * @param {Function} encodeFileName the function to encode the comment.
+ * @return {String} the EOCD record.
+ */
+var generateCentralDirectoryEnd = function (entriesCount, centralDirLength, localDirLength, comment, encodeFileName) {
+    var dirEnd = "";
+    var encodedComment = utils.transformTo("string", encodeFileName(comment));
+
+    // end of central dir signature
+    dirEnd = signature.CENTRAL_DIRECTORY_END +
+        // number of this disk
+        "\x00\x00" +
+        // number of the disk with the start of the central directory
+        "\x00\x00" +
+        // total number of entries in the central directory on this disk
+        decToHex(entriesCount, 2) +
+        // total number of entries in the central directory
+        decToHex(entriesCount, 2) +
+        // size of the central directory   4 bytes
+        decToHex(centralDirLength, 4) +
+        // offset of start of central directory with respect to the starting disk number
+        decToHex(localDirLength, 4) +
+        // .ZIP file comment length
+        decToHex(encodedComment.length, 2) +
+        // .ZIP file comment
+        encodedComment;
+
+    return dirEnd;
+};
+
+/**
+ * Generate data descriptors for a file entry.
+ * @param {Object} streamInfo the hash generated by a worker, containing information
+ * on the file entry.
+ * @return {String} the data descriptors.
+ */
+var generateDataDescriptors = function (streamInfo) {
+    var descriptor = "";
+    descriptor = signature.DATA_DESCRIPTOR +
+        // crc-32                          4 bytes
+        decToHex(streamInfo['crc32'], 4) +
+        // compressed size                 4 bytes
+        decToHex(streamInfo['compressedSize'], 4) +
+        // uncompressed size               4 bytes
+        decToHex(streamInfo['uncompressedSize'], 4);
+
+    return descriptor;
+};
+
+
+/**
+ * A worker to concatenate other workers to create a zip file.
+ * @param {Boolean} streamFiles `true` to stream the content of the files,
+ * `false` to accumulate it.
+ * @param {String} comment the comment to use.
+ * @param {String} platform the platform to use, "UNIX" or "DOS".
+ * @param {Function} encodeFileName the function to encode file names and comments.
+ */
+function ZipFileWorker(streamFiles, comment, platform, encodeFileName) {
+    GenericWorker.call(this, "ZipFileWorker");
+    // The number of bytes written so far. This doesn't count accumulated chunks.
+    this.bytesWritten = 0;
+    // The comment of the zip file
+    this.zipComment = comment;
+    // The platform "generating" the zip file.
+    this.zipPlatform = platform;
+    // the function to encode file names and comments.
+    this.encodeFileName = encodeFileName;
+    // Should we stream the content of the files ?
+    this.streamFiles = streamFiles;
+    // If `streamFiles` is false, we will need to accumulate the content of the
+    // files to calculate sizes / crc32 (and write them *before* the content).
+    // This boolean indicates if we are accumulating chunks (it will change a lot
+    // during the lifetime of this worker).
+    this.accumulate = false;
+    // The buffer receiving chunks when accumulating content.
+    this.contentBuffer = [];
+    // The list of generated directory records.
+    this.dirRecords = [];
+    // The offset (in bytes) from the beginning of the zip file for the current source.
+    this.currentSourceOffset = 0;
+    // The total number of entries in this zip file.
+    this.entriesCount = 0;
+    // the name of the file currently being added, null when handling the end of the zip file.
+    // Used for the emitted metadata.
+    this.currentFile = null;
+
+
+
+    this._sources = [];
+}
+utils.inherits(ZipFileWorker, GenericWorker);
+
+/**
+ * @see GenericWorker.push
+ */
+ZipFileWorker.prototype.push = function (chunk) {
+
+    var currentFilePercent = chunk.meta.percent || 0;
+    var entriesCount = this.entriesCount;
+    var remainingFiles = this._sources.length;
+
+    if(this.accumulate) {
+        this.contentBuffer.push(chunk);
+    } else {
+        this.bytesWritten += chunk.data.length;
+
+        GenericWorker.prototype.push.call(this, {
+            data : chunk.data,
+            meta : {
+                currentFile : this.currentFile,
+                percent : entriesCount ? (currentFilePercent + 100 * (entriesCount - remainingFiles - 1)) / entriesCount : 100
+            }
+        });
+    }
+};
+
+/**
+ * The worker started a new source (an other worker).
+ * @param {Object} streamInfo the streamInfo object from the new source.
+ */
+ZipFileWorker.prototype.openedSource = function (streamInfo) {
+    this.currentSourceOffset = this.bytesWritten;
+    this.currentFile = streamInfo['file'].name;
+
+    var streamedContent = this.streamFiles && !streamInfo['file'].dir;
+
+    // don't stream folders (because they don't have any content)
+    if(streamedContent) {
+        var record = generateZipParts(streamInfo, streamedContent, false, this.currentSourceOffset, this.zipPlatform, this.encodeFileName);
+        this.push({
+            data : record.fileRecord,
+            meta : {percent:0}
+        });
+    } else {
+        // we need to wait for the whole file before pushing anything
+        this.accumulate = true;
+    }
+};
+
+/**
+ * The worker finished a source (an other worker).
+ * @param {Object} streamInfo the streamInfo object from the finished source.
+ */
+ZipFileWorker.prototype.closedSource = function (streamInfo) {
+    this.accumulate = false;
+    var streamedContent = this.streamFiles && !streamInfo['file'].dir;
+    var record = generateZipParts(streamInfo, streamedContent, true, this.currentSourceOffset, this.zipPlatform, this.encodeFileName);
+
+    this.dirRecords.push(record.dirRecord);
+    if(streamedContent) {
+        // after the streamed file, we put data descriptors
+        this.push({
+            data : generateDataDescriptors(streamInfo),
+            meta : {percent:100}
+        });
+    } else {
+        // the content wasn't streamed, we need to push everything now
+        // first the file record, then the content
+        this.push({
+            data : record.fileRecord,
+            meta : {percent:0}
+        });
+        while(this.contentBuffer.length) {
+            this.push(this.contentBuffer.shift());
+        }
+    }
+    this.currentFile = null;
+};
+
+/**
+ * @see GenericWorker.flush
+ */
+ZipFileWorker.prototype.flush = function () {
+
+    var localDirLength = this.bytesWritten;
+    for(var i = 0; i < this.dirRecords.length; i++) {
+        this.push({
+            data : this.dirRecords[i],
+            meta : {percent:100}
+        });
+    }
+    var centralDirLength = this.bytesWritten - localDirLength;
+
+    var dirEnd = generateCentralDirectoryEnd(this.dirRecords.length, centralDirLength, localDirLength, this.zipComment, this.encodeFileName);
+
+    this.push({
+        data : dirEnd,
+        meta : {percent:100}
+    });
+};
+
+/**
+ * Prepare the next source to be read.
+ */
+ZipFileWorker.prototype.prepareNextSource = function () {
+    this.previous = this._sources.shift();
+    this.openedSource(this.previous.streamInfo);
+    if (this.isPaused) {
+        this.previous.pause();
+    } else {
+        this.previous.resume();
+    }
+};
+
+/**
+ * @see GenericWorker.registerPrevious
+ */
+ZipFileWorker.prototype.registerPrevious = function (previous) {
+    this._sources.push(previous);
+    var self = this;
+
+    previous.on('data', function (chunk) {
+        self.processChunk(chunk);
+    });
+    previous.on('end', function () {
+        self.closedSource(self.previous.streamInfo);
+        if(self._sources.length) {
+            self.prepareNextSource();
+        } else {
+            self.end();
+        }
+    });
+    previous.on('error', function (e) {
+        self.error(e);
+    });
+    return this;
+};
+
+/**
+ * @see GenericWorker.resume
+ */
+ZipFileWorker.prototype.resume = function () {
+    if(!GenericWorker.prototype.resume.call(this)) {
+        return false;
+    }
+
+    if (!this.previous && this._sources.length) {
+        this.prepareNextSource();
+        return true;
+    }
+    if (!this.previous && !this._sources.length && !this.generatedError) {
+        this.end();
+        return true;
+    }
+};
+
+/**
+ * @see GenericWorker.error
+ */
+ZipFileWorker.prototype.error = function (e) {
+    var sources = this._sources;
+    if(!GenericWorker.prototype.error.call(this, e)) {
+        return false;
+    }
+    for(var i = 0; i < sources.length; i++) {
+        try {
+            sources[i].error(e);
+        } catch(e) {
+            // the `error` exploded, nothing to do
+        }
+    }
+    return true;
+};
+
+/**
+ * @see GenericWorker.lock
+ */
+ZipFileWorker.prototype.lock = function () {
+    GenericWorker.prototype.lock.call(this);
+    var sources = this._sources;
+    for(var i = 0; i < sources.length; i++) {
+        sources[i].lock();
+    }
+};
+
+module.exports = ZipFileWorker;
+
+
+/***/ }),
+
+/***/ "./node_modules/jszip/lib/generate/index.js":
+/*!**************************************************!*\
+  !*** ./node_modules/jszip/lib/generate/index.js ***!
+  \**************************************************/
+/*! default exports */
+/*! export generateWorker [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_exports__, __webpack_require__ */
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+
+var compressions = __webpack_require__(/*! ../compressions */ "./node_modules/jszip/lib/compressions.js");
+var ZipFileWorker = __webpack_require__(/*! ./ZipFileWorker */ "./node_modules/jszip/lib/generate/ZipFileWorker.js");
+
+/**
+ * Find the compression to use.
+ * @param {String} fileCompression the compression defined at the file level, if any.
+ * @param {String} zipCompression the compression defined at the load() level.
+ * @return {Object} the compression object to use.
+ */
+var getCompression = function (fileCompression, zipCompression) {
+
+    var compressionName = fileCompression || zipCompression;
+    var compression = compressions[compressionName];
+    if (!compression) {
+        throw new Error(compressionName + " is not a valid compression method !");
+    }
+    return compression;
+};
+
+/**
+ * Create a worker to generate a zip file.
+ * @param {JSZip} zip the JSZip instance at the right root level.
+ * @param {Object} options to generate the zip file.
+ * @param {String} comment the comment to use.
+ */
+exports.generateWorker = function (zip, options, comment) {
+
+    var zipFileWorker = new ZipFileWorker(options.streamFiles, comment, options.platform, options.encodeFileName);
+    var entriesCount = 0;
+    try {
+
+        zip.forEach(function (relativePath, file) {
+            entriesCount++;
+            var compression = getCompression(file.options.compression, options.compression);
+            var compressionOptions = file.options.compressionOptions || options.compressionOptions || {};
+            var dir = file.dir, date = file.date;
+
+            file._compressWorker(compression, compressionOptions)
+            .withStreamInfo("file", {
+                name : relativePath,
+                dir : dir,
+                date : date,
+                comment : file.comment || "",
+                unixPermissions : file.unixPermissions,
+                dosPermissions : file.dosPermissions
+            })
+            .pipe(zipFileWorker);
+        });
+        zipFileWorker.entriesCount = entriesCount;
+    } catch (e) {
+        zipFileWorker.error(e);
+    }
+
+    return zipFileWorker;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/jszip/lib/index.js":
+/*!*****************************************!*\
+  !*** ./node_modules/jszip/lib/index.js ***!
+  \*****************************************/
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module, __webpack_require__ */
+/*! CommonJS bailout: module.exports is used directly at 52:0-14 */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+
+/**
+ * Representation a of zip file in js
+ * @constructor
+ */
+function JSZip() {
+    // if this constructor is used without `new`, it adds `new` before itself:
+    if(!(this instanceof JSZip)) {
+        return new JSZip();
+    }
+
+    if(arguments.length) {
+        throw new Error("The constructor with parameters has been removed in JSZip 3.0, please check the upgrade guide.");
+    }
+
+    // object containing the files :
+    // {
+    //   "folder/" : {...},
+    //   "folder/data.txt" : {...}
+    // }
+    this.files = {};
+
+    this.comment = null;
+
+    // Where we are in the hierarchy
+    this.root = "";
+    this.clone = function() {
+        var newObj = new JSZip();
+        for (var i in this) {
+            if (typeof this[i] !== "function") {
+                newObj[i] = this[i];
+            }
+        }
+        return newObj;
+    };
+}
+JSZip.prototype = __webpack_require__(/*! ./object */ "./node_modules/jszip/lib/object.js");
+JSZip.prototype.loadAsync = __webpack_require__(/*! ./load */ "./node_modules/jszip/lib/load.js");
+JSZip.support = __webpack_require__(/*! ./support */ "./node_modules/jszip/lib/support.js");
+JSZip.defaults = __webpack_require__(/*! ./defaults */ "./node_modules/jszip/lib/defaults.js");
+
+// TODO find a better way to handle this version,
+// a require('package.json').version doesn't work with webpack, see #327
+JSZip.version = "3.5.0";
+
+JSZip.loadAsync = function (content, options) {
+    return new JSZip().loadAsync(content, options);
+};
+
+JSZip.external = __webpack_require__(/*! ./external */ "./node_modules/jszip/lib/external.js");
+module.exports = JSZip;
+
+
+/***/ }),
+
+/***/ "./node_modules/jszip/lib/load.js":
+/*!****************************************!*\
+  !*** ./node_modules/jszip/lib/load.js ***!
+  \****************************************/
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module, __webpack_require__ */
+/*! CommonJS bailout: module.exports is used directly at 32:0-14 */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var utils = __webpack_require__(/*! ./utils */ "./node_modules/jszip/lib/utils.js");
+var external = __webpack_require__(/*! ./external */ "./node_modules/jszip/lib/external.js");
+var utf8 = __webpack_require__(/*! ./utf8 */ "./node_modules/jszip/lib/utf8.js");
+var utils = __webpack_require__(/*! ./utils */ "./node_modules/jszip/lib/utils.js");
+var ZipEntries = __webpack_require__(/*! ./zipEntries */ "./node_modules/jszip/lib/zipEntries.js");
+var Crc32Probe = __webpack_require__(/*! ./stream/Crc32Probe */ "./node_modules/jszip/lib/stream/Crc32Probe.js");
+var nodejsUtils = __webpack_require__(/*! ./nodejsUtils */ "./node_modules/jszip/lib/nodejsUtils.js");
+
+/**
+ * Check the CRC32 of an entry.
+ * @param {ZipEntry} zipEntry the zip entry to check.
+ * @return {Promise} the result.
+ */
+function checkEntryCRC32(zipEntry) {
+    return new external.Promise(function (resolve, reject) {
+        var worker = zipEntry.decompressed.getContentWorker().pipe(new Crc32Probe());
+        worker.on("error", function (e) {
+            reject(e);
+        })
+        .on("end", function () {
+            if (worker.streamInfo.crc32 !== zipEntry.decompressed.crc32) {
+                reject(new Error("Corrupted zip : CRC32 mismatch"));
+            } else {
+                resolve();
+            }
+        })
+        .resume();
+    });
+}
+
+module.exports = function(data, options) {
+    var zip = this;
+    options = utils.extend(options || {}, {
+        base64: false,
+        checkCRC32: false,
+        optimizedBinaryString: false,
+        createFolders: false,
+        decodeFileName: utf8.utf8decode
+    });
+
+    if (nodejsUtils.isNode && nodejsUtils.isStream(data)) {
+        return external.Promise.reject(new Error("JSZip can't accept a stream when loading a zip file."));
+    }
+
+    return utils.prepareContent("the loaded zip file", data, true, options.optimizedBinaryString, options.base64)
+    .then(function(data) {
+        var zipEntries = new ZipEntries(options);
+        zipEntries.load(data);
+        return zipEntries;
+    }).then(function checkCRC32(zipEntries) {
+        var promises = [external.Promise.resolve(zipEntries)];
+        var files = zipEntries.files;
+        if (options.checkCRC32) {
+            for (var i = 0; i < files.length; i++) {
+                promises.push(checkEntryCRC32(files[i]));
+            }
+        }
+        return external.Promise.all(promises);
+    }).then(function addFiles(results) {
+        var zipEntries = results.shift();
+        var files = zipEntries.files;
+        for (var i = 0; i < files.length; i++) {
+            var input = files[i];
+            zip.file(input.fileNameStr, input.decompressed, {
+                binary: true,
+                optimizedBinaryString: true,
+                date: input.date,
+                dir: input.dir,
+                comment : input.fileCommentStr.length ? input.fileCommentStr : null,
+                unixPermissions : input.unixPermissions,
+                dosPermissions : input.dosPermissions,
+                createFolders: options.createFolders
+            });
+        }
+        if (zipEntries.zipComment.length) {
+            zip.comment = zipEntries.zipComment;
+        }
+
+        return zip;
+    });
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/jszip/lib/nodejs/NodejsStreamInputAdapter.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/jszip/lib/nodejs/NodejsStreamInputAdapter.js ***!
+  \*******************************************************************/
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module, __webpack_require__ */
+/*! CommonJS bailout: module.exports is used directly at 74:0-14 */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+
+var utils = __webpack_require__(/*! ../utils */ "./node_modules/jszip/lib/utils.js");
+var GenericWorker = __webpack_require__(/*! ../stream/GenericWorker */ "./node_modules/jszip/lib/stream/GenericWorker.js");
+
+/**
+ * A worker that use a nodejs stream as source.
+ * @constructor
+ * @param {String} filename the name of the file entry for this stream.
+ * @param {Readable} stream the nodejs stream.
+ */
+function NodejsStreamInputAdapter(filename, stream) {
+    GenericWorker.call(this, "Nodejs stream input adapter for " + filename);
+    this._upstreamEnded = false;
+    this._bindStream(stream);
+}
+
+utils.inherits(NodejsStreamInputAdapter, GenericWorker);
+
+/**
+ * Prepare the stream and bind the callbacks on it.
+ * Do this ASAP on node 0.10 ! A lazy binding doesn't always work.
+ * @param {Stream} stream the nodejs stream to use.
+ */
+NodejsStreamInputAdapter.prototype._bindStream = function (stream) {
+    var self = this;
+    this._stream = stream;
+    stream.pause();
+    stream
+    .on("data", function (chunk) {
+        self.push({
+            data: chunk,
+            meta : {
+                percent : 0
+            }
+        });
+    })
+    .on("error", function (e) {
+        if(self.isPaused) {
+            this.generatedError = e;
+        } else {
+            self.error(e);
+        }
+    })
+    .on("end", function () {
+        if(self.isPaused) {
+            self._upstreamEnded = true;
+        } else {
+            self.end();
+        }
+    });
+};
+NodejsStreamInputAdapter.prototype.pause = function () {
+    if(!GenericWorker.prototype.pause.call(this)) {
+        return false;
+    }
+    this._stream.pause();
+    return true;
+};
+NodejsStreamInputAdapter.prototype.resume = function () {
+    if(!GenericWorker.prototype.resume.call(this)) {
+        return false;
+    }
+
+    if(this._upstreamEnded) {
+        this.end();
+    } else {
+        this._stream.resume();
+    }
+
+    return true;
+};
+
+module.exports = NodejsStreamInputAdapter;
+
+
+/***/ }),
+
+/***/ "./node_modules/jszip/lib/nodejs/NodejsStreamOutputAdapter.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/jszip/lib/nodejs/NodejsStreamOutputAdapter.js ***!
+  \********************************************************************/
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: __webpack_require__, module */
+/*! CommonJS bailout: module.exports is used directly at 42:0-14 */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+
+var Readable = __webpack_require__(/*! readable-stream */ "./node_modules/jszip/lib/readable-stream-browser.js").Readable;
+
+var utils = __webpack_require__(/*! ../utils */ "./node_modules/jszip/lib/utils.js");
+utils.inherits(NodejsStreamOutputAdapter, Readable);
+
+/**
+* A nodejs stream using a worker as source.
+* @see the SourceWrapper in http://nodejs.org/api/stream.html
+* @constructor
+* @param {StreamHelper} helper the helper wrapping the worker
+* @param {Object} options the nodejs stream options
+* @param {Function} updateCb the update callback.
+*/
+function NodejsStreamOutputAdapter(helper, options, updateCb) {
+    Readable.call(this, options);
+    this._helper = helper;
+
+    var self = this;
+    helper.on("data", function (data, meta) {
+        if (!self.push(data)) {
+            self._helper.pause();
+        }
+        if(updateCb) {
+            updateCb(meta);
+        }
+    })
+    .on("error", function(e) {
+        self.emit('error', e);
+    })
+    .on("end", function () {
+        self.push(null);
+    });
+}
+
+
+NodejsStreamOutputAdapter.prototype._read = function() {
+    this._helper.resume();
+};
+
+module.exports = NodejsStreamOutputAdapter;
+
+
+/***/ }),
+
+/***/ "./node_modules/jszip/lib/nodejsUtils.js":
+/*!***********************************************!*\
+  !*** ./node_modules/jszip/lib/nodejsUtils.js ***!
+  \***********************************************/
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module */
+/*! CommonJS bailout: module.exports is used directly at 3:0-14 */
+/***/ ((module) => {
+
+"use strict";
+
+
+module.exports = {
+    /**
+     * True if this is running in Nodejs, will be undefined in a browser.
+     * In a browser, browserify won't include this file and the whole module
+     * will be resolved an empty object.
+     */
+    isNode : typeof Buffer !== "undefined",
+    /**
+     * Create a new nodejs Buffer from an existing content.
+     * @param {Object} data the data to pass to the constructor.
+     * @param {String} encoding the encoding to use.
+     * @return {Buffer} a new Buffer.
+     */
+    newBufferFrom: function(data, encoding) {
+        if (Buffer.from && Buffer.from !== Uint8Array.from) {
+            return Buffer.from(data, encoding);
+        } else {
+            if (typeof data === "number") {
+                // Safeguard for old Node.js versions. On newer versions,
+                // Buffer.from(number) / Buffer(number, encoding) already throw.
+                throw new Error("The \"data\" argument must not be a number");
+            }
+            return new Buffer(data, encoding);
+        }
+    },
+    /**
+     * Create a new nodejs Buffer with the specified size.
+     * @param {Integer} size the size of the buffer.
+     * @return {Buffer} a new Buffer.
+     */
+    allocBuffer: function (size) {
+        if (Buffer.alloc) {
+            return Buffer.alloc(size);
+        } else {
+            var buf = new Buffer(size);
+            buf.fill(0);
+            return buf;
+        }
+    },
+    /**
+     * Find out if an object is a Buffer.
+     * @param {Object} b the object to test.
+     * @return {Boolean} true if the object is a Buffer, false otherwise.
+     */
+    isBuffer : function(b){
+        return Buffer.isBuffer(b);
+    },
+
+    isStream : function (obj) {
+        return obj &&
+            typeof obj.on === "function" &&
+            typeof obj.pause === "function" &&
+            typeof obj.resume === "function";
+    }
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/jszip/lib/object.js":
+/*!******************************************!*\
+  !*** ./node_modules/jszip/lib/object.js ***!
+  \******************************************/
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module, __webpack_require__ */
+/*! CommonJS bailout: module.exports is used directly at 389:0-14 */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var utf8 = __webpack_require__(/*! ./utf8 */ "./node_modules/jszip/lib/utf8.js");
+var utils = __webpack_require__(/*! ./utils */ "./node_modules/jszip/lib/utils.js");
+var GenericWorker = __webpack_require__(/*! ./stream/GenericWorker */ "./node_modules/jszip/lib/stream/GenericWorker.js");
+var StreamHelper = __webpack_require__(/*! ./stream/StreamHelper */ "./node_modules/jszip/lib/stream/StreamHelper.js");
+var defaults = __webpack_require__(/*! ./defaults */ "./node_modules/jszip/lib/defaults.js");
+var CompressedObject = __webpack_require__(/*! ./compressedObject */ "./node_modules/jszip/lib/compressedObject.js");
+var ZipObject = __webpack_require__(/*! ./zipObject */ "./node_modules/jszip/lib/zipObject.js");
+var generate = __webpack_require__(/*! ./generate */ "./node_modules/jszip/lib/generate/index.js");
+var nodejsUtils = __webpack_require__(/*! ./nodejsUtils */ "./node_modules/jszip/lib/nodejsUtils.js");
+var NodejsStreamInputAdapter = __webpack_require__(/*! ./nodejs/NodejsStreamInputAdapter */ "./node_modules/jszip/lib/nodejs/NodejsStreamInputAdapter.js");
+
+
+/**
+ * Add a file in the current folder.
+ * @private
+ * @param {string} name the name of the file
+ * @param {String|ArrayBuffer|Uint8Array|Buffer} data the data of the file
+ * @param {Object} originalOptions the options of the file
+ * @return {Object} the new file.
+ */
+var fileAdd = function(name, data, originalOptions) {
+    // be sure sub folders exist
+    var dataType = utils.getTypeOf(data),
+        parent;
+
+
+    /*
+     * Correct options.
+     */
+
+    var o = utils.extend(originalOptions || {}, defaults);
+    o.date = o.date || new Date();
+    if (o.compression !== null) {
+        o.compression = o.compression.toUpperCase();
+    }
+
+    if (typeof o.unixPermissions === "string") {
+        o.unixPermissions = parseInt(o.unixPermissions, 8);
+    }
+
+    // UNX_IFDIR  0040000 see zipinfo.c
+    if (o.unixPermissions && (o.unixPermissions & 0x4000)) {
+        o.dir = true;
+    }
+    // Bit 4    Directory
+    if (o.dosPermissions && (o.dosPermissions & 0x0010)) {
+        o.dir = true;
+    }
+
+    if (o.dir) {
+        name = forceTrailingSlash(name);
+    }
+    if (o.createFolders && (parent = parentFolder(name))) {
+        folderAdd.call(this, parent, true);
+    }
+
+    var isUnicodeString = dataType === "string" && o.binary === false && o.base64 === false;
+    if (!originalOptions || typeof originalOptions.binary === "undefined") {
+        o.binary = !isUnicodeString;
+    }
+
+
+    var isCompressedEmpty = (data instanceof CompressedObject) && data.uncompressedSize === 0;
+
+    if (isCompressedEmpty || o.dir || !data || data.length === 0) {
+        o.base64 = false;
+        o.binary = true;
+        data = "";
+        o.compression = "STORE";
+        dataType = "string";
+    }
+
+    /*
+     * Convert content to fit.
+     */
+
+    var zipObjectContent = null;
+    if (data instanceof CompressedObject || data instanceof GenericWorker) {
+        zipObjectContent = data;
+    } else if (nodejsUtils.isNode && nodejsUtils.isStream(data)) {
+        zipObjectContent = new NodejsStreamInputAdapter(name, data);
+    } else {
+        zipObjectContent = utils.prepareContent(name, data, o.binary, o.optimizedBinaryString, o.base64);
+    }
+
+    var object = new ZipObject(name, zipObjectContent, o);
+    this.files[name] = object;
+    /*
+    TODO: we can't throw an exception because we have async promises
+    (we can have a promise of a Date() for example) but returning a
+    promise is useless because file(name, data) returns the JSZip
+    object for chaining. Should we break that to allow the user
+    to catch the error ?
+
+    return external.Promise.resolve(zipObjectContent)
+    .then(function () {
+        return object;
+    });
+    */
+};
+
+/**
+ * Find the parent folder of the path.
+ * @private
+ * @param {string} path the path to use
+ * @return {string} the parent folder, or ""
+ */
+var parentFolder = function (path) {
+    if (path.slice(-1) === '/') {
+        path = path.substring(0, path.length - 1);
+    }
+    var lastSlash = path.lastIndexOf('/');
+    return (lastSlash > 0) ? path.substring(0, lastSlash) : "";
+};
+
+/**
+ * Returns the path with a slash at the end.
+ * @private
+ * @param {String} path the path to check.
+ * @return {String} the path with a trailing slash.
+ */
+var forceTrailingSlash = function(path) {
+    // Check the name ends with a /
+    if (path.slice(-1) !== "/") {
+        path += "/"; // IE doesn't like substr(-1)
+    }
+    return path;
+};
+
+/**
+ * Add a (sub) folder in the current folder.
+ * @private
+ * @param {string} name the folder's name
+ * @param {boolean=} [createFolders] If true, automatically create sub
+ *  folders. Defaults to false.
+ * @return {Object} the new folder.
+ */
+var folderAdd = function(name, createFolders) {
+    createFolders = (typeof createFolders !== 'undefined') ? createFolders : defaults.createFolders;
+
+    name = forceTrailingSlash(name);
+
+    // Does this folder already exist?
+    if (!this.files[name]) {
+        fileAdd.call(this, name, null, {
+            dir: true,
+            createFolders: createFolders
+        });
+    }
+    return this.files[name];
+};
+
+/**
+* Cross-window, cross-Node-context regular expression detection
+* @param  {Object}  object Anything
+* @return {Boolean}        true if the object is a regular expression,
+* false otherwise
+*/
+function isRegExp(object) {
+    return Object.prototype.toString.call(object) === "[object RegExp]";
+}
+
+// return the actual prototype of JSZip
+var out = {
+    /**
+     * @see loadAsync
+     */
+    load: function() {
+        throw new Error("This method has been removed in JSZip 3.0, please check the upgrade guide.");
+    },
+
+
+    /**
+     * Call a callback function for each entry at this folder level.
+     * @param {Function} cb the callback function:
+     * function (relativePath, file) {...}
+     * It takes 2 arguments : the relative path and the file.
+     */
+    forEach: function(cb) {
+        var filename, relativePath, file;
+        for (filename in this.files) {
+            if (!this.files.hasOwnProperty(filename)) {
+                continue;
+            }
+            file = this.files[filename];
+            relativePath = filename.slice(this.root.length, filename.length);
+            if (relativePath && filename.slice(0, this.root.length) === this.root) { // the file is in the current root
+                cb(relativePath, file); // TODO reverse the parameters ? need to be clean AND consistent with the filter search fn...
+            }
+        }
+    },
+
+    /**
+     * Filter nested files/folders with the specified function.
+     * @param {Function} search the predicate to use :
+     * function (relativePath, file) {...}
+     * It takes 2 arguments : the relative path and the file.
+     * @return {Array} An array of matching elements.
+     */
+    filter: function(search) {
+        var result = [];
+        this.forEach(function (relativePath, entry) {
+            if (search(relativePath, entry)) { // the file matches the function
+                result.push(entry);
+            }
+
+        });
+        return result;
+    },
+
+    /**
+     * Add a file to the zip file, or search a file.
+     * @param   {string|RegExp} name The name of the file to add (if data is defined),
+     * the name of the file to find (if no data) or a regex to match files.
+     * @param   {String|ArrayBuffer|Uint8Array|Buffer} data  The file data, either raw or base64 encoded
+     * @param   {Object} o     File options
+     * @return  {JSZip|Object|Array} this JSZip object (when adding a file),
+     * a file (when searching by string) or an array of files (when searching by regex).
+     */
+    file: function(name, data, o) {
+        if (arguments.length === 1) {
+            if (isRegExp(name)) {
+                var regexp = name;
+                return this.filter(function(relativePath, file) {
+                    return !file.dir && regexp.test(relativePath);
+                });
+            }
+            else { // text
+                var obj = this.files[this.root + name];
+                if (obj && !obj.dir) {
+                    return obj;
+                } else {
+                    return null;
+                }
+            }
+        }
+        else { // more than one argument : we have data !
+            name = this.root + name;
+            fileAdd.call(this, name, data, o);
+        }
+        return this;
+    },
+
+    /**
+     * Add a directory to the zip file, or search.
+     * @param   {String|RegExp} arg The name of the directory to add, or a regex to search folders.
+     * @return  {JSZip} an object with the new directory as the root, or an array containing matching folders.
+     */
+    folder: function(arg) {
+        if (!arg) {
+            return this;
+        }
+
+        if (isRegExp(arg)) {
+            return this.filter(function(relativePath, file) {
+                return file.dir && arg.test(relativePath);
+            });
+        }
+
+        // else, name is a new folder
+        var name = this.root + arg;
+        var newFolder = folderAdd.call(this, name);
+
+        // Allow chaining by returning a new object with this folder as the root
+        var ret = this.clone();
+        ret.root = newFolder.name;
+        return ret;
+    },
+
+    /**
+     * Delete a file, or a directory and all sub-files, from the zip
+     * @param {string} name the name of the file to delete
+     * @return {JSZip} this JSZip object
+     */
+    remove: function(name) {
+        name = this.root + name;
+        var file = this.files[name];
+        if (!file) {
+            // Look for any folders
+            if (name.slice(-1) !== "/") {
+                name += "/";
+            }
+            file = this.files[name];
+        }
+
+        if (file && !file.dir) {
+            // file
+            delete this.files[name];
+        } else {
+            // maybe a folder, delete recursively
+            var kids = this.filter(function(relativePath, file) {
+                return file.name.slice(0, name.length) === name;
+            });
+            for (var i = 0; i < kids.length; i++) {
+                delete this.files[kids[i].name];
+            }
+        }
+
+        return this;
+    },
+
+    /**
+     * Generate the complete zip file
+     * @param {Object} options the options to generate the zip file :
+     * - compression, "STORE" by default.
+     * - type, "base64" by default. Values are : string, base64, uint8array, arraybuffer, blob.
+     * @return {String|Uint8Array|ArrayBuffer|Buffer|Blob} the zip file
+     */
+    generate: function(options) {
+        throw new Error("This method has been removed in JSZip 3.0, please check the upgrade guide.");
+    },
+
+    /**
+     * Generate the complete zip file as an internal stream.
+     * @param {Object} options the options to generate the zip file :
+     * - compression, "STORE" by default.
+     * - type, "base64" by default. Values are : string, base64, uint8array, arraybuffer, blob.
+     * @return {StreamHelper} the streamed zip file.
+     */
+    generateInternalStream: function(options) {
+      var worker, opts = {};
+      try {
+          opts = utils.extend(options || {}, {
+              streamFiles: false,
+              compression: "STORE",
+              compressionOptions : null,
+              type: "",
+              platform: "DOS",
+              comment: null,
+              mimeType: 'application/zip',
+              encodeFileName: utf8.utf8encode
+          });
+
+          opts.type = opts.type.toLowerCase();
+          opts.compression = opts.compression.toUpperCase();
+
+          // "binarystring" is preferred but the internals use "string".
+          if(opts.type === "binarystring") {
+            opts.type = "string";
+          }
+
+          if (!opts.type) {
+            throw new Error("No output type specified.");
+          }
+
+          utils.checkSupport(opts.type);
+
+          // accept nodejs `process.platform`
+          if(
+              opts.platform === 'darwin' ||
+              opts.platform === 'freebsd' ||
+              opts.platform === 'linux' ||
+              opts.platform === 'sunos'
+          ) {
+              opts.platform = "UNIX";
+          }
+          if (opts.platform === 'win32') {
+              opts.platform = "DOS";
+          }
+
+          var comment = opts.comment || this.comment || "";
+          worker = generate.generateWorker(this, opts, comment);
+      } catch (e) {
+        worker = new GenericWorker("error");
+        worker.error(e);
+      }
+      return new StreamHelper(worker, opts.type || "string", opts.mimeType);
+    },
+    /**
+     * Generate the complete zip file asynchronously.
+     * @see generateInternalStream
+     */
+    generateAsync: function(options, onUpdate) {
+        return this.generateInternalStream(options).accumulate(onUpdate);
+    },
+    /**
+     * Generate the complete zip file asynchronously.
+     * @see generateInternalStream
+     */
+    generateNodeStream: function(options, onUpdate) {
+        options = options || {};
+        if (!options.type) {
+            options.type = "nodebuffer";
+        }
+        return this.generateInternalStream(options).toNodejsStream(onUpdate);
+    }
+};
+module.exports = out;
+
+
+/***/ }),
+
+/***/ "./node_modules/jszip/lib/readable-stream-browser.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/jszip/lib/readable-stream-browser.js ***!
+  \***********************************************************/
+/*! dynamic exports */
+/*! exports [maybe provided (runtime-defined)] [no usage info] -> stream (ignored) */
+/*! runtime requirements: module, __webpack_require__ */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+/*
+ * This file is used by module bundlers (browserify/webpack/etc) when
+ * including a stream implementation. We use "readable-stream" to get a
+ * consistent behavior between nodejs versions but bundlers often have a shim
+ * for "stream". Using this shim greatly improve the compatibility and greatly
+ * reduce the final size of the bundle (only one stream implementation, not
+ * two).
+ */
+module.exports = __webpack_require__(/*! stream */ "?cc48");
+
+
+/***/ }),
+
+/***/ "./node_modules/jszip/lib/reader/ArrayReader.js":
+/*!******************************************************!*\
+  !*** ./node_modules/jszip/lib/reader/ArrayReader.js ***!
+  \******************************************************/
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module, __webpack_require__ */
+/*! CommonJS bailout: module.exports is used directly at 57:0-14 */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var DataReader = __webpack_require__(/*! ./DataReader */ "./node_modules/jszip/lib/reader/DataReader.js");
+var utils = __webpack_require__(/*! ../utils */ "./node_modules/jszip/lib/utils.js");
+
+function ArrayReader(data) {
+    DataReader.call(this, data);
+	for(var i = 0; i < this.data.length; i++) {
+		data[i] = data[i] & 0xFF;
+	}
+}
+utils.inherits(ArrayReader, DataReader);
+/**
+ * @see DataReader.byteAt
+ */
+ArrayReader.prototype.byteAt = function(i) {
+    return this.data[this.zero + i];
+};
+/**
+ * @see DataReader.lastIndexOfSignature
+ */
+ArrayReader.prototype.lastIndexOfSignature = function(sig) {
+    var sig0 = sig.charCodeAt(0),
+        sig1 = sig.charCodeAt(1),
+        sig2 = sig.charCodeAt(2),
+        sig3 = sig.charCodeAt(3);
+    for (var i = this.length - 4; i >= 0; --i) {
+        if (this.data[i] === sig0 && this.data[i + 1] === sig1 && this.data[i + 2] === sig2 && this.data[i + 3] === sig3) {
+            return i - this.zero;
+        }
+    }
+
+    return -1;
+};
+/**
+ * @see DataReader.readAndCheckSignature
+ */
+ArrayReader.prototype.readAndCheckSignature = function (sig) {
+    var sig0 = sig.charCodeAt(0),
+        sig1 = sig.charCodeAt(1),
+        sig2 = sig.charCodeAt(2),
+        sig3 = sig.charCodeAt(3),
+        data = this.readData(4);
+    return sig0 === data[0] && sig1 === data[1] && sig2 === data[2] && sig3 === data[3];
+};
+/**
+ * @see DataReader.readData
+ */
+ArrayReader.prototype.readData = function(size) {
+    this.checkOffset(size);
+    if(size === 0) {
+        return [];
+    }
+    var result = this.data.slice(this.zero + this.index, this.zero + this.index + size);
+    this.index += size;
+    return result;
+};
+module.exports = ArrayReader;
+
+
+/***/ }),
+
+/***/ "./node_modules/jszip/lib/reader/DataReader.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/jszip/lib/reader/DataReader.js ***!
+  \*****************************************************/
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module, __webpack_require__ */
+/*! CommonJS bailout: module.exports is used directly at 116:0-14 */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var utils = __webpack_require__(/*! ../utils */ "./node_modules/jszip/lib/utils.js");
+
+function DataReader(data) {
+    this.data = data; // type : see implementation
+    this.length = data.length;
+    this.index = 0;
+    this.zero = 0;
+}
+DataReader.prototype = {
+    /**
+     * Check that the offset will not go too far.
+     * @param {string} offset the additional offset to check.
+     * @throws {Error} an Error if the offset is out of bounds.
+     */
+    checkOffset: function(offset) {
+        this.checkIndex(this.index + offset);
+    },
+    /**
+     * Check that the specified index will not be too far.
+     * @param {string} newIndex the index to check.
+     * @throws {Error} an Error if the index is out of bounds.
+     */
+    checkIndex: function(newIndex) {
+        if (this.length < this.zero + newIndex || newIndex < 0) {
+            throw new Error("End of data reached (data length = " + this.length + ", asked index = " + (newIndex) + "). Corrupted zip ?");
+        }
+    },
+    /**
+     * Change the index.
+     * @param {number} newIndex The new index.
+     * @throws {Error} if the new index is out of the data.
+     */
+    setIndex: function(newIndex) {
+        this.checkIndex(newIndex);
+        this.index = newIndex;
+    },
+    /**
+     * Skip the next n bytes.
+     * @param {number} n the number of bytes to skip.
+     * @throws {Error} if the new index is out of the data.
+     */
+    skip: function(n) {
+        this.setIndex(this.index + n);
+    },
+    /**
+     * Get the byte at the specified index.
+     * @param {number} i the index to use.
+     * @return {number} a byte.
+     */
+    byteAt: function(i) {
+        // see implementations
+    },
+    /**
+     * Get the next number with a given byte size.
+     * @param {number} size the number of bytes to read.
+     * @return {number} the corresponding number.
+     */
+    readInt: function(size) {
+        var result = 0,
+            i;
+        this.checkOffset(size);
+        for (i = this.index + size - 1; i >= this.index; i--) {
+            result = (result << 8) + this.byteAt(i);
+        }
+        this.index += size;
+        return result;
+    },
+    /**
+     * Get the next string with a given byte size.
+     * @param {number} size the number of bytes to read.
+     * @return {string} the corresponding string.
+     */
+    readString: function(size) {
+        return utils.transformTo("string", this.readData(size));
+    },
+    /**
+     * Get raw data without conversion, <size> bytes.
+     * @param {number} size the number of bytes to read.
+     * @return {Object} the raw data, implementation specific.
+     */
+    readData: function(size) {
+        // see implementations
+    },
+    /**
+     * Find the last occurrence of a zip signature (4 bytes).
+     * @param {string} sig the signature to find.
+     * @return {number} the index of the last occurrence, -1 if not found.
+     */
+    lastIndexOfSignature: function(sig) {
+        // see implementations
+    },
+    /**
+     * Read the signature (4 bytes) at the current position and compare it with sig.
+     * @param {string} sig the expected signature
+     * @return {boolean} true if the signature matches, false otherwise.
+     */
+    readAndCheckSignature: function(sig) {
+        // see implementations
+    },
+    /**
+     * Get the next date.
+     * @return {Date} the date.
+     */
+    readDate: function() {
+        var dostime = this.readInt(4);
+        return new Date(Date.UTC(
+        ((dostime >> 25) & 0x7f) + 1980, // year
+        ((dostime >> 21) & 0x0f) - 1, // month
+        (dostime >> 16) & 0x1f, // day
+        (dostime >> 11) & 0x1f, // hour
+        (dostime >> 5) & 0x3f, // minute
+        (dostime & 0x1f) << 1)); // second
+    }
+};
+module.exports = DataReader;
+
+
+/***/ }),
+
+/***/ "./node_modules/jszip/lib/reader/NodeBufferReader.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/jszip/lib/reader/NodeBufferReader.js ***!
+  \***********************************************************/
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module, __webpack_require__ */
+/*! CommonJS bailout: module.exports is used directly at 19:0-14 */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var Uint8ArrayReader = __webpack_require__(/*! ./Uint8ArrayReader */ "./node_modules/jszip/lib/reader/Uint8ArrayReader.js");
+var utils = __webpack_require__(/*! ../utils */ "./node_modules/jszip/lib/utils.js");
+
+function NodeBufferReader(data) {
+    Uint8ArrayReader.call(this, data);
+}
+utils.inherits(NodeBufferReader, Uint8ArrayReader);
+
+/**
+ * @see DataReader.readData
+ */
+NodeBufferReader.prototype.readData = function(size) {
+    this.checkOffset(size);
+    var result = this.data.slice(this.zero + this.index, this.zero + this.index + size);
+    this.index += size;
+    return result;
+};
+module.exports = NodeBufferReader;
+
+
+/***/ }),
+
+/***/ "./node_modules/jszip/lib/reader/StringReader.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/jszip/lib/reader/StringReader.js ***!
+  \*******************************************************/
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module, __webpack_require__ */
+/*! CommonJS bailout: module.exports is used directly at 38:0-14 */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var DataReader = __webpack_require__(/*! ./DataReader */ "./node_modules/jszip/lib/reader/DataReader.js");
+var utils = __webpack_require__(/*! ../utils */ "./node_modules/jszip/lib/utils.js");
+
+function StringReader(data) {
+    DataReader.call(this, data);
+}
+utils.inherits(StringReader, DataReader);
+/**
+ * @see DataReader.byteAt
+ */
+StringReader.prototype.byteAt = function(i) {
+    return this.data.charCodeAt(this.zero + i);
+};
+/**
+ * @see DataReader.lastIndexOfSignature
+ */
+StringReader.prototype.lastIndexOfSignature = function(sig) {
+    return this.data.lastIndexOf(sig) - this.zero;
+};
+/**
+ * @see DataReader.readAndCheckSignature
+ */
+StringReader.prototype.readAndCheckSignature = function (sig) {
+    var data = this.readData(4);
+    return sig === data;
+};
+/**
+ * @see DataReader.readData
+ */
+StringReader.prototype.readData = function(size) {
+    this.checkOffset(size);
+    // this will work because the constructor applied the "& 0xff" mask.
+    var result = this.data.slice(this.zero + this.index, this.zero + this.index + size);
+    this.index += size;
+    return result;
+};
+module.exports = StringReader;
+
+
+/***/ }),
+
+/***/ "./node_modules/jszip/lib/reader/Uint8ArrayReader.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/jszip/lib/reader/Uint8ArrayReader.js ***!
+  \***********************************************************/
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module, __webpack_require__ */
+/*! CommonJS bailout: module.exports is used directly at 22:0-14 */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var ArrayReader = __webpack_require__(/*! ./ArrayReader */ "./node_modules/jszip/lib/reader/ArrayReader.js");
+var utils = __webpack_require__(/*! ../utils */ "./node_modules/jszip/lib/utils.js");
+
+function Uint8ArrayReader(data) {
+    ArrayReader.call(this, data);
+}
+utils.inherits(Uint8ArrayReader, ArrayReader);
+/**
+ * @see DataReader.readData
+ */
+Uint8ArrayReader.prototype.readData = function(size) {
+    this.checkOffset(size);
+    if(size === 0) {
+        // in IE10, when using subarray(idx, idx), we get the array [0x00] instead of [].
+        return new Uint8Array(0);
+    }
+    var result = this.data.subarray(this.zero + this.index, this.zero + this.index + size);
+    this.index += size;
+    return result;
+};
+module.exports = Uint8ArrayReader;
+
+
+/***/ }),
+
+/***/ "./node_modules/jszip/lib/reader/readerFor.js":
+/*!****************************************************!*\
+  !*** ./node_modules/jszip/lib/reader/readerFor.js ***!
+  \****************************************************/
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module, __webpack_require__ */
+/*! CommonJS bailout: module.exports is used directly at 15:0-14 */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+
+var utils = __webpack_require__(/*! ../utils */ "./node_modules/jszip/lib/utils.js");
+var support = __webpack_require__(/*! ../support */ "./node_modules/jszip/lib/support.js");
+var ArrayReader = __webpack_require__(/*! ./ArrayReader */ "./node_modules/jszip/lib/reader/ArrayReader.js");
+var StringReader = __webpack_require__(/*! ./StringReader */ "./node_modules/jszip/lib/reader/StringReader.js");
+var NodeBufferReader = __webpack_require__(/*! ./NodeBufferReader */ "./node_modules/jszip/lib/reader/NodeBufferReader.js");
+var Uint8ArrayReader = __webpack_require__(/*! ./Uint8ArrayReader */ "./node_modules/jszip/lib/reader/Uint8ArrayReader.js");
+
+/**
+ * Create a reader adapted to the data.
+ * @param {String|ArrayBuffer|Uint8Array|Buffer} data the data to read.
+ * @return {DataReader} the data reader.
+ */
+module.exports = function (data) {
+    var type = utils.getTypeOf(data);
+    utils.checkSupport(type);
+    if (type === "string" && !support.uint8array) {
+        return new StringReader(data);
+    }
+    if (type === "nodebuffer") {
+        return new NodeBufferReader(data);
+    }
+    if (support.uint8array) {
+        return new Uint8ArrayReader(utils.transformTo("uint8array", data));
+    }
+    return new ArrayReader(utils.transformTo("array", data));
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/jszip/lib/signature.js":
+/*!*********************************************!*\
+  !*** ./node_modules/jszip/lib/signature.js ***!
+  \*********************************************/
+/*! default exports */
+/*! export CENTRAL_DIRECTORY_END [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export CENTRAL_FILE_HEADER [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export DATA_DESCRIPTOR [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export LOCAL_FILE_HEADER [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export ZIP64_CENTRAL_DIRECTORY_END [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export ZIP64_CENTRAL_DIRECTORY_LOCATOR [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_exports__ */
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+exports.LOCAL_FILE_HEADER = "PK\x03\x04";
+exports.CENTRAL_FILE_HEADER = "PK\x01\x02";
+exports.CENTRAL_DIRECTORY_END = "PK\x05\x06";
+exports.ZIP64_CENTRAL_DIRECTORY_LOCATOR = "PK\x06\x07";
+exports.ZIP64_CENTRAL_DIRECTORY_END = "PK\x06\x06";
+exports.DATA_DESCRIPTOR = "PK\x07\x08";
+
+
+/***/ }),
+
+/***/ "./node_modules/jszip/lib/stream/ConvertWorker.js":
+/*!********************************************************!*\
+  !*** ./node_modules/jszip/lib/stream/ConvertWorker.js ***!
+  \********************************************************/
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module, __webpack_require__ */
+/*! CommonJS bailout: module.exports is used directly at 26:0-14 */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+
+var GenericWorker = __webpack_require__(/*! ./GenericWorker */ "./node_modules/jszip/lib/stream/GenericWorker.js");
+var utils = __webpack_require__(/*! ../utils */ "./node_modules/jszip/lib/utils.js");
+
+/**
+ * A worker which convert chunks to a specified type.
+ * @constructor
+ * @param {String} destType the destination type.
+ */
+function ConvertWorker(destType) {
+    GenericWorker.call(this, "ConvertWorker to " + destType);
+    this.destType = destType;
+}
+utils.inherits(ConvertWorker, GenericWorker);
+
+/**
+ * @see GenericWorker.processChunk
+ */
+ConvertWorker.prototype.processChunk = function (chunk) {
+    this.push({
+        data : utils.transformTo(this.destType, chunk.data),
+        meta : chunk.meta
+    });
+};
+module.exports = ConvertWorker;
+
+
+/***/ }),
+
+/***/ "./node_modules/jszip/lib/stream/Crc32Probe.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/jszip/lib/stream/Crc32Probe.js ***!
+  \*****************************************************/
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module, __webpack_require__ */
+/*! CommonJS bailout: module.exports is used directly at 24:0-14 */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+
+var GenericWorker = __webpack_require__(/*! ./GenericWorker */ "./node_modules/jszip/lib/stream/GenericWorker.js");
+var crc32 = __webpack_require__(/*! ../crc32 */ "./node_modules/jszip/lib/crc32.js");
+var utils = __webpack_require__(/*! ../utils */ "./node_modules/jszip/lib/utils.js");
+
+/**
+ * A worker which calculate the crc32 of the data flowing through.
+ * @constructor
+ */
+function Crc32Probe() {
+    GenericWorker.call(this, "Crc32Probe");
+    this.withStreamInfo("crc32", 0);
+}
+utils.inherits(Crc32Probe, GenericWorker);
+
+/**
+ * @see GenericWorker.processChunk
+ */
+Crc32Probe.prototype.processChunk = function (chunk) {
+    this.streamInfo.crc32 = crc32(chunk.data, this.streamInfo.crc32 || 0);
+    this.push(chunk);
+};
+module.exports = Crc32Probe;
+
+
+/***/ }),
+
+/***/ "./node_modules/jszip/lib/stream/DataLengthProbe.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/jszip/lib/stream/DataLengthProbe.js ***!
+  \**********************************************************/
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module, __webpack_require__ */
+/*! CommonJS bailout: module.exports is used directly at 28:0-14 */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+
+var utils = __webpack_require__(/*! ../utils */ "./node_modules/jszip/lib/utils.js");
+var GenericWorker = __webpack_require__(/*! ./GenericWorker */ "./node_modules/jszip/lib/stream/GenericWorker.js");
+
+/**
+ * A worker which calculate the total length of the data flowing through.
+ * @constructor
+ * @param {String} propName the name used to expose the length
+ */
+function DataLengthProbe(propName) {
+    GenericWorker.call(this, "DataLengthProbe for " + propName);
+    this.propName = propName;
+    this.withStreamInfo(propName, 0);
+}
+utils.inherits(DataLengthProbe, GenericWorker);
+
+/**
+ * @see GenericWorker.processChunk
+ */
+DataLengthProbe.prototype.processChunk = function (chunk) {
+    if(chunk) {
+        var length = this.streamInfo[this.propName] || 0;
+        this.streamInfo[this.propName] = length + chunk.data.length;
+    }
+    GenericWorker.prototype.processChunk.call(this, chunk);
+};
+module.exports = DataLengthProbe;
+
+
+
+/***/ }),
+
+/***/ "./node_modules/jszip/lib/stream/DataWorker.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/jszip/lib/stream/DataWorker.js ***!
+  \*****************************************************/
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module, __webpack_require__ */
+/*! CommonJS bailout: module.exports is used directly at 116:0-14 */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+
+var utils = __webpack_require__(/*! ../utils */ "./node_modules/jszip/lib/utils.js");
+var GenericWorker = __webpack_require__(/*! ./GenericWorker */ "./node_modules/jszip/lib/stream/GenericWorker.js");
+
+// the size of the generated chunks
+// TODO expose this as a public variable
+var DEFAULT_BLOCK_SIZE = 16 * 1024;
+
+/**
+ * A worker that reads a content and emits chunks.
+ * @constructor
+ * @param {Promise} dataP the promise of the data to split
+ */
+function DataWorker(dataP) {
+    GenericWorker.call(this, "DataWorker");
+    var self = this;
+    this.dataIsReady = false;
+    this.index = 0;
+    this.max = 0;
+    this.data = null;
+    this.type = "";
+
+    this._tickScheduled = false;
+
+    dataP.then(function (data) {
+        self.dataIsReady = true;
+        self.data = data;
+        self.max = data && data.length || 0;
+        self.type = utils.getTypeOf(data);
+        if(!self.isPaused) {
+            self._tickAndRepeat();
+        }
+    }, function (e) {
+        self.error(e);
+    });
+}
+
+utils.inherits(DataWorker, GenericWorker);
+
+/**
+ * @see GenericWorker.cleanUp
+ */
+DataWorker.prototype.cleanUp = function () {
+    GenericWorker.prototype.cleanUp.call(this);
+    this.data = null;
+};
+
+/**
+ * @see GenericWorker.resume
+ */
+DataWorker.prototype.resume = function () {
+    if(!GenericWorker.prototype.resume.call(this)) {
+        return false;
+    }
+
+    if (!this._tickScheduled && this.dataIsReady) {
+        this._tickScheduled = true;
+        utils.delay(this._tickAndRepeat, [], this);
+    }
+    return true;
+};
+
+/**
+ * Trigger a tick a schedule an other call to this function.
+ */
+DataWorker.prototype._tickAndRepeat = function() {
+    this._tickScheduled = false;
+    if(this.isPaused || this.isFinished) {
+        return;
+    }
+    this._tick();
+    if(!this.isFinished) {
+        utils.delay(this._tickAndRepeat, [], this);
+        this._tickScheduled = true;
+    }
+};
+
+/**
+ * Read and push a chunk.
+ */
+DataWorker.prototype._tick = function() {
+
+    if(this.isPaused || this.isFinished) {
+        return false;
+    }
+
+    var size = DEFAULT_BLOCK_SIZE;
+    var data = null, nextIndex = Math.min(this.max, this.index + size);
+    if (this.index >= this.max) {
+        // EOF
+        return this.end();
+    } else {
+        switch(this.type) {
+            case "string":
+                data = this.data.substring(this.index, nextIndex);
+            break;
+            case "uint8array":
+                data = this.data.subarray(this.index, nextIndex);
+            break;
+            case "array":
+            case "nodebuffer":
+                data = this.data.slice(this.index, nextIndex);
+            break;
+        }
+        this.index = nextIndex;
+        return this.push({
+            data : data,
+            meta : {
+                percent : this.max ? this.index / this.max * 100 : 0
+            }
+        });
+    }
+};
+
+module.exports = DataWorker;
+
+
+/***/ }),
+
+/***/ "./node_modules/jszip/lib/stream/GenericWorker.js":
+/*!********************************************************!*\
+  !*** ./node_modules/jszip/lib/stream/GenericWorker.js ***!
+  \********************************************************/
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module */
+/*! CommonJS bailout: module.exports is used directly at 263:0-14 */
+/***/ ((module) => {
+
+"use strict";
+
+
+/**
+ * A worker that does nothing but passing chunks to the next one. This is like
+ * a nodejs stream but with some differences. On the good side :
+ * - it works on IE 6-9 without any issue / polyfill
+ * - it weights less than the full dependencies bundled with browserify
+ * - it forwards errors (no need to declare an error handler EVERYWHERE)
+ *
+ * A chunk is an object with 2 attributes : `meta` and `data`. The former is an
+ * object containing anything (`percent` for example), see each worker for more
+ * details. The latter is the real data (String, Uint8Array, etc).
+ *
+ * @constructor
+ * @param {String} name the name of the stream (mainly used for debugging purposes)
+ */
+function GenericWorker(name) {
+    // the name of the worker
+    this.name = name || "default";
+    // an object containing metadata about the workers chain
+    this.streamInfo = {};
+    // an error which happened when the worker was paused
+    this.generatedError = null;
+    // an object containing metadata to be merged by this worker into the general metadata
+    this.extraStreamInfo = {};
+    // true if the stream is paused (and should not do anything), false otherwise
+    this.isPaused = true;
+    // true if the stream is finished (and should not do anything), false otherwise
+    this.isFinished = false;
+    // true if the stream is locked to prevent further structure updates (pipe), false otherwise
+    this.isLocked = false;
+    // the event listeners
+    this._listeners = {
+        'data':[],
+        'end':[],
+        'error':[]
+    };
+    // the previous worker, if any
+    this.previous = null;
+}
+
+GenericWorker.prototype = {
+    /**
+     * Push a chunk to the next workers.
+     * @param {Object} chunk the chunk to push
+     */
+    push : function (chunk) {
+        this.emit("data", chunk);
+    },
+    /**
+     * End the stream.
+     * @return {Boolean} true if this call ended the worker, false otherwise.
+     */
+    end : function () {
+        if (this.isFinished) {
+            return false;
+        }
+
+        this.flush();
+        try {
+            this.emit("end");
+            this.cleanUp();
+            this.isFinished = true;
+        } catch (e) {
+            this.emit("error", e);
+        }
+        return true;
+    },
+    /**
+     * End the stream with an error.
+     * @param {Error} e the error which caused the premature end.
+     * @return {Boolean} true if this call ended the worker with an error, false otherwise.
+     */
+    error : function (e) {
+        if (this.isFinished) {
+            return false;
+        }
+
+        if(this.isPaused) {
+            this.generatedError = e;
+        } else {
+            this.isFinished = true;
+
+            this.emit("error", e);
+
+            // in the workers chain exploded in the middle of the chain,
+            // the error event will go downward but we also need to notify
+            // workers upward that there has been an error.
+            if(this.previous) {
+                this.previous.error(e);
+            }
+
+            this.cleanUp();
+        }
+        return true;
+    },
+    /**
+     * Add a callback on an event.
+     * @param {String} name the name of the event (data, end, error)
+     * @param {Function} listener the function to call when the event is triggered
+     * @return {GenericWorker} the current object for chainability
+     */
+    on : function (name, listener) {
+        this._listeners[name].push(listener);
+        return this;
+    },
+    /**
+     * Clean any references when a worker is ending.
+     */
+    cleanUp : function () {
+        this.streamInfo = this.generatedError = this.extraStreamInfo = null;
+        this._listeners = [];
+    },
+    /**
+     * Trigger an event. This will call registered callback with the provided arg.
+     * @param {String} name the name of the event (data, end, error)
+     * @param {Object} arg the argument to call the callback with.
+     */
+    emit : function (name, arg) {
+        if (this._listeners[name]) {
+            for(var i = 0; i < this._listeners[name].length; i++) {
+                this._listeners[name][i].call(this, arg);
+            }
+        }
+    },
+    /**
+     * Chain a worker with an other.
+     * @param {Worker} next the worker receiving events from the current one.
+     * @return {worker} the next worker for chainability
+     */
+    pipe : function (next) {
+        return next.registerPrevious(this);
+    },
+    /**
+     * Same as `pipe` in the other direction.
+     * Using an API with `pipe(next)` is very easy.
+     * Implementing the API with the point of view of the next one registering
+     * a source is easier, see the ZipFileWorker.
+     * @param {Worker} previous the previous worker, sending events to this one
+     * @return {Worker} the current worker for chainability
+     */
+    registerPrevious : function (previous) {
+        if (this.isLocked) {
+            throw new Error("The stream '" + this + "' has already been used.");
+        }
+
+        // sharing the streamInfo...
+        this.streamInfo = previous.streamInfo;
+        // ... and adding our own bits
+        this.mergeStreamInfo();
+        this.previous =  previous;
+        var self = this;
+        previous.on('data', function (chunk) {
+            self.processChunk(chunk);
+        });
+        previous.on('end', function () {
+            self.end();
+        });
+        previous.on('error', function (e) {
+            self.error(e);
+        });
+        return this;
+    },
+    /**
+     * Pause the stream so it doesn't send events anymore.
+     * @return {Boolean} true if this call paused the worker, false otherwise.
+     */
+    pause : function () {
+        if(this.isPaused || this.isFinished) {
+            return false;
+        }
+        this.isPaused = true;
+
+        if(this.previous) {
+            this.previous.pause();
+        }
+        return true;
+    },
+    /**
+     * Resume a paused stream.
+     * @return {Boolean} true if this call resumed the worker, false otherwise.
+     */
+    resume : function () {
+        if(!this.isPaused || this.isFinished) {
+            return false;
+        }
+        this.isPaused = false;
+
+        // if true, the worker tried to resume but failed
+        var withError = false;
+        if(this.generatedError) {
+            this.error(this.generatedError);
+            withError = true;
+        }
+        if(this.previous) {
+            this.previous.resume();
+        }
+
+        return !withError;
+    },
+    /**
+     * Flush any remaining bytes as the stream is ending.
+     */
+    flush : function () {},
+    /**
+     * Process a chunk. This is usually the method overridden.
+     * @param {Object} chunk the chunk to process.
+     */
+    processChunk : function(chunk) {
+        this.push(chunk);
+    },
+    /**
+     * Add a key/value to be added in the workers chain streamInfo once activated.
+     * @param {String} key the key to use
+     * @param {Object} value the associated value
+     * @return {Worker} the current worker for chainability
+     */
+    withStreamInfo : function (key, value) {
+        this.extraStreamInfo[key] = value;
+        this.mergeStreamInfo();
+        return this;
+    },
+    /**
+     * Merge this worker's streamInfo into the chain's streamInfo.
+     */
+    mergeStreamInfo : function () {
+        for(var key in this.extraStreamInfo) {
+            if (!this.extraStreamInfo.hasOwnProperty(key)) {
+                continue;
+            }
+            this.streamInfo[key] = this.extraStreamInfo[key];
+        }
+    },
+
+    /**
+     * Lock the stream to prevent further updates on the workers chain.
+     * After calling this method, all calls to pipe will fail.
+     */
+    lock: function () {
+        if (this.isLocked) {
+            throw new Error("The stream '" + this + "' has already been used.");
+        }
+        this.isLocked = true;
+        if (this.previous) {
+            this.previous.lock();
+        }
+    },
+
+    /**
+     *
+     * Pretty print the workers chain.
+     */
+    toString : function () {
+        var me = "Worker " + this.name;
+        if (this.previous) {
+            return this.previous + " -> " + me;
+        } else {
+            return me;
+        }
+    }
+};
+
+module.exports = GenericWorker;
+
+
+/***/ }),
+
+/***/ "./node_modules/jszip/lib/stream/StreamHelper.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/jszip/lib/stream/StreamHelper.js ***!
+  \*******************************************************/
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module, __webpack_require__ */
+/*! CommonJS bailout: module.exports is used directly at 212:0-14 */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+
+var utils = __webpack_require__(/*! ../utils */ "./node_modules/jszip/lib/utils.js");
+var ConvertWorker = __webpack_require__(/*! ./ConvertWorker */ "./node_modules/jszip/lib/stream/ConvertWorker.js");
+var GenericWorker = __webpack_require__(/*! ./GenericWorker */ "./node_modules/jszip/lib/stream/GenericWorker.js");
+var base64 = __webpack_require__(/*! ../base64 */ "./node_modules/jszip/lib/base64.js");
+var support = __webpack_require__(/*! ../support */ "./node_modules/jszip/lib/support.js");
+var external = __webpack_require__(/*! ../external */ "./node_modules/jszip/lib/external.js");
+
+var NodejsStreamOutputAdapter = null;
+if (support.nodestream) {
+    try {
+        NodejsStreamOutputAdapter = __webpack_require__(/*! ../nodejs/NodejsStreamOutputAdapter */ "./node_modules/jszip/lib/nodejs/NodejsStreamOutputAdapter.js");
+    } catch(e) {}
+}
+
+/**
+ * Apply the final transformation of the data. If the user wants a Blob for
+ * example, it's easier to work with an U8intArray and finally do the
+ * ArrayBuffer/Blob conversion.
+ * @param {String} type the name of the final type
+ * @param {String|Uint8Array|Buffer} content the content to transform
+ * @param {String} mimeType the mime type of the content, if applicable.
+ * @return {String|Uint8Array|ArrayBuffer|Buffer|Blob} the content in the right format.
+ */
+function transformZipOutput(type, content, mimeType) {
+    switch(type) {
+        case "blob" :
+            return utils.newBlob(utils.transformTo("arraybuffer", content), mimeType);
+        case "base64" :
+            return base64.encode(content);
+        default :
+            return utils.transformTo(type, content);
+    }
+}
+
+/**
+ * Concatenate an array of data of the given type.
+ * @param {String} type the type of the data in the given array.
+ * @param {Array} dataArray the array containing the data chunks to concatenate
+ * @return {String|Uint8Array|Buffer} the concatenated data
+ * @throws Error if the asked type is unsupported
+ */
+function concat (type, dataArray) {
+    var i, index = 0, res = null, totalLength = 0;
+    for(i = 0; i < dataArray.length; i++) {
+        totalLength += dataArray[i].length;
+    }
+    switch(type) {
+        case "string":
+            return dataArray.join("");
+          case "array":
+            return Array.prototype.concat.apply([], dataArray);
+        case "uint8array":
+            res = new Uint8Array(totalLength);
+            for(i = 0; i < dataArray.length; i++) {
+                res.set(dataArray[i], index);
+                index += dataArray[i].length;
+            }
+            return res;
+        case "nodebuffer":
+            return Buffer.concat(dataArray);
+        default:
+            throw new Error("concat : unsupported type '"  + type + "'");
+    }
+}
+
+/**
+ * Listen a StreamHelper, accumulate its content and concatenate it into a
+ * complete block.
+ * @param {StreamHelper} helper the helper to use.
+ * @param {Function} updateCallback a callback called on each update. Called
+ * with one arg :
+ * - the metadata linked to the update received.
+ * @return Promise the promise for the accumulation.
+ */
+function accumulate(helper, updateCallback) {
+    return new external.Promise(function (resolve, reject){
+        var dataArray = [];
+        var chunkType = helper._internalType,
+            resultType = helper._outputType,
+            mimeType = helper._mimeType;
+        helper
+        .on('data', function (data, meta) {
+            dataArray.push(data);
+            if(updateCallback) {
+                updateCallback(meta);
+            }
+        })
+        .on('error', function(err) {
+            dataArray = [];
+            reject(err);
+        })
+        .on('end', function (){
+            try {
+                var result = transformZipOutput(resultType, concat(chunkType, dataArray), mimeType);
+                resolve(result);
+            } catch (e) {
+                reject(e);
+            }
+            dataArray = [];
+        })
+        .resume();
+    });
+}
+
+/**
+ * An helper to easily use workers outside of JSZip.
+ * @constructor
+ * @param {Worker} worker the worker to wrap
+ * @param {String} outputType the type of data expected by the use
+ * @param {String} mimeType the mime type of the content, if applicable.
+ */
+function StreamHelper(worker, outputType, mimeType) {
+    var internalType = outputType;
+    switch(outputType) {
+        case "blob":
+        case "arraybuffer":
+            internalType = "uint8array";
+        break;
+        case "base64":
+            internalType = "string";
+        break;
+    }
+
+    try {
+        // the type used internally
+        this._internalType = internalType;
+        // the type used to output results
+        this._outputType = outputType;
+        // the mime type
+        this._mimeType = mimeType;
+        utils.checkSupport(internalType);
+        this._worker = worker.pipe(new ConvertWorker(internalType));
+        // the last workers can be rewired without issues but we need to
+        // prevent any updates on previous workers.
+        worker.lock();
+    } catch(e) {
+        this._worker = new GenericWorker("error");
+        this._worker.error(e);
+    }
+}
+
+StreamHelper.prototype = {
+    /**
+     * Listen a StreamHelper, accumulate its content and concatenate it into a
+     * complete block.
+     * @param {Function} updateCb the update callback.
+     * @return Promise the promise for the accumulation.
+     */
+    accumulate : function (updateCb) {
+        return accumulate(this, updateCb);
+    },
+    /**
+     * Add a listener on an event triggered on a stream.
+     * @param {String} evt the name of the event
+     * @param {Function} fn the listener
+     * @return {StreamHelper} the current helper.
+     */
+    on : function (evt, fn) {
+        var self = this;
+
+        if(evt === "data") {
+            this._worker.on(evt, function (chunk) {
+                fn.call(self, chunk.data, chunk.meta);
+            });
+        } else {
+            this._worker.on(evt, function () {
+                utils.delay(fn, arguments, self);
+            });
+        }
+        return this;
+    },
+    /**
+     * Resume the flow of chunks.
+     * @return {StreamHelper} the current helper.
+     */
+    resume : function () {
+        utils.delay(this._worker.resume, [], this._worker);
+        return this;
+    },
+    /**
+     * Pause the flow of chunks.
+     * @return {StreamHelper} the current helper.
+     */
+    pause : function () {
+        this._worker.pause();
+        return this;
+    },
+    /**
+     * Return a nodejs stream for this helper.
+     * @param {Function} updateCb the update callback.
+     * @return {NodejsStreamOutputAdapter} the nodejs stream.
+     */
+    toNodejsStream : function (updateCb) {
+        utils.checkSupport("nodestream");
+        if (this._outputType !== "nodebuffer") {
+            // an object stream containing blob/arraybuffer/uint8array/string
+            // is strange and I don't know if it would be useful.
+            // I you find this comment and have a good usecase, please open a
+            // bug report !
+            throw new Error(this._outputType + " is not supported by this method");
+        }
+
+        return new NodejsStreamOutputAdapter(this, {
+            objectMode : this._outputType !== "nodebuffer"
+        }, updateCb);
+    }
+};
+
+
+module.exports = StreamHelper;
+
+
+/***/ }),
+
+/***/ "./node_modules/jszip/lib/support.js":
+/*!*******************************************!*\
+  !*** ./node_modules/jszip/lib/support.js ***!
+  \*******************************************/
+/*! default exports */
+/*! export array [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export arraybuffer [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export base64 [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export blob [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export nodebuffer [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export nodestream [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export string [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export uint8array [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_exports__, __webpack_require__ */
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+
+exports.base64 = true;
+exports.array = true;
+exports.string = true;
+exports.arraybuffer = typeof ArrayBuffer !== "undefined" && typeof Uint8Array !== "undefined";
+exports.nodebuffer = typeof Buffer !== "undefined";
+// contains true if JSZip can read/generate Uint8Array, false otherwise.
+exports.uint8array = typeof Uint8Array !== "undefined";
+
+if (typeof ArrayBuffer === "undefined") {
+    exports.blob = false;
+}
+else {
+    var buffer = new ArrayBuffer(0);
+    try {
+        exports.blob = new Blob([buffer], {
+            type: "application/zip"
+        }).size === 0;
+    }
+    catch (e) {
+        try {
+            var Builder = self.BlobBuilder || self.WebKitBlobBuilder || self.MozBlobBuilder || self.MSBlobBuilder;
+            var builder = new Builder();
+            builder.append(buffer);
+            exports.blob = builder.getBlob('application/zip').size === 0;
+        }
+        catch (e) {
+            exports.blob = false;
+        }
+    }
+}
+
+try {
+    exports.nodestream = !!__webpack_require__(/*! readable-stream */ "./node_modules/jszip/lib/readable-stream-browser.js").Readable;
+} catch(e) {
+    exports.nodestream = false;
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/jszip/lib/utf8.js":
+/*!****************************************!*\
+  !*** ./node_modules/jszip/lib/utf8.js ***!
+  \****************************************/
+/*! default exports */
+/*! export Utf8DecodeWorker [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export Utf8EncodeWorker [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export utf8decode [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export utf8encode [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_exports__, __webpack_require__ */
+/*! CommonJS bailout: exports.utf8decode(...) prevents optimization as exports is passed as call context at 238:15-33 */
+/*! CommonJS bailout: exports.utf8decode(...) prevents optimization as exports is passed as call context at 249:19-37 */
+/*! CommonJS bailout: exports.utf8encode(...) prevents optimization as exports is passed as call context at 271:15-33 */
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+
+var utils = __webpack_require__(/*! ./utils */ "./node_modules/jszip/lib/utils.js");
+var support = __webpack_require__(/*! ./support */ "./node_modules/jszip/lib/support.js");
+var nodejsUtils = __webpack_require__(/*! ./nodejsUtils */ "./node_modules/jszip/lib/nodejsUtils.js");
+var GenericWorker = __webpack_require__(/*! ./stream/GenericWorker */ "./node_modules/jszip/lib/stream/GenericWorker.js");
+
+/**
+ * The following functions come from pako, from pako/lib/utils/strings
+ * released under the MIT license, see pako https://github.com/nodeca/pako/
+ */
+
+// Table with utf8 lengths (calculated by first byte of sequence)
+// Note, that 5 & 6-byte values and some 4-byte values can not be represented in JS,
+// because max possible codepoint is 0x10ffff
+var _utf8len = new Array(256);
+for (var i=0; i<256; i++) {
+  _utf8len[i] = (i >= 252 ? 6 : i >= 248 ? 5 : i >= 240 ? 4 : i >= 224 ? 3 : i >= 192 ? 2 : 1);
+}
+_utf8len[254]=_utf8len[254]=1; // Invalid sequence start
+
+// convert string to array (typed, when possible)
+var string2buf = function (str) {
+    var buf, c, c2, m_pos, i, str_len = str.length, buf_len = 0;
+
+    // count binary size
+    for (m_pos = 0; m_pos < str_len; m_pos++) {
+        c = str.charCodeAt(m_pos);
+        if ((c & 0xfc00) === 0xd800 && (m_pos+1 < str_len)) {
+            c2 = str.charCodeAt(m_pos+1);
+            if ((c2 & 0xfc00) === 0xdc00) {
+                c = 0x10000 + ((c - 0xd800) << 10) + (c2 - 0xdc00);
+                m_pos++;
+            }
+        }
+        buf_len += c < 0x80 ? 1 : c < 0x800 ? 2 : c < 0x10000 ? 3 : 4;
+    }
+
+    // allocate buffer
+    if (support.uint8array) {
+        buf = new Uint8Array(buf_len);
+    } else {
+        buf = new Array(buf_len);
+    }
+
+    // convert
+    for (i=0, m_pos = 0; i < buf_len; m_pos++) {
+        c = str.charCodeAt(m_pos);
+        if ((c & 0xfc00) === 0xd800 && (m_pos+1 < str_len)) {
+            c2 = str.charCodeAt(m_pos+1);
+            if ((c2 & 0xfc00) === 0xdc00) {
+                c = 0x10000 + ((c - 0xd800) << 10) + (c2 - 0xdc00);
+                m_pos++;
+            }
+        }
+        if (c < 0x80) {
+            /* one byte */
+            buf[i++] = c;
+        } else if (c < 0x800) {
+            /* two bytes */
+            buf[i++] = 0xC0 | (c >>> 6);
+            buf[i++] = 0x80 | (c & 0x3f);
+        } else if (c < 0x10000) {
+            /* three bytes */
+            buf[i++] = 0xE0 | (c >>> 12);
+            buf[i++] = 0x80 | (c >>> 6 & 0x3f);
+            buf[i++] = 0x80 | (c & 0x3f);
+        } else {
+            /* four bytes */
+            buf[i++] = 0xf0 | (c >>> 18);
+            buf[i++] = 0x80 | (c >>> 12 & 0x3f);
+            buf[i++] = 0x80 | (c >>> 6 & 0x3f);
+            buf[i++] = 0x80 | (c & 0x3f);
+        }
+    }
+
+    return buf;
+};
+
+// Calculate max possible position in utf8 buffer,
+// that will not break sequence. If that's not possible
+// - (very small limits) return max size as is.
+//
+// buf[] - utf8 bytes array
+// max   - length limit (mandatory);
+var utf8border = function(buf, max) {
+    var pos;
+
+    max = max || buf.length;
+    if (max > buf.length) { max = buf.length; }
+
+    // go back from last position, until start of sequence found
+    pos = max-1;
+    while (pos >= 0 && (buf[pos] & 0xC0) === 0x80) { pos--; }
+
+    // Fuckup - very small and broken sequence,
+    // return max, because we should return something anyway.
+    if (pos < 0) { return max; }
+
+    // If we came to start of buffer - that means vuffer is too small,
+    // return max too.
+    if (pos === 0) { return max; }
+
+    return (pos + _utf8len[buf[pos]] > max) ? pos : max;
+};
+
+// convert array to string
+var buf2string = function (buf) {
+    var str, i, out, c, c_len;
+    var len = buf.length;
+
+    // Reserve max possible length (2 words per char)
+    // NB: by unknown reasons, Array is significantly faster for
+    //     String.fromCharCode.apply than Uint16Array.
+    var utf16buf = new Array(len*2);
+
+    for (out=0, i=0; i<len;) {
+        c = buf[i++];
+        // quick process ascii
+        if (c < 0x80) { utf16buf[out++] = c; continue; }
+
+        c_len = _utf8len[c];
+        // skip 5 & 6 byte codes
+        if (c_len > 4) { utf16buf[out++] = 0xfffd; i += c_len-1; continue; }
+
+        // apply mask on first byte
+        c &= c_len === 2 ? 0x1f : c_len === 3 ? 0x0f : 0x07;
+        // join the rest
+        while (c_len > 1 && i < len) {
+            c = (c << 6) | (buf[i++] & 0x3f);
+            c_len--;
+        }
+
+        // terminated by end of string?
+        if (c_len > 1) { utf16buf[out++] = 0xfffd; continue; }
+
+        if (c < 0x10000) {
+            utf16buf[out++] = c;
+        } else {
+            c -= 0x10000;
+            utf16buf[out++] = 0xd800 | ((c >> 10) & 0x3ff);
+            utf16buf[out++] = 0xdc00 | (c & 0x3ff);
+        }
+    }
+
+    // shrinkBuf(utf16buf, out)
+    if (utf16buf.length !== out) {
+        if(utf16buf.subarray) {
+            utf16buf = utf16buf.subarray(0, out);
+        } else {
+            utf16buf.length = out;
+        }
+    }
+
+    // return String.fromCharCode.apply(null, utf16buf);
+    return utils.applyFromCharCode(utf16buf);
+};
+
+
+// That's all for the pako functions.
+
+
+/**
+ * Transform a javascript string into an array (typed if possible) of bytes,
+ * UTF-8 encoded.
+ * @param {String} str the string to encode
+ * @return {Array|Uint8Array|Buffer} the UTF-8 encoded string.
+ */
+exports.utf8encode = function utf8encode(str) {
+    if (support.nodebuffer) {
+        return nodejsUtils.newBufferFrom(str, "utf-8");
+    }
+
+    return string2buf(str);
+};
+
+
+/**
+ * Transform a bytes array (or a representation) representing an UTF-8 encoded
+ * string into a javascript string.
+ * @param {Array|Uint8Array|Buffer} buf the data de decode
+ * @return {String} the decoded string.
+ */
+exports.utf8decode = function utf8decode(buf) {
+    if (support.nodebuffer) {
+        return utils.transformTo("nodebuffer", buf).toString("utf-8");
+    }
+
+    buf = utils.transformTo(support.uint8array ? "uint8array" : "array", buf);
+
+    return buf2string(buf);
+};
+
+/**
+ * A worker to decode utf8 encoded binary chunks into string chunks.
+ * @constructor
+ */
+function Utf8DecodeWorker() {
+    GenericWorker.call(this, "utf-8 decode");
+    // the last bytes if a chunk didn't end with a complete codepoint.
+    this.leftOver = null;
+}
+utils.inherits(Utf8DecodeWorker, GenericWorker);
+
+/**
+ * @see GenericWorker.processChunk
+ */
+Utf8DecodeWorker.prototype.processChunk = function (chunk) {
+
+    var data = utils.transformTo(support.uint8array ? "uint8array" : "array", chunk.data);
+
+    // 1st step, re-use what's left of the previous chunk
+    if (this.leftOver && this.leftOver.length) {
+        if(support.uint8array) {
+            var previousData = data;
+            data = new Uint8Array(previousData.length + this.leftOver.length);
+            data.set(this.leftOver, 0);
+            data.set(previousData, this.leftOver.length);
+        } else {
+            data = this.leftOver.concat(data);
+        }
+        this.leftOver = null;
+    }
+
+    var nextBoundary = utf8border(data);
+    var usableData = data;
+    if (nextBoundary !== data.length) {
+        if (support.uint8array) {
+            usableData = data.subarray(0, nextBoundary);
+            this.leftOver = data.subarray(nextBoundary, data.length);
+        } else {
+            usableData = data.slice(0, nextBoundary);
+            this.leftOver = data.slice(nextBoundary, data.length);
+        }
+    }
+
+    this.push({
+        data : exports.utf8decode(usableData),
+        meta : chunk.meta
+    });
+};
+
+/**
+ * @see GenericWorker.flush
+ */
+Utf8DecodeWorker.prototype.flush = function () {
+    if(this.leftOver && this.leftOver.length) {
+        this.push({
+            data : exports.utf8decode(this.leftOver),
+            meta : {}
+        });
+        this.leftOver = null;
+    }
+};
+exports.Utf8DecodeWorker = Utf8DecodeWorker;
+
+/**
+ * A worker to endcode string chunks into utf8 encoded binary chunks.
+ * @constructor
+ */
+function Utf8EncodeWorker() {
+    GenericWorker.call(this, "utf-8 encode");
+}
+utils.inherits(Utf8EncodeWorker, GenericWorker);
+
+/**
+ * @see GenericWorker.processChunk
+ */
+Utf8EncodeWorker.prototype.processChunk = function (chunk) {
+    this.push({
+        data : exports.utf8encode(chunk.data),
+        meta : chunk.meta
+    });
+};
+exports.Utf8EncodeWorker = Utf8EncodeWorker;
+
+
+/***/ }),
+
+/***/ "./node_modules/jszip/lib/utils.js":
+/*!*****************************************!*\
+  !*** ./node_modules/jszip/lib/utils.js ***!
+  \*****************************************/
+/*! default exports */
+/*! export MAX_VALUE_16BITS [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export MAX_VALUE_32BITS [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export applyFromCharCode [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export checkSupport [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export delay [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export extend [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export getTypeOf [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export inherits [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export newBlob [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export prepareContent [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export pretty [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export transformTo [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_exports__, __webpack_require__ */
+/*! CommonJS bailout: exports.checkSupport(...) prevents optimization as exports is passed as call context at 41:4-24 */
+/*! CommonJS bailout: exports.getTypeOf(...) prevents optimization as exports is passed as call context at 176:15-32 */
+/*! CommonJS bailout: exports.checkSupport(...) prevents optimization as exports is passed as call context at 314:4-24 */
+/*! CommonJS bailout: exports.getTypeOf(...) prevents optimization as exports is passed as call context at 315:20-37 */
+/*! CommonJS bailout: exports.getTypeOf(...) prevents optimization as exports is passed as call context at 450:23-40 */
+/*! CommonJS bailout: exports.transformTo(...) prevents optimization as exports is passed as call context at 460:19-38 */
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+
+var support = __webpack_require__(/*! ./support */ "./node_modules/jszip/lib/support.js");
+var base64 = __webpack_require__(/*! ./base64 */ "./node_modules/jszip/lib/base64.js");
+var nodejsUtils = __webpack_require__(/*! ./nodejsUtils */ "./node_modules/jszip/lib/nodejsUtils.js");
+var setImmediate = __webpack_require__(/*! set-immediate-shim */ "./node_modules/set-immediate-shim/index.js");
+var external = __webpack_require__(/*! ./external */ "./node_modules/jszip/lib/external.js");
+
+
+/**
+ * Convert a string that pass as a "binary string": it should represent a byte
+ * array but may have > 255 char codes. Be sure to take only the first byte
+ * and returns the byte array.
+ * @param {String} str the string to transform.
+ * @return {Array|Uint8Array} the string in a binary format.
+ */
+function string2binary(str) {
+    var result = null;
+    if (support.uint8array) {
+      result = new Uint8Array(str.length);
+    } else {
+      result = new Array(str.length);
+    }
+    return stringToArrayLike(str, result);
+}
+
+/**
+ * Create a new blob with the given content and the given type.
+ * @param {String|ArrayBuffer} part the content to put in the blob. DO NOT use
+ * an Uint8Array because the stock browser of android 4 won't accept it (it
+ * will be silently converted to a string, "[object Uint8Array]").
+ *
+ * Use only ONE part to build the blob to avoid a memory leak in IE11 / Edge:
+ * when a large amount of Array is used to create the Blob, the amount of
+ * memory consumed is nearly 100 times the original data amount.
+ *
+ * @param {String} type the mime type of the blob.
+ * @return {Blob} the created blob.
+ */
+exports.newBlob = function(part, type) {
+    exports.checkSupport("blob");
+
+    try {
+        // Blob constructor
+        return new Blob([part], {
+            type: type
+        });
+    }
+    catch (e) {
+
+        try {
+            // deprecated, browser only, old way
+            var Builder = self.BlobBuilder || self.WebKitBlobBuilder || self.MozBlobBuilder || self.MSBlobBuilder;
+            var builder = new Builder();
+            builder.append(part);
+            return builder.getBlob(type);
+        }
+        catch (e) {
+
+            // well, fuck ?!
+            throw new Error("Bug : can't construct the Blob.");
+        }
+    }
+
+
+};
+/**
+ * The identity function.
+ * @param {Object} input the input.
+ * @return {Object} the same input.
+ */
+function identity(input) {
+    return input;
+}
+
+/**
+ * Fill in an array with a string.
+ * @param {String} str the string to use.
+ * @param {Array|ArrayBuffer|Uint8Array|Buffer} array the array to fill in (will be mutated).
+ * @return {Array|ArrayBuffer|Uint8Array|Buffer} the updated array.
+ */
+function stringToArrayLike(str, array) {
+    for (var i = 0; i < str.length; ++i) {
+        array[i] = str.charCodeAt(i) & 0xFF;
+    }
+    return array;
+}
+
+/**
+ * An helper for the function arrayLikeToString.
+ * This contains static information and functions that
+ * can be optimized by the browser JIT compiler.
+ */
+var arrayToStringHelper = {
+    /**
+     * Transform an array of int into a string, chunk by chunk.
+     * See the performances notes on arrayLikeToString.
+     * @param {Array|ArrayBuffer|Uint8Array|Buffer} array the array to transform.
+     * @param {String} type the type of the array.
+     * @param {Integer} chunk the chunk size.
+     * @return {String} the resulting string.
+     * @throws Error if the chunk is too big for the stack.
+     */
+    stringifyByChunk: function(array, type, chunk) {
+        var result = [], k = 0, len = array.length;
+        // shortcut
+        if (len <= chunk) {
+            return String.fromCharCode.apply(null, array);
+        }
+        while (k < len) {
+            if (type === "array" || type === "nodebuffer") {
+                result.push(String.fromCharCode.apply(null, array.slice(k, Math.min(k + chunk, len))));
+            }
+            else {
+                result.push(String.fromCharCode.apply(null, array.subarray(k, Math.min(k + chunk, len))));
+            }
+            k += chunk;
+        }
+        return result.join("");
+    },
+    /**
+     * Call String.fromCharCode on every item in the array.
+     * This is the naive implementation, which generate A LOT of intermediate string.
+     * This should be used when everything else fail.
+     * @param {Array|ArrayBuffer|Uint8Array|Buffer} array the array to transform.
+     * @return {String} the result.
+     */
+    stringifyByChar: function(array){
+        var resultStr = "";
+        for(var i = 0; i < array.length; i++) {
+            resultStr += String.fromCharCode(array[i]);
+        }
+        return resultStr;
+    },
+    applyCanBeUsed : {
+        /**
+         * true if the browser accepts to use String.fromCharCode on Uint8Array
+         */
+        uint8array : (function () {
+            try {
+                return support.uint8array && String.fromCharCode.apply(null, new Uint8Array(1)).length === 1;
+            } catch (e) {
+                return false;
+            }
+        })(),
+        /**
+         * true if the browser accepts to use String.fromCharCode on nodejs Buffer.
+         */
+        nodebuffer : (function () {
+            try {
+                return support.nodebuffer && String.fromCharCode.apply(null, nodejsUtils.allocBuffer(1)).length === 1;
+            } catch (e) {
+                return false;
+            }
+        })()
+    }
+};
+
+/**
+ * Transform an array-like object to a string.
+ * @param {Array|ArrayBuffer|Uint8Array|Buffer} array the array to transform.
+ * @return {String} the result.
+ */
+function arrayLikeToString(array) {
+    // Performances notes :
+    // --------------------
+    // String.fromCharCode.apply(null, array) is the fastest, see
+    // see http://jsperf.com/converting-a-uint8array-to-a-string/2
+    // but the stack is limited (and we can get huge arrays !).
+    //
+    // result += String.fromCharCode(array[i]); generate too many strings !
+    //
+    // This code is inspired by http://jsperf.com/arraybuffer-to-string-apply-performance/2
+    // TODO : we now have workers that split the work. Do we still need that ?
+    var chunk = 65536,
+        type = exports.getTypeOf(array),
+        canUseApply = true;
+    if (type === "uint8array") {
+        canUseApply = arrayToStringHelper.applyCanBeUsed.uint8array;
+    } else if (type === "nodebuffer") {
+        canUseApply = arrayToStringHelper.applyCanBeUsed.nodebuffer;
+    }
+
+    if (canUseApply) {
+        while (chunk > 1) {
+            try {
+                return arrayToStringHelper.stringifyByChunk(array, type, chunk);
+            } catch (e) {
+                chunk = Math.floor(chunk / 2);
+            }
+        }
+    }
+
+    // no apply or chunk error : slow and painful algorithm
+    // default browser on android 4.*
+    return arrayToStringHelper.stringifyByChar(array);
+}
+
+exports.applyFromCharCode = arrayLikeToString;
+
+
+/**
+ * Copy the data from an array-like to an other array-like.
+ * @param {Array|ArrayBuffer|Uint8Array|Buffer} arrayFrom the origin array.
+ * @param {Array|ArrayBuffer|Uint8Array|Buffer} arrayTo the destination array which will be mutated.
+ * @return {Array|ArrayBuffer|Uint8Array|Buffer} the updated destination array.
+ */
+function arrayLikeToArrayLike(arrayFrom, arrayTo) {
+    for (var i = 0; i < arrayFrom.length; i++) {
+        arrayTo[i] = arrayFrom[i];
+    }
+    return arrayTo;
+}
+
+// a matrix containing functions to transform everything into everything.
+var transform = {};
+
+// string to ?
+transform["string"] = {
+    "string": identity,
+    "array": function(input) {
+        return stringToArrayLike(input, new Array(input.length));
+    },
+    "arraybuffer": function(input) {
+        return transform["string"]["uint8array"](input).buffer;
+    },
+    "uint8array": function(input) {
+        return stringToArrayLike(input, new Uint8Array(input.length));
+    },
+    "nodebuffer": function(input) {
+        return stringToArrayLike(input, nodejsUtils.allocBuffer(input.length));
+    }
+};
+
+// array to ?
+transform["array"] = {
+    "string": arrayLikeToString,
+    "array": identity,
+    "arraybuffer": function(input) {
+        return (new Uint8Array(input)).buffer;
+    },
+    "uint8array": function(input) {
+        return new Uint8Array(input);
+    },
+    "nodebuffer": function(input) {
+        return nodejsUtils.newBufferFrom(input);
+    }
+};
+
+// arraybuffer to ?
+transform["arraybuffer"] = {
+    "string": function(input) {
+        return arrayLikeToString(new Uint8Array(input));
+    },
+    "array": function(input) {
+        return arrayLikeToArrayLike(new Uint8Array(input), new Array(input.byteLength));
+    },
+    "arraybuffer": identity,
+    "uint8array": function(input) {
+        return new Uint8Array(input);
+    },
+    "nodebuffer": function(input) {
+        return nodejsUtils.newBufferFrom(new Uint8Array(input));
+    }
+};
+
+// uint8array to ?
+transform["uint8array"] = {
+    "string": arrayLikeToString,
+    "array": function(input) {
+        return arrayLikeToArrayLike(input, new Array(input.length));
+    },
+    "arraybuffer": function(input) {
+        return input.buffer;
+    },
+    "uint8array": identity,
+    "nodebuffer": function(input) {
+        return nodejsUtils.newBufferFrom(input);
+    }
+};
+
+// nodebuffer to ?
+transform["nodebuffer"] = {
+    "string": arrayLikeToString,
+    "array": function(input) {
+        return arrayLikeToArrayLike(input, new Array(input.length));
+    },
+    "arraybuffer": function(input) {
+        return transform["nodebuffer"]["uint8array"](input).buffer;
+    },
+    "uint8array": function(input) {
+        return arrayLikeToArrayLike(input, new Uint8Array(input.length));
+    },
+    "nodebuffer": identity
+};
+
+/**
+ * Transform an input into any type.
+ * The supported output type are : string, array, uint8array, arraybuffer, nodebuffer.
+ * If no output type is specified, the unmodified input will be returned.
+ * @param {String} outputType the output type.
+ * @param {String|Array|ArrayBuffer|Uint8Array|Buffer} input the input to convert.
+ * @throws {Error} an Error if the browser doesn't support the requested output type.
+ */
+exports.transformTo = function(outputType, input) {
+    if (!input) {
+        // undefined, null, etc
+        // an empty string won't harm.
+        input = "";
+    }
+    if (!outputType) {
+        return input;
+    }
+    exports.checkSupport(outputType);
+    var inputType = exports.getTypeOf(input);
+    var result = transform[inputType][outputType](input);
+    return result;
+};
+
+/**
+ * Return the type of the input.
+ * The type will be in a format valid for JSZip.utils.transformTo : string, array, uint8array, arraybuffer.
+ * @param {Object} input the input to identify.
+ * @return {String} the (lowercase) type of the input.
+ */
+exports.getTypeOf = function(input) {
+    if (typeof input === "string") {
+        return "string";
+    }
+    if (Object.prototype.toString.call(input) === "[object Array]") {
+        return "array";
+    }
+    if (support.nodebuffer && nodejsUtils.isBuffer(input)) {
+        return "nodebuffer";
+    }
+    if (support.uint8array && input instanceof Uint8Array) {
+        return "uint8array";
+    }
+    if (support.arraybuffer && input instanceof ArrayBuffer) {
+        return "arraybuffer";
+    }
+};
+
+/**
+ * Throw an exception if the type is not supported.
+ * @param {String} type the type to check.
+ * @throws {Error} an Error if the browser doesn't support the requested type.
+ */
+exports.checkSupport = function(type) {
+    var supported = support[type.toLowerCase()];
+    if (!supported) {
+        throw new Error(type + " is not supported by this platform");
+    }
+};
+
+exports.MAX_VALUE_16BITS = 65535;
+exports.MAX_VALUE_32BITS = -1; // well, "\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF" is parsed as -1
+
+/**
+ * Prettify a string read as binary.
+ * @param {string} str the string to prettify.
+ * @return {string} a pretty string.
+ */
+exports.pretty = function(str) {
+    var res = '',
+        code, i;
+    for (i = 0; i < (str || "").length; i++) {
+        code = str.charCodeAt(i);
+        res += '\\x' + (code < 16 ? "0" : "") + code.toString(16).toUpperCase();
+    }
+    return res;
+};
+
+/**
+ * Defer the call of a function.
+ * @param {Function} callback the function to call asynchronously.
+ * @param {Array} args the arguments to give to the callback.
+ */
+exports.delay = function(callback, args, self) {
+    setImmediate(function () {
+        callback.apply(self || null, args || []);
+    });
+};
+
+/**
+ * Extends a prototype with an other, without calling a constructor with
+ * side effects. Inspired by nodejs' `utils.inherits`
+ * @param {Function} ctor the constructor to augment
+ * @param {Function} superCtor the parent constructor to use
+ */
+exports.inherits = function (ctor, superCtor) {
+    var Obj = function() {};
+    Obj.prototype = superCtor.prototype;
+    ctor.prototype = new Obj();
+};
+
+/**
+ * Merge the objects passed as parameters into a new one.
+ * @private
+ * @param {...Object} var_args All objects to merge.
+ * @return {Object} a new object with the data of the others.
+ */
+exports.extend = function() {
+    var result = {}, i, attr;
+    for (i = 0; i < arguments.length; i++) { // arguments is not enumerable in some browsers
+        for (attr in arguments[i]) {
+            if (arguments[i].hasOwnProperty(attr) && typeof result[attr] === "undefined") {
+                result[attr] = arguments[i][attr];
+            }
+        }
+    }
+    return result;
+};
+
+/**
+ * Transform arbitrary content into a Promise.
+ * @param {String} name a name for the content being processed.
+ * @param {Object} inputData the content to process.
+ * @param {Boolean} isBinary true if the content is not an unicode string
+ * @param {Boolean} isOptimizedBinaryString true if the string content only has one byte per character.
+ * @param {Boolean} isBase64 true if the string content is encoded with base64.
+ * @return {Promise} a promise in a format usable by JSZip.
+ */
+exports.prepareContent = function(name, inputData, isBinary, isOptimizedBinaryString, isBase64) {
+
+    // if inputData is already a promise, this flatten it.
+    var promise = external.Promise.resolve(inputData).then(function(data) {
+        
+        
+        var isBlob = support.blob && (data instanceof Blob || ['[object File]', '[object Blob]'].indexOf(Object.prototype.toString.call(data)) !== -1);
+
+        if (isBlob && typeof FileReader !== "undefined") {
+            return new external.Promise(function (resolve, reject) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    resolve(e.target.result);
+                };
+                reader.onerror = function(e) {
+                    reject(e.target.error);
+                };
+                reader.readAsArrayBuffer(data);
+            });
+        } else {
+            return data;
+        }
+    });
+
+    return promise.then(function(data) {
+        var dataType = exports.getTypeOf(data);
+
+        if (!dataType) {
+            return external.Promise.reject(
+                new Error("Can't read the data of '" + name + "'. Is it " +
+                          "in a supported JavaScript type (String, Blob, ArrayBuffer, etc) ?")
+            );
+        }
+        // special case : it's way easier to work with Uint8Array than with ArrayBuffer
+        if (dataType === "arraybuffer") {
+            data = exports.transformTo("uint8array", data);
+        } else if (dataType === "string") {
+            if (isBase64) {
+                data = base64.decode(data);
+            }
+            else if (isBinary) {
+                // optimizedBinaryString === true means that the file has already been filtered with a 0xFF mask
+                if (isOptimizedBinaryString !== true) {
+                    // this is a string, not in a base64 format.
+                    // Be sure that this is a correct "binary string"
+                    data = string2binary(data);
+                }
+            }
+        }
+        return data;
+    });
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/jszip/lib/zipEntries.js":
+/*!**********************************************!*\
+  !*** ./node_modules/jszip/lib/zipEntries.js ***!
+  \**********************************************/
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module, __webpack_require__ */
+/*! CommonJS bailout: module.exports is used directly at 262:0-14 */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var readerFor = __webpack_require__(/*! ./reader/readerFor */ "./node_modules/jszip/lib/reader/readerFor.js");
+var utils = __webpack_require__(/*! ./utils */ "./node_modules/jszip/lib/utils.js");
+var sig = __webpack_require__(/*! ./signature */ "./node_modules/jszip/lib/signature.js");
+var ZipEntry = __webpack_require__(/*! ./zipEntry */ "./node_modules/jszip/lib/zipEntry.js");
+var utf8 = __webpack_require__(/*! ./utf8 */ "./node_modules/jszip/lib/utf8.js");
+var support = __webpack_require__(/*! ./support */ "./node_modules/jszip/lib/support.js");
+//  class ZipEntries {{{
+/**
+ * All the entries in the zip file.
+ * @constructor
+ * @param {Object} loadOptions Options for loading the stream.
+ */
+function ZipEntries(loadOptions) {
+    this.files = [];
+    this.loadOptions = loadOptions;
+}
+ZipEntries.prototype = {
+    /**
+     * Check that the reader is on the specified signature.
+     * @param {string} expectedSignature the expected signature.
+     * @throws {Error} if it is an other signature.
+     */
+    checkSignature: function(expectedSignature) {
+        if (!this.reader.readAndCheckSignature(expectedSignature)) {
+            this.reader.index -= 4;
+            var signature = this.reader.readString(4);
+            throw new Error("Corrupted zip or bug: unexpected signature " + "(" + utils.pretty(signature) + ", expected " + utils.pretty(expectedSignature) + ")");
+        }
+    },
+    /**
+     * Check if the given signature is at the given index.
+     * @param {number} askedIndex the index to check.
+     * @param {string} expectedSignature the signature to expect.
+     * @return {boolean} true if the signature is here, false otherwise.
+     */
+    isSignature: function(askedIndex, expectedSignature) {
+        var currentIndex = this.reader.index;
+        this.reader.setIndex(askedIndex);
+        var signature = this.reader.readString(4);
+        var result = signature === expectedSignature;
+        this.reader.setIndex(currentIndex);
+        return result;
+    },
+    /**
+     * Read the end of the central directory.
+     */
+    readBlockEndOfCentral: function() {
+        this.diskNumber = this.reader.readInt(2);
+        this.diskWithCentralDirStart = this.reader.readInt(2);
+        this.centralDirRecordsOnThisDisk = this.reader.readInt(2);
+        this.centralDirRecords = this.reader.readInt(2);
+        this.centralDirSize = this.reader.readInt(4);
+        this.centralDirOffset = this.reader.readInt(4);
+
+        this.zipCommentLength = this.reader.readInt(2);
+        // warning : the encoding depends of the system locale
+        // On a linux machine with LANG=en_US.utf8, this field is utf8 encoded.
+        // On a windows machine, this field is encoded with the localized windows code page.
+        var zipComment = this.reader.readData(this.zipCommentLength);
+        var decodeParamType = support.uint8array ? "uint8array" : "array";
+        // To get consistent behavior with the generation part, we will assume that
+        // this is utf8 encoded unless specified otherwise.
+        var decodeContent = utils.transformTo(decodeParamType, zipComment);
+        this.zipComment = this.loadOptions.decodeFileName(decodeContent);
+    },
+    /**
+     * Read the end of the Zip 64 central directory.
+     * Not merged with the method readEndOfCentral :
+     * The end of central can coexist with its Zip64 brother,
+     * I don't want to read the wrong number of bytes !
+     */
+    readBlockZip64EndOfCentral: function() {
+        this.zip64EndOfCentralSize = this.reader.readInt(8);
+        this.reader.skip(4);
+        // this.versionMadeBy = this.reader.readString(2);
+        // this.versionNeeded = this.reader.readInt(2);
+        this.diskNumber = this.reader.readInt(4);
+        this.diskWithCentralDirStart = this.reader.readInt(4);
+        this.centralDirRecordsOnThisDisk = this.reader.readInt(8);
+        this.centralDirRecords = this.reader.readInt(8);
+        this.centralDirSize = this.reader.readInt(8);
+        this.centralDirOffset = this.reader.readInt(8);
+
+        this.zip64ExtensibleData = {};
+        var extraDataSize = this.zip64EndOfCentralSize - 44,
+            index = 0,
+            extraFieldId,
+            extraFieldLength,
+            extraFieldValue;
+        while (index < extraDataSize) {
+            extraFieldId = this.reader.readInt(2);
+            extraFieldLength = this.reader.readInt(4);
+            extraFieldValue = this.reader.readData(extraFieldLength);
+            this.zip64ExtensibleData[extraFieldId] = {
+                id: extraFieldId,
+                length: extraFieldLength,
+                value: extraFieldValue
+            };
+        }
+    },
+    /**
+     * Read the end of the Zip 64 central directory locator.
+     */
+    readBlockZip64EndOfCentralLocator: function() {
+        this.diskWithZip64CentralDirStart = this.reader.readInt(4);
+        this.relativeOffsetEndOfZip64CentralDir = this.reader.readInt(8);
+        this.disksCount = this.reader.readInt(4);
+        if (this.disksCount > 1) {
+            throw new Error("Multi-volumes zip are not supported");
+        }
+    },
+    /**
+     * Read the local files, based on the offset read in the central part.
+     */
+    readLocalFiles: function() {
+        var i, file;
+        for (i = 0; i < this.files.length; i++) {
+            file = this.files[i];
+            this.reader.setIndex(file.localHeaderOffset);
+            this.checkSignature(sig.LOCAL_FILE_HEADER);
+            file.readLocalPart(this.reader);
+            file.handleUTF8();
+            file.processAttributes();
+        }
+    },
+    /**
+     * Read the central directory.
+     */
+    readCentralDir: function() {
+        var file;
+
+        this.reader.setIndex(this.centralDirOffset);
+        while (this.reader.readAndCheckSignature(sig.CENTRAL_FILE_HEADER)) {
+            file = new ZipEntry({
+                zip64: this.zip64
+            }, this.loadOptions);
+            file.readCentralPart(this.reader);
+            this.files.push(file);
+        }
+
+        if (this.centralDirRecords !== this.files.length) {
+            if (this.centralDirRecords !== 0 && this.files.length === 0) {
+                // We expected some records but couldn't find ANY.
+                // This is really suspicious, as if something went wrong.
+                throw new Error("Corrupted zip or bug: expected " + this.centralDirRecords + " records in central dir, got " + this.files.length);
+            } else {
+                // We found some records but not all.
+                // Something is wrong but we got something for the user: no error here.
+                // console.warn("expected", this.centralDirRecords, "records in central dir, got", this.files.length);
+            }
+        }
+    },
+    /**
+     * Read the end of central directory.
+     */
+    readEndOfCentral: function() {
+        var offset = this.reader.lastIndexOfSignature(sig.CENTRAL_DIRECTORY_END);
+        if (offset < 0) {
+            // Check if the content is a truncated zip or complete garbage.
+            // A "LOCAL_FILE_HEADER" is not required at the beginning (auto
+            // extractible zip for example) but it can give a good hint.
+            // If an ajax request was used without responseType, we will also
+            // get unreadable data.
+            var isGarbage = !this.isSignature(0, sig.LOCAL_FILE_HEADER);
+
+            if (isGarbage) {
+                throw new Error("Can't find end of central directory : is this a zip file ? " +
+                                "If it is, see https://stuk.github.io/jszip/documentation/howto/read_zip.html");
+            } else {
+                throw new Error("Corrupted zip: can't find end of central directory");
+            }
+
+        }
+        this.reader.setIndex(offset);
+        var endOfCentralDirOffset = offset;
+        this.checkSignature(sig.CENTRAL_DIRECTORY_END);
+        this.readBlockEndOfCentral();
+
+
+        /* extract from the zip spec :
+            4)  If one of the fields in the end of central directory
+                record is too small to hold required data, the field
+                should be set to -1 (0xFFFF or 0xFFFFFFFF) and the
+                ZIP64 format record should be created.
+            5)  The end of central directory record and the
+                Zip64 end of central directory locator record must
+                reside on the same disk when splitting or spanning
+                an archive.
+         */
+        if (this.diskNumber === utils.MAX_VALUE_16BITS || this.diskWithCentralDirStart === utils.MAX_VALUE_16BITS || this.centralDirRecordsOnThisDisk === utils.MAX_VALUE_16BITS || this.centralDirRecords === utils.MAX_VALUE_16BITS || this.centralDirSize === utils.MAX_VALUE_32BITS || this.centralDirOffset === utils.MAX_VALUE_32BITS) {
+            this.zip64 = true;
+
+            /*
+            Warning : the zip64 extension is supported, but ONLY if the 64bits integer read from
+            the zip file can fit into a 32bits integer. This cannot be solved : JavaScript represents
+            all numbers as 64-bit double precision IEEE 754 floating point numbers.
+            So, we have 53bits for integers and bitwise operations treat everything as 32bits.
+            see https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Operators/Bitwise_Operators
+            and http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-262.pdf section 8.5
+            */
+
+            // should look for a zip64 EOCD locator
+            offset = this.reader.lastIndexOfSignature(sig.ZIP64_CENTRAL_DIRECTORY_LOCATOR);
+            if (offset < 0) {
+                throw new Error("Corrupted zip: can't find the ZIP64 end of central directory locator");
+            }
+            this.reader.setIndex(offset);
+            this.checkSignature(sig.ZIP64_CENTRAL_DIRECTORY_LOCATOR);
+            this.readBlockZip64EndOfCentralLocator();
+
+            // now the zip64 EOCD record
+            if (!this.isSignature(this.relativeOffsetEndOfZip64CentralDir, sig.ZIP64_CENTRAL_DIRECTORY_END)) {
+                // console.warn("ZIP64 end of central directory not where expected.");
+                this.relativeOffsetEndOfZip64CentralDir = this.reader.lastIndexOfSignature(sig.ZIP64_CENTRAL_DIRECTORY_END);
+                if (this.relativeOffsetEndOfZip64CentralDir < 0) {
+                    throw new Error("Corrupted zip: can't find the ZIP64 end of central directory");
+                }
+            }
+            this.reader.setIndex(this.relativeOffsetEndOfZip64CentralDir);
+            this.checkSignature(sig.ZIP64_CENTRAL_DIRECTORY_END);
+            this.readBlockZip64EndOfCentral();
+        }
+
+        var expectedEndOfCentralDirOffset = this.centralDirOffset + this.centralDirSize;
+        if (this.zip64) {
+            expectedEndOfCentralDirOffset += 20; // end of central dir 64 locator
+            expectedEndOfCentralDirOffset += 12 /* should not include the leading 12 bytes */ + this.zip64EndOfCentralSize;
+        }
+
+        var extraBytes = endOfCentralDirOffset - expectedEndOfCentralDirOffset;
+
+        if (extraBytes > 0) {
+            // console.warn(extraBytes, "extra bytes at beginning or within zipfile");
+            if (this.isSignature(endOfCentralDirOffset, sig.CENTRAL_FILE_HEADER)) {
+                // The offsets seem wrong, but we have something at the specified offset.
+                // So… we keep it.
+            } else {
+                // the offset is wrong, update the "zero" of the reader
+                // this happens if data has been prepended (crx files for example)
+                this.reader.zero = extraBytes;
+            }
+        } else if (extraBytes < 0) {
+            throw new Error("Corrupted zip: missing " + Math.abs(extraBytes) + " bytes.");
+        }
+    },
+    prepareReader: function(data) {
+        this.reader = readerFor(data);
+    },
+    /**
+     * Read a zip file and create ZipEntries.
+     * @param {String|ArrayBuffer|Uint8Array|Buffer} data the binary string representing a zip file.
+     */
+    load: function(data) {
+        this.prepareReader(data);
+        this.readEndOfCentral();
+        this.readCentralDir();
+        this.readLocalFiles();
+    }
+};
+// }}} end of ZipEntries
+module.exports = ZipEntries;
+
+
+/***/ }),
+
+/***/ "./node_modules/jszip/lib/zipEntry.js":
+/*!********************************************!*\
+  !*** ./node_modules/jszip/lib/zipEntry.js ***!
+  \********************************************/
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module, __webpack_require__ */
+/*! CommonJS bailout: module.exports is used directly at 294:0-14 */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var readerFor = __webpack_require__(/*! ./reader/readerFor */ "./node_modules/jszip/lib/reader/readerFor.js");
+var utils = __webpack_require__(/*! ./utils */ "./node_modules/jszip/lib/utils.js");
+var CompressedObject = __webpack_require__(/*! ./compressedObject */ "./node_modules/jszip/lib/compressedObject.js");
+var crc32fn = __webpack_require__(/*! ./crc32 */ "./node_modules/jszip/lib/crc32.js");
+var utf8 = __webpack_require__(/*! ./utf8 */ "./node_modules/jszip/lib/utf8.js");
+var compressions = __webpack_require__(/*! ./compressions */ "./node_modules/jszip/lib/compressions.js");
+var support = __webpack_require__(/*! ./support */ "./node_modules/jszip/lib/support.js");
+
+var MADE_BY_DOS = 0x00;
+var MADE_BY_UNIX = 0x03;
+
+/**
+ * Find a compression registered in JSZip.
+ * @param {string} compressionMethod the method magic to find.
+ * @return {Object|null} the JSZip compression object, null if none found.
+ */
+var findCompression = function(compressionMethod) {
+    for (var method in compressions) {
+        if (!compressions.hasOwnProperty(method)) {
+            continue;
+        }
+        if (compressions[method].magic === compressionMethod) {
+            return compressions[method];
+        }
+    }
+    return null;
+};
+
+// class ZipEntry {{{
+/**
+ * An entry in the zip file.
+ * @constructor
+ * @param {Object} options Options of the current file.
+ * @param {Object} loadOptions Options for loading the stream.
+ */
+function ZipEntry(options, loadOptions) {
+    this.options = options;
+    this.loadOptions = loadOptions;
+}
+ZipEntry.prototype = {
+    /**
+     * say if the file is encrypted.
+     * @return {boolean} true if the file is encrypted, false otherwise.
+     */
+    isEncrypted: function() {
+        // bit 1 is set
+        return (this.bitFlag & 0x0001) === 0x0001;
+    },
+    /**
+     * say if the file has utf-8 filename/comment.
+     * @return {boolean} true if the filename/comment is in utf-8, false otherwise.
+     */
+    useUTF8: function() {
+        // bit 11 is set
+        return (this.bitFlag & 0x0800) === 0x0800;
+    },
+    /**
+     * Read the local part of a zip file and add the info in this object.
+     * @param {DataReader} reader the reader to use.
+     */
+    readLocalPart: function(reader) {
+        var compression, localExtraFieldsLength;
+
+        // we already know everything from the central dir !
+        // If the central dir data are false, we are doomed.
+        // On the bright side, the local part is scary  : zip64, data descriptors, both, etc.
+        // The less data we get here, the more reliable this should be.
+        // Let's skip the whole header and dash to the data !
+        reader.skip(22);
+        // in some zip created on windows, the filename stored in the central dir contains \ instead of /.
+        // Strangely, the filename here is OK.
+        // I would love to treat these zip files as corrupted (see http://www.info-zip.org/FAQ.html#backslashes
+        // or APPNOTE#4.4.17.1, "All slashes MUST be forward slashes '/'") but there are a lot of bad zip generators...
+        // Search "unzip mismatching "local" filename continuing with "central" filename version" on
+        // the internet.
+        //
+        // I think I see the logic here : the central directory is used to display
+        // content and the local directory is used to extract the files. Mixing / and \
+        // may be used to display \ to windows users and use / when extracting the files.
+        // Unfortunately, this lead also to some issues : http://seclists.org/fulldisclosure/2009/Sep/394
+        this.fileNameLength = reader.readInt(2);
+        localExtraFieldsLength = reader.readInt(2); // can't be sure this will be the same as the central dir
+        // the fileName is stored as binary data, the handleUTF8 method will take care of the encoding.
+        this.fileName = reader.readData(this.fileNameLength);
+        reader.skip(localExtraFieldsLength);
+
+        if (this.compressedSize === -1 || this.uncompressedSize === -1) {
+            throw new Error("Bug or corrupted zip : didn't get enough information from the central directory " + "(compressedSize === -1 || uncompressedSize === -1)");
+        }
+
+        compression = findCompression(this.compressionMethod);
+        if (compression === null) { // no compression found
+            throw new Error("Corrupted zip : compression " + utils.pretty(this.compressionMethod) + " unknown (inner file : " + utils.transformTo("string", this.fileName) + ")");
+        }
+        this.decompressed = new CompressedObject(this.compressedSize, this.uncompressedSize, this.crc32, compression, reader.readData(this.compressedSize));
+    },
+
+    /**
+     * Read the central part of a zip file and add the info in this object.
+     * @param {DataReader} reader the reader to use.
+     */
+    readCentralPart: function(reader) {
+        this.versionMadeBy = reader.readInt(2);
+        reader.skip(2);
+        // this.versionNeeded = reader.readInt(2);
+        this.bitFlag = reader.readInt(2);
+        this.compressionMethod = reader.readString(2);
+        this.date = reader.readDate();
+        this.crc32 = reader.readInt(4);
+        this.compressedSize = reader.readInt(4);
+        this.uncompressedSize = reader.readInt(4);
+        var fileNameLength = reader.readInt(2);
+        this.extraFieldsLength = reader.readInt(2);
+        this.fileCommentLength = reader.readInt(2);
+        this.diskNumberStart = reader.readInt(2);
+        this.internalFileAttributes = reader.readInt(2);
+        this.externalFileAttributes = reader.readInt(4);
+        this.localHeaderOffset = reader.readInt(4);
+
+        if (this.isEncrypted()) {
+            throw new Error("Encrypted zip are not supported");
+        }
+
+        // will be read in the local part, see the comments there
+        reader.skip(fileNameLength);
+        this.readExtraFields(reader);
+        this.parseZIP64ExtraField(reader);
+        this.fileComment = reader.readData(this.fileCommentLength);
+    },
+
+    /**
+     * Parse the external file attributes and get the unix/dos permissions.
+     */
+    processAttributes: function () {
+        this.unixPermissions = null;
+        this.dosPermissions = null;
+        var madeBy = this.versionMadeBy >> 8;
+
+        // Check if we have the DOS directory flag set.
+        // We look for it in the DOS and UNIX permissions
+        // but some unknown platform could set it as a compatibility flag.
+        this.dir = this.externalFileAttributes & 0x0010 ? true : false;
+
+        if(madeBy === MADE_BY_DOS) {
+            // first 6 bits (0 to 5)
+            this.dosPermissions = this.externalFileAttributes & 0x3F;
+        }
+
+        if(madeBy === MADE_BY_UNIX) {
+            this.unixPermissions = (this.externalFileAttributes >> 16) & 0xFFFF;
+            // the octal permissions are in (this.unixPermissions & 0x01FF).toString(8);
+        }
+
+        // fail safe : if the name ends with a / it probably means a folder
+        if (!this.dir && this.fileNameStr.slice(-1) === '/') {
+            this.dir = true;
+        }
+    },
+
+    /**
+     * Parse the ZIP64 extra field and merge the info in the current ZipEntry.
+     * @param {DataReader} reader the reader to use.
+     */
+    parseZIP64ExtraField: function(reader) {
+
+        if (!this.extraFields[0x0001]) {
+            return;
+        }
+
+        // should be something, preparing the extra reader
+        var extraReader = readerFor(this.extraFields[0x0001].value);
+
+        // I really hope that these 64bits integer can fit in 32 bits integer, because js
+        // won't let us have more.
+        if (this.uncompressedSize === utils.MAX_VALUE_32BITS) {
+            this.uncompressedSize = extraReader.readInt(8);
+        }
+        if (this.compressedSize === utils.MAX_VALUE_32BITS) {
+            this.compressedSize = extraReader.readInt(8);
+        }
+        if (this.localHeaderOffset === utils.MAX_VALUE_32BITS) {
+            this.localHeaderOffset = extraReader.readInt(8);
+        }
+        if (this.diskNumberStart === utils.MAX_VALUE_32BITS) {
+            this.diskNumberStart = extraReader.readInt(4);
+        }
+    },
+    /**
+     * Read the central part of a zip file and add the info in this object.
+     * @param {DataReader} reader the reader to use.
+     */
+    readExtraFields: function(reader) {
+        var end = reader.index + this.extraFieldsLength,
+            extraFieldId,
+            extraFieldLength,
+            extraFieldValue;
+
+        if (!this.extraFields) {
+            this.extraFields = {};
+        }
+
+        while (reader.index + 4 < end) {
+            extraFieldId = reader.readInt(2);
+            extraFieldLength = reader.readInt(2);
+            extraFieldValue = reader.readData(extraFieldLength);
+
+            this.extraFields[extraFieldId] = {
+                id: extraFieldId,
+                length: extraFieldLength,
+                value: extraFieldValue
+            };
+        }
+
+        reader.setIndex(end);
+    },
+    /**
+     * Apply an UTF8 transformation if needed.
+     */
+    handleUTF8: function() {
+        var decodeParamType = support.uint8array ? "uint8array" : "array";
+        if (this.useUTF8()) {
+            this.fileNameStr = utf8.utf8decode(this.fileName);
+            this.fileCommentStr = utf8.utf8decode(this.fileComment);
+        } else {
+            var upath = this.findExtraFieldUnicodePath();
+            if (upath !== null) {
+                this.fileNameStr = upath;
+            } else {
+                // ASCII text or unsupported code page
+                var fileNameByteArray =  utils.transformTo(decodeParamType, this.fileName);
+                this.fileNameStr = this.loadOptions.decodeFileName(fileNameByteArray);
+            }
+
+            var ucomment = this.findExtraFieldUnicodeComment();
+            if (ucomment !== null) {
+                this.fileCommentStr = ucomment;
+            } else {
+                // ASCII text or unsupported code page
+                var commentByteArray =  utils.transformTo(decodeParamType, this.fileComment);
+                this.fileCommentStr = this.loadOptions.decodeFileName(commentByteArray);
+            }
+        }
+    },
+
+    /**
+     * Find the unicode path declared in the extra field, if any.
+     * @return {String} the unicode path, null otherwise.
+     */
+    findExtraFieldUnicodePath: function() {
+        var upathField = this.extraFields[0x7075];
+        if (upathField) {
+            var extraReader = readerFor(upathField.value);
+
+            // wrong version
+            if (extraReader.readInt(1) !== 1) {
+                return null;
+            }
+
+            // the crc of the filename changed, this field is out of date.
+            if (crc32fn(this.fileName) !== extraReader.readInt(4)) {
+                return null;
+            }
+
+            return utf8.utf8decode(extraReader.readData(upathField.length - 5));
+        }
+        return null;
+    },
+
+    /**
+     * Find the unicode comment declared in the extra field, if any.
+     * @return {String} the unicode comment, null otherwise.
+     */
+    findExtraFieldUnicodeComment: function() {
+        var ucommentField = this.extraFields[0x6375];
+        if (ucommentField) {
+            var extraReader = readerFor(ucommentField.value);
+
+            // wrong version
+            if (extraReader.readInt(1) !== 1) {
+                return null;
+            }
+
+            // the crc of the comment changed, this field is out of date.
+            if (crc32fn(this.fileComment) !== extraReader.readInt(4)) {
+                return null;
+            }
+
+            return utf8.utf8decode(extraReader.readData(ucommentField.length - 5));
+        }
+        return null;
+    }
+};
+module.exports = ZipEntry;
+
+
+/***/ }),
+
+/***/ "./node_modules/jszip/lib/zipObject.js":
+/*!*********************************************!*\
+  !*** ./node_modules/jszip/lib/zipObject.js ***!
+  \*********************************************/
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module, __webpack_require__ */
+/*! CommonJS bailout: module.exports is used directly at 133:0-14 */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+
+var StreamHelper = __webpack_require__(/*! ./stream/StreamHelper */ "./node_modules/jszip/lib/stream/StreamHelper.js");
+var DataWorker = __webpack_require__(/*! ./stream/DataWorker */ "./node_modules/jszip/lib/stream/DataWorker.js");
+var utf8 = __webpack_require__(/*! ./utf8 */ "./node_modules/jszip/lib/utf8.js");
+var CompressedObject = __webpack_require__(/*! ./compressedObject */ "./node_modules/jszip/lib/compressedObject.js");
+var GenericWorker = __webpack_require__(/*! ./stream/GenericWorker */ "./node_modules/jszip/lib/stream/GenericWorker.js");
+
+/**
+ * A simple object representing a file in the zip file.
+ * @constructor
+ * @param {string} name the name of the file
+ * @param {String|ArrayBuffer|Uint8Array|Buffer} data the data
+ * @param {Object} options the options of the file
+ */
+var ZipObject = function(name, data, options) {
+    this.name = name;
+    this.dir = options.dir;
+    this.date = options.date;
+    this.comment = options.comment;
+    this.unixPermissions = options.unixPermissions;
+    this.dosPermissions = options.dosPermissions;
+
+    this._data = data;
+    this._dataBinary = options.binary;
+    // keep only the compression
+    this.options = {
+        compression : options.compression,
+        compressionOptions : options.compressionOptions
+    };
+};
+
+ZipObject.prototype = {
+    /**
+     * Create an internal stream for the content of this object.
+     * @param {String} type the type of each chunk.
+     * @return StreamHelper the stream.
+     */
+    internalStream: function (type) {
+        var result = null, outputType = "string";
+        try {
+            if (!type) {
+                throw new Error("No output type specified.");
+            }
+            outputType = type.toLowerCase();
+            var askUnicodeString = outputType === "string" || outputType === "text";
+            if (outputType === "binarystring" || outputType === "text") {
+                outputType = "string";
+            }
+            result = this._decompressWorker();
+
+            var isUnicodeString = !this._dataBinary;
+
+            if (isUnicodeString && !askUnicodeString) {
+                result = result.pipe(new utf8.Utf8EncodeWorker());
+            }
+            if (!isUnicodeString && askUnicodeString) {
+                result = result.pipe(new utf8.Utf8DecodeWorker());
+            }
+        } catch (e) {
+            result = new GenericWorker("error");
+            result.error(e);
+        }
+
+        return new StreamHelper(result, outputType, "");
+    },
+
+    /**
+     * Prepare the content in the asked type.
+     * @param {String} type the type of the result.
+     * @param {Function} onUpdate a function to call on each internal update.
+     * @return Promise the promise of the result.
+     */
+    async: function (type, onUpdate) {
+        return this.internalStream(type).accumulate(onUpdate);
+    },
+
+    /**
+     * Prepare the content as a nodejs stream.
+     * @param {String} type the type of each chunk.
+     * @param {Function} onUpdate a function to call on each internal update.
+     * @return Stream the stream.
+     */
+    nodeStream: function (type, onUpdate) {
+        return this.internalStream(type || "nodebuffer").toNodejsStream(onUpdate);
+    },
+
+    /**
+     * Return a worker for the compressed content.
+     * @private
+     * @param {Object} compression the compression object to use.
+     * @param {Object} compressionOptions the options to use when compressing.
+     * @return Worker the worker.
+     */
+    _compressWorker: function (compression, compressionOptions) {
+        if (
+            this._data instanceof CompressedObject &&
+            this._data.compression.magic === compression.magic
+        ) {
+            return this._data.getCompressedWorker();
+        } else {
+            var result = this._decompressWorker();
+            if(!this._dataBinary) {
+                result = result.pipe(new utf8.Utf8EncodeWorker());
+            }
+            return CompressedObject.createWorkerFrom(result, compression, compressionOptions);
+        }
+    },
+    /**
+     * Return a worker for the decompressed content.
+     * @private
+     * @return Worker the worker.
+     */
+    _decompressWorker : function () {
+        if (this._data instanceof CompressedObject) {
+            return this._data.getContentWorker();
+        } else if (this._data instanceof GenericWorker) {
+            return this._data;
+        } else {
+            return new DataWorker(this._data);
+        }
+    }
+};
+
+var removedMethods = ["asText", "asBinary", "asNodeBuffer", "asUint8Array", "asArrayBuffer"];
+var removedFn = function () {
+    throw new Error("This method has been removed in JSZip 3.0, please check the upgrade guide.");
+};
+
+for(var i = 0; i < removedMethods.length; i++) {
+    ZipObject.prototype[removedMethods[i]] = removedFn;
+}
+module.exports = ZipObject;
+
+
+/***/ }),
+
+/***/ "./node_modules/lie/lib/browser.js":
+/*!*****************************************!*\
+  !*** ./node_modules/lie/lib/browser.js ***!
+  \*****************************************/
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module, __webpack_require__ */
+/*! CommonJS bailout: module.exports is used directly at 13:0-14 */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+var immediate = __webpack_require__(/*! immediate */ "./node_modules/immediate/lib/browser.js");
+
+/* istanbul ignore next */
+function INTERNAL() {}
+
+var handlers = {};
+
+var REJECTED = ['REJECTED'];
+var FULFILLED = ['FULFILLED'];
+var PENDING = ['PENDING'];
+
+module.exports = Promise;
+
+function Promise(resolver) {
+  if (typeof resolver !== 'function') {
+    throw new TypeError('resolver must be a function');
+  }
+  this.state = PENDING;
+  this.queue = [];
+  this.outcome = void 0;
+  if (resolver !== INTERNAL) {
+    safelyResolveThenable(this, resolver);
+  }
+}
+
+Promise.prototype["finally"] = function (callback) {
+  if (typeof callback !== 'function') {
+    return this;
+  }
+  var p = this.constructor;
+  return this.then(resolve, reject);
+
+  function resolve(value) {
+    function yes () {
+      return value;
+    }
+    return p.resolve(callback()).then(yes);
+  }
+  function reject(reason) {
+    function no () {
+      throw reason;
+    }
+    return p.resolve(callback()).then(no);
+  }
+};
+Promise.prototype["catch"] = function (onRejected) {
+  return this.then(null, onRejected);
+};
+Promise.prototype.then = function (onFulfilled, onRejected) {
+  if (typeof onFulfilled !== 'function' && this.state === FULFILLED ||
+    typeof onRejected !== 'function' && this.state === REJECTED) {
+    return this;
+  }
+  var promise = new this.constructor(INTERNAL);
+  if (this.state !== PENDING) {
+    var resolver = this.state === FULFILLED ? onFulfilled : onRejected;
+    unwrap(promise, resolver, this.outcome);
+  } else {
+    this.queue.push(new QueueItem(promise, onFulfilled, onRejected));
+  }
+
+  return promise;
+};
+function QueueItem(promise, onFulfilled, onRejected) {
+  this.promise = promise;
+  if (typeof onFulfilled === 'function') {
+    this.onFulfilled = onFulfilled;
+    this.callFulfilled = this.otherCallFulfilled;
+  }
+  if (typeof onRejected === 'function') {
+    this.onRejected = onRejected;
+    this.callRejected = this.otherCallRejected;
+  }
+}
+QueueItem.prototype.callFulfilled = function (value) {
+  handlers.resolve(this.promise, value);
+};
+QueueItem.prototype.otherCallFulfilled = function (value) {
+  unwrap(this.promise, this.onFulfilled, value);
+};
+QueueItem.prototype.callRejected = function (value) {
+  handlers.reject(this.promise, value);
+};
+QueueItem.prototype.otherCallRejected = function (value) {
+  unwrap(this.promise, this.onRejected, value);
+};
+
+function unwrap(promise, func, value) {
+  immediate(function () {
+    var returnValue;
+    try {
+      returnValue = func(value);
+    } catch (e) {
+      return handlers.reject(promise, e);
+    }
+    if (returnValue === promise) {
+      handlers.reject(promise, new TypeError('Cannot resolve promise with itself'));
+    } else {
+      handlers.resolve(promise, returnValue);
+    }
+  });
+}
+
+handlers.resolve = function (self, value) {
+  var result = tryCatch(getThen, value);
+  if (result.status === 'error') {
+    return handlers.reject(self, result.value);
+  }
+  var thenable = result.value;
+
+  if (thenable) {
+    safelyResolveThenable(self, thenable);
+  } else {
+    self.state = FULFILLED;
+    self.outcome = value;
+    var i = -1;
+    var len = self.queue.length;
+    while (++i < len) {
+      self.queue[i].callFulfilled(value);
+    }
+  }
+  return self;
+};
+handlers.reject = function (self, error) {
+  self.state = REJECTED;
+  self.outcome = error;
+  var i = -1;
+  var len = self.queue.length;
+  while (++i < len) {
+    self.queue[i].callRejected(error);
+  }
+  return self;
+};
+
+function getThen(obj) {
+  // Make sure we only access the accessor once as required by the spec
+  var then = obj && obj.then;
+  if (obj && (typeof obj === 'object' || typeof obj === 'function') && typeof then === 'function') {
+    return function appyThen() {
+      then.apply(obj, arguments);
+    };
+  }
+}
+
+function safelyResolveThenable(self, thenable) {
+  // Either fulfill, reject or reject with error
+  var called = false;
+  function onError(value) {
+    if (called) {
+      return;
+    }
+    called = true;
+    handlers.reject(self, value);
+  }
+
+  function onSuccess(value) {
+    if (called) {
+      return;
+    }
+    called = true;
+    handlers.resolve(self, value);
+  }
+
+  function tryToUnwrap() {
+    thenable(onSuccess, onError);
+  }
+
+  var result = tryCatch(tryToUnwrap);
+  if (result.status === 'error') {
+    onError(result.value);
+  }
+}
+
+function tryCatch(func, value) {
+  var out = {};
+  try {
+    out.value = func(value);
+    out.status = 'success';
+  } catch (e) {
+    out.status = 'error';
+    out.value = e;
+  }
+  return out;
+}
+
+Promise.resolve = resolve;
+function resolve(value) {
+  if (value instanceof this) {
+    return value;
+  }
+  return handlers.resolve(new this(INTERNAL), value);
+}
+
+Promise.reject = reject;
+function reject(reason) {
+  var promise = new this(INTERNAL);
+  return handlers.reject(promise, reason);
+}
+
+Promise.all = all;
+function all(iterable) {
+  var self = this;
+  if (Object.prototype.toString.call(iterable) !== '[object Array]') {
+    return this.reject(new TypeError('must be an array'));
+  }
+
+  var len = iterable.length;
+  var called = false;
+  if (!len) {
+    return this.resolve([]);
+  }
+
+  var values = new Array(len);
+  var resolved = 0;
+  var i = -1;
+  var promise = new this(INTERNAL);
+
+  while (++i < len) {
+    allResolver(iterable[i], i);
+  }
+  return promise;
+  function allResolver(value, i) {
+    self.resolve(value).then(resolveFromAll, function (error) {
+      if (!called) {
+        called = true;
+        handlers.reject(promise, error);
+      }
+    });
+    function resolveFromAll(outValue) {
+      values[i] = outValue;
+      if (++resolved === len && !called) {
+        called = true;
+        handlers.resolve(promise, values);
+      }
+    }
+  }
+}
+
+Promise.race = race;
+function race(iterable) {
+  var self = this;
+  if (Object.prototype.toString.call(iterable) !== '[object Array]') {
+    return this.reject(new TypeError('must be an array'));
+  }
+
+  var len = iterable.length;
+  var called = false;
+  if (!len) {
+    return this.resolve([]);
+  }
+
+  var i = -1;
+  var promise = new this(INTERNAL);
+
+  while (++i < len) {
+    resolver(iterable[i]);
+  }
+  return promise;
+  function resolver(value) {
+    self.resolve(value).then(function (response) {
+      if (!called) {
+        called = true;
+        handlers.resolve(promise, response);
+      }
+    }, function (error) {
+      if (!called) {
+        called = true;
+        handlers.reject(promise, error);
+      }
+    });
+  }
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/pako/index.js":
+/*!************************************!*\
+  !*** ./node_modules/pako/index.js ***!
+  \************************************/
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: __webpack_require__, module */
+/*! CommonJS bailout: module.exports is used directly at 14:0-14 */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+// Top level file is just a mixin of submodules & constants
+
+
+var assign    = __webpack_require__(/*! ./lib/utils/common */ "./node_modules/pako/lib/utils/common.js").assign;
+
+var deflate   = __webpack_require__(/*! ./lib/deflate */ "./node_modules/pako/lib/deflate.js");
+var inflate   = __webpack_require__(/*! ./lib/inflate */ "./node_modules/pako/lib/inflate.js");
+var constants = __webpack_require__(/*! ./lib/zlib/constants */ "./node_modules/pako/lib/zlib/constants.js");
+
+var pako = {};
+
+assign(pako, deflate, inflate, constants);
+
+module.exports = pako;
+
+
+/***/ }),
+
+/***/ "./node_modules/pako/lib/deflate.js":
+/*!******************************************!*\
+  !*** ./node_modules/pako/lib/deflate.js ***!
+  \******************************************/
+/*! default exports */
+/*! export Deflate [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export deflate [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export deflateRaw [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export gzip [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_exports__, __webpack_require__ */
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+
+
+var zlib_deflate = __webpack_require__(/*! ./zlib/deflate */ "./node_modules/pako/lib/zlib/deflate.js");
+var utils        = __webpack_require__(/*! ./utils/common */ "./node_modules/pako/lib/utils/common.js");
+var strings      = __webpack_require__(/*! ./utils/strings */ "./node_modules/pako/lib/utils/strings.js");
+var msg          = __webpack_require__(/*! ./zlib/messages */ "./node_modules/pako/lib/zlib/messages.js");
+var ZStream      = __webpack_require__(/*! ./zlib/zstream */ "./node_modules/pako/lib/zlib/zstream.js");
+
+var toString = Object.prototype.toString;
+
+/* Public constants ==========================================================*/
+/* ===========================================================================*/
+
+var Z_NO_FLUSH      = 0;
+var Z_FINISH        = 4;
+
+var Z_OK            = 0;
+var Z_STREAM_END    = 1;
+var Z_SYNC_FLUSH    = 2;
+
+var Z_DEFAULT_COMPRESSION = -1;
+
+var Z_DEFAULT_STRATEGY    = 0;
+
+var Z_DEFLATED  = 8;
+
+/* ===========================================================================*/
+
+
+/**
+ * class Deflate
+ *
+ * Generic JS-style wrapper for zlib calls. If you don't need
+ * streaming behaviour - use more simple functions: [[deflate]],
+ * [[deflateRaw]] and [[gzip]].
+ **/
+
+/* internal
+ * Deflate.chunks -> Array
+ *
+ * Chunks of output data, if [[Deflate#onData]] not overridden.
+ **/
+
+/**
+ * Deflate.result -> Uint8Array|Array
+ *
+ * Compressed result, generated by default [[Deflate#onData]]
+ * and [[Deflate#onEnd]] handlers. Filled after you push last chunk
+ * (call [[Deflate#push]] with `Z_FINISH` / `true` param)  or if you
+ * push a chunk with explicit flush (call [[Deflate#push]] with
+ * `Z_SYNC_FLUSH` param).
+ **/
+
+/**
+ * Deflate.err -> Number
+ *
+ * Error code after deflate finished. 0 (Z_OK) on success.
+ * You will not need it in real life, because deflate errors
+ * are possible only on wrong options or bad `onData` / `onEnd`
+ * custom handlers.
+ **/
+
+/**
+ * Deflate.msg -> String
+ *
+ * Error message, if [[Deflate.err]] != 0
+ **/
+
+
+/**
+ * new Deflate(options)
+ * - options (Object): zlib deflate options.
+ *
+ * Creates new deflator instance with specified params. Throws exception
+ * on bad params. Supported options:
+ *
+ * - `level`
+ * - `windowBits`
+ * - `memLevel`
+ * - `strategy`
+ * - `dictionary`
+ *
+ * [http://zlib.net/manual.html#Advanced](http://zlib.net/manual.html#Advanced)
+ * for more information on these.
+ *
+ * Additional options, for internal needs:
+ *
+ * - `chunkSize` - size of generated data chunks (16K by default)
+ * - `raw` (Boolean) - do raw deflate
+ * - `gzip` (Boolean) - create gzip wrapper
+ * - `to` (String) - if equal to 'string', then result will be "binary string"
+ *    (each char code [0..255])
+ * - `header` (Object) - custom header for gzip
+ *   - `text` (Boolean) - true if compressed data believed to be text
+ *   - `time` (Number) - modification time, unix timestamp
+ *   - `os` (Number) - operation system code
+ *   - `extra` (Array) - array of bytes with extra data (max 65536)
+ *   - `name` (String) - file name (binary string)
+ *   - `comment` (String) - comment (binary string)
+ *   - `hcrc` (Boolean) - true if header crc should be added
+ *
+ * ##### Example:
+ *
+ * ```javascript
+ * var pako = require('pako')
+ *   , chunk1 = Uint8Array([1,2,3,4,5,6,7,8,9])
+ *   , chunk2 = Uint8Array([10,11,12,13,14,15,16,17,18,19]);
+ *
+ * var deflate = new pako.Deflate({ level: 3});
+ *
+ * deflate.push(chunk1, false);
+ * deflate.push(chunk2, true);  // true -> last chunk
+ *
+ * if (deflate.err) { throw new Error(deflate.err); }
+ *
+ * console.log(deflate.result);
+ * ```
+ **/
+function Deflate(options) {
+  if (!(this instanceof Deflate)) return new Deflate(options);
+
+  this.options = utils.assign({
+    level: Z_DEFAULT_COMPRESSION,
+    method: Z_DEFLATED,
+    chunkSize: 16384,
+    windowBits: 15,
+    memLevel: 8,
+    strategy: Z_DEFAULT_STRATEGY,
+    to: ''
+  }, options || {});
+
+  var opt = this.options;
+
+  if (opt.raw && (opt.windowBits > 0)) {
+    opt.windowBits = -opt.windowBits;
+  }
+
+  else if (opt.gzip && (opt.windowBits > 0) && (opt.windowBits < 16)) {
+    opt.windowBits += 16;
+  }
+
+  this.err    = 0;      // error code, if happens (0 = Z_OK)
+  this.msg    = '';     // error message
+  this.ended  = false;  // used to avoid multiple onEnd() calls
+  this.chunks = [];     // chunks of compressed data
+
+  this.strm = new ZStream();
+  this.strm.avail_out = 0;
+
+  var status = zlib_deflate.deflateInit2(
+    this.strm,
+    opt.level,
+    opt.method,
+    opt.windowBits,
+    opt.memLevel,
+    opt.strategy
+  );
+
+  if (status !== Z_OK) {
+    throw new Error(msg[status]);
+  }
+
+  if (opt.header) {
+    zlib_deflate.deflateSetHeader(this.strm, opt.header);
+  }
+
+  if (opt.dictionary) {
+    var dict;
+    // Convert data if needed
+    if (typeof opt.dictionary === 'string') {
+      // If we need to compress text, change encoding to utf8.
+      dict = strings.string2buf(opt.dictionary);
+    } else if (toString.call(opt.dictionary) === '[object ArrayBuffer]') {
+      dict = new Uint8Array(opt.dictionary);
+    } else {
+      dict = opt.dictionary;
+    }
+
+    status = zlib_deflate.deflateSetDictionary(this.strm, dict);
+
+    if (status !== Z_OK) {
+      throw new Error(msg[status]);
+    }
+
+    this._dict_set = true;
+  }
+}
+
+/**
+ * Deflate#push(data[, mode]) -> Boolean
+ * - data (Uint8Array|Array|ArrayBuffer|String): input data. Strings will be
+ *   converted to utf8 byte sequence.
+ * - mode (Number|Boolean): 0..6 for corresponding Z_NO_FLUSH..Z_TREE modes.
+ *   See constants. Skipped or `false` means Z_NO_FLUSH, `true` means Z_FINISH.
+ *
+ * Sends input data to deflate pipe, generating [[Deflate#onData]] calls with
+ * new compressed chunks. Returns `true` on success. The last data block must have
+ * mode Z_FINISH (or `true`). That will flush internal pending buffers and call
+ * [[Deflate#onEnd]]. For interim explicit flushes (without ending the stream) you
+ * can use mode Z_SYNC_FLUSH, keeping the compression context.
+ *
+ * On fail call [[Deflate#onEnd]] with error code and return false.
+ *
+ * We strongly recommend to use `Uint8Array` on input for best speed (output
+ * array format is detected automatically). Also, don't skip last param and always
+ * use the same type in your code (boolean or number). That will improve JS speed.
+ *
+ * For regular `Array`-s make sure all elements are [0..255].
+ *
+ * ##### Example
+ *
+ * ```javascript
+ * push(chunk, false); // push one of data chunks
+ * ...
+ * push(chunk, true);  // push last chunk
+ * ```
+ **/
+Deflate.prototype.push = function (data, mode) {
+  var strm = this.strm;
+  var chunkSize = this.options.chunkSize;
+  var status, _mode;
+
+  if (this.ended) { return false; }
+
+  _mode = (mode === ~~mode) ? mode : ((mode === true) ? Z_FINISH : Z_NO_FLUSH);
+
+  // Convert data if needed
+  if (typeof data === 'string') {
+    // If we need to compress text, change encoding to utf8.
+    strm.input = strings.string2buf(data);
+  } else if (toString.call(data) === '[object ArrayBuffer]') {
+    strm.input = new Uint8Array(data);
+  } else {
+    strm.input = data;
+  }
+
+  strm.next_in = 0;
+  strm.avail_in = strm.input.length;
+
+  do {
+    if (strm.avail_out === 0) {
+      strm.output = new utils.Buf8(chunkSize);
+      strm.next_out = 0;
+      strm.avail_out = chunkSize;
+    }
+    status = zlib_deflate.deflate(strm, _mode);    /* no bad return value */
+
+    if (status !== Z_STREAM_END && status !== Z_OK) {
+      this.onEnd(status);
+      this.ended = true;
+      return false;
+    }
+    if (strm.avail_out === 0 || (strm.avail_in === 0 && (_mode === Z_FINISH || _mode === Z_SYNC_FLUSH))) {
+      if (this.options.to === 'string') {
+        this.onData(strings.buf2binstring(utils.shrinkBuf(strm.output, strm.next_out)));
+      } else {
+        this.onData(utils.shrinkBuf(strm.output, strm.next_out));
+      }
+    }
+  } while ((strm.avail_in > 0 || strm.avail_out === 0) && status !== Z_STREAM_END);
+
+  // Finalize on the last chunk.
+  if (_mode === Z_FINISH) {
+    status = zlib_deflate.deflateEnd(this.strm);
+    this.onEnd(status);
+    this.ended = true;
+    return status === Z_OK;
+  }
+
+  // callback interim results if Z_SYNC_FLUSH.
+  if (_mode === Z_SYNC_FLUSH) {
+    this.onEnd(Z_OK);
+    strm.avail_out = 0;
+    return true;
+  }
+
+  return true;
+};
+
+
+/**
+ * Deflate#onData(chunk) -> Void
+ * - chunk (Uint8Array|Array|String): output data. Type of array depends
+ *   on js engine support. When string output requested, each chunk
+ *   will be string.
+ *
+ * By default, stores data blocks in `chunks[]` property and glue
+ * those in `onEnd`. Override this handler, if you need another behaviour.
+ **/
+Deflate.prototype.onData = function (chunk) {
+  this.chunks.push(chunk);
+};
+
+
+/**
+ * Deflate#onEnd(status) -> Void
+ * - status (Number): deflate status. 0 (Z_OK) on success,
+ *   other if not.
+ *
+ * Called once after you tell deflate that the input stream is
+ * complete (Z_FINISH) or should be flushed (Z_SYNC_FLUSH)
+ * or if an error happened. By default - join collected chunks,
+ * free memory and fill `results` / `err` properties.
+ **/
+Deflate.prototype.onEnd = function (status) {
+  // On success - join
+  if (status === Z_OK) {
+    if (this.options.to === 'string') {
+      this.result = this.chunks.join('');
+    } else {
+      this.result = utils.flattenChunks(this.chunks);
+    }
+  }
+  this.chunks = [];
+  this.err = status;
+  this.msg = this.strm.msg;
+};
+
+
+/**
+ * deflate(data[, options]) -> Uint8Array|Array|String
+ * - data (Uint8Array|Array|String): input data to compress.
+ * - options (Object): zlib deflate options.
+ *
+ * Compress `data` with deflate algorithm and `options`.
+ *
+ * Supported options are:
+ *
+ * - level
+ * - windowBits
+ * - memLevel
+ * - strategy
+ * - dictionary
+ *
+ * [http://zlib.net/manual.html#Advanced](http://zlib.net/manual.html#Advanced)
+ * for more information on these.
+ *
+ * Sugar (options):
+ *
+ * - `raw` (Boolean) - say that we work with raw stream, if you don't wish to specify
+ *   negative windowBits implicitly.
+ * - `to` (String) - if equal to 'string', then result will be "binary string"
+ *    (each char code [0..255])
+ *
+ * ##### Example:
+ *
+ * ```javascript
+ * var pako = require('pako')
+ *   , data = Uint8Array([1,2,3,4,5,6,7,8,9]);
+ *
+ * console.log(pako.deflate(data));
+ * ```
+ **/
+function deflate(input, options) {
+  var deflator = new Deflate(options);
+
+  deflator.push(input, true);
+
+  // That will never happens, if you don't cheat with options :)
+  if (deflator.err) { throw deflator.msg || msg[deflator.err]; }
+
+  return deflator.result;
+}
+
+
+/**
+ * deflateRaw(data[, options]) -> Uint8Array|Array|String
+ * - data (Uint8Array|Array|String): input data to compress.
+ * - options (Object): zlib deflate options.
+ *
+ * The same as [[deflate]], but creates raw data, without wrapper
+ * (header and adler32 crc).
+ **/
+function deflateRaw(input, options) {
+  options = options || {};
+  options.raw = true;
+  return deflate(input, options);
+}
+
+
+/**
+ * gzip(data[, options]) -> Uint8Array|Array|String
+ * - data (Uint8Array|Array|String): input data to compress.
+ * - options (Object): zlib deflate options.
+ *
+ * The same as [[deflate]], but create gzip wrapper instead of
+ * deflate one.
+ **/
+function gzip(input, options) {
+  options = options || {};
+  options.gzip = true;
+  return deflate(input, options);
+}
+
+
+exports.Deflate = Deflate;
+exports.deflate = deflate;
+exports.deflateRaw = deflateRaw;
+exports.gzip = gzip;
+
+
+/***/ }),
+
+/***/ "./node_modules/pako/lib/inflate.js":
+/*!******************************************!*\
+  !*** ./node_modules/pako/lib/inflate.js ***!
+  \******************************************/
+/*! default exports */
+/*! export Inflate [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export inflate [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export inflateRaw [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export ungzip [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_exports__, __webpack_require__ */
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+
+
+var zlib_inflate = __webpack_require__(/*! ./zlib/inflate */ "./node_modules/pako/lib/zlib/inflate.js");
+var utils        = __webpack_require__(/*! ./utils/common */ "./node_modules/pako/lib/utils/common.js");
+var strings      = __webpack_require__(/*! ./utils/strings */ "./node_modules/pako/lib/utils/strings.js");
+var c            = __webpack_require__(/*! ./zlib/constants */ "./node_modules/pako/lib/zlib/constants.js");
+var msg          = __webpack_require__(/*! ./zlib/messages */ "./node_modules/pako/lib/zlib/messages.js");
+var ZStream      = __webpack_require__(/*! ./zlib/zstream */ "./node_modules/pako/lib/zlib/zstream.js");
+var GZheader     = __webpack_require__(/*! ./zlib/gzheader */ "./node_modules/pako/lib/zlib/gzheader.js");
+
+var toString = Object.prototype.toString;
+
+/**
+ * class Inflate
+ *
+ * Generic JS-style wrapper for zlib calls. If you don't need
+ * streaming behaviour - use more simple functions: [[inflate]]
+ * and [[inflateRaw]].
+ **/
+
+/* internal
+ * inflate.chunks -> Array
+ *
+ * Chunks of output data, if [[Inflate#onData]] not overridden.
+ **/
+
+/**
+ * Inflate.result -> Uint8Array|Array|String
+ *
+ * Uncompressed result, generated by default [[Inflate#onData]]
+ * and [[Inflate#onEnd]] handlers. Filled after you push last chunk
+ * (call [[Inflate#push]] with `Z_FINISH` / `true` param) or if you
+ * push a chunk with explicit flush (call [[Inflate#push]] with
+ * `Z_SYNC_FLUSH` param).
+ **/
+
+/**
+ * Inflate.err -> Number
+ *
+ * Error code after inflate finished. 0 (Z_OK) on success.
+ * Should be checked if broken data possible.
+ **/
+
+/**
+ * Inflate.msg -> String
+ *
+ * Error message, if [[Inflate.err]] != 0
+ **/
+
+
+/**
+ * new Inflate(options)
+ * - options (Object): zlib inflate options.
+ *
+ * Creates new inflator instance with specified params. Throws exception
+ * on bad params. Supported options:
+ *
+ * - `windowBits`
+ * - `dictionary`
+ *
+ * [http://zlib.net/manual.html#Advanced](http://zlib.net/manual.html#Advanced)
+ * for more information on these.
+ *
+ * Additional options, for internal needs:
+ *
+ * - `chunkSize` - size of generated data chunks (16K by default)
+ * - `raw` (Boolean) - do raw inflate
+ * - `to` (String) - if equal to 'string', then result will be converted
+ *   from utf8 to utf16 (javascript) string. When string output requested,
+ *   chunk length can differ from `chunkSize`, depending on content.
+ *
+ * By default, when no options set, autodetect deflate/gzip data format via
+ * wrapper header.
+ *
+ * ##### Example:
+ *
+ * ```javascript
+ * var pako = require('pako')
+ *   , chunk1 = Uint8Array([1,2,3,4,5,6,7,8,9])
+ *   , chunk2 = Uint8Array([10,11,12,13,14,15,16,17,18,19]);
+ *
+ * var inflate = new pako.Inflate({ level: 3});
+ *
+ * inflate.push(chunk1, false);
+ * inflate.push(chunk2, true);  // true -> last chunk
+ *
+ * if (inflate.err) { throw new Error(inflate.err); }
+ *
+ * console.log(inflate.result);
+ * ```
+ **/
+function Inflate(options) {
+  if (!(this instanceof Inflate)) return new Inflate(options);
+
+  this.options = utils.assign({
+    chunkSize: 16384,
+    windowBits: 0,
+    to: ''
+  }, options || {});
+
+  var opt = this.options;
+
+  // Force window size for `raw` data, if not set directly,
+  // because we have no header for autodetect.
+  if (opt.raw && (opt.windowBits >= 0) && (opt.windowBits < 16)) {
+    opt.windowBits = -opt.windowBits;
+    if (opt.windowBits === 0) { opt.windowBits = -15; }
+  }
+
+  // If `windowBits` not defined (and mode not raw) - set autodetect flag for gzip/deflate
+  if ((opt.windowBits >= 0) && (opt.windowBits < 16) &&
+      !(options && options.windowBits)) {
+    opt.windowBits += 32;
+  }
+
+  // Gzip header has no info about windows size, we can do autodetect only
+  // for deflate. So, if window size not set, force it to max when gzip possible
+  if ((opt.windowBits > 15) && (opt.windowBits < 48)) {
+    // bit 3 (16) -> gzipped data
+    // bit 4 (32) -> autodetect gzip/deflate
+    if ((opt.windowBits & 15) === 0) {
+      opt.windowBits |= 15;
+    }
+  }
+
+  this.err    = 0;      // error code, if happens (0 = Z_OK)
+  this.msg    = '';     // error message
+  this.ended  = false;  // used to avoid multiple onEnd() calls
+  this.chunks = [];     // chunks of compressed data
+
+  this.strm   = new ZStream();
+  this.strm.avail_out = 0;
+
+  var status  = zlib_inflate.inflateInit2(
+    this.strm,
+    opt.windowBits
+  );
+
+  if (status !== c.Z_OK) {
+    throw new Error(msg[status]);
+  }
+
+  this.header = new GZheader();
+
+  zlib_inflate.inflateGetHeader(this.strm, this.header);
+
+  // Setup dictionary
+  if (opt.dictionary) {
+    // Convert data if needed
+    if (typeof opt.dictionary === 'string') {
+      opt.dictionary = strings.string2buf(opt.dictionary);
+    } else if (toString.call(opt.dictionary) === '[object ArrayBuffer]') {
+      opt.dictionary = new Uint8Array(opt.dictionary);
+    }
+    if (opt.raw) { //In raw mode we need to set the dictionary early
+      status = zlib_inflate.inflateSetDictionary(this.strm, opt.dictionary);
+      if (status !== c.Z_OK) {
+        throw new Error(msg[status]);
+      }
+    }
+  }
+}
+
+/**
+ * Inflate#push(data[, mode]) -> Boolean
+ * - data (Uint8Array|Array|ArrayBuffer|String): input data
+ * - mode (Number|Boolean): 0..6 for corresponding Z_NO_FLUSH..Z_TREE modes.
+ *   See constants. Skipped or `false` means Z_NO_FLUSH, `true` means Z_FINISH.
+ *
+ * Sends input data to inflate pipe, generating [[Inflate#onData]] calls with
+ * new output chunks. Returns `true` on success. The last data block must have
+ * mode Z_FINISH (or `true`). That will flush internal pending buffers and call
+ * [[Inflate#onEnd]]. For interim explicit flushes (without ending the stream) you
+ * can use mode Z_SYNC_FLUSH, keeping the decompression context.
+ *
+ * On fail call [[Inflate#onEnd]] with error code and return false.
+ *
+ * We strongly recommend to use `Uint8Array` on input for best speed (output
+ * format is detected automatically). Also, don't skip last param and always
+ * use the same type in your code (boolean or number). That will improve JS speed.
+ *
+ * For regular `Array`-s make sure all elements are [0..255].
+ *
+ * ##### Example
+ *
+ * ```javascript
+ * push(chunk, false); // push one of data chunks
+ * ...
+ * push(chunk, true);  // push last chunk
+ * ```
+ **/
+Inflate.prototype.push = function (data, mode) {
+  var strm = this.strm;
+  var chunkSize = this.options.chunkSize;
+  var dictionary = this.options.dictionary;
+  var status, _mode;
+  var next_out_utf8, tail, utf8str;
+
+  // Flag to properly process Z_BUF_ERROR on testing inflate call
+  // when we check that all output data was flushed.
+  var allowBufError = false;
+
+  if (this.ended) { return false; }
+  _mode = (mode === ~~mode) ? mode : ((mode === true) ? c.Z_FINISH : c.Z_NO_FLUSH);
+
+  // Convert data if needed
+  if (typeof data === 'string') {
+    // Only binary strings can be decompressed on practice
+    strm.input = strings.binstring2buf(data);
+  } else if (toString.call(data) === '[object ArrayBuffer]') {
+    strm.input = new Uint8Array(data);
+  } else {
+    strm.input = data;
+  }
+
+  strm.next_in = 0;
+  strm.avail_in = strm.input.length;
+
+  do {
+    if (strm.avail_out === 0) {
+      strm.output = new utils.Buf8(chunkSize);
+      strm.next_out = 0;
+      strm.avail_out = chunkSize;
+    }
+
+    status = zlib_inflate.inflate(strm, c.Z_NO_FLUSH);    /* no bad return value */
+
+    if (status === c.Z_NEED_DICT && dictionary) {
+      status = zlib_inflate.inflateSetDictionary(this.strm, dictionary);
+    }
+
+    if (status === c.Z_BUF_ERROR && allowBufError === true) {
+      status = c.Z_OK;
+      allowBufError = false;
+    }
+
+    if (status !== c.Z_STREAM_END && status !== c.Z_OK) {
+      this.onEnd(status);
+      this.ended = true;
+      return false;
+    }
+
+    if (strm.next_out) {
+      if (strm.avail_out === 0 || status === c.Z_STREAM_END || (strm.avail_in === 0 && (_mode === c.Z_FINISH || _mode === c.Z_SYNC_FLUSH))) {
+
+        if (this.options.to === 'string') {
+
+          next_out_utf8 = strings.utf8border(strm.output, strm.next_out);
+
+          tail = strm.next_out - next_out_utf8;
+          utf8str = strings.buf2string(strm.output, next_out_utf8);
+
+          // move tail
+          strm.next_out = tail;
+          strm.avail_out = chunkSize - tail;
+          if (tail) { utils.arraySet(strm.output, strm.output, next_out_utf8, tail, 0); }
+
+          this.onData(utf8str);
+
+        } else {
+          this.onData(utils.shrinkBuf(strm.output, strm.next_out));
+        }
+      }
+    }
+
+    // When no more input data, we should check that internal inflate buffers
+    // are flushed. The only way to do it when avail_out = 0 - run one more
+    // inflate pass. But if output data not exists, inflate return Z_BUF_ERROR.
+    // Here we set flag to process this error properly.
+    //
+    // NOTE. Deflate does not return error in this case and does not needs such
+    // logic.
+    if (strm.avail_in === 0 && strm.avail_out === 0) {
+      allowBufError = true;
+    }
+
+  } while ((strm.avail_in > 0 || strm.avail_out === 0) && status !== c.Z_STREAM_END);
+
+  if (status === c.Z_STREAM_END) {
+    _mode = c.Z_FINISH;
+  }
+
+  // Finalize on the last chunk.
+  if (_mode === c.Z_FINISH) {
+    status = zlib_inflate.inflateEnd(this.strm);
+    this.onEnd(status);
+    this.ended = true;
+    return status === c.Z_OK;
+  }
+
+  // callback interim results if Z_SYNC_FLUSH.
+  if (_mode === c.Z_SYNC_FLUSH) {
+    this.onEnd(c.Z_OK);
+    strm.avail_out = 0;
+    return true;
+  }
+
+  return true;
+};
+
+
+/**
+ * Inflate#onData(chunk) -> Void
+ * - chunk (Uint8Array|Array|String): output data. Type of array depends
+ *   on js engine support. When string output requested, each chunk
+ *   will be string.
+ *
+ * By default, stores data blocks in `chunks[]` property and glue
+ * those in `onEnd`. Override this handler, if you need another behaviour.
+ **/
+Inflate.prototype.onData = function (chunk) {
+  this.chunks.push(chunk);
+};
+
+
+/**
+ * Inflate#onEnd(status) -> Void
+ * - status (Number): inflate status. 0 (Z_OK) on success,
+ *   other if not.
+ *
+ * Called either after you tell inflate that the input stream is
+ * complete (Z_FINISH) or should be flushed (Z_SYNC_FLUSH)
+ * or if an error happened. By default - join collected chunks,
+ * free memory and fill `results` / `err` properties.
+ **/
+Inflate.prototype.onEnd = function (status) {
+  // On success - join
+  if (status === c.Z_OK) {
+    if (this.options.to === 'string') {
+      // Glue & convert here, until we teach pako to send
+      // utf8 aligned strings to onData
+      this.result = this.chunks.join('');
+    } else {
+      this.result = utils.flattenChunks(this.chunks);
+    }
+  }
+  this.chunks = [];
+  this.err = status;
+  this.msg = this.strm.msg;
+};
+
+
+/**
+ * inflate(data[, options]) -> Uint8Array|Array|String
+ * - data (Uint8Array|Array|String): input data to decompress.
+ * - options (Object): zlib inflate options.
+ *
+ * Decompress `data` with inflate/ungzip and `options`. Autodetect
+ * format via wrapper header by default. That's why we don't provide
+ * separate `ungzip` method.
+ *
+ * Supported options are:
+ *
+ * - windowBits
+ *
+ * [http://zlib.net/manual.html#Advanced](http://zlib.net/manual.html#Advanced)
+ * for more information.
+ *
+ * Sugar (options):
+ *
+ * - `raw` (Boolean) - say that we work with raw stream, if you don't wish to specify
+ *   negative windowBits implicitly.
+ * - `to` (String) - if equal to 'string', then result will be converted
+ *   from utf8 to utf16 (javascript) string. When string output requested,
+ *   chunk length can differ from `chunkSize`, depending on content.
+ *
+ *
+ * ##### Example:
+ *
+ * ```javascript
+ * var pako = require('pako')
+ *   , input = pako.deflate([1,2,3,4,5,6,7,8,9])
+ *   , output;
+ *
+ * try {
+ *   output = pako.inflate(input);
+ * } catch (err)
+ *   console.log(err);
+ * }
+ * ```
+ **/
+function inflate(input, options) {
+  var inflator = new Inflate(options);
+
+  inflator.push(input, true);
+
+  // That will never happens, if you don't cheat with options :)
+  if (inflator.err) { throw inflator.msg || msg[inflator.err]; }
+
+  return inflator.result;
+}
+
+
+/**
+ * inflateRaw(data[, options]) -> Uint8Array|Array|String
+ * - data (Uint8Array|Array|String): input data to decompress.
+ * - options (Object): zlib inflate options.
+ *
+ * The same as [[inflate]], but creates raw data, without wrapper
+ * (header and adler32 crc).
+ **/
+function inflateRaw(input, options) {
+  options = options || {};
+  options.raw = true;
+  return inflate(input, options);
+}
+
+
+/**
+ * ungzip(data[, options]) -> Uint8Array|Array|String
+ * - data (Uint8Array|Array|String): input data to decompress.
+ * - options (Object): zlib inflate options.
+ *
+ * Just shortcut to [[inflate]], because it autodetects format
+ * by header.content. Done for convenience.
+ **/
+
+
+exports.Inflate = Inflate;
+exports.inflate = inflate;
+exports.inflateRaw = inflateRaw;
+exports.ungzip  = inflate;
+
+
+/***/ }),
+
+/***/ "./node_modules/pako/lib/utils/common.js":
+/*!***********************************************!*\
+  !*** ./node_modules/pako/lib/utils/common.js ***!
+  \***********************************************/
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: __webpack_exports__ */
+/*! CommonJS bailout: exports.assign(...) prevents optimization as exports is passed as call context at 96:4-18 */
+/*! CommonJS bailout: exports is used directly at 96:19-26 */
+/*! CommonJS bailout: exports.assign(...) prevents optimization as exports is passed as call context at 101:4-18 */
+/*! CommonJS bailout: exports is used directly at 101:19-26 */
+/*! CommonJS bailout: exports.setTyped(...) prevents optimization as exports is passed as call context at 105:0-16 */
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+
+
+var TYPED_OK =  (typeof Uint8Array !== 'undefined') &&
+                (typeof Uint16Array !== 'undefined') &&
+                (typeof Int32Array !== 'undefined');
+
+function _has(obj, key) {
+  return Object.prototype.hasOwnProperty.call(obj, key);
+}
+
+exports.assign = function (obj /*from1, from2, from3, ...*/) {
+  var sources = Array.prototype.slice.call(arguments, 1);
+  while (sources.length) {
+    var source = sources.shift();
+    if (!source) { continue; }
+
+    if (typeof source !== 'object') {
+      throw new TypeError(source + 'must be non-object');
+    }
+
+    for (var p in source) {
+      if (_has(source, p)) {
+        obj[p] = source[p];
+      }
+    }
+  }
+
+  return obj;
+};
+
+
+// reduce buffer size, avoiding mem copy
+exports.shrinkBuf = function (buf, size) {
+  if (buf.length === size) { return buf; }
+  if (buf.subarray) { return buf.subarray(0, size); }
+  buf.length = size;
+  return buf;
+};
+
+
+var fnTyped = {
+  arraySet: function (dest, src, src_offs, len, dest_offs) {
+    if (src.subarray && dest.subarray) {
+      dest.set(src.subarray(src_offs, src_offs + len), dest_offs);
+      return;
+    }
+    // Fallback to ordinary array
+    for (var i = 0; i < len; i++) {
+      dest[dest_offs + i] = src[src_offs + i];
+    }
+  },
+  // Join array of chunks to single array.
+  flattenChunks: function (chunks) {
+    var i, l, len, pos, chunk, result;
+
+    // calculate data length
+    len = 0;
+    for (i = 0, l = chunks.length; i < l; i++) {
+      len += chunks[i].length;
+    }
+
+    // join chunks
+    result = new Uint8Array(len);
+    pos = 0;
+    for (i = 0, l = chunks.length; i < l; i++) {
+      chunk = chunks[i];
+      result.set(chunk, pos);
+      pos += chunk.length;
+    }
+
+    return result;
+  }
+};
+
+var fnUntyped = {
+  arraySet: function (dest, src, src_offs, len, dest_offs) {
+    for (var i = 0; i < len; i++) {
+      dest[dest_offs + i] = src[src_offs + i];
+    }
+  },
+  // Join array of chunks to single array.
+  flattenChunks: function (chunks) {
+    return [].concat.apply([], chunks);
+  }
+};
+
+
+// Enable/Disable typed arrays use, for testing
+//
+exports.setTyped = function (on) {
+  if (on) {
+    exports.Buf8  = Uint8Array;
+    exports.Buf16 = Uint16Array;
+    exports.Buf32 = Int32Array;
+    exports.assign(exports, fnTyped);
+  } else {
+    exports.Buf8  = Array;
+    exports.Buf16 = Array;
+    exports.Buf32 = Array;
+    exports.assign(exports, fnUntyped);
+  }
+};
+
+exports.setTyped(TYPED_OK);
+
+
+/***/ }),
+
+/***/ "./node_modules/pako/lib/utils/strings.js":
+/*!************************************************!*\
+  !*** ./node_modules/pako/lib/utils/strings.js ***!
+  \************************************************/
+/*! default exports */
+/*! export binstring2buf [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export buf2binstring [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export buf2string [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export string2buf [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export utf8border [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_exports__, __webpack_require__ */
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+// String encode/decode helpers
+
+
+
+var utils = __webpack_require__(/*! ./common */ "./node_modules/pako/lib/utils/common.js");
+
+
+// Quick check if we can use fast array to bin string conversion
+//
+// - apply(Array) can fail on Android 2.2
+// - apply(Uint8Array) can fail on iOS 5.1 Safari
+//
+var STR_APPLY_OK = true;
+var STR_APPLY_UIA_OK = true;
+
+try { String.fromCharCode.apply(null, [ 0 ]); } catch (__) { STR_APPLY_OK = false; }
+try { String.fromCharCode.apply(null, new Uint8Array(1)); } catch (__) { STR_APPLY_UIA_OK = false; }
+
+
+// Table with utf8 lengths (calculated by first byte of sequence)
+// Note, that 5 & 6-byte values and some 4-byte values can not be represented in JS,
+// because max possible codepoint is 0x10ffff
+var _utf8len = new utils.Buf8(256);
+for (var q = 0; q < 256; q++) {
+  _utf8len[q] = (q >= 252 ? 6 : q >= 248 ? 5 : q >= 240 ? 4 : q >= 224 ? 3 : q >= 192 ? 2 : 1);
+}
+_utf8len[254] = _utf8len[254] = 1; // Invalid sequence start
+
+
+// convert string to array (typed, when possible)
+exports.string2buf = function (str) {
+  var buf, c, c2, m_pos, i, str_len = str.length, buf_len = 0;
+
+  // count binary size
+  for (m_pos = 0; m_pos < str_len; m_pos++) {
+    c = str.charCodeAt(m_pos);
+    if ((c & 0xfc00) === 0xd800 && (m_pos + 1 < str_len)) {
+      c2 = str.charCodeAt(m_pos + 1);
+      if ((c2 & 0xfc00) === 0xdc00) {
+        c = 0x10000 + ((c - 0xd800) << 10) + (c2 - 0xdc00);
+        m_pos++;
+      }
+    }
+    buf_len += c < 0x80 ? 1 : c < 0x800 ? 2 : c < 0x10000 ? 3 : 4;
+  }
+
+  // allocate buffer
+  buf = new utils.Buf8(buf_len);
+
+  // convert
+  for (i = 0, m_pos = 0; i < buf_len; m_pos++) {
+    c = str.charCodeAt(m_pos);
+    if ((c & 0xfc00) === 0xd800 && (m_pos + 1 < str_len)) {
+      c2 = str.charCodeAt(m_pos + 1);
+      if ((c2 & 0xfc00) === 0xdc00) {
+        c = 0x10000 + ((c - 0xd800) << 10) + (c2 - 0xdc00);
+        m_pos++;
+      }
+    }
+    if (c < 0x80) {
+      /* one byte */
+      buf[i++] = c;
+    } else if (c < 0x800) {
+      /* two bytes */
+      buf[i++] = 0xC0 | (c >>> 6);
+      buf[i++] = 0x80 | (c & 0x3f);
+    } else if (c < 0x10000) {
+      /* three bytes */
+      buf[i++] = 0xE0 | (c >>> 12);
+      buf[i++] = 0x80 | (c >>> 6 & 0x3f);
+      buf[i++] = 0x80 | (c & 0x3f);
+    } else {
+      /* four bytes */
+      buf[i++] = 0xf0 | (c >>> 18);
+      buf[i++] = 0x80 | (c >>> 12 & 0x3f);
+      buf[i++] = 0x80 | (c >>> 6 & 0x3f);
+      buf[i++] = 0x80 | (c & 0x3f);
+    }
+  }
+
+  return buf;
+};
+
+// Helper (used in 2 places)
+function buf2binstring(buf, len) {
+  // On Chrome, the arguments in a function call that are allowed is `65534`.
+  // If the length of the buffer is smaller than that, we can use this optimization,
+  // otherwise we will take a slower path.
+  if (len < 65534) {
+    if ((buf.subarray && STR_APPLY_UIA_OK) || (!buf.subarray && STR_APPLY_OK)) {
+      return String.fromCharCode.apply(null, utils.shrinkBuf(buf, len));
+    }
+  }
+
+  var result = '';
+  for (var i = 0; i < len; i++) {
+    result += String.fromCharCode(buf[i]);
+  }
+  return result;
+}
+
+
+// Convert byte array to binary string
+exports.buf2binstring = function (buf) {
+  return buf2binstring(buf, buf.length);
+};
+
+
+// Convert binary string (typed, when possible)
+exports.binstring2buf = function (str) {
+  var buf = new utils.Buf8(str.length);
+  for (var i = 0, len = buf.length; i < len; i++) {
+    buf[i] = str.charCodeAt(i);
+  }
+  return buf;
+};
+
+
+// convert array to string
+exports.buf2string = function (buf, max) {
+  var i, out, c, c_len;
+  var len = max || buf.length;
+
+  // Reserve max possible length (2 words per char)
+  // NB: by unknown reasons, Array is significantly faster for
+  //     String.fromCharCode.apply than Uint16Array.
+  var utf16buf = new Array(len * 2);
+
+  for (out = 0, i = 0; i < len;) {
+    c = buf[i++];
+    // quick process ascii
+    if (c < 0x80) { utf16buf[out++] = c; continue; }
+
+    c_len = _utf8len[c];
+    // skip 5 & 6 byte codes
+    if (c_len > 4) { utf16buf[out++] = 0xfffd; i += c_len - 1; continue; }
+
+    // apply mask on first byte
+    c &= c_len === 2 ? 0x1f : c_len === 3 ? 0x0f : 0x07;
+    // join the rest
+    while (c_len > 1 && i < len) {
+      c = (c << 6) | (buf[i++] & 0x3f);
+      c_len--;
+    }
+
+    // terminated by end of string?
+    if (c_len > 1) { utf16buf[out++] = 0xfffd; continue; }
+
+    if (c < 0x10000) {
+      utf16buf[out++] = c;
+    } else {
+      c -= 0x10000;
+      utf16buf[out++] = 0xd800 | ((c >> 10) & 0x3ff);
+      utf16buf[out++] = 0xdc00 | (c & 0x3ff);
+    }
+  }
+
+  return buf2binstring(utf16buf, out);
+};
+
+
+// Calculate max possible position in utf8 buffer,
+// that will not break sequence. If that's not possible
+// - (very small limits) return max size as is.
+//
+// buf[] - utf8 bytes array
+// max   - length limit (mandatory);
+exports.utf8border = function (buf, max) {
+  var pos;
+
+  max = max || buf.length;
+  if (max > buf.length) { max = buf.length; }
+
+  // go back from last position, until start of sequence found
+  pos = max - 1;
+  while (pos >= 0 && (buf[pos] & 0xC0) === 0x80) { pos--; }
+
+  // Very small and broken sequence,
+  // return max, because we should return something anyway.
+  if (pos < 0) { return max; }
+
+  // If we came to start of buffer - that means buffer is too small,
+  // return max too.
+  if (pos === 0) { return max; }
+
+  return (pos + _utf8len[buf[pos]] > max) ? pos : max;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/pako/lib/zlib/adler32.js":
+/*!***********************************************!*\
+  !*** ./node_modules/pako/lib/zlib/adler32.js ***!
+  \***********************************************/
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module */
+/*! CommonJS bailout: module.exports is used directly at 51:0-14 */
+/***/ ((module) => {
+
+"use strict";
+
+
+// Note: adler32 takes 12% for level 0 and 2% for level 6.
+// It isn't worth it to make additional optimizations as in original.
+// Small size is preferable.
+
+// (C) 1995-2013 Jean-loup Gailly and Mark Adler
+// (C) 2014-2017 Vitaly Puzrin and Andrey Tupitsin
+//
+// This software is provided 'as-is', without any express or implied
+// warranty. In no event will the authors be held liable for any damages
+// arising from the use of this software.
+//
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+//
+// 1. The origin of this software must not be misrepresented; you must not
+//   claim that you wrote the original software. If you use this software
+//   in a product, an acknowledgment in the product documentation would be
+//   appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+//   misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
+
+function adler32(adler, buf, len, pos) {
+  var s1 = (adler & 0xffff) |0,
+      s2 = ((adler >>> 16) & 0xffff) |0,
+      n = 0;
+
+  while (len !== 0) {
+    // Set limit ~ twice less than 5552, to keep
+    // s2 in 31-bits, because we force signed ints.
+    // in other case %= will fail.
+    n = len > 2000 ? 2000 : len;
+    len -= n;
+
+    do {
+      s1 = (s1 + buf[pos++]) |0;
+      s2 = (s2 + s1) |0;
+    } while (--n);
+
+    s1 %= 65521;
+    s2 %= 65521;
+  }
+
+  return (s1 | (s2 << 16)) |0;
+}
+
+
+module.exports = adler32;
+
+
+/***/ }),
+
+/***/ "./node_modules/pako/lib/zlib/constants.js":
+/*!*************************************************!*\
+  !*** ./node_modules/pako/lib/zlib/constants.js ***!
+  \*************************************************/
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module */
+/*! CommonJS bailout: module.exports is used directly at 22:0-14 */
+/***/ ((module) => {
+
+"use strict";
+
+
+// (C) 1995-2013 Jean-loup Gailly and Mark Adler
+// (C) 2014-2017 Vitaly Puzrin and Andrey Tupitsin
+//
+// This software is provided 'as-is', without any express or implied
+// warranty. In no event will the authors be held liable for any damages
+// arising from the use of this software.
+//
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+//
+// 1. The origin of this software must not be misrepresented; you must not
+//   claim that you wrote the original software. If you use this software
+//   in a product, an acknowledgment in the product documentation would be
+//   appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+//   misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
+
+module.exports = {
+
+  /* Allowed flush values; see deflate() and inflate() below for details */
+  Z_NO_FLUSH:         0,
+  Z_PARTIAL_FLUSH:    1,
+  Z_SYNC_FLUSH:       2,
+  Z_FULL_FLUSH:       3,
+  Z_FINISH:           4,
+  Z_BLOCK:            5,
+  Z_TREES:            6,
+
+  /* Return codes for the compression/decompression functions. Negative values
+  * are errors, positive values are used for special but normal events.
+  */
+  Z_OK:               0,
+  Z_STREAM_END:       1,
+  Z_NEED_DICT:        2,
+  Z_ERRNO:           -1,
+  Z_STREAM_ERROR:    -2,
+  Z_DATA_ERROR:      -3,
+  //Z_MEM_ERROR:     -4,
+  Z_BUF_ERROR:       -5,
+  //Z_VERSION_ERROR: -6,
+
+  /* compression levels */
+  Z_NO_COMPRESSION:         0,
+  Z_BEST_SPEED:             1,
+  Z_BEST_COMPRESSION:       9,
+  Z_DEFAULT_COMPRESSION:   -1,
+
+
+  Z_FILTERED:               1,
+  Z_HUFFMAN_ONLY:           2,
+  Z_RLE:                    3,
+  Z_FIXED:                  4,
+  Z_DEFAULT_STRATEGY:       0,
+
+  /* Possible values of the data_type field (though see inflate()) */
+  Z_BINARY:                 0,
+  Z_TEXT:                   1,
+  //Z_ASCII:                1, // = Z_TEXT (deprecated)
+  Z_UNKNOWN:                2,
+
+  /* The deflate compression method */
+  Z_DEFLATED:               8
+  //Z_NULL:                 null // Use -1 or null inline, depending on var type
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/pako/lib/zlib/crc32.js":
+/*!*********************************************!*\
+  !*** ./node_modules/pako/lib/zlib/crc32.js ***!
+  \*********************************************/
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module */
+/*! CommonJS bailout: module.exports is used directly at 59:0-14 */
+/***/ ((module) => {
+
+"use strict";
+
+
+// Note: we can't get significant speed boost here.
+// So write code to minimize size - no pregenerated tables
+// and array tools dependencies.
+
+// (C) 1995-2013 Jean-loup Gailly and Mark Adler
+// (C) 2014-2017 Vitaly Puzrin and Andrey Tupitsin
+//
+// This software is provided 'as-is', without any express or implied
+// warranty. In no event will the authors be held liable for any damages
+// arising from the use of this software.
+//
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+//
+// 1. The origin of this software must not be misrepresented; you must not
+//   claim that you wrote the original software. If you use this software
+//   in a product, an acknowledgment in the product documentation would be
+//   appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+//   misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
+
+// Use ordinary array, since untyped makes no boost here
+function makeTable() {
+  var c, table = [];
+
+  for (var n = 0; n < 256; n++) {
+    c = n;
+    for (var k = 0; k < 8; k++) {
+      c = ((c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1));
+    }
+    table[n] = c;
+  }
+
+  return table;
+}
+
+// Create table on load. Just 255 signed longs. Not a problem.
+var crcTable = makeTable();
+
+
+function crc32(crc, buf, len, pos) {
+  var t = crcTable,
+      end = pos + len;
+
+  crc ^= -1;
+
+  for (var i = pos; i < end; i++) {
+    crc = (crc >>> 8) ^ t[(crc ^ buf[i]) & 0xFF];
+  }
+
+  return (crc ^ (-1)); // >>> 0;
+}
+
+
+module.exports = crc32;
+
+
+/***/ }),
+
+/***/ "./node_modules/pako/lib/zlib/deflate.js":
+/*!***********************************************!*\
+  !*** ./node_modules/pako/lib/zlib/deflate.js ***!
+  \***********************************************/
+/*! default exports */
+/*! export deflate [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export deflateEnd [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export deflateInfo [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export deflateInit [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export deflateInit2 [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export deflateReset [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export deflateResetKeep [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export deflateSetDictionary [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export deflateSetHeader [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_exports__, __webpack_require__ */
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+
+// (C) 1995-2013 Jean-loup Gailly and Mark Adler
+// (C) 2014-2017 Vitaly Puzrin and Andrey Tupitsin
+//
+// This software is provided 'as-is', without any express or implied
+// warranty. In no event will the authors be held liable for any damages
+// arising from the use of this software.
+//
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+//
+// 1. The origin of this software must not be misrepresented; you must not
+//   claim that you wrote the original software. If you use this software
+//   in a product, an acknowledgment in the product documentation would be
+//   appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+//   misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
+
+var utils   = __webpack_require__(/*! ../utils/common */ "./node_modules/pako/lib/utils/common.js");
+var trees   = __webpack_require__(/*! ./trees */ "./node_modules/pako/lib/zlib/trees.js");
+var adler32 = __webpack_require__(/*! ./adler32 */ "./node_modules/pako/lib/zlib/adler32.js");
+var crc32   = __webpack_require__(/*! ./crc32 */ "./node_modules/pako/lib/zlib/crc32.js");
+var msg     = __webpack_require__(/*! ./messages */ "./node_modules/pako/lib/zlib/messages.js");
+
+/* Public constants ==========================================================*/
+/* ===========================================================================*/
+
+
+/* Allowed flush values; see deflate() and inflate() below for details */
+var Z_NO_FLUSH      = 0;
+var Z_PARTIAL_FLUSH = 1;
+//var Z_SYNC_FLUSH    = 2;
+var Z_FULL_FLUSH    = 3;
+var Z_FINISH        = 4;
+var Z_BLOCK         = 5;
+//var Z_TREES         = 6;
+
+
+/* Return codes for the compression/decompression functions. Negative values
+ * are errors, positive values are used for special but normal events.
+ */
+var Z_OK            = 0;
+var Z_STREAM_END    = 1;
+//var Z_NEED_DICT     = 2;
+//var Z_ERRNO         = -1;
+var Z_STREAM_ERROR  = -2;
+var Z_DATA_ERROR    = -3;
+//var Z_MEM_ERROR     = -4;
+var Z_BUF_ERROR     = -5;
+//var Z_VERSION_ERROR = -6;
+
+
+/* compression levels */
+//var Z_NO_COMPRESSION      = 0;
+//var Z_BEST_SPEED          = 1;
+//var Z_BEST_COMPRESSION    = 9;
+var Z_DEFAULT_COMPRESSION = -1;
+
+
+var Z_FILTERED            = 1;
+var Z_HUFFMAN_ONLY        = 2;
+var Z_RLE                 = 3;
+var Z_FIXED               = 4;
+var Z_DEFAULT_STRATEGY    = 0;
+
+/* Possible values of the data_type field (though see inflate()) */
+//var Z_BINARY              = 0;
+//var Z_TEXT                = 1;
+//var Z_ASCII               = 1; // = Z_TEXT
+var Z_UNKNOWN             = 2;
+
+
+/* The deflate compression method */
+var Z_DEFLATED  = 8;
+
+/*============================================================================*/
+
+
+var MAX_MEM_LEVEL = 9;
+/* Maximum value for memLevel in deflateInit2 */
+var MAX_WBITS = 15;
+/* 32K LZ77 window */
+var DEF_MEM_LEVEL = 8;
+
+
+var LENGTH_CODES  = 29;
+/* number of length codes, not counting the special END_BLOCK code */
+var LITERALS      = 256;
+/* number of literal bytes 0..255 */
+var L_CODES       = LITERALS + 1 + LENGTH_CODES;
+/* number of Literal or Length codes, including the END_BLOCK code */
+var D_CODES       = 30;
+/* number of distance codes */
+var BL_CODES      = 19;
+/* number of codes used to transfer the bit lengths */
+var HEAP_SIZE     = 2 * L_CODES + 1;
+/* maximum heap size */
+var MAX_BITS  = 15;
+/* All codes must not exceed MAX_BITS bits */
+
+var MIN_MATCH = 3;
+var MAX_MATCH = 258;
+var MIN_LOOKAHEAD = (MAX_MATCH + MIN_MATCH + 1);
+
+var PRESET_DICT = 0x20;
+
+var INIT_STATE = 42;
+var EXTRA_STATE = 69;
+var NAME_STATE = 73;
+var COMMENT_STATE = 91;
+var HCRC_STATE = 103;
+var BUSY_STATE = 113;
+var FINISH_STATE = 666;
+
+var BS_NEED_MORE      = 1; /* block not completed, need more input or more output */
+var BS_BLOCK_DONE     = 2; /* block flush performed */
+var BS_FINISH_STARTED = 3; /* finish started, need only more output at next deflate */
+var BS_FINISH_DONE    = 4; /* finish done, accept no more input or output */
+
+var OS_CODE = 0x03; // Unix :) . Don't detect, use this default.
+
+function err(strm, errorCode) {
+  strm.msg = msg[errorCode];
+  return errorCode;
+}
+
+function rank(f) {
+  return ((f) << 1) - ((f) > 4 ? 9 : 0);
+}
+
+function zero(buf) { var len = buf.length; while (--len >= 0) { buf[len] = 0; } }
+
+
+/* =========================================================================
+ * Flush as much pending output as possible. All deflate() output goes
+ * through this function so some applications may wish to modify it
+ * to avoid allocating a large strm->output buffer and copying into it.
+ * (See also read_buf()).
+ */
+function flush_pending(strm) {
+  var s = strm.state;
+
+  //_tr_flush_bits(s);
+  var len = s.pending;
+  if (len > strm.avail_out) {
+    len = strm.avail_out;
+  }
+  if (len === 0) { return; }
+
+  utils.arraySet(strm.output, s.pending_buf, s.pending_out, len, strm.next_out);
+  strm.next_out += len;
+  s.pending_out += len;
+  strm.total_out += len;
+  strm.avail_out -= len;
+  s.pending -= len;
+  if (s.pending === 0) {
+    s.pending_out = 0;
+  }
+}
+
+
+function flush_block_only(s, last) {
+  trees._tr_flush_block(s, (s.block_start >= 0 ? s.block_start : -1), s.strstart - s.block_start, last);
+  s.block_start = s.strstart;
+  flush_pending(s.strm);
+}
+
+
+function put_byte(s, b) {
+  s.pending_buf[s.pending++] = b;
+}
+
+
+/* =========================================================================
+ * Put a short in the pending buffer. The 16-bit value is put in MSB order.
+ * IN assertion: the stream state is correct and there is enough room in
+ * pending_buf.
+ */
+function putShortMSB(s, b) {
+//  put_byte(s, (Byte)(b >> 8));
+//  put_byte(s, (Byte)(b & 0xff));
+  s.pending_buf[s.pending++] = (b >>> 8) & 0xff;
+  s.pending_buf[s.pending++] = b & 0xff;
+}
+
+
+/* ===========================================================================
+ * Read a new buffer from the current input stream, update the adler32
+ * and total number of bytes read.  All deflate() input goes through
+ * this function so some applications may wish to modify it to avoid
+ * allocating a large strm->input buffer and copying from it.
+ * (See also flush_pending()).
+ */
+function read_buf(strm, buf, start, size) {
+  var len = strm.avail_in;
+
+  if (len > size) { len = size; }
+  if (len === 0) { return 0; }
+
+  strm.avail_in -= len;
+
+  // zmemcpy(buf, strm->next_in, len);
+  utils.arraySet(buf, strm.input, strm.next_in, len, start);
+  if (strm.state.wrap === 1) {
+    strm.adler = adler32(strm.adler, buf, len, start);
+  }
+
+  else if (strm.state.wrap === 2) {
+    strm.adler = crc32(strm.adler, buf, len, start);
+  }
+
+  strm.next_in += len;
+  strm.total_in += len;
+
+  return len;
+}
+
+
+/* ===========================================================================
+ * Set match_start to the longest match starting at the given string and
+ * return its length. Matches shorter or equal to prev_length are discarded,
+ * in which case the result is equal to prev_length and match_start is
+ * garbage.
+ * IN assertions: cur_match is the head of the hash chain for the current
+ *   string (strstart) and its distance is <= MAX_DIST, and prev_length >= 1
+ * OUT assertion: the match length is not greater than s->lookahead.
+ */
+function longest_match(s, cur_match) {
+  var chain_length = s.max_chain_length;      /* max hash chain length */
+  var scan = s.strstart; /* current string */
+  var match;                       /* matched string */
+  var len;                           /* length of current match */
+  var best_len = s.prev_length;              /* best match length so far */
+  var nice_match = s.nice_match;             /* stop if match long enough */
+  var limit = (s.strstart > (s.w_size - MIN_LOOKAHEAD)) ?
+      s.strstart - (s.w_size - MIN_LOOKAHEAD) : 0/*NIL*/;
+
+  var _win = s.window; // shortcut
+
+  var wmask = s.w_mask;
+  var prev  = s.prev;
+
+  /* Stop when cur_match becomes <= limit. To simplify the code,
+   * we prevent matches with the string of window index 0.
+   */
+
+  var strend = s.strstart + MAX_MATCH;
+  var scan_end1  = _win[scan + best_len - 1];
+  var scan_end   = _win[scan + best_len];
+
+  /* The code is optimized for HASH_BITS >= 8 and MAX_MATCH-2 multiple of 16.
+   * It is easy to get rid of this optimization if necessary.
+   */
+  // Assert(s->hash_bits >= 8 && MAX_MATCH == 258, "Code too clever");
+
+  /* Do not waste too much time if we already have a good match: */
+  if (s.prev_length >= s.good_match) {
+    chain_length >>= 2;
+  }
+  /* Do not look for matches beyond the end of the input. This is necessary
+   * to make deflate deterministic.
+   */
+  if (nice_match > s.lookahead) { nice_match = s.lookahead; }
+
+  // Assert((ulg)s->strstart <= s->window_size-MIN_LOOKAHEAD, "need lookahead");
+
+  do {
+    // Assert(cur_match < s->strstart, "no future");
+    match = cur_match;
+
+    /* Skip to next match if the match length cannot increase
+     * or if the match length is less than 2.  Note that the checks below
+     * for insufficient lookahead only occur occasionally for performance
+     * reasons.  Therefore uninitialized memory will be accessed, and
+     * conditional jumps will be made that depend on those values.
+     * However the length of the match is limited to the lookahead, so
+     * the output of deflate is not affected by the uninitialized values.
+     */
+
+    if (_win[match + best_len]     !== scan_end  ||
+        _win[match + best_len - 1] !== scan_end1 ||
+        _win[match]                !== _win[scan] ||
+        _win[++match]              !== _win[scan + 1]) {
+      continue;
+    }
+
+    /* The check at best_len-1 can be removed because it will be made
+     * again later. (This heuristic is not always a win.)
+     * It is not necessary to compare scan[2] and match[2] since they
+     * are always equal when the other bytes match, given that
+     * the hash keys are equal and that HASH_BITS >= 8.
+     */
+    scan += 2;
+    match++;
+    // Assert(*scan == *match, "match[2]?");
+
+    /* We check for insufficient lookahead only every 8th comparison;
+     * the 256th check will be made at strstart+258.
+     */
+    do {
+      /*jshint noempty:false*/
+    } while (_win[++scan] === _win[++match] && _win[++scan] === _win[++match] &&
+             _win[++scan] === _win[++match] && _win[++scan] === _win[++match] &&
+             _win[++scan] === _win[++match] && _win[++scan] === _win[++match] &&
+             _win[++scan] === _win[++match] && _win[++scan] === _win[++match] &&
+             scan < strend);
+
+    // Assert(scan <= s->window+(unsigned)(s->window_size-1), "wild scan");
+
+    len = MAX_MATCH - (strend - scan);
+    scan = strend - MAX_MATCH;
+
+    if (len > best_len) {
+      s.match_start = cur_match;
+      best_len = len;
+      if (len >= nice_match) {
+        break;
+      }
+      scan_end1  = _win[scan + best_len - 1];
+      scan_end   = _win[scan + best_len];
+    }
+  } while ((cur_match = prev[cur_match & wmask]) > limit && --chain_length !== 0);
+
+  if (best_len <= s.lookahead) {
+    return best_len;
+  }
+  return s.lookahead;
+}
+
+
+/* ===========================================================================
+ * Fill the window when the lookahead becomes insufficient.
+ * Updates strstart and lookahead.
+ *
+ * IN assertion: lookahead < MIN_LOOKAHEAD
+ * OUT assertions: strstart <= window_size-MIN_LOOKAHEAD
+ *    At least one byte has been read, or avail_in == 0; reads are
+ *    performed for at least two bytes (required for the zip translate_eol
+ *    option -- not supported here).
+ */
+function fill_window(s) {
+  var _w_size = s.w_size;
+  var p, n, m, more, str;
+
+  //Assert(s->lookahead < MIN_LOOKAHEAD, "already enough lookahead");
+
+  do {
+    more = s.window_size - s.lookahead - s.strstart;
+
+    // JS ints have 32 bit, block below not needed
+    /* Deal with !@#$% 64K limit: */
+    //if (sizeof(int) <= 2) {
+    //    if (more == 0 && s->strstart == 0 && s->lookahead == 0) {
+    //        more = wsize;
+    //
+    //  } else if (more == (unsigned)(-1)) {
+    //        /* Very unlikely, but possible on 16 bit machine if
+    //         * strstart == 0 && lookahead == 1 (input done a byte at time)
+    //         */
+    //        more--;
+    //    }
+    //}
+
+
+    /* If the window is almost full and there is insufficient lookahead,
+     * move the upper half to the lower one to make room in the upper half.
+     */
+    if (s.strstart >= _w_size + (_w_size - MIN_LOOKAHEAD)) {
+
+      utils.arraySet(s.window, s.window, _w_size, _w_size, 0);
+      s.match_start -= _w_size;
+      s.strstart -= _w_size;
+      /* we now have strstart >= MAX_DIST */
+      s.block_start -= _w_size;
+
+      /* Slide the hash table (could be avoided with 32 bit values
+       at the expense of memory usage). We slide even when level == 0
+       to keep the hash table consistent if we switch back to level > 0
+       later. (Using level 0 permanently is not an optimal usage of
+       zlib, so we don't care about this pathological case.)
+       */
+
+      n = s.hash_size;
+      p = n;
+      do {
+        m = s.head[--p];
+        s.head[p] = (m >= _w_size ? m - _w_size : 0);
+      } while (--n);
+
+      n = _w_size;
+      p = n;
+      do {
+        m = s.prev[--p];
+        s.prev[p] = (m >= _w_size ? m - _w_size : 0);
+        /* If n is not on any hash chain, prev[n] is garbage but
+         * its value will never be used.
+         */
+      } while (--n);
+
+      more += _w_size;
+    }
+    if (s.strm.avail_in === 0) {
+      break;
+    }
+
+    /* If there was no sliding:
+     *    strstart <= WSIZE+MAX_DIST-1 && lookahead <= MIN_LOOKAHEAD - 1 &&
+     *    more == window_size - lookahead - strstart
+     * => more >= window_size - (MIN_LOOKAHEAD-1 + WSIZE + MAX_DIST-1)
+     * => more >= window_size - 2*WSIZE + 2
+     * In the BIG_MEM or MMAP case (not yet supported),
+     *   window_size == input_size + MIN_LOOKAHEAD  &&
+     *   strstart + s->lookahead <= input_size => more >= MIN_LOOKAHEAD.
+     * Otherwise, window_size == 2*WSIZE so more >= 2.
+     * If there was sliding, more >= WSIZE. So in all cases, more >= 2.
+     */
+    //Assert(more >= 2, "more < 2");
+    n = read_buf(s.strm, s.window, s.strstart + s.lookahead, more);
+    s.lookahead += n;
+
+    /* Initialize the hash value now that we have some input: */
+    if (s.lookahead + s.insert >= MIN_MATCH) {
+      str = s.strstart - s.insert;
+      s.ins_h = s.window[str];
+
+      /* UPDATE_HASH(s, s->ins_h, s->window[str + 1]); */
+      s.ins_h = ((s.ins_h << s.hash_shift) ^ s.window[str + 1]) & s.hash_mask;
+//#if MIN_MATCH != 3
+//        Call update_hash() MIN_MATCH-3 more times
+//#endif
+      while (s.insert) {
+        /* UPDATE_HASH(s, s->ins_h, s->window[str + MIN_MATCH-1]); */
+        s.ins_h = ((s.ins_h << s.hash_shift) ^ s.window[str + MIN_MATCH - 1]) & s.hash_mask;
+
+        s.prev[str & s.w_mask] = s.head[s.ins_h];
+        s.head[s.ins_h] = str;
+        str++;
+        s.insert--;
+        if (s.lookahead + s.insert < MIN_MATCH) {
+          break;
+        }
+      }
+    }
+    /* If the whole input has less than MIN_MATCH bytes, ins_h is garbage,
+     * but this is not important since only literal bytes will be emitted.
+     */
+
+  } while (s.lookahead < MIN_LOOKAHEAD && s.strm.avail_in !== 0);
+
+  /* If the WIN_INIT bytes after the end of the current data have never been
+   * written, then zero those bytes in order to avoid memory check reports of
+   * the use of uninitialized (or uninitialised as Julian writes) bytes by
+   * the longest match routines.  Update the high water mark for the next
+   * time through here.  WIN_INIT is set to MAX_MATCH since the longest match
+   * routines allow scanning to strstart + MAX_MATCH, ignoring lookahead.
+   */
+//  if (s.high_water < s.window_size) {
+//    var curr = s.strstart + s.lookahead;
+//    var init = 0;
+//
+//    if (s.high_water < curr) {
+//      /* Previous high water mark below current data -- zero WIN_INIT
+//       * bytes or up to end of window, whichever is less.
+//       */
+//      init = s.window_size - curr;
+//      if (init > WIN_INIT)
+//        init = WIN_INIT;
+//      zmemzero(s->window + curr, (unsigned)init);
+//      s->high_water = curr + init;
+//    }
+//    else if (s->high_water < (ulg)curr + WIN_INIT) {
+//      /* High water mark at or above current data, but below current data
+//       * plus WIN_INIT -- zero out to current data plus WIN_INIT, or up
+//       * to end of window, whichever is less.
+//       */
+//      init = (ulg)curr + WIN_INIT - s->high_water;
+//      if (init > s->window_size - s->high_water)
+//        init = s->window_size - s->high_water;
+//      zmemzero(s->window + s->high_water, (unsigned)init);
+//      s->high_water += init;
+//    }
+//  }
+//
+//  Assert((ulg)s->strstart <= s->window_size - MIN_LOOKAHEAD,
+//    "not enough room for search");
+}
+
+/* ===========================================================================
+ * Copy without compression as much as possible from the input stream, return
+ * the current block state.
+ * This function does not insert new strings in the dictionary since
+ * uncompressible data is probably not useful. This function is used
+ * only for the level=0 compression option.
+ * NOTE: this function should be optimized to avoid extra copying from
+ * window to pending_buf.
+ */
+function deflate_stored(s, flush) {
+  /* Stored blocks are limited to 0xffff bytes, pending_buf is limited
+   * to pending_buf_size, and each stored block has a 5 byte header:
+   */
+  var max_block_size = 0xffff;
+
+  if (max_block_size > s.pending_buf_size - 5) {
+    max_block_size = s.pending_buf_size - 5;
+  }
+
+  /* Copy as much as possible from input to output: */
+  for (;;) {
+    /* Fill the window as much as possible: */
+    if (s.lookahead <= 1) {
+
+      //Assert(s->strstart < s->w_size+MAX_DIST(s) ||
+      //  s->block_start >= (long)s->w_size, "slide too late");
+//      if (!(s.strstart < s.w_size + (s.w_size - MIN_LOOKAHEAD) ||
+//        s.block_start >= s.w_size)) {
+//        throw  new Error("slide too late");
+//      }
+
+      fill_window(s);
+      if (s.lookahead === 0 && flush === Z_NO_FLUSH) {
+        return BS_NEED_MORE;
+      }
+
+      if (s.lookahead === 0) {
+        break;
+      }
+      /* flush the current block */
+    }
+    //Assert(s->block_start >= 0L, "block gone");
+//    if (s.block_start < 0) throw new Error("block gone");
+
+    s.strstart += s.lookahead;
+    s.lookahead = 0;
+
+    /* Emit a stored block if pending_buf will be full: */
+    var max_start = s.block_start + max_block_size;
+
+    if (s.strstart === 0 || s.strstart >= max_start) {
+      /* strstart == 0 is possible when wraparound on 16-bit machine */
+      s.lookahead = s.strstart - max_start;
+      s.strstart = max_start;
+      /*** FLUSH_BLOCK(s, 0); ***/
+      flush_block_only(s, false);
+      if (s.strm.avail_out === 0) {
+        return BS_NEED_MORE;
+      }
+      /***/
+
+
+    }
+    /* Flush if we may have to slide, otherwise block_start may become
+     * negative and the data will be gone:
+     */
+    if (s.strstart - s.block_start >= (s.w_size - MIN_LOOKAHEAD)) {
+      /*** FLUSH_BLOCK(s, 0); ***/
+      flush_block_only(s, false);
+      if (s.strm.avail_out === 0) {
+        return BS_NEED_MORE;
+      }
+      /***/
+    }
+  }
+
+  s.insert = 0;
+
+  if (flush === Z_FINISH) {
+    /*** FLUSH_BLOCK(s, 1); ***/
+    flush_block_only(s, true);
+    if (s.strm.avail_out === 0) {
+      return BS_FINISH_STARTED;
+    }
+    /***/
+    return BS_FINISH_DONE;
+  }
+
+  if (s.strstart > s.block_start) {
+    /*** FLUSH_BLOCK(s, 0); ***/
+    flush_block_only(s, false);
+    if (s.strm.avail_out === 0) {
+      return BS_NEED_MORE;
+    }
+    /***/
+  }
+
+  return BS_NEED_MORE;
+}
+
+/* ===========================================================================
+ * Compress as much as possible from the input stream, return the current
+ * block state.
+ * This function does not perform lazy evaluation of matches and inserts
+ * new strings in the dictionary only for unmatched strings or for short
+ * matches. It is used only for the fast compression options.
+ */
+function deflate_fast(s, flush) {
+  var hash_head;        /* head of the hash chain */
+  var bflush;           /* set if current block must be flushed */
+
+  for (;;) {
+    /* Make sure that we always have enough lookahead, except
+     * at the end of the input file. We need MAX_MATCH bytes
+     * for the next match, plus MIN_MATCH bytes to insert the
+     * string following the next match.
+     */
+    if (s.lookahead < MIN_LOOKAHEAD) {
+      fill_window(s);
+      if (s.lookahead < MIN_LOOKAHEAD && flush === Z_NO_FLUSH) {
+        return BS_NEED_MORE;
+      }
+      if (s.lookahead === 0) {
+        break; /* flush the current block */
+      }
+    }
+
+    /* Insert the string window[strstart .. strstart+2] in the
+     * dictionary, and set hash_head to the head of the hash chain:
+     */
+    hash_head = 0/*NIL*/;
+    if (s.lookahead >= MIN_MATCH) {
+      /*** INSERT_STRING(s, s.strstart, hash_head); ***/
+      s.ins_h = ((s.ins_h << s.hash_shift) ^ s.window[s.strstart + MIN_MATCH - 1]) & s.hash_mask;
+      hash_head = s.prev[s.strstart & s.w_mask] = s.head[s.ins_h];
+      s.head[s.ins_h] = s.strstart;
+      /***/
+    }
+
+    /* Find the longest match, discarding those <= prev_length.
+     * At this point we have always match_length < MIN_MATCH
+     */
+    if (hash_head !== 0/*NIL*/ && ((s.strstart - hash_head) <= (s.w_size - MIN_LOOKAHEAD))) {
+      /* To simplify the code, we prevent matches with the string
+       * of window index 0 (in particular we have to avoid a match
+       * of the string with itself at the start of the input file).
+       */
+      s.match_length = longest_match(s, hash_head);
+      /* longest_match() sets match_start */
+    }
+    if (s.match_length >= MIN_MATCH) {
+      // check_match(s, s.strstart, s.match_start, s.match_length); // for debug only
+
+      /*** _tr_tally_dist(s, s.strstart - s.match_start,
+                     s.match_length - MIN_MATCH, bflush); ***/
+      bflush = trees._tr_tally(s, s.strstart - s.match_start, s.match_length - MIN_MATCH);
+
+      s.lookahead -= s.match_length;
+
+      /* Insert new strings in the hash table only if the match length
+       * is not too large. This saves time but degrades compression.
+       */
+      if (s.match_length <= s.max_lazy_match/*max_insert_length*/ && s.lookahead >= MIN_MATCH) {
+        s.match_length--; /* string at strstart already in table */
+        do {
+          s.strstart++;
+          /*** INSERT_STRING(s, s.strstart, hash_head); ***/
+          s.ins_h = ((s.ins_h << s.hash_shift) ^ s.window[s.strstart + MIN_MATCH - 1]) & s.hash_mask;
+          hash_head = s.prev[s.strstart & s.w_mask] = s.head[s.ins_h];
+          s.head[s.ins_h] = s.strstart;
+          /***/
+          /* strstart never exceeds WSIZE-MAX_MATCH, so there are
+           * always MIN_MATCH bytes ahead.
+           */
+        } while (--s.match_length !== 0);
+        s.strstart++;
+      } else
+      {
+        s.strstart += s.match_length;
+        s.match_length = 0;
+        s.ins_h = s.window[s.strstart];
+        /* UPDATE_HASH(s, s.ins_h, s.window[s.strstart+1]); */
+        s.ins_h = ((s.ins_h << s.hash_shift) ^ s.window[s.strstart + 1]) & s.hash_mask;
+
+//#if MIN_MATCH != 3
+//                Call UPDATE_HASH() MIN_MATCH-3 more times
+//#endif
+        /* If lookahead < MIN_MATCH, ins_h is garbage, but it does not
+         * matter since it will be recomputed at next deflate call.
+         */
+      }
+    } else {
+      /* No match, output a literal byte */
+      //Tracevv((stderr,"%c", s.window[s.strstart]));
+      /*** _tr_tally_lit(s, s.window[s.strstart], bflush); ***/
+      bflush = trees._tr_tally(s, 0, s.window[s.strstart]);
+
+      s.lookahead--;
+      s.strstart++;
+    }
+    if (bflush) {
+      /*** FLUSH_BLOCK(s, 0); ***/
+      flush_block_only(s, false);
+      if (s.strm.avail_out === 0) {
+        return BS_NEED_MORE;
+      }
+      /***/
+    }
+  }
+  s.insert = ((s.strstart < (MIN_MATCH - 1)) ? s.strstart : MIN_MATCH - 1);
+  if (flush === Z_FINISH) {
+    /*** FLUSH_BLOCK(s, 1); ***/
+    flush_block_only(s, true);
+    if (s.strm.avail_out === 0) {
+      return BS_FINISH_STARTED;
+    }
+    /***/
+    return BS_FINISH_DONE;
+  }
+  if (s.last_lit) {
+    /*** FLUSH_BLOCK(s, 0); ***/
+    flush_block_only(s, false);
+    if (s.strm.avail_out === 0) {
+      return BS_NEED_MORE;
+    }
+    /***/
+  }
+  return BS_BLOCK_DONE;
+}
+
+/* ===========================================================================
+ * Same as above, but achieves better compression. We use a lazy
+ * evaluation for matches: a match is finally adopted only if there is
+ * no better match at the next window position.
+ */
+function deflate_slow(s, flush) {
+  var hash_head;          /* head of hash chain */
+  var bflush;              /* set if current block must be flushed */
+
+  var max_insert;
+
+  /* Process the input block. */
+  for (;;) {
+    /* Make sure that we always have enough lookahead, except
+     * at the end of the input file. We need MAX_MATCH bytes
+     * for the next match, plus MIN_MATCH bytes to insert the
+     * string following the next match.
+     */
+    if (s.lookahead < MIN_LOOKAHEAD) {
+      fill_window(s);
+      if (s.lookahead < MIN_LOOKAHEAD && flush === Z_NO_FLUSH) {
+        return BS_NEED_MORE;
+      }
+      if (s.lookahead === 0) { break; } /* flush the current block */
+    }
+
+    /* Insert the string window[strstart .. strstart+2] in the
+     * dictionary, and set hash_head to the head of the hash chain:
+     */
+    hash_head = 0/*NIL*/;
+    if (s.lookahead >= MIN_MATCH) {
+      /*** INSERT_STRING(s, s.strstart, hash_head); ***/
+      s.ins_h = ((s.ins_h << s.hash_shift) ^ s.window[s.strstart + MIN_MATCH - 1]) & s.hash_mask;
+      hash_head = s.prev[s.strstart & s.w_mask] = s.head[s.ins_h];
+      s.head[s.ins_h] = s.strstart;
+      /***/
+    }
+
+    /* Find the longest match, discarding those <= prev_length.
+     */
+    s.prev_length = s.match_length;
+    s.prev_match = s.match_start;
+    s.match_length = MIN_MATCH - 1;
+
+    if (hash_head !== 0/*NIL*/ && s.prev_length < s.max_lazy_match &&
+        s.strstart - hash_head <= (s.w_size - MIN_LOOKAHEAD)/*MAX_DIST(s)*/) {
+      /* To simplify the code, we prevent matches with the string
+       * of window index 0 (in particular we have to avoid a match
+       * of the string with itself at the start of the input file).
+       */
+      s.match_length = longest_match(s, hash_head);
+      /* longest_match() sets match_start */
+
+      if (s.match_length <= 5 &&
+         (s.strategy === Z_FILTERED || (s.match_length === MIN_MATCH && s.strstart - s.match_start > 4096/*TOO_FAR*/))) {
+
+        /* If prev_match is also MIN_MATCH, match_start is garbage
+         * but we will ignore the current match anyway.
+         */
+        s.match_length = MIN_MATCH - 1;
+      }
+    }
+    /* If there was a match at the previous step and the current
+     * match is not better, output the previous match:
+     */
+    if (s.prev_length >= MIN_MATCH && s.match_length <= s.prev_length) {
+      max_insert = s.strstart + s.lookahead - MIN_MATCH;
+      /* Do not insert strings in hash table beyond this. */
+
+      //check_match(s, s.strstart-1, s.prev_match, s.prev_length);
+
+      /***_tr_tally_dist(s, s.strstart - 1 - s.prev_match,
+                     s.prev_length - MIN_MATCH, bflush);***/
+      bflush = trees._tr_tally(s, s.strstart - 1 - s.prev_match, s.prev_length - MIN_MATCH);
+      /* Insert in hash table all strings up to the end of the match.
+       * strstart-1 and strstart are already inserted. If there is not
+       * enough lookahead, the last two strings are not inserted in
+       * the hash table.
+       */
+      s.lookahead -= s.prev_length - 1;
+      s.prev_length -= 2;
+      do {
+        if (++s.strstart <= max_insert) {
+          /*** INSERT_STRING(s, s.strstart, hash_head); ***/
+          s.ins_h = ((s.ins_h << s.hash_shift) ^ s.window[s.strstart + MIN_MATCH - 1]) & s.hash_mask;
+          hash_head = s.prev[s.strstart & s.w_mask] = s.head[s.ins_h];
+          s.head[s.ins_h] = s.strstart;
+          /***/
+        }
+      } while (--s.prev_length !== 0);
+      s.match_available = 0;
+      s.match_length = MIN_MATCH - 1;
+      s.strstart++;
+
+      if (bflush) {
+        /*** FLUSH_BLOCK(s, 0); ***/
+        flush_block_only(s, false);
+        if (s.strm.avail_out === 0) {
+          return BS_NEED_MORE;
+        }
+        /***/
+      }
+
+    } else if (s.match_available) {
+      /* If there was no match at the previous position, output a
+       * single literal. If there was a match but the current match
+       * is longer, truncate the previous match to a single literal.
+       */
+      //Tracevv((stderr,"%c", s->window[s->strstart-1]));
+      /*** _tr_tally_lit(s, s.window[s.strstart-1], bflush); ***/
+      bflush = trees._tr_tally(s, 0, s.window[s.strstart - 1]);
+
+      if (bflush) {
+        /*** FLUSH_BLOCK_ONLY(s, 0) ***/
+        flush_block_only(s, false);
+        /***/
+      }
+      s.strstart++;
+      s.lookahead--;
+      if (s.strm.avail_out === 0) {
+        return BS_NEED_MORE;
+      }
+    } else {
+      /* There is no previous match to compare with, wait for
+       * the next step to decide.
+       */
+      s.match_available = 1;
+      s.strstart++;
+      s.lookahead--;
+    }
+  }
+  //Assert (flush != Z_NO_FLUSH, "no flush?");
+  if (s.match_available) {
+    //Tracevv((stderr,"%c", s->window[s->strstart-1]));
+    /*** _tr_tally_lit(s, s.window[s.strstart-1], bflush); ***/
+    bflush = trees._tr_tally(s, 0, s.window[s.strstart - 1]);
+
+    s.match_available = 0;
+  }
+  s.insert = s.strstart < MIN_MATCH - 1 ? s.strstart : MIN_MATCH - 1;
+  if (flush === Z_FINISH) {
+    /*** FLUSH_BLOCK(s, 1); ***/
+    flush_block_only(s, true);
+    if (s.strm.avail_out === 0) {
+      return BS_FINISH_STARTED;
+    }
+    /***/
+    return BS_FINISH_DONE;
+  }
+  if (s.last_lit) {
+    /*** FLUSH_BLOCK(s, 0); ***/
+    flush_block_only(s, false);
+    if (s.strm.avail_out === 0) {
+      return BS_NEED_MORE;
+    }
+    /***/
+  }
+
+  return BS_BLOCK_DONE;
+}
+
+
+/* ===========================================================================
+ * For Z_RLE, simply look for runs of bytes, generate matches only of distance
+ * one.  Do not maintain a hash table.  (It will be regenerated if this run of
+ * deflate switches away from Z_RLE.)
+ */
+function deflate_rle(s, flush) {
+  var bflush;            /* set if current block must be flushed */
+  var prev;              /* byte at distance one to match */
+  var scan, strend;      /* scan goes up to strend for length of run */
+
+  var _win = s.window;
+
+  for (;;) {
+    /* Make sure that we always have enough lookahead, except
+     * at the end of the input file. We need MAX_MATCH bytes
+     * for the longest run, plus one for the unrolled loop.
+     */
+    if (s.lookahead <= MAX_MATCH) {
+      fill_window(s);
+      if (s.lookahead <= MAX_MATCH && flush === Z_NO_FLUSH) {
+        return BS_NEED_MORE;
+      }
+      if (s.lookahead === 0) { break; } /* flush the current block */
+    }
+
+    /* See how many times the previous byte repeats */
+    s.match_length = 0;
+    if (s.lookahead >= MIN_MATCH && s.strstart > 0) {
+      scan = s.strstart - 1;
+      prev = _win[scan];
+      if (prev === _win[++scan] && prev === _win[++scan] && prev === _win[++scan]) {
+        strend = s.strstart + MAX_MATCH;
+        do {
+          /*jshint noempty:false*/
+        } while (prev === _win[++scan] && prev === _win[++scan] &&
+                 prev === _win[++scan] && prev === _win[++scan] &&
+                 prev === _win[++scan] && prev === _win[++scan] &&
+                 prev === _win[++scan] && prev === _win[++scan] &&
+                 scan < strend);
+        s.match_length = MAX_MATCH - (strend - scan);
+        if (s.match_length > s.lookahead) {
+          s.match_length = s.lookahead;
+        }
+      }
+      //Assert(scan <= s->window+(uInt)(s->window_size-1), "wild scan");
+    }
+
+    /* Emit match if have run of MIN_MATCH or longer, else emit literal */
+    if (s.match_length >= MIN_MATCH) {
+      //check_match(s, s.strstart, s.strstart - 1, s.match_length);
+
+      /*** _tr_tally_dist(s, 1, s.match_length - MIN_MATCH, bflush); ***/
+      bflush = trees._tr_tally(s, 1, s.match_length - MIN_MATCH);
+
+      s.lookahead -= s.match_length;
+      s.strstart += s.match_length;
+      s.match_length = 0;
+    } else {
+      /* No match, output a literal byte */
+      //Tracevv((stderr,"%c", s->window[s->strstart]));
+      /*** _tr_tally_lit(s, s.window[s.strstart], bflush); ***/
+      bflush = trees._tr_tally(s, 0, s.window[s.strstart]);
+
+      s.lookahead--;
+      s.strstart++;
+    }
+    if (bflush) {
+      /*** FLUSH_BLOCK(s, 0); ***/
+      flush_block_only(s, false);
+      if (s.strm.avail_out === 0) {
+        return BS_NEED_MORE;
+      }
+      /***/
+    }
+  }
+  s.insert = 0;
+  if (flush === Z_FINISH) {
+    /*** FLUSH_BLOCK(s, 1); ***/
+    flush_block_only(s, true);
+    if (s.strm.avail_out === 0) {
+      return BS_FINISH_STARTED;
+    }
+    /***/
+    return BS_FINISH_DONE;
+  }
+  if (s.last_lit) {
+    /*** FLUSH_BLOCK(s, 0); ***/
+    flush_block_only(s, false);
+    if (s.strm.avail_out === 0) {
+      return BS_NEED_MORE;
+    }
+    /***/
+  }
+  return BS_BLOCK_DONE;
+}
+
+/* ===========================================================================
+ * For Z_HUFFMAN_ONLY, do not look for matches.  Do not maintain a hash table.
+ * (It will be regenerated if this run of deflate switches away from Huffman.)
+ */
+function deflate_huff(s, flush) {
+  var bflush;             /* set if current block must be flushed */
+
+  for (;;) {
+    /* Make sure that we have a literal to write. */
+    if (s.lookahead === 0) {
+      fill_window(s);
+      if (s.lookahead === 0) {
+        if (flush === Z_NO_FLUSH) {
+          return BS_NEED_MORE;
+        }
+        break;      /* flush the current block */
+      }
+    }
+
+    /* Output a literal byte */
+    s.match_length = 0;
+    //Tracevv((stderr,"%c", s->window[s->strstart]));
+    /*** _tr_tally_lit(s, s.window[s.strstart], bflush); ***/
+    bflush = trees._tr_tally(s, 0, s.window[s.strstart]);
+    s.lookahead--;
+    s.strstart++;
+    if (bflush) {
+      /*** FLUSH_BLOCK(s, 0); ***/
+      flush_block_only(s, false);
+      if (s.strm.avail_out === 0) {
+        return BS_NEED_MORE;
+      }
+      /***/
+    }
+  }
+  s.insert = 0;
+  if (flush === Z_FINISH) {
+    /*** FLUSH_BLOCK(s, 1); ***/
+    flush_block_only(s, true);
+    if (s.strm.avail_out === 0) {
+      return BS_FINISH_STARTED;
+    }
+    /***/
+    return BS_FINISH_DONE;
+  }
+  if (s.last_lit) {
+    /*** FLUSH_BLOCK(s, 0); ***/
+    flush_block_only(s, false);
+    if (s.strm.avail_out === 0) {
+      return BS_NEED_MORE;
+    }
+    /***/
+  }
+  return BS_BLOCK_DONE;
+}
+
+/* Values for max_lazy_match, good_match and max_chain_length, depending on
+ * the desired pack level (0..9). The values given below have been tuned to
+ * exclude worst case performance for pathological files. Better values may be
+ * found for specific files.
+ */
+function Config(good_length, max_lazy, nice_length, max_chain, func) {
+  this.good_length = good_length;
+  this.max_lazy = max_lazy;
+  this.nice_length = nice_length;
+  this.max_chain = max_chain;
+  this.func = func;
+}
+
+var configuration_table;
+
+configuration_table = [
+  /*      good lazy nice chain */
+  new Config(0, 0, 0, 0, deflate_stored),          /* 0 store only */
+  new Config(4, 4, 8, 4, deflate_fast),            /* 1 max speed, no lazy matches */
+  new Config(4, 5, 16, 8, deflate_fast),           /* 2 */
+  new Config(4, 6, 32, 32, deflate_fast),          /* 3 */
+
+  new Config(4, 4, 16, 16, deflate_slow),          /* 4 lazy matches */
+  new Config(8, 16, 32, 32, deflate_slow),         /* 5 */
+  new Config(8, 16, 128, 128, deflate_slow),       /* 6 */
+  new Config(8, 32, 128, 256, deflate_slow),       /* 7 */
+  new Config(32, 128, 258, 1024, deflate_slow),    /* 8 */
+  new Config(32, 258, 258, 4096, deflate_slow)     /* 9 max compression */
+];
+
+
+/* ===========================================================================
+ * Initialize the "longest match" routines for a new zlib stream
+ */
+function lm_init(s) {
+  s.window_size = 2 * s.w_size;
+
+  /*** CLEAR_HASH(s); ***/
+  zero(s.head); // Fill with NIL (= 0);
+
+  /* Set the default configuration parameters:
+   */
+  s.max_lazy_match = configuration_table[s.level].max_lazy;
+  s.good_match = configuration_table[s.level].good_length;
+  s.nice_match = configuration_table[s.level].nice_length;
+  s.max_chain_length = configuration_table[s.level].max_chain;
+
+  s.strstart = 0;
+  s.block_start = 0;
+  s.lookahead = 0;
+  s.insert = 0;
+  s.match_length = s.prev_length = MIN_MATCH - 1;
+  s.match_available = 0;
+  s.ins_h = 0;
+}
+
+
+function DeflateState() {
+  this.strm = null;            /* pointer back to this zlib stream */
+  this.status = 0;            /* as the name implies */
+  this.pending_buf = null;      /* output still pending */
+  this.pending_buf_size = 0;  /* size of pending_buf */
+  this.pending_out = 0;       /* next pending byte to output to the stream */
+  this.pending = 0;           /* nb of bytes in the pending buffer */
+  this.wrap = 0;              /* bit 0 true for zlib, bit 1 true for gzip */
+  this.gzhead = null;         /* gzip header information to write */
+  this.gzindex = 0;           /* where in extra, name, or comment */
+  this.method = Z_DEFLATED; /* can only be DEFLATED */
+  this.last_flush = -1;   /* value of flush param for previous deflate call */
+
+  this.w_size = 0;  /* LZ77 window size (32K by default) */
+  this.w_bits = 0;  /* log2(w_size)  (8..16) */
+  this.w_mask = 0;  /* w_size - 1 */
+
+  this.window = null;
+  /* Sliding window. Input bytes are read into the second half of the window,
+   * and move to the first half later to keep a dictionary of at least wSize
+   * bytes. With this organization, matches are limited to a distance of
+   * wSize-MAX_MATCH bytes, but this ensures that IO is always
+   * performed with a length multiple of the block size.
+   */
+
+  this.window_size = 0;
+  /* Actual size of window: 2*wSize, except when the user input buffer
+   * is directly used as sliding window.
+   */
+
+  this.prev = null;
+  /* Link to older string with same hash index. To limit the size of this
+   * array to 64K, this link is maintained only for the last 32K strings.
+   * An index in this array is thus a window index modulo 32K.
+   */
+
+  this.head = null;   /* Heads of the hash chains or NIL. */
+
+  this.ins_h = 0;       /* hash index of string to be inserted */
+  this.hash_size = 0;   /* number of elements in hash table */
+  this.hash_bits = 0;   /* log2(hash_size) */
+  this.hash_mask = 0;   /* hash_size-1 */
+
+  this.hash_shift = 0;
+  /* Number of bits by which ins_h must be shifted at each input
+   * step. It must be such that after MIN_MATCH steps, the oldest
+   * byte no longer takes part in the hash key, that is:
+   *   hash_shift * MIN_MATCH >= hash_bits
+   */
+
+  this.block_start = 0;
+  /* Window position at the beginning of the current output block. Gets
+   * negative when the window is moved backwards.
+   */
+
+  this.match_length = 0;      /* length of best match */
+  this.prev_match = 0;        /* previous match */
+  this.match_available = 0;   /* set if previous match exists */
+  this.strstart = 0;          /* start of string to insert */
+  this.match_start = 0;       /* start of matching string */
+  this.lookahead = 0;         /* number of valid bytes ahead in window */
+
+  this.prev_length = 0;
+  /* Length of the best match at previous step. Matches not greater than this
+   * are discarded. This is used in the lazy match evaluation.
+   */
+
+  this.max_chain_length = 0;
+  /* To speed up deflation, hash chains are never searched beyond this
+   * length.  A higher limit improves compression ratio but degrades the
+   * speed.
+   */
+
+  this.max_lazy_match = 0;
+  /* Attempt to find a better match only when the current match is strictly
+   * smaller than this value. This mechanism is used only for compression
+   * levels >= 4.
+   */
+  // That's alias to max_lazy_match, don't use directly
+  //this.max_insert_length = 0;
+  /* Insert new strings in the hash table only if the match length is not
+   * greater than this length. This saves time but degrades compression.
+   * max_insert_length is used only for compression levels <= 3.
+   */
+
+  this.level = 0;     /* compression level (1..9) */
+  this.strategy = 0;  /* favor or force Huffman coding*/
+
+  this.good_match = 0;
+  /* Use a faster search when the previous match is longer than this */
+
+  this.nice_match = 0; /* Stop searching when current match exceeds this */
+
+              /* used by trees.c: */
+
+  /* Didn't use ct_data typedef below to suppress compiler warning */
+
+  // struct ct_data_s dyn_ltree[HEAP_SIZE];   /* literal and length tree */
+  // struct ct_data_s dyn_dtree[2*D_CODES+1]; /* distance tree */
+  // struct ct_data_s bl_tree[2*BL_CODES+1];  /* Huffman tree for bit lengths */
+
+  // Use flat array of DOUBLE size, with interleaved fata,
+  // because JS does not support effective
+  this.dyn_ltree  = new utils.Buf16(HEAP_SIZE * 2);
+  this.dyn_dtree  = new utils.Buf16((2 * D_CODES + 1) * 2);
+  this.bl_tree    = new utils.Buf16((2 * BL_CODES + 1) * 2);
+  zero(this.dyn_ltree);
+  zero(this.dyn_dtree);
+  zero(this.bl_tree);
+
+  this.l_desc   = null;         /* desc. for literal tree */
+  this.d_desc   = null;         /* desc. for distance tree */
+  this.bl_desc  = null;         /* desc. for bit length tree */
+
+  //ush bl_count[MAX_BITS+1];
+  this.bl_count = new utils.Buf16(MAX_BITS + 1);
+  /* number of codes at each bit length for an optimal tree */
+
+  //int heap[2*L_CODES+1];      /* heap used to build the Huffman trees */
+  this.heap = new utils.Buf16(2 * L_CODES + 1);  /* heap used to build the Huffman trees */
+  zero(this.heap);
+
+  this.heap_len = 0;               /* number of elements in the heap */
+  this.heap_max = 0;               /* element of largest frequency */
+  /* The sons of heap[n] are heap[2*n] and heap[2*n+1]. heap[0] is not used.
+   * The same heap array is used to build all trees.
+   */
+
+  this.depth = new utils.Buf16(2 * L_CODES + 1); //uch depth[2*L_CODES+1];
+  zero(this.depth);
+  /* Depth of each subtree used as tie breaker for trees of equal frequency
+   */
+
+  this.l_buf = 0;          /* buffer index for literals or lengths */
+
+  this.lit_bufsize = 0;
+  /* Size of match buffer for literals/lengths.  There are 4 reasons for
+   * limiting lit_bufsize to 64K:
+   *   - frequencies can be kept in 16 bit counters
+   *   - if compression is not successful for the first block, all input
+   *     data is still in the window so we can still emit a stored block even
+   *     when input comes from standard input.  (This can also be done for
+   *     all blocks if lit_bufsize is not greater than 32K.)
+   *   - if compression is not successful for a file smaller than 64K, we can
+   *     even emit a stored file instead of a stored block (saving 5 bytes).
+   *     This is applicable only for zip (not gzip or zlib).
+   *   - creating new Huffman trees less frequently may not provide fast
+   *     adaptation to changes in the input data statistics. (Take for
+   *     example a binary file with poorly compressible code followed by
+   *     a highly compressible string table.) Smaller buffer sizes give
+   *     fast adaptation but have of course the overhead of transmitting
+   *     trees more frequently.
+   *   - I can't count above 4
+   */
+
+  this.last_lit = 0;      /* running index in l_buf */
+
+  this.d_buf = 0;
+  /* Buffer index for distances. To simplify the code, d_buf and l_buf have
+   * the same number of elements. To use different lengths, an extra flag
+   * array would be necessary.
+   */
+
+  this.opt_len = 0;       /* bit length of current block with optimal trees */
+  this.static_len = 0;    /* bit length of current block with static trees */
+  this.matches = 0;       /* number of string matches in current block */
+  this.insert = 0;        /* bytes at end of window left to insert */
+
+
+  this.bi_buf = 0;
+  /* Output buffer. bits are inserted starting at the bottom (least
+   * significant bits).
+   */
+  this.bi_valid = 0;
+  /* Number of valid bits in bi_buf.  All bits above the last valid bit
+   * are always zero.
+   */
+
+  // Used for window memory init. We safely ignore it for JS. That makes
+  // sense only for pointers and memory check tools.
+  //this.high_water = 0;
+  /* High water mark offset in window for initialized bytes -- bytes above
+   * this are set to zero in order to avoid memory check warnings when
+   * longest match routines access bytes past the input.  This is then
+   * updated to the new high water mark.
+   */
+}
+
+
+function deflateResetKeep(strm) {
+  var s;
+
+  if (!strm || !strm.state) {
+    return err(strm, Z_STREAM_ERROR);
+  }
+
+  strm.total_in = strm.total_out = 0;
+  strm.data_type = Z_UNKNOWN;
+
+  s = strm.state;
+  s.pending = 0;
+  s.pending_out = 0;
+
+  if (s.wrap < 0) {
+    s.wrap = -s.wrap;
+    /* was made negative by deflate(..., Z_FINISH); */
+  }
+  s.status = (s.wrap ? INIT_STATE : BUSY_STATE);
+  strm.adler = (s.wrap === 2) ?
+    0  // crc32(0, Z_NULL, 0)
+  :
+    1; // adler32(0, Z_NULL, 0)
+  s.last_flush = Z_NO_FLUSH;
+  trees._tr_init(s);
+  return Z_OK;
+}
+
+
+function deflateReset(strm) {
+  var ret = deflateResetKeep(strm);
+  if (ret === Z_OK) {
+    lm_init(strm.state);
+  }
+  return ret;
+}
+
+
+function deflateSetHeader(strm, head) {
+  if (!strm || !strm.state) { return Z_STREAM_ERROR; }
+  if (strm.state.wrap !== 2) { return Z_STREAM_ERROR; }
+  strm.state.gzhead = head;
+  return Z_OK;
+}
+
+
+function deflateInit2(strm, level, method, windowBits, memLevel, strategy) {
+  if (!strm) { // === Z_NULL
+    return Z_STREAM_ERROR;
+  }
+  var wrap = 1;
+
+  if (level === Z_DEFAULT_COMPRESSION) {
+    level = 6;
+  }
+
+  if (windowBits < 0) { /* suppress zlib wrapper */
+    wrap = 0;
+    windowBits = -windowBits;
+  }
+
+  else if (windowBits > 15) {
+    wrap = 2;           /* write gzip wrapper instead */
+    windowBits -= 16;
+  }
+
+
+  if (memLevel < 1 || memLevel > MAX_MEM_LEVEL || method !== Z_DEFLATED ||
+    windowBits < 8 || windowBits > 15 || level < 0 || level > 9 ||
+    strategy < 0 || strategy > Z_FIXED) {
+    return err(strm, Z_STREAM_ERROR);
+  }
+
+
+  if (windowBits === 8) {
+    windowBits = 9;
+  }
+  /* until 256-byte window bug fixed */
+
+  var s = new DeflateState();
+
+  strm.state = s;
+  s.strm = strm;
+
+  s.wrap = wrap;
+  s.gzhead = null;
+  s.w_bits = windowBits;
+  s.w_size = 1 << s.w_bits;
+  s.w_mask = s.w_size - 1;
+
+  s.hash_bits = memLevel + 7;
+  s.hash_size = 1 << s.hash_bits;
+  s.hash_mask = s.hash_size - 1;
+  s.hash_shift = ~~((s.hash_bits + MIN_MATCH - 1) / MIN_MATCH);
+
+  s.window = new utils.Buf8(s.w_size * 2);
+  s.head = new utils.Buf16(s.hash_size);
+  s.prev = new utils.Buf16(s.w_size);
+
+  // Don't need mem init magic for JS.
+  //s.high_water = 0;  /* nothing written to s->window yet */
+
+  s.lit_bufsize = 1 << (memLevel + 6); /* 16K elements by default */
+
+  s.pending_buf_size = s.lit_bufsize * 4;
+
+  //overlay = (ushf *) ZALLOC(strm, s->lit_bufsize, sizeof(ush)+2);
+  //s->pending_buf = (uchf *) overlay;
+  s.pending_buf = new utils.Buf8(s.pending_buf_size);
+
+  // It is offset from `s.pending_buf` (size is `s.lit_bufsize * 2`)
+  //s->d_buf = overlay + s->lit_bufsize/sizeof(ush);
+  s.d_buf = 1 * s.lit_bufsize;
+
+  //s->l_buf = s->pending_buf + (1+sizeof(ush))*s->lit_bufsize;
+  s.l_buf = (1 + 2) * s.lit_bufsize;
+
+  s.level = level;
+  s.strategy = strategy;
+  s.method = method;
+
+  return deflateReset(strm);
+}
+
+function deflateInit(strm, level) {
+  return deflateInit2(strm, level, Z_DEFLATED, MAX_WBITS, DEF_MEM_LEVEL, Z_DEFAULT_STRATEGY);
+}
+
+
+function deflate(strm, flush) {
+  var old_flush, s;
+  var beg, val; // for gzip header write only
+
+  if (!strm || !strm.state ||
+    flush > Z_BLOCK || flush < 0) {
+    return strm ? err(strm, Z_STREAM_ERROR) : Z_STREAM_ERROR;
+  }
+
+  s = strm.state;
+
+  if (!strm.output ||
+      (!strm.input && strm.avail_in !== 0) ||
+      (s.status === FINISH_STATE && flush !== Z_FINISH)) {
+    return err(strm, (strm.avail_out === 0) ? Z_BUF_ERROR : Z_STREAM_ERROR);
+  }
+
+  s.strm = strm; /* just in case */
+  old_flush = s.last_flush;
+  s.last_flush = flush;
+
+  /* Write the header */
+  if (s.status === INIT_STATE) {
+
+    if (s.wrap === 2) { // GZIP header
+      strm.adler = 0;  //crc32(0L, Z_NULL, 0);
+      put_byte(s, 31);
+      put_byte(s, 139);
+      put_byte(s, 8);
+      if (!s.gzhead) { // s->gzhead == Z_NULL
+        put_byte(s, 0);
+        put_byte(s, 0);
+        put_byte(s, 0);
+        put_byte(s, 0);
+        put_byte(s, 0);
+        put_byte(s, s.level === 9 ? 2 :
+                    (s.strategy >= Z_HUFFMAN_ONLY || s.level < 2 ?
+                     4 : 0));
+        put_byte(s, OS_CODE);
+        s.status = BUSY_STATE;
+      }
+      else {
+        put_byte(s, (s.gzhead.text ? 1 : 0) +
+                    (s.gzhead.hcrc ? 2 : 0) +
+                    (!s.gzhead.extra ? 0 : 4) +
+                    (!s.gzhead.name ? 0 : 8) +
+                    (!s.gzhead.comment ? 0 : 16)
+        );
+        put_byte(s, s.gzhead.time & 0xff);
+        put_byte(s, (s.gzhead.time >> 8) & 0xff);
+        put_byte(s, (s.gzhead.time >> 16) & 0xff);
+        put_byte(s, (s.gzhead.time >> 24) & 0xff);
+        put_byte(s, s.level === 9 ? 2 :
+                    (s.strategy >= Z_HUFFMAN_ONLY || s.level < 2 ?
+                     4 : 0));
+        put_byte(s, s.gzhead.os & 0xff);
+        if (s.gzhead.extra && s.gzhead.extra.length) {
+          put_byte(s, s.gzhead.extra.length & 0xff);
+          put_byte(s, (s.gzhead.extra.length >> 8) & 0xff);
+        }
+        if (s.gzhead.hcrc) {
+          strm.adler = crc32(strm.adler, s.pending_buf, s.pending, 0);
+        }
+        s.gzindex = 0;
+        s.status = EXTRA_STATE;
+      }
+    }
+    else // DEFLATE header
+    {
+      var header = (Z_DEFLATED + ((s.w_bits - 8) << 4)) << 8;
+      var level_flags = -1;
+
+      if (s.strategy >= Z_HUFFMAN_ONLY || s.level < 2) {
+        level_flags = 0;
+      } else if (s.level < 6) {
+        level_flags = 1;
+      } else if (s.level === 6) {
+        level_flags = 2;
+      } else {
+        level_flags = 3;
+      }
+      header |= (level_flags << 6);
+      if (s.strstart !== 0) { header |= PRESET_DICT; }
+      header += 31 - (header % 31);
+
+      s.status = BUSY_STATE;
+      putShortMSB(s, header);
+
+      /* Save the adler32 of the preset dictionary: */
+      if (s.strstart !== 0) {
+        putShortMSB(s, strm.adler >>> 16);
+        putShortMSB(s, strm.adler & 0xffff);
+      }
+      strm.adler = 1; // adler32(0L, Z_NULL, 0);
+    }
+  }
+
+//#ifdef GZIP
+  if (s.status === EXTRA_STATE) {
+    if (s.gzhead.extra/* != Z_NULL*/) {
+      beg = s.pending;  /* start of bytes to update crc */
+
+      while (s.gzindex < (s.gzhead.extra.length & 0xffff)) {
+        if (s.pending === s.pending_buf_size) {
+          if (s.gzhead.hcrc && s.pending > beg) {
+            strm.adler = crc32(strm.adler, s.pending_buf, s.pending - beg, beg);
+          }
+          flush_pending(strm);
+          beg = s.pending;
+          if (s.pending === s.pending_buf_size) {
+            break;
+          }
+        }
+        put_byte(s, s.gzhead.extra[s.gzindex] & 0xff);
+        s.gzindex++;
+      }
+      if (s.gzhead.hcrc && s.pending > beg) {
+        strm.adler = crc32(strm.adler, s.pending_buf, s.pending - beg, beg);
+      }
+      if (s.gzindex === s.gzhead.extra.length) {
+        s.gzindex = 0;
+        s.status = NAME_STATE;
+      }
+    }
+    else {
+      s.status = NAME_STATE;
+    }
+  }
+  if (s.status === NAME_STATE) {
+    if (s.gzhead.name/* != Z_NULL*/) {
+      beg = s.pending;  /* start of bytes to update crc */
+      //int val;
+
+      do {
+        if (s.pending === s.pending_buf_size) {
+          if (s.gzhead.hcrc && s.pending > beg) {
+            strm.adler = crc32(strm.adler, s.pending_buf, s.pending - beg, beg);
+          }
+          flush_pending(strm);
+          beg = s.pending;
+          if (s.pending === s.pending_buf_size) {
+            val = 1;
+            break;
+          }
+        }
+        // JS specific: little magic to add zero terminator to end of string
+        if (s.gzindex < s.gzhead.name.length) {
+          val = s.gzhead.name.charCodeAt(s.gzindex++) & 0xff;
+        } else {
+          val = 0;
+        }
+        put_byte(s, val);
+      } while (val !== 0);
+
+      if (s.gzhead.hcrc && s.pending > beg) {
+        strm.adler = crc32(strm.adler, s.pending_buf, s.pending - beg, beg);
+      }
+      if (val === 0) {
+        s.gzindex = 0;
+        s.status = COMMENT_STATE;
+      }
+    }
+    else {
+      s.status = COMMENT_STATE;
+    }
+  }
+  if (s.status === COMMENT_STATE) {
+    if (s.gzhead.comment/* != Z_NULL*/) {
+      beg = s.pending;  /* start of bytes to update crc */
+      //int val;
+
+      do {
+        if (s.pending === s.pending_buf_size) {
+          if (s.gzhead.hcrc && s.pending > beg) {
+            strm.adler = crc32(strm.adler, s.pending_buf, s.pending - beg, beg);
+          }
+          flush_pending(strm);
+          beg = s.pending;
+          if (s.pending === s.pending_buf_size) {
+            val = 1;
+            break;
+          }
+        }
+        // JS specific: little magic to add zero terminator to end of string
+        if (s.gzindex < s.gzhead.comment.length) {
+          val = s.gzhead.comment.charCodeAt(s.gzindex++) & 0xff;
+        } else {
+          val = 0;
+        }
+        put_byte(s, val);
+      } while (val !== 0);
+
+      if (s.gzhead.hcrc && s.pending > beg) {
+        strm.adler = crc32(strm.adler, s.pending_buf, s.pending - beg, beg);
+      }
+      if (val === 0) {
+        s.status = HCRC_STATE;
+      }
+    }
+    else {
+      s.status = HCRC_STATE;
+    }
+  }
+  if (s.status === HCRC_STATE) {
+    if (s.gzhead.hcrc) {
+      if (s.pending + 2 > s.pending_buf_size) {
+        flush_pending(strm);
+      }
+      if (s.pending + 2 <= s.pending_buf_size) {
+        put_byte(s, strm.adler & 0xff);
+        put_byte(s, (strm.adler >> 8) & 0xff);
+        strm.adler = 0; //crc32(0L, Z_NULL, 0);
+        s.status = BUSY_STATE;
+      }
+    }
+    else {
+      s.status = BUSY_STATE;
+    }
+  }
+//#endif
+
+  /* Flush as much pending output as possible */
+  if (s.pending !== 0) {
+    flush_pending(strm);
+    if (strm.avail_out === 0) {
+      /* Since avail_out is 0, deflate will be called again with
+       * more output space, but possibly with both pending and
+       * avail_in equal to zero. There won't be anything to do,
+       * but this is not an error situation so make sure we
+       * return OK instead of BUF_ERROR at next call of deflate:
+       */
+      s.last_flush = -1;
+      return Z_OK;
+    }
+
+    /* Make sure there is something to do and avoid duplicate consecutive
+     * flushes. For repeated and useless calls with Z_FINISH, we keep
+     * returning Z_STREAM_END instead of Z_BUF_ERROR.
+     */
+  } else if (strm.avail_in === 0 && rank(flush) <= rank(old_flush) &&
+    flush !== Z_FINISH) {
+    return err(strm, Z_BUF_ERROR);
+  }
+
+  /* User must not provide more input after the first FINISH: */
+  if (s.status === FINISH_STATE && strm.avail_in !== 0) {
+    return err(strm, Z_BUF_ERROR);
+  }
+
+  /* Start a new block or continue the current one.
+   */
+  if (strm.avail_in !== 0 || s.lookahead !== 0 ||
+    (flush !== Z_NO_FLUSH && s.status !== FINISH_STATE)) {
+    var bstate = (s.strategy === Z_HUFFMAN_ONLY) ? deflate_huff(s, flush) :
+      (s.strategy === Z_RLE ? deflate_rle(s, flush) :
+        configuration_table[s.level].func(s, flush));
+
+    if (bstate === BS_FINISH_STARTED || bstate === BS_FINISH_DONE) {
+      s.status = FINISH_STATE;
+    }
+    if (bstate === BS_NEED_MORE || bstate === BS_FINISH_STARTED) {
+      if (strm.avail_out === 0) {
+        s.last_flush = -1;
+        /* avoid BUF_ERROR next call, see above */
+      }
+      return Z_OK;
+      /* If flush != Z_NO_FLUSH && avail_out == 0, the next call
+       * of deflate should use the same flush parameter to make sure
+       * that the flush is complete. So we don't have to output an
+       * empty block here, this will be done at next call. This also
+       * ensures that for a very small output buffer, we emit at most
+       * one empty block.
+       */
+    }
+    if (bstate === BS_BLOCK_DONE) {
+      if (flush === Z_PARTIAL_FLUSH) {
+        trees._tr_align(s);
+      }
+      else if (flush !== Z_BLOCK) { /* FULL_FLUSH or SYNC_FLUSH */
+
+        trees._tr_stored_block(s, 0, 0, false);
+        /* For a full flush, this empty block will be recognized
+         * as a special marker by inflate_sync().
+         */
+        if (flush === Z_FULL_FLUSH) {
+          /*** CLEAR_HASH(s); ***/             /* forget history */
+          zero(s.head); // Fill with NIL (= 0);
+
+          if (s.lookahead === 0) {
+            s.strstart = 0;
+            s.block_start = 0;
+            s.insert = 0;
+          }
+        }
+      }
+      flush_pending(strm);
+      if (strm.avail_out === 0) {
+        s.last_flush = -1; /* avoid BUF_ERROR at next call, see above */
+        return Z_OK;
+      }
+    }
+  }
+  //Assert(strm->avail_out > 0, "bug2");
+  //if (strm.avail_out <= 0) { throw new Error("bug2");}
+
+  if (flush !== Z_FINISH) { return Z_OK; }
+  if (s.wrap <= 0) { return Z_STREAM_END; }
+
+  /* Write the trailer */
+  if (s.wrap === 2) {
+    put_byte(s, strm.adler & 0xff);
+    put_byte(s, (strm.adler >> 8) & 0xff);
+    put_byte(s, (strm.adler >> 16) & 0xff);
+    put_byte(s, (strm.adler >> 24) & 0xff);
+    put_byte(s, strm.total_in & 0xff);
+    put_byte(s, (strm.total_in >> 8) & 0xff);
+    put_byte(s, (strm.total_in >> 16) & 0xff);
+    put_byte(s, (strm.total_in >> 24) & 0xff);
+  }
+  else
+  {
+    putShortMSB(s, strm.adler >>> 16);
+    putShortMSB(s, strm.adler & 0xffff);
+  }
+
+  flush_pending(strm);
+  /* If avail_out is zero, the application will call deflate again
+   * to flush the rest.
+   */
+  if (s.wrap > 0) { s.wrap = -s.wrap; }
+  /* write the trailer only once! */
+  return s.pending !== 0 ? Z_OK : Z_STREAM_END;
+}
+
+function deflateEnd(strm) {
+  var status;
+
+  if (!strm/*== Z_NULL*/ || !strm.state/*== Z_NULL*/) {
+    return Z_STREAM_ERROR;
+  }
+
+  status = strm.state.status;
+  if (status !== INIT_STATE &&
+    status !== EXTRA_STATE &&
+    status !== NAME_STATE &&
+    status !== COMMENT_STATE &&
+    status !== HCRC_STATE &&
+    status !== BUSY_STATE &&
+    status !== FINISH_STATE
+  ) {
+    return err(strm, Z_STREAM_ERROR);
+  }
+
+  strm.state = null;
+
+  return status === BUSY_STATE ? err(strm, Z_DATA_ERROR) : Z_OK;
+}
+
+
+/* =========================================================================
+ * Initializes the compression dictionary from the given byte
+ * sequence without producing any compressed output.
+ */
+function deflateSetDictionary(strm, dictionary) {
+  var dictLength = dictionary.length;
+
+  var s;
+  var str, n;
+  var wrap;
+  var avail;
+  var next;
+  var input;
+  var tmpDict;
+
+  if (!strm/*== Z_NULL*/ || !strm.state/*== Z_NULL*/) {
+    return Z_STREAM_ERROR;
+  }
+
+  s = strm.state;
+  wrap = s.wrap;
+
+  if (wrap === 2 || (wrap === 1 && s.status !== INIT_STATE) || s.lookahead) {
+    return Z_STREAM_ERROR;
+  }
+
+  /* when using zlib wrappers, compute Adler-32 for provided dictionary */
+  if (wrap === 1) {
+    /* adler32(strm->adler, dictionary, dictLength); */
+    strm.adler = adler32(strm.adler, dictionary, dictLength, 0);
+  }
+
+  s.wrap = 0;   /* avoid computing Adler-32 in read_buf */
+
+  /* if dictionary would fill window, just replace the history */
+  if (dictLength >= s.w_size) {
+    if (wrap === 0) {            /* already empty otherwise */
+      /*** CLEAR_HASH(s); ***/
+      zero(s.head); // Fill with NIL (= 0);
+      s.strstart = 0;
+      s.block_start = 0;
+      s.insert = 0;
+    }
+    /* use the tail */
+    // dictionary = dictionary.slice(dictLength - s.w_size);
+    tmpDict = new utils.Buf8(s.w_size);
+    utils.arraySet(tmpDict, dictionary, dictLength - s.w_size, s.w_size, 0);
+    dictionary = tmpDict;
+    dictLength = s.w_size;
+  }
+  /* insert dictionary into window and hash */
+  avail = strm.avail_in;
+  next = strm.next_in;
+  input = strm.input;
+  strm.avail_in = dictLength;
+  strm.next_in = 0;
+  strm.input = dictionary;
+  fill_window(s);
+  while (s.lookahead >= MIN_MATCH) {
+    str = s.strstart;
+    n = s.lookahead - (MIN_MATCH - 1);
+    do {
+      /* UPDATE_HASH(s, s->ins_h, s->window[str + MIN_MATCH-1]); */
+      s.ins_h = ((s.ins_h << s.hash_shift) ^ s.window[str + MIN_MATCH - 1]) & s.hash_mask;
+
+      s.prev[str & s.w_mask] = s.head[s.ins_h];
+
+      s.head[s.ins_h] = str;
+      str++;
+    } while (--n);
+    s.strstart = str;
+    s.lookahead = MIN_MATCH - 1;
+    fill_window(s);
+  }
+  s.strstart += s.lookahead;
+  s.block_start = s.strstart;
+  s.insert = s.lookahead;
+  s.lookahead = 0;
+  s.match_length = s.prev_length = MIN_MATCH - 1;
+  s.match_available = 0;
+  strm.next_in = next;
+  strm.input = input;
+  strm.avail_in = avail;
+  s.wrap = wrap;
+  return Z_OK;
+}
+
+
+exports.deflateInit = deflateInit;
+exports.deflateInit2 = deflateInit2;
+exports.deflateReset = deflateReset;
+exports.deflateResetKeep = deflateResetKeep;
+exports.deflateSetHeader = deflateSetHeader;
+exports.deflate = deflate;
+exports.deflateEnd = deflateEnd;
+exports.deflateSetDictionary = deflateSetDictionary;
+exports.deflateInfo = 'pako deflate (from Nodeca project)';
+
+/* Not implemented
+exports.deflateBound = deflateBound;
+exports.deflateCopy = deflateCopy;
+exports.deflateParams = deflateParams;
+exports.deflatePending = deflatePending;
+exports.deflatePrime = deflatePrime;
+exports.deflateTune = deflateTune;
 */
 
-!function(t){if(true)module.exports=t();else {}}(function(){return function s(a,o,h){function u(r,t){if(!o[r]){if(!a[r]){var e=undefined;if(!t&&e)return require(r,!0);if(l)return l(r,!0);var i=new Error("Cannot find module '"+r+"'");throw i.code="MODULE_NOT_FOUND",i}var n=o[r]={exports:{}};a[r][0].call(n.exports,function(t){var e=a[r][1][t];return u(e||t)},n,n.exports,s,a,o,h)}return o[r].exports}for(var l=undefined,t=0;t<h.length;t++)u(h[t]);return u}({1:[function(t,e,r){"use strict";var c=t("./utils"),d=t("./support"),p="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";r.encode=function(t){for(var e,r,i,n,s,a,o,h=[],u=0,l=t.length,f=l,d="string"!==c.getTypeOf(t);u<t.length;)f=l-u,i=d?(e=t[u++],r=u<l?t[u++]:0,u<l?t[u++]:0):(e=t.charCodeAt(u++),r=u<l?t.charCodeAt(u++):0,u<l?t.charCodeAt(u++):0),n=e>>2,s=(3&e)<<4|r>>4,a=1<f?(15&r)<<2|i>>6:64,o=2<f?63&i:64,h.push(p.charAt(n)+p.charAt(s)+p.charAt(a)+p.charAt(o));return h.join("")},r.decode=function(t){var e,r,i,n,s,a,o=0,h=0,u="data:";if(t.substr(0,u.length)===u)throw new Error("Invalid base64 input, it looks like a data url.");var l,f=3*(t=t.replace(/[^A-Za-z0-9\+\/\=]/g,"")).length/4;if(t.charAt(t.length-1)===p.charAt(64)&&f--,t.charAt(t.length-2)===p.charAt(64)&&f--,f%1!=0)throw new Error("Invalid base64 input, bad content length.");for(l=d.uint8array?new Uint8Array(0|f):new Array(0|f);o<t.length;)e=p.indexOf(t.charAt(o++))<<2|(n=p.indexOf(t.charAt(o++)))>>4,r=(15&n)<<4|(s=p.indexOf(t.charAt(o++)))>>2,i=(3&s)<<6|(a=p.indexOf(t.charAt(o++))),l[h++]=e,64!==s&&(l[h++]=r),64!==a&&(l[h++]=i);return l}},{"./support":30,"./utils":32}],2:[function(t,e,r){"use strict";var i=t("./external"),n=t("./stream/DataWorker"),s=t("./stream/DataLengthProbe"),a=t("./stream/Crc32Probe");s=t("./stream/DataLengthProbe");function o(t,e,r,i,n){this.compressedSize=t,this.uncompressedSize=e,this.crc32=r,this.compression=i,this.compressedContent=n}o.prototype={getContentWorker:function(){var t=new n(i.Promise.resolve(this.compressedContent)).pipe(this.compression.uncompressWorker()).pipe(new s("data_length")),e=this;return t.on("end",function(){if(this.streamInfo.data_length!==e.uncompressedSize)throw new Error("Bug : uncompressed data size mismatch")}),t},getCompressedWorker:function(){return new n(i.Promise.resolve(this.compressedContent)).withStreamInfo("compressedSize",this.compressedSize).withStreamInfo("uncompressedSize",this.uncompressedSize).withStreamInfo("crc32",this.crc32).withStreamInfo("compression",this.compression)}},o.createWorkerFrom=function(t,e,r){return t.pipe(new a).pipe(new s("uncompressedSize")).pipe(e.compressWorker(r)).pipe(new s("compressedSize")).withStreamInfo("compression",e)},e.exports=o},{"./external":6,"./stream/Crc32Probe":25,"./stream/DataLengthProbe":26,"./stream/DataWorker":27}],3:[function(t,e,r){"use strict";var i=t("./stream/GenericWorker");r.STORE={magic:"\0\0",compressWorker:function(t){return new i("STORE compression")},uncompressWorker:function(){return new i("STORE decompression")}},r.DEFLATE=t("./flate")},{"./flate":7,"./stream/GenericWorker":28}],4:[function(t,e,r){"use strict";var i=t("./utils");var o=function(){for(var t,e=[],r=0;r<256;r++){t=r;for(var i=0;i<8;i++)t=1&t?3988292384^t>>>1:t>>>1;e[r]=t}return e}();e.exports=function(t,e){return void 0!==t&&t.length?"string"!==i.getTypeOf(t)?function(t,e,r,i){var n=o,s=i+r;t^=-1;for(var a=i;a<s;a++)t=t>>>8^n[255&(t^e[a])];return-1^t}(0|e,t,t.length,0):function(t,e,r,i){var n=o,s=i+r;t^=-1;for(var a=i;a<s;a++)t=t>>>8^n[255&(t^e.charCodeAt(a))];return-1^t}(0|e,t,t.length,0):0}},{"./utils":32}],5:[function(t,e,r){"use strict";r.base64=!1,r.binary=!1,r.dir=!1,r.createFolders=!0,r.date=null,r.compression=null,r.compressionOptions=null,r.comment=null,r.unixPermissions=null,r.dosPermissions=null},{}],6:[function(t,e,r){"use strict";var i=null;i="undefined"!=typeof Promise?Promise:t("lie"),e.exports={Promise:i}},{lie:37}],7:[function(t,e,r){"use strict";var i="undefined"!=typeof Uint8Array&&"undefined"!=typeof Uint16Array&&"undefined"!=typeof Uint32Array,n=t("pako"),s=t("./utils"),a=t("./stream/GenericWorker"),o=i?"uint8array":"array";function h(t,e){a.call(this,"FlateWorker/"+t),this._pako=null,this._pakoAction=t,this._pakoOptions=e,this.meta={}}r.magic="\b\0",s.inherits(h,a),h.prototype.processChunk=function(t){this.meta=t.meta,null===this._pako&&this._createPako(),this._pako.push(s.transformTo(o,t.data),!1)},h.prototype.flush=function(){a.prototype.flush.call(this),null===this._pako&&this._createPako(),this._pako.push([],!0)},h.prototype.cleanUp=function(){a.prototype.cleanUp.call(this),this._pako=null},h.prototype._createPako=function(){this._pako=new n[this._pakoAction]({raw:!0,level:this._pakoOptions.level||-1});var e=this;this._pako.onData=function(t){e.push({data:t,meta:e.meta})}},r.compressWorker=function(t){return new h("Deflate",t)},r.uncompressWorker=function(){return new h("Inflate",{})}},{"./stream/GenericWorker":28,"./utils":32,pako:38}],8:[function(t,e,r){"use strict";function A(t,e){var r,i="";for(r=0;r<e;r++)i+=String.fromCharCode(255&t),t>>>=8;return i}function i(t,e,r,i,n,s){var a,o,h=t.file,u=t.compression,l=s!==O.utf8encode,f=I.transformTo("string",s(h.name)),d=I.transformTo("string",O.utf8encode(h.name)),c=h.comment,p=I.transformTo("string",s(c)),m=I.transformTo("string",O.utf8encode(c)),_=d.length!==h.name.length,g=m.length!==c.length,b="",v="",y="",w=h.dir,k=h.date,x={crc32:0,compressedSize:0,uncompressedSize:0};e&&!r||(x.crc32=t.crc32,x.compressedSize=t.compressedSize,x.uncompressedSize=t.uncompressedSize);var S=0;e&&(S|=8),l||!_&&!g||(S|=2048);var z=0,C=0;w&&(z|=16),"UNIX"===n?(C=798,z|=function(t,e){var r=t;return t||(r=e?16893:33204),(65535&r)<<16}(h.unixPermissions,w)):(C=20,z|=function(t){return 63&(t||0)}(h.dosPermissions)),a=k.getUTCHours(),a<<=6,a|=k.getUTCMinutes(),a<<=5,a|=k.getUTCSeconds()/2,o=k.getUTCFullYear()-1980,o<<=4,o|=k.getUTCMonth()+1,o<<=5,o|=k.getUTCDate(),_&&(v=A(1,1)+A(B(f),4)+d,b+="up"+A(v.length,2)+v),g&&(y=A(1,1)+A(B(p),4)+m,b+="uc"+A(y.length,2)+y);var E="";return E+="\n\0",E+=A(S,2),E+=u.magic,E+=A(a,2),E+=A(o,2),E+=A(x.crc32,4),E+=A(x.compressedSize,4),E+=A(x.uncompressedSize,4),E+=A(f.length,2),E+=A(b.length,2),{fileRecord:R.LOCAL_FILE_HEADER+E+f+b,dirRecord:R.CENTRAL_FILE_HEADER+A(C,2)+E+A(p.length,2)+"\0\0\0\0"+A(z,4)+A(i,4)+f+b+p}}var I=t("../utils"),n=t("../stream/GenericWorker"),O=t("../utf8"),B=t("../crc32"),R=t("../signature");function s(t,e,r,i){n.call(this,"ZipFileWorker"),this.bytesWritten=0,this.zipComment=e,this.zipPlatform=r,this.encodeFileName=i,this.streamFiles=t,this.accumulate=!1,this.contentBuffer=[],this.dirRecords=[],this.currentSourceOffset=0,this.entriesCount=0,this.currentFile=null,this._sources=[]}I.inherits(s,n),s.prototype.push=function(t){var e=t.meta.percent||0,r=this.entriesCount,i=this._sources.length;this.accumulate?this.contentBuffer.push(t):(this.bytesWritten+=t.data.length,n.prototype.push.call(this,{data:t.data,meta:{currentFile:this.currentFile,percent:r?(e+100*(r-i-1))/r:100}}))},s.prototype.openedSource=function(t){this.currentSourceOffset=this.bytesWritten,this.currentFile=t.file.name;var e=this.streamFiles&&!t.file.dir;if(e){var r=i(t,e,!1,this.currentSourceOffset,this.zipPlatform,this.encodeFileName);this.push({data:r.fileRecord,meta:{percent:0}})}else this.accumulate=!0},s.prototype.closedSource=function(t){this.accumulate=!1;var e=this.streamFiles&&!t.file.dir,r=i(t,e,!0,this.currentSourceOffset,this.zipPlatform,this.encodeFileName);if(this.dirRecords.push(r.dirRecord),e)this.push({data:function(t){return R.DATA_DESCRIPTOR+A(t.crc32,4)+A(t.compressedSize,4)+A(t.uncompressedSize,4)}(t),meta:{percent:100}});else for(this.push({data:r.fileRecord,meta:{percent:0}});this.contentBuffer.length;)this.push(this.contentBuffer.shift());this.currentFile=null},s.prototype.flush=function(){for(var t=this.bytesWritten,e=0;e<this.dirRecords.length;e++)this.push({data:this.dirRecords[e],meta:{percent:100}});var r=this.bytesWritten-t,i=function(t,e,r,i,n){var s=I.transformTo("string",n(i));return R.CENTRAL_DIRECTORY_END+"\0\0\0\0"+A(t,2)+A(t,2)+A(e,4)+A(r,4)+A(s.length,2)+s}(this.dirRecords.length,r,t,this.zipComment,this.encodeFileName);this.push({data:i,meta:{percent:100}})},s.prototype.prepareNextSource=function(){this.previous=this._sources.shift(),this.openedSource(this.previous.streamInfo),this.isPaused?this.previous.pause():this.previous.resume()},s.prototype.registerPrevious=function(t){this._sources.push(t);var e=this;return t.on("data",function(t){e.processChunk(t)}),t.on("end",function(){e.closedSource(e.previous.streamInfo),e._sources.length?e.prepareNextSource():e.end()}),t.on("error",function(t){e.error(t)}),this},s.prototype.resume=function(){return!!n.prototype.resume.call(this)&&(!this.previous&&this._sources.length?(this.prepareNextSource(),!0):this.previous||this._sources.length||this.generatedError?void 0:(this.end(),!0))},s.prototype.error=function(t){var e=this._sources;if(!n.prototype.error.call(this,t))return!1;for(var r=0;r<e.length;r++)try{e[r].error(t)}catch(t){}return!0},s.prototype.lock=function(){n.prototype.lock.call(this);for(var t=this._sources,e=0;e<t.length;e++)t[e].lock()},e.exports=s},{"../crc32":4,"../signature":23,"../stream/GenericWorker":28,"../utf8":31,"../utils":32}],9:[function(t,e,r){"use strict";var u=t("../compressions"),i=t("./ZipFileWorker");r.generateWorker=function(t,a,e){var o=new i(a.streamFiles,e,a.platform,a.encodeFileName),h=0;try{t.forEach(function(t,e){h++;var r=function(t,e){var r=t||e,i=u[r];if(!i)throw new Error(r+" is not a valid compression method !");return i}(e.options.compression,a.compression),i=e.options.compressionOptions||a.compressionOptions||{},n=e.dir,s=e.date;e._compressWorker(r,i).withStreamInfo("file",{name:t,dir:n,date:s,comment:e.comment||"",unixPermissions:e.unixPermissions,dosPermissions:e.dosPermissions}).pipe(o)}),o.entriesCount=h}catch(t){o.error(t)}return o}},{"../compressions":3,"./ZipFileWorker":8}],10:[function(t,e,r){"use strict";function i(){if(!(this instanceof i))return new i;if(arguments.length)throw new Error("The constructor with parameters has been removed in JSZip 3.0, please check the upgrade guide.");this.files={},this.comment=null,this.root="",this.clone=function(){var t=new i;for(var e in this)"function"!=typeof this[e]&&(t[e]=this[e]);return t}}(i.prototype=t("./object")).loadAsync=t("./load"),i.support=t("./support"),i.defaults=t("./defaults"),i.version="3.5.0",i.loadAsync=function(t,e){return(new i).loadAsync(t,e)},i.external=t("./external"),e.exports=i},{"./defaults":5,"./external":6,"./load":11,"./object":15,"./support":30}],11:[function(t,e,r){"use strict";var i=t("./utils"),n=t("./external"),o=t("./utf8"),h=(i=t("./utils"),t("./zipEntries")),s=t("./stream/Crc32Probe"),u=t("./nodejsUtils");function l(i){return new n.Promise(function(t,e){var r=i.decompressed.getContentWorker().pipe(new s);r.on("error",function(t){e(t)}).on("end",function(){r.streamInfo.crc32!==i.decompressed.crc32?e(new Error("Corrupted zip : CRC32 mismatch")):t()}).resume()})}e.exports=function(t,s){var a=this;return s=i.extend(s||{},{base64:!1,checkCRC32:!1,optimizedBinaryString:!1,createFolders:!1,decodeFileName:o.utf8decode}),u.isNode&&u.isStream(t)?n.Promise.reject(new Error("JSZip can't accept a stream when loading a zip file.")):i.prepareContent("the loaded zip file",t,!0,s.optimizedBinaryString,s.base64).then(function(t){var e=new h(s);return e.load(t),e}).then(function(t){var e=[n.Promise.resolve(t)],r=t.files;if(s.checkCRC32)for(var i=0;i<r.length;i++)e.push(l(r[i]));return n.Promise.all(e)}).then(function(t){for(var e=t.shift(),r=e.files,i=0;i<r.length;i++){var n=r[i];a.file(n.fileNameStr,n.decompressed,{binary:!0,optimizedBinaryString:!0,date:n.date,dir:n.dir,comment:n.fileCommentStr.length?n.fileCommentStr:null,unixPermissions:n.unixPermissions,dosPermissions:n.dosPermissions,createFolders:s.createFolders})}return e.zipComment.length&&(a.comment=e.zipComment),a})}},{"./external":6,"./nodejsUtils":14,"./stream/Crc32Probe":25,"./utf8":31,"./utils":32,"./zipEntries":33}],12:[function(t,e,r){"use strict";var i=t("../utils"),n=t("../stream/GenericWorker");function s(t,e){n.call(this,"Nodejs stream input adapter for "+t),this._upstreamEnded=!1,this._bindStream(e)}i.inherits(s,n),s.prototype._bindStream=function(t){var e=this;(this._stream=t).pause(),t.on("data",function(t){e.push({data:t,meta:{percent:0}})}).on("error",function(t){e.isPaused?this.generatedError=t:e.error(t)}).on("end",function(){e.isPaused?e._upstreamEnded=!0:e.end()})},s.prototype.pause=function(){return!!n.prototype.pause.call(this)&&(this._stream.pause(),!0)},s.prototype.resume=function(){return!!n.prototype.resume.call(this)&&(this._upstreamEnded?this.end():this._stream.resume(),!0)},e.exports=s},{"../stream/GenericWorker":28,"../utils":32}],13:[function(t,e,r){"use strict";var n=t("readable-stream").Readable;function i(t,e,r){n.call(this,e),this._helper=t;var i=this;t.on("data",function(t,e){i.push(t)||i._helper.pause(),r&&r(e)}).on("error",function(t){i.emit("error",t)}).on("end",function(){i.push(null)})}t("../utils").inherits(i,n),i.prototype._read=function(){this._helper.resume()},e.exports=i},{"../utils":32,"readable-stream":16}],14:[function(t,e,r){"use strict";e.exports={isNode:"undefined"!=typeof Buffer,newBufferFrom:function(t,e){if(Buffer.from&&Buffer.from!==Uint8Array.from)return Buffer.from(t,e);if("number"==typeof t)throw new Error('The "data" argument must not be a number');return new Buffer(t,e)},allocBuffer:function(t){if(Buffer.alloc)return Buffer.alloc(t);var e=new Buffer(t);return e.fill(0),e},isBuffer:function(t){return Buffer.isBuffer(t)},isStream:function(t){return t&&"function"==typeof t.on&&"function"==typeof t.pause&&"function"==typeof t.resume}}},{}],15:[function(t,e,r){"use strict";function s(t,e,r){var i,n=u.getTypeOf(e),s=u.extend(r||{},f);s.date=s.date||new Date,null!==s.compression&&(s.compression=s.compression.toUpperCase()),"string"==typeof s.unixPermissions&&(s.unixPermissions=parseInt(s.unixPermissions,8)),s.unixPermissions&&16384&s.unixPermissions&&(s.dir=!0),s.dosPermissions&&16&s.dosPermissions&&(s.dir=!0),s.dir&&(t=g(t)),s.createFolders&&(i=_(t))&&b.call(this,i,!0);var a="string"===n&&!1===s.binary&&!1===s.base64;r&&void 0!==r.binary||(s.binary=!a),(e instanceof d&&0===e.uncompressedSize||s.dir||!e||0===e.length)&&(s.base64=!1,s.binary=!0,e="",s.compression="STORE",n="string");var o=null;o=e instanceof d||e instanceof l?e:p.isNode&&p.isStream(e)?new m(t,e):u.prepareContent(t,e,s.binary,s.optimizedBinaryString,s.base64);var h=new c(t,o,s);this.files[t]=h}var n=t("./utf8"),u=t("./utils"),l=t("./stream/GenericWorker"),a=t("./stream/StreamHelper"),f=t("./defaults"),d=t("./compressedObject"),c=t("./zipObject"),o=t("./generate"),p=t("./nodejsUtils"),m=t("./nodejs/NodejsStreamInputAdapter"),_=function(t){"/"===t.slice(-1)&&(t=t.substring(0,t.length-1));var e=t.lastIndexOf("/");return 0<e?t.substring(0,e):""},g=function(t){return"/"!==t.slice(-1)&&(t+="/"),t},b=function(t,e){return e=void 0!==e?e:f.createFolders,t=g(t),this.files[t]||s.call(this,t,null,{dir:!0,createFolders:e}),this.files[t]};function h(t){return"[object RegExp]"===Object.prototype.toString.call(t)}var i={load:function(){throw new Error("This method has been removed in JSZip 3.0, please check the upgrade guide.")},forEach:function(t){var e,r,i;for(e in this.files)this.files.hasOwnProperty(e)&&(i=this.files[e],(r=e.slice(this.root.length,e.length))&&e.slice(0,this.root.length)===this.root&&t(r,i))},filter:function(r){var i=[];return this.forEach(function(t,e){r(t,e)&&i.push(e)}),i},file:function(t,e,r){if(1!==arguments.length)return t=this.root+t,s.call(this,t,e,r),this;if(h(t)){var i=t;return this.filter(function(t,e){return!e.dir&&i.test(t)})}var n=this.files[this.root+t];return n&&!n.dir?n:null},folder:function(r){if(!r)return this;if(h(r))return this.filter(function(t,e){return e.dir&&r.test(t)});var t=this.root+r,e=b.call(this,t),i=this.clone();return i.root=e.name,i},remove:function(r){r=this.root+r;var t=this.files[r];if(t||("/"!==r.slice(-1)&&(r+="/"),t=this.files[r]),t&&!t.dir)delete this.files[r];else for(var e=this.filter(function(t,e){return e.name.slice(0,r.length)===r}),i=0;i<e.length;i++)delete this.files[e[i].name];return this},generate:function(t){throw new Error("This method has been removed in JSZip 3.0, please check the upgrade guide.")},generateInternalStream:function(t){var e,r={};try{if((r=u.extend(t||{},{streamFiles:!1,compression:"STORE",compressionOptions:null,type:"",platform:"DOS",comment:null,mimeType:"application/zip",encodeFileName:n.utf8encode})).type=r.type.toLowerCase(),r.compression=r.compression.toUpperCase(),"binarystring"===r.type&&(r.type="string"),!r.type)throw new Error("No output type specified.");u.checkSupport(r.type),"darwin"!==r.platform&&"freebsd"!==r.platform&&"linux"!==r.platform&&"sunos"!==r.platform||(r.platform="UNIX"),"win32"===r.platform&&(r.platform="DOS");var i=r.comment||this.comment||"";e=o.generateWorker(this,r,i)}catch(t){(e=new l("error")).error(t)}return new a(e,r.type||"string",r.mimeType)},generateAsync:function(t,e){return this.generateInternalStream(t).accumulate(e)},generateNodeStream:function(t,e){return(t=t||{}).type||(t.type="nodebuffer"),this.generateInternalStream(t).toNodejsStream(e)}};e.exports=i},{"./compressedObject":2,"./defaults":5,"./generate":9,"./nodejs/NodejsStreamInputAdapter":12,"./nodejsUtils":14,"./stream/GenericWorker":28,"./stream/StreamHelper":29,"./utf8":31,"./utils":32,"./zipObject":35}],16:[function(t,e,r){e.exports=t("stream")},{stream:void 0}],17:[function(t,e,r){"use strict";var i=t("./DataReader");function n(t){i.call(this,t);for(var e=0;e<this.data.length;e++)t[e]=255&t[e]}t("../utils").inherits(n,i),n.prototype.byteAt=function(t){return this.data[this.zero+t]},n.prototype.lastIndexOfSignature=function(t){for(var e=t.charCodeAt(0),r=t.charCodeAt(1),i=t.charCodeAt(2),n=t.charCodeAt(3),s=this.length-4;0<=s;--s)if(this.data[s]===e&&this.data[s+1]===r&&this.data[s+2]===i&&this.data[s+3]===n)return s-this.zero;return-1},n.prototype.readAndCheckSignature=function(t){var e=t.charCodeAt(0),r=t.charCodeAt(1),i=t.charCodeAt(2),n=t.charCodeAt(3),s=this.readData(4);return e===s[0]&&r===s[1]&&i===s[2]&&n===s[3]},n.prototype.readData=function(t){if(this.checkOffset(t),0===t)return[];var e=this.data.slice(this.zero+this.index,this.zero+this.index+t);return this.index+=t,e},e.exports=n},{"../utils":32,"./DataReader":18}],18:[function(t,e,r){"use strict";var i=t("../utils");function n(t){this.data=t,this.length=t.length,this.index=0,this.zero=0}n.prototype={checkOffset:function(t){this.checkIndex(this.index+t)},checkIndex:function(t){if(this.length<this.zero+t||t<0)throw new Error("End of data reached (data length = "+this.length+", asked index = "+t+"). Corrupted zip ?")},setIndex:function(t){this.checkIndex(t),this.index=t},skip:function(t){this.setIndex(this.index+t)},byteAt:function(t){},readInt:function(t){var e,r=0;for(this.checkOffset(t),e=this.index+t-1;e>=this.index;e--)r=(r<<8)+this.byteAt(e);return this.index+=t,r},readString:function(t){return i.transformTo("string",this.readData(t))},readData:function(t){},lastIndexOfSignature:function(t){},readAndCheckSignature:function(t){},readDate:function(){var t=this.readInt(4);return new Date(Date.UTC(1980+(t>>25&127),(t>>21&15)-1,t>>16&31,t>>11&31,t>>5&63,(31&t)<<1))}},e.exports=n},{"../utils":32}],19:[function(t,e,r){"use strict";var i=t("./Uint8ArrayReader");function n(t){i.call(this,t)}t("../utils").inherits(n,i),n.prototype.readData=function(t){this.checkOffset(t);var e=this.data.slice(this.zero+this.index,this.zero+this.index+t);return this.index+=t,e},e.exports=n},{"../utils":32,"./Uint8ArrayReader":21}],20:[function(t,e,r){"use strict";var i=t("./DataReader");function n(t){i.call(this,t)}t("../utils").inherits(n,i),n.prototype.byteAt=function(t){return this.data.charCodeAt(this.zero+t)},n.prototype.lastIndexOfSignature=function(t){return this.data.lastIndexOf(t)-this.zero},n.prototype.readAndCheckSignature=function(t){return t===this.readData(4)},n.prototype.readData=function(t){this.checkOffset(t);var e=this.data.slice(this.zero+this.index,this.zero+this.index+t);return this.index+=t,e},e.exports=n},{"../utils":32,"./DataReader":18}],21:[function(t,e,r){"use strict";var i=t("./ArrayReader");function n(t){i.call(this,t)}t("../utils").inherits(n,i),n.prototype.readData=function(t){if(this.checkOffset(t),0===t)return new Uint8Array(0);var e=this.data.subarray(this.zero+this.index,this.zero+this.index+t);return this.index+=t,e},e.exports=n},{"../utils":32,"./ArrayReader":17}],22:[function(t,e,r){"use strict";var i=t("../utils"),n=t("../support"),s=t("./ArrayReader"),a=t("./StringReader"),o=t("./NodeBufferReader"),h=t("./Uint8ArrayReader");e.exports=function(t){var e=i.getTypeOf(t);return i.checkSupport(e),"string"!==e||n.uint8array?"nodebuffer"===e?new o(t):n.uint8array?new h(i.transformTo("uint8array",t)):new s(i.transformTo("array",t)):new a(t)}},{"../support":30,"../utils":32,"./ArrayReader":17,"./NodeBufferReader":19,"./StringReader":20,"./Uint8ArrayReader":21}],23:[function(t,e,r){"use strict";r.LOCAL_FILE_HEADER="PK",r.CENTRAL_FILE_HEADER="PK",r.CENTRAL_DIRECTORY_END="PK",r.ZIP64_CENTRAL_DIRECTORY_LOCATOR="PK",r.ZIP64_CENTRAL_DIRECTORY_END="PK",r.DATA_DESCRIPTOR="PK\b"},{}],24:[function(t,e,r){"use strict";var i=t("./GenericWorker"),n=t("../utils");function s(t){i.call(this,"ConvertWorker to "+t),this.destType=t}n.inherits(s,i),s.prototype.processChunk=function(t){this.push({data:n.transformTo(this.destType,t.data),meta:t.meta})},e.exports=s},{"../utils":32,"./GenericWorker":28}],25:[function(t,e,r){"use strict";var i=t("./GenericWorker"),n=t("../crc32");function s(){i.call(this,"Crc32Probe"),this.withStreamInfo("crc32",0)}t("../utils").inherits(s,i),s.prototype.processChunk=function(t){this.streamInfo.crc32=n(t.data,this.streamInfo.crc32||0),this.push(t)},e.exports=s},{"../crc32":4,"../utils":32,"./GenericWorker":28}],26:[function(t,e,r){"use strict";var i=t("../utils"),n=t("./GenericWorker");function s(t){n.call(this,"DataLengthProbe for "+t),this.propName=t,this.withStreamInfo(t,0)}i.inherits(s,n),s.prototype.processChunk=function(t){if(t){var e=this.streamInfo[this.propName]||0;this.streamInfo[this.propName]=e+t.data.length}n.prototype.processChunk.call(this,t)},e.exports=s},{"../utils":32,"./GenericWorker":28}],27:[function(t,e,r){"use strict";var i=t("../utils"),n=t("./GenericWorker");function s(t){n.call(this,"DataWorker");var e=this;this.dataIsReady=!1,this.index=0,this.max=0,this.data=null,this.type="",this._tickScheduled=!1,t.then(function(t){e.dataIsReady=!0,e.data=t,e.max=t&&t.length||0,e.type=i.getTypeOf(t),e.isPaused||e._tickAndRepeat()},function(t){e.error(t)})}i.inherits(s,n),s.prototype.cleanUp=function(){n.prototype.cleanUp.call(this),this.data=null},s.prototype.resume=function(){return!!n.prototype.resume.call(this)&&(!this._tickScheduled&&this.dataIsReady&&(this._tickScheduled=!0,i.delay(this._tickAndRepeat,[],this)),!0)},s.prototype._tickAndRepeat=function(){this._tickScheduled=!1,this.isPaused||this.isFinished||(this._tick(),this.isFinished||(i.delay(this._tickAndRepeat,[],this),this._tickScheduled=!0))},s.prototype._tick=function(){if(this.isPaused||this.isFinished)return!1;var t=null,e=Math.min(this.max,this.index+16384);if(this.index>=this.max)return this.end();switch(this.type){case"string":t=this.data.substring(this.index,e);break;case"uint8array":t=this.data.subarray(this.index,e);break;case"array":case"nodebuffer":t=this.data.slice(this.index,e)}return this.index=e,this.push({data:t,meta:{percent:this.max?this.index/this.max*100:0}})},e.exports=s},{"../utils":32,"./GenericWorker":28}],28:[function(t,e,r){"use strict";function i(t){this.name=t||"default",this.streamInfo={},this.generatedError=null,this.extraStreamInfo={},this.isPaused=!0,this.isFinished=!1,this.isLocked=!1,this._listeners={data:[],end:[],error:[]},this.previous=null}i.prototype={push:function(t){this.emit("data",t)},end:function(){if(this.isFinished)return!1;this.flush();try{this.emit("end"),this.cleanUp(),this.isFinished=!0}catch(t){this.emit("error",t)}return!0},error:function(t){return!this.isFinished&&(this.isPaused?this.generatedError=t:(this.isFinished=!0,this.emit("error",t),this.previous&&this.previous.error(t),this.cleanUp()),!0)},on:function(t,e){return this._listeners[t].push(e),this},cleanUp:function(){this.streamInfo=this.generatedError=this.extraStreamInfo=null,this._listeners=[]},emit:function(t,e){if(this._listeners[t])for(var r=0;r<this._listeners[t].length;r++)this._listeners[t][r].call(this,e)},pipe:function(t){return t.registerPrevious(this)},registerPrevious:function(t){if(this.isLocked)throw new Error("The stream '"+this+"' has already been used.");this.streamInfo=t.streamInfo,this.mergeStreamInfo(),this.previous=t;var e=this;return t.on("data",function(t){e.processChunk(t)}),t.on("end",function(){e.end()}),t.on("error",function(t){e.error(t)}),this},pause:function(){return!this.isPaused&&!this.isFinished&&(this.isPaused=!0,this.previous&&this.previous.pause(),!0)},resume:function(){if(!this.isPaused||this.isFinished)return!1;var t=this.isPaused=!1;return this.generatedError&&(this.error(this.generatedError),t=!0),this.previous&&this.previous.resume(),!t},flush:function(){},processChunk:function(t){this.push(t)},withStreamInfo:function(t,e){return this.extraStreamInfo[t]=e,this.mergeStreamInfo(),this},mergeStreamInfo:function(){for(var t in this.extraStreamInfo)this.extraStreamInfo.hasOwnProperty(t)&&(this.streamInfo[t]=this.extraStreamInfo[t])},lock:function(){if(this.isLocked)throw new Error("The stream '"+this+"' has already been used.");this.isLocked=!0,this.previous&&this.previous.lock()},toString:function(){var t="Worker "+this.name;return this.previous?this.previous+" -> "+t:t}},e.exports=i},{}],29:[function(t,e,r){"use strict";var h=t("../utils"),n=t("./ConvertWorker"),s=t("./GenericWorker"),u=t("../base64"),i=t("../support"),a=t("../external"),o=null;if(i.nodestream)try{o=t("../nodejs/NodejsStreamOutputAdapter")}catch(t){}function l(t,o){return new a.Promise(function(e,r){var i=[],n=t._internalType,s=t._outputType,a=t._mimeType;t.on("data",function(t,e){i.push(t),o&&o(e)}).on("error",function(t){i=[],r(t)}).on("end",function(){try{var t=function(t,e,r){switch(t){case"blob":return h.newBlob(h.transformTo("arraybuffer",e),r);case"base64":return u.encode(e);default:return h.transformTo(t,e)}}(s,function(t,e){var r,i=0,n=null,s=0;for(r=0;r<e.length;r++)s+=e[r].length;switch(t){case"string":return e.join("");case"array":return Array.prototype.concat.apply([],e);case"uint8array":for(n=new Uint8Array(s),r=0;r<e.length;r++)n.set(e[r],i),i+=e[r].length;return n;case"nodebuffer":return Buffer.concat(e);default:throw new Error("concat : unsupported type '"+t+"'")}}(n,i),a);e(t)}catch(t){r(t)}i=[]}).resume()})}function f(t,e,r){var i=e;switch(e){case"blob":case"arraybuffer":i="uint8array";break;case"base64":i="string"}try{this._internalType=i,this._outputType=e,this._mimeType=r,h.checkSupport(i),this._worker=t.pipe(new n(i)),t.lock()}catch(t){this._worker=new s("error"),this._worker.error(t)}}f.prototype={accumulate:function(t){return l(this,t)},on:function(t,e){var r=this;return"data"===t?this._worker.on(t,function(t){e.call(r,t.data,t.meta)}):this._worker.on(t,function(){h.delay(e,arguments,r)}),this},resume:function(){return h.delay(this._worker.resume,[],this._worker),this},pause:function(){return this._worker.pause(),this},toNodejsStream:function(t){if(h.checkSupport("nodestream"),"nodebuffer"!==this._outputType)throw new Error(this._outputType+" is not supported by this method");return new o(this,{objectMode:"nodebuffer"!==this._outputType},t)}},e.exports=f},{"../base64":1,"../external":6,"../nodejs/NodejsStreamOutputAdapter":13,"../support":30,"../utils":32,"./ConvertWorker":24,"./GenericWorker":28}],30:[function(t,e,r){"use strict";if(r.base64=!0,r.array=!0,r.string=!0,r.arraybuffer="undefined"!=typeof ArrayBuffer&&"undefined"!=typeof Uint8Array,r.nodebuffer="undefined"!=typeof Buffer,r.uint8array="undefined"!=typeof Uint8Array,"undefined"==typeof ArrayBuffer)r.blob=!1;else{var i=new ArrayBuffer(0);try{r.blob=0===new Blob([i],{type:"application/zip"}).size}catch(t){try{var n=new(self.BlobBuilder||self.WebKitBlobBuilder||self.MozBlobBuilder||self.MSBlobBuilder);n.append(i),r.blob=0===n.getBlob("application/zip").size}catch(t){r.blob=!1}}}try{r.nodestream=!!t("readable-stream").Readable}catch(t){r.nodestream=!1}},{"readable-stream":16}],31:[function(t,e,s){"use strict";for(var o=t("./utils"),h=t("./support"),r=t("./nodejsUtils"),i=t("./stream/GenericWorker"),u=new Array(256),n=0;n<256;n++)u[n]=252<=n?6:248<=n?5:240<=n?4:224<=n?3:192<=n?2:1;u[254]=u[254]=1;function a(){i.call(this,"utf-8 decode"),this.leftOver=null}function l(){i.call(this,"utf-8 encode")}s.utf8encode=function(t){return h.nodebuffer?r.newBufferFrom(t,"utf-8"):function(t){var e,r,i,n,s,a=t.length,o=0;for(n=0;n<a;n++)55296==(64512&(r=t.charCodeAt(n)))&&n+1<a&&56320==(64512&(i=t.charCodeAt(n+1)))&&(r=65536+(r-55296<<10)+(i-56320),n++),o+=r<128?1:r<2048?2:r<65536?3:4;for(e=h.uint8array?new Uint8Array(o):new Array(o),n=s=0;s<o;n++)55296==(64512&(r=t.charCodeAt(n)))&&n+1<a&&56320==(64512&(i=t.charCodeAt(n+1)))&&(r=65536+(r-55296<<10)+(i-56320),n++),r<128?e[s++]=r:(r<2048?e[s++]=192|r>>>6:(r<65536?e[s++]=224|r>>>12:(e[s++]=240|r>>>18,e[s++]=128|r>>>12&63),e[s++]=128|r>>>6&63),e[s++]=128|63&r);return e}(t)},s.utf8decode=function(t){return h.nodebuffer?o.transformTo("nodebuffer",t).toString("utf-8"):function(t){var e,r,i,n,s=t.length,a=new Array(2*s);for(e=r=0;e<s;)if((i=t[e++])<128)a[r++]=i;else if(4<(n=u[i]))a[r++]=65533,e+=n-1;else{for(i&=2===n?31:3===n?15:7;1<n&&e<s;)i=i<<6|63&t[e++],n--;1<n?a[r++]=65533:i<65536?a[r++]=i:(i-=65536,a[r++]=55296|i>>10&1023,a[r++]=56320|1023&i)}return a.length!==r&&(a.subarray?a=a.subarray(0,r):a.length=r),o.applyFromCharCode(a)}(t=o.transformTo(h.uint8array?"uint8array":"array",t))},o.inherits(a,i),a.prototype.processChunk=function(t){var e=o.transformTo(h.uint8array?"uint8array":"array",t.data);if(this.leftOver&&this.leftOver.length){if(h.uint8array){var r=e;(e=new Uint8Array(r.length+this.leftOver.length)).set(this.leftOver,0),e.set(r,this.leftOver.length)}else e=this.leftOver.concat(e);this.leftOver=null}var i=function(t,e){var r;for((e=e||t.length)>t.length&&(e=t.length),r=e-1;0<=r&&128==(192&t[r]);)r--;return r<0?e:0===r?e:r+u[t[r]]>e?r:e}(e),n=e;i!==e.length&&(h.uint8array?(n=e.subarray(0,i),this.leftOver=e.subarray(i,e.length)):(n=e.slice(0,i),this.leftOver=e.slice(i,e.length))),this.push({data:s.utf8decode(n),meta:t.meta})},a.prototype.flush=function(){this.leftOver&&this.leftOver.length&&(this.push({data:s.utf8decode(this.leftOver),meta:{}}),this.leftOver=null)},s.Utf8DecodeWorker=a,o.inherits(l,i),l.prototype.processChunk=function(t){this.push({data:s.utf8encode(t.data),meta:t.meta})},s.Utf8EncodeWorker=l},{"./nodejsUtils":14,"./stream/GenericWorker":28,"./support":30,"./utils":32}],32:[function(t,e,a){"use strict";var o=t("./support"),h=t("./base64"),r=t("./nodejsUtils"),i=t("set-immediate-shim"),u=t("./external");function n(t){return t}function l(t,e){for(var r=0;r<t.length;++r)e[r]=255&t.charCodeAt(r);return e}a.newBlob=function(e,r){a.checkSupport("blob");try{return new Blob([e],{type:r})}catch(t){try{var i=new(self.BlobBuilder||self.WebKitBlobBuilder||self.MozBlobBuilder||self.MSBlobBuilder);return i.append(e),i.getBlob(r)}catch(t){throw new Error("Bug : can't construct the Blob.")}}};var s={stringifyByChunk:function(t,e,r){var i=[],n=0,s=t.length;if(s<=r)return String.fromCharCode.apply(null,t);for(;n<s;)"array"===e||"nodebuffer"===e?i.push(String.fromCharCode.apply(null,t.slice(n,Math.min(n+r,s)))):i.push(String.fromCharCode.apply(null,t.subarray(n,Math.min(n+r,s)))),n+=r;return i.join("")},stringifyByChar:function(t){for(var e="",r=0;r<t.length;r++)e+=String.fromCharCode(t[r]);return e},applyCanBeUsed:{uint8array:function(){try{return o.uint8array&&1===String.fromCharCode.apply(null,new Uint8Array(1)).length}catch(t){return!1}}(),nodebuffer:function(){try{return o.nodebuffer&&1===String.fromCharCode.apply(null,r.allocBuffer(1)).length}catch(t){return!1}}()}};function f(t){var e=65536,r=a.getTypeOf(t),i=!0;if("uint8array"===r?i=s.applyCanBeUsed.uint8array:"nodebuffer"===r&&(i=s.applyCanBeUsed.nodebuffer),i)for(;1<e;)try{return s.stringifyByChunk(t,r,e)}catch(t){e=Math.floor(e/2)}return s.stringifyByChar(t)}function d(t,e){for(var r=0;r<t.length;r++)e[r]=t[r];return e}a.applyFromCharCode=f;var c={};c.string={string:n,array:function(t){return l(t,new Array(t.length))},arraybuffer:function(t){return c.string.uint8array(t).buffer},uint8array:function(t){return l(t,new Uint8Array(t.length))},nodebuffer:function(t){return l(t,r.allocBuffer(t.length))}},c.array={string:f,array:n,arraybuffer:function(t){return new Uint8Array(t).buffer},uint8array:function(t){return new Uint8Array(t)},nodebuffer:function(t){return r.newBufferFrom(t)}},c.arraybuffer={string:function(t){return f(new Uint8Array(t))},array:function(t){return d(new Uint8Array(t),new Array(t.byteLength))},arraybuffer:n,uint8array:function(t){return new Uint8Array(t)},nodebuffer:function(t){return r.newBufferFrom(new Uint8Array(t))}},c.uint8array={string:f,array:function(t){return d(t,new Array(t.length))},arraybuffer:function(t){return t.buffer},uint8array:n,nodebuffer:function(t){return r.newBufferFrom(t)}},c.nodebuffer={string:f,array:function(t){return d(t,new Array(t.length))},arraybuffer:function(t){return c.nodebuffer.uint8array(t).buffer},uint8array:function(t){return d(t,new Uint8Array(t.length))},nodebuffer:n},a.transformTo=function(t,e){if(e=e||"",!t)return e;a.checkSupport(t);var r=a.getTypeOf(e);return c[r][t](e)},a.getTypeOf=function(t){return"string"==typeof t?"string":"[object Array]"===Object.prototype.toString.call(t)?"array":o.nodebuffer&&r.isBuffer(t)?"nodebuffer":o.uint8array&&t instanceof Uint8Array?"uint8array":o.arraybuffer&&t instanceof ArrayBuffer?"arraybuffer":void 0},a.checkSupport=function(t){if(!o[t.toLowerCase()])throw new Error(t+" is not supported by this platform")},a.MAX_VALUE_16BITS=65535,a.MAX_VALUE_32BITS=-1,a.pretty=function(t){var e,r,i="";for(r=0;r<(t||"").length;r++)i+="\\x"+((e=t.charCodeAt(r))<16?"0":"")+e.toString(16).toUpperCase();return i},a.delay=function(t,e,r){i(function(){t.apply(r||null,e||[])})},a.inherits=function(t,e){function r(){}r.prototype=e.prototype,t.prototype=new r},a.extend=function(){var t,e,r={};for(t=0;t<arguments.length;t++)for(e in arguments[t])arguments[t].hasOwnProperty(e)&&void 0===r[e]&&(r[e]=arguments[t][e]);return r},a.prepareContent=function(r,t,i,n,s){return u.Promise.resolve(t).then(function(i){return o.blob&&(i instanceof Blob||-1!==["[object File]","[object Blob]"].indexOf(Object.prototype.toString.call(i)))&&"undefined"!=typeof FileReader?new u.Promise(function(e,r){var t=new FileReader;t.onload=function(t){e(t.target.result)},t.onerror=function(t){r(t.target.error)},t.readAsArrayBuffer(i)}):i}).then(function(t){var e=a.getTypeOf(t);return e?("arraybuffer"===e?t=a.transformTo("uint8array",t):"string"===e&&(s?t=h.decode(t):i&&!0!==n&&(t=function(t){return l(t,o.uint8array?new Uint8Array(t.length):new Array(t.length))}(t))),t):u.Promise.reject(new Error("Can't read the data of '"+r+"'. Is it in a supported JavaScript type (String, Blob, ArrayBuffer, etc) ?"))})}},{"./base64":1,"./external":6,"./nodejsUtils":14,"./support":30,"set-immediate-shim":54}],33:[function(t,e,r){"use strict";var i=t("./reader/readerFor"),n=t("./utils"),s=t("./signature"),a=t("./zipEntry"),o=(t("./utf8"),t("./support"));function h(t){this.files=[],this.loadOptions=t}h.prototype={checkSignature:function(t){if(!this.reader.readAndCheckSignature(t)){this.reader.index-=4;var e=this.reader.readString(4);throw new Error("Corrupted zip or bug: unexpected signature ("+n.pretty(e)+", expected "+n.pretty(t)+")")}},isSignature:function(t,e){var r=this.reader.index;this.reader.setIndex(t);var i=this.reader.readString(4)===e;return this.reader.setIndex(r),i},readBlockEndOfCentral:function(){this.diskNumber=this.reader.readInt(2),this.diskWithCentralDirStart=this.reader.readInt(2),this.centralDirRecordsOnThisDisk=this.reader.readInt(2),this.centralDirRecords=this.reader.readInt(2),this.centralDirSize=this.reader.readInt(4),this.centralDirOffset=this.reader.readInt(4),this.zipCommentLength=this.reader.readInt(2);var t=this.reader.readData(this.zipCommentLength),e=o.uint8array?"uint8array":"array",r=n.transformTo(e,t);this.zipComment=this.loadOptions.decodeFileName(r)},readBlockZip64EndOfCentral:function(){this.zip64EndOfCentralSize=this.reader.readInt(8),this.reader.skip(4),this.diskNumber=this.reader.readInt(4),this.diskWithCentralDirStart=this.reader.readInt(4),this.centralDirRecordsOnThisDisk=this.reader.readInt(8),this.centralDirRecords=this.reader.readInt(8),this.centralDirSize=this.reader.readInt(8),this.centralDirOffset=this.reader.readInt(8),this.zip64ExtensibleData={};for(var t,e,r,i=this.zip64EndOfCentralSize-44;0<i;)t=this.reader.readInt(2),e=this.reader.readInt(4),r=this.reader.readData(e),this.zip64ExtensibleData[t]={id:t,length:e,value:r}},readBlockZip64EndOfCentralLocator:function(){if(this.diskWithZip64CentralDirStart=this.reader.readInt(4),this.relativeOffsetEndOfZip64CentralDir=this.reader.readInt(8),this.disksCount=this.reader.readInt(4),1<this.disksCount)throw new Error("Multi-volumes zip are not supported")},readLocalFiles:function(){var t,e;for(t=0;t<this.files.length;t++)e=this.files[t],this.reader.setIndex(e.localHeaderOffset),this.checkSignature(s.LOCAL_FILE_HEADER),e.readLocalPart(this.reader),e.handleUTF8(),e.processAttributes()},readCentralDir:function(){var t;for(this.reader.setIndex(this.centralDirOffset);this.reader.readAndCheckSignature(s.CENTRAL_FILE_HEADER);)(t=new a({zip64:this.zip64},this.loadOptions)).readCentralPart(this.reader),this.files.push(t);if(this.centralDirRecords!==this.files.length&&0!==this.centralDirRecords&&0===this.files.length)throw new Error("Corrupted zip or bug: expected "+this.centralDirRecords+" records in central dir, got "+this.files.length)},readEndOfCentral:function(){var t=this.reader.lastIndexOfSignature(s.CENTRAL_DIRECTORY_END);if(t<0)throw!this.isSignature(0,s.LOCAL_FILE_HEADER)?new Error("Can't find end of central directory : is this a zip file ? If it is, see https://stuk.github.io/jszip/documentation/howto/read_zip.html"):new Error("Corrupted zip: can't find end of central directory");this.reader.setIndex(t);var e=t;if(this.checkSignature(s.CENTRAL_DIRECTORY_END),this.readBlockEndOfCentral(),this.diskNumber===n.MAX_VALUE_16BITS||this.diskWithCentralDirStart===n.MAX_VALUE_16BITS||this.centralDirRecordsOnThisDisk===n.MAX_VALUE_16BITS||this.centralDirRecords===n.MAX_VALUE_16BITS||this.centralDirSize===n.MAX_VALUE_32BITS||this.centralDirOffset===n.MAX_VALUE_32BITS){if(this.zip64=!0,(t=this.reader.lastIndexOfSignature(s.ZIP64_CENTRAL_DIRECTORY_LOCATOR))<0)throw new Error("Corrupted zip: can't find the ZIP64 end of central directory locator");if(this.reader.setIndex(t),this.checkSignature(s.ZIP64_CENTRAL_DIRECTORY_LOCATOR),this.readBlockZip64EndOfCentralLocator(),!this.isSignature(this.relativeOffsetEndOfZip64CentralDir,s.ZIP64_CENTRAL_DIRECTORY_END)&&(this.relativeOffsetEndOfZip64CentralDir=this.reader.lastIndexOfSignature(s.ZIP64_CENTRAL_DIRECTORY_END),this.relativeOffsetEndOfZip64CentralDir<0))throw new Error("Corrupted zip: can't find the ZIP64 end of central directory");this.reader.setIndex(this.relativeOffsetEndOfZip64CentralDir),this.checkSignature(s.ZIP64_CENTRAL_DIRECTORY_END),this.readBlockZip64EndOfCentral()}var r=this.centralDirOffset+this.centralDirSize;this.zip64&&(r+=20,r+=12+this.zip64EndOfCentralSize);var i=e-r;if(0<i)this.isSignature(e,s.CENTRAL_FILE_HEADER)||(this.reader.zero=i);else if(i<0)throw new Error("Corrupted zip: missing "+Math.abs(i)+" bytes.")},prepareReader:function(t){this.reader=i(t)},load:function(t){this.prepareReader(t),this.readEndOfCentral(),this.readCentralDir(),this.readLocalFiles()}},e.exports=h},{"./reader/readerFor":22,"./signature":23,"./support":30,"./utf8":31,"./utils":32,"./zipEntry":34}],34:[function(t,e,r){"use strict";var i=t("./reader/readerFor"),s=t("./utils"),n=t("./compressedObject"),a=t("./crc32"),o=t("./utf8"),h=t("./compressions"),u=t("./support");function l(t,e){this.options=t,this.loadOptions=e}l.prototype={isEncrypted:function(){return 1==(1&this.bitFlag)},useUTF8:function(){return 2048==(2048&this.bitFlag)},readLocalPart:function(t){var e,r;if(t.skip(22),this.fileNameLength=t.readInt(2),r=t.readInt(2),this.fileName=t.readData(this.fileNameLength),t.skip(r),-1===this.compressedSize||-1===this.uncompressedSize)throw new Error("Bug or corrupted zip : didn't get enough information from the central directory (compressedSize === -1 || uncompressedSize === -1)");if(null===(e=function(t){for(var e in h)if(h.hasOwnProperty(e)&&h[e].magic===t)return h[e];return null}(this.compressionMethod)))throw new Error("Corrupted zip : compression "+s.pretty(this.compressionMethod)+" unknown (inner file : "+s.transformTo("string",this.fileName)+")");this.decompressed=new n(this.compressedSize,this.uncompressedSize,this.crc32,e,t.readData(this.compressedSize))},readCentralPart:function(t){this.versionMadeBy=t.readInt(2),t.skip(2),this.bitFlag=t.readInt(2),this.compressionMethod=t.readString(2),this.date=t.readDate(),this.crc32=t.readInt(4),this.compressedSize=t.readInt(4),this.uncompressedSize=t.readInt(4);var e=t.readInt(2);if(this.extraFieldsLength=t.readInt(2),this.fileCommentLength=t.readInt(2),this.diskNumberStart=t.readInt(2),this.internalFileAttributes=t.readInt(2),this.externalFileAttributes=t.readInt(4),this.localHeaderOffset=t.readInt(4),this.isEncrypted())throw new Error("Encrypted zip are not supported");t.skip(e),this.readExtraFields(t),this.parseZIP64ExtraField(t),this.fileComment=t.readData(this.fileCommentLength)},processAttributes:function(){this.unixPermissions=null,this.dosPermissions=null;var t=this.versionMadeBy>>8;this.dir=!!(16&this.externalFileAttributes),0==t&&(this.dosPermissions=63&this.externalFileAttributes),3==t&&(this.unixPermissions=this.externalFileAttributes>>16&65535),this.dir||"/"!==this.fileNameStr.slice(-1)||(this.dir=!0)},parseZIP64ExtraField:function(t){if(this.extraFields[1]){var e=i(this.extraFields[1].value);this.uncompressedSize===s.MAX_VALUE_32BITS&&(this.uncompressedSize=e.readInt(8)),this.compressedSize===s.MAX_VALUE_32BITS&&(this.compressedSize=e.readInt(8)),this.localHeaderOffset===s.MAX_VALUE_32BITS&&(this.localHeaderOffset=e.readInt(8)),this.diskNumberStart===s.MAX_VALUE_32BITS&&(this.diskNumberStart=e.readInt(4))}},readExtraFields:function(t){var e,r,i,n=t.index+this.extraFieldsLength;for(this.extraFields||(this.extraFields={});t.index+4<n;)e=t.readInt(2),r=t.readInt(2),i=t.readData(r),this.extraFields[e]={id:e,length:r,value:i};t.setIndex(n)},handleUTF8:function(){var t=u.uint8array?"uint8array":"array";if(this.useUTF8())this.fileNameStr=o.utf8decode(this.fileName),this.fileCommentStr=o.utf8decode(this.fileComment);else{var e=this.findExtraFieldUnicodePath();if(null!==e)this.fileNameStr=e;else{var r=s.transformTo(t,this.fileName);this.fileNameStr=this.loadOptions.decodeFileName(r)}var i=this.findExtraFieldUnicodeComment();if(null!==i)this.fileCommentStr=i;else{var n=s.transformTo(t,this.fileComment);this.fileCommentStr=this.loadOptions.decodeFileName(n)}}},findExtraFieldUnicodePath:function(){var t=this.extraFields[28789];if(t){var e=i(t.value);return 1!==e.readInt(1)?null:a(this.fileName)!==e.readInt(4)?null:o.utf8decode(e.readData(t.length-5))}return null},findExtraFieldUnicodeComment:function(){var t=this.extraFields[25461];if(t){var e=i(t.value);return 1!==e.readInt(1)?null:a(this.fileComment)!==e.readInt(4)?null:o.utf8decode(e.readData(t.length-5))}return null}},e.exports=l},{"./compressedObject":2,"./compressions":3,"./crc32":4,"./reader/readerFor":22,"./support":30,"./utf8":31,"./utils":32}],35:[function(t,e,r){"use strict";function i(t,e,r){this.name=t,this.dir=r.dir,this.date=r.date,this.comment=r.comment,this.unixPermissions=r.unixPermissions,this.dosPermissions=r.dosPermissions,this._data=e,this._dataBinary=r.binary,this.options={compression:r.compression,compressionOptions:r.compressionOptions}}var s=t("./stream/StreamHelper"),n=t("./stream/DataWorker"),a=t("./utf8"),o=t("./compressedObject"),h=t("./stream/GenericWorker");i.prototype={internalStream:function(t){var e=null,r="string";try{if(!t)throw new Error("No output type specified.");var i="string"===(r=t.toLowerCase())||"text"===r;"binarystring"!==r&&"text"!==r||(r="string"),e=this._decompressWorker();var n=!this._dataBinary;n&&!i&&(e=e.pipe(new a.Utf8EncodeWorker)),!n&&i&&(e=e.pipe(new a.Utf8DecodeWorker))}catch(t){(e=new h("error")).error(t)}return new s(e,r,"")},async:function(t,e){return this.internalStream(t).accumulate(e)},nodeStream:function(t,e){return this.internalStream(t||"nodebuffer").toNodejsStream(e)},_compressWorker:function(t,e){if(this._data instanceof o&&this._data.compression.magic===t.magic)return this._data.getCompressedWorker();var r=this._decompressWorker();return this._dataBinary||(r=r.pipe(new a.Utf8EncodeWorker)),o.createWorkerFrom(r,t,e)},_decompressWorker:function(){return this._data instanceof o?this._data.getContentWorker():this._data instanceof h?this._data:new n(this._data)}};for(var u=["asText","asBinary","asNodeBuffer","asUint8Array","asArrayBuffer"],l=function(){throw new Error("This method has been removed in JSZip 3.0, please check the upgrade guide.")},f=0;f<u.length;f++)i.prototype[u[f]]=l;e.exports=i},{"./compressedObject":2,"./stream/DataWorker":27,"./stream/GenericWorker":28,"./stream/StreamHelper":29,"./utf8":31}],36:[function(t,l,e){(function(e){"use strict";var r,i,t=e.MutationObserver||e.WebKitMutationObserver;if(t){var n=0,s=new t(u),a=e.document.createTextNode("");s.observe(a,{characterData:!0}),r=function(){a.data=n=++n%2}}else if(e.setImmediate||void 0===e.MessageChannel)r="document"in e&&"onreadystatechange"in e.document.createElement("script")?function(){var t=e.document.createElement("script");t.onreadystatechange=function(){u(),t.onreadystatechange=null,t.parentNode.removeChild(t),t=null},e.document.documentElement.appendChild(t)}:function(){setTimeout(u,0)};else{var o=new e.MessageChannel;o.port1.onmessage=u,r=function(){o.port2.postMessage(0)}}var h=[];function u(){var t,e;i=!0;for(var r=h.length;r;){for(e=h,h=[],t=-1;++t<r;)e[t]();r=h.length}i=!1}l.exports=function(t){1!==h.push(t)||i||r()}}).call(this,"undefined"!=typeof __webpack_require__.g?__webpack_require__.g:"undefined"!=typeof self?self:"undefined"!=typeof window?window:{})},{}],37:[function(t,e,r){"use strict";var n=t("immediate");function u(){}var l={},s=["REJECTED"],a=["FULFILLED"],i=["PENDING"];function o(t){if("function"!=typeof t)throw new TypeError("resolver must be a function");this.state=i,this.queue=[],this.outcome=void 0,t!==u&&c(this,t)}function h(t,e,r){this.promise=t,"function"==typeof e&&(this.onFulfilled=e,this.callFulfilled=this.otherCallFulfilled),"function"==typeof r&&(this.onRejected=r,this.callRejected=this.otherCallRejected)}function f(e,r,i){n(function(){var t;try{t=r(i)}catch(t){return l.reject(e,t)}t===e?l.reject(e,new TypeError("Cannot resolve promise with itself")):l.resolve(e,t)})}function d(t){var e=t&&t.then;if(t&&("object"==typeof t||"function"==typeof t)&&"function"==typeof e)return function(){e.apply(t,arguments)}}function c(e,t){var r=!1;function i(t){r||(r=!0,l.reject(e,t))}function n(t){r||(r=!0,l.resolve(e,t))}var s=p(function(){t(n,i)});"error"===s.status&&i(s.value)}function p(t,e){var r={};try{r.value=t(e),r.status="success"}catch(t){r.status="error",r.value=t}return r}(e.exports=o).prototype.finally=function(e){if("function"!=typeof e)return this;var r=this.constructor;return this.then(function(t){return r.resolve(e()).then(function(){return t})},function(t){return r.resolve(e()).then(function(){throw t})})},o.prototype.catch=function(t){return this.then(null,t)},o.prototype.then=function(t,e){if("function"!=typeof t&&this.state===a||"function"!=typeof e&&this.state===s)return this;var r=new this.constructor(u);this.state!==i?f(r,this.state===a?t:e,this.outcome):this.queue.push(new h(r,t,e));return r},h.prototype.callFulfilled=function(t){l.resolve(this.promise,t)},h.prototype.otherCallFulfilled=function(t){f(this.promise,this.onFulfilled,t)},h.prototype.callRejected=function(t){l.reject(this.promise,t)},h.prototype.otherCallRejected=function(t){f(this.promise,this.onRejected,t)},l.resolve=function(t,e){var r=p(d,e);if("error"===r.status)return l.reject(t,r.value);var i=r.value;if(i)c(t,i);else{t.state=a,t.outcome=e;for(var n=-1,s=t.queue.length;++n<s;)t.queue[n].callFulfilled(e)}return t},l.reject=function(t,e){t.state=s,t.outcome=e;for(var r=-1,i=t.queue.length;++r<i;)t.queue[r].callRejected(e);return t},o.resolve=function(t){if(t instanceof this)return t;return l.resolve(new this(u),t)},o.reject=function(t){var e=new this(u);return l.reject(e,t)},o.all=function(t){var r=this;if("[object Array]"!==Object.prototype.toString.call(t))return this.reject(new TypeError("must be an array"));var i=t.length,n=!1;if(!i)return this.resolve([]);var s=new Array(i),a=0,e=-1,o=new this(u);for(;++e<i;)h(t[e],e);return o;function h(t,e){r.resolve(t).then(function(t){s[e]=t,++a!==i||n||(n=!0,l.resolve(o,s))},function(t){n||(n=!0,l.reject(o,t))})}},o.race=function(t){var e=this;if("[object Array]"!==Object.prototype.toString.call(t))return this.reject(new TypeError("must be an array"));var r=t.length,i=!1;if(!r)return this.resolve([]);var n=-1,s=new this(u);for(;++n<r;)a=t[n],e.resolve(a).then(function(t){i||(i=!0,l.resolve(s,t))},function(t){i||(i=!0,l.reject(s,t))});var a;return s}},{immediate:36}],38:[function(t,e,r){"use strict";var i={};(0,t("./lib/utils/common").assign)(i,t("./lib/deflate"),t("./lib/inflate"),t("./lib/zlib/constants")),e.exports=i},{"./lib/deflate":39,"./lib/inflate":40,"./lib/utils/common":41,"./lib/zlib/constants":44}],39:[function(t,e,r){"use strict";var a=t("./zlib/deflate"),o=t("./utils/common"),h=t("./utils/strings"),n=t("./zlib/messages"),s=t("./zlib/zstream"),u=Object.prototype.toString,l=0,f=-1,d=0,c=8;function p(t){if(!(this instanceof p))return new p(t);this.options=o.assign({level:f,method:c,chunkSize:16384,windowBits:15,memLevel:8,strategy:d,to:""},t||{});var e=this.options;e.raw&&0<e.windowBits?e.windowBits=-e.windowBits:e.gzip&&0<e.windowBits&&e.windowBits<16&&(e.windowBits+=16),this.err=0,this.msg="",this.ended=!1,this.chunks=[],this.strm=new s,this.strm.avail_out=0;var r=a.deflateInit2(this.strm,e.level,e.method,e.windowBits,e.memLevel,e.strategy);if(r!==l)throw new Error(n[r]);if(e.header&&a.deflateSetHeader(this.strm,e.header),e.dictionary){var i;if(i="string"==typeof e.dictionary?h.string2buf(e.dictionary):"[object ArrayBuffer]"===u.call(e.dictionary)?new Uint8Array(e.dictionary):e.dictionary,(r=a.deflateSetDictionary(this.strm,i))!==l)throw new Error(n[r]);this._dict_set=!0}}function i(t,e){var r=new p(e);if(r.push(t,!0),r.err)throw r.msg||n[r.err];return r.result}p.prototype.push=function(t,e){var r,i,n=this.strm,s=this.options.chunkSize;if(this.ended)return!1;i=e===~~e?e:!0===e?4:0,"string"==typeof t?n.input=h.string2buf(t):"[object ArrayBuffer]"===u.call(t)?n.input=new Uint8Array(t):n.input=t,n.next_in=0,n.avail_in=n.input.length;do{if(0===n.avail_out&&(n.output=new o.Buf8(s),n.next_out=0,n.avail_out=s),1!==(r=a.deflate(n,i))&&r!==l)return this.onEnd(r),!(this.ended=!0);0!==n.avail_out&&(0!==n.avail_in||4!==i&&2!==i)||("string"===this.options.to?this.onData(h.buf2binstring(o.shrinkBuf(n.output,n.next_out))):this.onData(o.shrinkBuf(n.output,n.next_out)))}while((0<n.avail_in||0===n.avail_out)&&1!==r);return 4===i?(r=a.deflateEnd(this.strm),this.onEnd(r),this.ended=!0,r===l):2!==i||(this.onEnd(l),!(n.avail_out=0))},p.prototype.onData=function(t){this.chunks.push(t)},p.prototype.onEnd=function(t){t===l&&("string"===this.options.to?this.result=this.chunks.join(""):this.result=o.flattenChunks(this.chunks)),this.chunks=[],this.err=t,this.msg=this.strm.msg},r.Deflate=p,r.deflate=i,r.deflateRaw=function(t,e){return(e=e||{}).raw=!0,i(t,e)},r.gzip=function(t,e){return(e=e||{}).gzip=!0,i(t,e)}},{"./utils/common":41,"./utils/strings":42,"./zlib/deflate":46,"./zlib/messages":51,"./zlib/zstream":53}],40:[function(t,e,r){"use strict";var d=t("./zlib/inflate"),c=t("./utils/common"),p=t("./utils/strings"),m=t("./zlib/constants"),i=t("./zlib/messages"),n=t("./zlib/zstream"),s=t("./zlib/gzheader"),_=Object.prototype.toString;function a(t){if(!(this instanceof a))return new a(t);this.options=c.assign({chunkSize:16384,windowBits:0,to:""},t||{});var e=this.options;e.raw&&0<=e.windowBits&&e.windowBits<16&&(e.windowBits=-e.windowBits,0===e.windowBits&&(e.windowBits=-15)),!(0<=e.windowBits&&e.windowBits<16)||t&&t.windowBits||(e.windowBits+=32),15<e.windowBits&&e.windowBits<48&&0==(15&e.windowBits)&&(e.windowBits|=15),this.err=0,this.msg="",this.ended=!1,this.chunks=[],this.strm=new n,this.strm.avail_out=0;var r=d.inflateInit2(this.strm,e.windowBits);if(r!==m.Z_OK)throw new Error(i[r]);this.header=new s,d.inflateGetHeader(this.strm,this.header)}function o(t,e){var r=new a(e);if(r.push(t,!0),r.err)throw r.msg||i[r.err];return r.result}a.prototype.push=function(t,e){var r,i,n,s,a,o,h=this.strm,u=this.options.chunkSize,l=this.options.dictionary,f=!1;if(this.ended)return!1;i=e===~~e?e:!0===e?m.Z_FINISH:m.Z_NO_FLUSH,"string"==typeof t?h.input=p.binstring2buf(t):"[object ArrayBuffer]"===_.call(t)?h.input=new Uint8Array(t):h.input=t,h.next_in=0,h.avail_in=h.input.length;do{if(0===h.avail_out&&(h.output=new c.Buf8(u),h.next_out=0,h.avail_out=u),(r=d.inflate(h,m.Z_NO_FLUSH))===m.Z_NEED_DICT&&l&&(o="string"==typeof l?p.string2buf(l):"[object ArrayBuffer]"===_.call(l)?new Uint8Array(l):l,r=d.inflateSetDictionary(this.strm,o)),r===m.Z_BUF_ERROR&&!0===f&&(r=m.Z_OK,f=!1),r!==m.Z_STREAM_END&&r!==m.Z_OK)return this.onEnd(r),!(this.ended=!0);h.next_out&&(0!==h.avail_out&&r!==m.Z_STREAM_END&&(0!==h.avail_in||i!==m.Z_FINISH&&i!==m.Z_SYNC_FLUSH)||("string"===this.options.to?(n=p.utf8border(h.output,h.next_out),s=h.next_out-n,a=p.buf2string(h.output,n),h.next_out=s,h.avail_out=u-s,s&&c.arraySet(h.output,h.output,n,s,0),this.onData(a)):this.onData(c.shrinkBuf(h.output,h.next_out)))),0===h.avail_in&&0===h.avail_out&&(f=!0)}while((0<h.avail_in||0===h.avail_out)&&r!==m.Z_STREAM_END);return r===m.Z_STREAM_END&&(i=m.Z_FINISH),i===m.Z_FINISH?(r=d.inflateEnd(this.strm),this.onEnd(r),this.ended=!0,r===m.Z_OK):i!==m.Z_SYNC_FLUSH||(this.onEnd(m.Z_OK),!(h.avail_out=0))},a.prototype.onData=function(t){this.chunks.push(t)},a.prototype.onEnd=function(t){t===m.Z_OK&&("string"===this.options.to?this.result=this.chunks.join(""):this.result=c.flattenChunks(this.chunks)),this.chunks=[],this.err=t,this.msg=this.strm.msg},r.Inflate=a,r.inflate=o,r.inflateRaw=function(t,e){return(e=e||{}).raw=!0,o(t,e)},r.ungzip=o},{"./utils/common":41,"./utils/strings":42,"./zlib/constants":44,"./zlib/gzheader":47,"./zlib/inflate":49,"./zlib/messages":51,"./zlib/zstream":53}],41:[function(t,e,r){"use strict";var i="undefined"!=typeof Uint8Array&&"undefined"!=typeof Uint16Array&&"undefined"!=typeof Int32Array;r.assign=function(t){for(var e=Array.prototype.slice.call(arguments,1);e.length;){var r=e.shift();if(r){if("object"!=typeof r)throw new TypeError(r+"must be non-object");for(var i in r)r.hasOwnProperty(i)&&(t[i]=r[i])}}return t},r.shrinkBuf=function(t,e){return t.length===e?t:t.subarray?t.subarray(0,e):(t.length=e,t)};var n={arraySet:function(t,e,r,i,n){if(e.subarray&&t.subarray)t.set(e.subarray(r,r+i),n);else for(var s=0;s<i;s++)t[n+s]=e[r+s]},flattenChunks:function(t){var e,r,i,n,s,a;for(e=i=0,r=t.length;e<r;e++)i+=t[e].length;for(a=new Uint8Array(i),e=n=0,r=t.length;e<r;e++)s=t[e],a.set(s,n),n+=s.length;return a}},s={arraySet:function(t,e,r,i,n){for(var s=0;s<i;s++)t[n+s]=e[r+s]},flattenChunks:function(t){return[].concat.apply([],t)}};r.setTyped=function(t){t?(r.Buf8=Uint8Array,r.Buf16=Uint16Array,r.Buf32=Int32Array,r.assign(r,n)):(r.Buf8=Array,r.Buf16=Array,r.Buf32=Array,r.assign(r,s))},r.setTyped(i)},{}],42:[function(t,e,r){"use strict";var h=t("./common"),n=!0,s=!0;try{String.fromCharCode.apply(null,[0])}catch(t){n=!1}try{String.fromCharCode.apply(null,new Uint8Array(1))}catch(t){s=!1}for(var u=new h.Buf8(256),i=0;i<256;i++)u[i]=252<=i?6:248<=i?5:240<=i?4:224<=i?3:192<=i?2:1;function l(t,e){if(e<65537&&(t.subarray&&s||!t.subarray&&n))return String.fromCharCode.apply(null,h.shrinkBuf(t,e));for(var r="",i=0;i<e;i++)r+=String.fromCharCode(t[i]);return r}u[254]=u[254]=1,r.string2buf=function(t){var e,r,i,n,s,a=t.length,o=0;for(n=0;n<a;n++)55296==(64512&(r=t.charCodeAt(n)))&&n+1<a&&56320==(64512&(i=t.charCodeAt(n+1)))&&(r=65536+(r-55296<<10)+(i-56320),n++),o+=r<128?1:r<2048?2:r<65536?3:4;for(e=new h.Buf8(o),n=s=0;s<o;n++)55296==(64512&(r=t.charCodeAt(n)))&&n+1<a&&56320==(64512&(i=t.charCodeAt(n+1)))&&(r=65536+(r-55296<<10)+(i-56320),n++),r<128?e[s++]=r:(r<2048?e[s++]=192|r>>>6:(r<65536?e[s++]=224|r>>>12:(e[s++]=240|r>>>18,e[s++]=128|r>>>12&63),e[s++]=128|r>>>6&63),e[s++]=128|63&r);return e},r.buf2binstring=function(t){return l(t,t.length)},r.binstring2buf=function(t){for(var e=new h.Buf8(t.length),r=0,i=e.length;r<i;r++)e[r]=t.charCodeAt(r);return e},r.buf2string=function(t,e){var r,i,n,s,a=e||t.length,o=new Array(2*a);for(r=i=0;r<a;)if((n=t[r++])<128)o[i++]=n;else if(4<(s=u[n]))o[i++]=65533,r+=s-1;else{for(n&=2===s?31:3===s?15:7;1<s&&r<a;)n=n<<6|63&t[r++],s--;1<s?o[i++]=65533:n<65536?o[i++]=n:(n-=65536,o[i++]=55296|n>>10&1023,o[i++]=56320|1023&n)}return l(o,i)},r.utf8border=function(t,e){var r;for((e=e||t.length)>t.length&&(e=t.length),r=e-1;0<=r&&128==(192&t[r]);)r--;return r<0?e:0===r?e:r+u[t[r]]>e?r:e}},{"./common":41}],43:[function(t,e,r){"use strict";e.exports=function(t,e,r,i){for(var n=65535&t|0,s=t>>>16&65535|0,a=0;0!==r;){for(r-=a=2e3<r?2e3:r;s=s+(n=n+e[i++]|0)|0,--a;);n%=65521,s%=65521}return n|s<<16|0}},{}],44:[function(t,e,r){"use strict";e.exports={Z_NO_FLUSH:0,Z_PARTIAL_FLUSH:1,Z_SYNC_FLUSH:2,Z_FULL_FLUSH:3,Z_FINISH:4,Z_BLOCK:5,Z_TREES:6,Z_OK:0,Z_STREAM_END:1,Z_NEED_DICT:2,Z_ERRNO:-1,Z_STREAM_ERROR:-2,Z_DATA_ERROR:-3,Z_BUF_ERROR:-5,Z_NO_COMPRESSION:0,Z_BEST_SPEED:1,Z_BEST_COMPRESSION:9,Z_DEFAULT_COMPRESSION:-1,Z_FILTERED:1,Z_HUFFMAN_ONLY:2,Z_RLE:3,Z_FIXED:4,Z_DEFAULT_STRATEGY:0,Z_BINARY:0,Z_TEXT:1,Z_UNKNOWN:2,Z_DEFLATED:8}},{}],45:[function(t,e,r){"use strict";var o=function(){for(var t,e=[],r=0;r<256;r++){t=r;for(var i=0;i<8;i++)t=1&t?3988292384^t>>>1:t>>>1;e[r]=t}return e}();e.exports=function(t,e,r,i){var n=o,s=i+r;t^=-1;for(var a=i;a<s;a++)t=t>>>8^n[255&(t^e[a])];return-1^t}},{}],46:[function(t,e,r){"use strict";var h,d=t("../utils/common"),u=t("./trees"),c=t("./adler32"),p=t("./crc32"),i=t("./messages"),l=0,f=4,m=0,_=-2,g=-1,b=4,n=2,v=8,y=9,s=286,a=30,o=19,w=2*s+1,k=15,x=3,S=258,z=S+x+1,C=42,E=113,A=1,I=2,O=3,B=4;function R(t,e){return t.msg=i[e],e}function T(t){return(t<<1)-(4<t?9:0)}function D(t){for(var e=t.length;0<=--e;)t[e]=0}function F(t){var e=t.state,r=e.pending;r>t.avail_out&&(r=t.avail_out),0!==r&&(d.arraySet(t.output,e.pending_buf,e.pending_out,r,t.next_out),t.next_out+=r,e.pending_out+=r,t.total_out+=r,t.avail_out-=r,e.pending-=r,0===e.pending&&(e.pending_out=0))}function N(t,e){u._tr_flush_block(t,0<=t.block_start?t.block_start:-1,t.strstart-t.block_start,e),t.block_start=t.strstart,F(t.strm)}function U(t,e){t.pending_buf[t.pending++]=e}function P(t,e){t.pending_buf[t.pending++]=e>>>8&255,t.pending_buf[t.pending++]=255&e}function L(t,e){var r,i,n=t.max_chain_length,s=t.strstart,a=t.prev_length,o=t.nice_match,h=t.strstart>t.w_size-z?t.strstart-(t.w_size-z):0,u=t.window,l=t.w_mask,f=t.prev,d=t.strstart+S,c=u[s+a-1],p=u[s+a];t.prev_length>=t.good_match&&(n>>=2),o>t.lookahead&&(o=t.lookahead);do{if(u[(r=e)+a]===p&&u[r+a-1]===c&&u[r]===u[s]&&u[++r]===u[s+1]){s+=2,r++;do{}while(u[++s]===u[++r]&&u[++s]===u[++r]&&u[++s]===u[++r]&&u[++s]===u[++r]&&u[++s]===u[++r]&&u[++s]===u[++r]&&u[++s]===u[++r]&&u[++s]===u[++r]&&s<d);if(i=S-(d-s),s=d-S,a<i){if(t.match_start=e,o<=(a=i))break;c=u[s+a-1],p=u[s+a]}}}while((e=f[e&l])>h&&0!=--n);return a<=t.lookahead?a:t.lookahead}function j(t){var e,r,i,n,s,a,o,h,u,l,f=t.w_size;do{if(n=t.window_size-t.lookahead-t.strstart,t.strstart>=f+(f-z)){for(d.arraySet(t.window,t.window,f,f,0),t.match_start-=f,t.strstart-=f,t.block_start-=f,e=r=t.hash_size;i=t.head[--e],t.head[e]=f<=i?i-f:0,--r;);for(e=r=f;i=t.prev[--e],t.prev[e]=f<=i?i-f:0,--r;);n+=f}if(0===t.strm.avail_in)break;if(a=t.strm,o=t.window,h=t.strstart+t.lookahead,u=n,l=void 0,l=a.avail_in,u<l&&(l=u),r=0===l?0:(a.avail_in-=l,d.arraySet(o,a.input,a.next_in,l,h),1===a.state.wrap?a.adler=c(a.adler,o,l,h):2===a.state.wrap&&(a.adler=p(a.adler,o,l,h)),a.next_in+=l,a.total_in+=l,l),t.lookahead+=r,t.lookahead+t.insert>=x)for(s=t.strstart-t.insert,t.ins_h=t.window[s],t.ins_h=(t.ins_h<<t.hash_shift^t.window[s+1])&t.hash_mask;t.insert&&(t.ins_h=(t.ins_h<<t.hash_shift^t.window[s+x-1])&t.hash_mask,t.prev[s&t.w_mask]=t.head[t.ins_h],t.head[t.ins_h]=s,s++,t.insert--,!(t.lookahead+t.insert<x)););}while(t.lookahead<z&&0!==t.strm.avail_in)}function Z(t,e){for(var r,i;;){if(t.lookahead<z){if(j(t),t.lookahead<z&&e===l)return A;if(0===t.lookahead)break}if(r=0,t.lookahead>=x&&(t.ins_h=(t.ins_h<<t.hash_shift^t.window[t.strstart+x-1])&t.hash_mask,r=t.prev[t.strstart&t.w_mask]=t.head[t.ins_h],t.head[t.ins_h]=t.strstart),0!==r&&t.strstart-r<=t.w_size-z&&(t.match_length=L(t,r)),t.match_length>=x)if(i=u._tr_tally(t,t.strstart-t.match_start,t.match_length-x),t.lookahead-=t.match_length,t.match_length<=t.max_lazy_match&&t.lookahead>=x){for(t.match_length--;t.strstart++,t.ins_h=(t.ins_h<<t.hash_shift^t.window[t.strstart+x-1])&t.hash_mask,r=t.prev[t.strstart&t.w_mask]=t.head[t.ins_h],t.head[t.ins_h]=t.strstart,0!=--t.match_length;);t.strstart++}else t.strstart+=t.match_length,t.match_length=0,t.ins_h=t.window[t.strstart],t.ins_h=(t.ins_h<<t.hash_shift^t.window[t.strstart+1])&t.hash_mask;else i=u._tr_tally(t,0,t.window[t.strstart]),t.lookahead--,t.strstart++;if(i&&(N(t,!1),0===t.strm.avail_out))return A}return t.insert=t.strstart<x-1?t.strstart:x-1,e===f?(N(t,!0),0===t.strm.avail_out?O:B):t.last_lit&&(N(t,!1),0===t.strm.avail_out)?A:I}function W(t,e){for(var r,i,n;;){if(t.lookahead<z){if(j(t),t.lookahead<z&&e===l)return A;if(0===t.lookahead)break}if(r=0,t.lookahead>=x&&(t.ins_h=(t.ins_h<<t.hash_shift^t.window[t.strstart+x-1])&t.hash_mask,r=t.prev[t.strstart&t.w_mask]=t.head[t.ins_h],t.head[t.ins_h]=t.strstart),t.prev_length=t.match_length,t.prev_match=t.match_start,t.match_length=x-1,0!==r&&t.prev_length<t.max_lazy_match&&t.strstart-r<=t.w_size-z&&(t.match_length=L(t,r),t.match_length<=5&&(1===t.strategy||t.match_length===x&&4096<t.strstart-t.match_start)&&(t.match_length=x-1)),t.prev_length>=x&&t.match_length<=t.prev_length){for(n=t.strstart+t.lookahead-x,i=u._tr_tally(t,t.strstart-1-t.prev_match,t.prev_length-x),t.lookahead-=t.prev_length-1,t.prev_length-=2;++t.strstart<=n&&(t.ins_h=(t.ins_h<<t.hash_shift^t.window[t.strstart+x-1])&t.hash_mask,r=t.prev[t.strstart&t.w_mask]=t.head[t.ins_h],t.head[t.ins_h]=t.strstart),0!=--t.prev_length;);if(t.match_available=0,t.match_length=x-1,t.strstart++,i&&(N(t,!1),0===t.strm.avail_out))return A}else if(t.match_available){if((i=u._tr_tally(t,0,t.window[t.strstart-1]))&&N(t,!1),t.strstart++,t.lookahead--,0===t.strm.avail_out)return A}else t.match_available=1,t.strstart++,t.lookahead--}return t.match_available&&(i=u._tr_tally(t,0,t.window[t.strstart-1]),t.match_available=0),t.insert=t.strstart<x-1?t.strstart:x-1,e===f?(N(t,!0),0===t.strm.avail_out?O:B):t.last_lit&&(N(t,!1),0===t.strm.avail_out)?A:I}function M(t,e,r,i,n){this.good_length=t,this.max_lazy=e,this.nice_length=r,this.max_chain=i,this.func=n}function H(){this.strm=null,this.status=0,this.pending_buf=null,this.pending_buf_size=0,this.pending_out=0,this.pending=0,this.wrap=0,this.gzhead=null,this.gzindex=0,this.method=v,this.last_flush=-1,this.w_size=0,this.w_bits=0,this.w_mask=0,this.window=null,this.window_size=0,this.prev=null,this.head=null,this.ins_h=0,this.hash_size=0,this.hash_bits=0,this.hash_mask=0,this.hash_shift=0,this.block_start=0,this.match_length=0,this.prev_match=0,this.match_available=0,this.strstart=0,this.match_start=0,this.lookahead=0,this.prev_length=0,this.max_chain_length=0,this.max_lazy_match=0,this.level=0,this.strategy=0,this.good_match=0,this.nice_match=0,this.dyn_ltree=new d.Buf16(2*w),this.dyn_dtree=new d.Buf16(2*(2*a+1)),this.bl_tree=new d.Buf16(2*(2*o+1)),D(this.dyn_ltree),D(this.dyn_dtree),D(this.bl_tree),this.l_desc=null,this.d_desc=null,this.bl_desc=null,this.bl_count=new d.Buf16(k+1),this.heap=new d.Buf16(2*s+1),D(this.heap),this.heap_len=0,this.heap_max=0,this.depth=new d.Buf16(2*s+1),D(this.depth),this.l_buf=0,this.lit_bufsize=0,this.last_lit=0,this.d_buf=0,this.opt_len=0,this.static_len=0,this.matches=0,this.insert=0,this.bi_buf=0,this.bi_valid=0}function G(t){var e;return t&&t.state?(t.total_in=t.total_out=0,t.data_type=n,(e=t.state).pending=0,e.pending_out=0,e.wrap<0&&(e.wrap=-e.wrap),e.status=e.wrap?C:E,t.adler=2===e.wrap?0:1,e.last_flush=l,u._tr_init(e),m):R(t,_)}function K(t){var e=G(t);return e===m&&function(t){t.window_size=2*t.w_size,D(t.head),t.max_lazy_match=h[t.level].max_lazy,t.good_match=h[t.level].good_length,t.nice_match=h[t.level].nice_length,t.max_chain_length=h[t.level].max_chain,t.strstart=0,t.block_start=0,t.lookahead=0,t.insert=0,t.match_length=t.prev_length=x-1,t.match_available=0,t.ins_h=0}(t.state),e}function Y(t,e,r,i,n,s){if(!t)return _;var a=1;if(e===g&&(e=6),i<0?(a=0,i=-i):15<i&&(a=2,i-=16),n<1||y<n||r!==v||i<8||15<i||e<0||9<e||s<0||b<s)return R(t,_);8===i&&(i=9);var o=new H;return(t.state=o).strm=t,o.wrap=a,o.gzhead=null,o.w_bits=i,o.w_size=1<<o.w_bits,o.w_mask=o.w_size-1,o.hash_bits=n+7,o.hash_size=1<<o.hash_bits,o.hash_mask=o.hash_size-1,o.hash_shift=~~((o.hash_bits+x-1)/x),o.window=new d.Buf8(2*o.w_size),o.head=new d.Buf16(o.hash_size),o.prev=new d.Buf16(o.w_size),o.lit_bufsize=1<<n+6,o.pending_buf_size=4*o.lit_bufsize,o.pending_buf=new d.Buf8(o.pending_buf_size),o.d_buf=1*o.lit_bufsize,o.l_buf=3*o.lit_bufsize,o.level=e,o.strategy=s,o.method=r,K(t)}h=[new M(0,0,0,0,function(t,e){var r=65535;for(r>t.pending_buf_size-5&&(r=t.pending_buf_size-5);;){if(t.lookahead<=1){if(j(t),0===t.lookahead&&e===l)return A;if(0===t.lookahead)break}t.strstart+=t.lookahead,t.lookahead=0;var i=t.block_start+r;if((0===t.strstart||t.strstart>=i)&&(t.lookahead=t.strstart-i,t.strstart=i,N(t,!1),0===t.strm.avail_out))return A;if(t.strstart-t.block_start>=t.w_size-z&&(N(t,!1),0===t.strm.avail_out))return A}return t.insert=0,e===f?(N(t,!0),0===t.strm.avail_out?O:B):(t.strstart>t.block_start&&(N(t,!1),t.strm.avail_out),A)}),new M(4,4,8,4,Z),new M(4,5,16,8,Z),new M(4,6,32,32,Z),new M(4,4,16,16,W),new M(8,16,32,32,W),new M(8,16,128,128,W),new M(8,32,128,256,W),new M(32,128,258,1024,W),new M(32,258,258,4096,W)],r.deflateInit=function(t,e){return Y(t,e,v,15,8,0)},r.deflateInit2=Y,r.deflateReset=K,r.deflateResetKeep=G,r.deflateSetHeader=function(t,e){return t&&t.state?2!==t.state.wrap?_:(t.state.gzhead=e,m):_},r.deflate=function(t,e){var r,i,n,s;if(!t||!t.state||5<e||e<0)return t?R(t,_):_;if(i=t.state,!t.output||!t.input&&0!==t.avail_in||666===i.status&&e!==f)return R(t,0===t.avail_out?-5:_);if(i.strm=t,r=i.last_flush,i.last_flush=e,i.status===C)if(2===i.wrap)t.adler=0,U(i,31),U(i,139),U(i,8),i.gzhead?(U(i,(i.gzhead.text?1:0)+(i.gzhead.hcrc?2:0)+(i.gzhead.extra?4:0)+(i.gzhead.name?8:0)+(i.gzhead.comment?16:0)),U(i,255&i.gzhead.time),U(i,i.gzhead.time>>8&255),U(i,i.gzhead.time>>16&255),U(i,i.gzhead.time>>24&255),U(i,9===i.level?2:2<=i.strategy||i.level<2?4:0),U(i,255&i.gzhead.os),i.gzhead.extra&&i.gzhead.extra.length&&(U(i,255&i.gzhead.extra.length),U(i,i.gzhead.extra.length>>8&255)),i.gzhead.hcrc&&(t.adler=p(t.adler,i.pending_buf,i.pending,0)),i.gzindex=0,i.status=69):(U(i,0),U(i,0),U(i,0),U(i,0),U(i,0),U(i,9===i.level?2:2<=i.strategy||i.level<2?4:0),U(i,3),i.status=E);else{var a=v+(i.w_bits-8<<4)<<8;a|=(2<=i.strategy||i.level<2?0:i.level<6?1:6===i.level?2:3)<<6,0!==i.strstart&&(a|=32),a+=31-a%31,i.status=E,P(i,a),0!==i.strstart&&(P(i,t.adler>>>16),P(i,65535&t.adler)),t.adler=1}if(69===i.status)if(i.gzhead.extra){for(n=i.pending;i.gzindex<(65535&i.gzhead.extra.length)&&(i.pending!==i.pending_buf_size||(i.gzhead.hcrc&&i.pending>n&&(t.adler=p(t.adler,i.pending_buf,i.pending-n,n)),F(t),n=i.pending,i.pending!==i.pending_buf_size));)U(i,255&i.gzhead.extra[i.gzindex]),i.gzindex++;i.gzhead.hcrc&&i.pending>n&&(t.adler=p(t.adler,i.pending_buf,i.pending-n,n)),i.gzindex===i.gzhead.extra.length&&(i.gzindex=0,i.status=73)}else i.status=73;if(73===i.status)if(i.gzhead.name){n=i.pending;do{if(i.pending===i.pending_buf_size&&(i.gzhead.hcrc&&i.pending>n&&(t.adler=p(t.adler,i.pending_buf,i.pending-n,n)),F(t),n=i.pending,i.pending===i.pending_buf_size)){s=1;break}s=i.gzindex<i.gzhead.name.length?255&i.gzhead.name.charCodeAt(i.gzindex++):0,U(i,s)}while(0!==s);i.gzhead.hcrc&&i.pending>n&&(t.adler=p(t.adler,i.pending_buf,i.pending-n,n)),0===s&&(i.gzindex=0,i.status=91)}else i.status=91;if(91===i.status)if(i.gzhead.comment){n=i.pending;do{if(i.pending===i.pending_buf_size&&(i.gzhead.hcrc&&i.pending>n&&(t.adler=p(t.adler,i.pending_buf,i.pending-n,n)),F(t),n=i.pending,i.pending===i.pending_buf_size)){s=1;break}s=i.gzindex<i.gzhead.comment.length?255&i.gzhead.comment.charCodeAt(i.gzindex++):0,U(i,s)}while(0!==s);i.gzhead.hcrc&&i.pending>n&&(t.adler=p(t.adler,i.pending_buf,i.pending-n,n)),0===s&&(i.status=103)}else i.status=103;if(103===i.status&&(i.gzhead.hcrc?(i.pending+2>i.pending_buf_size&&F(t),i.pending+2<=i.pending_buf_size&&(U(i,255&t.adler),U(i,t.adler>>8&255),t.adler=0,i.status=E)):i.status=E),0!==i.pending){if(F(t),0===t.avail_out)return i.last_flush=-1,m}else if(0===t.avail_in&&T(e)<=T(r)&&e!==f)return R(t,-5);if(666===i.status&&0!==t.avail_in)return R(t,-5);if(0!==t.avail_in||0!==i.lookahead||e!==l&&666!==i.status){var o=2===i.strategy?function(t,e){for(var r;;){if(0===t.lookahead&&(j(t),0===t.lookahead)){if(e===l)return A;break}if(t.match_length=0,r=u._tr_tally(t,0,t.window[t.strstart]),t.lookahead--,t.strstart++,r&&(N(t,!1),0===t.strm.avail_out))return A}return t.insert=0,e===f?(N(t,!0),0===t.strm.avail_out?O:B):t.last_lit&&(N(t,!1),0===t.strm.avail_out)?A:I}(i,e):3===i.strategy?function(t,e){for(var r,i,n,s,a=t.window;;){if(t.lookahead<=S){if(j(t),t.lookahead<=S&&e===l)return A;if(0===t.lookahead)break}if(t.match_length=0,t.lookahead>=x&&0<t.strstart&&(i=a[n=t.strstart-1])===a[++n]&&i===a[++n]&&i===a[++n]){s=t.strstart+S;do{}while(i===a[++n]&&i===a[++n]&&i===a[++n]&&i===a[++n]&&i===a[++n]&&i===a[++n]&&i===a[++n]&&i===a[++n]&&n<s);t.match_length=S-(s-n),t.match_length>t.lookahead&&(t.match_length=t.lookahead)}if(t.match_length>=x?(r=u._tr_tally(t,1,t.match_length-x),t.lookahead-=t.match_length,t.strstart+=t.match_length,t.match_length=0):(r=u._tr_tally(t,0,t.window[t.strstart]),t.lookahead--,t.strstart++),r&&(N(t,!1),0===t.strm.avail_out))return A}return t.insert=0,e===f?(N(t,!0),0===t.strm.avail_out?O:B):t.last_lit&&(N(t,!1),0===t.strm.avail_out)?A:I}(i,e):h[i.level].func(i,e);if(o!==O&&o!==B||(i.status=666),o===A||o===O)return 0===t.avail_out&&(i.last_flush=-1),m;if(o===I&&(1===e?u._tr_align(i):5!==e&&(u._tr_stored_block(i,0,0,!1),3===e&&(D(i.head),0===i.lookahead&&(i.strstart=0,i.block_start=0,i.insert=0))),F(t),0===t.avail_out))return i.last_flush=-1,m}return e!==f?m:i.wrap<=0?1:(2===i.wrap?(U(i,255&t.adler),U(i,t.adler>>8&255),U(i,t.adler>>16&255),U(i,t.adler>>24&255),U(i,255&t.total_in),U(i,t.total_in>>8&255),U(i,t.total_in>>16&255),U(i,t.total_in>>24&255)):(P(i,t.adler>>>16),P(i,65535&t.adler)),F(t),0<i.wrap&&(i.wrap=-i.wrap),0!==i.pending?m:1)},r.deflateEnd=function(t){var e;return t&&t.state?(e=t.state.status)!==C&&69!==e&&73!==e&&91!==e&&103!==e&&e!==E&&666!==e?R(t,_):(t.state=null,e===E?R(t,-3):m):_},r.deflateSetDictionary=function(t,e){var r,i,n,s,a,o,h,u,l=e.length;if(!t||!t.state)return _;if(2===(s=(r=t.state).wrap)||1===s&&r.status!==C||r.lookahead)return _;for(1===s&&(t.adler=c(t.adler,e,l,0)),r.wrap=0,l>=r.w_size&&(0===s&&(D(r.head),r.strstart=0,r.block_start=0,r.insert=0),u=new d.Buf8(r.w_size),d.arraySet(u,e,l-r.w_size,r.w_size,0),e=u,l=r.w_size),a=t.avail_in,o=t.next_in,h=t.input,t.avail_in=l,t.next_in=0,t.input=e,j(r);r.lookahead>=x;){for(i=r.strstart,n=r.lookahead-(x-1);r.ins_h=(r.ins_h<<r.hash_shift^r.window[i+x-1])&r.hash_mask,r.prev[i&r.w_mask]=r.head[r.ins_h],r.head[r.ins_h]=i,i++,--n;);r.strstart=i,r.lookahead=x-1,j(r)}return r.strstart+=r.lookahead,r.block_start=r.strstart,r.insert=r.lookahead,r.lookahead=0,r.match_length=r.prev_length=x-1,r.match_available=0,t.next_in=o,t.input=h,t.avail_in=a,r.wrap=s,m},r.deflateInfo="pako deflate (from Nodeca project)"},{"../utils/common":41,"./adler32":43,"./crc32":45,"./messages":51,"./trees":52}],47:[function(t,e,r){"use strict";e.exports=function(){this.text=0,this.time=0,this.xflags=0,this.os=0,this.extra=null,this.extra_len=0,this.name="",this.comment="",this.hcrc=0,this.done=!1}},{}],48:[function(t,e,r){"use strict";e.exports=function(t,e){var r,i,n,s,a,o,h,u,l,f,d,c,p,m,_,g,b,v,y,w,k,x,S,z,C;r=t.state,i=t.next_in,z=t.input,n=i+(t.avail_in-5),s=t.next_out,C=t.output,a=s-(e-t.avail_out),o=s+(t.avail_out-257),h=r.dmax,u=r.wsize,l=r.whave,f=r.wnext,d=r.window,c=r.hold,p=r.bits,m=r.lencode,_=r.distcode,g=(1<<r.lenbits)-1,b=(1<<r.distbits)-1;t:do{p<15&&(c+=z[i++]<<p,p+=8,c+=z[i++]<<p,p+=8),v=m[c&g];e:for(;;){if(c>>>=y=v>>>24,p-=y,0===(y=v>>>16&255))C[s++]=65535&v;else{if(!(16&y)){if(0==(64&y)){v=m[(65535&v)+(c&(1<<y)-1)];continue e}if(32&y){r.mode=12;break t}t.msg="invalid literal/length code",r.mode=30;break t}w=65535&v,(y&=15)&&(p<y&&(c+=z[i++]<<p,p+=8),w+=c&(1<<y)-1,c>>>=y,p-=y),p<15&&(c+=z[i++]<<p,p+=8,c+=z[i++]<<p,p+=8),v=_[c&b];r:for(;;){if(c>>>=y=v>>>24,p-=y,!(16&(y=v>>>16&255))){if(0==(64&y)){v=_[(65535&v)+(c&(1<<y)-1)];continue r}t.msg="invalid distance code",r.mode=30;break t}if(k=65535&v,p<(y&=15)&&(c+=z[i++]<<p,(p+=8)<y&&(c+=z[i++]<<p,p+=8)),h<(k+=c&(1<<y)-1)){t.msg="invalid distance too far back",r.mode=30;break t}if(c>>>=y,p-=y,(y=s-a)<k){if(l<(y=k-y)&&r.sane){t.msg="invalid distance too far back",r.mode=30;break t}if(S=d,(x=0)===f){if(x+=u-y,y<w){for(w-=y;C[s++]=d[x++],--y;);x=s-k,S=C}}else if(f<y){if(x+=u+f-y,(y-=f)<w){for(w-=y;C[s++]=d[x++],--y;);if(x=0,f<w){for(w-=y=f;C[s++]=d[x++],--y;);x=s-k,S=C}}}else if(x+=f-y,y<w){for(w-=y;C[s++]=d[x++],--y;);x=s-k,S=C}for(;2<w;)C[s++]=S[x++],C[s++]=S[x++],C[s++]=S[x++],w-=3;w&&(C[s++]=S[x++],1<w&&(C[s++]=S[x++]))}else{for(x=s-k;C[s++]=C[x++],C[s++]=C[x++],C[s++]=C[x++],2<(w-=3););w&&(C[s++]=C[x++],1<w&&(C[s++]=C[x++]))}break}}break}}while(i<n&&s<o);i-=w=p>>3,c&=(1<<(p-=w<<3))-1,t.next_in=i,t.next_out=s,t.avail_in=i<n?n-i+5:5-(i-n),t.avail_out=s<o?o-s+257:257-(s-o),r.hold=c,r.bits=p}},{}],49:[function(t,e,r){"use strict";var I=t("../utils/common"),O=t("./adler32"),B=t("./crc32"),R=t("./inffast"),T=t("./inftrees"),D=1,F=2,N=0,U=-2,P=1,i=852,n=592;function L(t){return(t>>>24&255)+(t>>>8&65280)+((65280&t)<<8)+((255&t)<<24)}function s(){this.mode=0,this.last=!1,this.wrap=0,this.havedict=!1,this.flags=0,this.dmax=0,this.check=0,this.total=0,this.head=null,this.wbits=0,this.wsize=0,this.whave=0,this.wnext=0,this.window=null,this.hold=0,this.bits=0,this.length=0,this.offset=0,this.extra=0,this.lencode=null,this.distcode=null,this.lenbits=0,this.distbits=0,this.ncode=0,this.nlen=0,this.ndist=0,this.have=0,this.next=null,this.lens=new I.Buf16(320),this.work=new I.Buf16(288),this.lendyn=null,this.distdyn=null,this.sane=0,this.back=0,this.was=0}function a(t){var e;return t&&t.state?(e=t.state,t.total_in=t.total_out=e.total=0,t.msg="",e.wrap&&(t.adler=1&e.wrap),e.mode=P,e.last=0,e.havedict=0,e.dmax=32768,e.head=null,e.hold=0,e.bits=0,e.lencode=e.lendyn=new I.Buf32(i),e.distcode=e.distdyn=new I.Buf32(n),e.sane=1,e.back=-1,N):U}function o(t){var e;return t&&t.state?((e=t.state).wsize=0,e.whave=0,e.wnext=0,a(t)):U}function h(t,e){var r,i;return t&&t.state?(i=t.state,e<0?(r=0,e=-e):(r=1+(e>>4),e<48&&(e&=15)),e&&(e<8||15<e)?U:(null!==i.window&&i.wbits!==e&&(i.window=null),i.wrap=r,i.wbits=e,o(t))):U}function u(t,e){var r,i;return t?(i=new s,(t.state=i).window=null,(r=h(t,e))!==N&&(t.state=null),r):U}var l,f,d=!0;function j(t){if(d){var e;for(l=new I.Buf32(512),f=new I.Buf32(32),e=0;e<144;)t.lens[e++]=8;for(;e<256;)t.lens[e++]=9;for(;e<280;)t.lens[e++]=7;for(;e<288;)t.lens[e++]=8;for(T(D,t.lens,0,288,l,0,t.work,{bits:9}),e=0;e<32;)t.lens[e++]=5;T(F,t.lens,0,32,f,0,t.work,{bits:5}),d=!1}t.lencode=l,t.lenbits=9,t.distcode=f,t.distbits=5}function Z(t,e,r,i){var n,s=t.state;return null===s.window&&(s.wsize=1<<s.wbits,s.wnext=0,s.whave=0,s.window=new I.Buf8(s.wsize)),i>=s.wsize?(I.arraySet(s.window,e,r-s.wsize,s.wsize,0),s.wnext=0,s.whave=s.wsize):(i<(n=s.wsize-s.wnext)&&(n=i),I.arraySet(s.window,e,r-i,n,s.wnext),(i-=n)?(I.arraySet(s.window,e,r-i,i,0),s.wnext=i,s.whave=s.wsize):(s.wnext+=n,s.wnext===s.wsize&&(s.wnext=0),s.whave<s.wsize&&(s.whave+=n))),0}r.inflateReset=o,r.inflateReset2=h,r.inflateResetKeep=a,r.inflateInit=function(t){return u(t,15)},r.inflateInit2=u,r.inflate=function(t,e){var r,i,n,s,a,o,h,u,l,f,d,c,p,m,_,g,b,v,y,w,k,x,S,z,C=0,E=new I.Buf8(4),A=[16,17,18,0,8,7,9,6,10,5,11,4,12,3,13,2,14,1,15];if(!t||!t.state||!t.output||!t.input&&0!==t.avail_in)return U;12===(r=t.state).mode&&(r.mode=13),a=t.next_out,n=t.output,h=t.avail_out,s=t.next_in,i=t.input,o=t.avail_in,u=r.hold,l=r.bits,f=o,d=h,x=N;t:for(;;)switch(r.mode){case P:if(0===r.wrap){r.mode=13;break}for(;l<16;){if(0===o)break t;o--,u+=i[s++]<<l,l+=8}if(2&r.wrap&&35615===u){E[r.check=0]=255&u,E[1]=u>>>8&255,r.check=B(r.check,E,2,0),l=u=0,r.mode=2;break}if(r.flags=0,r.head&&(r.head.done=!1),!(1&r.wrap)||(((255&u)<<8)+(u>>8))%31){t.msg="incorrect header check",r.mode=30;break}if(8!=(15&u)){t.msg="unknown compression method",r.mode=30;break}if(l-=4,k=8+(15&(u>>>=4)),0===r.wbits)r.wbits=k;else if(k>r.wbits){t.msg="invalid window size",r.mode=30;break}r.dmax=1<<k,t.adler=r.check=1,r.mode=512&u?10:12,l=u=0;break;case 2:for(;l<16;){if(0===o)break t;o--,u+=i[s++]<<l,l+=8}if(r.flags=u,8!=(255&r.flags)){t.msg="unknown compression method",r.mode=30;break}if(57344&r.flags){t.msg="unknown header flags set",r.mode=30;break}r.head&&(r.head.text=u>>8&1),512&r.flags&&(E[0]=255&u,E[1]=u>>>8&255,r.check=B(r.check,E,2,0)),l=u=0,r.mode=3;case 3:for(;l<32;){if(0===o)break t;o--,u+=i[s++]<<l,l+=8}r.head&&(r.head.time=u),512&r.flags&&(E[0]=255&u,E[1]=u>>>8&255,E[2]=u>>>16&255,E[3]=u>>>24&255,r.check=B(r.check,E,4,0)),l=u=0,r.mode=4;case 4:for(;l<16;){if(0===o)break t;o--,u+=i[s++]<<l,l+=8}r.head&&(r.head.xflags=255&u,r.head.os=u>>8),512&r.flags&&(E[0]=255&u,E[1]=u>>>8&255,r.check=B(r.check,E,2,0)),l=u=0,r.mode=5;case 5:if(1024&r.flags){for(;l<16;){if(0===o)break t;o--,u+=i[s++]<<l,l+=8}r.length=u,r.head&&(r.head.extra_len=u),512&r.flags&&(E[0]=255&u,E[1]=u>>>8&255,r.check=B(r.check,E,2,0)),l=u=0}else r.head&&(r.head.extra=null);r.mode=6;case 6:if(1024&r.flags&&(o<(c=r.length)&&(c=o),c&&(r.head&&(k=r.head.extra_len-r.length,r.head.extra||(r.head.extra=new Array(r.head.extra_len)),I.arraySet(r.head.extra,i,s,c,k)),512&r.flags&&(r.check=B(r.check,i,c,s)),o-=c,s+=c,r.length-=c),r.length))break t;r.length=0,r.mode=7;case 7:if(2048&r.flags){if(0===o)break t;for(c=0;k=i[s+c++],r.head&&k&&r.length<65536&&(r.head.name+=String.fromCharCode(k)),k&&c<o;);if(512&r.flags&&(r.check=B(r.check,i,c,s)),o-=c,s+=c,k)break t}else r.head&&(r.head.name=null);r.length=0,r.mode=8;case 8:if(4096&r.flags){if(0===o)break t;for(c=0;k=i[s+c++],r.head&&k&&r.length<65536&&(r.head.comment+=String.fromCharCode(k)),k&&c<o;);if(512&r.flags&&(r.check=B(r.check,i,c,s)),o-=c,s+=c,k)break t}else r.head&&(r.head.comment=null);r.mode=9;case 9:if(512&r.flags){for(;l<16;){if(0===o)break t;o--,u+=i[s++]<<l,l+=8}if(u!==(65535&r.check)){t.msg="header crc mismatch",r.mode=30;break}l=u=0}r.head&&(r.head.hcrc=r.flags>>9&1,r.head.done=!0),t.adler=r.check=0,r.mode=12;break;case 10:for(;l<32;){if(0===o)break t;o--,u+=i[s++]<<l,l+=8}t.adler=r.check=L(u),l=u=0,r.mode=11;case 11:if(0===r.havedict)return t.next_out=a,t.avail_out=h,t.next_in=s,t.avail_in=o,r.hold=u,r.bits=l,2;t.adler=r.check=1,r.mode=12;case 12:if(5===e||6===e)break t;case 13:if(r.last){u>>>=7&l,l-=7&l,r.mode=27;break}for(;l<3;){if(0===o)break t;o--,u+=i[s++]<<l,l+=8}switch(r.last=1&u,l-=1,3&(u>>>=1)){case 0:r.mode=14;break;case 1:if(j(r),r.mode=20,6!==e)break;u>>>=2,l-=2;break t;case 2:r.mode=17;break;case 3:t.msg="invalid block type",r.mode=30}u>>>=2,l-=2;break;case 14:for(u>>>=7&l,l-=7&l;l<32;){if(0===o)break t;o--,u+=i[s++]<<l,l+=8}if((65535&u)!=(u>>>16^65535)){t.msg="invalid stored block lengths",r.mode=30;break}if(r.length=65535&u,l=u=0,r.mode=15,6===e)break t;case 15:r.mode=16;case 16:if(c=r.length){if(o<c&&(c=o),h<c&&(c=h),0===c)break t;I.arraySet(n,i,s,c,a),o-=c,s+=c,h-=c,a+=c,r.length-=c;break}r.mode=12;break;case 17:for(;l<14;){if(0===o)break t;o--,u+=i[s++]<<l,l+=8}if(r.nlen=257+(31&u),u>>>=5,l-=5,r.ndist=1+(31&u),u>>>=5,l-=5,r.ncode=4+(15&u),u>>>=4,l-=4,286<r.nlen||30<r.ndist){t.msg="too many length or distance symbols",r.mode=30;break}r.have=0,r.mode=18;case 18:for(;r.have<r.ncode;){for(;l<3;){if(0===o)break t;o--,u+=i[s++]<<l,l+=8}r.lens[A[r.have++]]=7&u,u>>>=3,l-=3}for(;r.have<19;)r.lens[A[r.have++]]=0;if(r.lencode=r.lendyn,r.lenbits=7,S={bits:r.lenbits},x=T(0,r.lens,0,19,r.lencode,0,r.work,S),r.lenbits=S.bits,x){t.msg="invalid code lengths set",r.mode=30;break}r.have=0,r.mode=19;case 19:for(;r.have<r.nlen+r.ndist;){for(;g=(C=r.lencode[u&(1<<r.lenbits)-1])>>>16&255,b=65535&C,!((_=C>>>24)<=l);){if(0===o)break t;o--,u+=i[s++]<<l,l+=8}if(b<16)u>>>=_,l-=_,r.lens[r.have++]=b;else{if(16===b){for(z=_+2;l<z;){if(0===o)break t;o--,u+=i[s++]<<l,l+=8}if(u>>>=_,l-=_,0===r.have){t.msg="invalid bit length repeat",r.mode=30;break}k=r.lens[r.have-1],c=3+(3&u),u>>>=2,l-=2}else if(17===b){for(z=_+3;l<z;){if(0===o)break t;o--,u+=i[s++]<<l,l+=8}l-=_,k=0,c=3+(7&(u>>>=_)),u>>>=3,l-=3}else{for(z=_+7;l<z;){if(0===o)break t;o--,u+=i[s++]<<l,l+=8}l-=_,k=0,c=11+(127&(u>>>=_)),u>>>=7,l-=7}if(r.have+c>r.nlen+r.ndist){t.msg="invalid bit length repeat",r.mode=30;break}for(;c--;)r.lens[r.have++]=k}}if(30===r.mode)break;if(0===r.lens[256]){t.msg="invalid code -- missing end-of-block",r.mode=30;break}if(r.lenbits=9,S={bits:r.lenbits},x=T(D,r.lens,0,r.nlen,r.lencode,0,r.work,S),r.lenbits=S.bits,x){t.msg="invalid literal/lengths set",r.mode=30;break}if(r.distbits=6,r.distcode=r.distdyn,S={bits:r.distbits},x=T(F,r.lens,r.nlen,r.ndist,r.distcode,0,r.work,S),r.distbits=S.bits,x){t.msg="invalid distances set",r.mode=30;break}if(r.mode=20,6===e)break t;case 20:r.mode=21;case 21:if(6<=o&&258<=h){t.next_out=a,t.avail_out=h,t.next_in=s,t.avail_in=o,r.hold=u,r.bits=l,R(t,d),a=t.next_out,n=t.output,h=t.avail_out,s=t.next_in,i=t.input,o=t.avail_in,u=r.hold,l=r.bits,12===r.mode&&(r.back=-1);break}for(r.back=0;g=(C=r.lencode[u&(1<<r.lenbits)-1])>>>16&255,b=65535&C,!((_=C>>>24)<=l);){if(0===o)break t;o--,u+=i[s++]<<l,l+=8}if(g&&0==(240&g)){for(v=_,y=g,w=b;g=(C=r.lencode[w+((u&(1<<v+y)-1)>>v)])>>>16&255,b=65535&C,!(v+(_=C>>>24)<=l);){if(0===o)break t;o--,u+=i[s++]<<l,l+=8}u>>>=v,l-=v,r.back+=v}if(u>>>=_,l-=_,r.back+=_,r.length=b,0===g){r.mode=26;break}if(32&g){r.back=-1,r.mode=12;break}if(64&g){t.msg="invalid literal/length code",r.mode=30;break}r.extra=15&g,r.mode=22;case 22:if(r.extra){for(z=r.extra;l<z;){if(0===o)break t;o--,u+=i[s++]<<l,l+=8}r.length+=u&(1<<r.extra)-1,u>>>=r.extra,l-=r.extra,r.back+=r.extra}r.was=r.length,r.mode=23;case 23:for(;g=(C=r.distcode[u&(1<<r.distbits)-1])>>>16&255,b=65535&C,!((_=C>>>24)<=l);){if(0===o)break t;o--,u+=i[s++]<<l,l+=8}if(0==(240&g)){for(v=_,y=g,w=b;g=(C=r.distcode[w+((u&(1<<v+y)-1)>>v)])>>>16&255,b=65535&C,!(v+(_=C>>>24)<=l);){if(0===o)break t;o--,u+=i[s++]<<l,l+=8}u>>>=v,l-=v,r.back+=v}if(u>>>=_,l-=_,r.back+=_,64&g){t.msg="invalid distance code",r.mode=30;break}r.offset=b,r.extra=15&g,r.mode=24;case 24:if(r.extra){for(z=r.extra;l<z;){if(0===o)break t;o--,u+=i[s++]<<l,l+=8}r.offset+=u&(1<<r.extra)-1,u>>>=r.extra,l-=r.extra,r.back+=r.extra}if(r.offset>r.dmax){t.msg="invalid distance too far back",r.mode=30;break}r.mode=25;case 25:if(0===h)break t;if(c=d-h,r.offset>c){if((c=r.offset-c)>r.whave&&r.sane){t.msg="invalid distance too far back",r.mode=30;break}p=c>r.wnext?(c-=r.wnext,r.wsize-c):r.wnext-c,c>r.length&&(c=r.length),m=r.window}else m=n,p=a-r.offset,c=r.length;for(h<c&&(c=h),h-=c,r.length-=c;n[a++]=m[p++],--c;);0===r.length&&(r.mode=21);break;case 26:if(0===h)break t;n[a++]=r.length,h--,r.mode=21;break;case 27:if(r.wrap){for(;l<32;){if(0===o)break t;o--,u|=i[s++]<<l,l+=8}if(d-=h,t.total_out+=d,r.total+=d,d&&(t.adler=r.check=r.flags?B(r.check,n,d,a-d):O(r.check,n,d,a-d)),d=h,(r.flags?u:L(u))!==r.check){t.msg="incorrect data check",r.mode=30;break}l=u=0}r.mode=28;case 28:if(r.wrap&&r.flags){for(;l<32;){if(0===o)break t;o--,u+=i[s++]<<l,l+=8}if(u!==(4294967295&r.total)){t.msg="incorrect length check",r.mode=30;break}l=u=0}r.mode=29;case 29:x=1;break t;case 30:x=-3;break t;case 31:return-4;case 32:default:return U}return t.next_out=a,t.avail_out=h,t.next_in=s,t.avail_in=o,r.hold=u,r.bits=l,(r.wsize||d!==t.avail_out&&r.mode<30&&(r.mode<27||4!==e))&&Z(t,t.output,t.next_out,d-t.avail_out)?(r.mode=31,-4):(f-=t.avail_in,d-=t.avail_out,t.total_in+=f,t.total_out+=d,r.total+=d,r.wrap&&d&&(t.adler=r.check=r.flags?B(r.check,n,d,t.next_out-d):O(r.check,n,d,t.next_out-d)),t.data_type=r.bits+(r.last?64:0)+(12===r.mode?128:0)+(20===r.mode||15===r.mode?256:0),(0==f&&0===d||4===e)&&x===N&&(x=-5),x)},r.inflateEnd=function(t){if(!t||!t.state)return U;var e=t.state;return e.window&&(e.window=null),t.state=null,N},r.inflateGetHeader=function(t,e){var r;return t&&t.state?0==(2&(r=t.state).wrap)?U:((r.head=e).done=!1,N):U},r.inflateSetDictionary=function(t,e){var r,i=e.length;return t&&t.state?0!==(r=t.state).wrap&&11!==r.mode?U:11===r.mode&&O(1,e,i,0)!==r.check?-3:Z(t,e,i,i)?(r.mode=31,-4):(r.havedict=1,N):U},r.inflateInfo="pako inflate (from Nodeca project)"},{"../utils/common":41,"./adler32":43,"./crc32":45,"./inffast":48,"./inftrees":50}],50:[function(t,e,r){"use strict";var D=t("../utils/common"),F=[3,4,5,6,7,8,9,10,11,13,15,17,19,23,27,31,35,43,51,59,67,83,99,115,131,163,195,227,258,0,0],N=[16,16,16,16,16,16,16,16,17,17,17,17,18,18,18,18,19,19,19,19,20,20,20,20,21,21,21,21,16,72,78],U=[1,2,3,4,5,7,9,13,17,25,33,49,65,97,129,193,257,385,513,769,1025,1537,2049,3073,4097,6145,8193,12289,16385,24577,0,0],P=[16,16,16,16,17,17,18,18,19,19,20,20,21,21,22,22,23,23,24,24,25,25,26,26,27,27,28,28,29,29,64,64];e.exports=function(t,e,r,i,n,s,a,o){var h,u,l,f,d,c,p,m,_,g=o.bits,b=0,v=0,y=0,w=0,k=0,x=0,S=0,z=0,C=0,E=0,A=null,I=0,O=new D.Buf16(16),B=new D.Buf16(16),R=null,T=0;for(b=0;b<=15;b++)O[b]=0;for(v=0;v<i;v++)O[e[r+v]]++;for(k=g,w=15;1<=w&&0===O[w];w--);if(w<k&&(k=w),0===w)return n[s++]=20971520,n[s++]=20971520,o.bits=1,0;for(y=1;y<w&&0===O[y];y++);for(k<y&&(k=y),b=z=1;b<=15;b++)if(z<<=1,(z-=O[b])<0)return-1;if(0<z&&(0===t||1!==w))return-1;for(B[1]=0,b=1;b<15;b++)B[b+1]=B[b]+O[b];for(v=0;v<i;v++)0!==e[r+v]&&(a[B[e[r+v]]++]=v);if(c=0===t?(A=R=a,19):1===t?(A=F,I-=257,R=N,T-=257,256):(A=U,R=P,-1),b=y,d=s,S=v=E=0,l=-1,f=(C=1<<(x=k))-1,1===t&&852<C||2===t&&592<C)return 1;for(;;){for(p=b-S,_=a[v]<c?(m=0,a[v]):a[v]>c?(m=R[T+a[v]],A[I+a[v]]):(m=96,0),h=1<<b-S,y=u=1<<x;n[d+(E>>S)+(u-=h)]=p<<24|m<<16|_|0,0!==u;);for(h=1<<b-1;E&h;)h>>=1;if(0!==h?(E&=h-1,E+=h):E=0,v++,0==--O[b]){if(b===w)break;b=e[r+a[v]]}if(k<b&&(E&f)!==l){for(0===S&&(S=k),d+=y,z=1<<(x=b-S);x+S<w&&!((z-=O[x+S])<=0);)x++,z<<=1;if(C+=1<<x,1===t&&852<C||2===t&&592<C)return 1;n[l=E&f]=k<<24|x<<16|d-s|0}}return 0!==E&&(n[d+E]=b-S<<24|64<<16|0),o.bits=k,0}},{"../utils/common":41}],51:[function(t,e,r){"use strict";e.exports={2:"need dictionary",1:"stream end",0:"","-1":"file error","-2":"stream error","-3":"data error","-4":"insufficient memory","-5":"buffer error","-6":"incompatible version"}},{}],52:[function(t,e,r){"use strict";var n=t("../utils/common"),o=0,h=1;function i(t){for(var e=t.length;0<=--e;)t[e]=0}var s=0,a=29,u=256,l=u+1+a,f=30,d=19,_=2*l+1,g=15,c=16,p=7,m=256,b=16,v=17,y=18,w=[0,0,0,0,0,0,0,0,1,1,1,1,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,0],k=[0,0,0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12,13,13],x=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,3,7],S=[16,17,18,0,8,7,9,6,10,5,11,4,12,3,13,2,14,1,15],z=new Array(2*(l+2));i(z);var C=new Array(2*f);i(C);var E=new Array(512);i(E);var A=new Array(256);i(A);var I=new Array(a);i(I);var O,B,R,T=new Array(f);function D(t,e,r,i,n){this.static_tree=t,this.extra_bits=e,this.extra_base=r,this.elems=i,this.max_length=n,this.has_stree=t&&t.length}function F(t,e){this.dyn_tree=t,this.max_code=0,this.stat_desc=e}function N(t){return t<256?E[t]:E[256+(t>>>7)]}function U(t,e){t.pending_buf[t.pending++]=255&e,t.pending_buf[t.pending++]=e>>>8&255}function P(t,e,r){t.bi_valid>c-r?(t.bi_buf|=e<<t.bi_valid&65535,U(t,t.bi_buf),t.bi_buf=e>>c-t.bi_valid,t.bi_valid+=r-c):(t.bi_buf|=e<<t.bi_valid&65535,t.bi_valid+=r)}function L(t,e,r){P(t,r[2*e],r[2*e+1])}function j(t,e){for(var r=0;r|=1&t,t>>>=1,r<<=1,0<--e;);return r>>>1}function Z(t,e,r){var i,n,s=new Array(g+1),a=0;for(i=1;i<=g;i++)s[i]=a=a+r[i-1]<<1;for(n=0;n<=e;n++){var o=t[2*n+1];0!==o&&(t[2*n]=j(s[o]++,o))}}function W(t){var e;for(e=0;e<l;e++)t.dyn_ltree[2*e]=0;for(e=0;e<f;e++)t.dyn_dtree[2*e]=0;for(e=0;e<d;e++)t.bl_tree[2*e]=0;t.dyn_ltree[2*m]=1,t.opt_len=t.static_len=0,t.last_lit=t.matches=0}function M(t){8<t.bi_valid?U(t,t.bi_buf):0<t.bi_valid&&(t.pending_buf[t.pending++]=t.bi_buf),t.bi_buf=0,t.bi_valid=0}function H(t,e,r,i){var n=2*e,s=2*r;return t[n]<t[s]||t[n]===t[s]&&i[e]<=i[r]}function G(t,e,r){for(var i=t.heap[r],n=r<<1;n<=t.heap_len&&(n<t.heap_len&&H(e,t.heap[n+1],t.heap[n],t.depth)&&n++,!H(e,i,t.heap[n],t.depth));)t.heap[r]=t.heap[n],r=n,n<<=1;t.heap[r]=i}function K(t,e,r){var i,n,s,a,o=0;if(0!==t.last_lit)for(;i=t.pending_buf[t.d_buf+2*o]<<8|t.pending_buf[t.d_buf+2*o+1],n=t.pending_buf[t.l_buf+o],o++,0===i?L(t,n,e):(L(t,(s=A[n])+u+1,e),0!==(a=w[s])&&P(t,n-=I[s],a),L(t,s=N(--i),r),0!==(a=k[s])&&P(t,i-=T[s],a)),o<t.last_lit;);L(t,m,e)}function Y(t,e){var r,i,n,s=e.dyn_tree,a=e.stat_desc.static_tree,o=e.stat_desc.has_stree,h=e.stat_desc.elems,u=-1;for(t.heap_len=0,t.heap_max=_,r=0;r<h;r++)0!==s[2*r]?(t.heap[++t.heap_len]=u=r,t.depth[r]=0):s[2*r+1]=0;for(;t.heap_len<2;)s[2*(n=t.heap[++t.heap_len]=u<2?++u:0)]=1,t.depth[n]=0,t.opt_len--,o&&(t.static_len-=a[2*n+1]);for(e.max_code=u,r=t.heap_len>>1;1<=r;r--)G(t,s,r);for(n=h;r=t.heap[1],t.heap[1]=t.heap[t.heap_len--],G(t,s,1),i=t.heap[1],t.heap[--t.heap_max]=r,t.heap[--t.heap_max]=i,s[2*n]=s[2*r]+s[2*i],t.depth[n]=(t.depth[r]>=t.depth[i]?t.depth[r]:t.depth[i])+1,s[2*r+1]=s[2*i+1]=n,t.heap[1]=n++,G(t,s,1),2<=t.heap_len;);t.heap[--t.heap_max]=t.heap[1],function(t,e){var r,i,n,s,a,o,h=e.dyn_tree,u=e.max_code,l=e.stat_desc.static_tree,f=e.stat_desc.has_stree,d=e.stat_desc.extra_bits,c=e.stat_desc.extra_base,p=e.stat_desc.max_length,m=0;for(s=0;s<=g;s++)t.bl_count[s]=0;for(h[2*t.heap[t.heap_max]+1]=0,r=t.heap_max+1;r<_;r++)p<(s=h[2*h[2*(i=t.heap[r])+1]+1]+1)&&(s=p,m++),h[2*i+1]=s,u<i||(t.bl_count[s]++,a=0,c<=i&&(a=d[i-c]),o=h[2*i],t.opt_len+=o*(s+a),f&&(t.static_len+=o*(l[2*i+1]+a)));if(0!==m){do{for(s=p-1;0===t.bl_count[s];)s--;t.bl_count[s]--,t.bl_count[s+1]+=2,t.bl_count[p]--,m-=2}while(0<m);for(s=p;0!==s;s--)for(i=t.bl_count[s];0!==i;)u<(n=t.heap[--r])||(h[2*n+1]!==s&&(t.opt_len+=(s-h[2*n+1])*h[2*n],h[2*n+1]=s),i--)}}(t,e),Z(s,u,t.bl_count)}function X(t,e,r){var i,n,s=-1,a=e[1],o=0,h=7,u=4;for(0===a&&(h=138,u=3),e[2*(r+1)+1]=65535,i=0;i<=r;i++)n=a,a=e[2*(i+1)+1],++o<h&&n===a||(o<u?t.bl_tree[2*n]+=o:0!==n?(n!==s&&t.bl_tree[2*n]++,t.bl_tree[2*b]++):o<=10?t.bl_tree[2*v]++:t.bl_tree[2*y]++,s=n,u=(o=0)===a?(h=138,3):n===a?(h=6,3):(h=7,4))}function V(t,e,r){var i,n,s=-1,a=e[1],o=0,h=7,u=4;for(0===a&&(h=138,u=3),i=0;i<=r;i++)if(n=a,a=e[2*(i+1)+1],!(++o<h&&n===a)){if(o<u)for(;L(t,n,t.bl_tree),0!=--o;);else 0!==n?(n!==s&&(L(t,n,t.bl_tree),o--),L(t,b,t.bl_tree),P(t,o-3,2)):o<=10?(L(t,v,t.bl_tree),P(t,o-3,3)):(L(t,y,t.bl_tree),P(t,o-11,7));s=n,u=(o=0)===a?(h=138,3):n===a?(h=6,3):(h=7,4)}}i(T);var q=!1;function J(t,e,r,i){P(t,(s<<1)+(i?1:0),3),function(t,e,r,i){M(t),i&&(U(t,r),U(t,~r)),n.arraySet(t.pending_buf,t.window,e,r,t.pending),t.pending+=r}(t,e,r,!0)}r._tr_init=function(t){q||(function(){var t,e,r,i,n,s=new Array(g+1);for(i=r=0;i<a-1;i++)for(I[i]=r,t=0;t<1<<w[i];t++)A[r++]=i;for(A[r-1]=i,i=n=0;i<16;i++)for(T[i]=n,t=0;t<1<<k[i];t++)E[n++]=i;for(n>>=7;i<f;i++)for(T[i]=n<<7,t=0;t<1<<k[i]-7;t++)E[256+n++]=i;for(e=0;e<=g;e++)s[e]=0;for(t=0;t<=143;)z[2*t+1]=8,t++,s[8]++;for(;t<=255;)z[2*t+1]=9,t++,s[9]++;for(;t<=279;)z[2*t+1]=7,t++,s[7]++;for(;t<=287;)z[2*t+1]=8,t++,s[8]++;for(Z(z,l+1,s),t=0;t<f;t++)C[2*t+1]=5,C[2*t]=j(t,5);O=new D(z,w,u+1,l,g),B=new D(C,k,0,f,g),R=new D(new Array(0),x,0,d,p)}(),q=!0),t.l_desc=new F(t.dyn_ltree,O),t.d_desc=new F(t.dyn_dtree,B),t.bl_desc=new F(t.bl_tree,R),t.bi_buf=0,t.bi_valid=0,W(t)},r._tr_stored_block=J,r._tr_flush_block=function(t,e,r,i){var n,s,a=0;0<t.level?(2===t.strm.data_type&&(t.strm.data_type=function(t){var e,r=4093624447;for(e=0;e<=31;e++,r>>>=1)if(1&r&&0!==t.dyn_ltree[2*e])return o;if(0!==t.dyn_ltree[18]||0!==t.dyn_ltree[20]||0!==t.dyn_ltree[26])return h;for(e=32;e<u;e++)if(0!==t.dyn_ltree[2*e])return h;return o}(t)),Y(t,t.l_desc),Y(t,t.d_desc),a=function(t){var e;for(X(t,t.dyn_ltree,t.l_desc.max_code),X(t,t.dyn_dtree,t.d_desc.max_code),Y(t,t.bl_desc),e=d-1;3<=e&&0===t.bl_tree[2*S[e]+1];e--);return t.opt_len+=3*(e+1)+5+5+4,e}(t),n=t.opt_len+3+7>>>3,(s=t.static_len+3+7>>>3)<=n&&(n=s)):n=s=r+5,r+4<=n&&-1!==e?J(t,e,r,i):4===t.strategy||s===n?(P(t,2+(i?1:0),3),K(t,z,C)):(P(t,4+(i?1:0),3),function(t,e,r,i){var n;for(P(t,e-257,5),P(t,r-1,5),P(t,i-4,4),n=0;n<i;n++)P(t,t.bl_tree[2*S[n]+1],3);V(t,t.dyn_ltree,e-1),V(t,t.dyn_dtree,r-1)}(t,t.l_desc.max_code+1,t.d_desc.max_code+1,a+1),K(t,t.dyn_ltree,t.dyn_dtree)),W(t),i&&M(t)},r._tr_tally=function(t,e,r){return t.pending_buf[t.d_buf+2*t.last_lit]=e>>>8&255,t.pending_buf[t.d_buf+2*t.last_lit+1]=255&e,t.pending_buf[t.l_buf+t.last_lit]=255&r,t.last_lit++,0===e?t.dyn_ltree[2*r]++:(t.matches++,e--,t.dyn_ltree[2*(A[r]+u+1)]++,t.dyn_dtree[2*N(e)]++),t.last_lit===t.lit_bufsize-1},r._tr_align=function(t){P(t,2,3),L(t,m,z),function(t){16===t.bi_valid?(U(t,t.bi_buf),t.bi_buf=0,t.bi_valid=0):8<=t.bi_valid&&(t.pending_buf[t.pending++]=255&t.bi_buf,t.bi_buf>>=8,t.bi_valid-=8)}(t)}},{"../utils/common":41}],53:[function(t,e,r){"use strict";e.exports=function(){this.input=null,this.next_in=0,this.avail_in=0,this.total_in=0,this.output=null,this.next_out=0,this.avail_out=0,this.total_out=0,this.msg="",this.state=null,this.data_type=2,this.adler=0}},{}],54:[function(t,e,r){"use strict";e.exports="function"==typeof setImmediate?setImmediate:function(){var t=[].slice.apply(arguments);t.splice(1,0,0),setTimeout.apply(null,t)}},{}]},{},[10])(10)});
+
+/***/ }),
+
+/***/ "./node_modules/pako/lib/zlib/gzheader.js":
+/*!************************************************!*\
+  !*** ./node_modules/pako/lib/zlib/gzheader.js ***!
+  \************************************************/
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module */
+/*! CommonJS bailout: module.exports is used directly at 58:0-14 */
+/***/ ((module) => {
+
+"use strict";
+
+
+// (C) 1995-2013 Jean-loup Gailly and Mark Adler
+// (C) 2014-2017 Vitaly Puzrin and Andrey Tupitsin
+//
+// This software is provided 'as-is', without any express or implied
+// warranty. In no event will the authors be held liable for any damages
+// arising from the use of this software.
+//
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+//
+// 1. The origin of this software must not be misrepresented; you must not
+//   claim that you wrote the original software. If you use this software
+//   in a product, an acknowledgment in the product documentation would be
+//   appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+//   misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
+
+function GZheader() {
+  /* true if compressed data believed to be text */
+  this.text       = 0;
+  /* modification time */
+  this.time       = 0;
+  /* extra flags (not used when writing a gzip file) */
+  this.xflags     = 0;
+  /* operating system */
+  this.os         = 0;
+  /* pointer to extra field or Z_NULL if none */
+  this.extra      = null;
+  /* extra field length (valid if extra != Z_NULL) */
+  this.extra_len  = 0; // Actually, we don't need it in JS,
+                       // but leave for few code modifications
+
+  //
+  // Setup limits is not necessary because in js we should not preallocate memory
+  // for inflate use constant limit in 65536 bytes
+  //
+
+  /* space at extra (only when reading header) */
+  // this.extra_max  = 0;
+  /* pointer to zero-terminated file name or Z_NULL */
+  this.name       = '';
+  /* space at name (only when reading header) */
+  // this.name_max   = 0;
+  /* pointer to zero-terminated comment or Z_NULL */
+  this.comment    = '';
+  /* space at comment (only when reading header) */
+  // this.comm_max   = 0;
+  /* true if there was or will be a header crc */
+  this.hcrc       = 0;
+  /* true when done reading gzip header (not used when writing a gzip file) */
+  this.done       = false;
+}
+
+module.exports = GZheader;
+
+
+/***/ }),
+
+/***/ "./node_modules/pako/lib/zlib/inffast.js":
+/*!***********************************************!*\
+  !*** ./node_modules/pako/lib/zlib/inffast.js ***!
+  \***********************************************/
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module */
+/*! CommonJS bailout: module.exports is used directly at 61:0-14 */
+/***/ ((module) => {
+
+"use strict";
+
+
+// (C) 1995-2013 Jean-loup Gailly and Mark Adler
+// (C) 2014-2017 Vitaly Puzrin and Andrey Tupitsin
+//
+// This software is provided 'as-is', without any express or implied
+// warranty. In no event will the authors be held liable for any damages
+// arising from the use of this software.
+//
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+//
+// 1. The origin of this software must not be misrepresented; you must not
+//   claim that you wrote the original software. If you use this software
+//   in a product, an acknowledgment in the product documentation would be
+//   appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+//   misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
+
+// See state defs from inflate.js
+var BAD = 30;       /* got a data error -- remain here until reset */
+var TYPE = 12;      /* i: waiting for type bits, including last-flag bit */
+
+/*
+   Decode literal, length, and distance codes and write out the resulting
+   literal and match bytes until either not enough input or output is
+   available, an end-of-block is encountered, or a data error is encountered.
+   When large enough input and output buffers are supplied to inflate(), for
+   example, a 16K input buffer and a 64K output buffer, more than 95% of the
+   inflate execution time is spent in this routine.
+
+   Entry assumptions:
+
+        state.mode === LEN
+        strm.avail_in >= 6
+        strm.avail_out >= 258
+        start >= strm.avail_out
+        state.bits < 8
+
+   On return, state.mode is one of:
+
+        LEN -- ran out of enough output space or enough available input
+        TYPE -- reached end of block code, inflate() to interpret next block
+        BAD -- error in block data
+
+   Notes:
+
+    - The maximum input bits used by a length/distance pair is 15 bits for the
+      length code, 5 bits for the length extra, 15 bits for the distance code,
+      and 13 bits for the distance extra.  This totals 48 bits, or six bytes.
+      Therefore if strm.avail_in >= 6, then there is enough input to avoid
+      checking for available input while decoding.
+
+    - The maximum bytes that a single length/distance pair can output is 258
+      bytes, which is the maximum length that can be coded.  inflate_fast()
+      requires strm.avail_out >= 258 for each loop to avoid checking for
+      output space.
+ */
+module.exports = function inflate_fast(strm, start) {
+  var state;
+  var _in;                    /* local strm.input */
+  var last;                   /* have enough input while in < last */
+  var _out;                   /* local strm.output */
+  var beg;                    /* inflate()'s initial strm.output */
+  var end;                    /* while out < end, enough space available */
+//#ifdef INFLATE_STRICT
+  var dmax;                   /* maximum distance from zlib header */
+//#endif
+  var wsize;                  /* window size or zero if not using window */
+  var whave;                  /* valid bytes in the window */
+  var wnext;                  /* window write index */
+  // Use `s_window` instead `window`, avoid conflict with instrumentation tools
+  var s_window;               /* allocated sliding window, if wsize != 0 */
+  var hold;                   /* local strm.hold */
+  var bits;                   /* local strm.bits */
+  var lcode;                  /* local strm.lencode */
+  var dcode;                  /* local strm.distcode */
+  var lmask;                  /* mask for first level of length codes */
+  var dmask;                  /* mask for first level of distance codes */
+  var here;                   /* retrieved table entry */
+  var op;                     /* code bits, operation, extra bits, or */
+                              /*  window position, window bytes to copy */
+  var len;                    /* match length, unused bytes */
+  var dist;                   /* match distance */
+  var from;                   /* where to copy match from */
+  var from_source;
+
+
+  var input, output; // JS specific, because we have no pointers
+
+  /* copy state to local variables */
+  state = strm.state;
+  //here = state.here;
+  _in = strm.next_in;
+  input = strm.input;
+  last = _in + (strm.avail_in - 5);
+  _out = strm.next_out;
+  output = strm.output;
+  beg = _out - (start - strm.avail_out);
+  end = _out + (strm.avail_out - 257);
+//#ifdef INFLATE_STRICT
+  dmax = state.dmax;
+//#endif
+  wsize = state.wsize;
+  whave = state.whave;
+  wnext = state.wnext;
+  s_window = state.window;
+  hold = state.hold;
+  bits = state.bits;
+  lcode = state.lencode;
+  dcode = state.distcode;
+  lmask = (1 << state.lenbits) - 1;
+  dmask = (1 << state.distbits) - 1;
+
+
+  /* decode literals and length/distances until end-of-block or not enough
+     input data or output space */
+
+  top:
+  do {
+    if (bits < 15) {
+      hold += input[_in++] << bits;
+      bits += 8;
+      hold += input[_in++] << bits;
+      bits += 8;
+    }
+
+    here = lcode[hold & lmask];
+
+    dolen:
+    for (;;) { // Goto emulation
+      op = here >>> 24/*here.bits*/;
+      hold >>>= op;
+      bits -= op;
+      op = (here >>> 16) & 0xff/*here.op*/;
+      if (op === 0) {                          /* literal */
+        //Tracevv((stderr, here.val >= 0x20 && here.val < 0x7f ?
+        //        "inflate:         literal '%c'\n" :
+        //        "inflate:         literal 0x%02x\n", here.val));
+        output[_out++] = here & 0xffff/*here.val*/;
+      }
+      else if (op & 16) {                     /* length base */
+        len = here & 0xffff/*here.val*/;
+        op &= 15;                           /* number of extra bits */
+        if (op) {
+          if (bits < op) {
+            hold += input[_in++] << bits;
+            bits += 8;
+          }
+          len += hold & ((1 << op) - 1);
+          hold >>>= op;
+          bits -= op;
+        }
+        //Tracevv((stderr, "inflate:         length %u\n", len));
+        if (bits < 15) {
+          hold += input[_in++] << bits;
+          bits += 8;
+          hold += input[_in++] << bits;
+          bits += 8;
+        }
+        here = dcode[hold & dmask];
+
+        dodist:
+        for (;;) { // goto emulation
+          op = here >>> 24/*here.bits*/;
+          hold >>>= op;
+          bits -= op;
+          op = (here >>> 16) & 0xff/*here.op*/;
+
+          if (op & 16) {                      /* distance base */
+            dist = here & 0xffff/*here.val*/;
+            op &= 15;                       /* number of extra bits */
+            if (bits < op) {
+              hold += input[_in++] << bits;
+              bits += 8;
+              if (bits < op) {
+                hold += input[_in++] << bits;
+                bits += 8;
+              }
+            }
+            dist += hold & ((1 << op) - 1);
+//#ifdef INFLATE_STRICT
+            if (dist > dmax) {
+              strm.msg = 'invalid distance too far back';
+              state.mode = BAD;
+              break top;
+            }
+//#endif
+            hold >>>= op;
+            bits -= op;
+            //Tracevv((stderr, "inflate:         distance %u\n", dist));
+            op = _out - beg;                /* max distance in output */
+            if (dist > op) {                /* see if copy from window */
+              op = dist - op;               /* distance back in window */
+              if (op > whave) {
+                if (state.sane) {
+                  strm.msg = 'invalid distance too far back';
+                  state.mode = BAD;
+                  break top;
+                }
+
+// (!) This block is disabled in zlib defaults,
+// don't enable it for binary compatibility
+//#ifdef INFLATE_ALLOW_INVALID_DISTANCE_TOOFAR_ARRR
+//                if (len <= op - whave) {
+//                  do {
+//                    output[_out++] = 0;
+//                  } while (--len);
+//                  continue top;
+//                }
+//                len -= op - whave;
+//                do {
+//                  output[_out++] = 0;
+//                } while (--op > whave);
+//                if (op === 0) {
+//                  from = _out - dist;
+//                  do {
+//                    output[_out++] = output[from++];
+//                  } while (--len);
+//                  continue top;
+//                }
+//#endif
+              }
+              from = 0; // window index
+              from_source = s_window;
+              if (wnext === 0) {           /* very common case */
+                from += wsize - op;
+                if (op < len) {         /* some from window */
+                  len -= op;
+                  do {
+                    output[_out++] = s_window[from++];
+                  } while (--op);
+                  from = _out - dist;  /* rest from output */
+                  from_source = output;
+                }
+              }
+              else if (wnext < op) {      /* wrap around window */
+                from += wsize + wnext - op;
+                op -= wnext;
+                if (op < len) {         /* some from end of window */
+                  len -= op;
+                  do {
+                    output[_out++] = s_window[from++];
+                  } while (--op);
+                  from = 0;
+                  if (wnext < len) {  /* some from start of window */
+                    op = wnext;
+                    len -= op;
+                    do {
+                      output[_out++] = s_window[from++];
+                    } while (--op);
+                    from = _out - dist;      /* rest from output */
+                    from_source = output;
+                  }
+                }
+              }
+              else {                      /* contiguous in window */
+                from += wnext - op;
+                if (op < len) {         /* some from window */
+                  len -= op;
+                  do {
+                    output[_out++] = s_window[from++];
+                  } while (--op);
+                  from = _out - dist;  /* rest from output */
+                  from_source = output;
+                }
+              }
+              while (len > 2) {
+                output[_out++] = from_source[from++];
+                output[_out++] = from_source[from++];
+                output[_out++] = from_source[from++];
+                len -= 3;
+              }
+              if (len) {
+                output[_out++] = from_source[from++];
+                if (len > 1) {
+                  output[_out++] = from_source[from++];
+                }
+              }
+            }
+            else {
+              from = _out - dist;          /* copy direct from output */
+              do {                        /* minimum length is three */
+                output[_out++] = output[from++];
+                output[_out++] = output[from++];
+                output[_out++] = output[from++];
+                len -= 3;
+              } while (len > 2);
+              if (len) {
+                output[_out++] = output[from++];
+                if (len > 1) {
+                  output[_out++] = output[from++];
+                }
+              }
+            }
+          }
+          else if ((op & 64) === 0) {          /* 2nd level distance code */
+            here = dcode[(here & 0xffff)/*here.val*/ + (hold & ((1 << op) - 1))];
+            continue dodist;
+          }
+          else {
+            strm.msg = 'invalid distance code';
+            state.mode = BAD;
+            break top;
+          }
+
+          break; // need to emulate goto via "continue"
+        }
+      }
+      else if ((op & 64) === 0) {              /* 2nd level length code */
+        here = lcode[(here & 0xffff)/*here.val*/ + (hold & ((1 << op) - 1))];
+        continue dolen;
+      }
+      else if (op & 32) {                     /* end-of-block */
+        //Tracevv((stderr, "inflate:         end of block\n"));
+        state.mode = TYPE;
+        break top;
+      }
+      else {
+        strm.msg = 'invalid literal/length code';
+        state.mode = BAD;
+        break top;
+      }
+
+      break; // need to emulate goto via "continue"
+    }
+  } while (_in < last && _out < end);
+
+  /* return unused bytes (on entry, bits < 8, so in won't go too far back) */
+  len = bits >> 3;
+  _in -= len;
+  bits -= len << 3;
+  hold &= (1 << bits) - 1;
+
+  /* update state and return */
+  strm.next_in = _in;
+  strm.next_out = _out;
+  strm.avail_in = (_in < last ? 5 + (last - _in) : 5 - (_in - last));
+  strm.avail_out = (_out < end ? 257 + (end - _out) : 257 - (_out - end));
+  state.hold = hold;
+  state.bits = bits;
+  return;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/pako/lib/zlib/inflate.js":
+/*!***********************************************!*\
+  !*** ./node_modules/pako/lib/zlib/inflate.js ***!
+  \***********************************************/
+/*! default exports */
+/*! export inflate [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export inflateEnd [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export inflateGetHeader [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export inflateInfo [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export inflateInit [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export inflateInit2 [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export inflateReset [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export inflateReset2 [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export inflateResetKeep [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export inflateSetDictionary [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_exports__, __webpack_require__ */
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+
+// (C) 1995-2013 Jean-loup Gailly and Mark Adler
+// (C) 2014-2017 Vitaly Puzrin and Andrey Tupitsin
+//
+// This software is provided 'as-is', without any express or implied
+// warranty. In no event will the authors be held liable for any damages
+// arising from the use of this software.
+//
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+//
+// 1. The origin of this software must not be misrepresented; you must not
+//   claim that you wrote the original software. If you use this software
+//   in a product, an acknowledgment in the product documentation would be
+//   appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+//   misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
+
+var utils         = __webpack_require__(/*! ../utils/common */ "./node_modules/pako/lib/utils/common.js");
+var adler32       = __webpack_require__(/*! ./adler32 */ "./node_modules/pako/lib/zlib/adler32.js");
+var crc32         = __webpack_require__(/*! ./crc32 */ "./node_modules/pako/lib/zlib/crc32.js");
+var inflate_fast  = __webpack_require__(/*! ./inffast */ "./node_modules/pako/lib/zlib/inffast.js");
+var inflate_table = __webpack_require__(/*! ./inftrees */ "./node_modules/pako/lib/zlib/inftrees.js");
+
+var CODES = 0;
+var LENS = 1;
+var DISTS = 2;
+
+/* Public constants ==========================================================*/
+/* ===========================================================================*/
+
+
+/* Allowed flush values; see deflate() and inflate() below for details */
+//var Z_NO_FLUSH      = 0;
+//var Z_PARTIAL_FLUSH = 1;
+//var Z_SYNC_FLUSH    = 2;
+//var Z_FULL_FLUSH    = 3;
+var Z_FINISH        = 4;
+var Z_BLOCK         = 5;
+var Z_TREES         = 6;
+
+
+/* Return codes for the compression/decompression functions. Negative values
+ * are errors, positive values are used for special but normal events.
+ */
+var Z_OK            = 0;
+var Z_STREAM_END    = 1;
+var Z_NEED_DICT     = 2;
+//var Z_ERRNO         = -1;
+var Z_STREAM_ERROR  = -2;
+var Z_DATA_ERROR    = -3;
+var Z_MEM_ERROR     = -4;
+var Z_BUF_ERROR     = -5;
+//var Z_VERSION_ERROR = -6;
+
+/* The deflate compression method */
+var Z_DEFLATED  = 8;
+
+
+/* STATES ====================================================================*/
+/* ===========================================================================*/
+
+
+var    HEAD = 1;       /* i: waiting for magic header */
+var    FLAGS = 2;      /* i: waiting for method and flags (gzip) */
+var    TIME = 3;       /* i: waiting for modification time (gzip) */
+var    OS = 4;         /* i: waiting for extra flags and operating system (gzip) */
+var    EXLEN = 5;      /* i: waiting for extra length (gzip) */
+var    EXTRA = 6;      /* i: waiting for extra bytes (gzip) */
+var    NAME = 7;       /* i: waiting for end of file name (gzip) */
+var    COMMENT = 8;    /* i: waiting for end of comment (gzip) */
+var    HCRC = 9;       /* i: waiting for header crc (gzip) */
+var    DICTID = 10;    /* i: waiting for dictionary check value */
+var    DICT = 11;      /* waiting for inflateSetDictionary() call */
+var        TYPE = 12;      /* i: waiting for type bits, including last-flag bit */
+var        TYPEDO = 13;    /* i: same, but skip check to exit inflate on new block */
+var        STORED = 14;    /* i: waiting for stored size (length and complement) */
+var        COPY_ = 15;     /* i/o: same as COPY below, but only first time in */
+var        COPY = 16;      /* i/o: waiting for input or output to copy stored block */
+var        TABLE = 17;     /* i: waiting for dynamic block table lengths */
+var        LENLENS = 18;   /* i: waiting for code length code lengths */
+var        CODELENS = 19;  /* i: waiting for length/lit and distance code lengths */
+var            LEN_ = 20;      /* i: same as LEN below, but only first time in */
+var            LEN = 21;       /* i: waiting for length/lit/eob code */
+var            LENEXT = 22;    /* i: waiting for length extra bits */
+var            DIST = 23;      /* i: waiting for distance code */
+var            DISTEXT = 24;   /* i: waiting for distance extra bits */
+var            MATCH = 25;     /* o: waiting for output space to copy string */
+var            LIT = 26;       /* o: waiting for output space to write literal */
+var    CHECK = 27;     /* i: waiting for 32-bit check value */
+var    LENGTH = 28;    /* i: waiting for 32-bit length (gzip) */
+var    DONE = 29;      /* finished check, done -- remain here until reset */
+var    BAD = 30;       /* got a data error -- remain here until reset */
+var    MEM = 31;       /* got an inflate() memory error -- remain here until reset */
+var    SYNC = 32;      /* looking for synchronization bytes to restart inflate() */
+
+/* ===========================================================================*/
+
+
+
+var ENOUGH_LENS = 852;
+var ENOUGH_DISTS = 592;
+//var ENOUGH =  (ENOUGH_LENS+ENOUGH_DISTS);
+
+var MAX_WBITS = 15;
+/* 32K LZ77 window */
+var DEF_WBITS = MAX_WBITS;
+
+
+function zswap32(q) {
+  return  (((q >>> 24) & 0xff) +
+          ((q >>> 8) & 0xff00) +
+          ((q & 0xff00) << 8) +
+          ((q & 0xff) << 24));
+}
+
+
+function InflateState() {
+  this.mode = 0;             /* current inflate mode */
+  this.last = false;          /* true if processing last block */
+  this.wrap = 0;              /* bit 0 true for zlib, bit 1 true for gzip */
+  this.havedict = false;      /* true if dictionary provided */
+  this.flags = 0;             /* gzip header method and flags (0 if zlib) */
+  this.dmax = 0;              /* zlib header max distance (INFLATE_STRICT) */
+  this.check = 0;             /* protected copy of check value */
+  this.total = 0;             /* protected copy of output count */
+  // TODO: may be {}
+  this.head = null;           /* where to save gzip header information */
+
+  /* sliding window */
+  this.wbits = 0;             /* log base 2 of requested window size */
+  this.wsize = 0;             /* window size or zero if not using window */
+  this.whave = 0;             /* valid bytes in the window */
+  this.wnext = 0;             /* window write index */
+  this.window = null;         /* allocated sliding window, if needed */
+
+  /* bit accumulator */
+  this.hold = 0;              /* input bit accumulator */
+  this.bits = 0;              /* number of bits in "in" */
+
+  /* for string and stored block copying */
+  this.length = 0;            /* literal or length of data to copy */
+  this.offset = 0;            /* distance back to copy string from */
+
+  /* for table and code decoding */
+  this.extra = 0;             /* extra bits needed */
+
+  /* fixed and dynamic code tables */
+  this.lencode = null;          /* starting table for length/literal codes */
+  this.distcode = null;         /* starting table for distance codes */
+  this.lenbits = 0;           /* index bits for lencode */
+  this.distbits = 0;          /* index bits for distcode */
+
+  /* dynamic table building */
+  this.ncode = 0;             /* number of code length code lengths */
+  this.nlen = 0;              /* number of length code lengths */
+  this.ndist = 0;             /* number of distance code lengths */
+  this.have = 0;              /* number of code lengths in lens[] */
+  this.next = null;              /* next available space in codes[] */
+
+  this.lens = new utils.Buf16(320); /* temporary storage for code lengths */
+  this.work = new utils.Buf16(288); /* work area for code table building */
+
+  /*
+   because we don't have pointers in js, we use lencode and distcode directly
+   as buffers so we don't need codes
+  */
+  //this.codes = new utils.Buf32(ENOUGH);       /* space for code tables */
+  this.lendyn = null;              /* dynamic table for length/literal codes (JS specific) */
+  this.distdyn = null;             /* dynamic table for distance codes (JS specific) */
+  this.sane = 0;                   /* if false, allow invalid distance too far */
+  this.back = 0;                   /* bits back of last unprocessed length/lit */
+  this.was = 0;                    /* initial length of match */
+}
+
+function inflateResetKeep(strm) {
+  var state;
+
+  if (!strm || !strm.state) { return Z_STREAM_ERROR; }
+  state = strm.state;
+  strm.total_in = strm.total_out = state.total = 0;
+  strm.msg = ''; /*Z_NULL*/
+  if (state.wrap) {       /* to support ill-conceived Java test suite */
+    strm.adler = state.wrap & 1;
+  }
+  state.mode = HEAD;
+  state.last = 0;
+  state.havedict = 0;
+  state.dmax = 32768;
+  state.head = null/*Z_NULL*/;
+  state.hold = 0;
+  state.bits = 0;
+  //state.lencode = state.distcode = state.next = state.codes;
+  state.lencode = state.lendyn = new utils.Buf32(ENOUGH_LENS);
+  state.distcode = state.distdyn = new utils.Buf32(ENOUGH_DISTS);
+
+  state.sane = 1;
+  state.back = -1;
+  //Tracev((stderr, "inflate: reset\n"));
+  return Z_OK;
+}
+
+function inflateReset(strm) {
+  var state;
+
+  if (!strm || !strm.state) { return Z_STREAM_ERROR; }
+  state = strm.state;
+  state.wsize = 0;
+  state.whave = 0;
+  state.wnext = 0;
+  return inflateResetKeep(strm);
+
+}
+
+function inflateReset2(strm, windowBits) {
+  var wrap;
+  var state;
+
+  /* get the state */
+  if (!strm || !strm.state) { return Z_STREAM_ERROR; }
+  state = strm.state;
+
+  /* extract wrap request from windowBits parameter */
+  if (windowBits < 0) {
+    wrap = 0;
+    windowBits = -windowBits;
+  }
+  else {
+    wrap = (windowBits >> 4) + 1;
+    if (windowBits < 48) {
+      windowBits &= 15;
+    }
+  }
+
+  /* set number of window bits, free window if different */
+  if (windowBits && (windowBits < 8 || windowBits > 15)) {
+    return Z_STREAM_ERROR;
+  }
+  if (state.window !== null && state.wbits !== windowBits) {
+    state.window = null;
+  }
+
+  /* update state and reset the rest of it */
+  state.wrap = wrap;
+  state.wbits = windowBits;
+  return inflateReset(strm);
+}
+
+function inflateInit2(strm, windowBits) {
+  var ret;
+  var state;
+
+  if (!strm) { return Z_STREAM_ERROR; }
+  //strm.msg = Z_NULL;                 /* in case we return an error */
+
+  state = new InflateState();
+
+  //if (state === Z_NULL) return Z_MEM_ERROR;
+  //Tracev((stderr, "inflate: allocated\n"));
+  strm.state = state;
+  state.window = null/*Z_NULL*/;
+  ret = inflateReset2(strm, windowBits);
+  if (ret !== Z_OK) {
+    strm.state = null/*Z_NULL*/;
+  }
+  return ret;
+}
+
+function inflateInit(strm) {
+  return inflateInit2(strm, DEF_WBITS);
+}
+
+
+/*
+ Return state with length and distance decoding tables and index sizes set to
+ fixed code decoding.  Normally this returns fixed tables from inffixed.h.
+ If BUILDFIXED is defined, then instead this routine builds the tables the
+ first time it's called, and returns those tables the first time and
+ thereafter.  This reduces the size of the code by about 2K bytes, in
+ exchange for a little execution time.  However, BUILDFIXED should not be
+ used for threaded applications, since the rewriting of the tables and virgin
+ may not be thread-safe.
+ */
+var virgin = true;
+
+var lenfix, distfix; // We have no pointers in JS, so keep tables separate
+
+function fixedtables(state) {
+  /* build fixed huffman tables if first call (may not be thread safe) */
+  if (virgin) {
+    var sym;
+
+    lenfix = new utils.Buf32(512);
+    distfix = new utils.Buf32(32);
+
+    /* literal/length table */
+    sym = 0;
+    while (sym < 144) { state.lens[sym++] = 8; }
+    while (sym < 256) { state.lens[sym++] = 9; }
+    while (sym < 280) { state.lens[sym++] = 7; }
+    while (sym < 288) { state.lens[sym++] = 8; }
+
+    inflate_table(LENS,  state.lens, 0, 288, lenfix,   0, state.work, { bits: 9 });
+
+    /* distance table */
+    sym = 0;
+    while (sym < 32) { state.lens[sym++] = 5; }
+
+    inflate_table(DISTS, state.lens, 0, 32,   distfix, 0, state.work, { bits: 5 });
+
+    /* do this just once */
+    virgin = false;
+  }
+
+  state.lencode = lenfix;
+  state.lenbits = 9;
+  state.distcode = distfix;
+  state.distbits = 5;
+}
+
+
+/*
+ Update the window with the last wsize (normally 32K) bytes written before
+ returning.  If window does not exist yet, create it.  This is only called
+ when a window is already in use, or when output has been written during this
+ inflate call, but the end of the deflate stream has not been reached yet.
+ It is also called to create a window for dictionary data when a dictionary
+ is loaded.
+
+ Providing output buffers larger than 32K to inflate() should provide a speed
+ advantage, since only the last 32K of output is copied to the sliding window
+ upon return from inflate(), and since all distances after the first 32K of
+ output will fall in the output data, making match copies simpler and faster.
+ The advantage may be dependent on the size of the processor's data caches.
+ */
+function updatewindow(strm, src, end, copy) {
+  var dist;
+  var state = strm.state;
+
+  /* if it hasn't been done already, allocate space for the window */
+  if (state.window === null) {
+    state.wsize = 1 << state.wbits;
+    state.wnext = 0;
+    state.whave = 0;
+
+    state.window = new utils.Buf8(state.wsize);
+  }
+
+  /* copy state->wsize or less output bytes into the circular window */
+  if (copy >= state.wsize) {
+    utils.arraySet(state.window, src, end - state.wsize, state.wsize, 0);
+    state.wnext = 0;
+    state.whave = state.wsize;
+  }
+  else {
+    dist = state.wsize - state.wnext;
+    if (dist > copy) {
+      dist = copy;
+    }
+    //zmemcpy(state->window + state->wnext, end - copy, dist);
+    utils.arraySet(state.window, src, end - copy, dist, state.wnext);
+    copy -= dist;
+    if (copy) {
+      //zmemcpy(state->window, end - copy, copy);
+      utils.arraySet(state.window, src, end - copy, copy, 0);
+      state.wnext = copy;
+      state.whave = state.wsize;
+    }
+    else {
+      state.wnext += dist;
+      if (state.wnext === state.wsize) { state.wnext = 0; }
+      if (state.whave < state.wsize) { state.whave += dist; }
+    }
+  }
+  return 0;
+}
+
+function inflate(strm, flush) {
+  var state;
+  var input, output;          // input/output buffers
+  var next;                   /* next input INDEX */
+  var put;                    /* next output INDEX */
+  var have, left;             /* available input and output */
+  var hold;                   /* bit buffer */
+  var bits;                   /* bits in bit buffer */
+  var _in, _out;              /* save starting available input and output */
+  var copy;                   /* number of stored or match bytes to copy */
+  var from;                   /* where to copy match bytes from */
+  var from_source;
+  var here = 0;               /* current decoding table entry */
+  var here_bits, here_op, here_val; // paked "here" denormalized (JS specific)
+  //var last;                   /* parent table entry */
+  var last_bits, last_op, last_val; // paked "last" denormalized (JS specific)
+  var len;                    /* length to copy for repeats, bits to drop */
+  var ret;                    /* return code */
+  var hbuf = new utils.Buf8(4);    /* buffer for gzip header crc calculation */
+  var opts;
+
+  var n; // temporary var for NEED_BITS
+
+  var order = /* permutation of code lengths */
+    [ 16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15 ];
+
+
+  if (!strm || !strm.state || !strm.output ||
+      (!strm.input && strm.avail_in !== 0)) {
+    return Z_STREAM_ERROR;
+  }
+
+  state = strm.state;
+  if (state.mode === TYPE) { state.mode = TYPEDO; }    /* skip check */
+
+
+  //--- LOAD() ---
+  put = strm.next_out;
+  output = strm.output;
+  left = strm.avail_out;
+  next = strm.next_in;
+  input = strm.input;
+  have = strm.avail_in;
+  hold = state.hold;
+  bits = state.bits;
+  //---
+
+  _in = have;
+  _out = left;
+  ret = Z_OK;
+
+  inf_leave: // goto emulation
+  for (;;) {
+    switch (state.mode) {
+      case HEAD:
+        if (state.wrap === 0) {
+          state.mode = TYPEDO;
+          break;
+        }
+        //=== NEEDBITS(16);
+        while (bits < 16) {
+          if (have === 0) { break inf_leave; }
+          have--;
+          hold += input[next++] << bits;
+          bits += 8;
+        }
+        //===//
+        if ((state.wrap & 2) && hold === 0x8b1f) {  /* gzip header */
+          state.check = 0/*crc32(0L, Z_NULL, 0)*/;
+          //=== CRC2(state.check, hold);
+          hbuf[0] = hold & 0xff;
+          hbuf[1] = (hold >>> 8) & 0xff;
+          state.check = crc32(state.check, hbuf, 2, 0);
+          //===//
+
+          //=== INITBITS();
+          hold = 0;
+          bits = 0;
+          //===//
+          state.mode = FLAGS;
+          break;
+        }
+        state.flags = 0;           /* expect zlib header */
+        if (state.head) {
+          state.head.done = false;
+        }
+        if (!(state.wrap & 1) ||   /* check if zlib header allowed */
+          (((hold & 0xff)/*BITS(8)*/ << 8) + (hold >> 8)) % 31) {
+          strm.msg = 'incorrect header check';
+          state.mode = BAD;
+          break;
+        }
+        if ((hold & 0x0f)/*BITS(4)*/ !== Z_DEFLATED) {
+          strm.msg = 'unknown compression method';
+          state.mode = BAD;
+          break;
+        }
+        //--- DROPBITS(4) ---//
+        hold >>>= 4;
+        bits -= 4;
+        //---//
+        len = (hold & 0x0f)/*BITS(4)*/ + 8;
+        if (state.wbits === 0) {
+          state.wbits = len;
+        }
+        else if (len > state.wbits) {
+          strm.msg = 'invalid window size';
+          state.mode = BAD;
+          break;
+        }
+        state.dmax = 1 << len;
+        //Tracev((stderr, "inflate:   zlib header ok\n"));
+        strm.adler = state.check = 1/*adler32(0L, Z_NULL, 0)*/;
+        state.mode = hold & 0x200 ? DICTID : TYPE;
+        //=== INITBITS();
+        hold = 0;
+        bits = 0;
+        //===//
+        break;
+      case FLAGS:
+        //=== NEEDBITS(16); */
+        while (bits < 16) {
+          if (have === 0) { break inf_leave; }
+          have--;
+          hold += input[next++] << bits;
+          bits += 8;
+        }
+        //===//
+        state.flags = hold;
+        if ((state.flags & 0xff) !== Z_DEFLATED) {
+          strm.msg = 'unknown compression method';
+          state.mode = BAD;
+          break;
+        }
+        if (state.flags & 0xe000) {
+          strm.msg = 'unknown header flags set';
+          state.mode = BAD;
+          break;
+        }
+        if (state.head) {
+          state.head.text = ((hold >> 8) & 1);
+        }
+        if (state.flags & 0x0200) {
+          //=== CRC2(state.check, hold);
+          hbuf[0] = hold & 0xff;
+          hbuf[1] = (hold >>> 8) & 0xff;
+          state.check = crc32(state.check, hbuf, 2, 0);
+          //===//
+        }
+        //=== INITBITS();
+        hold = 0;
+        bits = 0;
+        //===//
+        state.mode = TIME;
+        /* falls through */
+      case TIME:
+        //=== NEEDBITS(32); */
+        while (bits < 32) {
+          if (have === 0) { break inf_leave; }
+          have--;
+          hold += input[next++] << bits;
+          bits += 8;
+        }
+        //===//
+        if (state.head) {
+          state.head.time = hold;
+        }
+        if (state.flags & 0x0200) {
+          //=== CRC4(state.check, hold)
+          hbuf[0] = hold & 0xff;
+          hbuf[1] = (hold >>> 8) & 0xff;
+          hbuf[2] = (hold >>> 16) & 0xff;
+          hbuf[3] = (hold >>> 24) & 0xff;
+          state.check = crc32(state.check, hbuf, 4, 0);
+          //===
+        }
+        //=== INITBITS();
+        hold = 0;
+        bits = 0;
+        //===//
+        state.mode = OS;
+        /* falls through */
+      case OS:
+        //=== NEEDBITS(16); */
+        while (bits < 16) {
+          if (have === 0) { break inf_leave; }
+          have--;
+          hold += input[next++] << bits;
+          bits += 8;
+        }
+        //===//
+        if (state.head) {
+          state.head.xflags = (hold & 0xff);
+          state.head.os = (hold >> 8);
+        }
+        if (state.flags & 0x0200) {
+          //=== CRC2(state.check, hold);
+          hbuf[0] = hold & 0xff;
+          hbuf[1] = (hold >>> 8) & 0xff;
+          state.check = crc32(state.check, hbuf, 2, 0);
+          //===//
+        }
+        //=== INITBITS();
+        hold = 0;
+        bits = 0;
+        //===//
+        state.mode = EXLEN;
+        /* falls through */
+      case EXLEN:
+        if (state.flags & 0x0400) {
+          //=== NEEDBITS(16); */
+          while (bits < 16) {
+            if (have === 0) { break inf_leave; }
+            have--;
+            hold += input[next++] << bits;
+            bits += 8;
+          }
+          //===//
+          state.length = hold;
+          if (state.head) {
+            state.head.extra_len = hold;
+          }
+          if (state.flags & 0x0200) {
+            //=== CRC2(state.check, hold);
+            hbuf[0] = hold & 0xff;
+            hbuf[1] = (hold >>> 8) & 0xff;
+            state.check = crc32(state.check, hbuf, 2, 0);
+            //===//
+          }
+          //=== INITBITS();
+          hold = 0;
+          bits = 0;
+          //===//
+        }
+        else if (state.head) {
+          state.head.extra = null/*Z_NULL*/;
+        }
+        state.mode = EXTRA;
+        /* falls through */
+      case EXTRA:
+        if (state.flags & 0x0400) {
+          copy = state.length;
+          if (copy > have) { copy = have; }
+          if (copy) {
+            if (state.head) {
+              len = state.head.extra_len - state.length;
+              if (!state.head.extra) {
+                // Use untyped array for more convenient processing later
+                state.head.extra = new Array(state.head.extra_len);
+              }
+              utils.arraySet(
+                state.head.extra,
+                input,
+                next,
+                // extra field is limited to 65536 bytes
+                // - no need for additional size check
+                copy,
+                /*len + copy > state.head.extra_max - len ? state.head.extra_max : copy,*/
+                len
+              );
+              //zmemcpy(state.head.extra + len, next,
+              //        len + copy > state.head.extra_max ?
+              //        state.head.extra_max - len : copy);
+            }
+            if (state.flags & 0x0200) {
+              state.check = crc32(state.check, input, copy, next);
+            }
+            have -= copy;
+            next += copy;
+            state.length -= copy;
+          }
+          if (state.length) { break inf_leave; }
+        }
+        state.length = 0;
+        state.mode = NAME;
+        /* falls through */
+      case NAME:
+        if (state.flags & 0x0800) {
+          if (have === 0) { break inf_leave; }
+          copy = 0;
+          do {
+            // TODO: 2 or 1 bytes?
+            len = input[next + copy++];
+            /* use constant limit because in js we should not preallocate memory */
+            if (state.head && len &&
+                (state.length < 65536 /*state.head.name_max*/)) {
+              state.head.name += String.fromCharCode(len);
+            }
+          } while (len && copy < have);
+
+          if (state.flags & 0x0200) {
+            state.check = crc32(state.check, input, copy, next);
+          }
+          have -= copy;
+          next += copy;
+          if (len) { break inf_leave; }
+        }
+        else if (state.head) {
+          state.head.name = null;
+        }
+        state.length = 0;
+        state.mode = COMMENT;
+        /* falls through */
+      case COMMENT:
+        if (state.flags & 0x1000) {
+          if (have === 0) { break inf_leave; }
+          copy = 0;
+          do {
+            len = input[next + copy++];
+            /* use constant limit because in js we should not preallocate memory */
+            if (state.head && len &&
+                (state.length < 65536 /*state.head.comm_max*/)) {
+              state.head.comment += String.fromCharCode(len);
+            }
+          } while (len && copy < have);
+          if (state.flags & 0x0200) {
+            state.check = crc32(state.check, input, copy, next);
+          }
+          have -= copy;
+          next += copy;
+          if (len) { break inf_leave; }
+        }
+        else if (state.head) {
+          state.head.comment = null;
+        }
+        state.mode = HCRC;
+        /* falls through */
+      case HCRC:
+        if (state.flags & 0x0200) {
+          //=== NEEDBITS(16); */
+          while (bits < 16) {
+            if (have === 0) { break inf_leave; }
+            have--;
+            hold += input[next++] << bits;
+            bits += 8;
+          }
+          //===//
+          if (hold !== (state.check & 0xffff)) {
+            strm.msg = 'header crc mismatch';
+            state.mode = BAD;
+            break;
+          }
+          //=== INITBITS();
+          hold = 0;
+          bits = 0;
+          //===//
+        }
+        if (state.head) {
+          state.head.hcrc = ((state.flags >> 9) & 1);
+          state.head.done = true;
+        }
+        strm.adler = state.check = 0;
+        state.mode = TYPE;
+        break;
+      case DICTID:
+        //=== NEEDBITS(32); */
+        while (bits < 32) {
+          if (have === 0) { break inf_leave; }
+          have--;
+          hold += input[next++] << bits;
+          bits += 8;
+        }
+        //===//
+        strm.adler = state.check = zswap32(hold);
+        //=== INITBITS();
+        hold = 0;
+        bits = 0;
+        //===//
+        state.mode = DICT;
+        /* falls through */
+      case DICT:
+        if (state.havedict === 0) {
+          //--- RESTORE() ---
+          strm.next_out = put;
+          strm.avail_out = left;
+          strm.next_in = next;
+          strm.avail_in = have;
+          state.hold = hold;
+          state.bits = bits;
+          //---
+          return Z_NEED_DICT;
+        }
+        strm.adler = state.check = 1/*adler32(0L, Z_NULL, 0)*/;
+        state.mode = TYPE;
+        /* falls through */
+      case TYPE:
+        if (flush === Z_BLOCK || flush === Z_TREES) { break inf_leave; }
+        /* falls through */
+      case TYPEDO:
+        if (state.last) {
+          //--- BYTEBITS() ---//
+          hold >>>= bits & 7;
+          bits -= bits & 7;
+          //---//
+          state.mode = CHECK;
+          break;
+        }
+        //=== NEEDBITS(3); */
+        while (bits < 3) {
+          if (have === 0) { break inf_leave; }
+          have--;
+          hold += input[next++] << bits;
+          bits += 8;
+        }
+        //===//
+        state.last = (hold & 0x01)/*BITS(1)*/;
+        //--- DROPBITS(1) ---//
+        hold >>>= 1;
+        bits -= 1;
+        //---//
+
+        switch ((hold & 0x03)/*BITS(2)*/) {
+          case 0:                             /* stored block */
+            //Tracev((stderr, "inflate:     stored block%s\n",
+            //        state.last ? " (last)" : ""));
+            state.mode = STORED;
+            break;
+          case 1:                             /* fixed block */
+            fixedtables(state);
+            //Tracev((stderr, "inflate:     fixed codes block%s\n",
+            //        state.last ? " (last)" : ""));
+            state.mode = LEN_;             /* decode codes */
+            if (flush === Z_TREES) {
+              //--- DROPBITS(2) ---//
+              hold >>>= 2;
+              bits -= 2;
+              //---//
+              break inf_leave;
+            }
+            break;
+          case 2:                             /* dynamic block */
+            //Tracev((stderr, "inflate:     dynamic codes block%s\n",
+            //        state.last ? " (last)" : ""));
+            state.mode = TABLE;
+            break;
+          case 3:
+            strm.msg = 'invalid block type';
+            state.mode = BAD;
+        }
+        //--- DROPBITS(2) ---//
+        hold >>>= 2;
+        bits -= 2;
+        //---//
+        break;
+      case STORED:
+        //--- BYTEBITS() ---// /* go to byte boundary */
+        hold >>>= bits & 7;
+        bits -= bits & 7;
+        //---//
+        //=== NEEDBITS(32); */
+        while (bits < 32) {
+          if (have === 0) { break inf_leave; }
+          have--;
+          hold += input[next++] << bits;
+          bits += 8;
+        }
+        //===//
+        if ((hold & 0xffff) !== ((hold >>> 16) ^ 0xffff)) {
+          strm.msg = 'invalid stored block lengths';
+          state.mode = BAD;
+          break;
+        }
+        state.length = hold & 0xffff;
+        //Tracev((stderr, "inflate:       stored length %u\n",
+        //        state.length));
+        //=== INITBITS();
+        hold = 0;
+        bits = 0;
+        //===//
+        state.mode = COPY_;
+        if (flush === Z_TREES) { break inf_leave; }
+        /* falls through */
+      case COPY_:
+        state.mode = COPY;
+        /* falls through */
+      case COPY:
+        copy = state.length;
+        if (copy) {
+          if (copy > have) { copy = have; }
+          if (copy > left) { copy = left; }
+          if (copy === 0) { break inf_leave; }
+          //--- zmemcpy(put, next, copy); ---
+          utils.arraySet(output, input, next, copy, put);
+          //---//
+          have -= copy;
+          next += copy;
+          left -= copy;
+          put += copy;
+          state.length -= copy;
+          break;
+        }
+        //Tracev((stderr, "inflate:       stored end\n"));
+        state.mode = TYPE;
+        break;
+      case TABLE:
+        //=== NEEDBITS(14); */
+        while (bits < 14) {
+          if (have === 0) { break inf_leave; }
+          have--;
+          hold += input[next++] << bits;
+          bits += 8;
+        }
+        //===//
+        state.nlen = (hold & 0x1f)/*BITS(5)*/ + 257;
+        //--- DROPBITS(5) ---//
+        hold >>>= 5;
+        bits -= 5;
+        //---//
+        state.ndist = (hold & 0x1f)/*BITS(5)*/ + 1;
+        //--- DROPBITS(5) ---//
+        hold >>>= 5;
+        bits -= 5;
+        //---//
+        state.ncode = (hold & 0x0f)/*BITS(4)*/ + 4;
+        //--- DROPBITS(4) ---//
+        hold >>>= 4;
+        bits -= 4;
+        //---//
+//#ifndef PKZIP_BUG_WORKAROUND
+        if (state.nlen > 286 || state.ndist > 30) {
+          strm.msg = 'too many length or distance symbols';
+          state.mode = BAD;
+          break;
+        }
+//#endif
+        //Tracev((stderr, "inflate:       table sizes ok\n"));
+        state.have = 0;
+        state.mode = LENLENS;
+        /* falls through */
+      case LENLENS:
+        while (state.have < state.ncode) {
+          //=== NEEDBITS(3);
+          while (bits < 3) {
+            if (have === 0) { break inf_leave; }
+            have--;
+            hold += input[next++] << bits;
+            bits += 8;
+          }
+          //===//
+          state.lens[order[state.have++]] = (hold & 0x07);//BITS(3);
+          //--- DROPBITS(3) ---//
+          hold >>>= 3;
+          bits -= 3;
+          //---//
+        }
+        while (state.have < 19) {
+          state.lens[order[state.have++]] = 0;
+        }
+        // We have separate tables & no pointers. 2 commented lines below not needed.
+        //state.next = state.codes;
+        //state.lencode = state.next;
+        // Switch to use dynamic table
+        state.lencode = state.lendyn;
+        state.lenbits = 7;
+
+        opts = { bits: state.lenbits };
+        ret = inflate_table(CODES, state.lens, 0, 19, state.lencode, 0, state.work, opts);
+        state.lenbits = opts.bits;
+
+        if (ret) {
+          strm.msg = 'invalid code lengths set';
+          state.mode = BAD;
+          break;
+        }
+        //Tracev((stderr, "inflate:       code lengths ok\n"));
+        state.have = 0;
+        state.mode = CODELENS;
+        /* falls through */
+      case CODELENS:
+        while (state.have < state.nlen + state.ndist) {
+          for (;;) {
+            here = state.lencode[hold & ((1 << state.lenbits) - 1)];/*BITS(state.lenbits)*/
+            here_bits = here >>> 24;
+            here_op = (here >>> 16) & 0xff;
+            here_val = here & 0xffff;
+
+            if ((here_bits) <= bits) { break; }
+            //--- PULLBYTE() ---//
+            if (have === 0) { break inf_leave; }
+            have--;
+            hold += input[next++] << bits;
+            bits += 8;
+            //---//
+          }
+          if (here_val < 16) {
+            //--- DROPBITS(here.bits) ---//
+            hold >>>= here_bits;
+            bits -= here_bits;
+            //---//
+            state.lens[state.have++] = here_val;
+          }
+          else {
+            if (here_val === 16) {
+              //=== NEEDBITS(here.bits + 2);
+              n = here_bits + 2;
+              while (bits < n) {
+                if (have === 0) { break inf_leave; }
+                have--;
+                hold += input[next++] << bits;
+                bits += 8;
+              }
+              //===//
+              //--- DROPBITS(here.bits) ---//
+              hold >>>= here_bits;
+              bits -= here_bits;
+              //---//
+              if (state.have === 0) {
+                strm.msg = 'invalid bit length repeat';
+                state.mode = BAD;
+                break;
+              }
+              len = state.lens[state.have - 1];
+              copy = 3 + (hold & 0x03);//BITS(2);
+              //--- DROPBITS(2) ---//
+              hold >>>= 2;
+              bits -= 2;
+              //---//
+            }
+            else if (here_val === 17) {
+              //=== NEEDBITS(here.bits + 3);
+              n = here_bits + 3;
+              while (bits < n) {
+                if (have === 0) { break inf_leave; }
+                have--;
+                hold += input[next++] << bits;
+                bits += 8;
+              }
+              //===//
+              //--- DROPBITS(here.bits) ---//
+              hold >>>= here_bits;
+              bits -= here_bits;
+              //---//
+              len = 0;
+              copy = 3 + (hold & 0x07);//BITS(3);
+              //--- DROPBITS(3) ---//
+              hold >>>= 3;
+              bits -= 3;
+              //---//
+            }
+            else {
+              //=== NEEDBITS(here.bits + 7);
+              n = here_bits + 7;
+              while (bits < n) {
+                if (have === 0) { break inf_leave; }
+                have--;
+                hold += input[next++] << bits;
+                bits += 8;
+              }
+              //===//
+              //--- DROPBITS(here.bits) ---//
+              hold >>>= here_bits;
+              bits -= here_bits;
+              //---//
+              len = 0;
+              copy = 11 + (hold & 0x7f);//BITS(7);
+              //--- DROPBITS(7) ---//
+              hold >>>= 7;
+              bits -= 7;
+              //---//
+            }
+            if (state.have + copy > state.nlen + state.ndist) {
+              strm.msg = 'invalid bit length repeat';
+              state.mode = BAD;
+              break;
+            }
+            while (copy--) {
+              state.lens[state.have++] = len;
+            }
+          }
+        }
+
+        /* handle error breaks in while */
+        if (state.mode === BAD) { break; }
+
+        /* check for end-of-block code (better have one) */
+        if (state.lens[256] === 0) {
+          strm.msg = 'invalid code -- missing end-of-block';
+          state.mode = BAD;
+          break;
+        }
+
+        /* build code tables -- note: do not change the lenbits or distbits
+           values here (9 and 6) without reading the comments in inftrees.h
+           concerning the ENOUGH constants, which depend on those values */
+        state.lenbits = 9;
+
+        opts = { bits: state.lenbits };
+        ret = inflate_table(LENS, state.lens, 0, state.nlen, state.lencode, 0, state.work, opts);
+        // We have separate tables & no pointers. 2 commented lines below not needed.
+        // state.next_index = opts.table_index;
+        state.lenbits = opts.bits;
+        // state.lencode = state.next;
+
+        if (ret) {
+          strm.msg = 'invalid literal/lengths set';
+          state.mode = BAD;
+          break;
+        }
+
+        state.distbits = 6;
+        //state.distcode.copy(state.codes);
+        // Switch to use dynamic table
+        state.distcode = state.distdyn;
+        opts = { bits: state.distbits };
+        ret = inflate_table(DISTS, state.lens, state.nlen, state.ndist, state.distcode, 0, state.work, opts);
+        // We have separate tables & no pointers. 2 commented lines below not needed.
+        // state.next_index = opts.table_index;
+        state.distbits = opts.bits;
+        // state.distcode = state.next;
+
+        if (ret) {
+          strm.msg = 'invalid distances set';
+          state.mode = BAD;
+          break;
+        }
+        //Tracev((stderr, 'inflate:       codes ok\n'));
+        state.mode = LEN_;
+        if (flush === Z_TREES) { break inf_leave; }
+        /* falls through */
+      case LEN_:
+        state.mode = LEN;
+        /* falls through */
+      case LEN:
+        if (have >= 6 && left >= 258) {
+          //--- RESTORE() ---
+          strm.next_out = put;
+          strm.avail_out = left;
+          strm.next_in = next;
+          strm.avail_in = have;
+          state.hold = hold;
+          state.bits = bits;
+          //---
+          inflate_fast(strm, _out);
+          //--- LOAD() ---
+          put = strm.next_out;
+          output = strm.output;
+          left = strm.avail_out;
+          next = strm.next_in;
+          input = strm.input;
+          have = strm.avail_in;
+          hold = state.hold;
+          bits = state.bits;
+          //---
+
+          if (state.mode === TYPE) {
+            state.back = -1;
+          }
+          break;
+        }
+        state.back = 0;
+        for (;;) {
+          here = state.lencode[hold & ((1 << state.lenbits) - 1)];  /*BITS(state.lenbits)*/
+          here_bits = here >>> 24;
+          here_op = (here >>> 16) & 0xff;
+          here_val = here & 0xffff;
+
+          if (here_bits <= bits) { break; }
+          //--- PULLBYTE() ---//
+          if (have === 0) { break inf_leave; }
+          have--;
+          hold += input[next++] << bits;
+          bits += 8;
+          //---//
+        }
+        if (here_op && (here_op & 0xf0) === 0) {
+          last_bits = here_bits;
+          last_op = here_op;
+          last_val = here_val;
+          for (;;) {
+            here = state.lencode[last_val +
+                    ((hold & ((1 << (last_bits + last_op)) - 1))/*BITS(last.bits + last.op)*/ >> last_bits)];
+            here_bits = here >>> 24;
+            here_op = (here >>> 16) & 0xff;
+            here_val = here & 0xffff;
+
+            if ((last_bits + here_bits) <= bits) { break; }
+            //--- PULLBYTE() ---//
+            if (have === 0) { break inf_leave; }
+            have--;
+            hold += input[next++] << bits;
+            bits += 8;
+            //---//
+          }
+          //--- DROPBITS(last.bits) ---//
+          hold >>>= last_bits;
+          bits -= last_bits;
+          //---//
+          state.back += last_bits;
+        }
+        //--- DROPBITS(here.bits) ---//
+        hold >>>= here_bits;
+        bits -= here_bits;
+        //---//
+        state.back += here_bits;
+        state.length = here_val;
+        if (here_op === 0) {
+          //Tracevv((stderr, here.val >= 0x20 && here.val < 0x7f ?
+          //        "inflate:         literal '%c'\n" :
+          //        "inflate:         literal 0x%02x\n", here.val));
+          state.mode = LIT;
+          break;
+        }
+        if (here_op & 32) {
+          //Tracevv((stderr, "inflate:         end of block\n"));
+          state.back = -1;
+          state.mode = TYPE;
+          break;
+        }
+        if (here_op & 64) {
+          strm.msg = 'invalid literal/length code';
+          state.mode = BAD;
+          break;
+        }
+        state.extra = here_op & 15;
+        state.mode = LENEXT;
+        /* falls through */
+      case LENEXT:
+        if (state.extra) {
+          //=== NEEDBITS(state.extra);
+          n = state.extra;
+          while (bits < n) {
+            if (have === 0) { break inf_leave; }
+            have--;
+            hold += input[next++] << bits;
+            bits += 8;
+          }
+          //===//
+          state.length += hold & ((1 << state.extra) - 1)/*BITS(state.extra)*/;
+          //--- DROPBITS(state.extra) ---//
+          hold >>>= state.extra;
+          bits -= state.extra;
+          //---//
+          state.back += state.extra;
+        }
+        //Tracevv((stderr, "inflate:         length %u\n", state.length));
+        state.was = state.length;
+        state.mode = DIST;
+        /* falls through */
+      case DIST:
+        for (;;) {
+          here = state.distcode[hold & ((1 << state.distbits) - 1)];/*BITS(state.distbits)*/
+          here_bits = here >>> 24;
+          here_op = (here >>> 16) & 0xff;
+          here_val = here & 0xffff;
+
+          if ((here_bits) <= bits) { break; }
+          //--- PULLBYTE() ---//
+          if (have === 0) { break inf_leave; }
+          have--;
+          hold += input[next++] << bits;
+          bits += 8;
+          //---//
+        }
+        if ((here_op & 0xf0) === 0) {
+          last_bits = here_bits;
+          last_op = here_op;
+          last_val = here_val;
+          for (;;) {
+            here = state.distcode[last_val +
+                    ((hold & ((1 << (last_bits + last_op)) - 1))/*BITS(last.bits + last.op)*/ >> last_bits)];
+            here_bits = here >>> 24;
+            here_op = (here >>> 16) & 0xff;
+            here_val = here & 0xffff;
+
+            if ((last_bits + here_bits) <= bits) { break; }
+            //--- PULLBYTE() ---//
+            if (have === 0) { break inf_leave; }
+            have--;
+            hold += input[next++] << bits;
+            bits += 8;
+            //---//
+          }
+          //--- DROPBITS(last.bits) ---//
+          hold >>>= last_bits;
+          bits -= last_bits;
+          //---//
+          state.back += last_bits;
+        }
+        //--- DROPBITS(here.bits) ---//
+        hold >>>= here_bits;
+        bits -= here_bits;
+        //---//
+        state.back += here_bits;
+        if (here_op & 64) {
+          strm.msg = 'invalid distance code';
+          state.mode = BAD;
+          break;
+        }
+        state.offset = here_val;
+        state.extra = (here_op) & 15;
+        state.mode = DISTEXT;
+        /* falls through */
+      case DISTEXT:
+        if (state.extra) {
+          //=== NEEDBITS(state.extra);
+          n = state.extra;
+          while (bits < n) {
+            if (have === 0) { break inf_leave; }
+            have--;
+            hold += input[next++] << bits;
+            bits += 8;
+          }
+          //===//
+          state.offset += hold & ((1 << state.extra) - 1)/*BITS(state.extra)*/;
+          //--- DROPBITS(state.extra) ---//
+          hold >>>= state.extra;
+          bits -= state.extra;
+          //---//
+          state.back += state.extra;
+        }
+//#ifdef INFLATE_STRICT
+        if (state.offset > state.dmax) {
+          strm.msg = 'invalid distance too far back';
+          state.mode = BAD;
+          break;
+        }
+//#endif
+        //Tracevv((stderr, "inflate:         distance %u\n", state.offset));
+        state.mode = MATCH;
+        /* falls through */
+      case MATCH:
+        if (left === 0) { break inf_leave; }
+        copy = _out - left;
+        if (state.offset > copy) {         /* copy from window */
+          copy = state.offset - copy;
+          if (copy > state.whave) {
+            if (state.sane) {
+              strm.msg = 'invalid distance too far back';
+              state.mode = BAD;
+              break;
+            }
+// (!) This block is disabled in zlib defaults,
+// don't enable it for binary compatibility
+//#ifdef INFLATE_ALLOW_INVALID_DISTANCE_TOOFAR_ARRR
+//          Trace((stderr, "inflate.c too far\n"));
+//          copy -= state.whave;
+//          if (copy > state.length) { copy = state.length; }
+//          if (copy > left) { copy = left; }
+//          left -= copy;
+//          state.length -= copy;
+//          do {
+//            output[put++] = 0;
+//          } while (--copy);
+//          if (state.length === 0) { state.mode = LEN; }
+//          break;
+//#endif
+          }
+          if (copy > state.wnext) {
+            copy -= state.wnext;
+            from = state.wsize - copy;
+          }
+          else {
+            from = state.wnext - copy;
+          }
+          if (copy > state.length) { copy = state.length; }
+          from_source = state.window;
+        }
+        else {                              /* copy from output */
+          from_source = output;
+          from = put - state.offset;
+          copy = state.length;
+        }
+        if (copy > left) { copy = left; }
+        left -= copy;
+        state.length -= copy;
+        do {
+          output[put++] = from_source[from++];
+        } while (--copy);
+        if (state.length === 0) { state.mode = LEN; }
+        break;
+      case LIT:
+        if (left === 0) { break inf_leave; }
+        output[put++] = state.length;
+        left--;
+        state.mode = LEN;
+        break;
+      case CHECK:
+        if (state.wrap) {
+          //=== NEEDBITS(32);
+          while (bits < 32) {
+            if (have === 0) { break inf_leave; }
+            have--;
+            // Use '|' instead of '+' to make sure that result is signed
+            hold |= input[next++] << bits;
+            bits += 8;
+          }
+          //===//
+          _out -= left;
+          strm.total_out += _out;
+          state.total += _out;
+          if (_out) {
+            strm.adler = state.check =
+                /*UPDATE(state.check, put - _out, _out);*/
+                (state.flags ? crc32(state.check, output, _out, put - _out) : adler32(state.check, output, _out, put - _out));
+
+          }
+          _out = left;
+          // NB: crc32 stored as signed 32-bit int, zswap32 returns signed too
+          if ((state.flags ? hold : zswap32(hold)) !== state.check) {
+            strm.msg = 'incorrect data check';
+            state.mode = BAD;
+            break;
+          }
+          //=== INITBITS();
+          hold = 0;
+          bits = 0;
+          //===//
+          //Tracev((stderr, "inflate:   check matches trailer\n"));
+        }
+        state.mode = LENGTH;
+        /* falls through */
+      case LENGTH:
+        if (state.wrap && state.flags) {
+          //=== NEEDBITS(32);
+          while (bits < 32) {
+            if (have === 0) { break inf_leave; }
+            have--;
+            hold += input[next++] << bits;
+            bits += 8;
+          }
+          //===//
+          if (hold !== (state.total & 0xffffffff)) {
+            strm.msg = 'incorrect length check';
+            state.mode = BAD;
+            break;
+          }
+          //=== INITBITS();
+          hold = 0;
+          bits = 0;
+          //===//
+          //Tracev((stderr, "inflate:   length matches trailer\n"));
+        }
+        state.mode = DONE;
+        /* falls through */
+      case DONE:
+        ret = Z_STREAM_END;
+        break inf_leave;
+      case BAD:
+        ret = Z_DATA_ERROR;
+        break inf_leave;
+      case MEM:
+        return Z_MEM_ERROR;
+      case SYNC:
+        /* falls through */
+      default:
+        return Z_STREAM_ERROR;
+    }
+  }
+
+  // inf_leave <- here is real place for "goto inf_leave", emulated via "break inf_leave"
+
+  /*
+     Return from inflate(), updating the total counts and the check value.
+     If there was no progress during the inflate() call, return a buffer
+     error.  Call updatewindow() to create and/or update the window state.
+     Note: a memory error from inflate() is non-recoverable.
+   */
+
+  //--- RESTORE() ---
+  strm.next_out = put;
+  strm.avail_out = left;
+  strm.next_in = next;
+  strm.avail_in = have;
+  state.hold = hold;
+  state.bits = bits;
+  //---
+
+  if (state.wsize || (_out !== strm.avail_out && state.mode < BAD &&
+                      (state.mode < CHECK || flush !== Z_FINISH))) {
+    if (updatewindow(strm, strm.output, strm.next_out, _out - strm.avail_out)) {
+      state.mode = MEM;
+      return Z_MEM_ERROR;
+    }
+  }
+  _in -= strm.avail_in;
+  _out -= strm.avail_out;
+  strm.total_in += _in;
+  strm.total_out += _out;
+  state.total += _out;
+  if (state.wrap && _out) {
+    strm.adler = state.check = /*UPDATE(state.check, strm.next_out - _out, _out);*/
+      (state.flags ? crc32(state.check, output, _out, strm.next_out - _out) : adler32(state.check, output, _out, strm.next_out - _out));
+  }
+  strm.data_type = state.bits + (state.last ? 64 : 0) +
+                    (state.mode === TYPE ? 128 : 0) +
+                    (state.mode === LEN_ || state.mode === COPY_ ? 256 : 0);
+  if (((_in === 0 && _out === 0) || flush === Z_FINISH) && ret === Z_OK) {
+    ret = Z_BUF_ERROR;
+  }
+  return ret;
+}
+
+function inflateEnd(strm) {
+
+  if (!strm || !strm.state /*|| strm->zfree == (free_func)0*/) {
+    return Z_STREAM_ERROR;
+  }
+
+  var state = strm.state;
+  if (state.window) {
+    state.window = null;
+  }
+  strm.state = null;
+  return Z_OK;
+}
+
+function inflateGetHeader(strm, head) {
+  var state;
+
+  /* check state */
+  if (!strm || !strm.state) { return Z_STREAM_ERROR; }
+  state = strm.state;
+  if ((state.wrap & 2) === 0) { return Z_STREAM_ERROR; }
+
+  /* save header structure */
+  state.head = head;
+  head.done = false;
+  return Z_OK;
+}
+
+function inflateSetDictionary(strm, dictionary) {
+  var dictLength = dictionary.length;
+
+  var state;
+  var dictid;
+  var ret;
+
+  /* check state */
+  if (!strm /* == Z_NULL */ || !strm.state /* == Z_NULL */) { return Z_STREAM_ERROR; }
+  state = strm.state;
+
+  if (state.wrap !== 0 && state.mode !== DICT) {
+    return Z_STREAM_ERROR;
+  }
+
+  /* check for correct dictionary identifier */
+  if (state.mode === DICT) {
+    dictid = 1; /* adler32(0, null, 0)*/
+    /* dictid = adler32(dictid, dictionary, dictLength); */
+    dictid = adler32(dictid, dictionary, dictLength, 0);
+    if (dictid !== state.check) {
+      return Z_DATA_ERROR;
+    }
+  }
+  /* copy dictionary to window using updatewindow(), which will amend the
+   existing dictionary if appropriate */
+  ret = updatewindow(strm, dictionary, dictLength, dictLength);
+  if (ret) {
+    state.mode = MEM;
+    return Z_MEM_ERROR;
+  }
+  state.havedict = 1;
+  // Tracev((stderr, "inflate:   dictionary set\n"));
+  return Z_OK;
+}
+
+exports.inflateReset = inflateReset;
+exports.inflateReset2 = inflateReset2;
+exports.inflateResetKeep = inflateResetKeep;
+exports.inflateInit = inflateInit;
+exports.inflateInit2 = inflateInit2;
+exports.inflate = inflate;
+exports.inflateEnd = inflateEnd;
+exports.inflateGetHeader = inflateGetHeader;
+exports.inflateSetDictionary = inflateSetDictionary;
+exports.inflateInfo = 'pako inflate (from Nodeca project)';
+
+/* Not implemented
+exports.inflateCopy = inflateCopy;
+exports.inflateGetDictionary = inflateGetDictionary;
+exports.inflateMark = inflateMark;
+exports.inflatePrime = inflatePrime;
+exports.inflateSync = inflateSync;
+exports.inflateSyncPoint = inflateSyncPoint;
+exports.inflateUndermine = inflateUndermine;
+*/
+
+
+/***/ }),
+
+/***/ "./node_modules/pako/lib/zlib/inftrees.js":
+/*!************************************************!*\
+  !*** ./node_modules/pako/lib/zlib/inftrees.js ***!
+  \************************************************/
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module, __webpack_require__ */
+/*! CommonJS bailout: module.exports is used directly at 55:0-14 */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+
+// (C) 1995-2013 Jean-loup Gailly and Mark Adler
+// (C) 2014-2017 Vitaly Puzrin and Andrey Tupitsin
+//
+// This software is provided 'as-is', without any express or implied
+// warranty. In no event will the authors be held liable for any damages
+// arising from the use of this software.
+//
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+//
+// 1. The origin of this software must not be misrepresented; you must not
+//   claim that you wrote the original software. If you use this software
+//   in a product, an acknowledgment in the product documentation would be
+//   appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+//   misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
+
+var utils = __webpack_require__(/*! ../utils/common */ "./node_modules/pako/lib/utils/common.js");
+
+var MAXBITS = 15;
+var ENOUGH_LENS = 852;
+var ENOUGH_DISTS = 592;
+//var ENOUGH = (ENOUGH_LENS+ENOUGH_DISTS);
+
+var CODES = 0;
+var LENS = 1;
+var DISTS = 2;
+
+var lbase = [ /* Length codes 257..285 base */
+  3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 15, 17, 19, 23, 27, 31,
+  35, 43, 51, 59, 67, 83, 99, 115, 131, 163, 195, 227, 258, 0, 0
+];
+
+var lext = [ /* Length codes 257..285 extra */
+  16, 16, 16, 16, 16, 16, 16, 16, 17, 17, 17, 17, 18, 18, 18, 18,
+  19, 19, 19, 19, 20, 20, 20, 20, 21, 21, 21, 21, 16, 72, 78
+];
+
+var dbase = [ /* Distance codes 0..29 base */
+  1, 2, 3, 4, 5, 7, 9, 13, 17, 25, 33, 49, 65, 97, 129, 193,
+  257, 385, 513, 769, 1025, 1537, 2049, 3073, 4097, 6145,
+  8193, 12289, 16385, 24577, 0, 0
+];
+
+var dext = [ /* Distance codes 0..29 extra */
+  16, 16, 16, 16, 17, 17, 18, 18, 19, 19, 20, 20, 21, 21, 22, 22,
+  23, 23, 24, 24, 25, 25, 26, 26, 27, 27,
+  28, 28, 29, 29, 64, 64
+];
+
+module.exports = function inflate_table(type, lens, lens_index, codes, table, table_index, work, opts)
+{
+  var bits = opts.bits;
+      //here = opts.here; /* table entry for duplication */
+
+  var len = 0;               /* a code's length in bits */
+  var sym = 0;               /* index of code symbols */
+  var min = 0, max = 0;          /* minimum and maximum code lengths */
+  var root = 0;              /* number of index bits for root table */
+  var curr = 0;              /* number of index bits for current table */
+  var drop = 0;              /* code bits to drop for sub-table */
+  var left = 0;                   /* number of prefix codes available */
+  var used = 0;              /* code entries in table used */
+  var huff = 0;              /* Huffman code */
+  var incr;              /* for incrementing code, index */
+  var fill;              /* index for replicating entries */
+  var low;               /* low bits for current root entry */
+  var mask;              /* mask for low root bits */
+  var next;             /* next available space in table */
+  var base = null;     /* base value table to use */
+  var base_index = 0;
+//  var shoextra;    /* extra bits table to use */
+  var end;                    /* use base and extra for symbol > end */
+  var count = new utils.Buf16(MAXBITS + 1); //[MAXBITS+1];    /* number of codes of each length */
+  var offs = new utils.Buf16(MAXBITS + 1); //[MAXBITS+1];     /* offsets in table for each length */
+  var extra = null;
+  var extra_index = 0;
+
+  var here_bits, here_op, here_val;
+
+  /*
+   Process a set of code lengths to create a canonical Huffman code.  The
+   code lengths are lens[0..codes-1].  Each length corresponds to the
+   symbols 0..codes-1.  The Huffman code is generated by first sorting the
+   symbols by length from short to long, and retaining the symbol order
+   for codes with equal lengths.  Then the code starts with all zero bits
+   for the first code of the shortest length, and the codes are integer
+   increments for the same length, and zeros are appended as the length
+   increases.  For the deflate format, these bits are stored backwards
+   from their more natural integer increment ordering, and so when the
+   decoding tables are built in the large loop below, the integer codes
+   are incremented backwards.
+
+   This routine assumes, but does not check, that all of the entries in
+   lens[] are in the range 0..MAXBITS.  The caller must assure this.
+   1..MAXBITS is interpreted as that code length.  zero means that that
+   symbol does not occur in this code.
+
+   The codes are sorted by computing a count of codes for each length,
+   creating from that a table of starting indices for each length in the
+   sorted table, and then entering the symbols in order in the sorted
+   table.  The sorted table is work[], with that space being provided by
+   the caller.
+
+   The length counts are used for other purposes as well, i.e. finding
+   the minimum and maximum length codes, determining if there are any
+   codes at all, checking for a valid set of lengths, and looking ahead
+   at length counts to determine sub-table sizes when building the
+   decoding tables.
+   */
+
+  /* accumulate lengths for codes (assumes lens[] all in 0..MAXBITS) */
+  for (len = 0; len <= MAXBITS; len++) {
+    count[len] = 0;
+  }
+  for (sym = 0; sym < codes; sym++) {
+    count[lens[lens_index + sym]]++;
+  }
+
+  /* bound code lengths, force root to be within code lengths */
+  root = bits;
+  for (max = MAXBITS; max >= 1; max--) {
+    if (count[max] !== 0) { break; }
+  }
+  if (root > max) {
+    root = max;
+  }
+  if (max === 0) {                     /* no symbols to code at all */
+    //table.op[opts.table_index] = 64;  //here.op = (var char)64;    /* invalid code marker */
+    //table.bits[opts.table_index] = 1;   //here.bits = (var char)1;
+    //table.val[opts.table_index++] = 0;   //here.val = (var short)0;
+    table[table_index++] = (1 << 24) | (64 << 16) | 0;
+
+
+    //table.op[opts.table_index] = 64;
+    //table.bits[opts.table_index] = 1;
+    //table.val[opts.table_index++] = 0;
+    table[table_index++] = (1 << 24) | (64 << 16) | 0;
+
+    opts.bits = 1;
+    return 0;     /* no symbols, but wait for decoding to report error */
+  }
+  for (min = 1; min < max; min++) {
+    if (count[min] !== 0) { break; }
+  }
+  if (root < min) {
+    root = min;
+  }
+
+  /* check for an over-subscribed or incomplete set of lengths */
+  left = 1;
+  for (len = 1; len <= MAXBITS; len++) {
+    left <<= 1;
+    left -= count[len];
+    if (left < 0) {
+      return -1;
+    }        /* over-subscribed */
+  }
+  if (left > 0 && (type === CODES || max !== 1)) {
+    return -1;                      /* incomplete set */
+  }
+
+  /* generate offsets into symbol table for each length for sorting */
+  offs[1] = 0;
+  for (len = 1; len < MAXBITS; len++) {
+    offs[len + 1] = offs[len] + count[len];
+  }
+
+  /* sort symbols by length, by symbol order within each length */
+  for (sym = 0; sym < codes; sym++) {
+    if (lens[lens_index + sym] !== 0) {
+      work[offs[lens[lens_index + sym]]++] = sym;
+    }
+  }
+
+  /*
+   Create and fill in decoding tables.  In this loop, the table being
+   filled is at next and has curr index bits.  The code being used is huff
+   with length len.  That code is converted to an index by dropping drop
+   bits off of the bottom.  For codes where len is less than drop + curr,
+   those top drop + curr - len bits are incremented through all values to
+   fill the table with replicated entries.
+
+   root is the number of index bits for the root table.  When len exceeds
+   root, sub-tables are created pointed to by the root entry with an index
+   of the low root bits of huff.  This is saved in low to check for when a
+   new sub-table should be started.  drop is zero when the root table is
+   being filled, and drop is root when sub-tables are being filled.
+
+   When a new sub-table is needed, it is necessary to look ahead in the
+   code lengths to determine what size sub-table is needed.  The length
+   counts are used for this, and so count[] is decremented as codes are
+   entered in the tables.
+
+   used keeps track of how many table entries have been allocated from the
+   provided *table space.  It is checked for LENS and DIST tables against
+   the constants ENOUGH_LENS and ENOUGH_DISTS to guard against changes in
+   the initial root table size constants.  See the comments in inftrees.h
+   for more information.
+
+   sym increments through all symbols, and the loop terminates when
+   all codes of length max, i.e. all codes, have been processed.  This
+   routine permits incomplete codes, so another loop after this one fills
+   in the rest of the decoding tables with invalid code markers.
+   */
+
+  /* set up for code type */
+  // poor man optimization - use if-else instead of switch,
+  // to avoid deopts in old v8
+  if (type === CODES) {
+    base = extra = work;    /* dummy value--not used */
+    end = 19;
+
+  } else if (type === LENS) {
+    base = lbase;
+    base_index -= 257;
+    extra = lext;
+    extra_index -= 257;
+    end = 256;
+
+  } else {                    /* DISTS */
+    base = dbase;
+    extra = dext;
+    end = -1;
+  }
+
+  /* initialize opts for loop */
+  huff = 0;                   /* starting code */
+  sym = 0;                    /* starting code symbol */
+  len = min;                  /* starting code length */
+  next = table_index;              /* current table to fill in */
+  curr = root;                /* current table index bits */
+  drop = 0;                   /* current bits to drop from code for index */
+  low = -1;                   /* trigger new sub-table when len > root */
+  used = 1 << root;          /* use root table entries */
+  mask = used - 1;            /* mask for comparing low */
+
+  /* check available table space */
+  if ((type === LENS && used > ENOUGH_LENS) ||
+    (type === DISTS && used > ENOUGH_DISTS)) {
+    return 1;
+  }
+
+  /* process all codes and make table entries */
+  for (;;) {
+    /* create table entry */
+    here_bits = len - drop;
+    if (work[sym] < end) {
+      here_op = 0;
+      here_val = work[sym];
+    }
+    else if (work[sym] > end) {
+      here_op = extra[extra_index + work[sym]];
+      here_val = base[base_index + work[sym]];
+    }
+    else {
+      here_op = 32 + 64;         /* end of block */
+      here_val = 0;
+    }
+
+    /* replicate for those indices with low len bits equal to huff */
+    incr = 1 << (len - drop);
+    fill = 1 << curr;
+    min = fill;                 /* save offset to next table */
+    do {
+      fill -= incr;
+      table[next + (huff >> drop) + fill] = (here_bits << 24) | (here_op << 16) | here_val |0;
+    } while (fill !== 0);
+
+    /* backwards increment the len-bit code huff */
+    incr = 1 << (len - 1);
+    while (huff & incr) {
+      incr >>= 1;
+    }
+    if (incr !== 0) {
+      huff &= incr - 1;
+      huff += incr;
+    } else {
+      huff = 0;
+    }
+
+    /* go to next symbol, update count, len */
+    sym++;
+    if (--count[len] === 0) {
+      if (len === max) { break; }
+      len = lens[lens_index + work[sym]];
+    }
+
+    /* create new sub-table if needed */
+    if (len > root && (huff & mask) !== low) {
+      /* if first time, transition to sub-tables */
+      if (drop === 0) {
+        drop = root;
+      }
+
+      /* increment past last table */
+      next += min;            /* here min is 1 << curr */
+
+      /* determine length of next table */
+      curr = len - drop;
+      left = 1 << curr;
+      while (curr + drop < max) {
+        left -= count[curr + drop];
+        if (left <= 0) { break; }
+        curr++;
+        left <<= 1;
+      }
+
+      /* check for enough space */
+      used += 1 << curr;
+      if ((type === LENS && used > ENOUGH_LENS) ||
+        (type === DISTS && used > ENOUGH_DISTS)) {
+        return 1;
+      }
+
+      /* point entry in root table to sub-table */
+      low = huff & mask;
+      /*table.op[low] = curr;
+      table.bits[low] = root;
+      table.val[low] = next - opts.table_index;*/
+      table[low] = (root << 24) | (curr << 16) | (next - table_index) |0;
+    }
+  }
+
+  /* fill in remaining table entry if code is incomplete (guaranteed to have
+   at most one remaining entry, since if the code is incomplete, the
+   maximum code length that was allowed to get this far is one bit) */
+  if (huff !== 0) {
+    //table.op[next + huff] = 64;            /* invalid code marker */
+    //table.bits[next + huff] = len - drop;
+    //table.val[next + huff] = 0;
+    table[next + huff] = ((len - drop) << 24) | (64 << 16) |0;
+  }
+
+  /* set return parameters */
+  //opts.table_index += used;
+  opts.bits = root;
+  return 0;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/pako/lib/zlib/messages.js":
+/*!************************************************!*\
+  !*** ./node_modules/pako/lib/zlib/messages.js ***!
+  \************************************************/
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module */
+/*! CommonJS bailout: module.exports is used directly at 22:0-14 */
+/***/ ((module) => {
+
+"use strict";
+
+
+// (C) 1995-2013 Jean-loup Gailly and Mark Adler
+// (C) 2014-2017 Vitaly Puzrin and Andrey Tupitsin
+//
+// This software is provided 'as-is', without any express or implied
+// warranty. In no event will the authors be held liable for any damages
+// arising from the use of this software.
+//
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+//
+// 1. The origin of this software must not be misrepresented; you must not
+//   claim that you wrote the original software. If you use this software
+//   in a product, an acknowledgment in the product documentation would be
+//   appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+//   misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
+
+module.exports = {
+  2:      'need dictionary',     /* Z_NEED_DICT       2  */
+  1:      'stream end',          /* Z_STREAM_END      1  */
+  0:      '',                    /* Z_OK              0  */
+  '-1':   'file error',          /* Z_ERRNO         (-1) */
+  '-2':   'stream error',        /* Z_STREAM_ERROR  (-2) */
+  '-3':   'data error',          /* Z_DATA_ERROR    (-3) */
+  '-4':   'insufficient memory', /* Z_MEM_ERROR     (-4) */
+  '-5':   'buffer error',        /* Z_BUF_ERROR     (-5) */
+  '-6':   'incompatible version' /* Z_VERSION_ERROR (-6) */
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/pako/lib/zlib/trees.js":
+/*!*********************************************!*\
+  !*** ./node_modules/pako/lib/zlib/trees.js ***!
+  \*********************************************/
+/*! default exports */
+/*! export _tr_align [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export _tr_flush_block [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export _tr_init [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export _tr_stored_block [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export _tr_tally [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_exports__, __webpack_require__ */
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+
+// (C) 1995-2013 Jean-loup Gailly and Mark Adler
+// (C) 2014-2017 Vitaly Puzrin and Andrey Tupitsin
+//
+// This software is provided 'as-is', without any express or implied
+// warranty. In no event will the authors be held liable for any damages
+// arising from the use of this software.
+//
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+//
+// 1. The origin of this software must not be misrepresented; you must not
+//   claim that you wrote the original software. If you use this software
+//   in a product, an acknowledgment in the product documentation would be
+//   appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+//   misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
+
+/* eslint-disable space-unary-ops */
+
+var utils = __webpack_require__(/*! ../utils/common */ "./node_modules/pako/lib/utils/common.js");
+
+/* Public constants ==========================================================*/
+/* ===========================================================================*/
+
+
+//var Z_FILTERED          = 1;
+//var Z_HUFFMAN_ONLY      = 2;
+//var Z_RLE               = 3;
+var Z_FIXED               = 4;
+//var Z_DEFAULT_STRATEGY  = 0;
+
+/* Possible values of the data_type field (though see inflate()) */
+var Z_BINARY              = 0;
+var Z_TEXT                = 1;
+//var Z_ASCII             = 1; // = Z_TEXT
+var Z_UNKNOWN             = 2;
+
+/*============================================================================*/
+
+
+function zero(buf) { var len = buf.length; while (--len >= 0) { buf[len] = 0; } }
+
+// From zutil.h
+
+var STORED_BLOCK = 0;
+var STATIC_TREES = 1;
+var DYN_TREES    = 2;
+/* The three kinds of block type */
+
+var MIN_MATCH    = 3;
+var MAX_MATCH    = 258;
+/* The minimum and maximum match lengths */
+
+// From deflate.h
+/* ===========================================================================
+ * Internal compression state.
+ */
+
+var LENGTH_CODES  = 29;
+/* number of length codes, not counting the special END_BLOCK code */
+
+var LITERALS      = 256;
+/* number of literal bytes 0..255 */
+
+var L_CODES       = LITERALS + 1 + LENGTH_CODES;
+/* number of Literal or Length codes, including the END_BLOCK code */
+
+var D_CODES       = 30;
+/* number of distance codes */
+
+var BL_CODES      = 19;
+/* number of codes used to transfer the bit lengths */
+
+var HEAP_SIZE     = 2 * L_CODES + 1;
+/* maximum heap size */
+
+var MAX_BITS      = 15;
+/* All codes must not exceed MAX_BITS bits */
+
+var Buf_size      = 16;
+/* size of bit buffer in bi_buf */
+
+
+/* ===========================================================================
+ * Constants
+ */
+
+var MAX_BL_BITS = 7;
+/* Bit length codes must not exceed MAX_BL_BITS bits */
+
+var END_BLOCK   = 256;
+/* end of block literal code */
+
+var REP_3_6     = 16;
+/* repeat previous bit length 3-6 times (2 bits of repeat count) */
+
+var REPZ_3_10   = 17;
+/* repeat a zero length 3-10 times  (3 bits of repeat count) */
+
+var REPZ_11_138 = 18;
+/* repeat a zero length 11-138 times  (7 bits of repeat count) */
+
+/* eslint-disable comma-spacing,array-bracket-spacing */
+var extra_lbits =   /* extra bits for each length code */
+  [0,0,0,0,0,0,0,0,1,1,1,1,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,0];
+
+var extra_dbits =   /* extra bits for each distance code */
+  [0,0,0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12,13,13];
+
+var extra_blbits =  /* extra bits for each bit length code */
+  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,3,7];
+
+var bl_order =
+  [16,17,18,0,8,7,9,6,10,5,11,4,12,3,13,2,14,1,15];
+/* eslint-enable comma-spacing,array-bracket-spacing */
+
+/* The lengths of the bit length codes are sent in order of decreasing
+ * probability, to avoid transmitting the lengths for unused bit length codes.
+ */
+
+/* ===========================================================================
+ * Local data. These are initialized only once.
+ */
+
+// We pre-fill arrays with 0 to avoid uninitialized gaps
+
+var DIST_CODE_LEN = 512; /* see definition of array dist_code below */
+
+// !!!! Use flat array instead of structure, Freq = i*2, Len = i*2+1
+var static_ltree  = new Array((L_CODES + 2) * 2);
+zero(static_ltree);
+/* The static literal tree. Since the bit lengths are imposed, there is no
+ * need for the L_CODES extra codes used during heap construction. However
+ * The codes 286 and 287 are needed to build a canonical tree (see _tr_init
+ * below).
+ */
+
+var static_dtree  = new Array(D_CODES * 2);
+zero(static_dtree);
+/* The static distance tree. (Actually a trivial tree since all codes use
+ * 5 bits.)
+ */
+
+var _dist_code    = new Array(DIST_CODE_LEN);
+zero(_dist_code);
+/* Distance codes. The first 256 values correspond to the distances
+ * 3 .. 258, the last 256 values correspond to the top 8 bits of
+ * the 15 bit distances.
+ */
+
+var _length_code  = new Array(MAX_MATCH - MIN_MATCH + 1);
+zero(_length_code);
+/* length code for each normalized match length (0 == MIN_MATCH) */
+
+var base_length   = new Array(LENGTH_CODES);
+zero(base_length);
+/* First normalized length for each code (0 = MIN_MATCH) */
+
+var base_dist     = new Array(D_CODES);
+zero(base_dist);
+/* First normalized distance for each code (0 = distance of 1) */
+
+
+function StaticTreeDesc(static_tree, extra_bits, extra_base, elems, max_length) {
+
+  this.static_tree  = static_tree;  /* static tree or NULL */
+  this.extra_bits   = extra_bits;   /* extra bits for each code or NULL */
+  this.extra_base   = extra_base;   /* base index for extra_bits */
+  this.elems        = elems;        /* max number of elements in the tree */
+  this.max_length   = max_length;   /* max bit length for the codes */
+
+  // show if `static_tree` has data or dummy - needed for monomorphic objects
+  this.has_stree    = static_tree && static_tree.length;
+}
+
+
+var static_l_desc;
+var static_d_desc;
+var static_bl_desc;
+
+
+function TreeDesc(dyn_tree, stat_desc) {
+  this.dyn_tree = dyn_tree;     /* the dynamic tree */
+  this.max_code = 0;            /* largest code with non zero frequency */
+  this.stat_desc = stat_desc;   /* the corresponding static tree */
+}
+
+
+
+function d_code(dist) {
+  return dist < 256 ? _dist_code[dist] : _dist_code[256 + (dist >>> 7)];
+}
+
+
+/* ===========================================================================
+ * Output a short LSB first on the stream.
+ * IN assertion: there is enough room in pendingBuf.
+ */
+function put_short(s, w) {
+//    put_byte(s, (uch)((w) & 0xff));
+//    put_byte(s, (uch)((ush)(w) >> 8));
+  s.pending_buf[s.pending++] = (w) & 0xff;
+  s.pending_buf[s.pending++] = (w >>> 8) & 0xff;
+}
+
+
+/* ===========================================================================
+ * Send a value on a given number of bits.
+ * IN assertion: length <= 16 and value fits in length bits.
+ */
+function send_bits(s, value, length) {
+  if (s.bi_valid > (Buf_size - length)) {
+    s.bi_buf |= (value << s.bi_valid) & 0xffff;
+    put_short(s, s.bi_buf);
+    s.bi_buf = value >> (Buf_size - s.bi_valid);
+    s.bi_valid += length - Buf_size;
+  } else {
+    s.bi_buf |= (value << s.bi_valid) & 0xffff;
+    s.bi_valid += length;
+  }
+}
+
+
+function send_code(s, c, tree) {
+  send_bits(s, tree[c * 2]/*.Code*/, tree[c * 2 + 1]/*.Len*/);
+}
+
+
+/* ===========================================================================
+ * Reverse the first len bits of a code, using straightforward code (a faster
+ * method would use a table)
+ * IN assertion: 1 <= len <= 15
+ */
+function bi_reverse(code, len) {
+  var res = 0;
+  do {
+    res |= code & 1;
+    code >>>= 1;
+    res <<= 1;
+  } while (--len > 0);
+  return res >>> 1;
+}
+
+
+/* ===========================================================================
+ * Flush the bit buffer, keeping at most 7 bits in it.
+ */
+function bi_flush(s) {
+  if (s.bi_valid === 16) {
+    put_short(s, s.bi_buf);
+    s.bi_buf = 0;
+    s.bi_valid = 0;
+
+  } else if (s.bi_valid >= 8) {
+    s.pending_buf[s.pending++] = s.bi_buf & 0xff;
+    s.bi_buf >>= 8;
+    s.bi_valid -= 8;
+  }
+}
+
+
+/* ===========================================================================
+ * Compute the optimal bit lengths for a tree and update the total bit length
+ * for the current block.
+ * IN assertion: the fields freq and dad are set, heap[heap_max] and
+ *    above are the tree nodes sorted by increasing frequency.
+ * OUT assertions: the field len is set to the optimal bit length, the
+ *     array bl_count contains the frequencies for each bit length.
+ *     The length opt_len is updated; static_len is also updated if stree is
+ *     not null.
+ */
+function gen_bitlen(s, desc)
+//    deflate_state *s;
+//    tree_desc *desc;    /* the tree descriptor */
+{
+  var tree            = desc.dyn_tree;
+  var max_code        = desc.max_code;
+  var stree           = desc.stat_desc.static_tree;
+  var has_stree       = desc.stat_desc.has_stree;
+  var extra           = desc.stat_desc.extra_bits;
+  var base            = desc.stat_desc.extra_base;
+  var max_length      = desc.stat_desc.max_length;
+  var h;              /* heap index */
+  var n, m;           /* iterate over the tree elements */
+  var bits;           /* bit length */
+  var xbits;          /* extra bits */
+  var f;              /* frequency */
+  var overflow = 0;   /* number of elements with bit length too large */
+
+  for (bits = 0; bits <= MAX_BITS; bits++) {
+    s.bl_count[bits] = 0;
+  }
+
+  /* In a first pass, compute the optimal bit lengths (which may
+   * overflow in the case of the bit length tree).
+   */
+  tree[s.heap[s.heap_max] * 2 + 1]/*.Len*/ = 0; /* root of the heap */
+
+  for (h = s.heap_max + 1; h < HEAP_SIZE; h++) {
+    n = s.heap[h];
+    bits = tree[tree[n * 2 + 1]/*.Dad*/ * 2 + 1]/*.Len*/ + 1;
+    if (bits > max_length) {
+      bits = max_length;
+      overflow++;
+    }
+    tree[n * 2 + 1]/*.Len*/ = bits;
+    /* We overwrite tree[n].Dad which is no longer needed */
+
+    if (n > max_code) { continue; } /* not a leaf node */
+
+    s.bl_count[bits]++;
+    xbits = 0;
+    if (n >= base) {
+      xbits = extra[n - base];
+    }
+    f = tree[n * 2]/*.Freq*/;
+    s.opt_len += f * (bits + xbits);
+    if (has_stree) {
+      s.static_len += f * (stree[n * 2 + 1]/*.Len*/ + xbits);
+    }
+  }
+  if (overflow === 0) { return; }
+
+  // Trace((stderr,"\nbit length overflow\n"));
+  /* This happens for example on obj2 and pic of the Calgary corpus */
+
+  /* Find the first bit length which could increase: */
+  do {
+    bits = max_length - 1;
+    while (s.bl_count[bits] === 0) { bits--; }
+    s.bl_count[bits]--;      /* move one leaf down the tree */
+    s.bl_count[bits + 1] += 2; /* move one overflow item as its brother */
+    s.bl_count[max_length]--;
+    /* The brother of the overflow item also moves one step up,
+     * but this does not affect bl_count[max_length]
+     */
+    overflow -= 2;
+  } while (overflow > 0);
+
+  /* Now recompute all bit lengths, scanning in increasing frequency.
+   * h is still equal to HEAP_SIZE. (It is simpler to reconstruct all
+   * lengths instead of fixing only the wrong ones. This idea is taken
+   * from 'ar' written by Haruhiko Okumura.)
+   */
+  for (bits = max_length; bits !== 0; bits--) {
+    n = s.bl_count[bits];
+    while (n !== 0) {
+      m = s.heap[--h];
+      if (m > max_code) { continue; }
+      if (tree[m * 2 + 1]/*.Len*/ !== bits) {
+        // Trace((stderr,"code %d bits %d->%d\n", m, tree[m].Len, bits));
+        s.opt_len += (bits - tree[m * 2 + 1]/*.Len*/) * tree[m * 2]/*.Freq*/;
+        tree[m * 2 + 1]/*.Len*/ = bits;
+      }
+      n--;
+    }
+  }
+}
+
+
+/* ===========================================================================
+ * Generate the codes for a given tree and bit counts (which need not be
+ * optimal).
+ * IN assertion: the array bl_count contains the bit length statistics for
+ * the given tree and the field len is set for all tree elements.
+ * OUT assertion: the field code is set for all tree elements of non
+ *     zero code length.
+ */
+function gen_codes(tree, max_code, bl_count)
+//    ct_data *tree;             /* the tree to decorate */
+//    int max_code;              /* largest code with non zero frequency */
+//    ushf *bl_count;            /* number of codes at each bit length */
+{
+  var next_code = new Array(MAX_BITS + 1); /* next code value for each bit length */
+  var code = 0;              /* running code value */
+  var bits;                  /* bit index */
+  var n;                     /* code index */
+
+  /* The distribution counts are first used to generate the code values
+   * without bit reversal.
+   */
+  for (bits = 1; bits <= MAX_BITS; bits++) {
+    next_code[bits] = code = (code + bl_count[bits - 1]) << 1;
+  }
+  /* Check that the bit counts in bl_count are consistent. The last code
+   * must be all ones.
+   */
+  //Assert (code + bl_count[MAX_BITS]-1 == (1<<MAX_BITS)-1,
+  //        "inconsistent bit counts");
+  //Tracev((stderr,"\ngen_codes: max_code %d ", max_code));
+
+  for (n = 0;  n <= max_code; n++) {
+    var len = tree[n * 2 + 1]/*.Len*/;
+    if (len === 0) { continue; }
+    /* Now reverse the bits */
+    tree[n * 2]/*.Code*/ = bi_reverse(next_code[len]++, len);
+
+    //Tracecv(tree != static_ltree, (stderr,"\nn %3d %c l %2d c %4x (%x) ",
+    //     n, (isgraph(n) ? n : ' '), len, tree[n].Code, next_code[len]-1));
+  }
+}
+
+
+/* ===========================================================================
+ * Initialize the various 'constant' tables.
+ */
+function tr_static_init() {
+  var n;        /* iterates over tree elements */
+  var bits;     /* bit counter */
+  var length;   /* length value */
+  var code;     /* code value */
+  var dist;     /* distance index */
+  var bl_count = new Array(MAX_BITS + 1);
+  /* number of codes at each bit length for an optimal tree */
+
+  // do check in _tr_init()
+  //if (static_init_done) return;
+
+  /* For some embedded targets, global variables are not initialized: */
+/*#ifdef NO_INIT_GLOBAL_POINTERS
+  static_l_desc.static_tree = static_ltree;
+  static_l_desc.extra_bits = extra_lbits;
+  static_d_desc.static_tree = static_dtree;
+  static_d_desc.extra_bits = extra_dbits;
+  static_bl_desc.extra_bits = extra_blbits;
+#endif*/
+
+  /* Initialize the mapping length (0..255) -> length code (0..28) */
+  length = 0;
+  for (code = 0; code < LENGTH_CODES - 1; code++) {
+    base_length[code] = length;
+    for (n = 0; n < (1 << extra_lbits[code]); n++) {
+      _length_code[length++] = code;
+    }
+  }
+  //Assert (length == 256, "tr_static_init: length != 256");
+  /* Note that the length 255 (match length 258) can be represented
+   * in two different ways: code 284 + 5 bits or code 285, so we
+   * overwrite length_code[255] to use the best encoding:
+   */
+  _length_code[length - 1] = code;
+
+  /* Initialize the mapping dist (0..32K) -> dist code (0..29) */
+  dist = 0;
+  for (code = 0; code < 16; code++) {
+    base_dist[code] = dist;
+    for (n = 0; n < (1 << extra_dbits[code]); n++) {
+      _dist_code[dist++] = code;
+    }
+  }
+  //Assert (dist == 256, "tr_static_init: dist != 256");
+  dist >>= 7; /* from now on, all distances are divided by 128 */
+  for (; code < D_CODES; code++) {
+    base_dist[code] = dist << 7;
+    for (n = 0; n < (1 << (extra_dbits[code] - 7)); n++) {
+      _dist_code[256 + dist++] = code;
+    }
+  }
+  //Assert (dist == 256, "tr_static_init: 256+dist != 512");
+
+  /* Construct the codes of the static literal tree */
+  for (bits = 0; bits <= MAX_BITS; bits++) {
+    bl_count[bits] = 0;
+  }
+
+  n = 0;
+  while (n <= 143) {
+    static_ltree[n * 2 + 1]/*.Len*/ = 8;
+    n++;
+    bl_count[8]++;
+  }
+  while (n <= 255) {
+    static_ltree[n * 2 + 1]/*.Len*/ = 9;
+    n++;
+    bl_count[9]++;
+  }
+  while (n <= 279) {
+    static_ltree[n * 2 + 1]/*.Len*/ = 7;
+    n++;
+    bl_count[7]++;
+  }
+  while (n <= 287) {
+    static_ltree[n * 2 + 1]/*.Len*/ = 8;
+    n++;
+    bl_count[8]++;
+  }
+  /* Codes 286 and 287 do not exist, but we must include them in the
+   * tree construction to get a canonical Huffman tree (longest code
+   * all ones)
+   */
+  gen_codes(static_ltree, L_CODES + 1, bl_count);
+
+  /* The static distance tree is trivial: */
+  for (n = 0; n < D_CODES; n++) {
+    static_dtree[n * 2 + 1]/*.Len*/ = 5;
+    static_dtree[n * 2]/*.Code*/ = bi_reverse(n, 5);
+  }
+
+  // Now data ready and we can init static trees
+  static_l_desc = new StaticTreeDesc(static_ltree, extra_lbits, LITERALS + 1, L_CODES, MAX_BITS);
+  static_d_desc = new StaticTreeDesc(static_dtree, extra_dbits, 0,          D_CODES, MAX_BITS);
+  static_bl_desc = new StaticTreeDesc(new Array(0), extra_blbits, 0,         BL_CODES, MAX_BL_BITS);
+
+  //static_init_done = true;
+}
+
+
+/* ===========================================================================
+ * Initialize a new block.
+ */
+function init_block(s) {
+  var n; /* iterates over tree elements */
+
+  /* Initialize the trees. */
+  for (n = 0; n < L_CODES;  n++) { s.dyn_ltree[n * 2]/*.Freq*/ = 0; }
+  for (n = 0; n < D_CODES;  n++) { s.dyn_dtree[n * 2]/*.Freq*/ = 0; }
+  for (n = 0; n < BL_CODES; n++) { s.bl_tree[n * 2]/*.Freq*/ = 0; }
+
+  s.dyn_ltree[END_BLOCK * 2]/*.Freq*/ = 1;
+  s.opt_len = s.static_len = 0;
+  s.last_lit = s.matches = 0;
+}
+
+
+/* ===========================================================================
+ * Flush the bit buffer and align the output on a byte boundary
+ */
+function bi_windup(s)
+{
+  if (s.bi_valid > 8) {
+    put_short(s, s.bi_buf);
+  } else if (s.bi_valid > 0) {
+    //put_byte(s, (Byte)s->bi_buf);
+    s.pending_buf[s.pending++] = s.bi_buf;
+  }
+  s.bi_buf = 0;
+  s.bi_valid = 0;
+}
+
+/* ===========================================================================
+ * Copy a stored block, storing first the length and its
+ * one's complement if requested.
+ */
+function copy_block(s, buf, len, header)
+//DeflateState *s;
+//charf    *buf;    /* the input data */
+//unsigned len;     /* its length */
+//int      header;  /* true if block header must be written */
+{
+  bi_windup(s);        /* align on byte boundary */
+
+  if (header) {
+    put_short(s, len);
+    put_short(s, ~len);
+  }
+//  while (len--) {
+//    put_byte(s, *buf++);
+//  }
+  utils.arraySet(s.pending_buf, s.window, buf, len, s.pending);
+  s.pending += len;
+}
+
+/* ===========================================================================
+ * Compares to subtrees, using the tree depth as tie breaker when
+ * the subtrees have equal frequency. This minimizes the worst case length.
+ */
+function smaller(tree, n, m, depth) {
+  var _n2 = n * 2;
+  var _m2 = m * 2;
+  return (tree[_n2]/*.Freq*/ < tree[_m2]/*.Freq*/ ||
+         (tree[_n2]/*.Freq*/ === tree[_m2]/*.Freq*/ && depth[n] <= depth[m]));
+}
+
+/* ===========================================================================
+ * Restore the heap property by moving down the tree starting at node k,
+ * exchanging a node with the smallest of its two sons if necessary, stopping
+ * when the heap property is re-established (each father smaller than its
+ * two sons).
+ */
+function pqdownheap(s, tree, k)
+//    deflate_state *s;
+//    ct_data *tree;  /* the tree to restore */
+//    int k;               /* node to move down */
+{
+  var v = s.heap[k];
+  var j = k << 1;  /* left son of k */
+  while (j <= s.heap_len) {
+    /* Set j to the smallest of the two sons: */
+    if (j < s.heap_len &&
+      smaller(tree, s.heap[j + 1], s.heap[j], s.depth)) {
+      j++;
+    }
+    /* Exit if v is smaller than both sons */
+    if (smaller(tree, v, s.heap[j], s.depth)) { break; }
+
+    /* Exchange v with the smallest son */
+    s.heap[k] = s.heap[j];
+    k = j;
+
+    /* And continue down the tree, setting j to the left son of k */
+    j <<= 1;
+  }
+  s.heap[k] = v;
+}
+
+
+// inlined manually
+// var SMALLEST = 1;
+
+/* ===========================================================================
+ * Send the block data compressed using the given Huffman trees
+ */
+function compress_block(s, ltree, dtree)
+//    deflate_state *s;
+//    const ct_data *ltree; /* literal tree */
+//    const ct_data *dtree; /* distance tree */
+{
+  var dist;           /* distance of matched string */
+  var lc;             /* match length or unmatched char (if dist == 0) */
+  var lx = 0;         /* running index in l_buf */
+  var code;           /* the code to send */
+  var extra;          /* number of extra bits to send */
+
+  if (s.last_lit !== 0) {
+    do {
+      dist = (s.pending_buf[s.d_buf + lx * 2] << 8) | (s.pending_buf[s.d_buf + lx * 2 + 1]);
+      lc = s.pending_buf[s.l_buf + lx];
+      lx++;
+
+      if (dist === 0) {
+        send_code(s, lc, ltree); /* send a literal byte */
+        //Tracecv(isgraph(lc), (stderr," '%c' ", lc));
+      } else {
+        /* Here, lc is the match length - MIN_MATCH */
+        code = _length_code[lc];
+        send_code(s, code + LITERALS + 1, ltree); /* send the length code */
+        extra = extra_lbits[code];
+        if (extra !== 0) {
+          lc -= base_length[code];
+          send_bits(s, lc, extra);       /* send the extra length bits */
+        }
+        dist--; /* dist is now the match distance - 1 */
+        code = d_code(dist);
+        //Assert (code < D_CODES, "bad d_code");
+
+        send_code(s, code, dtree);       /* send the distance code */
+        extra = extra_dbits[code];
+        if (extra !== 0) {
+          dist -= base_dist[code];
+          send_bits(s, dist, extra);   /* send the extra distance bits */
+        }
+      } /* literal or match pair ? */
+
+      /* Check that the overlay between pending_buf and d_buf+l_buf is ok: */
+      //Assert((uInt)(s->pending) < s->lit_bufsize + 2*lx,
+      //       "pendingBuf overflow");
+
+    } while (lx < s.last_lit);
+  }
+
+  send_code(s, END_BLOCK, ltree);
+}
+
+
+/* ===========================================================================
+ * Construct one Huffman tree and assigns the code bit strings and lengths.
+ * Update the total bit length for the current block.
+ * IN assertion: the field freq is set for all tree elements.
+ * OUT assertions: the fields len and code are set to the optimal bit length
+ *     and corresponding code. The length opt_len is updated; static_len is
+ *     also updated if stree is not null. The field max_code is set.
+ */
+function build_tree(s, desc)
+//    deflate_state *s;
+//    tree_desc *desc; /* the tree descriptor */
+{
+  var tree     = desc.dyn_tree;
+  var stree    = desc.stat_desc.static_tree;
+  var has_stree = desc.stat_desc.has_stree;
+  var elems    = desc.stat_desc.elems;
+  var n, m;          /* iterate over heap elements */
+  var max_code = -1; /* largest code with non zero frequency */
+  var node;          /* new node being created */
+
+  /* Construct the initial heap, with least frequent element in
+   * heap[SMALLEST]. The sons of heap[n] are heap[2*n] and heap[2*n+1].
+   * heap[0] is not used.
+   */
+  s.heap_len = 0;
+  s.heap_max = HEAP_SIZE;
+
+  for (n = 0; n < elems; n++) {
+    if (tree[n * 2]/*.Freq*/ !== 0) {
+      s.heap[++s.heap_len] = max_code = n;
+      s.depth[n] = 0;
+
+    } else {
+      tree[n * 2 + 1]/*.Len*/ = 0;
+    }
+  }
+
+  /* The pkzip format requires that at least one distance code exists,
+   * and that at least one bit should be sent even if there is only one
+   * possible code. So to avoid special checks later on we force at least
+   * two codes of non zero frequency.
+   */
+  while (s.heap_len < 2) {
+    node = s.heap[++s.heap_len] = (max_code < 2 ? ++max_code : 0);
+    tree[node * 2]/*.Freq*/ = 1;
+    s.depth[node] = 0;
+    s.opt_len--;
+
+    if (has_stree) {
+      s.static_len -= stree[node * 2 + 1]/*.Len*/;
+    }
+    /* node is 0 or 1 so it does not have extra bits */
+  }
+  desc.max_code = max_code;
+
+  /* The elements heap[heap_len/2+1 .. heap_len] are leaves of the tree,
+   * establish sub-heaps of increasing lengths:
+   */
+  for (n = (s.heap_len >> 1/*int /2*/); n >= 1; n--) { pqdownheap(s, tree, n); }
+
+  /* Construct the Huffman tree by repeatedly combining the least two
+   * frequent nodes.
+   */
+  node = elems;              /* next internal node of the tree */
+  do {
+    //pqremove(s, tree, n);  /* n = node of least frequency */
+    /*** pqremove ***/
+    n = s.heap[1/*SMALLEST*/];
+    s.heap[1/*SMALLEST*/] = s.heap[s.heap_len--];
+    pqdownheap(s, tree, 1/*SMALLEST*/);
+    /***/
+
+    m = s.heap[1/*SMALLEST*/]; /* m = node of next least frequency */
+
+    s.heap[--s.heap_max] = n; /* keep the nodes sorted by frequency */
+    s.heap[--s.heap_max] = m;
+
+    /* Create a new node father of n and m */
+    tree[node * 2]/*.Freq*/ = tree[n * 2]/*.Freq*/ + tree[m * 2]/*.Freq*/;
+    s.depth[node] = (s.depth[n] >= s.depth[m] ? s.depth[n] : s.depth[m]) + 1;
+    tree[n * 2 + 1]/*.Dad*/ = tree[m * 2 + 1]/*.Dad*/ = node;
+
+    /* and insert the new node in the heap */
+    s.heap[1/*SMALLEST*/] = node++;
+    pqdownheap(s, tree, 1/*SMALLEST*/);
+
+  } while (s.heap_len >= 2);
+
+  s.heap[--s.heap_max] = s.heap[1/*SMALLEST*/];
+
+  /* At this point, the fields freq and dad are set. We can now
+   * generate the bit lengths.
+   */
+  gen_bitlen(s, desc);
+
+  /* The field len is now set, we can generate the bit codes */
+  gen_codes(tree, max_code, s.bl_count);
+}
+
+
+/* ===========================================================================
+ * Scan a literal or distance tree to determine the frequencies of the codes
+ * in the bit length tree.
+ */
+function scan_tree(s, tree, max_code)
+//    deflate_state *s;
+//    ct_data *tree;   /* the tree to be scanned */
+//    int max_code;    /* and its largest code of non zero frequency */
+{
+  var n;                     /* iterates over all tree elements */
+  var prevlen = -1;          /* last emitted length */
+  var curlen;                /* length of current code */
+
+  var nextlen = tree[0 * 2 + 1]/*.Len*/; /* length of next code */
+
+  var count = 0;             /* repeat count of the current code */
+  var max_count = 7;         /* max repeat count */
+  var min_count = 4;         /* min repeat count */
+
+  if (nextlen === 0) {
+    max_count = 138;
+    min_count = 3;
+  }
+  tree[(max_code + 1) * 2 + 1]/*.Len*/ = 0xffff; /* guard */
+
+  for (n = 0; n <= max_code; n++) {
+    curlen = nextlen;
+    nextlen = tree[(n + 1) * 2 + 1]/*.Len*/;
+
+    if (++count < max_count && curlen === nextlen) {
+      continue;
+
+    } else if (count < min_count) {
+      s.bl_tree[curlen * 2]/*.Freq*/ += count;
+
+    } else if (curlen !== 0) {
+
+      if (curlen !== prevlen) { s.bl_tree[curlen * 2]/*.Freq*/++; }
+      s.bl_tree[REP_3_6 * 2]/*.Freq*/++;
+
+    } else if (count <= 10) {
+      s.bl_tree[REPZ_3_10 * 2]/*.Freq*/++;
+
+    } else {
+      s.bl_tree[REPZ_11_138 * 2]/*.Freq*/++;
+    }
+
+    count = 0;
+    prevlen = curlen;
+
+    if (nextlen === 0) {
+      max_count = 138;
+      min_count = 3;
+
+    } else if (curlen === nextlen) {
+      max_count = 6;
+      min_count = 3;
+
+    } else {
+      max_count = 7;
+      min_count = 4;
+    }
+  }
+}
+
+
+/* ===========================================================================
+ * Send a literal or distance tree in compressed form, using the codes in
+ * bl_tree.
+ */
+function send_tree(s, tree, max_code)
+//    deflate_state *s;
+//    ct_data *tree; /* the tree to be scanned */
+//    int max_code;       /* and its largest code of non zero frequency */
+{
+  var n;                     /* iterates over all tree elements */
+  var prevlen = -1;          /* last emitted length */
+  var curlen;                /* length of current code */
+
+  var nextlen = tree[0 * 2 + 1]/*.Len*/; /* length of next code */
+
+  var count = 0;             /* repeat count of the current code */
+  var max_count = 7;         /* max repeat count */
+  var min_count = 4;         /* min repeat count */
+
+  /* tree[max_code+1].Len = -1; */  /* guard already set */
+  if (nextlen === 0) {
+    max_count = 138;
+    min_count = 3;
+  }
+
+  for (n = 0; n <= max_code; n++) {
+    curlen = nextlen;
+    nextlen = tree[(n + 1) * 2 + 1]/*.Len*/;
+
+    if (++count < max_count && curlen === nextlen) {
+      continue;
+
+    } else if (count < min_count) {
+      do { send_code(s, curlen, s.bl_tree); } while (--count !== 0);
+
+    } else if (curlen !== 0) {
+      if (curlen !== prevlen) {
+        send_code(s, curlen, s.bl_tree);
+        count--;
+      }
+      //Assert(count >= 3 && count <= 6, " 3_6?");
+      send_code(s, REP_3_6, s.bl_tree);
+      send_bits(s, count - 3, 2);
+
+    } else if (count <= 10) {
+      send_code(s, REPZ_3_10, s.bl_tree);
+      send_bits(s, count - 3, 3);
+
+    } else {
+      send_code(s, REPZ_11_138, s.bl_tree);
+      send_bits(s, count - 11, 7);
+    }
+
+    count = 0;
+    prevlen = curlen;
+    if (nextlen === 0) {
+      max_count = 138;
+      min_count = 3;
+
+    } else if (curlen === nextlen) {
+      max_count = 6;
+      min_count = 3;
+
+    } else {
+      max_count = 7;
+      min_count = 4;
+    }
+  }
+}
+
+
+/* ===========================================================================
+ * Construct the Huffman tree for the bit lengths and return the index in
+ * bl_order of the last bit length code to send.
+ */
+function build_bl_tree(s) {
+  var max_blindex;  /* index of last bit length code of non zero freq */
+
+  /* Determine the bit length frequencies for literal and distance trees */
+  scan_tree(s, s.dyn_ltree, s.l_desc.max_code);
+  scan_tree(s, s.dyn_dtree, s.d_desc.max_code);
+
+  /* Build the bit length tree: */
+  build_tree(s, s.bl_desc);
+  /* opt_len now includes the length of the tree representations, except
+   * the lengths of the bit lengths codes and the 5+5+4 bits for the counts.
+   */
+
+  /* Determine the number of bit length codes to send. The pkzip format
+   * requires that at least 4 bit length codes be sent. (appnote.txt says
+   * 3 but the actual value used is 4.)
+   */
+  for (max_blindex = BL_CODES - 1; max_blindex >= 3; max_blindex--) {
+    if (s.bl_tree[bl_order[max_blindex] * 2 + 1]/*.Len*/ !== 0) {
+      break;
+    }
+  }
+  /* Update opt_len to include the bit length tree and counts */
+  s.opt_len += 3 * (max_blindex + 1) + 5 + 5 + 4;
+  //Tracev((stderr, "\ndyn trees: dyn %ld, stat %ld",
+  //        s->opt_len, s->static_len));
+
+  return max_blindex;
+}
+
+
+/* ===========================================================================
+ * Send the header for a block using dynamic Huffman trees: the counts, the
+ * lengths of the bit length codes, the literal tree and the distance tree.
+ * IN assertion: lcodes >= 257, dcodes >= 1, blcodes >= 4.
+ */
+function send_all_trees(s, lcodes, dcodes, blcodes)
+//    deflate_state *s;
+//    int lcodes, dcodes, blcodes; /* number of codes for each tree */
+{
+  var rank;                    /* index in bl_order */
+
+  //Assert (lcodes >= 257 && dcodes >= 1 && blcodes >= 4, "not enough codes");
+  //Assert (lcodes <= L_CODES && dcodes <= D_CODES && blcodes <= BL_CODES,
+  //        "too many codes");
+  //Tracev((stderr, "\nbl counts: "));
+  send_bits(s, lcodes - 257, 5); /* not +255 as stated in appnote.txt */
+  send_bits(s, dcodes - 1,   5);
+  send_bits(s, blcodes - 4,  4); /* not -3 as stated in appnote.txt */
+  for (rank = 0; rank < blcodes; rank++) {
+    //Tracev((stderr, "\nbl code %2d ", bl_order[rank]));
+    send_bits(s, s.bl_tree[bl_order[rank] * 2 + 1]/*.Len*/, 3);
+  }
+  //Tracev((stderr, "\nbl tree: sent %ld", s->bits_sent));
+
+  send_tree(s, s.dyn_ltree, lcodes - 1); /* literal tree */
+  //Tracev((stderr, "\nlit tree: sent %ld", s->bits_sent));
+
+  send_tree(s, s.dyn_dtree, dcodes - 1); /* distance tree */
+  //Tracev((stderr, "\ndist tree: sent %ld", s->bits_sent));
+}
+
+
+/* ===========================================================================
+ * Check if the data type is TEXT or BINARY, using the following algorithm:
+ * - TEXT if the two conditions below are satisfied:
+ *    a) There are no non-portable control characters belonging to the
+ *       "black list" (0..6, 14..25, 28..31).
+ *    b) There is at least one printable character belonging to the
+ *       "white list" (9 {TAB}, 10 {LF}, 13 {CR}, 32..255).
+ * - BINARY otherwise.
+ * - The following partially-portable control characters form a
+ *   "gray list" that is ignored in this detection algorithm:
+ *   (7 {BEL}, 8 {BS}, 11 {VT}, 12 {FF}, 26 {SUB}, 27 {ESC}).
+ * IN assertion: the fields Freq of dyn_ltree are set.
+ */
+function detect_data_type(s) {
+  /* black_mask is the bit mask of black-listed bytes
+   * set bits 0..6, 14..25, and 28..31
+   * 0xf3ffc07f = binary 11110011111111111100000001111111
+   */
+  var black_mask = 0xf3ffc07f;
+  var n;
+
+  /* Check for non-textual ("black-listed") bytes. */
+  for (n = 0; n <= 31; n++, black_mask >>>= 1) {
+    if ((black_mask & 1) && (s.dyn_ltree[n * 2]/*.Freq*/ !== 0)) {
+      return Z_BINARY;
+    }
+  }
+
+  /* Check for textual ("white-listed") bytes. */
+  if (s.dyn_ltree[9 * 2]/*.Freq*/ !== 0 || s.dyn_ltree[10 * 2]/*.Freq*/ !== 0 ||
+      s.dyn_ltree[13 * 2]/*.Freq*/ !== 0) {
+    return Z_TEXT;
+  }
+  for (n = 32; n < LITERALS; n++) {
+    if (s.dyn_ltree[n * 2]/*.Freq*/ !== 0) {
+      return Z_TEXT;
+    }
+  }
+
+  /* There are no "black-listed" or "white-listed" bytes:
+   * this stream either is empty or has tolerated ("gray-listed") bytes only.
+   */
+  return Z_BINARY;
+}
+
+
+var static_init_done = false;
+
+/* ===========================================================================
+ * Initialize the tree data structures for a new zlib stream.
+ */
+function _tr_init(s)
+{
+
+  if (!static_init_done) {
+    tr_static_init();
+    static_init_done = true;
+  }
+
+  s.l_desc  = new TreeDesc(s.dyn_ltree, static_l_desc);
+  s.d_desc  = new TreeDesc(s.dyn_dtree, static_d_desc);
+  s.bl_desc = new TreeDesc(s.bl_tree, static_bl_desc);
+
+  s.bi_buf = 0;
+  s.bi_valid = 0;
+
+  /* Initialize the first block of the first file: */
+  init_block(s);
+}
+
+
+/* ===========================================================================
+ * Send a stored block
+ */
+function _tr_stored_block(s, buf, stored_len, last)
+//DeflateState *s;
+//charf *buf;       /* input block */
+//ulg stored_len;   /* length of input block */
+//int last;         /* one if this is the last block for a file */
+{
+  send_bits(s, (STORED_BLOCK << 1) + (last ? 1 : 0), 3);    /* send block type */
+  copy_block(s, buf, stored_len, true); /* with header */
+}
+
+
+/* ===========================================================================
+ * Send one empty static block to give enough lookahead for inflate.
+ * This takes 10 bits, of which 7 may remain in the bit buffer.
+ */
+function _tr_align(s) {
+  send_bits(s, STATIC_TREES << 1, 3);
+  send_code(s, END_BLOCK, static_ltree);
+  bi_flush(s);
+}
+
+
+/* ===========================================================================
+ * Determine the best encoding for the current block: dynamic trees, static
+ * trees or store, and output the encoded block to the zip file.
+ */
+function _tr_flush_block(s, buf, stored_len, last)
+//DeflateState *s;
+//charf *buf;       /* input block, or NULL if too old */
+//ulg stored_len;   /* length of input block */
+//int last;         /* one if this is the last block for a file */
+{
+  var opt_lenb, static_lenb;  /* opt_len and static_len in bytes */
+  var max_blindex = 0;        /* index of last bit length code of non zero freq */
+
+  /* Build the Huffman trees unless a stored block is forced */
+  if (s.level > 0) {
+
+    /* Check if the file is binary or text */
+    if (s.strm.data_type === Z_UNKNOWN) {
+      s.strm.data_type = detect_data_type(s);
+    }
+
+    /* Construct the literal and distance trees */
+    build_tree(s, s.l_desc);
+    // Tracev((stderr, "\nlit data: dyn %ld, stat %ld", s->opt_len,
+    //        s->static_len));
+
+    build_tree(s, s.d_desc);
+    // Tracev((stderr, "\ndist data: dyn %ld, stat %ld", s->opt_len,
+    //        s->static_len));
+    /* At this point, opt_len and static_len are the total bit lengths of
+     * the compressed block data, excluding the tree representations.
+     */
+
+    /* Build the bit length tree for the above two trees, and get the index
+     * in bl_order of the last bit length code to send.
+     */
+    max_blindex = build_bl_tree(s);
+
+    /* Determine the best encoding. Compute the block lengths in bytes. */
+    opt_lenb = (s.opt_len + 3 + 7) >>> 3;
+    static_lenb = (s.static_len + 3 + 7) >>> 3;
+
+    // Tracev((stderr, "\nopt %lu(%lu) stat %lu(%lu) stored %lu lit %u ",
+    //        opt_lenb, s->opt_len, static_lenb, s->static_len, stored_len,
+    //        s->last_lit));
+
+    if (static_lenb <= opt_lenb) { opt_lenb = static_lenb; }
+
+  } else {
+    // Assert(buf != (char*)0, "lost buf");
+    opt_lenb = static_lenb = stored_len + 5; /* force a stored block */
+  }
+
+  if ((stored_len + 4 <= opt_lenb) && (buf !== -1)) {
+    /* 4: two words for the lengths */
+
+    /* The test buf != NULL is only necessary if LIT_BUFSIZE > WSIZE.
+     * Otherwise we can't have processed more than WSIZE input bytes since
+     * the last block flush, because compression would have been
+     * successful. If LIT_BUFSIZE <= WSIZE, it is never too late to
+     * transform a block into a stored block.
+     */
+    _tr_stored_block(s, buf, stored_len, last);
+
+  } else if (s.strategy === Z_FIXED || static_lenb === opt_lenb) {
+
+    send_bits(s, (STATIC_TREES << 1) + (last ? 1 : 0), 3);
+    compress_block(s, static_ltree, static_dtree);
+
+  } else {
+    send_bits(s, (DYN_TREES << 1) + (last ? 1 : 0), 3);
+    send_all_trees(s, s.l_desc.max_code + 1, s.d_desc.max_code + 1, max_blindex + 1);
+    compress_block(s, s.dyn_ltree, s.dyn_dtree);
+  }
+  // Assert (s->compressed_len == s->bits_sent, "bad compressed size");
+  /* The above check is made mod 2^32, for files larger than 512 MB
+   * and uLong implemented on 32 bits.
+   */
+  init_block(s);
+
+  if (last) {
+    bi_windup(s);
+  }
+  // Tracev((stderr,"\ncomprlen %lu(%lu) ", s->compressed_len>>3,
+  //       s->compressed_len-7*last));
+}
+
+/* ===========================================================================
+ * Save the match info and tally the frequency counts. Return true if
+ * the current block must be flushed.
+ */
+function _tr_tally(s, dist, lc)
+//    deflate_state *s;
+//    unsigned dist;  /* distance of matched string */
+//    unsigned lc;    /* match length-MIN_MATCH or unmatched char (if dist==0) */
+{
+  //var out_length, in_length, dcode;
+
+  s.pending_buf[s.d_buf + s.last_lit * 2]     = (dist >>> 8) & 0xff;
+  s.pending_buf[s.d_buf + s.last_lit * 2 + 1] = dist & 0xff;
+
+  s.pending_buf[s.l_buf + s.last_lit] = lc & 0xff;
+  s.last_lit++;
+
+  if (dist === 0) {
+    /* lc is the unmatched char */
+    s.dyn_ltree[lc * 2]/*.Freq*/++;
+  } else {
+    s.matches++;
+    /* Here, lc is the match length - MIN_MATCH */
+    dist--;             /* dist = match distance - 1 */
+    //Assert((ush)dist < (ush)MAX_DIST(s) &&
+    //       (ush)lc <= (ush)(MAX_MATCH-MIN_MATCH) &&
+    //       (ush)d_code(dist) < (ush)D_CODES,  "_tr_tally: bad match");
+
+    s.dyn_ltree[(_length_code[lc] + LITERALS + 1) * 2]/*.Freq*/++;
+    s.dyn_dtree[d_code(dist) * 2]/*.Freq*/++;
+  }
+
+// (!) This block is disabled in zlib defaults,
+// don't enable it for binary compatibility
+
+//#ifdef TRUNCATE_BLOCK
+//  /* Try to guess if it is profitable to stop the current block here */
+//  if ((s.last_lit & 0x1fff) === 0 && s.level > 2) {
+//    /* Compute an upper bound for the compressed length */
+//    out_length = s.last_lit*8;
+//    in_length = s.strstart - s.block_start;
+//
+//    for (dcode = 0; dcode < D_CODES; dcode++) {
+//      out_length += s.dyn_dtree[dcode*2]/*.Freq*/ * (5 + extra_dbits[dcode]);
+//    }
+//    out_length >>>= 3;
+//    //Tracev((stderr,"\nlast_lit %u, in %ld, out ~%ld(%ld%%) ",
+//    //       s->last_lit, in_length, out_length,
+//    //       100L - out_length*100L/in_length));
+//    if (s.matches < (s.last_lit>>1)/*int /2*/ && out_length < (in_length>>1)/*int /2*/) {
+//      return true;
+//    }
+//  }
+//#endif
+
+  return (s.last_lit === s.lit_bufsize - 1);
+  /* We avoid equality with lit_bufsize because of wraparound at 64K
+   * on 16 bit machines and because stored blocks are restricted to
+   * 64K-1 bytes.
+   */
+}
+
+exports._tr_init  = _tr_init;
+exports._tr_stored_block = _tr_stored_block;
+exports._tr_flush_block  = _tr_flush_block;
+exports._tr_tally = _tr_tally;
+exports._tr_align = _tr_align;
+
+
+/***/ }),
+
+/***/ "./node_modules/pako/lib/zlib/zstream.js":
+/*!***********************************************!*\
+  !*** ./node_modules/pako/lib/zlib/zstream.js ***!
+  \***********************************************/
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module */
+/*! CommonJS bailout: module.exports is used directly at 47:0-14 */
+/***/ ((module) => {
+
+"use strict";
+
+
+// (C) 1995-2013 Jean-loup Gailly and Mark Adler
+// (C) 2014-2017 Vitaly Puzrin and Andrey Tupitsin
+//
+// This software is provided 'as-is', without any express or implied
+// warranty. In no event will the authors be held liable for any damages
+// arising from the use of this software.
+//
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+//
+// 1. The origin of this software must not be misrepresented; you must not
+//   claim that you wrote the original software. If you use this software
+//   in a product, an acknowledgment in the product documentation would be
+//   appreciated but is not required.
+// 2. Altered source versions must be plainly marked as such, and must not be
+//   misrepresented as being the original software.
+// 3. This notice may not be removed or altered from any source distribution.
+
+function ZStream() {
+  /* next input byte */
+  this.input = null; // JS specific, because we have no pointers
+  this.next_in = 0;
+  /* number of bytes available at input */
+  this.avail_in = 0;
+  /* total number of input bytes read so far */
+  this.total_in = 0;
+  /* next output byte should be put there */
+  this.output = null; // JS specific, because we have no pointers
+  this.next_out = 0;
+  /* remaining free space at output */
+  this.avail_out = 0;
+  /* total number of bytes output so far */
+  this.total_out = 0;
+  /* last error message, NULL if no error */
+  this.msg = ''/*Z_NULL*/;
+  /* not visible by applications */
+  this.state = null;
+  /* best guess about the data type: binary or text */
+  this.data_type = 2/*Z_UNKNOWN*/;
+  /* adler32 value of the uncompressed data */
+  this.adler = 0;
+}
+
+module.exports = ZStream;
+
+
+/***/ }),
+
+/***/ "./node_modules/set-immediate-shim/index.js":
+/*!**************************************************!*\
+  !*** ./node_modules/set-immediate-shim/index.js ***!
+  \**************************************************/
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module */
+/*! CommonJS bailout: module.exports is used directly at 2:0-14 */
+/***/ ((module) => {
+
+"use strict";
+
+module.exports = typeof setImmediate === 'function' ? setImmediate :
+	function setImmediate() {
+		var args = [].slice.apply(arguments);
+		args.splice(1, 0, 0);
+		setTimeout.apply(null, args);
+	};
+
 
 /***/ }),
 
@@ -14354,8161 +26001,1587 @@ else {}
 
 /***/ }),
 
-/***/ "./node_modules/snapsvg-cjs/dist/snap.svg-cjs.js":
-/*!*******************************************************!*\
-  !*** ./node_modules/snapsvg-cjs/dist/snap.svg-cjs.js ***!
-  \*******************************************************/
+/***/ "./node_modules/svgpath/index.js":
+/*!***************************************!*\
+  !*** ./node_modules/svgpath/index.js ***!
+  \***************************************/
+/*! dynamic exports */
+/*! export __esModule [maybe provided (runtime-defined)] [no usage info] [provision prevents renaming (no use info)] -> ./node_modules/svgpath/lib/svgpath.js .__esModule */
+/*! other exports [maybe provided (runtime-defined)] [no usage info] -> ./node_modules/svgpath/lib/svgpath.js */
+/*! runtime requirements: module, __webpack_require__ */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+
+module.exports = __webpack_require__(/*! ./lib/svgpath */ "./node_modules/svgpath/lib/svgpath.js");
+
+
+/***/ }),
+
+/***/ "./node_modules/svgpath/lib/a2c.js":
+/*!*****************************************!*\
+  !*** ./node_modules/svgpath/lib/a2c.js ***!
+  \*****************************************/
 /*! unknown exports (runtime-defined) */
-/*! runtime requirements: top-level-this-exports, module, __webpack_require__ */
-/*! CommonJS bailout: this is used directly at 2232:12-16 */
-/*! CommonJS bailout: module.exports is used directly at 8145:0-14 */
-/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+/*! runtime requirements: module */
+/*! CommonJS bailout: module.exports is used directly at 114:0-14 */
+/***/ ((module) => {
 
-window.eve = __webpack_require__(/*! eve */ "./node_modules/eve/eve.js")
-
-// Copyright (c) 2017 Adobe Systems Incorporated. All rights reserved.
+"use strict";
+// Convert an arc to a sequence of cubic bézier curves
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
+
+
+
+var TAU = Math.PI * 2;
+
+
+/* eslint-disable space-infix-ops */
+
+// Calculate an angle between two unit vectors
 //
-// http://www.apache.org/licenses/LICENSE-2.0
+// Since we measure angle between radii of circular arcs,
+// we can use simplified math (without length normalization)
 //
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-var mina = (function (eve) {
-    var animations = {},
-    requestAnimFrame = window.requestAnimationFrame       ||
-                       window.webkitRequestAnimationFrame ||
-                       window.mozRequestAnimationFrame    ||
-                       window.oRequestAnimationFrame      ||
-                       window.msRequestAnimationFrame     ||
-                       function (callback) {
-                           setTimeout(callback, 16, new Date().getTime());
-                           return true;
-                       },
-    requestID,
-    isArray = Array.isArray || function (a) {
-        return a instanceof Array ||
-            Object.prototype.toString.call(a) == "[object Array]";
-    },
-    idgen = 0,
-    idprefix = "M" + (+new Date).toString(36),
-    ID = function () {
-        return idprefix + (idgen++).toString(36);
-    },
-    diff = function (a, b, A, B) {
-        if (isArray(a)) {
-            res = [];
-            for (var i = 0, ii = a.length; i < ii; i++) {
-                res[i] = diff(a[i], b, A[i], B);
-            }
-            return res;
-        }
-        var dif = (A - a) / (B - b);
-        return function (bb) {
-            return a + dif * (bb - b);
-        };
-    },
-    timer = Date.now || function () {
-        return +new Date;
-    },
-    sta = function (val) {
-        var a = this;
-        if (val == null) {
-            return a.s;
-        }
-        var ds = a.s - val;
-        a.b += a.dur * ds;
-        a.B += a.dur * ds;
-        a.s = val;
-    },
-    speed = function (val) {
-        var a = this;
-        if (val == null) {
-            return a.spd;
-        }
-        a.spd = val;
-    },
-    duration = function (val) {
-        var a = this;
-        if (val == null) {
-            return a.dur;
-        }
-        a.s = a.s * val / a.dur;
-        a.dur = val;
-    },
-    stopit = function () {
-        var a = this;
-        delete animations[a.id];
-        a.update();
-        eve("mina.stop." + a.id, a);
-    },
-    pause = function () {
-        var a = this;
-        if (a.pdif) {
-            return;
-        }
-        delete animations[a.id];
-        a.update();
-        a.pdif = a.get() - a.b;
-    },
-    resume = function () {
-        var a = this;
-        if (!a.pdif) {
-            return;
-        }
-        a.b = a.get() - a.pdif;
-        delete a.pdif;
-        animations[a.id] = a;
-        frame();
-    },
-    update = function () {
-        var a = this,
-            res;
-        if (isArray(a.start)) {
-            res = [];
-            for (var j = 0, jj = a.start.length; j < jj; j++) {
-                res[j] = +a.start[j] +
-                    (a.end[j] - a.start[j]) * a.easing(a.s);
-            }
-        } else {
-            res = +a.start + (a.end - a.start) * a.easing(a.s);
-        }
-        a.set(res);
-    },
-    frame = function (timeStamp) {
-        // Manual invokation?
-        if (!timeStamp) {
-            // Frame loop stopped?
-            if (!requestID) {
-                // Start frame loop...
-                requestID = requestAnimFrame(frame);
-            }
-            return;
-        }
-        var len = 0;
-        for (var i in animations) if (animations.hasOwnProperty(i)) {
-            var a = animations[i],
-                b = a.get(),
-                res;
-            len++;
-            a.s = (b - a.b) / (a.dur / a.spd);
-            if (a.s >= 1) {
-                delete animations[i];
-                a.s = 1;
-                len--;
-                (function (a) {
-                    setTimeout(function () {
-                        eve("mina.finish." + a.id, a);
-                    });
-                }(a));
-            }
-            a.update();
-        }
-        requestID = len ? requestAnimFrame(frame) : false;
-    },
-    /*\
-     * mina
-     [ method ]
-     **
-     * Generic animation of numbers
-     **
-     - a (number) start _slave_ number
-     - A (number) end _slave_ number
-     - b (number) start _master_ number (start time in general case)
-     - B (number) end _master_ number (end time in general case)
-     - get (function) getter of _master_ number (see @mina.time)
-     - set (function) setter of _slave_ number
-     - easing (function) #optional easing function, default is @mina.linear
-     = (object) animation descriptor
-     o {
-     o         id (string) animation id,
-     o         start (number) start _slave_ number,
-     o         end (number) end _slave_ number,
-     o         b (number) start _master_ number,
-     o         s (number) animation status (0..1),
-     o         dur (number) animation duration,
-     o         spd (number) animation speed,
-     o         get (function) getter of _master_ number (see @mina.time),
-     o         set (function) setter of _slave_ number,
-     o         easing (function) easing function, default is @mina.linear,
-     o         status (function) status getter/setter,
-     o         speed (function) speed getter/setter,
-     o         duration (function) duration getter/setter,
-     o         stop (function) animation stopper
-     o         pause (function) pauses the animation
-     o         resume (function) resumes the animation
-     o         update (function) calles setter with the right value of the animation
-     o }
-    \*/
-    mina = function (a, A, b, B, get, set, easing) {
-        var anim = {
-            id: ID(),
-            start: a,
-            end: A,
-            b: b,
-            s: 0,
-            dur: B - b,
-            spd: 1,
-            get: get,
-            set: set,
-            easing: easing || mina.linear,
-            status: sta,
-            speed: speed,
-            duration: duration,
-            stop: stopit,
-            pause: pause,
-            resume: resume,
-            update: update
-        };
-        animations[anim.id] = anim;
-        var len = 0, i;
-        for (i in animations) if (animations.hasOwnProperty(i)) {
-            len++;
-            if (len == 2) {
-                break;
-            }
-        }
-        len == 1 && frame();
-        return anim;
-    };
-    /*\
-     * mina.time
-     [ method ]
-     **
-     * Returns the current time. Equivalent to:
-     | function () {
-     |     return (new Date).getTime();
-     | }
-    \*/
-    mina.time = timer;
-    /*\
-     * mina.getById
-     [ method ]
-     **
-     * Returns an animation by its id
-     - id (string) animation's id
-     = (object) See @mina
-    \*/
-    mina.getById = function (id) {
-        return animations[id] || null;
-    };
+function unit_vector_angle(ux, uy, vx, vy) {
+  var sign = (ux * vy - uy * vx < 0) ? -1 : 1;
+  var dot  = ux * vx + uy * vy;
 
-    /*\
-     * mina.linear
-     [ method ]
-     **
-     * Default linear easing
-     - n (number) input 0..1
-     = (number) output 0..1
-    \*/
-    mina.linear = function (n) {
-        return n;
-    };
-    /*\
-     * mina.easeout
-     [ method ]
-     **
-     * Easeout easing
-     - n (number) input 0..1
-     = (number) output 0..1
-    \*/
-    mina.easeout = function (n) {
-        return Math.pow(n, 1.7);
-    };
-    /*\
-     * mina.easein
-     [ method ]
-     **
-     * Easein easing
-     - n (number) input 0..1
-     = (number) output 0..1
-    \*/
-    mina.easein = function (n) {
-        return Math.pow(n, .48);
-    };
-    /*\
-     * mina.easeinout
-     [ method ]
-     **
-     * Easeinout easing
-     - n (number) input 0..1
-     = (number) output 0..1
-    \*/
-    mina.easeinout = function (n) {
-        if (n == 1) {
-            return 1;
-        }
-        if (n == 0) {
-            return 0;
-        }
-        var q = .48 - n / 1.04,
-            Q = Math.sqrt(.1734 + q * q),
-            x = Q - q,
-            X = Math.pow(Math.abs(x), 1 / 3) * (x < 0 ? -1 : 1),
-            y = -Q - q,
-            Y = Math.pow(Math.abs(y), 1 / 3) * (y < 0 ? -1 : 1),
-            t = X + Y + .5;
-        return (1 - t) * 3 * t * t + t * t * t;
-    };
-    /*\
-     * mina.backin
-     [ method ]
-     **
-     * Backin easing
-     - n (number) input 0..1
-     = (number) output 0..1
-    \*/
-    mina.backin = function (n) {
-        if (n == 1) {
-            return 1;
-        }
-        var s = 1.70158;
-        return n * n * ((s + 1) * n - s);
-    };
-    /*\
-     * mina.backout
-     [ method ]
-     **
-     * Backout easing
-     - n (number) input 0..1
-     = (number) output 0..1
-    \*/
-    mina.backout = function (n) {
-        if (n == 0) {
-            return 0;
-        }
-        n = n - 1;
-        var s = 1.70158;
-        return n * n * ((s + 1) * n + s) + 1;
-    };
-    /*\
-     * mina.elastic
-     [ method ]
-     **
-     * Elastic easing
-     - n (number) input 0..1
-     = (number) output 0..1
-    \*/
-    mina.elastic = function (n) {
-        if (n == !!n) {
-            return n;
-        }
-        return Math.pow(2, -10 * n) * Math.sin((n - .075) *
-            (2 * Math.PI) / .3) + 1;
-    };
-    /*\
-     * mina.bounce
-     [ method ]
-     **
-     * Bounce easing
-     - n (number) input 0..1
-     = (number) output 0..1
-    \*/
-    mina.bounce = function (n) {
-        var s = 7.5625,
-            p = 2.75,
-            l;
-        if (n < 1 / p) {
-            l = s * n * n;
-        } else {
-            if (n < 2 / p) {
-                n -= 1.5 / p;
-                l = s * n * n + .75;
-            } else {
-                if (n < 2.5 / p) {
-                    n -= 2.25 / p;
-                    l = s * n * n + .9375;
-                } else {
-                    n -= 2.625 / p;
-                    l = s * n * n + .984375;
-                }
-            }
-        }
-        return l;
-    };
-    window.mina = mina;
-    return mina;
-})(typeof eve == "undefined" ? function () {} : eve);
+  // Add this to work with arbitrary vectors:
+  // dot /= Math.sqrt(ux * ux + uy * uy) * Math.sqrt(vx * vx + vy * vy);
 
-// Copyright (c) 2013 - 2017 Adobe Systems Incorporated. All rights reserved.
+  // rounding errors, e.g. -1.0000000000000002 can screw up this
+  if (dot >  1.0) { dot =  1.0; }
+  if (dot < -1.0) { dot = -1.0; }
+
+  return sign * Math.acos(dot);
+}
+
+
+// Convert from endpoint to center parameterization,
+// see http://www.w3.org/TR/SVG11/implnote.html#ArcImplementationNotes
 //
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
+// Return [cx, cy, theta1, delta_theta]
 //
-// http://www.apache.org/licenses/LICENSE-2.0
+function get_arc_center(x1, y1, x2, y2, fa, fs, rx, ry, sin_phi, cos_phi) {
+  // Step 1.
+  //
+  // Moving an ellipse so origin will be the middlepoint between our two
+  // points. After that, rotate it to line up ellipse axes with coordinate
+  // axes.
+  //
+  var x1p =  cos_phi*(x1-x2)/2 + sin_phi*(y1-y2)/2;
+  var y1p = -sin_phi*(x1-x2)/2 + cos_phi*(y1-y2)/2;
+
+  var rx_sq  =  rx * rx;
+  var ry_sq  =  ry * ry;
+  var x1p_sq = x1p * x1p;
+  var y1p_sq = y1p * y1p;
+
+  // Step 2.
+  //
+  // Compute coordinates of the centre of this ellipse (cx', cy')
+  // in the new coordinate system.
+  //
+  var radicant = (rx_sq * ry_sq) - (rx_sq * y1p_sq) - (ry_sq * x1p_sq);
+
+  if (radicant < 0) {
+    // due to rounding errors it might be e.g. -1.3877787807814457e-17
+    radicant = 0;
+  }
+
+  radicant /=   (rx_sq * y1p_sq) + (ry_sq * x1p_sq);
+  radicant = Math.sqrt(radicant) * (fa === fs ? -1 : 1);
+
+  var cxp = radicant *  rx/ry * y1p;
+  var cyp = radicant * -ry/rx * x1p;
+
+  // Step 3.
+  //
+  // Transform back to get centre coordinates (cx, cy) in the original
+  // coordinate system.
+  //
+  var cx = cos_phi*cxp - sin_phi*cyp + (x1+x2)/2;
+  var cy = sin_phi*cxp + cos_phi*cyp + (y1+y2)/2;
+
+  // Step 4.
+  //
+  // Compute angles (theta1, delta_theta).
+  //
+  var v1x =  (x1p - cxp) / rx;
+  var v1y =  (y1p - cyp) / ry;
+  var v2x = (-x1p - cxp) / rx;
+  var v2y = (-y1p - cyp) / ry;
+
+  var theta1 = unit_vector_angle(1, 0, v1x, v1y);
+  var delta_theta = unit_vector_angle(v1x, v1y, v2x, v2y);
+
+  if (fs === 0 && delta_theta > 0) {
+    delta_theta -= TAU;
+  }
+  if (fs === 1 && delta_theta < 0) {
+    delta_theta += TAU;
+  }
+
+  return [ cx, cy, theta1, delta_theta ];
+}
+
 //
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Approximate one unit arc segment with bézier curves,
+// see http://math.stackexchange.com/questions/873224
+//
+function approximate_unit_arc(theta1, delta_theta) {
+  var alpha = 4/3 * Math.tan(delta_theta/4);
 
-var Snap = (function(root) {
-Snap.version = "0.5.1";
-/*\
- * Snap
- [ method ]
- **
- * Creates a drawing surface or wraps existing SVG element.
- **
- - width (number|string) width of surface
- - height (number|string) height of surface
- * or
- - DOM (SVGElement) element to be wrapped into Snap structure
- * or
- - array (array) array of elements (will return set of elements)
- * or
- - query (string) CSS query selector
- = (object) @Element
-\*/
-function Snap(w, h) {
-    if (w) {
-        if (w.nodeType) {
-            return wrap(w);
-        }
-        if (is(w, "array") && Snap.set) {
-            return Snap.set.apply(Snap, w);
-        }
-        if (w instanceof Element) {
-            return w;
-        }
-        if (h == null) {
-            try {
-                w = glob.doc.querySelector(String(w));
-                return wrap(w);
-            } catch (e) {
-                return null;
-            }
-        }
-    }
-    w = w == null ? "100%" : w;
-    h = h == null ? "100%" : h;
-    return new Paper(w, h);
-}
-Snap.toString = function () {
-    return "Snap v" + this.version;
-};
-Snap._ = {};
-var glob = {
-    win: root.window,
-    doc: root.window.document
-};
-Snap._.glob = glob;
-var has = "hasOwnProperty",
-    Str = String,
-    toFloat = parseFloat,
-    toInt = parseInt,
-    math = Math,
-    mmax = math.max,
-    mmin = math.min,
-    abs = math.abs,
-    pow = math.pow,
-    PI = math.PI,
-    round = math.round,
-    E = "",
-    S = " ",
-    objectToString = Object.prototype.toString,
-    ISURL = /^url\(['"]?([^\)]+?)['"]?\)$/i,
-    colourRegExp = /^\s*((#[a-f\d]{6})|(#[a-f\d]{3})|rgba?\(\s*([\d\.]+%?\s*,\s*[\d\.]+%?\s*,\s*[\d\.]+%?(?:\s*,\s*[\d\.]+%?)?)\s*\)|hsba?\(\s*([\d\.]+(?:deg|\xb0|%)?\s*,\s*[\d\.]+%?\s*,\s*[\d\.]+(?:%?\s*,\s*[\d\.]+)?%?)\s*\)|hsla?\(\s*([\d\.]+(?:deg|\xb0|%)?\s*,\s*[\d\.]+%?\s*,\s*[\d\.]+(?:%?\s*,\s*[\d\.]+)?%?)\s*\))\s*$/i,
-    bezierrg = /^(?:cubic-)?bezier\(([^,]+),([^,]+),([^,]+),([^\)]+)\)/,
-    separator = Snap._.separator = /[,\s]+/,
-    whitespace = /[\s]/g,
-    commaSpaces = /[\s]*,[\s]*/,
-    hsrg = {hs: 1, rg: 1},
-    pathCommand = /([a-z])[\s,]*((-?\d*\.?\d*(?:e[\-+]?\d+)?[\s]*,?[\s]*)+)/ig,
-    tCommand = /([rstm])[\s,]*((-?\d*\.?\d*(?:e[\-+]?\d+)?[\s]*,?[\s]*)+)/ig,
-    pathValues = /(-?\d*\.?\d*(?:e[\-+]?\d+)?)[\s]*,?[\s]*/ig,
-    idgen = 0,
-    idprefix = "S" + (+new Date).toString(36),
-    ID = function (el) {
-        return (el && el.type ? el.type : E) + idprefix + (idgen++).toString(36);
-    },
-    xlink = "http://www.w3.org/1999/xlink",
-    xmlns = "http://www.w3.org/2000/svg",
-    hub = {},
-    /*\
-     * Snap.url
-     [ method ]
-     **
-     * Wraps path into `"url('<path>')"`.
-     - value (string) path
-     = (string) wrapped path
-    \*/
-    URL = Snap.url = function (url) {
-        return "url('#" + url + "')";
-    };
+  var x1 = Math.cos(theta1);
+  var y1 = Math.sin(theta1);
+  var x2 = Math.cos(theta1 + delta_theta);
+  var y2 = Math.sin(theta1 + delta_theta);
 
-function $(el, attr) {
-    if (attr) {
-        if (el == "#text") {
-            el = glob.doc.createTextNode(attr.text || attr["#text"] || "");
-        }
-        if (el == "#comment") {
-            el = glob.doc.createComment(attr.text || attr["#text"] || "");
-        }
-        if (typeof el == "string") {
-            el = $(el);
-        }
-        if (typeof attr == "string") {
-            if (el.nodeType == 1) {
-                if (attr.substring(0, 6) == "xlink:") {
-                    return el.getAttributeNS(xlink, attr.substring(6));
-                }
-                if (attr.substring(0, 4) == "xml:") {
-                    return el.getAttributeNS(xmlns, attr.substring(4));
-                }
-                return el.getAttribute(attr);
-            } else if (attr == "text") {
-                return el.nodeValue;
-            } else {
-                return null;
-            }
-        }
-        if (el.nodeType == 1) {
-            for (var key in attr) if (attr[has](key)) {
-                var val = Str(attr[key]);
-                if (val) {
-                    if (key.substring(0, 6) == "xlink:") {
-                        el.setAttributeNS(xlink, key.substring(6), val);
-                    } else if (key.substring(0, 4) == "xml:") {
-                        el.setAttributeNS(xmlns, key.substring(4), val);
-                    } else {
-                        el.setAttribute(key, val);
-                    }
-                } else {
-                    el.removeAttribute(key);
-                }
-            }
-        } else if ("text" in attr) {
-            el.nodeValue = attr.text;
-        }
-    } else {
-        el = glob.doc.createElementNS(xmlns, el);
-    }
-    return el;
-}
-Snap._.$ = $;
-Snap._.id = ID;
-function getAttrs(el) {
-    var attrs = el.attributes,
-        name,
-        out = {};
-    for (var i = 0; i < attrs.length; i++) {
-        if (attrs[i].namespaceURI == xlink) {
-            name = "xlink:";
-        } else {
-            name = "";
-        }
-        name += attrs[i].name;
-        out[name] = attrs[i].textContent;
-    }
-    return out;
-}
-function is(o, type) {
-    type = Str.prototype.toLowerCase.call(type);
-    if (type == "finite") {
-        return isFinite(o);
-    }
-    if (type == "array" &&
-        (o instanceof Array || Array.isArray && Array.isArray(o))) {
-        return true;
-    }
-    return  type == "null" && o === null ||
-            type == typeof o && o !== null ||
-            type == "object" && o === Object(o) ||
-            objectToString.call(o).slice(8, -1).toLowerCase() == type;
-}
-/*\
- * Snap.format
- [ method ]
- **
- * Replaces construction of type `{<name>}` to the corresponding argument
- **
- - token (string) string to format
- - json (object) object which properties are used as a replacement
- = (string) formatted string
- > Usage
- | // this draws a rectangular shape equivalent to "M10,20h40v50h-40z"
- | paper.path(Snap.format("M{x},{y}h{dim.width}v{dim.height}h{dim['negative width']}z", {
- |     x: 10,
- |     y: 20,
- |     dim: {
- |         width: 40,
- |         height: 50,
- |         "negative width": -40
- |     }
- | }));
-\*/
-Snap.format = (function () {
-    var tokenRegex = /\{([^\}]+)\}/g,
-        objNotationRegex = /(?:(?:^|\.)(.+?)(?=\[|\.|$|\()|\[('|")(.+?)\2\])(\(\))?/g, // matches .xxxxx or ["xxxxx"] to run over object properties
-        replacer = function (all, key, obj) {
-            var res = obj;
-            key.replace(objNotationRegex, function (all, name, quote, quotedName, isFunc) {
-                name = name || quotedName;
-                if (res) {
-                    if (name in res) {
-                        res = res[name];
-                    }
-                    typeof res == "function" && isFunc && (res = res());
-                }
-            });
-            res = (res == null || res == obj ? all : res) + "";
-            return res;
-        };
-    return function (str, obj) {
-        return Str(str).replace(tokenRegex, function (all, key) {
-            return replacer(all, key, obj);
-        });
-    };
-})();
-function clone(obj) {
-    if (typeof obj == "function" || Object(obj) !== obj) {
-        return obj;
-    }
-    var res = new obj.constructor;
-    for (var key in obj) if (obj[has](key)) {
-        res[key] = clone(obj[key]);
-    }
-    return res;
-}
-Snap._.clone = clone;
-function repush(array, item) {
-    for (var i = 0, ii = array.length; i < ii; i++) if (array[i] === item) {
-        return array.push(array.splice(i, 1)[0]);
-    }
-}
-function cacher(f, scope, postprocessor) {
-    function newf() {
-        var arg = Array.prototype.slice.call(arguments, 0),
-            args = arg.join("\u2400"),
-            cache = newf.cache = newf.cache || {},
-            count = newf.count = newf.count || [];
-        if (cache[has](args)) {
-            repush(count, args);
-            return postprocessor ? postprocessor(cache[args]) : cache[args];
-        }
-        count.length >= 1e3 && delete cache[count.shift()];
-        count.push(args);
-        cache[args] = f.apply(scope, arg);
-        return postprocessor ? postprocessor(cache[args]) : cache[args];
-    }
-    return newf;
-}
-Snap._.cacher = cacher;
-function angle(x1, y1, x2, y2, x3, y3) {
-    if (x3 == null) {
-        var x = x1 - x2,
-            y = y1 - y2;
-        if (!x && !y) {
-            return 0;
-        }
-        return (180 + math.atan2(-y, -x) * 180 / PI + 360) % 360;
-    } else {
-        return angle(x1, y1, x3, y3) - angle(x2, y2, x3, y3);
-    }
-}
-function rad(deg) {
-    return deg % 360 * PI / 180;
-}
-function deg(rad) {
-    return rad * 180 / PI % 360;
-}
-function x_y() {
-    return this.x + S + this.y;
-}
-function x_y_w_h() {
-    return this.x + S + this.y + S + this.width + " \xd7 " + this.height;
+  return [ x1, y1, x1 - y1*alpha, y1 + x1*alpha, x2 + y2*alpha, y2 - x2*alpha, x2, y2 ];
 }
 
-/*\
- * Snap.rad
- [ method ]
- **
- * Transform angle to radians
- - deg (number) angle in degrees
- = (number) angle in radians
-\*/
-Snap.rad = rad;
-/*\
- * Snap.deg
- [ method ]
- **
- * Transform angle to degrees
- - rad (number) angle in radians
- = (number) angle in degrees
-\*/
-Snap.deg = deg;
-/*\
- * Snap.sin
- [ method ]
- **
- * Equivalent to `Math.sin()` only works with degrees, not radians.
- - angle (number) angle in degrees
- = (number) sin
-\*/
-Snap.sin = function (angle) {
-    return math.sin(Snap.rad(angle));
-};
-/*\
- * Snap.tan
- [ method ]
- **
- * Equivalent to `Math.tan()` only works with degrees, not radians.
- - angle (number) angle in degrees
- = (number) tan
-\*/
-Snap.tan = function (angle) {
-    return math.tan(Snap.rad(angle));
-};
-/*\
- * Snap.cos
- [ method ]
- **
- * Equivalent to `Math.cos()` only works with degrees, not radians.
- - angle (number) angle in degrees
- = (number) cos
-\*/
-Snap.cos = function (angle) {
-    return math.cos(Snap.rad(angle));
-};
-/*\
- * Snap.asin
- [ method ]
- **
- * Equivalent to `Math.asin()` only works with degrees, not radians.
- - num (number) value
- = (number) asin in degrees
-\*/
-Snap.asin = function (num) {
-    return Snap.deg(math.asin(num));
-};
-/*\
- * Snap.acos
- [ method ]
- **
- * Equivalent to `Math.acos()` only works with degrees, not radians.
- - num (number) value
- = (number) acos in degrees
-\*/
-Snap.acos = function (num) {
-    return Snap.deg(math.acos(num));
-};
-/*\
- * Snap.atan
- [ method ]
- **
- * Equivalent to `Math.atan()` only works with degrees, not radians.
- - num (number) value
- = (number) atan in degrees
-\*/
-Snap.atan = function (num) {
-    return Snap.deg(math.atan(num));
-};
-/*\
- * Snap.atan2
- [ method ]
- **
- * Equivalent to `Math.atan2()` only works with degrees, not radians.
- - num (number) value
- = (number) atan2 in degrees
-\*/
-Snap.atan2 = function (num) {
-    return Snap.deg(math.atan2(num));
-};
-/*\
- * Snap.angle
- [ method ]
- **
- * Returns an angle between two or three points
- - x1 (number) x coord of first point
- - y1 (number) y coord of first point
- - x2 (number) x coord of second point
- - y2 (number) y coord of second point
- - x3 (number) #optional x coord of third point
- - y3 (number) #optional y coord of third point
- = (number) angle in degrees
-\*/
-Snap.angle = angle;
-/*\
- * Snap.len
- [ method ]
- **
- * Returns distance between two points
- - x1 (number) x coord of first point
- - y1 (number) y coord of first point
- - x2 (number) x coord of second point
- - y2 (number) y coord of second point
- = (number) distance
-\*/
-Snap.len = function (x1, y1, x2, y2) {
-    return Math.sqrt(Snap.len2(x1, y1, x2, y2));
-};
-/*\
- * Snap.len2
- [ method ]
- **
- * Returns squared distance between two points
- - x1 (number) x coord of first point
- - y1 (number) y coord of first point
- - x2 (number) x coord of second point
- - y2 (number) y coord of second point
- = (number) distance
-\*/
-Snap.len2 = function (x1, y1, x2, y2) {
-    return (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2);
-};
-/*\
- * Snap.closestPoint
- [ method ]
- **
- * Returns closest point to a given one on a given path.
- - path (Element) path element
- - x (number) x coord of a point
- - y (number) y coord of a point
- = (object) in format
- {
-    x (number) x coord of the point on the path
-    y (number) y coord of the point on the path
-    length (number) length of the path to the point
-    distance (number) distance from the given point to the path
- }
-\*/
-// Copied from http://bl.ocks.org/mbostock/8027637
-Snap.closestPoint = function (path, x, y) {
-    function distance2(p) {
-        var dx = p.x - x,
-            dy = p.y - y;
-        return dx * dx + dy * dy;
-    }
-    var pathNode = path.node,
-        pathLength = pathNode.getTotalLength(),
-        precision = pathLength / pathNode.pathSegList.numberOfItems * .125,
-        best,
-        bestLength,
-        bestDistance = Infinity;
+module.exports = function a2c(x1, y1, x2, y2, fa, fs, rx, ry, phi) {
+  var sin_phi = Math.sin(phi * TAU / 360);
+  var cos_phi = Math.cos(phi * TAU / 360);
 
-    // linear scan for coarse approximation
-    for (var scan, scanLength = 0, scanDistance; scanLength <= pathLength; scanLength += precision) {
-        if ((scanDistance = distance2(scan = pathNode.getPointAtLength(scanLength))) < bestDistance) {
-            best = scan;
-            bestLength = scanLength;
-            bestDistance = scanDistance;
-        }
+  // Make sure radii are valid
+  //
+  var x1p =  cos_phi*(x1-x2)/2 + sin_phi*(y1-y2)/2;
+  var y1p = -sin_phi*(x1-x2)/2 + cos_phi*(y1-y2)/2;
+
+  if (x1p === 0 && y1p === 0) {
+    // we're asked to draw line to itself
+    return [];
+  }
+
+  if (rx === 0 || ry === 0) {
+    // one of the radii is zero
+    return [];
+  }
+
+
+  // Compensate out-of-range radii
+  //
+  rx = Math.abs(rx);
+  ry = Math.abs(ry);
+
+  var lambda = (x1p * x1p) / (rx * rx) + (y1p * y1p) / (ry * ry);
+  if (lambda > 1) {
+    rx *= Math.sqrt(lambda);
+    ry *= Math.sqrt(lambda);
+  }
+
+
+  // Get center parameters (cx, cy, theta1, delta_theta)
+  //
+  var cc = get_arc_center(x1, y1, x2, y2, fa, fs, rx, ry, sin_phi, cos_phi);
+
+  var result = [];
+  var theta1 = cc[2];
+  var delta_theta = cc[3];
+
+  // Split an arc to multiple segments, so each segment
+  // will be less than τ/4 (= 90°)
+  //
+  var segments = Math.max(Math.ceil(Math.abs(delta_theta) / (TAU / 4)), 1);
+  delta_theta /= segments;
+
+  for (var i = 0; i < segments; i++) {
+    result.push(approximate_unit_arc(theta1, delta_theta));
+    theta1 += delta_theta;
+  }
+
+  // We have a bezier approximation of a unit circle,
+  // now need to transform back to the original ellipse
+  //
+  return result.map(function (curve) {
+    for (var i = 0; i < curve.length; i += 2) {
+      var x = curve[i + 0];
+      var y = curve[i + 1];
+
+      // scale
+      x *= rx;
+      y *= ry;
+
+      // rotate
+      var xp = cos_phi*x - sin_phi*y;
+      var yp = sin_phi*x + cos_phi*y;
+
+      // translate
+      curve[i + 0] = xp + cc[0];
+      curve[i + 1] = yp + cc[1];
     }
 
-    // binary search for precise estimate
-    precision *= .5;
-    while (precision > .5) {
-        var before,
-            after,
-            beforeLength,
-            afterLength,
-            beforeDistance,
-            afterDistance;
-        if ((beforeLength = bestLength - precision) >= 0 && (beforeDistance = distance2(before = pathNode.getPointAtLength(beforeLength))) < bestDistance) {
-            best = before;
-            bestLength = beforeLength;
-            bestDistance = beforeDistance;
-        } else if ((afterLength = bestLength + precision) <= pathLength && (afterDistance = distance2(after = pathNode.getPointAtLength(afterLength))) < bestDistance) {
-            best = after;
-            bestLength = afterLength;
-            bestDistance = afterDistance;
-        } else {
-            precision *= .5;
-        }
-    }
+    return curve;
+  });
+};
 
-    best = {
-        x: best.x,
-        y: best.y,
-        length: bestLength,
-        distance: Math.sqrt(bestDistance)
-    };
-    return best;
+
+/***/ }),
+
+/***/ "./node_modules/svgpath/lib/ellipse.js":
+/*!*********************************************!*\
+  !*** ./node_modules/svgpath/lib/ellipse.js ***!
+  \*********************************************/
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module */
+/*! CommonJS bailout: module.exports is used directly at 104:0-14 */
+/***/ ((module) => {
+
+"use strict";
+
+
+/* eslint-disable space-infix-ops */
+
+// The precision used to consider an ellipse as a circle
+//
+var epsilon = 0.0000000001;
+
+// To convert degree in radians
+//
+var torad = Math.PI / 180;
+
+// Class constructor :
+//  an ellipse centred at 0 with radii rx,ry and x - axis - angle ax.
+//
+function Ellipse(rx, ry, ax) {
+  if (!(this instanceof Ellipse)) { return new Ellipse(rx, ry, ax); }
+  this.rx = rx;
+  this.ry = ry;
+  this.ax = ax;
 }
-/*\
- * Snap.is
- [ method ]
- **
- * Handy replacement for the `typeof` operator
- - o (…) any object or primitive
- - type (string) name of the type, e.g., `string`, `function`, `number`, etc.
- = (boolean) `true` if given value is of given type
-\*/
-Snap.is = is;
-/*\
- * Snap.snapTo
- [ method ]
- **
- * Snaps given value to given grid
- - values (array|number) given array of values or step of the grid
- - value (number) value to adjust
- - tolerance (number) #optional maximum distance to the target value that would trigger the snap. Default is `10`.
- = (number) adjusted value
-\*/
-Snap.snapTo = function (values, value, tolerance) {
-    tolerance = is(tolerance, "finite") ? tolerance : 10;
-    if (is(values, "array")) {
-        var i = values.length;
-        while (i--) if (abs(values[i] - value) <= tolerance) {
-            return values[i];
-        }
-    } else {
-        values = +values;
-        var rem = value % values;
-        if (rem < tolerance) {
-            return value - rem;
-        }
-        if (rem > values - tolerance) {
-            return value - rem + values;
-        }
-    }
-    return value;
-};
-// Colour
-/*\
- * Snap.getRGB
- [ method ]
- **
- * Parses color string as RGB object
- - color (string) color string in one of the following formats:
- # <ul>
- #     <li>Color name (<code>red</code>, <code>green</code>, <code>cornflowerblue</code>, etc)</li>
- #     <li>#••• — shortened HTML color: (<code>#000</code>, <code>#fc0</code>, etc.)</li>
- #     <li>#•••••• — full length HTML color: (<code>#000000</code>, <code>#bd2300</code>)</li>
- #     <li>rgb(•••, •••, •••) — red, green and blue channels values: (<code>rgb(200,&nbsp;100,&nbsp;0)</code>)</li>
- #     <li>rgba(•••, •••, •••, •••) — also with opacity</li>
- #     <li>rgb(•••%, •••%, •••%) — same as above, but in %: (<code>rgb(100%,&nbsp;175%,&nbsp;0%)</code>)</li>
- #     <li>rgba(•••%, •••%, •••%, •••%) — also with opacity</li>
- #     <li>hsb(•••, •••, •••) — hue, saturation and brightness values: (<code>hsb(0.5,&nbsp;0.25,&nbsp;1)</code>)</li>
- #     <li>hsba(•••, •••, •••, •••) — also with opacity</li>
- #     <li>hsb(•••%, •••%, •••%) — same as above, but in %</li>
- #     <li>hsba(•••%, •••%, •••%, •••%) — also with opacity</li>
- #     <li>hsl(•••, •••, •••) — hue, saturation and luminosity values: (<code>hsb(0.5,&nbsp;0.25,&nbsp;0.5)</code>)</li>
- #     <li>hsla(•••, •••, •••, •••) — also with opacity</li>
- #     <li>hsl(•••%, •••%, •••%) — same as above, but in %</li>
- #     <li>hsla(•••%, •••%, •••%, •••%) — also with opacity</li>
- # </ul>
- * Note that `%` can be used any time: `rgb(20%, 255, 50%)`.
- = (object) RGB object in the following format:
- o {
- o     r (number) red,
- o     g (number) green,
- o     b (number) blue,
- o     hex (string) color in HTML/CSS format: #••••••,
- o     error (boolean) true if string can't be parsed
- o }
-\*/
-Snap.getRGB = cacher(function (colour) {
-    if (!colour || !!((colour = Str(colour)).indexOf("-") + 1)) {
-        return {r: -1, g: -1, b: -1, hex: "none", error: 1, toString: rgbtoString};
-    }
-    if (colour == "none") {
-        return {r: -1, g: -1, b: -1, hex: "none", toString: rgbtoString};
-    }
-    !(hsrg[has](colour.toLowerCase().substring(0, 2)) || colour.charAt() == "#") && (colour = toHex(colour));
-    if (!colour) {
-        return {r: -1, g: -1, b: -1, hex: "none", error: 1, toString: rgbtoString};
-    }
-    var res,
-        red,
-        green,
-        blue,
-        opacity,
-        t,
-        values,
-        rgb = colour.match(colourRegExp);
-    if (rgb) {
-        if (rgb[2]) {
-            blue = toInt(rgb[2].substring(5), 16);
-            green = toInt(rgb[2].substring(3, 5), 16);
-            red = toInt(rgb[2].substring(1, 3), 16);
-        }
-        if (rgb[3]) {
-            blue = toInt((t = rgb[3].charAt(3)) + t, 16);
-            green = toInt((t = rgb[3].charAt(2)) + t, 16);
-            red = toInt((t = rgb[3].charAt(1)) + t, 16);
-        }
-        if (rgb[4]) {
-            values = rgb[4].split(commaSpaces);
-            red = toFloat(values[0]);
-            values[0].slice(-1) == "%" && (red *= 2.55);
-            green = toFloat(values[1]);
-            values[1].slice(-1) == "%" && (green *= 2.55);
-            blue = toFloat(values[2]);
-            values[2].slice(-1) == "%" && (blue *= 2.55);
-            rgb[1].toLowerCase().slice(0, 4) == "rgba" && (opacity = toFloat(values[3]));
-            values[3] && values[3].slice(-1) == "%" && (opacity /= 100);
-        }
-        if (rgb[5]) {
-            values = rgb[5].split(commaSpaces);
-            red = toFloat(values[0]);
-            values[0].slice(-1) == "%" && (red /= 100);
-            green = toFloat(values[1]);
-            values[1].slice(-1) == "%" && (green /= 100);
-            blue = toFloat(values[2]);
-            values[2].slice(-1) == "%" && (blue /= 100);
-            (values[0].slice(-3) == "deg" || values[0].slice(-1) == "\xb0") && (red /= 360);
-            rgb[1].toLowerCase().slice(0, 4) == "hsba" && (opacity = toFloat(values[3]));
-            values[3] && values[3].slice(-1) == "%" && (opacity /= 100);
-            return Snap.hsb2rgb(red, green, blue, opacity);
-        }
-        if (rgb[6]) {
-            values = rgb[6].split(commaSpaces);
-            red = toFloat(values[0]);
-            values[0].slice(-1) == "%" && (red /= 100);
-            green = toFloat(values[1]);
-            values[1].slice(-1) == "%" && (green /= 100);
-            blue = toFloat(values[2]);
-            values[2].slice(-1) == "%" && (blue /= 100);
-            (values[0].slice(-3) == "deg" || values[0].slice(-1) == "\xb0") && (red /= 360);
-            rgb[1].toLowerCase().slice(0, 4) == "hsla" && (opacity = toFloat(values[3]));
-            values[3] && values[3].slice(-1) == "%" && (opacity /= 100);
-            return Snap.hsl2rgb(red, green, blue, opacity);
-        }
-        red = mmin(math.round(red), 255);
-        green = mmin(math.round(green), 255);
-        blue = mmin(math.round(blue), 255);
-        opacity = mmin(mmax(opacity, 0), 1);
-        rgb = {r: red, g: green, b: blue, toString: rgbtoString};
-        rgb.hex = "#" + (16777216 | blue | green << 8 | red << 16).toString(16).slice(1);
-        rgb.opacity = is(opacity, "finite") ? opacity : 1;
-        return rgb;
-    }
-    return {r: -1, g: -1, b: -1, hex: "none", error: 1, toString: rgbtoString};
-}, Snap);
-/*\
- * Snap.hsb
- [ method ]
- **
- * Converts HSB values to a hex representation of the color
- - h (number) hue
- - s (number) saturation
- - b (number) value or brightness
- = (string) hex representation of the color
-\*/
-Snap.hsb = cacher(function (h, s, b) {
-    return Snap.hsb2rgb(h, s, b).hex;
-});
-/*\
- * Snap.hsl
- [ method ]
- **
- * Converts HSL values to a hex representation of the color
- - h (number) hue
- - s (number) saturation
- - l (number) luminosity
- = (string) hex representation of the color
-\*/
-Snap.hsl = cacher(function (h, s, l) {
-    return Snap.hsl2rgb(h, s, l).hex;
-});
-/*\
- * Snap.rgb
- [ method ]
- **
- * Converts RGB values to a hex representation of the color
- - r (number) red
- - g (number) green
- - b (number) blue
- = (string) hex representation of the color
-\*/
-Snap.rgb = cacher(function (r, g, b, o) {
-    if (is(o, "finite")) {
-        var round = math.round;
-        return "rgba(" + [round(r), round(g), round(b), +o.toFixed(2)] + ")";
-    }
-    return "#" + (16777216 | b | g << 8 | r << 16).toString(16).slice(1);
-});
-var toHex = function (color) {
-    var i = glob.doc.getElementsByTagName("head")[0] || glob.doc.getElementsByTagName("svg")[0],
-        red = "rgb(255, 0, 0)";
-    toHex = cacher(function (color) {
-        if (color.toLowerCase() == "red") {
-            return red;
-        }
-        i.style.color = red;
-        i.style.color = color;
-        var out = glob.doc.defaultView.getComputedStyle(i, E).getPropertyValue("color");
-        return out == red ? null : out;
-    });
-    return toHex(color);
-},
-hsbtoString = function () {
-    return "hsb(" + [this.h, this.s, this.b] + ")";
-},
-hsltoString = function () {
-    return "hsl(" + [this.h, this.s, this.l] + ")";
-},
-rgbtoString = function () {
-    return this.opacity == 1 || this.opacity == null ?
-            this.hex :
-            "rgba(" + [this.r, this.g, this.b, this.opacity] + ")";
-},
-prepareRGB = function (r, g, b) {
-    if (g == null && is(r, "object") && "r" in r && "g" in r && "b" in r) {
-        b = r.b;
-        g = r.g;
-        r = r.r;
-    }
-    if (g == null && is(r, string)) {
-        var clr = Snap.getRGB(r);
-        r = clr.r;
-        g = clr.g;
-        b = clr.b;
-    }
-    if (r > 1 || g > 1 || b > 1) {
-        r /= 255;
-        g /= 255;
-        b /= 255;
-    }
 
-    return [r, g, b];
-},
-packageRGB = function (r, g, b, o) {
-    r = math.round(r * 255);
-    g = math.round(g * 255);
-    b = math.round(b * 255);
-    var rgb = {
-        r: r,
-        g: g,
-        b: b,
-        opacity: is(o, "finite") ? o : 1,
-        hex: Snap.rgb(r, g, b),
-        toString: rgbtoString
-    };
-    is(o, "finite") && (rgb.opacity = o);
-    return rgb;
-};
-/*\
- * Snap.color
- [ method ]
- **
- * Parses the color string and returns an object featuring the color's component values
- - clr (string) color string in one of the supported formats (see @Snap.getRGB)
- = (object) Combined RGB/HSB object in the following format:
- o {
- o     r (number) red,
- o     g (number) green,
- o     b (number) blue,
- o     hex (string) color in HTML/CSS format: #••••••,
- o     error (boolean) `true` if string can't be parsed,
- o     h (number) hue,
- o     s (number) saturation,
- o     v (number) value (brightness),
- o     l (number) lightness
- o }
-\*/
-Snap.color = function (clr) {
-    var rgb;
-    if (is(clr, "object") && "h" in clr && "s" in clr && "b" in clr) {
-        rgb = Snap.hsb2rgb(clr);
-        clr.r = rgb.r;
-        clr.g = rgb.g;
-        clr.b = rgb.b;
-        clr.opacity = 1;
-        clr.hex = rgb.hex;
-    } else if (is(clr, "object") && "h" in clr && "s" in clr && "l" in clr) {
-        rgb = Snap.hsl2rgb(clr);
-        clr.r = rgb.r;
-        clr.g = rgb.g;
-        clr.b = rgb.b;
-        clr.opacity = 1;
-        clr.hex = rgb.hex;
-    } else {
-        if (is(clr, "string")) {
-            clr = Snap.getRGB(clr);
-        }
-        if (is(clr, "object") && "r" in clr && "g" in clr && "b" in clr && !("error" in clr)) {
-            rgb = Snap.rgb2hsl(clr);
-            clr.h = rgb.h;
-            clr.s = rgb.s;
-            clr.l = rgb.l;
-            rgb = Snap.rgb2hsb(clr);
-            clr.v = rgb.b;
-        } else {
-            clr = {hex: "none"};
-            clr.r = clr.g = clr.b = clr.h = clr.s = clr.v = clr.l = -1;
-            clr.error = 1;
-        }
-    }
-    clr.toString = rgbtoString;
-    return clr;
-};
-/*\
- * Snap.hsb2rgb
- [ method ]
- **
- * Converts HSB values to an RGB object
- - h (number) hue
- - s (number) saturation
- - v (number) value or brightness
- = (object) RGB object in the following format:
- o {
- o     r (number) red,
- o     g (number) green,
- o     b (number) blue,
- o     hex (string) color in HTML/CSS format: #••••••
- o }
-\*/
-Snap.hsb2rgb = function (h, s, v, o) {
-    if (is(h, "object") && "h" in h && "s" in h && "b" in h) {
-        v = h.b;
-        s = h.s;
-        o = h.o;
-        h = h.h;
-    }
-    h *= 360;
-    var R, G, B, X, C;
-    h = h % 360 / 60;
-    C = v * s;
-    X = C * (1 - abs(h % 2 - 1));
-    R = G = B = v - C;
+// Apply a linear transform m to the ellipse
+// m is an array representing a matrix :
+//    -         -
+//   | m[0] m[2] |
+//   | m[1] m[3] |
+//    -         -
+//
+Ellipse.prototype.transform = function (m) {
+  // We consider the current ellipse as image of the unit circle
+  // by first scale(rx,ry) and then rotate(ax) ...
+  // So we apply ma =  m x rotate(ax) x scale(rx,ry) to the unit circle.
+  var c = Math.cos(this.ax * torad), s = Math.sin(this.ax * torad);
+  var ma = [
+    this.rx * (m[0]*c + m[2]*s),
+    this.rx * (m[1]*c + m[3]*s),
+    this.ry * (-m[0]*s + m[2]*c),
+    this.ry * (-m[1]*s + m[3]*c)
+  ];
 
-    h = ~~h;
-    R += [C, X, 0, 0, X, C][h];
-    G += [X, C, C, X, 0, 0][h];
-    B += [0, 0, X, C, C, X][h];
-    return packageRGB(R, G, B, o);
-};
-/*\
- * Snap.hsl2rgb
- [ method ]
- **
- * Converts HSL values to an RGB object
- - h (number) hue
- - s (number) saturation
- - l (number) luminosity
- = (object) RGB object in the following format:
- o {
- o     r (number) red,
- o     g (number) green,
- o     b (number) blue,
- o     hex (string) color in HTML/CSS format: #••••••
- o }
-\*/
-Snap.hsl2rgb = function (h, s, l, o) {
-    if (is(h, "object") && "h" in h && "s" in h && "l" in h) {
-        l = h.l;
-        s = h.s;
-        h = h.h;
-    }
-    if (h > 1 || s > 1 || l > 1) {
-        h /= 360;
-        s /= 100;
-        l /= 100;
-    }
-    h *= 360;
-    var R, G, B, X, C;
-    h = h % 360 / 60;
-    C = 2 * s * (l < .5 ? l : 1 - l);
-    X = C * (1 - abs(h % 2 - 1));
-    R = G = B = l - C / 2;
+  // ma * transpose(ma) = [ J L ]
+  //                      [ L K ]
+  // L is calculated later (if the image is not a circle)
+  var J = ma[0]*ma[0] + ma[2]*ma[2],
+      K = ma[1]*ma[1] + ma[3]*ma[3];
 
-    h = ~~h;
-    R += [C, X, 0, 0, X, C][h];
-    G += [X, C, C, X, 0, 0][h];
-    B += [0, 0, X, C, C, X][h];
-    return packageRGB(R, G, B, o);
-};
-/*\
- * Snap.rgb2hsb
- [ method ]
- **
- * Converts RGB values to an HSB object
- - r (number) red
- - g (number) green
- - b (number) blue
- = (object) HSB object in the following format:
- o {
- o     h (number) hue,
- o     s (number) saturation,
- o     b (number) brightness
- o }
-\*/
-Snap.rgb2hsb = function (r, g, b) {
-    b = prepareRGB(r, g, b);
-    r = b[0];
-    g = b[1];
-    b = b[2];
+  // the discriminant of the characteristic polynomial of ma * transpose(ma)
+  var D = ((ma[0]-ma[3])*(ma[0]-ma[3]) + (ma[2]+ma[1])*(ma[2]+ma[1])) *
+          ((ma[0]+ma[3])*(ma[0]+ma[3]) + (ma[2]-ma[1])*(ma[2]-ma[1]));
 
-    var H, S, V, C;
-    V = mmax(r, g, b);
-    C = V - mmin(r, g, b);
-    H = C == 0 ? null :
-        V == r ? (g - b) / C :
-        V == g ? (b - r) / C + 2 :
-                 (r - g) / C + 4;
-    H = (H + 360) % 6 * 60 / 360;
-    S = C == 0 ? 0 : C / V;
-    return {h: H, s: S, b: V, toString: hsbtoString};
-};
-/*\
- * Snap.rgb2hsl
- [ method ]
- **
- * Converts RGB values to an HSL object
- - r (number) red
- - g (number) green
- - b (number) blue
- = (object) HSL object in the following format:
- o {
- o     h (number) hue,
- o     s (number) saturation,
- o     l (number) luminosity
- o }
-\*/
-Snap.rgb2hsl = function (r, g, b) {
-    b = prepareRGB(r, g, b);
-    r = b[0];
-    g = b[1];
-    b = b[2];
+  // the "mean eigenvalue"
+  var JK = (J + K) / 2;
 
-    var H, S, L, M, m, C;
-    M = mmax(r, g, b);
-    m = mmin(r, g, b);
-    C = M - m;
-    H = C == 0 ? null :
-        M == r ? (g - b) / C :
-        M == g ? (b - r) / C + 2 :
-                 (r - g) / C + 4;
-    H = (H + 360) % 6 * 60 / 360;
-    L = (M + m) / 2;
-    S = C == 0 ? 0 :
-         L < .5 ? C / (2 * L) :
-                  C / (2 - 2 * L);
-    return {h: H, s: S, l: L, toString: hsltoString};
-};
-
-// Transformations
-/*\
- * Snap.parsePathString
- [ method ]
- **
- * Utility method
- **
- * Parses given path string into an array of arrays of path segments
- - pathString (string|array) path string or array of segments (in the last case it is returned straight away)
- = (array) array of segments
-\*/
-Snap.parsePathString = function (pathString) {
-    if (!pathString) {
-        return null;
-    }
-    var pth = Snap.path(pathString);
-    if (pth.arr) {
-        return Snap.path.clone(pth.arr);
-    }
-
-    var paramCounts = {a: 7, c: 6, o: 2, h: 1, l: 2, m: 2, r: 4, q: 4, s: 4, t: 2, v: 1, u: 3, z: 0},
-        data = [];
-    if (is(pathString, "array") && is(pathString[0], "array")) { // rough assumption
-        data = Snap.path.clone(pathString);
-    }
-    if (!data.length) {
-        Str(pathString).replace(pathCommand, function (a, b, c) {
-            var params = [],
-                name = b.toLowerCase();
-            c.replace(pathValues, function (a, b) {
-                b && params.push(+b);
-            });
-            if (name == "m" && params.length > 2) {
-                data.push([b].concat(params.splice(0, 2)));
-                name = "l";
-                b = b == "m" ? "l" : "L";
-            }
-            if (name == "o" && params.length == 1) {
-                data.push([b, params[0]]);
-            }
-            if (name == "r") {
-                data.push([b].concat(params));
-            } else while (params.length >= paramCounts[name]) {
-                data.push([b].concat(params.splice(0, paramCounts[name])));
-                if (!paramCounts[name]) {
-                    break;
-                }
-            }
-        });
-    }
-    data.toString = Snap.path.toString;
-    pth.arr = Snap.path.clone(data);
-    return data;
-};
-/*\
- * Snap.parseTransformString
- [ method ]
- **
- * Utility method
- **
- * Parses given transform string into an array of transformations
- - TString (string|array) transform string or array of transformations (in the last case it is returned straight away)
- = (array) array of transformations
-\*/
-var parseTransformString = Snap.parseTransformString = function (TString) {
-    if (!TString) {
-        return null;
-    }
-    var paramCounts = {r: 3, s: 4, t: 2, m: 6},
-        data = [];
-    if (is(TString, "array") && is(TString[0], "array")) { // rough assumption
-        data = Snap.path.clone(TString);
-    }
-    if (!data.length) {
-        Str(TString).replace(tCommand, function (a, b, c) {
-            var params = [],
-                name = b.toLowerCase();
-            c.replace(pathValues, function (a, b) {
-                b && params.push(+b);
-            });
-            data.push([b].concat(params));
-        });
-    }
-    data.toString = Snap.path.toString;
-    return data;
-};
-function svgTransform2string(tstr) {
-    var res = [];
-    tstr = tstr.replace(/(?:^|\s)(\w+)\(([^)]+)\)/g, function (all, name, params) {
-        params = params.split(/\s*,\s*|\s+/);
-        if (name == "rotate" && params.length == 1) {
-            params.push(0, 0);
-        }
-        if (name == "scale") {
-            if (params.length > 2) {
-                params = params.slice(0, 2);
-            } else if (params.length == 2) {
-                params.push(0, 0);
-            }
-            if (params.length == 1) {
-                params.push(params[0], 0, 0);
-            }
-        }
-        if (name == "skewX") {
-            res.push(["m", 1, 0, math.tan(rad(params[0])), 1, 0, 0]);
-        } else if (name == "skewY") {
-            res.push(["m", 1, math.tan(rad(params[0])), 0, 1, 0, 0]);
-        } else {
-            res.push([name.charAt(0)].concat(params));
-        }
-        return all;
-    });
-    return res;
-}
-Snap._.svgTransform2string = svgTransform2string;
-Snap._.rgTransform = /^[a-z][\s]*-?\.?\d/i;
-function transform2matrix(tstr, bbox) {
-    var tdata = parseTransformString(tstr),
-        m = new Snap.Matrix;
-    if (tdata) {
-        for (var i = 0, ii = tdata.length; i < ii; i++) {
-            var t = tdata[i],
-                tlen = t.length,
-                command = Str(t[0]).toLowerCase(),
-                absolute = t[0] != command,
-                inver = absolute ? m.invert() : 0,
-                x1,
-                y1,
-                x2,
-                y2,
-                bb;
-            if (command == "t" && tlen == 2){
-                m.translate(t[1], 0);
-            } else if (command == "t" && tlen == 3) {
-                if (absolute) {
-                    x1 = inver.x(0, 0);
-                    y1 = inver.y(0, 0);
-                    x2 = inver.x(t[1], t[2]);
-                    y2 = inver.y(t[1], t[2]);
-                    m.translate(x2 - x1, y2 - y1);
-                } else {
-                    m.translate(t[1], t[2]);
-                }
-            } else if (command == "r") {
-                if (tlen == 2) {
-                    bb = bb || bbox;
-                    m.rotate(t[1], bb.x + bb.width / 2, bb.y + bb.height / 2);
-                } else if (tlen == 4) {
-                    if (absolute) {
-                        x2 = inver.x(t[2], t[3]);
-                        y2 = inver.y(t[2], t[3]);
-                        m.rotate(t[1], x2, y2);
-                    } else {
-                        m.rotate(t[1], t[2], t[3]);
-                    }
-                }
-            } else if (command == "s") {
-                if (tlen == 2 || tlen == 3) {
-                    bb = bb || bbox;
-                    m.scale(t[1], t[tlen - 1], bb.x + bb.width / 2, bb.y + bb.height / 2);
-                } else if (tlen == 4) {
-                    if (absolute) {
-                        x2 = inver.x(t[2], t[3]);
-                        y2 = inver.y(t[2], t[3]);
-                        m.scale(t[1], t[1], x2, y2);
-                    } else {
-                        m.scale(t[1], t[1], t[2], t[3]);
-                    }
-                } else if (tlen == 5) {
-                    if (absolute) {
-                        x2 = inver.x(t[3], t[4]);
-                        y2 = inver.y(t[3], t[4]);
-                        m.scale(t[1], t[2], x2, y2);
-                    } else {
-                        m.scale(t[1], t[2], t[3], t[4]);
-                    }
-                }
-            } else if (command == "m" && tlen == 7) {
-                m.add(t[1], t[2], t[3], t[4], t[5], t[6]);
-            }
-        }
-    }
-    return m;
-}
-Snap._.transform2matrix = transform2matrix;
-Snap._unit2px = unit2px;
-var contains = glob.doc.contains || glob.doc.compareDocumentPosition ?
-    function (a, b) {
-        var adown = a.nodeType == 9 ? a.documentElement : a,
-            bup = b && b.parentNode;
-            return a == bup || !!(bup && bup.nodeType == 1 && (
-                adown.contains ?
-                    adown.contains(bup) :
-                    a.compareDocumentPosition && a.compareDocumentPosition(bup) & 16
-            ));
-    } :
-    function (a, b) {
-        if (b) {
-            while (b) {
-                b = b.parentNode;
-                if (b == a) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    };
-function getSomeDefs(el) {
-    var p = el.node.ownerSVGElement && wrap(el.node.ownerSVGElement) ||
-            el.node.parentNode && wrap(el.node.parentNode) ||
-            Snap.select("svg") ||
-            Snap(0, 0),
-        pdefs = p.select("defs"),
-        defs  = pdefs == null ? false : pdefs.node;
-    if (!defs) {
-        defs = make("defs", p.node).node;
-    }
-    return defs;
-}
-function getSomeSVG(el) {
-    return el.node.ownerSVGElement && wrap(el.node.ownerSVGElement) || Snap.select("svg");
-}
-Snap._.getSomeDefs = getSomeDefs;
-Snap._.getSomeSVG = getSomeSVG;
-function unit2px(el, name, value) {
-    var svg = getSomeSVG(el).node,
-        out = {},
-        mgr = svg.querySelector(".svg---mgr");
-    if (!mgr) {
-        mgr = $("rect");
-        $(mgr, {x: -9e9, y: -9e9, width: 10, height: 10, "class": "svg---mgr", fill: "none"});
-        svg.appendChild(mgr);
-    }
-    function getW(val) {
-        if (val == null) {
-            return E;
-        }
-        if (val == +val) {
-            return val;
-        }
-        $(mgr, {width: val});
-        try {
-            return mgr.getBBox().width;
-        } catch (e) {
-            return 0;
-        }
-    }
-    function getH(val) {
-        if (val == null) {
-            return E;
-        }
-        if (val == +val) {
-            return val;
-        }
-        $(mgr, {height: val});
-        try {
-            return mgr.getBBox().height;
-        } catch (e) {
-            return 0;
-        }
-    }
-    function set(nam, f) {
-        if (name == null) {
-            out[nam] = f(el.attr(nam) || 0);
-        } else if (nam == name) {
-            out = f(value == null ? el.attr(nam) || 0 : value);
-        }
-    }
-    switch (el.type) {
-        case "rect":
-            set("rx", getW);
-            set("ry", getH);
-        case "image":
-            set("width", getW);
-            set("height", getH);
-        case "text":
-            set("x", getW);
-            set("y", getH);
-        break;
-        case "circle":
-            set("cx", getW);
-            set("cy", getH);
-            set("r", getW);
-        break;
-        case "ellipse":
-            set("cx", getW);
-            set("cy", getH);
-            set("rx", getW);
-            set("ry", getH);
-        break;
-        case "line":
-            set("x1", getW);
-            set("x2", getW);
-            set("y1", getH);
-            set("y2", getH);
-        break;
-        case "marker":
-            set("refX", getW);
-            set("markerWidth", getW);
-            set("refY", getH);
-            set("markerHeight", getH);
-        break;
-        case "radialGradient":
-            set("fx", getW);
-            set("fy", getH);
-        break;
-        case "tspan":
-            set("dx", getW);
-            set("dy", getH);
-        break;
-        default:
-            set(name, getW);
-    }
-    svg.removeChild(mgr);
-    return out;
-}
-/*\
- * Snap.select
- [ method ]
- **
- * Wraps a DOM element specified by CSS selector as @Element
- - query (string) CSS selector of the element
- = (Element) the current element
-\*/
-Snap.select = function (query) {
-    query = Str(query).replace(/([^\\]):/g, "$1\\:");
-    return wrap(glob.doc.querySelector(query));
-};
-/*\
- * Snap.selectAll
- [ method ]
- **
- * Wraps DOM elements specified by CSS selector as set or array of @Element
- - query (string) CSS selector of the element
- = (Element) the current element
-\*/
-Snap.selectAll = function (query) {
-    var nodelist = glob.doc.querySelectorAll(query),
-        set = (Snap.set || Array)();
-    for (var i = 0; i < nodelist.length; i++) {
-        set.push(wrap(nodelist[i]));
-    }
-    return set;
-};
-
-function add2group(list) {
-    if (!is(list, "array")) {
-        list = Array.prototype.slice.call(arguments, 0);
-    }
-    var i = 0,
-        j = 0,
-        node = this.node;
-    while (this[i]) delete this[i++];
-    for (i = 0; i < list.length; i++) {
-        if (list[i].type == "set") {
-            list[i].forEach(function (el) {
-                node.appendChild(el.node);
-            });
-        } else {
-            node.appendChild(list[i].node);
-        }
-    }
-    var children = node.childNodes;
-    for (i = 0; i < children.length; i++) {
-        this[j++] = wrap(children[i]);
-    }
+  // check if the image is (almost) a circle
+  if (D < epsilon * JK) {
+    // if it is
+    this.rx = this.ry = Math.sqrt(JK);
+    this.ax = 0;
     return this;
-}
-// Hub garbage collector every 10s
-setInterval(function () {
-    for (var key in hub) if (hub[has](key)) {
-        var el = hub[key],
-            node = el.node;
-        if (el.type != "svg" && !node.ownerSVGElement || el.type == "svg" && (!node.parentNode || "ownerSVGElement" in node.parentNode && !node.ownerSVGElement)) {
-            delete hub[key];
-        }
-    }
-}, 1e4);
-function Element(el) {
-    if (el.snap in hub) {
-        return hub[el.snap];
-    }
-    var svg;
-    try {
-        svg = el.ownerSVGElement;
-    } catch(e) {}
-    /*\
-     * Element.node
-     [ property (object) ]
-     **
-     * Gives you a reference to the DOM object, so you can assign event handlers or just mess around.
-     > Usage
-     | // draw a circle at coordinate 10,10 with radius of 10
-     | var c = paper.circle(10, 10, 10);
-     | c.node.onclick = function () {
-     |     c.attr("fill", "red");
-     | };
-    \*/
-    this.node = el;
-    if (svg) {
-        this.paper = new Paper(svg);
-    }
-    /*\
-     * Element.type
-     [ property (string) ]
-     **
-     * SVG tag name of the given element.
-    \*/
-    this.type = el.tagName || el.nodeName;
-    var id = this.id = ID(this);
-    this.anims = {};
-    this._ = {
-        transform: []
-    };
-    el.snap = id;
-    hub[id] = this;
-    if (this.type == "g") {
-        this.add = add2group;
-    }
-    if (this.type in {g: 1, mask: 1, pattern: 1, symbol: 1}) {
-        for (var method in Paper.prototype) if (Paper.prototype[has](method)) {
-            this[method] = Paper.prototype[method];
-        }
-    }
-}
-   /*\
-     * Element.attr
-     [ method ]
-     **
-     * Gets or sets given attributes of the element.
-     **
-     - params (object) contains key-value pairs of attributes you want to set
-     * or
-     - param (string) name of the attribute
-     = (Element) the current element
-     * or
-     = (string) value of attribute
-     > Usage
-     | el.attr({
-     |     fill: "#fc0",
-     |     stroke: "#000",
-     |     strokeWidth: 2, // CamelCase...
-     |     "fill-opacity": 0.5, // or dash-separated names
-     |     width: "*=2" // prefixed values
-     | });
-     | console.log(el.attr("fill")); // #fc0
-     * Prefixed values in format `"+=10"` supported. All four operations
-     * (`+`, `-`, `*` and `/`) could be used. Optionally you can use units for `+`
-     * and `-`: `"+=2em"`.
-    \*/
-    Element.prototype.attr = function (params, value) {
-        var el = this,
-            node = el.node;
-        if (!params) {
-            if (node.nodeType != 1) {
-                return {
-                    text: node.nodeValue
-                };
-            }
-            var attr = node.attributes,
-                out = {};
-            for (var i = 0, ii = attr.length; i < ii; i++) {
-                out[attr[i].nodeName] = attr[i].nodeValue;
-            }
-            return out;
-        }
-        if (is(params, "string")) {
-            if (arguments.length > 1) {
-                var json = {};
-                json[params] = value;
-                params = json;
-            } else {
-                return eve("snap.util.getattr." + params, el).firstDefined();
-            }
-        }
-        for (var att in params) {
-            if (params[has](att)) {
-                eve("snap.util.attr." + att, el, params[att]);
-            }
-        }
-        return el;
-    };
-/*\
- * Snap.parse
- [ method ]
- **
- * Parses SVG fragment and converts it into a @Fragment
- **
- - svg (string) SVG string
- = (Fragment) the @Fragment
-\*/
-Snap.parse = function (svg) {
-    var f = glob.doc.createDocumentFragment(),
-        full = true,
-        div = glob.doc.createElement("div");
-    svg = Str(svg);
-    if (!svg.match(/^\s*<\s*svg(?:\s|>)/)) {
-        svg = "<svg>" + svg + "</svg>";
-        full = false;
-    }
-    div.innerHTML = svg;
-    svg = div.getElementsByTagName("svg")[0];
-    if (svg) {
-        if (full) {
-            f = svg;
-        } else {
-            while (svg.firstChild) {
-                f.appendChild(svg.firstChild);
-            }
-        }
-    }
-    return new Fragment(f);
-};
-function Fragment(frag) {
-    this.node = frag;
-}
-/*\
- * Snap.fragment
- [ method ]
- **
- * Creates a DOM fragment from a given list of elements or strings
- **
- - varargs (…) SVG string
- = (Fragment) the @Fragment
-\*/
-Snap.fragment = function () {
-    var args = Array.prototype.slice.call(arguments, 0),
-        f = glob.doc.createDocumentFragment();
-    for (var i = 0, ii = args.length; i < ii; i++) {
-        var item = args[i];
-        if (item.node && item.node.nodeType) {
-            f.appendChild(item.node);
-        }
-        if (item.nodeType) {
-            f.appendChild(item);
-        }
-        if (typeof item == "string") {
-            f.appendChild(Snap.parse(item).node);
-        }
-    }
-    return new Fragment(f);
+  }
+
+  // if it is not a circle
+  var L = ma[0]*ma[1] + ma[2]*ma[3];
+
+  D = Math.sqrt(D);
+
+  // {l1,l2} = the two eigen values of ma * transpose(ma)
+  var l1 = JK + D/2,
+      l2 = JK - D/2;
+  // the x - axis - rotation angle is the argument of the l1 - eigenvector
+  /*eslint-disable indent*/
+  this.ax = (Math.abs(L) < epsilon && Math.abs(l1 - K) < epsilon) ?
+    90
+  :
+    Math.atan(Math.abs(L) > Math.abs(l1 - K) ?
+      (l1 - J) / L
+    :
+      L / (l1 - K)
+    ) * 180 / Math.PI;
+  /*eslint-enable indent*/
+
+  // if ax > 0 => rx = sqrt(l1), ry = sqrt(l2), else exchange axes and ax += 90
+  if (this.ax >= 0) {
+    // if ax in [0,90]
+    this.rx = Math.sqrt(l1);
+    this.ry = Math.sqrt(l2);
+  } else {
+    // if ax in ]-90,0[ => exchange axes
+    this.ax += 90;
+    this.rx = Math.sqrt(l2);
+    this.ry = Math.sqrt(l1);
+  }
+
+  return this;
 };
 
-function make(name, parent) {
-    var res = $(name);
-    parent.appendChild(res);
-    var el = wrap(res);
-    return el;
+// Check if the ellipse is (almost) degenerate, i.e. rx = 0 or ry = 0
+//
+Ellipse.prototype.isDegenerate = function () {
+  return (this.rx < epsilon * this.ry || this.ry < epsilon * this.rx);
+};
+
+module.exports = Ellipse;
+
+
+/***/ }),
+
+/***/ "./node_modules/svgpath/lib/matrix.js":
+/*!********************************************!*\
+  !*** ./node_modules/svgpath/lib/matrix.js ***!
+  \********************************************/
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module */
+/*! CommonJS bailout: module.exports is used directly at 144:0-14 */
+/***/ ((module) => {
+
+"use strict";
+
+
+// combine 2 matrixes
+// m1, m2 - [a, b, c, d, e, g]
+//
+function combine(m1, m2) {
+  return [
+    m1[0] * m2[0] + m1[2] * m2[1],
+    m1[1] * m2[0] + m1[3] * m2[1],
+    m1[0] * m2[2] + m1[2] * m2[3],
+    m1[1] * m2[2] + m1[3] * m2[3],
+    m1[0] * m2[4] + m1[2] * m2[5] + m1[4],
+    m1[1] * m2[4] + m1[3] * m2[5] + m1[5]
+  ];
 }
-function Paper(w, h) {
-    var res,
-        desc,
-        defs,
-        proto = Paper.prototype;
-    if (w && w.tagName && w.tagName.toLowerCase() == "svg") {
-        if (w.snap in hub) {
-            return hub[w.snap];
-        }
-        var doc = w.ownerDocument;
-        res = new Element(w);
-        desc = w.getElementsByTagName("desc")[0];
-        defs = w.getElementsByTagName("defs")[0];
-        if (!desc) {
-            desc = $("desc");
-            desc.appendChild(doc.createTextNode("Created with Snap"));
-            res.node.appendChild(desc);
-        }
-        if (!defs) {
-            defs = $("defs");
-            res.node.appendChild(defs);
-        }
-        res.defs = defs;
-        for (var key in proto) if (proto[has](key)) {
-            res[key] = proto[key];
-        }
-        res.paper = res.root = res;
+
+
+function Matrix() {
+  if (!(this instanceof Matrix)) { return new Matrix(); }
+  this.queue = [];   // list of matrixes to apply
+  this.cache = null; // combined matrix cache
+}
+
+
+Matrix.prototype.matrix = function (m) {
+  if (m[0] === 1 && m[1] === 0 && m[2] === 0 && m[3] === 1 && m[4] === 0 && m[5] === 0) {
+    return this;
+  }
+  this.cache = null;
+  this.queue.push(m);
+  return this;
+};
+
+
+Matrix.prototype.translate = function (tx, ty) {
+  if (tx !== 0 || ty !== 0) {
+    this.cache = null;
+    this.queue.push([ 1, 0, 0, 1, tx, ty ]);
+  }
+  return this;
+};
+
+
+Matrix.prototype.scale = function (sx, sy) {
+  if (sx !== 1 || sy !== 1) {
+    this.cache = null;
+    this.queue.push([ sx, 0, 0, sy, 0, 0 ]);
+  }
+  return this;
+};
+
+
+Matrix.prototype.rotate = function (angle, rx, ry) {
+  var rad, cos, sin;
+
+  if (angle !== 0) {
+    this.translate(rx, ry);
+
+    rad = angle * Math.PI / 180;
+    cos = Math.cos(rad);
+    sin = Math.sin(rad);
+
+    this.queue.push([ cos, sin, -sin, cos, 0, 0 ]);
+    this.cache = null;
+
+    this.translate(-rx, -ry);
+  }
+  return this;
+};
+
+
+Matrix.prototype.skewX = function (angle) {
+  if (angle !== 0) {
+    this.cache = null;
+    this.queue.push([ 1, 0, Math.tan(angle * Math.PI / 180), 1, 0, 0 ]);
+  }
+  return this;
+};
+
+
+Matrix.prototype.skewY = function (angle) {
+  if (angle !== 0) {
+    this.cache = null;
+    this.queue.push([ 1, Math.tan(angle * Math.PI / 180), 0, 1, 0, 0 ]);
+  }
+  return this;
+};
+
+
+// Flatten queue
+//
+Matrix.prototype.toArray = function () {
+  if (this.cache) {
+    return this.cache;
+  }
+
+  if (!this.queue.length) {
+    this.cache = [ 1, 0, 0, 1, 0, 0 ];
+    return this.cache;
+  }
+
+  this.cache = this.queue[0];
+
+  if (this.queue.length === 1) {
+    return this.cache;
+  }
+
+  for (var i = 1; i < this.queue.length; i++) {
+    this.cache = combine(this.cache, this.queue[i]);
+  }
+
+  return this.cache;
+};
+
+
+// Apply list of matrixes to (x,y) point.
+// If `isRelative` set, `translate` component of matrix will be skipped
+//
+Matrix.prototype.calc = function (x, y, isRelative) {
+  var m;
+
+  // Don't change point on empty transforms queue
+  if (!this.queue.length) { return [ x, y ]; }
+
+  // Calculate final matrix, if not exists
+  //
+  // NB. if you deside to apply transforms to point one-by-one,
+  // they should be taken in reverse order
+
+  if (!this.cache) {
+    this.cache = this.toArray();
+  }
+
+  m = this.cache;
+
+  // Apply matrix to point
+  return [
+    x * m[0] + y * m[2] + (isRelative ? 0 : m[4]),
+    x * m[1] + y * m[3] + (isRelative ? 0 : m[5])
+  ];
+};
+
+
+module.exports = Matrix;
+
+
+/***/ }),
+
+/***/ "./node_modules/svgpath/lib/path_parse.js":
+/*!************************************************!*\
+  !*** ./node_modules/svgpath/lib/path_parse.js ***!
+  \************************************************/
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module */
+/*! CommonJS bailout: module.exports is used directly at 284:0-14 */
+/***/ ((module) => {
+
+"use strict";
+
+
+
+var paramCounts = { a: 7, c: 6, h: 1, l: 2, m: 2, r: 4, q: 4, s: 4, t: 2, v: 1, z: 0 };
+
+var SPECIAL_SPACES = [
+  0x1680, 0x180E, 0x2000, 0x2001, 0x2002, 0x2003, 0x2004, 0x2005, 0x2006,
+  0x2007, 0x2008, 0x2009, 0x200A, 0x202F, 0x205F, 0x3000, 0xFEFF
+];
+
+function isSpace(ch) {
+  return (ch === 0x0A) || (ch === 0x0D) || (ch === 0x2028) || (ch === 0x2029) || // Line terminators
+    // White spaces
+    (ch === 0x20) || (ch === 0x09) || (ch === 0x0B) || (ch === 0x0C) || (ch === 0xA0) ||
+    (ch >= 0x1680 && SPECIAL_SPACES.indexOf(ch) >= 0);
+}
+
+function isCommand(code) {
+  /*eslint-disable no-bitwise*/
+  switch (code | 0x20) {
+    case 0x6D/* m */:
+    case 0x7A/* z */:
+    case 0x6C/* l */:
+    case 0x68/* h */:
+    case 0x76/* v */:
+    case 0x63/* c */:
+    case 0x73/* s */:
+    case 0x71/* q */:
+    case 0x74/* t */:
+    case 0x61/* a */:
+    case 0x72/* r */:
+      return true;
+  }
+  return false;
+}
+
+function isArc(code) {
+  return (code | 0x20) === 0x61;
+}
+
+function isDigit(code) {
+  return (code >= 48 && code <= 57);   // 0..9
+}
+
+function isDigitStart(code) {
+  return (code >= 48 && code <= 57) || /* 0..9 */
+          code === 0x2B || /* + */
+          code === 0x2D || /* - */
+          code === 0x2E;   /* . */
+}
+
+
+function State(path) {
+  this.index  = 0;
+  this.path   = path;
+  this.max    = path.length;
+  this.result = [];
+  this.param  = 0.0;
+  this.err    = '';
+  this.segmentStart = 0;
+  this.data   = [];
+}
+
+function skipSpaces(state) {
+  while (state.index < state.max && isSpace(state.path.charCodeAt(state.index))) {
+    state.index++;
+  }
+}
+
+
+function scanFlag(state) {
+  var ch = state.path.charCodeAt(state.index);
+
+  if (ch === 0x30/* 0 */) {
+    state.param = 0;
+    state.index++;
+    return;
+  }
+
+  if (ch === 0x31/* 1 */) {
+    state.param = 1;
+    state.index++;
+    return;
+  }
+
+  state.err = 'SvgPath: arc flag can be 0 or 1 only (at pos ' + state.index + ')';
+}
+
+
+function scanParam(state) {
+  var start = state.index,
+      index = start,
+      max = state.max,
+      zeroFirst = false,
+      hasCeiling = false,
+      hasDecimal = false,
+      hasDot = false,
+      ch;
+
+  if (index >= max) {
+    state.err = 'SvgPath: missed param (at pos ' + index + ')';
+    return;
+  }
+  ch = state.path.charCodeAt(index);
+
+  if (ch === 0x2B/* + */ || ch === 0x2D/* - */) {
+    index++;
+    ch = (index < max) ? state.path.charCodeAt(index) : 0;
+  }
+
+  // This logic is shamelessly borrowed from Esprima
+  // https://github.com/ariya/esprimas
+  //
+  if (!isDigit(ch) && ch !== 0x2E/* . */) {
+    state.err = 'SvgPath: param should start with 0..9 or `.` (at pos ' + index + ')';
+    return;
+  }
+
+  if (ch !== 0x2E/* . */) {
+    zeroFirst = (ch === 0x30/* 0 */);
+    index++;
+
+    ch = (index < max) ? state.path.charCodeAt(index) : 0;
+
+    if (zeroFirst && index < max) {
+      // decimal number starts with '0' such as '09' is illegal.
+      if (ch && isDigit(ch)) {
+        state.err = 'SvgPath: numbers started with `0` such as `09` are illegal (at pos ' + start + ')';
+        return;
+      }
+    }
+
+    while (index < max && isDigit(state.path.charCodeAt(index))) {
+      index++;
+      hasCeiling = true;
+    }
+    ch = (index < max) ? state.path.charCodeAt(index) : 0;
+  }
+
+  if (ch === 0x2E/* . */) {
+    hasDot = true;
+    index++;
+    while (isDigit(state.path.charCodeAt(index))) {
+      index++;
+      hasDecimal = true;
+    }
+    ch = (index < max) ? state.path.charCodeAt(index) : 0;
+  }
+
+  if (ch === 0x65/* e */ || ch === 0x45/* E */) {
+    if (hasDot && !hasCeiling && !hasDecimal) {
+      state.err = 'SvgPath: invalid float exponent (at pos ' + index + ')';
+      return;
+    }
+
+    index++;
+
+    ch = (index < max) ? state.path.charCodeAt(index) : 0;
+    if (ch === 0x2B/* + */ || ch === 0x2D/* - */) {
+      index++;
+    }
+    if (index < max && isDigit(state.path.charCodeAt(index))) {
+      while (index < max && isDigit(state.path.charCodeAt(index))) {
+        index++;
+      }
     } else {
-        res = make("svg", glob.doc.body);
-        $(res.node, {
-            height: h,
-            version: 1.1,
-            width: w,
-            xmlns: xmlns
-        });
+      state.err = 'SvgPath: invalid float exponent (at pos ' + index + ')';
+      return;
     }
-    return res;
-}
-function wrap(dom) {
-    if (!dom) {
-        return dom;
-    }
-    if (dom instanceof Element || dom instanceof Fragment) {
-        return dom;
-    }
-    if (dom.tagName && dom.tagName.toLowerCase() == "svg") {
-        return new Paper(dom);
-    }
-    if (dom.tagName && dom.tagName.toLowerCase() == "object" && dom.type == "image/svg+xml") {
-        return new Paper(dom.contentDocument.getElementsByTagName("svg")[0]);
-    }
-    return new Element(dom);
+  }
+
+  state.index = index;
+  state.param = parseFloat(state.path.slice(start, index)) + 0.0;
 }
 
-Snap._.make = make;
-Snap._.wrap = wrap;
-/*\
- * Paper.el
- [ method ]
- **
- * Creates an element on paper with a given name and no attributes
- **
- - name (string) tag name
- - attr (object) attributes
- = (Element) the current element
- > Usage
- | var c = paper.circle(10, 10, 10); // is the same as...
- | var c = paper.el("circle").attr({
- |     cx: 10,
- |     cy: 10,
- |     r: 10
- | });
- | // and the same as
- | var c = paper.el("circle", {
- |     cx: 10,
- |     cy: 10,
- |     r: 10
- | });
-\*/
-Paper.prototype.el = function (name, attr) {
-    var el = make(name, this.node);
-    attr && el.attr(attr);
-    return el;
-};
-/*\
- * Element.children
- [ method ]
- **
- * Returns array of all the children of the element.
- = (array) array of Elements
-\*/
-Element.prototype.children = function () {
-    var out = [],
-        ch = this.node.childNodes;
-    for (var i = 0, ii = ch.length; i < ii; i++) {
-        out[i] = Snap(ch[i]);
+
+function finalizeSegment(state) {
+  var cmd, cmdLC;
+
+  // Process duplicated commands (without comand name)
+
+  // This logic is shamelessly borrowed from Raphael
+  // https://github.com/DmitryBaranovskiy/raphael/
+  //
+  cmd   = state.path[state.segmentStart];
+  cmdLC = cmd.toLowerCase();
+
+  var params = state.data;
+
+  if (cmdLC === 'm' && params.length > 2) {
+    state.result.push([ cmd, params[0], params[1] ]);
+    params = params.slice(2);
+    cmdLC = 'l';
+    cmd = (cmd === 'm') ? 'l' : 'L';
+  }
+
+  if (cmdLC === 'r') {
+    state.result.push([ cmd ].concat(params));
+  } else {
+
+    while (params.length >= paramCounts[cmdLC]) {
+      state.result.push([ cmd ].concat(params.splice(0, paramCounts[cmdLC])));
+      if (!paramCounts[cmdLC]) {
+        break;
+      }
     }
-    return out;
-};
-function jsonFiller(root, o) {
-    for (var i = 0, ii = root.length; i < ii; i++) {
-        var item = {
-                type: root[i].type,
-                attr: root[i].attr()
-            },
-            children = root[i].children();
-        o.push(item);
-        if (children.length) {
-            jsonFiller(children, item.childNodes = []);
-        }
-    }
+  }
 }
-/*\
- * Element.toJSON
- [ method ]
- **
- * Returns object representation of the given element and all its children.
- = (object) in format
- o {
- o     type (string) this.type,
- o     attr (object) attributes map,
- o     childNodes (array) optional array of children in the same format
- o }
-\*/
-Element.prototype.toJSON = function () {
-    var out = [];
-    jsonFiller([this], out);
-    return out[0];
-};
-// default
-eve.on("snap.util.getattr", function () {
-    var att = eve.nt();
-    att = att.substring(att.lastIndexOf(".") + 1);
-    var css = att.replace(/[A-Z]/g, function (letter) {
-        return "-" + letter.toLowerCase();
-    });
-    if (cssAttr[has](css)) {
-        return this.node.ownerDocument.defaultView.getComputedStyle(this.node, null).getPropertyValue(css);
+
+
+function scanSegment(state) {
+  var max = state.max,
+      cmdCode, is_arc, comma_found, need_params, i;
+
+  state.segmentStart = state.index;
+  cmdCode = state.path.charCodeAt(state.index);
+  is_arc = isArc(cmdCode);
+
+  if (!isCommand(cmdCode)) {
+    state.err = 'SvgPath: bad command ' + state.path[state.index] + ' (at pos ' + state.index + ')';
+    return;
+  }
+
+  need_params = paramCounts[state.path[state.index].toLowerCase()];
+
+  state.index++;
+  skipSpaces(state);
+
+  state.data = [];
+
+  if (!need_params) {
+    // Z
+    finalizeSegment(state);
+    return;
+  }
+
+  comma_found = false;
+
+  for (;;) {
+    for (i = need_params; i > 0; i--) {
+      if (is_arc && (i === 3 || i === 4)) scanFlag(state);
+      else scanParam(state);
+
+      if (state.err.length) {
+        return;
+      }
+      state.data.push(state.param);
+
+      skipSpaces(state);
+      comma_found = false;
+
+      if (state.index < max && state.path.charCodeAt(state.index) === 0x2C/* , */) {
+        state.index++;
+        skipSpaces(state);
+        comma_found = true;
+      }
+    }
+
+    // after ',' param is mandatory
+    if (comma_found) {
+      continue;
+    }
+
+    if (state.index >= state.max) {
+      break;
+    }
+
+    // Stop on next segment
+    if (!isDigitStart(state.path.charCodeAt(state.index))) {
+      break;
+    }
+  }
+
+  finalizeSegment(state);
+}
+
+
+/* Returns array of segments:
+ *
+ * [
+ *   [ command, coord1, coord2, ... ]
+ * ]
+ */
+module.exports = function pathParse(svgPath) {
+  var state = new State(svgPath);
+  var max = state.max;
+
+  skipSpaces(state);
+
+  while (state.index < max && !state.err.length) {
+    scanSegment(state);
+  }
+
+  if (state.err.length) {
+    state.result = [];
+
+  } else if (state.result.length) {
+
+    if ('mM'.indexOf(state.result[0][0]) < 0) {
+      state.err = 'SvgPath: string should start with `M` or `m`';
+      state.result = [];
     } else {
-        return $(this.node, att);
+      state.result[0][0] = 'M';
     }
-});
-var cssAttr = {
-    "alignment-baseline": 0,
-    "baseline-shift": 0,
-    "clip": 0,
-    "clip-path": 0,
-    "clip-rule": 0,
-    "color": 0,
-    "color-interpolation": 0,
-    "color-interpolation-filters": 0,
-    "color-profile": 0,
-    "color-rendering": 0,
-    "cursor": 0,
-    "direction": 0,
-    "display": 0,
-    "dominant-baseline": 0,
-    "enable-background": 0,
-    "fill": 0,
-    "fill-opacity": 0,
-    "fill-rule": 0,
-    "filter": 0,
-    "flood-color": 0,
-    "flood-opacity": 0,
-    "font": 0,
-    "font-family": 0,
-    "font-size": 0,
-    "font-size-adjust": 0,
-    "font-stretch": 0,
-    "font-style": 0,
-    "font-variant": 0,
-    "font-weight": 0,
-    "glyph-orientation-horizontal": 0,
-    "glyph-orientation-vertical": 0,
-    "image-rendering": 0,
-    "kerning": 0,
-    "letter-spacing": 0,
-    "lighting-color": 0,
-    "marker": 0,
-    "marker-end": 0,
-    "marker-mid": 0,
-    "marker-start": 0,
-    "mask": 0,
-    "opacity": 0,
-    "overflow": 0,
-    "pointer-events": 0,
-    "shape-rendering": 0,
-    "stop-color": 0,
-    "stop-opacity": 0,
-    "stroke": 0,
-    "stroke-dasharray": 0,
-    "stroke-dashoffset": 0,
-    "stroke-linecap": 0,
-    "stroke-linejoin": 0,
-    "stroke-miterlimit": 0,
-    "stroke-opacity": 0,
-    "stroke-width": 0,
-    "text-anchor": 0,
-    "text-decoration": 0,
-    "text-rendering": 0,
-    "unicode-bidi": 0,
-    "visibility": 0,
-    "word-spacing": 0,
-    "writing-mode": 0
+  }
+
+  return {
+    err: state.err,
+    segments: state.result
+  };
 };
 
-eve.on("snap.util.attr", function (value) {
-    var att = eve.nt(),
-        attr = {};
-    att = att.substring(att.lastIndexOf(".") + 1);
-    attr[att] = value;
-    var style = att.replace(/-(\w)/gi, function (all, letter) {
-            return letter.toUpperCase();
-        }),
-        css = att.replace(/[A-Z]/g, function (letter) {
-            return "-" + letter.toLowerCase();
+
+/***/ }),
+
+/***/ "./node_modules/svgpath/lib/svgpath.js":
+/*!*********************************************!*\
+  !*** ./node_modules/svgpath/lib/svgpath.js ***!
+  \*********************************************/
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module, __webpack_require__ */
+/*! CommonJS bailout: module.exports is used directly at 649:0-14 */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+// SVG Path transformations library
+//
+// Usage:
+//
+//    SvgPath('...')
+//      .translate(-150, -100)
+//      .scale(0.5)
+//      .translate(-150, -100)
+//      .toFixed(1)
+//      .toString()
+//
+
+
+
+
+var pathParse      = __webpack_require__(/*! ./path_parse */ "./node_modules/svgpath/lib/path_parse.js");
+var transformParse = __webpack_require__(/*! ./transform_parse */ "./node_modules/svgpath/lib/transform_parse.js");
+var matrix         = __webpack_require__(/*! ./matrix */ "./node_modules/svgpath/lib/matrix.js");
+var a2c            = __webpack_require__(/*! ./a2c */ "./node_modules/svgpath/lib/a2c.js");
+var ellipse        = __webpack_require__(/*! ./ellipse */ "./node_modules/svgpath/lib/ellipse.js");
+
+
+// Class constructor
+//
+function SvgPath(path) {
+  if (!(this instanceof SvgPath)) { return new SvgPath(path); }
+
+  var pstate = pathParse(path);
+
+  // Array of path segments.
+  // Each segment is array [command, param1, param2, ...]
+  this.segments = pstate.segments;
+
+  // Error message on parse error.
+  this.err      = pstate.err;
+
+  // Transforms stack for lazy evaluation
+  this.__stack    = [];
+}
+
+SvgPath.from = function (src) {
+  if (typeof src === 'string') return new SvgPath(src);
+
+  if (src instanceof SvgPath) {
+    // Create empty object
+    var s = new SvgPath('');
+
+    // Clone properies
+    s.err = src.err;
+    s.segments = src.segments.map(function (sgm) { return sgm.slice(); });
+    s.__stack = src.__stack.map(function (m) {
+      return matrix().matrix(m.toArray());
+    });
+
+    return s;
+  }
+
+  throw new Error('SvgPath.from: invalid param type ' + src);
+};
+
+
+SvgPath.prototype.__matrix = function (m) {
+  var self = this, i;
+
+  // Quick leave for empty matrix
+  if (!m.queue.length) { return; }
+
+  this.iterate(function (s, index, x, y) {
+    var p, result, name, isRelative;
+
+    switch (s[0]) {
+
+      // Process 'assymetric' commands separately
+      case 'v':
+        p      = m.calc(0, s[1], true);
+        result = (p[0] === 0) ? [ 'v', p[1] ] : [ 'l', p[0], p[1] ];
+        break;
+
+      case 'V':
+        p      = m.calc(x, s[1], false);
+        result = (p[0] === m.calc(x, y, false)[0]) ? [ 'V', p[1] ] : [ 'L', p[0], p[1] ];
+        break;
+
+      case 'h':
+        p      = m.calc(s[1], 0, true);
+        result = (p[1] === 0) ? [ 'h', p[0] ] : [ 'l', p[0], p[1] ];
+        break;
+
+      case 'H':
+        p      = m.calc(s[1], y, false);
+        result = (p[1] === m.calc(x, y, false)[1]) ? [ 'H', p[0] ] : [ 'L', p[0], p[1] ];
+        break;
+
+      case 'a':
+      case 'A':
+        // ARC is: ['A', rx, ry, x-axis-rotation, large-arc-flag, sweep-flag, x, y]
+
+        // Drop segment if arc is empty (end point === start point)
+        /*if ((s[0] === 'A' && s[6] === x && s[7] === y) ||
+            (s[0] === 'a' && s[6] === 0 && s[7] === 0)) {
+          return [];
+        }*/
+
+        // Transform rx, ry and the x-axis-rotation
+        var ma = m.toArray();
+        var e = ellipse(s[1], s[2], s[3]).transform(ma);
+
+        // flip sweep-flag if matrix is not orientation-preserving
+        if (ma[0] * ma[3] - ma[1] * ma[2] < 0) {
+          s[5] = s[5] ? '0' : '1';
+        }
+
+        // Transform end point as usual (without translation for relative notation)
+        p = m.calc(s[6], s[7], s[0] === 'a');
+
+        // Empty arcs can be ignored by renderer, but should not be dropped
+        // to avoid collisions with `S A S` and so on. Replace with empty line.
+        if ((s[0] === 'A' && s[6] === x && s[7] === y) ||
+            (s[0] === 'a' && s[6] === 0 && s[7] === 0)) {
+          result = [ s[0] === 'a' ? 'l' : 'L', p[0], p[1] ];
+          break;
+        }
+
+        // if the resulting ellipse is (almost) a segment ...
+        if (e.isDegenerate()) {
+          // replace the arc by a line
+          result = [ s[0] === 'a' ? 'l' : 'L', p[0], p[1] ];
+        } else {
+          // if it is a real ellipse
+          // s[0], s[4] and s[5] are not modified
+          result = [ s[0], e.rx, e.ry, e.ax, s[4], s[5], p[0], p[1] ];
+        }
+
+        break;
+
+      case 'm':
+        // Edge case. The very first `m` should be processed as absolute, if happens.
+        // Make sense for coord shift transforms.
+        isRelative = index > 0;
+
+        p = m.calc(s[1], s[2], isRelative);
+        result = [ 'm', p[0], p[1] ];
+        break;
+
+      default:
+        name       = s[0];
+        result     = [ name ];
+        isRelative = (name.toLowerCase() === name);
+
+        // Apply transformations to the segment
+        for (i = 1; i < s.length; i += 2) {
+          p = m.calc(s[i], s[i + 1], isRelative);
+          result.push(p[0], p[1]);
+        }
+    }
+
+    self.segments[index] = result;
+  }, true);
+};
+
+
+// Apply stacked commands
+//
+SvgPath.prototype.__evaluateStack = function () {
+  var m, i;
+
+  if (!this.__stack.length) { return; }
+
+  if (this.__stack.length === 1) {
+    this.__matrix(this.__stack[0]);
+    this.__stack = [];
+    return;
+  }
+
+  m = matrix();
+  i = this.__stack.length;
+
+  while (--i >= 0) {
+    m.matrix(this.__stack[i].toArray());
+  }
+
+  this.__matrix(m);
+  this.__stack = [];
+};
+
+
+// Convert processed SVG Path back to string
+//
+SvgPath.prototype.toString = function () {
+  var elements = [], skipCmd, cmd;
+
+  this.__evaluateStack();
+
+  for (var i = 0; i < this.segments.length; i++) {
+    // remove repeating commands names
+    cmd = this.segments[i][0];
+    skipCmd = i > 0 && cmd !== 'm' && cmd !== 'M' && cmd === this.segments[i - 1][0];
+    elements = elements.concat(skipCmd ? this.segments[i].slice(1) : this.segments[i]);
+  }
+
+  return elements.join(' ')
+    // Optimizations: remove spaces around commands & before `-`
+    //
+    // We could also remove leading zeros for `0.5`-like values,
+    // but their count is too small to spend time for.
+    .replace(/ ?([achlmqrstvz]) ?/gi, '$1')
+    .replace(/ \-/g, '-')
+    // workaround for FontForge SVG importing bug
+    .replace(/zm/g, 'z m');
+};
+
+
+// Translate path to (x [, y])
+//
+SvgPath.prototype.translate = function (x, y) {
+  this.__stack.push(matrix().translate(x, y || 0));
+  return this;
+};
+
+
+// Scale path to (sx [, sy])
+// sy = sx if not defined
+//
+SvgPath.prototype.scale = function (sx, sy) {
+  this.__stack.push(matrix().scale(sx, (!sy && (sy !== 0)) ? sx : sy));
+  return this;
+};
+
+
+// Rotate path around point (sx [, sy])
+// sy = sx if not defined
+//
+SvgPath.prototype.rotate = function (angle, rx, ry) {
+  this.__stack.push(matrix().rotate(angle, rx || 0, ry || 0));
+  return this;
+};
+
+
+// Skew path along the X axis by `degrees` angle
+//
+SvgPath.prototype.skewX = function (degrees) {
+  this.__stack.push(matrix().skewX(degrees));
+  return this;
+};
+
+
+// Skew path along the Y axis by `degrees` angle
+//
+SvgPath.prototype.skewY = function (degrees) {
+  this.__stack.push(matrix().skewY(degrees));
+  return this;
+};
+
+
+// Apply matrix transform (array of 6 elements)
+//
+SvgPath.prototype.matrix = function (m) {
+  this.__stack.push(matrix().matrix(m));
+  return this;
+};
+
+
+// Transform path according to "transform" attr of SVG spec
+//
+SvgPath.prototype.transform = function (transformString) {
+  if (!transformString.trim()) {
+    return this;
+  }
+  this.__stack.push(transformParse(transformString));
+  return this;
+};
+
+
+// Round coords with given decimal precition.
+// 0 by default (to integers)
+//
+SvgPath.prototype.round = function (d) {
+  var contourStartDeltaX = 0, contourStartDeltaY = 0, deltaX = 0, deltaY = 0, l;
+
+  d = d || 0;
+
+  this.__evaluateStack();
+
+  this.segments.forEach(function (s) {
+    var isRelative = (s[0].toLowerCase() === s[0]);
+
+    switch (s[0]) {
+      case 'H':
+      case 'h':
+        if (isRelative) { s[1] += deltaX; }
+        deltaX = s[1] - s[1].toFixed(d);
+        s[1] = +s[1].toFixed(d);
+        return;
+
+      case 'V':
+      case 'v':
+        if (isRelative) { s[1] += deltaY; }
+        deltaY = s[1] - s[1].toFixed(d);
+        s[1] = +s[1].toFixed(d);
+        return;
+
+      case 'Z':
+      case 'z':
+        deltaX = contourStartDeltaX;
+        deltaY = contourStartDeltaY;
+        return;
+
+      case 'M':
+      case 'm':
+        if (isRelative) {
+          s[1] += deltaX;
+          s[2] += deltaY;
+        }
+
+        deltaX = s[1] - s[1].toFixed(d);
+        deltaY = s[2] - s[2].toFixed(d);
+
+        contourStartDeltaX = deltaX;
+        contourStartDeltaY = deltaY;
+
+        s[1] = +s[1].toFixed(d);
+        s[2] = +s[2].toFixed(d);
+        return;
+
+      case 'A':
+      case 'a':
+        // [cmd, rx, ry, x-axis-rotation, large-arc-flag, sweep-flag, x, y]
+        if (isRelative) {
+          s[6] += deltaX;
+          s[7] += deltaY;
+        }
+
+        deltaX = s[6] - s[6].toFixed(d);
+        deltaY = s[7] - s[7].toFixed(d);
+
+        s[1] = +s[1].toFixed(d);
+        s[2] = +s[2].toFixed(d);
+        s[3] = +s[3].toFixed(d + 2); // better precision for rotation
+        s[6] = +s[6].toFixed(d);
+        s[7] = +s[7].toFixed(d);
+        return;
+
+      default:
+        // a c l q s t
+        l = s.length;
+
+        if (isRelative) {
+          s[l - 2] += deltaX;
+          s[l - 1] += deltaY;
+        }
+
+        deltaX = s[l - 2] - s[l - 2].toFixed(d);
+        deltaY = s[l - 1] - s[l - 1].toFixed(d);
+
+        s.forEach(function (val, i) {
+          if (!i) { return; }
+          s[i] = +s[i].toFixed(d);
         });
-    if (cssAttr[has](css)) {
-        this.node.style[style] = value == null ? E : value;
+        return;
+    }
+  });
+
+  return this;
+};
+
+
+// Apply iterator function to all segments. If function returns result,
+// current segment will be replaced to array of returned segments.
+// If empty array is returned, current regment will be deleted.
+//
+SvgPath.prototype.iterate = function (iterator, keepLazyStack) {
+  var segments = this.segments,
+      replacements = {},
+      needReplace = false,
+      lastX = 0,
+      lastY = 0,
+      countourStartX = 0,
+      countourStartY = 0;
+  var i, j, newSegments;
+
+  if (!keepLazyStack) {
+    this.__evaluateStack();
+  }
+
+  segments.forEach(function (s, index) {
+
+    var res = iterator(s, index, lastX, lastY);
+
+    if (Array.isArray(res)) {
+      replacements[index] = res;
+      needReplace = true;
+    }
+
+    var isRelative = (s[0] === s[0].toLowerCase());
+
+    // calculate absolute X and Y
+    switch (s[0]) {
+      case 'm':
+      case 'M':
+        lastX = s[1] + (isRelative ? lastX : 0);
+        lastY = s[2] + (isRelative ? lastY : 0);
+        countourStartX = lastX;
+        countourStartY = lastY;
+        return;
+
+      case 'h':
+      case 'H':
+        lastX = s[1] + (isRelative ? lastX : 0);
+        return;
+
+      case 'v':
+      case 'V':
+        lastY = s[1] + (isRelative ? lastY : 0);
+        return;
+
+      case 'z':
+      case 'Z':
+        // That make sence for multiple contours
+        lastX = countourStartX;
+        lastY = countourStartY;
+        return;
+
+      default:
+        lastX = s[s.length - 2] + (isRelative ? lastX : 0);
+        lastY = s[s.length - 1] + (isRelative ? lastY : 0);
+    }
+  });
+
+  // Replace segments if iterator return results
+
+  if (!needReplace) { return this; }
+
+  newSegments = [];
+
+  for (i = 0; i < segments.length; i++) {
+    if (typeof replacements[i] !== 'undefined') {
+      for (j = 0; j < replacements[i].length; j++) {
+        newSegments.push(replacements[i][j]);
+      }
     } else {
-        $(this.node, attr);
+      newSegments.push(segments[i]);
     }
-});
-(function (proto) {}(Paper.prototype));
+  }
 
-// simple ajax
-/*\
- * Snap.ajax
- [ method ]
- **
- * Simple implementation of Ajax
- **
- - url (string) URL
- - postData (object|string) data for post request
- - callback (function) callback
- - scope (object) #optional scope of callback
- * or
- - url (string) URL
- - callback (function) callback
- - scope (object) #optional scope of callback
- = (XMLHttpRequest) the XMLHttpRequest object, just in case
-\*/
-Snap.ajax = function (url, postData, callback, scope){
-    var req = new XMLHttpRequest,
-        id = ID();
-    if (req) {
-        if (is(postData, "function")) {
-            scope = callback;
-            callback = postData;
-            postData = null;
-        } else if (is(postData, "object")) {
-            var pd = [];
-            for (var key in postData) if (postData.hasOwnProperty(key)) {
-                pd.push(encodeURIComponent(key) + "=" + encodeURIComponent(postData[key]));
-            }
-            postData = pd.join("&");
-        }
-        req.open(postData ? "POST" : "GET", url, true);
-        if (postData) {
-            req.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-            req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        }
-        if (callback) {
-            eve.once("snap.ajax." + id + ".0", callback);
-            eve.once("snap.ajax." + id + ".200", callback);
-            eve.once("snap.ajax." + id + ".304", callback);
-        }
-        req.onreadystatechange = function() {
-            if (req.readyState != 4) return;
-            eve("snap.ajax." + id + "." + req.status, scope, req);
-        };
-        if (req.readyState == 4) {
-            return req;
-        }
-        req.send(postData);
-        return req;
-    }
+  this.segments = newSegments;
+
+  return this;
 };
-/*\
- * Snap.load
- [ method ]
- **
- * Loads external SVG file as a @Fragment (see @Snap.ajax for more advanced AJAX)
- **
- - url (string) URL
- - callback (function) callback
- - scope (object) #optional scope of callback
-\*/
-Snap.load = function (url, callback, scope) {
-    Snap.ajax(url, function (req) {
-        var f = Snap.parse(req.responseText);
-        scope ? callback.call(scope, f) : callback(f);
-    });
+
+
+// Converts segments from relative to absolute
+//
+SvgPath.prototype.abs = function () {
+
+  this.iterate(function (s, index, x, y) {
+    var name = s[0],
+        nameUC = name.toUpperCase(),
+        i;
+
+    // Skip absolute commands
+    if (name === nameUC) { return; }
+
+    s[0] = nameUC;
+
+    switch (name) {
+      case 'v':
+        // v has shifted coords parity
+        s[1] += y;
+        return;
+
+      case 'a':
+        // ARC is: ['A', rx, ry, x-axis-rotation, large-arc-flag, sweep-flag, x, y]
+        // touch x, y only
+        s[6] += x;
+        s[7] += y;
+        return;
+
+      default:
+        for (i = 1; i < s.length; i++) {
+          s[i] += i % 2 ? x : y; // odd values are X, even - Y
+        }
+    }
+  }, true);
+
+  return this;
 };
-var getOffset = function (elem) {
-    var box = elem.getBoundingClientRect(),
-        doc = elem.ownerDocument,
-        body = doc.body,
-        docElem = doc.documentElement,
-        clientTop = docElem.clientTop || body.clientTop || 0, clientLeft = docElem.clientLeft || body.clientLeft || 0,
-        top  = box.top  + (g.win.pageYOffset || docElem.scrollTop || body.scrollTop ) - clientTop,
-        left = box.left + (g.win.pageXOffset || docElem.scrollLeft || body.scrollLeft) - clientLeft;
-    return {
-        y: top,
-        x: left
-    };
+
+
+// Converts segments from absolute to relative
+//
+SvgPath.prototype.rel = function () {
+
+  this.iterate(function (s, index, x, y) {
+    var name = s[0],
+        nameLC = name.toLowerCase(),
+        i;
+
+    // Skip relative commands
+    if (name === nameLC) { return; }
+
+    // Don't touch the first M to avoid potential confusions.
+    if (index === 0 && name === 'M') { return; }
+
+    s[0] = nameLC;
+
+    switch (name) {
+      case 'V':
+        // V has shifted coords parity
+        s[1] -= y;
+        return;
+
+      case 'A':
+        // ARC is: ['A', rx, ry, x-axis-rotation, large-arc-flag, sweep-flag, x, y]
+        // touch x, y only
+        s[6] -= x;
+        s[7] -= y;
+        return;
+
+      default:
+        for (i = 1; i < s.length; i++) {
+          s[i] -= i % 2 ? x : y; // odd values are X, even - Y
+        }
+    }
+  }, true);
+
+  return this;
 };
-/*\
- * Snap.getElementByPoint
- [ method ]
- **
- * Returns you topmost element under given point.
- **
- = (object) Snap element object
- - x (number) x coordinate from the top left corner of the window
- - y (number) y coordinate from the top left corner of the window
- > Usage
- | Snap.getElementByPoint(mouseX, mouseY).attr({stroke: "#f00"});
-\*/
-Snap.getElementByPoint = function (x, y) {
-    var paper = this,
-        svg = paper.canvas,
-        target = glob.doc.elementFromPoint(x, y);
-    if (glob.win.opera && target.tagName == "svg") {
-        var so = getOffset(target),
-            sr = target.createSVGRect();
-        sr.x = x - so.x;
-        sr.y = y - so.y;
-        sr.width = sr.height = 1;
-        var hits = target.getIntersectionList(sr, null);
-        if (hits.length) {
-            target = hits[hits.length - 1];
-        }
+
+
+// Converts arcs to cubic bézier curves
+//
+SvgPath.prototype.unarc = function () {
+  this.iterate(function (s, index, x, y) {
+    var new_segments, nextX, nextY, result = [], name = s[0];
+
+    // Skip anything except arcs
+    if (name !== 'A' && name !== 'a') { return null; }
+
+    if (name === 'a') {
+      // convert relative arc coordinates to absolute
+      nextX = x + s[6];
+      nextY = y + s[7];
+    } else {
+      nextX = s[6];
+      nextY = s[7];
     }
-    if (!target) {
-        return null;
+
+    new_segments = a2c(x, y, nextX, nextY, s[4], s[5], s[1], s[2], s[3]);
+
+    // Degenerated arcs can be ignored by renderer, but should not be dropped
+    // to avoid collisions with `S A S` and so on. Replace with empty line.
+    if (new_segments.length === 0) {
+      return [ [ s[0] === 'a' ? 'l' : 'L', s[6], s[7] ] ];
     }
-    return wrap(target);
+
+    new_segments.forEach(function (s) {
+      result.push([ 'C', s[2], s[3], s[4], s[5], s[6], s[7] ]);
+    });
+
+    return result;
+  });
+
+  return this;
 };
-/*\
- * Snap.plugin
- [ method ]
- **
- * Let you write plugins. You pass in a function with five arguments, like this:
- | Snap.plugin(function (Snap, Element, Paper, global, Fragment) {
- |     Snap.newmethod = function () {};
- |     Element.prototype.newmethod = function () {};
- |     Paper.prototype.newmethod = function () {};
- | });
- * Inside the function you have access to all main objects (and their
- * prototypes). This allow you to extend anything you want.
- **
- - f (function) your plugin body
-\*/
-Snap.plugin = function (f) {
-    f(Snap, Element, Paper, glob, Fragment);
+
+
+// Converts smooth curves (with missed control point) to generic curves
+//
+SvgPath.prototype.unshort = function () {
+  var segments = this.segments;
+  var prevControlX, prevControlY, prevSegment;
+  var curControlX, curControlY;
+
+  // TODO: add lazy evaluation flag when relative commands supported
+
+  this.iterate(function (s, idx, x, y) {
+    var name = s[0], nameUC = name.toUpperCase(), isRelative;
+
+    // First command MUST be M|m, it's safe to skip.
+    // Protect from access to [-1] for sure.
+    if (!idx) { return; }
+
+    if (nameUC === 'T') { // quadratic curve
+      isRelative = (name === 't');
+
+      prevSegment = segments[idx - 1];
+
+      if (prevSegment[0] === 'Q') {
+        prevControlX = prevSegment[1] - x;
+        prevControlY = prevSegment[2] - y;
+      } else if (prevSegment[0] === 'q') {
+        prevControlX = prevSegment[1] - prevSegment[3];
+        prevControlY = prevSegment[2] - prevSegment[4];
+      } else {
+        prevControlX = 0;
+        prevControlY = 0;
+      }
+
+      curControlX = -prevControlX;
+      curControlY = -prevControlY;
+
+      if (!isRelative) {
+        curControlX += x;
+        curControlY += y;
+      }
+
+      segments[idx] = [
+        isRelative ? 'q' : 'Q',
+        curControlX, curControlY,
+        s[1], s[2]
+      ];
+
+    } else if (nameUC === 'S') { // cubic curve
+      isRelative = (name === 's');
+
+      prevSegment = segments[idx - 1];
+
+      if (prevSegment[0] === 'C') {
+        prevControlX = prevSegment[3] - x;
+        prevControlY = prevSegment[4] - y;
+      } else if (prevSegment[0] === 'c') {
+        prevControlX = prevSegment[3] - prevSegment[5];
+        prevControlY = prevSegment[4] - prevSegment[6];
+      } else {
+        prevControlX = 0;
+        prevControlY = 0;
+      }
+
+      curControlX = -prevControlX;
+      curControlY = -prevControlY;
+
+      if (!isRelative) {
+        curControlX += x;
+        curControlY += y;
+      }
+
+      segments[idx] = [
+        isRelative ? 'c' : 'C',
+        curControlX, curControlY,
+        s[1], s[2], s[3], s[4]
+      ];
+    }
+  });
+
+  return this;
 };
-glob.win.Snap = Snap;
-return Snap;
-}(window || this));
 
-// Copyright (c) 2013 Adobe Systems Incorporated. All rights reserved.
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-Snap.plugin(function (Snap, Element, Paper, glob, Fragment) {
-    var elproto = Element.prototype,
-        is = Snap.is,
-        Str = String,
-        unit2px = Snap._unit2px,
-        $ = Snap._.$,
-        make = Snap._.make,
-        getSomeDefs = Snap._.getSomeDefs,
-        has = "hasOwnProperty",
-        wrap = Snap._.wrap;
-    /*\
-     * Element.getBBox
-     [ method ]
-     **
-     * Returns the bounding box descriptor for the given element
-     **
-     = (object) bounding box descriptor:
-     o {
-     o     cx: (number) x of the center,
-     o     cy: (number) x of the center,
-     o     h: (number) height,
-     o     height: (number) height,
-     o     path: (string) path command for the box,
-     o     r0: (number) radius of a circle that fully encloses the box,
-     o     r1: (number) radius of the smallest circle that can be enclosed,
-     o     r2: (number) radius of the largest circle that can be enclosed,
-     o     vb: (string) box as a viewbox command,
-     o     w: (number) width,
-     o     width: (number) width,
-     o     x2: (number) x of the right side,
-     o     x: (number) x of the left side,
-     o     y2: (number) y of the bottom edge,
-     o     y: (number) y of the top edge
-     o }
-    \*/
-    elproto.getBBox = function (isWithoutTransform) {
-        if (this.type == "tspan") {
-            return Snap._.box(this.node.getClientRects().item(0));
-        }
-        if (!Snap.Matrix || !Snap.path) {
-            return this.node.getBBox();
-        }
-        var el = this,
-            m = new Snap.Matrix;
-        if (el.removed) {
-            return Snap._.box();
-        }
-        while (el.type == "use") {
-            if (!isWithoutTransform) {
-                m = m.add(el.transform().localMatrix.translate(el.attr("x") || 0, el.attr("y") || 0));
-            }
-            if (el.original) {
-                el = el.original;
-            } else {
-                var href = el.attr("xlink:href");
-                el = el.original = el.node.ownerDocument.getElementById(href.substring(href.indexOf("#") + 1));
-            }
-        }
-        var _ = el._,
-            pathfinder = Snap.path.get[el.type] || Snap.path.get.deflt;
-        try {
-            if (isWithoutTransform) {
-                _.bboxwt = pathfinder ? Snap.path.getBBox(el.realPath = pathfinder(el)) : Snap._.box(el.node.getBBox());
-                return Snap._.box(_.bboxwt);
-            } else {
-                el.realPath = pathfinder(el);
-                el.matrix = el.transform().localMatrix;
-                _.bbox = Snap.path.getBBox(Snap.path.map(el.realPath, m.add(el.matrix)));
-                return Snap._.box(_.bbox);
-            }
-        } catch (e) {
-            // Firefox doesn’t give you bbox of hidden element
-            return Snap._.box();
-        }
-    };
-    var propString = function () {
-        return this.string;
-    };
-    function extractTransform(el, tstr) {
-        if (tstr == null) {
-            var doReturn = true;
-            if (el.type == "linearGradient" || el.type == "radialGradient") {
-                tstr = el.node.getAttribute("gradientTransform");
-            } else if (el.type == "pattern") {
-                tstr = el.node.getAttribute("patternTransform");
-            } else {
-                tstr = el.node.getAttribute("transform");
-            }
-            if (!tstr) {
-                return new Snap.Matrix;
-            }
-            tstr = Snap._.svgTransform2string(tstr);
-        } else {
-            if (!Snap._.rgTransform.test(tstr)) {
-                tstr = Snap._.svgTransform2string(tstr);
-            } else {
-                tstr = Str(tstr).replace(/\.{3}|\u2026/g, el._.transform || "");
-            }
-            if (is(tstr, "array")) {
-                tstr = Snap.path ? Snap.path.toString.call(tstr) : Str(tstr);
-            }
-            el._.transform = tstr;
-        }
-        var m = Snap._.transform2matrix(tstr, el.getBBox(1));
-        if (doReturn) {
-            return m;
-        } else {
-            el.matrix = m;
-        }
+
+module.exports = SvgPath;
+
+
+/***/ }),
+
+/***/ "./node_modules/svgpath/lib/transform_parse.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/svgpath/lib/transform_parse.js ***!
+  \*****************************************************/
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements: module, __webpack_require__ */
+/*! CommonJS bailout: module.exports is used directly at 19:0-14 */
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+
+
+
+var Matrix = __webpack_require__(/*! ./matrix */ "./node_modules/svgpath/lib/matrix.js");
+
+var operations = {
+  matrix: true,
+  scale: true,
+  rotate: true,
+  translate: true,
+  skewX: true,
+  skewY: true
+};
+
+var CMD_SPLIT_RE    = /\s*(matrix|translate|scale|rotate|skewX|skewY)\s*\(\s*(.+?)\s*\)[\s,]*/;
+var PARAMS_SPLIT_RE = /[\s,]+/;
+
+
+module.exports = function transformParse(transformString) {
+  var matrix = new Matrix();
+  var cmd, params;
+
+  // Split value into ['', 'translate', '10 50', '', 'scale', '2', '', 'rotate',  '-45', '']
+  transformString.split(CMD_SPLIT_RE).forEach(function (item) {
+
+    // Skip empty elements
+    if (!item.length) { return; }
+
+    // remember operation
+    if (typeof operations[item] !== 'undefined') {
+      cmd = item;
+      return;
     }
-    /*\
-     * Element.transform
-     [ method ]
-     **
-     * Gets or sets transformation of the element
-     **
-     - tstr (string) transform string in Snap or SVG format
-     = (Element) the current element
-     * or
-     = (object) transformation descriptor:
-     o {
-     o     string (string) transform string,
-     o     globalMatrix (Matrix) matrix of all transformations applied to element or its parents,
-     o     localMatrix (Matrix) matrix of transformations applied only to the element,
-     o     diffMatrix (Matrix) matrix of difference between global and local transformations,
-     o     global (string) global transformation as string,
-     o     local (string) local transformation as string,
-     o     toString (function) returns `string` property
-     o }
-    \*/
-    elproto.transform = function (tstr) {
-        var _ = this._;
-        if (tstr == null) {
-            var papa = this,
-                global = new Snap.Matrix(this.node.getCTM()),
-                local = extractTransform(this),
-                ms = [local],
-                m = new Snap.Matrix,
-                i,
-                localString = local.toTransformString(),
-                string = Str(local) == Str(this.matrix) ?
-                            Str(_.transform) : localString;
-            while (papa.type != "svg" && (papa = papa.parent())) {
-                ms.push(extractTransform(papa));
-            }
-            i = ms.length;
-            while (i--) {
-                m.add(ms[i]);
-            }
-            return {
-                string: string,
-                globalMatrix: global,
-                totalMatrix: m,
-                localMatrix: local,
-                diffMatrix: global.clone().add(local.invert()),
-                global: global.toTransformString(),
-                total: m.toTransformString(),
-                local: localString,
-                toString: propString
-            };
-        }
-        if (tstr instanceof Snap.Matrix) {
-            this.matrix = tstr;
-            this._.transform = tstr.toTransformString();
-        } else {
-            extractTransform(this, tstr);
-        }
 
-        if (this.node) {
-            if (this.type == "linearGradient" || this.type == "radialGradient") {
-                $(this.node, {gradientTransform: this.matrix});
-            } else if (this.type == "pattern") {
-                $(this.node, {patternTransform: this.matrix});
-            } else {
-                $(this.node, {transform: this.matrix});
-            }
-        }
-
-        return this;
-    };
-    /*\
-     * Element.parent
-     [ method ]
-     **
-     * Returns the element's parent
-     **
-     = (Element) the parent element
-    \*/
-    elproto.parent = function () {
-        return wrap(this.node.parentNode);
-    };
-    /*\
-     * Element.append
-     [ method ]
-     **
-     * Appends the given element to current one
-     **
-     - el (Element|Set) element to append
-     = (Element) the parent element
-    \*/
-    /*\
-     * Element.add
-     [ method ]
-     **
-     * See @Element.append
-    \*/
-    elproto.append = elproto.add = function (el) {
-        if (el) {
-            if (el.type == "set") {
-                var it = this;
-                el.forEach(function (el) {
-                    it.add(el);
-                });
-                return this;
-            }
-            el = wrap(el);
-            this.node.appendChild(el.node);
-            el.paper = this.paper;
-        }
-        return this;
-    };
-    /*\
-     * Element.appendTo
-     [ method ]
-     **
-     * Appends the current element to the given one
-     **
-     - el (Element) parent element to append to
-     = (Element) the child element
-    \*/
-    elproto.appendTo = function (el) {
-        if (el) {
-            el = wrap(el);
-            el.append(this);
-        }
-        return this;
-    };
-    /*\
-     * Element.prepend
-     [ method ]
-     **
-     * Prepends the given element to the current one
-     **
-     - el (Element) element to prepend
-     = (Element) the parent element
-    \*/
-    elproto.prepend = function (el) {
-        if (el) {
-            if (el.type == "set") {
-                var it = this,
-                    first;
-                el.forEach(function (el) {
-                    if (first) {
-                        first.after(el);
-                    } else {
-                        it.prepend(el);
-                    }
-                    first = el;
-                });
-                return this;
-            }
-            el = wrap(el);
-            var parent = el.parent();
-            this.node.insertBefore(el.node, this.node.firstChild);
-            this.add && this.add();
-            el.paper = this.paper;
-            this.parent() && this.parent().add();
-            parent && parent.add();
-        }
-        return this;
-    };
-    /*\
-     * Element.prependTo
-     [ method ]
-     **
-     * Prepends the current element to the given one
-     **
-     - el (Element) parent element to prepend to
-     = (Element) the child element
-    \*/
-    elproto.prependTo = function (el) {
-        el = wrap(el);
-        el.prepend(this);
-        return this;
-    };
-    /*\
-     * Element.before
-     [ method ]
-     **
-     * Inserts given element before the current one
-     **
-     - el (Element) element to insert
-     = (Element) the parent element
-    \*/
-    elproto.before = function (el) {
-        if (el.type == "set") {
-            var it = this;
-            el.forEach(function (el) {
-                var parent = el.parent();
-                it.node.parentNode.insertBefore(el.node, it.node);
-                parent && parent.add();
-            });
-            this.parent().add();
-            return this;
-        }
-        el = wrap(el);
-        var parent = el.parent();
-        this.node.parentNode.insertBefore(el.node, this.node);
-        this.parent() && this.parent().add();
-        parent && parent.add();
-        el.paper = this.paper;
-        return this;
-    };
-    /*\
-     * Element.after
-     [ method ]
-     **
-     * Inserts given element after the current one
-     **
-     - el (Element) element to insert
-     = (Element) the parent element
-    \*/
-    elproto.after = function (el) {
-        el = wrap(el);
-        var parent = el.parent();
-        if (this.node.nextSibling) {
-            this.node.parentNode.insertBefore(el.node, this.node.nextSibling);
-        } else {
-            this.node.parentNode.appendChild(el.node);
-        }
-        this.parent() && this.parent().add();
-        parent && parent.add();
-        el.paper = this.paper;
-        return this;
-    };
-    /*\
-     * Element.insertBefore
-     [ method ]
-     **
-     * Inserts the element after the given one
-     **
-     - el (Element) element next to whom insert to
-     = (Element) the parent element
-    \*/
-    elproto.insertBefore = function (el) {
-        el = wrap(el);
-        var parent = this.parent();
-        el.node.parentNode.insertBefore(this.node, el.node);
-        this.paper = el.paper;
-        parent && parent.add();
-        el.parent() && el.parent().add();
-        return this;
-    };
-    /*\
-     * Element.insertAfter
-     [ method ]
-     **
-     * Inserts the element after the given one
-     **
-     - el (Element) element next to whom insert to
-     = (Element) the parent element
-    \*/
-    elproto.insertAfter = function (el) {
-        el = wrap(el);
-        var parent = this.parent();
-        el.node.parentNode.insertBefore(this.node, el.node.nextSibling);
-        this.paper = el.paper;
-        parent && parent.add();
-        el.parent() && el.parent().add();
-        return this;
-    };
-    /*\
-     * Element.remove
-     [ method ]
-     **
-     * Removes element from the DOM
-     = (Element) the detached element
-    \*/
-    elproto.remove = function () {
-        var parent = this.parent();
-        this.node.parentNode && this.node.parentNode.removeChild(this.node);
-        delete this.paper;
-        this.removed = true;
-        parent && parent.add();
-        return this;
-    };
-    /*\
-     * Element.select
-     [ method ]
-     **
-     * Gathers the nested @Element matching the given set of CSS selectors
-     **
-     - query (string) CSS selector
-     = (Element) result of query selection
-    \*/
-    elproto.select = function (query) {
-        return wrap(this.node.querySelector(query));
-    };
-    /*\
-     * Element.selectAll
-     [ method ]
-     **
-     * Gathers nested @Element objects matching the given set of CSS selectors
-     **
-     - query (string) CSS selector
-     = (Set|array) result of query selection
-    \*/
-    elproto.selectAll = function (query) {
-        var nodelist = this.node.querySelectorAll(query),
-            set = (Snap.set || Array)();
-        for (var i = 0; i < nodelist.length; i++) {
-            set.push(wrap(nodelist[i]));
-        }
-        return set;
-    };
-    /*\
-     * Element.asPX
-     [ method ]
-     **
-     * Returns given attribute of the element as a `px` value (not %, em, etc.)
-     **
-     - attr (string) attribute name
-     - value (string) #optional attribute value
-     = (Element) result of query selection
-    \*/
-    elproto.asPX = function (attr, value) {
-        if (value == null) {
-            value = this.attr(attr);
-        }
-        return +unit2px(this, attr, value);
-    };
-    // SIERRA Element.use(): I suggest adding a note about how to access the original element the returned <use> instantiates. It's a part of SVG with which ordinary web developers may be least familiar.
-    /*\
-     * Element.use
-     [ method ]
-     **
-     * Creates a `<use>` element linked to the current element
-     **
-     = (Element) the `<use>` element
-    \*/
-    elproto.use = function () {
-        var use,
-            id = this.node.id;
-        if (!id) {
-            id = this.id;
-            $(this.node, {
-                id: id
-            });
-        }
-        if (this.type == "linearGradient" || this.type == "radialGradient" ||
-            this.type == "pattern") {
-            use = make(this.type, this.node.parentNode);
-        } else {
-            use = make("use", this.node.parentNode);
-        }
-        $(use.node, {
-            "xlink:href": "#" + id
-        });
-        use.original = this;
-        return use;
-    };
-    function fixids(el) {
-        var els = el.selectAll("*"),
-            it,
-            url = /^\s*url\(("|'|)(.*)\1\)\s*$/,
-            ids = [],
-            uses = {};
-        function urltest(it, name) {
-            var val = $(it.node, name);
-            val = val && val.match(url);
-            val = val && val[2];
-            if (val && val.charAt() == "#") {
-                val = val.substring(1);
-            } else {
-                return;
-            }
-            if (val) {
-                uses[val] = (uses[val] || []).concat(function (id) {
-                    var attr = {};
-                    attr[name] = Snap.url(id);
-                    $(it.node, attr);
-                });
-            }
-        }
-        function linktest(it) {
-            var val = $(it.node, "xlink:href");
-            if (val && val.charAt() == "#") {
-                val = val.substring(1);
-            } else {
-                return;
-            }
-            if (val) {
-                uses[val] = (uses[val] || []).concat(function (id) {
-                    it.attr("xlink:href", "#" + id);
-                });
-            }
-        }
-        for (var i = 0, ii = els.length; i < ii; i++) {
-            it = els[i];
-            urltest(it, "fill");
-            urltest(it, "stroke");
-            urltest(it, "filter");
-            urltest(it, "mask");
-            urltest(it, "clip-path");
-            linktest(it);
-            var oldid = $(it.node, "id");
-            if (oldid) {
-                $(it.node, {id: it.id});
-                ids.push({
-                    old: oldid,
-                    id: it.id
-                });
-            }
-        }
-        for (i = 0, ii = ids.length; i < ii; i++) {
-            var fs = uses[ids[i].old];
-            if (fs) {
-                for (var j = 0, jj = fs.length; j < jj; j++) {
-                    fs[j](ids[i].id);
-                }
-            }
-        }
-    }
-    /*\
-     * Element.clone
-     [ method ]
-     **
-     * Creates a clone of the element and inserts it after the element
-     **
-     = (Element) the clone
-    \*/
-    elproto.clone = function () {
-        var clone = wrap(this.node.cloneNode(true));
-        if ($(clone.node, "id")) {
-            $(clone.node, {id: clone.id});
-        }
-        fixids(clone);
-        clone.insertAfter(this);
-        return clone;
-    };
-    /*\
-     * Element.toDefs
-     [ method ]
-     **
-     * Moves element to the shared `<defs>` area
-     **
-     = (Element) the element
-    \*/
-    elproto.toDefs = function () {
-        var defs = getSomeDefs(this);
-        defs.appendChild(this.node);
-        return this;
-    };
-    /*\
-     * Element.toPattern
-     [ method ]
-     **
-     * Creates a `<pattern>` element from the current element
-     **
-     * To create a pattern you have to specify the pattern rect:
-     - x (string|number)
-     - y (string|number)
-     - width (string|number)
-     - height (string|number)
-     = (Element) the `<pattern>` element
-     * You can use pattern later on as an argument for `fill` attribute:
-     | var p = paper.path("M10-5-10,15M15,0,0,15M0-5-20,15").attr({
-     |         fill: "none",
-     |         stroke: "#bada55",
-     |         strokeWidth: 5
-     |     }).pattern(0, 0, 10, 10),
-     |     c = paper.circle(200, 200, 100);
-     | c.attr({
-     |     fill: p
-     | });
-    \*/
-    elproto.pattern = elproto.toPattern = function (x, y, width, height) {
-        var p = make("pattern", getSomeDefs(this));
-        if (x == null) {
-            x = this.getBBox();
-        }
-        if (is(x, "object") && "x" in x) {
-            y = x.y;
-            width = x.width;
-            height = x.height;
-            x = x.x;
-        }
-        $(p.node, {
-            x: x,
-            y: y,
-            width: width,
-            height: height,
-            patternUnits: "userSpaceOnUse",
-            id: p.id,
-            viewBox: [x, y, width, height].join(" ")
-        });
-        p.node.appendChild(this.node);
-        return p;
-    };
-// SIERRA Element.marker(): clarify what a reference point is. E.g., helps you offset the object from its edge such as when centering it over a path.
-// SIERRA Element.marker(): I suggest the method should accept default reference point values.  Perhaps centered with (refX = width/2) and (refY = height/2)? Also, couldn't it assume the element's current _width_ and _height_? And please specify what _x_ and _y_ mean: offsets? If so, from where?  Couldn't they also be assigned default values?
-    /*\
-     * Element.marker
-     [ method ]
-     **
-     * Creates a `<marker>` element from the current element
-     **
-     * To create a marker you have to specify the bounding rect and reference point:
-     - x (number)
-     - y (number)
-     - width (number)
-     - height (number)
-     - refX (number)
-     - refY (number)
-     = (Element) the `<marker>` element
-     * You can specify the marker later as an argument for `marker-start`, `marker-end`, `marker-mid`, and `marker` attributes. The `marker` attribute places the marker at every point along the path, and `marker-mid` places them at every point except the start and end.
-    \*/
-    // TODO add usage for markers
-    elproto.marker = function (x, y, width, height, refX, refY) {
-        var p = make("marker", getSomeDefs(this));
-        if (x == null) {
-            x = this.getBBox();
-        }
-        if (is(x, "object") && "x" in x) {
-            y = x.y;
-            width = x.width;
-            height = x.height;
-            refX = x.refX || x.cx;
-            refY = x.refY || x.cy;
-            x = x.x;
-        }
-        $(p.node, {
-            viewBox: [x, y, width, height].join(" "),
-            markerWidth: width,
-            markerHeight: height,
-            orient: "auto",
-            refX: refX || 0,
-            refY: refY || 0,
-            id: p.id
-        });
-        p.node.appendChild(this.node);
-        return p;
-    };
-    var eldata = {};
-    /*\
-     * Element.data
-     [ method ]
-     **
-     * Adds or retrieves given value associated with given key. (Don’t confuse
-     * with `data-` attributes)
-     *
-     * See also @Element.removeData
-     - key (string) key to store data
-     - value (any) #optional value to store
-     = (object) @Element
-     * or, if value is not specified:
-     = (any) value
-     > Usage
-     | for (var i = 0, i < 5, i++) {
-     |     paper.circle(10 + 15 * i, 10, 10)
-     |          .attr({fill: "#000"})
-     |          .data("i", i)
-     |          .click(function () {
-     |             alert(this.data("i"));
-     |          });
-     | }
-    \*/
-    elproto.data = function (key, value) {
-        var data = eldata[this.id] = eldata[this.id] || {};
-        if (arguments.length == 0){
-            eve("snap.data.get." + this.id, this, data, null);
-            return data;
-        }
-        if (arguments.length == 1) {
-            if (Snap.is(key, "object")) {
-                for (var i in key) if (key[has](i)) {
-                    this.data(i, key[i]);
-                }
-                return this;
-            }
-            eve("snap.data.get." + this.id, this, data[key], key);
-            return data[key];
-        }
-        data[key] = value;
-        eve("snap.data.set." + this.id, this, value, key);
-        return this;
-    };
-    /*\
-     * Element.removeData
-     [ method ]
-     **
-     * Removes value associated with an element by given key.
-     * If key is not provided, removes all the data of the element.
-     - key (string) #optional key
-     = (object) @Element
-    \*/
-    elproto.removeData = function (key) {
-        if (key == null) {
-            eldata[this.id] = {};
-        } else {
-            eldata[this.id] && delete eldata[this.id][key];
-        }
-        return this;
-    };
-    /*\
-     * Element.outerSVG
-     [ method ]
-     **
-     * Returns SVG code for the element, equivalent to HTML's `outerHTML`.
-     *
-     * See also @Element.innerSVG
-     = (string) SVG code for the element
-    \*/
-    /*\
-     * Element.toString
-     [ method ]
-     **
-     * See @Element.outerSVG
-    \*/
-    elproto.outerSVG = elproto.toString = toString(1);
-    /*\
-     * Element.innerSVG
-     [ method ]
-     **
-     * Returns SVG code for the element's contents, equivalent to HTML's `innerHTML`
-     = (string) SVG code for the element
-    \*/
-    elproto.innerSVG = toString();
-    function toString(type) {
-        return function () {
-            var res = type ? "<" + this.type : "",
-                attr = this.node.attributes,
-                chld = this.node.childNodes;
-            if (type) {
-                for (var i = 0, ii = attr.length; i < ii; i++) {
-                    res += " " + attr[i].name + '="' +
-                            attr[i].value.replace(/"/g, '\\"') + '"';
-                }
-            }
-            if (chld.length) {
-                type && (res += ">");
-                for (i = 0, ii = chld.length; i < ii; i++) {
-                    if (chld[i].nodeType == 3) {
-                        res += chld[i].nodeValue;
-                    } else if (chld[i].nodeType == 1) {
-                        res += wrap(chld[i]).toString();
-                    }
-                }
-                type && (res += "</" + this.type + ">");
-            } else {
-                type && (res += "/>");
-            }
-            return res;
-        };
-    }
-    elproto.toDataURL = function () {
-        if (window && window.btoa) {
-            var bb = this.getBBox(),
-                svg = Snap.format('<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{width}" height="{height}" viewBox="{x} {y} {width} {height}">{contents}</svg>', {
-                x: +bb.x.toFixed(3),
-                y: +bb.y.toFixed(3),
-                width: +bb.width.toFixed(3),
-                height: +bb.height.toFixed(3),
-                contents: this.outerSVG()
-            });
-            return "data:image/svg+xml;base64," + btoa(unescape(encodeURIComponent(svg)));
-        }
-    };
-    /*\
-     * Fragment.select
-     [ method ]
-     **
-     * See @Element.select
-    \*/
-    Fragment.prototype.select = elproto.select;
-    /*\
-     * Fragment.selectAll
-     [ method ]
-     **
-     * See @Element.selectAll
-    \*/
-    Fragment.prototype.selectAll = elproto.selectAll;
-});
-
-// Copyright (c) 2013 Adobe Systems Incorporated. All rights reserved.
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-Snap.plugin(function (Snap, Element, Paper, glob, Fragment) {
-    var objectToString = Object.prototype.toString,
-        Str = String,
-        math = Math,
-        E = "";
-    function Matrix(a, b, c, d, e, f) {
-        if (b == null && objectToString.call(a) == "[object SVGMatrix]") {
-            this.a = a.a;
-            this.b = a.b;
-            this.c = a.c;
-            this.d = a.d;
-            this.e = a.e;
-            this.f = a.f;
-            return;
-        }
-        if (a != null) {
-            this.a = +a;
-            this.b = +b;
-            this.c = +c;
-            this.d = +d;
-            this.e = +e;
-            this.f = +f;
-        } else {
-            this.a = 1;
-            this.b = 0;
-            this.c = 0;
-            this.d = 1;
-            this.e = 0;
-            this.f = 0;
-        }
-    }
-    (function (matrixproto) {
-        /*\
-         * Matrix.add
-         [ method ]
-         **
-         * Adds the given matrix to existing one
-         - a (number)
-         - b (number)
-         - c (number)
-         - d (number)
-         - e (number)
-         - f (number)
-         * or
-         - matrix (object) @Matrix
-        \*/
-        matrixproto.add = function (a, b, c, d, e, f) {
-            if (a && a instanceof Matrix) {
-                return this.add(a.a, a.b, a.c, a.d, a.e, a.f);
-            }
-            var aNew = a * this.a + b * this.c,
-                bNew = a * this.b + b * this.d;
-            this.e += e * this.a + f * this.c;
-            this.f += e * this.b + f * this.d;
-            this.c = c * this.a + d * this.c;
-            this.d = c * this.b + d * this.d;
-
-            this.a = aNew;
-            this.b = bNew;
-            return this;
-        };
-        /*\
-         * Matrix.multLeft
-         [ method ]
-         **
-         * Multiplies a passed affine transform to the left: M * this.
-         - a (number)
-         - b (number)
-         - c (number)
-         - d (number)
-         - e (number)
-         - f (number)
-         * or
-         - matrix (object) @Matrix
-        \*/
-        Matrix.prototype.multLeft = function (a, b, c, d, e, f) {
-            if (a && a instanceof Matrix) {
-                return this.multLeft(a.a, a.b, a.c, a.d, a.e, a.f);
-            }
-            var aNew = a * this.a + c * this.b,
-                cNew = a * this.c + c * this.d,
-                eNew = a * this.e + c * this.f + e;
-            this.b = b * this.a + d * this.b;
-            this.d = b * this.c + d * this.d;
-            this.f = b * this.e + d * this.f + f;
-
-            this.a = aNew;
-            this.c = cNew;
-            this.e = eNew;
-            return this;
-        };
-        /*\
-         * Matrix.invert
-         [ method ]
-         **
-         * Returns an inverted version of the matrix
-         = (object) @Matrix
-        \*/
-        matrixproto.invert = function () {
-            var me = this,
-                x = me.a * me.d - me.b * me.c;
-            return new Matrix(me.d / x, -me.b / x, -me.c / x, me.a / x, (me.c * me.f - me.d * me.e) / x, (me.b * me.e - me.a * me.f) / x);
-        };
-        /*\
-         * Matrix.clone
-         [ method ]
-         **
-         * Returns a copy of the matrix
-         = (object) @Matrix
-        \*/
-        matrixproto.clone = function () {
-            return new Matrix(this.a, this.b, this.c, this.d, this.e, this.f);
-        };
-        /*\
-         * Matrix.translate
-         [ method ]
-         **
-         * Translate the matrix
-         - x (number) horizontal offset distance
-         - y (number) vertical offset distance
-        \*/
-        matrixproto.translate = function (x, y) {
-            this.e += x * this.a + y * this.c;
-            this.f += x * this.b + y * this.d;
-            return this;
-        };
-        /*\
-         * Matrix.scale
-         [ method ]
-         **
-         * Scales the matrix
-         - x (number) amount to be scaled, with `1` resulting in no change
-         - y (number) #optional amount to scale along the vertical axis. (Otherwise `x` applies to both axes.)
-         - cx (number) #optional horizontal origin point from which to scale
-         - cy (number) #optional vertical origin point from which to scale
-         * Default cx, cy is the middle point of the element.
-        \*/
-        matrixproto.scale = function (x, y, cx, cy) {
-            y == null && (y = x);
-            (cx || cy) && this.translate(cx, cy);
-            this.a *= x;
-            this.b *= x;
-            this.c *= y;
-            this.d *= y;
-            (cx || cy) && this.translate(-cx, -cy);
-            return this;
-        };
-        /*\
-         * Matrix.rotate
-         [ method ]
-         **
-         * Rotates the matrix
-         - a (number) angle of rotation, in degrees
-         - x (number) horizontal origin point from which to rotate
-         - y (number) vertical origin point from which to rotate
-        \*/
-        matrixproto.rotate = function (a, x, y) {
-            a = Snap.rad(a);
-            x = x || 0;
-            y = y || 0;
-            var cos = +math.cos(a).toFixed(9),
-                sin = +math.sin(a).toFixed(9);
-            this.add(cos, sin, -sin, cos, x, y);
-            return this.add(1, 0, 0, 1, -x, -y);
-        };
-        /*\
-         * Matrix.skewX
-         [ method ]
-         **
-         * Skews the matrix along the x-axis
-         - x (number) Angle to skew along the x-axis (in degrees).
-        \*/
-        matrixproto.skewX = function (x) {
-            return this.skew(x, 0);
-        };
-        /*\
-         * Matrix.skewY
-         [ method ]
-         **
-         * Skews the matrix along the y-axis
-         - y (number) Angle to skew along the y-axis (in degrees).
-        \*/
-        matrixproto.skewY = function (y) {
-            return this.skew(0, y);
-        };
-        /*\
-         * Matrix.skew
-         [ method ]
-         **
-         * Skews the matrix
-         - y (number) Angle to skew along the y-axis (in degrees).
-         - x (number) Angle to skew along the x-axis (in degrees).
-        \*/
-        matrixproto.skew = function (x, y) {
-            x = x || 0;
-            y = y || 0;
-            x = Snap.rad(x);
-            y = Snap.rad(y);
-            var c = math.tan(x).toFixed(9);
-            var b = math.tan(y).toFixed(9);
-            return this.add(1, b, c, 1, 0, 0);
-        };
-        /*\
-         * Matrix.x
-         [ method ]
-         **
-         * Returns x coordinate for given point after transformation described by the matrix. See also @Matrix.y
-         - x (number)
-         - y (number)
-         = (number) x
-        \*/
-        matrixproto.x = function (x, y) {
-            return x * this.a + y * this.c + this.e;
-        };
-        /*\
-         * Matrix.y
-         [ method ]
-         **
-         * Returns y coordinate for given point after transformation described by the matrix. See also @Matrix.x
-         - x (number)
-         - y (number)
-         = (number) y
-        \*/
-        matrixproto.y = function (x, y) {
-            return x * this.b + y * this.d + this.f;
-        };
-        matrixproto.get = function (i) {
-            return +this[Str.fromCharCode(97 + i)].toFixed(4);
-        };
-        matrixproto.toString = function () {
-            return "matrix(" + [this.get(0), this.get(1), this.get(2), this.get(3), this.get(4), this.get(5)].join() + ")";
-        };
-        matrixproto.offset = function () {
-            return [this.e.toFixed(4), this.f.toFixed(4)];
-        };
-        function norm(a) {
-            return a[0] * a[0] + a[1] * a[1];
-        }
-        function normalize(a) {
-            var mag = math.sqrt(norm(a));
-            a[0] && (a[0] /= mag);
-            a[1] && (a[1] /= mag);
-        }
-        /*\
-         * Matrix.determinant
-         [ method ]
-         **
-         * Finds determinant of the given matrix.
-         = (number) determinant
-        \*/
-        matrixproto.determinant = function () {
-            return this.a * this.d - this.b * this.c;
-        };
-        /*\
-         * Matrix.split
-         [ method ]
-         **
-         * Splits matrix into primitive transformations
-         = (object) in format:
-         o dx (number) translation by x
-         o dy (number) translation by y
-         o scalex (number) scale by x
-         o scaley (number) scale by y
-         o shear (number) shear
-         o rotate (number) rotation in deg
-         o isSimple (boolean) could it be represented via simple transformations
-        \*/
-        matrixproto.split = function () {
-            var out = {};
-            // translation
-            out.dx = this.e;
-            out.dy = this.f;
-
-            // scale and shear
-            var row = [[this.a, this.b], [this.c, this.d]];
-            out.scalex = math.sqrt(norm(row[0]));
-            normalize(row[0]);
-
-            out.shear = row[0][0] * row[1][0] + row[0][1] * row[1][1];
-            row[1] = [row[1][0] - row[0][0] * out.shear, row[1][1] - row[0][1] * out.shear];
-
-            out.scaley = math.sqrt(norm(row[1]));
-            normalize(row[1]);
-            out.shear /= out.scaley;
-
-            if (this.determinant() < 0) {
-                out.scalex = -out.scalex;
-            }
-
-            // rotation
-            var sin = row[0][1],
-                cos = row[1][1];
-            if (cos < 0) {
-                out.rotate = Snap.deg(math.acos(cos));
-                if (sin < 0) {
-                    out.rotate = 360 - out.rotate;
-                }
-            } else {
-                out.rotate = Snap.deg(math.asin(sin));
-            }
-
-            out.isSimple = !+out.shear.toFixed(9) && (out.scalex.toFixed(9) == out.scaley.toFixed(9) || !out.rotate);
-            out.isSuperSimple = !+out.shear.toFixed(9) && out.scalex.toFixed(9) == out.scaley.toFixed(9) && !out.rotate;
-            out.noRotation = !+out.shear.toFixed(9) && !out.rotate;
-            return out;
-        };
-        /*\
-         * Matrix.toTransformString
-         [ method ]
-         **
-         * Returns transform string that represents given matrix
-         = (string) transform string
-        \*/
-        matrixproto.toTransformString = function (shorter) {
-            var s = shorter || this.split();
-            if (!+s.shear.toFixed(9)) {
-                s.scalex = +s.scalex.toFixed(4);
-                s.scaley = +s.scaley.toFixed(4);
-                s.rotate = +s.rotate.toFixed(4);
-                return  (s.dx || s.dy ? "t" + [+s.dx.toFixed(4), +s.dy.toFixed(4)] : E) +
-                        (s.rotate ? "r" + [+s.rotate.toFixed(4), 0, 0] : E) +
-                        (s.scalex != 1 || s.scaley != 1 ? "s" + [s.scalex, s.scaley, 0, 0] : E);
-            } else {
-                return "m" + [this.get(0), this.get(1), this.get(2), this.get(3), this.get(4), this.get(5)];
-            }
-        };
-    })(Matrix.prototype);
-    /*\
-     * Snap.Matrix
-     [ method ]
-     **
-     * Matrix constructor, extend on your own risk.
-     * To create matrices use @Snap.matrix.
-    \*/
-    Snap.Matrix = Matrix;
-    /*\
-     * Snap.matrix
-     [ method ]
-     **
-     * Utility method
-     **
-     * Returns a matrix based on the given parameters
-     - a (number)
-     - b (number)
-     - c (number)
-     - d (number)
-     - e (number)
-     - f (number)
-     * or
-     - svgMatrix (SVGMatrix)
-     = (object) @Matrix
-    \*/
-    Snap.matrix = function (a, b, c, d, e, f) {
-        return new Matrix(a, b, c, d, e, f);
-    };
-});
-
-// Copyright (c) 2013 Adobe Systems Incorporated. All rights reserved.
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-Snap.plugin(function (Snap, Element, Paper, glob, Fragment) {
-    var has = "hasOwnProperty",
-        make = Snap._.make,
-        wrap = Snap._.wrap,
-        is = Snap.is,
-        getSomeDefs = Snap._.getSomeDefs,
-        reURLValue = /^url\((['"]?)([^)]+)\1\)$/,
-        $ = Snap._.$,
-        URL = Snap.url,
-        Str = String,
-        separator = Snap._.separator,
-        E = "";
-    /*\
-     * Snap.deurl
-     [ method ]
-     **
-     * Unwraps path from `"url(<path>)"`.
-     - value (string) url path
-     = (string) unwrapped path
-    \*/
-    Snap.deurl = function (value) {
-        var res = String(value).match(reURLValue);
-        return res ? res[2] : value;
-    }
-    // Attributes event handlers
-    eve.on("snap.util.attr.mask", function (value) {
-        if (value instanceof Element || value instanceof Fragment) {
-            eve.stop();
-            if (value instanceof Fragment && value.node.childNodes.length == 1) {
-                value = value.node.firstChild;
-                getSomeDefs(this).appendChild(value);
-                value = wrap(value);
-            }
-            if (value.type == "mask") {
-                var mask = value;
-            } else {
-                mask = make("mask", getSomeDefs(this));
-                mask.node.appendChild(value.node);
-            }
-            !mask.node.id && $(mask.node, {
-                id: mask.id
-            });
-            $(this.node, {
-                mask: URL(mask.id)
-            });
-        }
-    });
-    (function (clipIt) {
-        eve.on("snap.util.attr.clip", clipIt);
-        eve.on("snap.util.attr.clip-path", clipIt);
-        eve.on("snap.util.attr.clipPath", clipIt);
-    }(function (value) {
-        if (value instanceof Element || value instanceof Fragment) {
-            eve.stop();
-            var clip,
-                node = value.node;
-            while (node) {
-                if (node.nodeName === "clipPath") {
-                    clip = new Element(node);
-                    break;
-                }
-                if (node.nodeName === "svg") {
-                    clip = undefined;
-                    break;
-                }
-                node = node.parentNode;
-            }
-            if (!clip) {
-                clip = make("clipPath", getSomeDefs(this));
-                clip.node.appendChild(value.node);
-                !clip.node.id && $(clip.node, {
-                    id: clip.id
-                });
-            }
-            $(this.node, {
-                "clip-path": URL(clip.node.id || clip.id)
-            });
-        }
-    }));
-    function fillStroke(name) {
-        return function (value) {
-            eve.stop();
-            if (value instanceof Fragment && value.node.childNodes.length == 1 &&
-                (value.node.firstChild.tagName == "radialGradient" ||
-                value.node.firstChild.tagName == "linearGradient" ||
-                value.node.firstChild.tagName == "pattern")) {
-                value = value.node.firstChild;
-                getSomeDefs(this).appendChild(value);
-                value = wrap(value);
-            }
-            if (value instanceof Element) {
-                if (value.type == "radialGradient" || value.type == "linearGradient"
-                   || value.type == "pattern") {
-                    if (!value.node.id) {
-                        $(value.node, {
-                            id: value.id
-                        });
-                    }
-                    var fill = URL(value.node.id);
-                } else {
-                    fill = value.attr(name);
-                }
-            } else {
-                fill = Snap.color(value);
-                if (fill.error) {
-                    var grad = Snap(getSomeDefs(this).ownerSVGElement).gradient(value);
-                    if (grad) {
-                        if (!grad.node.id) {
-                            $(grad.node, {
-                                id: grad.id
-                            });
-                        }
-                        fill = URL(grad.node.id);
-                    } else {
-                        fill = value;
-                    }
-                } else {
-                    fill = Str(fill);
-                }
-            }
-            var attrs = {};
-            attrs[name] = fill;
-            $(this.node, attrs);
-            this.node.style[name] = E;
-        };
-    }
-    eve.on("snap.util.attr.fill", fillStroke("fill"));
-    eve.on("snap.util.attr.stroke", fillStroke("stroke"));
-    var gradrg = /^([lr])(?:\(([^)]*)\))?(.*)$/i;
-    eve.on("snap.util.grad.parse", function parseGrad(string) {
-        string = Str(string);
-        var tokens = string.match(gradrg);
-        if (!tokens) {
-            return null;
-        }
-        var type = tokens[1],
-            params = tokens[2],
-            stops = tokens[3];
-        params = params.split(/\s*,\s*/).map(function (el) {
-            return +el == el ? +el : el;
-        });
-        if (params.length == 1 && params[0] == 0) {
-            params = [];
-        }
-        stops = stops.split("-");
-        stops = stops.map(function (el) {
-            el = el.split(":");
-            var out = {
-                color: el[0]
-            };
-            if (el[1]) {
-                out.offset = parseFloat(el[1]);
-            }
-            return out;
-        });
-        var len = stops.length,
-            start = 0,
-            j = 0;
-        function seed(i, end) {
-            var step = (end - start) / (i - j);
-            for (var k = j; k < i; k++) {
-                stops[k].offset = +(+start + step * (k - j)).toFixed(2);
-            }
-            j = i;
-            start = end;
-        }
-        len--;
-        for (var i = 0; i < len; i++) if ("offset" in stops[i]) {
-            seed(i, stops[i].offset);
-        }
-        stops[len].offset = stops[len].offset || 100;
-        seed(len, stops[len].offset);
-        return {
-            type: type,
-            params: params,
-            stops: stops
-        };
+    // extract params & att operation to matrix
+    params = item.split(PARAMS_SPLIT_RE).map(function (i) {
+      return +i || 0;
     });
 
-    eve.on("snap.util.attr.d", function (value) {
-        eve.stop();
-        if (is(value, "array") && is(value[0], "array")) {
-            value = Snap.path.toString.call(value);
+    // If params count is not correct - ignore command
+    switch (cmd) {
+      case 'matrix':
+        if (params.length === 6) {
+          matrix.matrix(params);
         }
-        value = Str(value);
-        if (value.match(/[ruo]/i)) {
-            value = Snap.path.toAbsolute(value);
-        }
-        $(this.node, {d: value});
-    })(-1);
-    eve.on("snap.util.attr.#text", function (value) {
-        eve.stop();
-        value = Str(value);
-        var txt = glob.doc.createTextNode(value);
-        while (this.node.firstChild) {
-            this.node.removeChild(this.node.firstChild);
-        }
-        this.node.appendChild(txt);
-    })(-1);
-    eve.on("snap.util.attr.path", function (value) {
-        eve.stop();
-        this.attr({d: value});
-    })(-1);
-    eve.on("snap.util.attr.class", function (value) {
-        eve.stop();
-        this.node.className.baseVal = value;
-    })(-1);
-    eve.on("snap.util.attr.viewBox", function (value) {
-        var vb;
-        if (is(value, "object") && "x" in value) {
-            vb = [value.x, value.y, value.width, value.height].join(" ");
-        } else if (is(value, "array")) {
-            vb = value.join(" ");
-        } else {
-            vb = value;
-        }
-        $(this.node, {
-            viewBox: vb
-        });
-        eve.stop();
-    })(-1);
-    eve.on("snap.util.attr.transform", function (value) {
-        this.transform(value);
-        eve.stop();
-    })(-1);
-    eve.on("snap.util.attr.r", function (value) {
-        if (this.type == "rect") {
-            eve.stop();
-            $(this.node, {
-                rx: value,
-                ry: value
-            });
-        }
-    })(-1);
-    eve.on("snap.util.attr.textpath", function (value) {
-        eve.stop();
-        if (this.type == "text") {
-            var id, tp, node;
-            if (!value && this.textPath) {
-                tp = this.textPath;
-                while (tp.node.firstChild) {
-                    this.node.appendChild(tp.node.firstChild);
-                }
-                tp.remove();
-                delete this.textPath;
-                return;
-            }
-            if (is(value, "string")) {
-                var defs = getSomeDefs(this),
-                    path = wrap(defs.parentNode).path(value);
-                defs.appendChild(path.node);
-                id = path.id;
-                path.attr({id: id});
-            } else {
-                value = wrap(value);
-                if (value instanceof Element) {
-                    id = value.attr("id");
-                    if (!id) {
-                        id = value.id;
-                        value.attr({id: id});
-                    }
-                }
-            }
-            if (id) {
-                tp = this.textPath;
-                node = this.node;
-                if (tp) {
-                    tp.attr({"xlink:href": "#" + id});
-                } else {
-                    tp = $("textPath", {
-                        "xlink:href": "#" + id
-                    });
-                    while (node.firstChild) {
-                        tp.appendChild(node.firstChild);
-                    }
-                    node.appendChild(tp);
-                    this.textPath = wrap(tp);
-                }
-            }
-        }
-    })(-1);
-    eve.on("snap.util.attr.text", function (value) {
-        if (this.type == "text") {
-            var i = 0,
-                node = this.node,
-                tuner = function (chunk) {
-                    var out = $("tspan");
-                    if (is(chunk, "array")) {
-                        for (var i = 0; i < chunk.length; i++) {
-                            out.appendChild(tuner(chunk[i]));
-                        }
-                    } else {
-                        out.appendChild(glob.doc.createTextNode(chunk));
-                    }
-                    out.normalize && out.normalize();
-                    return out;
-                };
-            while (node.firstChild) {
-                node.removeChild(node.firstChild);
-            }
-            var tuned = tuner(value);
-            while (tuned.firstChild) {
-                node.appendChild(tuned.firstChild);
-            }
-        }
-        eve.stop();
-    })(-1);
-    function setFontSize(value) {
-        eve.stop();
-        if (value == +value) {
-            value += "px";
-        }
-        this.node.style.fontSize = value;
-    }
-    eve.on("snap.util.attr.fontSize", setFontSize)(-1);
-    eve.on("snap.util.attr.font-size", setFontSize)(-1);
+        return;
 
+      case 'scale':
+        if (params.length === 1) {
+          matrix.scale(params[0], params[0]);
+        } else if (params.length === 2) {
+          matrix.scale(params[0], params[1]);
+        }
+        return;
 
-    eve.on("snap.util.getattr.transform", function () {
-        eve.stop();
-        return this.transform();
-    })(-1);
-    eve.on("snap.util.getattr.textpath", function () {
-        eve.stop();
-        return this.textPath;
-    })(-1);
-    // Markers
-    (function () {
-        function getter(end) {
-            return function () {
-                eve.stop();
-                var style = glob.doc.defaultView.getComputedStyle(this.node, null).getPropertyValue("marker-" + end);
-                if (style == "none") {
-                    return style;
-                } else {
-                    return Snap(glob.doc.getElementById(style.match(reURLValue)[1]));
-                }
-            };
+      case 'rotate':
+        if (params.length === 1) {
+          matrix.rotate(params[0], 0, 0);
+        } else if (params.length === 3) {
+          matrix.rotate(params[0], params[1], params[2]);
         }
-        function setter(end) {
-            return function (value) {
-                eve.stop();
-                var name = "marker" + end.charAt(0).toUpperCase() + end.substring(1);
-                if (value == "" || !value) {
-                    this.node.style[name] = "none";
-                    return;
-                }
-                if (value.type == "marker") {
-                    var id = value.node.id;
-                    if (!id) {
-                        $(value.node, {id: value.id});
-                    }
-                    this.node.style[name] = URL(id);
-                    return;
-                }
-            };
-        }
-        eve.on("snap.util.getattr.marker-end", getter("end"))(-1);
-        eve.on("snap.util.getattr.markerEnd", getter("end"))(-1);
-        eve.on("snap.util.getattr.marker-start", getter("start"))(-1);
-        eve.on("snap.util.getattr.markerStart", getter("start"))(-1);
-        eve.on("snap.util.getattr.marker-mid", getter("mid"))(-1);
-        eve.on("snap.util.getattr.markerMid", getter("mid"))(-1);
-        eve.on("snap.util.attr.marker-end", setter("end"))(-1);
-        eve.on("snap.util.attr.markerEnd", setter("end"))(-1);
-        eve.on("snap.util.attr.marker-start", setter("start"))(-1);
-        eve.on("snap.util.attr.markerStart", setter("start"))(-1);
-        eve.on("snap.util.attr.marker-mid", setter("mid"))(-1);
-        eve.on("snap.util.attr.markerMid", setter("mid"))(-1);
-    }());
-    eve.on("snap.util.getattr.r", function () {
-        if (this.type == "rect" && $(this.node, "rx") == $(this.node, "ry")) {
-            eve.stop();
-            return $(this.node, "rx");
-        }
-    })(-1);
-    function textExtract(node) {
-        var out = [];
-        var children = node.childNodes;
-        for (var i = 0, ii = children.length; i < ii; i++) {
-            var chi = children[i];
-            if (chi.nodeType == 3) {
-                out.push(chi.nodeValue);
-            }
-            if (chi.tagName == "tspan") {
-                if (chi.childNodes.length == 1 && chi.firstChild.nodeType == 3) {
-                    out.push(chi.firstChild.nodeValue);
-                } else {
-                    out.push(textExtract(chi));
-                }
-            }
-        }
-        return out;
-    }
-    eve.on("snap.util.getattr.text", function () {
-        if (this.type == "text" || this.type == "tspan") {
-            eve.stop();
-            var out = textExtract(this.node);
-            return out.length == 1 ? out[0] : out;
-        }
-    })(-1);
-    eve.on("snap.util.getattr.#text", function () {
-        return this.node.textContent;
-    })(-1);
-    eve.on("snap.util.getattr.fill", function (internal) {
-        if (internal) {
-            return;
-        }
-        eve.stop();
-        var value = eve("snap.util.getattr.fill", this, true).firstDefined();
-        return Snap(Snap.deurl(value)) || value;
-    })(-1);
-    eve.on("snap.util.getattr.stroke", function (internal) {
-        if (internal) {
-            return;
-        }
-        eve.stop();
-        var value = eve("snap.util.getattr.stroke", this, true).firstDefined();
-        return Snap(Snap.deurl(value)) || value;
-    })(-1);
-    eve.on("snap.util.getattr.viewBox", function () {
-        eve.stop();
-        var vb = $(this.node, "viewBox");
-        if (vb) {
-            vb = vb.split(separator);
-            return Snap._.box(+vb[0], +vb[1], +vb[2], +vb[3]);
-        } else {
-            return;
-        }
-    })(-1);
-    eve.on("snap.util.getattr.points", function () {
-        var p = $(this.node, "points");
-        eve.stop();
-        if (p) {
-            return p.split(separator);
-        } else {
-            return;
-        }
-    })(-1);
-    eve.on("snap.util.getattr.path", function () {
-        var p = $(this.node, "d");
-        eve.stop();
-        return p;
-    })(-1);
-    eve.on("snap.util.getattr.class", function () {
-        return this.node.className.baseVal;
-    })(-1);
-    function getFontSize() {
-        eve.stop();
-        return this.node.style.fontSize;
-    }
-    eve.on("snap.util.getattr.fontSize", getFontSize)(-1);
-    eve.on("snap.util.getattr.font-size", getFontSize)(-1);
-});
+        return;
 
-// Copyright (c) 2014 Adobe Systems Incorporated. All rights reserved.
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-Snap.plugin(function (Snap, Element, Paper, glob, Fragment) {
-    var rgNotSpace = /\S+/g,
-        rgBadSpace = /[\t\r\n\f]/g,
-        rgTrim = /(^\s+|\s+$)/g,
-        Str = String,
-        elproto = Element.prototype;
-    /*\
-     * Element.addClass
-     [ method ]
-     **
-     * Adds given class name or list of class names to the element.
-     - value (string) class name or space separated list of class names
-     **
-     = (Element) original element.
-    \*/
-    elproto.addClass = function (value) {
-        var classes = Str(value || "").match(rgNotSpace) || [],
-            elem = this.node,
-            className = elem.className.baseVal,
-            curClasses = className.match(rgNotSpace) || [],
-            j,
-            pos,
-            clazz,
-            finalValue;
+      case 'translate':
+        if (params.length === 1) {
+          matrix.translate(params[0], 0);
+        } else if (params.length === 2) {
+          matrix.translate(params[0], params[1]);
+        }
+        return;
 
-        if (classes.length) {
-            j = 0;
-            while (clazz = classes[j++]) {
-                pos = curClasses.indexOf(clazz);
-                if (!~pos) {
-                    curClasses.push(clazz);
-                }
-            }
+      case 'skewX':
+        if (params.length === 1) {
+          matrix.skewX(params[0]);
+        }
+        return;
 
-            finalValue = curClasses.join(" ");
-            if (className != finalValue) {
-                elem.className.baseVal = finalValue;
-            }
+      case 'skewY':
+        if (params.length === 1) {
+          matrix.skewY(params[0]);
         }
-        return this;
-    };
-    /*\
-     * Element.removeClass
-     [ method ]
-     **
-     * Removes given class name or list of class names from the element.
-     - value (string) class name or space separated list of class names
-     **
-     = (Element) original element.
-    \*/
-    elproto.removeClass = function (value) {
-        var classes = Str(value || "").match(rgNotSpace) || [],
-            elem = this.node,
-            className = elem.className.baseVal,
-            curClasses = className.match(rgNotSpace) || [],
-            j,
-            pos,
-            clazz,
-            finalValue;
-        if (curClasses.length) {
-            j = 0;
-            while (clazz = classes[j++]) {
-                pos = curClasses.indexOf(clazz);
-                if (~pos) {
-                    curClasses.splice(pos, 1);
-                }
-            }
+        return;
+    }
+  });
 
-            finalValue = curClasses.join(" ");
-            if (className != finalValue) {
-                elem.className.baseVal = finalValue;
-            }
-        }
-        return this;
-    };
-    /*\
-     * Element.hasClass
-     [ method ]
-     **
-     * Checks if the element has a given class name in the list of class names applied to it.
-     - value (string) class name
-     **
-     = (boolean) `true` if the element has given class
-    \*/
-    elproto.hasClass = function (value) {
-        var elem = this.node,
-            className = elem.className.baseVal,
-            curClasses = className.match(rgNotSpace) || [];
-        return !!~curClasses.indexOf(value);
-    };
-    /*\
-     * Element.toggleClass
-     [ method ]
-     **
-     * Add or remove one or more classes from the element, depending on either
-     * the class’s presence or the value of the `flag` argument.
-     - value (string) class name or space separated list of class names
-     - flag (boolean) value to determine whether the class should be added or removed
-     **
-     = (Element) original element.
-    \*/
-    elproto.toggleClass = function (value, flag) {
-        if (flag != null) {
-            if (flag) {
-                return this.addClass(value);
-            } else {
-                return this.removeClass(value);
-            }
-        }
-        var classes = (value || "").match(rgNotSpace) || [],
-            elem = this.node,
-            className = elem.className.baseVal,
-            curClasses = className.match(rgNotSpace) || [],
-            j,
-            pos,
-            clazz,
-            finalValue;
-        j = 0;
-        while (clazz = classes[j++]) {
-            pos = curClasses.indexOf(clazz);
-            if (~pos) {
-                curClasses.splice(pos, 1);
-            } else {
-                curClasses.push(clazz);
-            }
-        }
-
-        finalValue = curClasses.join(" ");
-        if (className != finalValue) {
-            elem.className.baseVal = finalValue;
-        }
-        return this;
-    };
-});
-
-// Copyright (c) 2013 Adobe Systems Incorporated. All rights reserved.
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-Snap.plugin(function (Snap, Element, Paper, glob, Fragment) {
-    var operators = {
-            "+": function (x, y) {
-                    return x + y;
-                },
-            "-": function (x, y) {
-                    return x - y;
-                },
-            "/": function (x, y) {
-                    return x / y;
-                },
-            "*": function (x, y) {
-                    return x * y;
-                }
-        },
-        Str = String,
-        reUnit = /[a-z]+$/i,
-        reAddon = /^\s*([+\-\/*])\s*=\s*([\d.eE+\-]+)\s*([^\d\s]+)?\s*$/;
-    function getNumber(val) {
-        return val;
-    }
-    function getUnit(unit) {
-        return function (val) {
-            return +val.toFixed(3) + unit;
-        };
-    }
-    eve.on("snap.util.attr", function (val) {
-        var plus = Str(val).match(reAddon);
-        if (plus) {
-            var evnt = eve.nt(),
-                name = evnt.substring(evnt.lastIndexOf(".") + 1),
-                a = this.attr(name),
-                atr = {};
-            eve.stop();
-            var unit = plus[3] || "",
-                aUnit = a.match(reUnit),
-                op = operators[plus[1]];
-            if (aUnit && aUnit == unit) {
-                val = op(parseFloat(a), +plus[2]);
-            } else {
-                a = this.asPX(name);
-                val = op(this.asPX(name), this.asPX(name, plus[2] + unit));
-            }
-            if (isNaN(a) || isNaN(val)) {
-                return;
-            }
-            atr[name] = val;
-            this.attr(atr);
-        }
-    })(-10);
-    eve.on("snap.util.equal", function (name, b) {
-        var A, B, a = Str(this.attr(name) || ""),
-            el = this,
-            bplus = Str(b).match(reAddon);
-        if (bplus) {
-            eve.stop();
-            var unit = bplus[3] || "",
-                aUnit = a.match(reUnit),
-                op = operators[bplus[1]];
-            if (aUnit && aUnit == unit) {
-                return {
-                    from: parseFloat(a),
-                    to: op(parseFloat(a), +bplus[2]),
-                    f: getUnit(aUnit)
-                };
-            } else {
-                a = this.asPX(name);
-                return {
-                    from: a,
-                    to: op(a, this.asPX(name, bplus[2] + unit)),
-                    f: getNumber
-                };
-            }
-        }
-    })(-10);
-});
-
-// Copyright (c) 2013 Adobe Systems Incorporated. All rights reserved.
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-Snap.plugin(function (Snap, Element, Paper, glob, Fragment) {
-    var proto = Paper.prototype,
-        is = Snap.is;
-    /*\
-     * Paper.rect
-     [ method ]
-     *
-     * Draws a rectangle
-     **
-     - x (number) x coordinate of the top left corner
-     - y (number) y coordinate of the top left corner
-     - width (number) width
-     - height (number) height
-     - rx (number) #optional horizontal radius for rounded corners, default is 0
-     - ry (number) #optional vertical radius for rounded corners, default is rx or 0
-     = (object) the `rect` element
-     **
-     > Usage
-     | // regular rectangle
-     | var c = paper.rect(10, 10, 50, 50);
-     | // rectangle with rounded corners
-     | var c = paper.rect(40, 40, 50, 50, 10);
-    \*/
-    proto.rect = function (x, y, w, h, rx, ry) {
-        var attr;
-        if (ry == null) {
-            ry = rx;
-        }
-        if (is(x, "object") && x == "[object Object]") {
-            attr = x;
-        } else if (x != null) {
-            attr = {
-                x: x,
-                y: y,
-                width: w,
-                height: h
-            };
-            if (rx != null) {
-                attr.rx = rx;
-                attr.ry = ry;
-            }
-        }
-        return this.el("rect", attr);
-    };
-    /*\
-     * Paper.circle
-     [ method ]
-     **
-     * Draws a circle
-     **
-     - x (number) x coordinate of the centre
-     - y (number) y coordinate of the centre
-     - r (number) radius
-     = (object) the `circle` element
-     **
-     > Usage
-     | var c = paper.circle(50, 50, 40);
-    \*/
-    proto.circle = function (cx, cy, r) {
-        var attr;
-        if (is(cx, "object") && cx == "[object Object]") {
-            attr = cx;
-        } else if (cx != null) {
-            attr = {
-                cx: cx,
-                cy: cy,
-                r: r
-            };
-        }
-        return this.el("circle", attr);
-    };
-
-    var preload = (function () {
-        function onerror() {
-            this.parentNode.removeChild(this);
-        }
-        return function (src, f) {
-            var img = glob.doc.createElement("img"),
-                body = glob.doc.body;
-            img.style.cssText = "position:absolute;left:-9999em;top:-9999em";
-            img.onload = function () {
-                f.call(img);
-                img.onload = img.onerror = null;
-                body.removeChild(img);
-            };
-            img.onerror = onerror;
-            body.appendChild(img);
-            img.src = src;
-        };
-    }());
-
-    /*\
-     * Paper.image
-     [ method ]
-     **
-     * Places an image on the surface
-     **
-     - src (string) URI of the source image
-     - x (number) x offset position
-     - y (number) y offset position
-     - width (number) width of the image
-     - height (number) height of the image
-     = (object) the `image` element
-     * or
-     = (object) Snap element object with type `image`
-     **
-     > Usage
-     | var c = paper.image("apple.png", 10, 10, 80, 80);
-    \*/
-    proto.image = function (src, x, y, width, height) {
-        var el = this.el("image");
-        if (is(src, "object") && "src" in src) {
-            el.attr(src);
-        } else if (src != null) {
-            var set = {
-                "xlink:href": src,
-                preserveAspectRatio: "none"
-            };
-            if (x != null && y != null) {
-                set.x = x;
-                set.y = y;
-            }
-            if (width != null && height != null) {
-                set.width = width;
-                set.height = height;
-            } else {
-                preload(src, function () {
-                    Snap._.$(el.node, {
-                        width: this.offsetWidth,
-                        height: this.offsetHeight
-                    });
-                });
-            }
-            Snap._.$(el.node, set);
-        }
-        return el;
-    };
-    /*\
-     * Paper.ellipse
-     [ method ]
-     **
-     * Draws an ellipse
-     **
-     - x (number) x coordinate of the centre
-     - y (number) y coordinate of the centre
-     - rx (number) horizontal radius
-     - ry (number) vertical radius
-     = (object) the `ellipse` element
-     **
-     > Usage
-     | var c = paper.ellipse(50, 50, 40, 20);
-    \*/
-    proto.ellipse = function (cx, cy, rx, ry) {
-        var attr;
-        if (is(cx, "object") && cx == "[object Object]") {
-            attr = cx;
-        } else if (cx != null) {
-            attr ={
-                cx: cx,
-                cy: cy,
-                rx: rx,
-                ry: ry
-            };
-        }
-        return this.el("ellipse", attr);
-    };
-    // SIERRA Paper.path(): Unclear from the link what a Catmull-Rom curveto is, and why it would make life any easier.
-    /*\
-     * Paper.path
-     [ method ]
-     **
-     * Creates a `<path>` element using the given string as the path's definition
-     - pathString (string) #optional path string in SVG format
-     * Path string consists of one-letter commands, followed by comma seprarated arguments in numerical form. Example:
-     | "M10,20L30,40"
-     * This example features two commands: `M`, with arguments `(10, 20)` and `L` with arguments `(30, 40)`. Uppercase letter commands express coordinates in absolute terms, while lowercase commands express them in relative terms from the most recently declared coordinates.
-     *
-     # <p>Here is short list of commands available, for more details see <a href="http://www.w3.org/TR/SVG/paths.html#PathData" title="Details of a path's data attribute's format are described in the SVG specification.">SVG path string format</a> or <a href="https://developer.mozilla.org/en/SVG/Tutorial/Paths">article about path strings at MDN</a>.</p>
-     # <table><thead><tr><th>Command</th><th>Name</th><th>Parameters</th></tr></thead><tbody>
-     # <tr><td>M</td><td>moveto</td><td>(x y)+</td></tr>
-     # <tr><td>Z</td><td>closepath</td><td>(none)</td></tr>
-     # <tr><td>L</td><td>lineto</td><td>(x y)+</td></tr>
-     # <tr><td>H</td><td>horizontal lineto</td><td>x+</td></tr>
-     # <tr><td>V</td><td>vertical lineto</td><td>y+</td></tr>
-     # <tr><td>C</td><td>curveto</td><td>(x1 y1 x2 y2 x y)+</td></tr>
-     # <tr><td>S</td><td>smooth curveto</td><td>(x2 y2 x y)+</td></tr>
-     # <tr><td>Q</td><td>quadratic Bézier curveto</td><td>(x1 y1 x y)+</td></tr>
-     # <tr><td>T</td><td>smooth quadratic Bézier curveto</td><td>(x y)+</td></tr>
-     # <tr><td>A</td><td>elliptical arc</td><td>(rx ry x-axis-rotation large-arc-flag sweep-flag x y)+</td></tr>
-     # <tr><td>R</td><td><a href="http://en.wikipedia.org/wiki/Catmull–Rom_spline#Catmull.E2.80.93Rom_spline">Catmull-Rom curveto</a>*</td><td>x1 y1 (x y)+</td></tr></tbody></table>
-     * * _Catmull-Rom curveto_ is a not standard SVG command and added to make life easier.
-     * Note: there is a special case when a path consists of only three commands: `M10,10R…z`. In this case the path connects back to its starting point.
-     > Usage
-     | var c = paper.path("M10 10L90 90");
-     | // draw a diagonal line:
-     | // move to 10,10, line to 90,90
-    \*/
-    proto.path = function (d) {
-        var attr;
-        if (is(d, "object") && !is(d, "array")) {
-            attr = d;
-        } else if (d) {
-            attr = {d: d};
-        }
-        return this.el("path", attr);
-    };
-    /*\
-     * Paper.g
-     [ method ]
-     **
-     * Creates a group element
-     **
-     - varargs (…) #optional elements to nest within the group
-     = (object) the `g` element
-     **
-     > Usage
-     | var c1 = paper.circle(),
-     |     c2 = paper.rect(),
-     |     g = paper.g(c2, c1); // note that the order of elements is different
-     * or
-     | var c1 = paper.circle(),
-     |     c2 = paper.rect(),
-     |     g = paper.g();
-     | g.add(c2, c1);
-    \*/
-    /*\
-     * Paper.group
-     [ method ]
-     **
-     * See @Paper.g
-    \*/
-    proto.group = proto.g = function (first) {
-        var attr,
-            el = this.el("g");
-        if (arguments.length == 1 && first && !first.type) {
-            el.attr(first);
-        } else if (arguments.length) {
-            el.add(Array.prototype.slice.call(arguments, 0));
-        }
-        return el;
-    };
-    /*\
-     * Paper.svg
-     [ method ]
-     **
-     * Creates a nested SVG element.
-     - x (number) @optional X of the element
-     - y (number) @optional Y of the element
-     - width (number) @optional width of the element
-     - height (number) @optional height of the element
-     - vbx (number) @optional viewbox X
-     - vby (number) @optional viewbox Y
-     - vbw (number) @optional viewbox width
-     - vbh (number) @optional viewbox height
-     **
-     = (object) the `svg` element
-     **
-    \*/
-    proto.svg = function (x, y, width, height, vbx, vby, vbw, vbh) {
-        var attrs = {};
-        if (is(x, "object") && y == null) {
-            attrs = x;
-        } else {
-            if (x != null) {
-                attrs.x = x;
-            }
-            if (y != null) {
-                attrs.y = y;
-            }
-            if (width != null) {
-                attrs.width = width;
-            }
-            if (height != null) {
-                attrs.height = height;
-            }
-            if (vbx != null && vby != null && vbw != null && vbh != null) {
-                attrs.viewBox = [vbx, vby, vbw, vbh];
-            }
-        }
-        return this.el("svg", attrs);
-    };
-    /*\
-     * Paper.mask
-     [ method ]
-     **
-     * Equivalent in behaviour to @Paper.g, except it’s a mask.
-     **
-     = (object) the `mask` element
-     **
-    \*/
-    proto.mask = function (first) {
-        var attr,
-            el = this.el("mask");
-        if (arguments.length == 1 && first && !first.type) {
-            el.attr(first);
-        } else if (arguments.length) {
-            el.add(Array.prototype.slice.call(arguments, 0));
-        }
-        return el;
-    };
-    /*\
-     * Paper.ptrn
-     [ method ]
-     **
-     * Equivalent in behaviour to @Paper.g, except it’s a pattern.
-     - x (number) @optional X of the element
-     - y (number) @optional Y of the element
-     - width (number) @optional width of the element
-     - height (number) @optional height of the element
-     - vbx (number) @optional viewbox X
-     - vby (number) @optional viewbox Y
-     - vbw (number) @optional viewbox width
-     - vbh (number) @optional viewbox height
-     **
-     = (object) the `pattern` element
-     **
-    \*/
-    proto.ptrn = function (x, y, width, height, vx, vy, vw, vh) {
-        if (is(x, "object")) {
-            var attr = x;
-        } else {
-            attr = {patternUnits: "userSpaceOnUse"};
-            if (x) {
-                attr.x = x;
-            }
-            if (y) {
-                attr.y = y;
-            }
-            if (width != null) {
-                attr.width = width;
-            }
-            if (height != null) {
-                attr.height = height;
-            }
-            if (vx != null && vy != null && vw != null && vh != null) {
-                attr.viewBox = [vx, vy, vw, vh];
-            } else {
-                attr.viewBox = [x || 0, y || 0, width || 0, height || 0];
-            }
-        }
-        return this.el("pattern", attr);
-    };
-    /*\
-     * Paper.use
-     [ method ]
-     **
-     * Creates a <use> element.
-     - id (string) @optional id of element to link
-     * or
-     - id (Element) @optional element to link
-     **
-     = (object) the `use` element
-     **
-    \*/
-    proto.use = function (id) {
-        if (id != null) {
-            if (id instanceof Element) {
-                if (!id.attr("id")) {
-                    id.attr({id: Snap._.id(id)});
-                }
-                id = id.attr("id");
-            }
-            if (String(id).charAt() == "#") {
-                id = id.substring(1);
-            }
-            return this.el("use", {"xlink:href": "#" + id});
-        } else {
-            return Element.prototype.use.call(this);
-        }
-    };
-    /*\
-     * Paper.symbol
-     [ method ]
-     **
-     * Creates a <symbol> element.
-     - vbx (number) @optional viewbox X
-     - vby (number) @optional viewbox Y
-     - vbw (number) @optional viewbox width
-     - vbh (number) @optional viewbox height
-     = (object) the `symbol` element
-     **
-    \*/
-    proto.symbol = function (vx, vy, vw, vh) {
-        var attr = {};
-        if (vx != null && vy != null && vw != null && vh != null) {
-            attr.viewBox = [vx, vy, vw, vh];
-        }
-
-        return this.el("symbol", attr);
-    };
-    /*\
-     * Paper.text
-     [ method ]
-     **
-     * Draws a text string
-     **
-     - x (number) x coordinate position
-     - y (number) y coordinate position
-     - text (string|array) The text string to draw or array of strings to nest within separate `<tspan>` elements
-     = (object) the `text` element
-     **
-     > Usage
-     | var t1 = paper.text(50, 50, "Snap");
-     | var t2 = paper.text(50, 50, ["S","n","a","p"]);
-     | // Text path usage
-     | t1.attr({textpath: "M10,10L100,100"});
-     | // or
-     | var pth = paper.path("M10,10L100,100");
-     | t1.attr({textpath: pth});
-    \*/
-    proto.text = function (x, y, text) {
-        var attr = {};
-        if (is(x, "object")) {
-            attr = x;
-        } else if (x != null) {
-            attr = {
-                x: x,
-                y: y,
-                text: text || ""
-            };
-        }
-        return this.el("text", attr);
-    };
-    /*\
-     * Paper.line
-     [ method ]
-     **
-     * Draws a line
-     **
-     - x1 (number) x coordinate position of the start
-     - y1 (number) y coordinate position of the start
-     - x2 (number) x coordinate position of the end
-     - y2 (number) y coordinate position of the end
-     = (object) the `line` element
-     **
-     > Usage
-     | var t1 = paper.line(50, 50, 100, 100);
-    \*/
-    proto.line = function (x1, y1, x2, y2) {
-        var attr = {};
-        if (is(x1, "object")) {
-            attr = x1;
-        } else if (x1 != null) {
-            attr = {
-                x1: x1,
-                x2: x2,
-                y1: y1,
-                y2: y2
-            };
-        }
-        return this.el("line", attr);
-    };
-    /*\
-     * Paper.polyline
-     [ method ]
-     **
-     * Draws a polyline
-     **
-     - points (array) array of points
-     * or
-     - varargs (…) points
-     = (object) the `polyline` element
-     **
-     > Usage
-     | var p1 = paper.polyline([10, 10, 100, 100]);
-     | var p2 = paper.polyline(10, 10, 100, 100);
-    \*/
-    proto.polyline = function (points) {
-        if (arguments.length > 1) {
-            points = Array.prototype.slice.call(arguments, 0);
-        }
-        var attr = {};
-        if (is(points, "object") && !is(points, "array")) {
-            attr = points;
-        } else if (points != null) {
-            attr = {points: points};
-        }
-        return this.el("polyline", attr);
-    };
-    /*\
-     * Paper.polygon
-     [ method ]
-     **
-     * Draws a polygon. See @Paper.polyline
-    \*/
-    proto.polygon = function (points) {
-        if (arguments.length > 1) {
-            points = Array.prototype.slice.call(arguments, 0);
-        }
-        var attr = {};
-        if (is(points, "object") && !is(points, "array")) {
-            attr = points;
-        } else if (points != null) {
-            attr = {points: points};
-        }
-        return this.el("polygon", attr);
-    };
-    // gradients
-    (function () {
-        var $ = Snap._.$;
-        // gradients' helpers
-        /*\
-         * Element.stops
-         [ method ]
-         **
-         * Only for gradients!
-         * Returns array of gradient stops elements.
-         = (array) the stops array.
-        \*/
-        function Gstops() {
-            return this.selectAll("stop");
-        }
-        /*\
-         * Element.addStop
-         [ method ]
-         **
-         * Only for gradients!
-         * Adds another stop to the gradient.
-         - color (string) stops color
-         - offset (number) stops offset 0..100
-         = (object) gradient element
-        \*/
-        function GaddStop(color, offset) {
-            var stop = $("stop"),
-                attr = {
-                    offset: +offset + "%"
-                };
-            color = Snap.color(color);
-            attr["stop-color"] = color.hex;
-            if (color.opacity < 1) {
-                attr["stop-opacity"] = color.opacity;
-            }
-            $(stop, attr);
-            var stops = this.stops(),
-                inserted;
-            for (var i = 0; i < stops.length; i++) {
-                var stopOffset = parseFloat(stops[i].attr("offset"));
-                if (stopOffset > offset) {
-                    this.node.insertBefore(stop, stops[i].node);
-                    inserted = true;
-                    break;
-                }
-            }
-            if (!inserted) {
-                this.node.appendChild(stop);
-            }
-            return this;
-        }
-        function GgetBBox() {
-            if (this.type == "linearGradient") {
-                var x1 = $(this.node, "x1") || 0,
-                    x2 = $(this.node, "x2") || 1,
-                    y1 = $(this.node, "y1") || 0,
-                    y2 = $(this.node, "y2") || 0;
-                return Snap._.box(x1, y1, math.abs(x2 - x1), math.abs(y2 - y1));
-            } else {
-                var cx = this.node.cx || .5,
-                    cy = this.node.cy || .5,
-                    r = this.node.r || 0;
-                return Snap._.box(cx - r, cy - r, r * 2, r * 2);
-            }
-        }
-        /*\
-         * Element.setStops
-         [ method ]
-         **
-         * Only for gradients!
-         * Updates stops of the gradient based on passed gradient descriptor. See @Ppaer.gradient
-         - str (string) gradient descriptor part after `()`.
-         = (object) gradient element
-         | var g = paper.gradient("l(0, 0, 1, 1)#000-#f00-#fff");
-         | g.setStops("#fff-#000-#f00-#fc0");
-        \*/
-        function GsetStops(str) {
-            var grad = str,
-                stops = this.stops();
-            if (typeof str == "string") {
-                grad = eve("snap.util.grad.parse", null, "l(0,0,0,1)" + str).firstDefined().stops;
-            }
-            if (!Snap.is(grad, "array")) {
-                return;
-            }
-            for (var i = 0; i < stops.length; i++) {
-                if (grad[i]) {
-                    var color = Snap.color(grad[i].color),
-                        attr = {"offset": grad[i].offset + "%"};
-                    attr["stop-color"] = color.hex;
-                    if (color.opacity < 1) {
-                        attr["stop-opacity"] = color.opacity;
-                    }
-                    stops[i].attr(attr);
-                } else {
-                    stops[i].remove();
-                }
-            }
-            for (i = stops.length; i < grad.length; i++) {
-                this.addStop(grad[i].color, grad[i].offset);
-            }
-            return this;
-        }
-        function gradient(defs, str) {
-            var grad = eve("snap.util.grad.parse", null, str).firstDefined(),
-                el;
-            if (!grad) {
-                return null;
-            }
-            grad.params.unshift(defs);
-            if (grad.type.toLowerCase() == "l") {
-                el = gradientLinear.apply(0, grad.params);
-            } else {
-                el = gradientRadial.apply(0, grad.params);
-            }
-            if (grad.type != grad.type.toLowerCase()) {
-                $(el.node, {
-                    gradientUnits: "userSpaceOnUse"
-                });
-            }
-            var stops = grad.stops,
-                len = stops.length;
-            for (var i = 0; i < len; i++) {
-                var stop = stops[i];
-                el.addStop(stop.color, stop.offset);
-            }
-            return el;
-        }
-        function gradientLinear(defs, x1, y1, x2, y2) {
-            var el = Snap._.make("linearGradient", defs);
-            el.stops = Gstops;
-            el.addStop = GaddStop;
-            el.getBBox = GgetBBox;
-            el.setStops = GsetStops;
-            if (x1 != null) {
-                $(el.node, {
-                    x1: x1,
-                    y1: y1,
-                    x2: x2,
-                    y2: y2
-                });
-            }
-            return el;
-        }
-        function gradientRadial(defs, cx, cy, r, fx, fy) {
-            var el = Snap._.make("radialGradient", defs);
-            el.stops = Gstops;
-            el.addStop = GaddStop;
-            el.getBBox = GgetBBox;
-            if (cx != null) {
-                $(el.node, {
-                    cx: cx,
-                    cy: cy,
-                    r: r
-                });
-            }
-            if (fx != null && fy != null) {
-                $(el.node, {
-                    fx: fx,
-                    fy: fy
-                });
-            }
-            return el;
-        }
-        /*\
-         * Paper.gradient
-         [ method ]
-         **
-         * Creates a gradient element
-         **
-         - gradient (string) gradient descriptor
-         > Gradient Descriptor
-         * The gradient descriptor is an expression formatted as
-         * follows: `<type>(<coords>)<colors>`.  The `<type>` can be
-         * either linear or radial.  The uppercase `L` or `R` letters
-         * indicate absolute coordinates offset from the SVG surface.
-         * Lowercase `l` or `r` letters indicate coordinates
-         * calculated relative to the element to which the gradient is
-         * applied.  Coordinates specify a linear gradient vector as
-         * `x1`, `y1`, `x2`, `y2`, or a radial gradient as `cx`, `cy`,
-         * `r` and optional `fx`, `fy` specifying a focal point away
-         * from the center of the circle. Specify `<colors>` as a list
-         * of dash-separated CSS color values.  Each color may be
-         * followed by a custom offset value, separated with a colon
-         * character.
-         > Examples
-         * Linear gradient, relative from top-left corner to bottom-right
-         * corner, from black through red to white:
-         | var g = paper.gradient("l(0, 0, 1, 1)#000-#f00-#fff");
-         * Linear gradient, absolute from (0, 0) to (100, 100), from black
-         * through red at 25% to white:
-         | var g = paper.gradient("L(0, 0, 100, 100)#000-#f00:25-#fff");
-         * Radial gradient, relative from the center of the element with radius
-         * half the width, from black to white:
-         | var g = paper.gradient("r(0.5, 0.5, 0.5)#000-#fff");
-         * To apply the gradient:
-         | paper.circle(50, 50, 40).attr({
-         |     fill: g
-         | });
-         = (object) the `gradient` element
-        \*/
-        proto.gradient = function (str) {
-            return gradient(this.defs, str);
-        };
-        proto.gradientLinear = function (x1, y1, x2, y2) {
-            return gradientLinear(this.defs, x1, y1, x2, y2);
-        };
-        proto.gradientRadial = function (cx, cy, r, fx, fy) {
-            return gradientRadial(this.defs, cx, cy, r, fx, fy);
-        };
-        /*\
-         * Paper.toString
-         [ method ]
-         **
-         * Returns SVG code for the @Paper
-         = (string) SVG code for the @Paper
-        \*/
-        proto.toString = function () {
-            var doc = this.node.ownerDocument,
-                f = doc.createDocumentFragment(),
-                d = doc.createElement("div"),
-                svg = this.node.cloneNode(true),
-                res;
-            f.appendChild(d);
-            d.appendChild(svg);
-            Snap._.$(svg, {xmlns: "http://www.w3.org/2000/svg"});
-            res = d.innerHTML;
-            f.removeChild(f.firstChild);
-            return res;
-        };
-        /*\
-         * Paper.toDataURL
-         [ method ]
-         **
-         * Returns SVG code for the @Paper as Data URI string.
-         = (string) Data URI string
-        \*/
-        proto.toDataURL = function () {
-            if (window && window.btoa) {
-                return "data:image/svg+xml;base64," + btoa(unescape(encodeURIComponent(this)));
-            }
-        };
-        /*\
-         * Paper.clear
-         [ method ]
-         **
-         * Removes all child nodes of the paper, except <defs>.
-        \*/
-        proto.clear = function () {
-            var node = this.node.firstChild,
-                next;
-            while (node) {
-                next = node.nextSibling;
-                if (node.tagName != "defs") {
-                    node.parentNode.removeChild(node);
-                } else {
-                    proto.clear.call({node: node});
-                }
-                node = next;
-            }
-        };
-    }());
-});
-
-// Copyright (c) 2013 Adobe Systems Incorporated. All rights reserved.
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-Snap.plugin(function (Snap, Element, Paper, glob) {
-    var elproto = Element.prototype,
-        is = Snap.is,
-        clone = Snap._.clone,
-        has = "hasOwnProperty",
-        p2s = /,?([a-z]),?/gi,
-        toFloat = parseFloat,
-        math = Math,
-        PI = math.PI,
-        mmin = math.min,
-        mmax = math.max,
-        pow = math.pow,
-        abs = math.abs;
-    function paths(ps) {
-        var p = paths.ps = paths.ps || {};
-        if (p[ps]) {
-            p[ps].sleep = 100;
-        } else {
-            p[ps] = {
-                sleep: 100
-            };
-        }
-        setTimeout(function () {
-            for (var key in p) if (p[has](key) && key != ps) {
-                p[key].sleep--;
-                !p[key].sleep && delete p[key];
-            }
-        });
-        return p[ps];
-    }
-    function box(x, y, width, height) {
-        if (x == null) {
-            x = y = width = height = 0;
-        }
-        if (y == null) {
-            y = x.y;
-            width = x.width;
-            height = x.height;
-            x = x.x;
-        }
-        return {
-            x: x,
-            y: y,
-            width: width,
-            w: width,
-            height: height,
-            h: height,
-            x2: x + width,
-            y2: y + height,
-            cx: x + width / 2,
-            cy: y + height / 2,
-            r1: math.min(width, height) / 2,
-            r2: math.max(width, height) / 2,
-            r0: math.sqrt(width * width + height * height) / 2,
-            path: rectPath(x, y, width, height),
-            vb: [x, y, width, height].join(" ")
-        };
-    }
-    function toString() {
-        return this.join(",").replace(p2s, "$1");
-    }
-    function pathClone(pathArray) {
-        var res = clone(pathArray);
-        res.toString = toString;
-        return res;
-    }
-    function getPointAtSegmentLength(p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y, length) {
-        if (length == null) {
-            return bezlen(p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y);
-        } else {
-            return findDotsAtSegment(p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y,
-                getTotLen(p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y, length));
-        }
-    }
-    function getLengthFactory(istotal, subpath) {
-        function O(val) {
-            return +(+val).toFixed(3);
-        }
-        return Snap._.cacher(function (path, length, onlystart) {
-            if (path instanceof Element) {
-                path = path.attr("d");
-            }
-            path = path2curve(path);
-            var x, y, p, l, sp = "", subpaths = {}, point,
-                len = 0;
-            for (var i = 0, ii = path.length; i < ii; i++) {
-                p = path[i];
-                if (p[0] == "M") {
-                    x = +p[1];
-                    y = +p[2];
-                } else {
-                    l = getPointAtSegmentLength(x, y, p[1], p[2], p[3], p[4], p[5], p[6]);
-                    if (len + l > length) {
-                        if (subpath && !subpaths.start) {
-                            point = getPointAtSegmentLength(x, y, p[1], p[2], p[3], p[4], p[5], p[6], length - len);
-                            sp += [
-                                "C" + O(point.start.x),
-                                O(point.start.y),
-                                O(point.m.x),
-                                O(point.m.y),
-                                O(point.x),
-                                O(point.y)
-                            ];
-                            if (onlystart) {return sp;}
-                            subpaths.start = sp;
-                            sp = [
-                                "M" + O(point.x),
-                                O(point.y) + "C" + O(point.n.x),
-                                O(point.n.y),
-                                O(point.end.x),
-                                O(point.end.y),
-                                O(p[5]),
-                                O(p[6])
-                            ].join();
-                            len += l;
-                            x = +p[5];
-                            y = +p[6];
-                            continue;
-                        }
-                        if (!istotal && !subpath) {
-                            point = getPointAtSegmentLength(x, y, p[1], p[2], p[3], p[4], p[5], p[6], length - len);
-                            return point;
-                        }
-                    }
-                    len += l;
-                    x = +p[5];
-                    y = +p[6];
-                }
-                sp += p.shift() + p;
-            }
-            subpaths.end = sp;
-            point = istotal ? len : subpath ? subpaths : findDotsAtSegment(x, y, p[0], p[1], p[2], p[3], p[4], p[5], 1);
-            return point;
-        }, null, Snap._.clone);
-    }
-    var getTotalLength = getLengthFactory(1),
-        getPointAtLength = getLengthFactory(),
-        getSubpathsAtLength = getLengthFactory(0, 1);
-    function findDotsAtSegment(p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y, t) {
-        var t1 = 1 - t,
-            t13 = pow(t1, 3),
-            t12 = pow(t1, 2),
-            t2 = t * t,
-            t3 = t2 * t,
-            x = t13 * p1x + t12 * 3 * t * c1x + t1 * 3 * t * t * c2x + t3 * p2x,
-            y = t13 * p1y + t12 * 3 * t * c1y + t1 * 3 * t * t * c2y + t3 * p2y,
-            mx = p1x + 2 * t * (c1x - p1x) + t2 * (c2x - 2 * c1x + p1x),
-            my = p1y + 2 * t * (c1y - p1y) + t2 * (c2y - 2 * c1y + p1y),
-            nx = c1x + 2 * t * (c2x - c1x) + t2 * (p2x - 2 * c2x + c1x),
-            ny = c1y + 2 * t * (c2y - c1y) + t2 * (p2y - 2 * c2y + c1y),
-            ax = t1 * p1x + t * c1x,
-            ay = t1 * p1y + t * c1y,
-            cx = t1 * c2x + t * p2x,
-            cy = t1 * c2y + t * p2y,
-            alpha = 90 - math.atan2(mx - nx, my - ny) * 180 / PI;
-        // (mx > nx || my < ny) && (alpha += 180);
-        return {
-            x: x,
-            y: y,
-            m: {x: mx, y: my},
-            n: {x: nx, y: ny},
-            start: {x: ax, y: ay},
-            end: {x: cx, y: cy},
-            alpha: alpha
-        };
-    }
-    function bezierBBox(p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y) {
-        if (!Snap.is(p1x, "array")) {
-            p1x = [p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y];
-        }
-        var bbox = curveDim.apply(null, p1x);
-        return box(
-            bbox.min.x,
-            bbox.min.y,
-            bbox.max.x - bbox.min.x,
-            bbox.max.y - bbox.min.y
-        );
-    }
-    function isPointInsideBBox(bbox, x, y) {
-        return  x >= bbox.x &&
-                x <= bbox.x + bbox.width &&
-                y >= bbox.y &&
-                y <= bbox.y + bbox.height;
-    }
-    function isBBoxIntersect(bbox1, bbox2) {
-        bbox1 = box(bbox1);
-        bbox2 = box(bbox2);
-        return isPointInsideBBox(bbox2, bbox1.x, bbox1.y)
-            || isPointInsideBBox(bbox2, bbox1.x2, bbox1.y)
-            || isPointInsideBBox(bbox2, bbox1.x, bbox1.y2)
-            || isPointInsideBBox(bbox2, bbox1.x2, bbox1.y2)
-            || isPointInsideBBox(bbox1, bbox2.x, bbox2.y)
-            || isPointInsideBBox(bbox1, bbox2.x2, bbox2.y)
-            || isPointInsideBBox(bbox1, bbox2.x, bbox2.y2)
-            || isPointInsideBBox(bbox1, bbox2.x2, bbox2.y2)
-            || (bbox1.x < bbox2.x2 && bbox1.x > bbox2.x
-                || bbox2.x < bbox1.x2 && bbox2.x > bbox1.x)
-            && (bbox1.y < bbox2.y2 && bbox1.y > bbox2.y
-                || bbox2.y < bbox1.y2 && bbox2.y > bbox1.y);
-    }
-    function base3(t, p1, p2, p3, p4) {
-        var t1 = -3 * p1 + 9 * p2 - 9 * p3 + 3 * p4,
-            t2 = t * t1 + 6 * p1 - 12 * p2 + 6 * p3;
-        return t * t2 - 3 * p1 + 3 * p2;
-    }
-    function bezlen(x1, y1, x2, y2, x3, y3, x4, y4, z) {
-        if (z == null) {
-            z = 1;
-        }
-        z = z > 1 ? 1 : z < 0 ? 0 : z;
-        var z2 = z / 2,
-            n = 12,
-            Tvalues = [-.1252,.1252,-.3678,.3678,-.5873,.5873,-.7699,.7699,-.9041,.9041,-.9816,.9816],
-            Cvalues = [0.2491,0.2491,0.2335,0.2335,0.2032,0.2032,0.1601,0.1601,0.1069,0.1069,0.0472,0.0472],
-            sum = 0;
-        for (var i = 0; i < n; i++) {
-            var ct = z2 * Tvalues[i] + z2,
-                xbase = base3(ct, x1, x2, x3, x4),
-                ybase = base3(ct, y1, y2, y3, y4),
-                comb = xbase * xbase + ybase * ybase;
-            sum += Cvalues[i] * math.sqrt(comb);
-        }
-        return z2 * sum;
-    }
-    function getTotLen(x1, y1, x2, y2, x3, y3, x4, y4, ll) {
-        if (ll < 0 || bezlen(x1, y1, x2, y2, x3, y3, x4, y4) < ll) {
-            return;
-        }
-        var t = 1,
-            step = t / 2,
-            t2 = t - step,
-            l,
-            e = .01;
-        l = bezlen(x1, y1, x2, y2, x3, y3, x4, y4, t2);
-        while (abs(l - ll) > e) {
-            step /= 2;
-            t2 += (l < ll ? 1 : -1) * step;
-            l = bezlen(x1, y1, x2, y2, x3, y3, x4, y4, t2);
-        }
-        return t2;
-    }
-    function intersect(x1, y1, x2, y2, x3, y3, x4, y4) {
-        if (
-            mmax(x1, x2) < mmin(x3, x4) ||
-            mmin(x1, x2) > mmax(x3, x4) ||
-            mmax(y1, y2) < mmin(y3, y4) ||
-            mmin(y1, y2) > mmax(y3, y4)
-        ) {
-            return;
-        }
-        var nx = (x1 * y2 - y1 * x2) * (x3 - x4) - (x1 - x2) * (x3 * y4 - y3 * x4),
-            ny = (x1 * y2 - y1 * x2) * (y3 - y4) - (y1 - y2) * (x3 * y4 - y3 * x4),
-            denominator = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
-
-        if (!denominator) {
-            return;
-        }
-        var px = nx / denominator,
-            py = ny / denominator,
-            px2 = +px.toFixed(2),
-            py2 = +py.toFixed(2);
-        if (
-            px2 < +mmin(x1, x2).toFixed(2) ||
-            px2 > +mmax(x1, x2).toFixed(2) ||
-            px2 < +mmin(x3, x4).toFixed(2) ||
-            px2 > +mmax(x3, x4).toFixed(2) ||
-            py2 < +mmin(y1, y2).toFixed(2) ||
-            py2 > +mmax(y1, y2).toFixed(2) ||
-            py2 < +mmin(y3, y4).toFixed(2) ||
-            py2 > +mmax(y3, y4).toFixed(2)
-        ) {
-            return;
-        }
-        return {x: px, y: py};
-    }
-    function inter(bez1, bez2) {
-        return interHelper(bez1, bez2);
-    }
-    function interCount(bez1, bez2) {
-        return interHelper(bez1, bez2, 1);
-    }
-    function interHelper(bez1, bez2, justCount) {
-        var bbox1 = bezierBBox(bez1),
-            bbox2 = bezierBBox(bez2);
-        if (!isBBoxIntersect(bbox1, bbox2)) {
-            return justCount ? 0 : [];
-        }
-        var l1 = bezlen.apply(0, bez1),
-            l2 = bezlen.apply(0, bez2),
-            n1 = ~~(l1 / 8),
-            n2 = ~~(l2 / 8),
-            dots1 = [],
-            dots2 = [],
-            xy = {},
-            res = justCount ? 0 : [];
-        for (var i = 0; i < n1 + 1; i++) {
-            var p = findDotsAtSegment.apply(0, bez1.concat(i / n1));
-            dots1.push({x: p.x, y: p.y, t: i / n1});
-        }
-        for (i = 0; i < n2 + 1; i++) {
-            p = findDotsAtSegment.apply(0, bez2.concat(i / n2));
-            dots2.push({x: p.x, y: p.y, t: i / n2});
-        }
-        for (i = 0; i < n1; i++) {
-            for (var j = 0; j < n2; j++) {
-                var di = dots1[i],
-                    di1 = dots1[i + 1],
-                    dj = dots2[j],
-                    dj1 = dots2[j + 1],
-                    ci = abs(di1.x - di.x) < .001 ? "y" : "x",
-                    cj = abs(dj1.x - dj.x) < .001 ? "y" : "x",
-                    is = intersect(di.x, di.y, di1.x, di1.y, dj.x, dj.y, dj1.x, dj1.y);
-                if (is) {
-                    if (xy[is.x.toFixed(4)] == is.y.toFixed(4)) {
-                        continue;
-                    }
-                    xy[is.x.toFixed(4)] = is.y.toFixed(4);
-                    var t1 = di.t + abs((is[ci] - di[ci]) / (di1[ci] - di[ci])) * (di1.t - di.t),
-                        t2 = dj.t + abs((is[cj] - dj[cj]) / (dj1[cj] - dj[cj])) * (dj1.t - dj.t);
-                    if (t1 >= 0 && t1 <= 1 && t2 >= 0 && t2 <= 1) {
-                        if (justCount) {
-                            res++;
-                        } else {
-                            res.push({
-                                x: is.x,
-                                y: is.y,
-                                t1: t1,
-                                t2: t2
-                            });
-                        }
-                    }
-                }
-            }
-        }
-        return res;
-    }
-    function pathIntersection(path1, path2) {
-        return interPathHelper(path1, path2);
-    }
-    function pathIntersectionNumber(path1, path2) {
-        return interPathHelper(path1, path2, 1);
-    }
-    function interPathHelper(path1, path2, justCount) {
-        path1 = path2curve(path1);
-        path2 = path2curve(path2);
-        var x1, y1, x2, y2, x1m, y1m, x2m, y2m, bez1, bez2,
-            res = justCount ? 0 : [];
-        for (var i = 0, ii = path1.length; i < ii; i++) {
-            var pi = path1[i];
-            if (pi[0] == "M") {
-                x1 = x1m = pi[1];
-                y1 = y1m = pi[2];
-            } else {
-                if (pi[0] == "C") {
-                    bez1 = [x1, y1].concat(pi.slice(1));
-                    x1 = bez1[6];
-                    y1 = bez1[7];
-                } else {
-                    bez1 = [x1, y1, x1, y1, x1m, y1m, x1m, y1m];
-                    x1 = x1m;
-                    y1 = y1m;
-                }
-                for (var j = 0, jj = path2.length; j < jj; j++) {
-                    var pj = path2[j];
-                    if (pj[0] == "M") {
-                        x2 = x2m = pj[1];
-                        y2 = y2m = pj[2];
-                    } else {
-                        if (pj[0] == "C") {
-                            bez2 = [x2, y2].concat(pj.slice(1));
-                            x2 = bez2[6];
-                            y2 = bez2[7];
-                        } else {
-                            bez2 = [x2, y2, x2, y2, x2m, y2m, x2m, y2m];
-                            x2 = x2m;
-                            y2 = y2m;
-                        }
-                        var intr = interHelper(bez1, bez2, justCount);
-                        if (justCount) {
-                            res += intr;
-                        } else {
-                            for (var k = 0, kk = intr.length; k < kk; k++) {
-                                intr[k].segment1 = i;
-                                intr[k].segment2 = j;
-                                intr[k].bez1 = bez1;
-                                intr[k].bez2 = bez2;
-                            }
-                            res = res.concat(intr);
-                        }
-                    }
-                }
-            }
-        }
-        return res;
-    }
-    function isPointInsidePath(path, x, y) {
-        var bbox = pathBBox(path);
-        return isPointInsideBBox(bbox, x, y) &&
-               interPathHelper(path, [["M", x, y], ["H", bbox.x2 + 10]], 1) % 2 == 1;
-    }
-    function pathBBox(path) {
-        var pth = paths(path);
-        if (pth.bbox) {
-            return clone(pth.bbox);
-        }
-        if (!path) {
-            return box();
-        }
-        path = path2curve(path);
-        var x = 0,
-            y = 0,
-            X = [],
-            Y = [],
-            p;
-        for (var i = 0, ii = path.length; i < ii; i++) {
-            p = path[i];
-            if (p[0] == "M") {
-                x = p[1];
-                y = p[2];
-                X.push(x);
-                Y.push(y);
-            } else {
-                var dim = curveDim(x, y, p[1], p[2], p[3], p[4], p[5], p[6]);
-                X = X.concat(dim.min.x, dim.max.x);
-                Y = Y.concat(dim.min.y, dim.max.y);
-                x = p[5];
-                y = p[6];
-            }
-        }
-        var xmin = mmin.apply(0, X),
-            ymin = mmin.apply(0, Y),
-            xmax = mmax.apply(0, X),
-            ymax = mmax.apply(0, Y),
-            bb = box(xmin, ymin, xmax - xmin, ymax - ymin);
-        pth.bbox = clone(bb);
-        return bb;
-    }
-    function rectPath(x, y, w, h, r) {
-        if (r) {
-            return [
-                ["M", +x + +r, y],
-                ["l", w - r * 2, 0],
-                ["a", r, r, 0, 0, 1, r, r],
-                ["l", 0, h - r * 2],
-                ["a", r, r, 0, 0, 1, -r, r],
-                ["l", r * 2 - w, 0],
-                ["a", r, r, 0, 0, 1, -r, -r],
-                ["l", 0, r * 2 - h],
-                ["a", r, r, 0, 0, 1, r, -r],
-                ["z"]
-            ];
-        }
-        var res = [["M", x, y], ["l", w, 0], ["l", 0, h], ["l", -w, 0], ["z"]];
-        res.toString = toString;
-        return res;
-    }
-    function ellipsePath(x, y, rx, ry, a) {
-        if (a == null && ry == null) {
-            ry = rx;
-        }
-        x = +x;
-        y = +y;
-        rx = +rx;
-        ry = +ry;
-        if (a != null) {
-            var rad = Math.PI / 180,
-                x1 = x + rx * Math.cos(-ry * rad),
-                x2 = x + rx * Math.cos(-a * rad),
-                y1 = y + rx * Math.sin(-ry * rad),
-                y2 = y + rx * Math.sin(-a * rad),
-                res = [["M", x1, y1], ["A", rx, rx, 0, +(a - ry > 180), 0, x2, y2]];
-        } else {
-            res = [
-                ["M", x, y],
-                ["m", 0, -ry],
-                ["a", rx, ry, 0, 1, 1, 0, 2 * ry],
-                ["a", rx, ry, 0, 1, 1, 0, -2 * ry],
-                ["z"]
-            ];
-        }
-        res.toString = toString;
-        return res;
-    }
-    var unit2px = Snap._unit2px,
-        getPath = {
-        path: function (el) {
-            return el.attr("path");
-        },
-        circle: function (el) {
-            var attr = unit2px(el);
-            return ellipsePath(attr.cx, attr.cy, attr.r);
-        },
-        ellipse: function (el) {
-            var attr = unit2px(el);
-            return ellipsePath(attr.cx || 0, attr.cy || 0, attr.rx, attr.ry);
-        },
-        rect: function (el) {
-            var attr = unit2px(el);
-            return rectPath(attr.x || 0, attr.y || 0, attr.width, attr.height, attr.rx, attr.ry);
-        },
-        image: function (el) {
-            var attr = unit2px(el);
-            return rectPath(attr.x || 0, attr.y || 0, attr.width, attr.height);
-        },
-        line: function (el) {
-            return "M" + [el.attr("x1") || 0, el.attr("y1") || 0, el.attr("x2"), el.attr("y2")];
-        },
-        polyline: function (el) {
-            return "M" + el.attr("points");
-        },
-        polygon: function (el) {
-            return "M" + el.attr("points") + "z";
-        },
-        deflt: function (el) {
-            var bbox = el.node.getBBox();
-            return rectPath(bbox.x, bbox.y, bbox.width, bbox.height);
-        }
-    };
-    function pathToRelative(pathArray) {
-        var pth = paths(pathArray),
-            lowerCase = String.prototype.toLowerCase;
-        if (pth.rel) {
-            return pathClone(pth.rel);
-        }
-        if (!Snap.is(pathArray, "array") || !Snap.is(pathArray && pathArray[0], "array")) {
-            pathArray = Snap.parsePathString(pathArray);
-        }
-        var res = [],
-            x = 0,
-            y = 0,
-            mx = 0,
-            my = 0,
-            start = 0;
-        if (pathArray[0][0] == "M") {
-            x = pathArray[0][1];
-            y = pathArray[0][2];
-            mx = x;
-            my = y;
-            start++;
-            res.push(["M", x, y]);
-        }
-        for (var i = start, ii = pathArray.length; i < ii; i++) {
-            var r = res[i] = [],
-                pa = pathArray[i];
-            if (pa[0] != lowerCase.call(pa[0])) {
-                r[0] = lowerCase.call(pa[0]);
-                switch (r[0]) {
-                    case "a":
-                        r[1] = pa[1];
-                        r[2] = pa[2];
-                        r[3] = pa[3];
-                        r[4] = pa[4];
-                        r[5] = pa[5];
-                        r[6] = +(pa[6] - x).toFixed(3);
-                        r[7] = +(pa[7] - y).toFixed(3);
-                        break;
-                    case "v":
-                        r[1] = +(pa[1] - y).toFixed(3);
-                        break;
-                    case "m":
-                        mx = pa[1];
-                        my = pa[2];
-                    default:
-                        for (var j = 1, jj = pa.length; j < jj; j++) {
-                            r[j] = +(pa[j] - (j % 2 ? x : y)).toFixed(3);
-                        }
-                }
-            } else {
-                r = res[i] = [];
-                if (pa[0] == "m") {
-                    mx = pa[1] + x;
-                    my = pa[2] + y;
-                }
-                for (var k = 0, kk = pa.length; k < kk; k++) {
-                    res[i][k] = pa[k];
-                }
-            }
-            var len = res[i].length;
-            switch (res[i][0]) {
-                case "z":
-                    x = mx;
-                    y = my;
-                    break;
-                case "h":
-                    x += +res[i][len - 1];
-                    break;
-                case "v":
-                    y += +res[i][len - 1];
-                    break;
-                default:
-                    x += +res[i][len - 2];
-                    y += +res[i][len - 1];
-            }
-        }
-        res.toString = toString;
-        pth.rel = pathClone(res);
-        return res;
-    }
-    function pathToAbsolute(pathArray) {
-        var pth = paths(pathArray);
-        if (pth.abs) {
-            return pathClone(pth.abs);
-        }
-        if (!is(pathArray, "array") || !is(pathArray && pathArray[0], "array")) { // rough assumption
-            pathArray = Snap.parsePathString(pathArray);
-        }
-        if (!pathArray || !pathArray.length) {
-            return [["M", 0, 0]];
-        }
-        var res = [],
-            x = 0,
-            y = 0,
-            mx = 0,
-            my = 0,
-            start = 0,
-            pa0;
-        if (pathArray[0][0] == "M") {
-            x = +pathArray[0][1];
-            y = +pathArray[0][2];
-            mx = x;
-            my = y;
-            start++;
-            res[0] = ["M", x, y];
-        }
-        var crz = pathArray.length == 3 &&
-            pathArray[0][0] == "M" &&
-            pathArray[1][0].toUpperCase() == "R" &&
-            pathArray[2][0].toUpperCase() == "Z";
-        for (var r, pa, i = start, ii = pathArray.length; i < ii; i++) {
-            res.push(r = []);
-            pa = pathArray[i];
-            pa0 = pa[0];
-            if (pa0 != pa0.toUpperCase()) {
-                r[0] = pa0.toUpperCase();
-                switch (r[0]) {
-                    case "A":
-                        r[1] = pa[1];
-                        r[2] = pa[2];
-                        r[3] = pa[3];
-                        r[4] = pa[4];
-                        r[5] = pa[5];
-                        r[6] = +pa[6] + x;
-                        r[7] = +pa[7] + y;
-                        break;
-                    case "V":
-                        r[1] = +pa[1] + y;
-                        break;
-                    case "H":
-                        r[1] = +pa[1] + x;
-                        break;
-                    case "R":
-                        var dots = [x, y].concat(pa.slice(1));
-                        for (var j = 2, jj = dots.length; j < jj; j++) {
-                            dots[j] = +dots[j] + x;
-                            dots[++j] = +dots[j] + y;
-                        }
-                        res.pop();
-                        res = res.concat(catmullRom2bezier(dots, crz));
-                        break;
-                    case "O":
-                        res.pop();
-                        dots = ellipsePath(x, y, pa[1], pa[2]);
-                        dots.push(dots[0]);
-                        res = res.concat(dots);
-                        break;
-                    case "U":
-                        res.pop();
-                        res = res.concat(ellipsePath(x, y, pa[1], pa[2], pa[3]));
-                        r = ["U"].concat(res[res.length - 1].slice(-2));
-                        break;
-                    case "M":
-                        mx = +pa[1] + x;
-                        my = +pa[2] + y;
-                    default:
-                        for (j = 1, jj = pa.length; j < jj; j++) {
-                            r[j] = +pa[j] + (j % 2 ? x : y);
-                        }
-                }
-            } else if (pa0 == "R") {
-                dots = [x, y].concat(pa.slice(1));
-                res.pop();
-                res = res.concat(catmullRom2bezier(dots, crz));
-                r = ["R"].concat(pa.slice(-2));
-            } else if (pa0 == "O") {
-                res.pop();
-                dots = ellipsePath(x, y, pa[1], pa[2]);
-                dots.push(dots[0]);
-                res = res.concat(dots);
-            } else if (pa0 == "U") {
-                res.pop();
-                res = res.concat(ellipsePath(x, y, pa[1], pa[2], pa[3]));
-                r = ["U"].concat(res[res.length - 1].slice(-2));
-            } else {
-                for (var k = 0, kk = pa.length; k < kk; k++) {
-                    r[k] = pa[k];
-                }
-            }
-            pa0 = pa0.toUpperCase();
-            if (pa0 != "O") {
-                switch (r[0]) {
-                    case "Z":
-                        x = +mx;
-                        y = +my;
-                        break;
-                    case "H":
-                        x = r[1];
-                        break;
-                    case "V":
-                        y = r[1];
-                        break;
-                    case "M":
-                        mx = r[r.length - 2];
-                        my = r[r.length - 1];
-                    default:
-                        x = r[r.length - 2];
-                        y = r[r.length - 1];
-                }
-            }
-        }
-        res.toString = toString;
-        pth.abs = pathClone(res);
-        return res;
-    }
-    function l2c(x1, y1, x2, y2) {
-        return [x1, y1, x2, y2, x2, y2];
-    }
-    function q2c(x1, y1, ax, ay, x2, y2) {
-        var _13 = 1 / 3,
-            _23 = 2 / 3;
-        return [
-                _13 * x1 + _23 * ax,
-                _13 * y1 + _23 * ay,
-                _13 * x2 + _23 * ax,
-                _13 * y2 + _23 * ay,
-                x2,
-                y2
-            ];
-    }
-    function a2c(x1, y1, rx, ry, angle, large_arc_flag, sweep_flag, x2, y2, recursive) {
-        // for more information of where this math came from visit:
-        // http://www.w3.org/TR/SVG11/implnote.html#ArcImplementationNotes
-        var _120 = PI * 120 / 180,
-            rad = PI / 180 * (+angle || 0),
-            res = [],
-            xy,
-            rotate = Snap._.cacher(function (x, y, rad) {
-                var X = x * math.cos(rad) - y * math.sin(rad),
-                    Y = x * math.sin(rad) + y * math.cos(rad);
-                return {x: X, y: Y};
-            });
-        if (!rx || !ry) {
-            return [x1, y1, x2, y2, x2, y2];
-        }
-        if (!recursive) {
-            xy = rotate(x1, y1, -rad);
-            x1 = xy.x;
-            y1 = xy.y;
-            xy = rotate(x2, y2, -rad);
-            x2 = xy.x;
-            y2 = xy.y;
-            var cos = math.cos(PI / 180 * angle),
-                sin = math.sin(PI / 180 * angle),
-                x = (x1 - x2) / 2,
-                y = (y1 - y2) / 2;
-            var h = x * x / (rx * rx) + y * y / (ry * ry);
-            if (h > 1) {
-                h = math.sqrt(h);
-                rx = h * rx;
-                ry = h * ry;
-            }
-            var rx2 = rx * rx,
-                ry2 = ry * ry,
-                k = (large_arc_flag == sweep_flag ? -1 : 1) *
-                    math.sqrt(abs((rx2 * ry2 - rx2 * y * y - ry2 * x * x) / (rx2 * y * y + ry2 * x * x))),
-                cx = k * rx * y / ry + (x1 + x2) / 2,
-                cy = k * -ry * x / rx + (y1 + y2) / 2,
-                f1 = math.asin(((y1 - cy) / ry).toFixed(9)),
-                f2 = math.asin(((y2 - cy) / ry).toFixed(9));
-
-            f1 = x1 < cx ? PI - f1 : f1;
-            f2 = x2 < cx ? PI - f2 : f2;
-            f1 < 0 && (f1 = PI * 2 + f1);
-            f2 < 0 && (f2 = PI * 2 + f2);
-            if (sweep_flag && f1 > f2) {
-                f1 = f1 - PI * 2;
-            }
-            if (!sweep_flag && f2 > f1) {
-                f2 = f2 - PI * 2;
-            }
-        } else {
-            f1 = recursive[0];
-            f2 = recursive[1];
-            cx = recursive[2];
-            cy = recursive[3];
-        }
-        var df = f2 - f1;
-        if (abs(df) > _120) {
-            var f2old = f2,
-                x2old = x2,
-                y2old = y2;
-            f2 = f1 + _120 * (sweep_flag && f2 > f1 ? 1 : -1);
-            x2 = cx + rx * math.cos(f2);
-            y2 = cy + ry * math.sin(f2);
-            res = a2c(x2, y2, rx, ry, angle, 0, sweep_flag, x2old, y2old, [f2, f2old, cx, cy]);
-        }
-        df = f2 - f1;
-        var c1 = math.cos(f1),
-            s1 = math.sin(f1),
-            c2 = math.cos(f2),
-            s2 = math.sin(f2),
-            t = math.tan(df / 4),
-            hx = 4 / 3 * rx * t,
-            hy = 4 / 3 * ry * t,
-            m1 = [x1, y1],
-            m2 = [x1 + hx * s1, y1 - hy * c1],
-            m3 = [x2 + hx * s2, y2 - hy * c2],
-            m4 = [x2, y2];
-        m2[0] = 2 * m1[0] - m2[0];
-        m2[1] = 2 * m1[1] - m2[1];
-        if (recursive) {
-            return [m2, m3, m4].concat(res);
-        } else {
-            res = [m2, m3, m4].concat(res).join().split(",");
-            var newres = [];
-            for (var i = 0, ii = res.length; i < ii; i++) {
-                newres[i] = i % 2 ? rotate(res[i - 1], res[i], rad).y : rotate(res[i], res[i + 1], rad).x;
-            }
-            return newres;
-        }
-    }
-    function findDotAtSegment(p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y, t) {
-        var t1 = 1 - t;
-        return {
-            x: pow(t1, 3) * p1x + pow(t1, 2) * 3 * t * c1x + t1 * 3 * t * t * c2x + pow(t, 3) * p2x,
-            y: pow(t1, 3) * p1y + pow(t1, 2) * 3 * t * c1y + t1 * 3 * t * t * c2y + pow(t, 3) * p2y
-        };
-    }
-
-    // Returns bounding box of cubic bezier curve.
-    // Source: http://blog.hackers-cafe.net/2009/06/how-to-calculate-bezier-curves-bounding.html
-    // Original version: NISHIO Hirokazu
-    // Modifications: https://github.com/timo22345
-    function curveDim(x0, y0, x1, y1, x2, y2, x3, y3) {
-        var tvalues = [],
-            bounds = [[], []],
-            a, b, c, t, t1, t2, b2ac, sqrtb2ac;
-        for (var i = 0; i < 2; ++i) {
-            if (i == 0) {
-                b = 6 * x0 - 12 * x1 + 6 * x2;
-                a = -3 * x0 + 9 * x1 - 9 * x2 + 3 * x3;
-                c = 3 * x1 - 3 * x0;
-            } else {
-                b = 6 * y0 - 12 * y1 + 6 * y2;
-                a = -3 * y0 + 9 * y1 - 9 * y2 + 3 * y3;
-                c = 3 * y1 - 3 * y0;
-            }
-            if (abs(a) < 1e-12) {
-                if (abs(b) < 1e-12) {
-                    continue;
-                }
-                t = -c / b;
-                if (0 < t && t < 1) {
-                    tvalues.push(t);
-                }
-                continue;
-            }
-            b2ac = b * b - 4 * c * a;
-            sqrtb2ac = math.sqrt(b2ac);
-            if (b2ac < 0) {
-                continue;
-            }
-            t1 = (-b + sqrtb2ac) / (2 * a);
-            if (0 < t1 && t1 < 1) {
-                tvalues.push(t1);
-            }
-            t2 = (-b - sqrtb2ac) / (2 * a);
-            if (0 < t2 && t2 < 1) {
-                tvalues.push(t2);
-            }
-        }
-
-        var x, y, j = tvalues.length,
-            jlen = j,
-            mt;
-        while (j--) {
-            t = tvalues[j];
-            mt = 1 - t;
-            bounds[0][j] = mt * mt * mt * x0 + 3 * mt * mt * t * x1 + 3 * mt * t * t * x2 + t * t * t * x3;
-            bounds[1][j] = mt * mt * mt * y0 + 3 * mt * mt * t * y1 + 3 * mt * t * t * y2 + t * t * t * y3;
-        }
-
-        bounds[0][jlen] = x0;
-        bounds[1][jlen] = y0;
-        bounds[0][jlen + 1] = x3;
-        bounds[1][jlen + 1] = y3;
-        bounds[0].length = bounds[1].length = jlen + 2;
-
-
-        return {
-          min: {x: mmin.apply(0, bounds[0]), y: mmin.apply(0, bounds[1])},
-          max: {x: mmax.apply(0, bounds[0]), y: mmax.apply(0, bounds[1])}
-        };
-    }
-
-    function path2curve(path, path2) {
-        var pth = !path2 && paths(path);
-        if (!path2 && pth.curve) {
-            return pathClone(pth.curve);
-        }
-        var p = pathToAbsolute(path),
-            p2 = path2 && pathToAbsolute(path2),
-            attrs = {x: 0, y: 0, bx: 0, by: 0, X: 0, Y: 0, qx: null, qy: null},
-            attrs2 = {x: 0, y: 0, bx: 0, by: 0, X: 0, Y: 0, qx: null, qy: null},
-            processPath = function (path, d, pcom) {
-                var nx, ny;
-                if (!path) {
-                    return ["C", d.x, d.y, d.x, d.y, d.x, d.y];
-                }
-                !(path[0] in {T: 1, Q: 1}) && (d.qx = d.qy = null);
-                switch (path[0]) {
-                    case "M":
-                        d.X = path[1];
-                        d.Y = path[2];
-                        break;
-                    case "A":
-                        path = ["C"].concat(a2c.apply(0, [d.x, d.y].concat(path.slice(1))));
-                        break;
-                    case "S":
-                        if (pcom == "C" || pcom == "S") { // In "S" case we have to take into account, if the previous command is C/S.
-                            nx = d.x * 2 - d.bx;          // And reflect the previous
-                            ny = d.y * 2 - d.by;          // command's control point relative to the current point.
-                        }
-                        else {                            // or some else or nothing
-                            nx = d.x;
-                            ny = d.y;
-                        }
-                        path = ["C", nx, ny].concat(path.slice(1));
-                        break;
-                    case "T":
-                        if (pcom == "Q" || pcom == "T") { // In "T" case we have to take into account, if the previous command is Q/T.
-                            d.qx = d.x * 2 - d.qx;        // And make a reflection similar
-                            d.qy = d.y * 2 - d.qy;        // to case "S".
-                        }
-                        else {                            // or something else or nothing
-                            d.qx = d.x;
-                            d.qy = d.y;
-                        }
-                        path = ["C"].concat(q2c(d.x, d.y, d.qx, d.qy, path[1], path[2]));
-                        break;
-                    case "Q":
-                        d.qx = path[1];
-                        d.qy = path[2];
-                        path = ["C"].concat(q2c(d.x, d.y, path[1], path[2], path[3], path[4]));
-                        break;
-                    case "L":
-                        path = ["C"].concat(l2c(d.x, d.y, path[1], path[2]));
-                        break;
-                    case "H":
-                        path = ["C"].concat(l2c(d.x, d.y, path[1], d.y));
-                        break;
-                    case "V":
-                        path = ["C"].concat(l2c(d.x, d.y, d.x, path[1]));
-                        break;
-                    case "Z":
-                        path = ["C"].concat(l2c(d.x, d.y, d.X, d.Y));
-                        break;
-                }
-                return path;
-            },
-            fixArc = function (pp, i) {
-                if (pp[i].length > 7) {
-                    pp[i].shift();
-                    var pi = pp[i];
-                    while (pi.length) {
-                        pcoms1[i] = "A"; // if created multiple C:s, their original seg is saved
-                        p2 && (pcoms2[i] = "A"); // the same as above
-                        pp.splice(i++, 0, ["C"].concat(pi.splice(0, 6)));
-                    }
-                    pp.splice(i, 1);
-                    ii = mmax(p.length, p2 && p2.length || 0);
-                }
-            },
-            fixM = function (path1, path2, a1, a2, i) {
-                if (path1 && path2 && path1[i][0] == "M" && path2[i][0] != "M") {
-                    path2.splice(i, 0, ["M", a2.x, a2.y]);
-                    a1.bx = 0;
-                    a1.by = 0;
-                    a1.x = path1[i][1];
-                    a1.y = path1[i][2];
-                    ii = mmax(p.length, p2 && p2.length || 0);
-                }
-            },
-            pcoms1 = [], // path commands of original path p
-            pcoms2 = [], // path commands of original path p2
-            pfirst = "", // temporary holder for original path command
-            pcom = ""; // holder for previous path command of original path
-        for (var i = 0, ii = mmax(p.length, p2 && p2.length || 0); i < ii; i++) {
-            p[i] && (pfirst = p[i][0]); // save current path command
-
-            if (pfirst != "C") // C is not saved yet, because it may be result of conversion
-            {
-                pcoms1[i] = pfirst; // Save current path command
-                i && ( pcom = pcoms1[i - 1]); // Get previous path command pcom
-            }
-            p[i] = processPath(p[i], attrs, pcom); // Previous path command is inputted to processPath
-
-            if (pcoms1[i] != "A" && pfirst == "C") pcoms1[i] = "C"; // A is the only command
-            // which may produce multiple C:s
-            // so we have to make sure that C is also C in original path
-
-            fixArc(p, i); // fixArc adds also the right amount of A:s to pcoms1
-
-            if (p2) { // the same procedures is done to p2
-                p2[i] && (pfirst = p2[i][0]);
-                if (pfirst != "C") {
-                    pcoms2[i] = pfirst;
-                    i && (pcom = pcoms2[i - 1]);
-                }
-                p2[i] = processPath(p2[i], attrs2, pcom);
-
-                if (pcoms2[i] != "A" && pfirst == "C") {
-                    pcoms2[i] = "C";
-                }
-
-                fixArc(p2, i);
-            }
-            fixM(p, p2, attrs, attrs2, i);
-            fixM(p2, p, attrs2, attrs, i);
-            var seg = p[i],
-                seg2 = p2 && p2[i],
-                seglen = seg.length,
-                seg2len = p2 && seg2.length;
-            attrs.x = seg[seglen - 2];
-            attrs.y = seg[seglen - 1];
-            attrs.bx = toFloat(seg[seglen - 4]) || attrs.x;
-            attrs.by = toFloat(seg[seglen - 3]) || attrs.y;
-            attrs2.bx = p2 && (toFloat(seg2[seg2len - 4]) || attrs2.x);
-            attrs2.by = p2 && (toFloat(seg2[seg2len - 3]) || attrs2.y);
-            attrs2.x = p2 && seg2[seg2len - 2];
-            attrs2.y = p2 && seg2[seg2len - 1];
-        }
-        if (!p2) {
-            pth.curve = pathClone(p);
-        }
-        return p2 ? [p, p2] : p;
-    }
-    function mapPath(path, matrix) {
-        if (!matrix) {
-            return path;
-        }
-        var x, y, i, j, ii, jj, pathi;
-        path = path2curve(path);
-        for (i = 0, ii = path.length; i < ii; i++) {
-            pathi = path[i];
-            for (j = 1, jj = pathi.length; j < jj; j += 2) {
-                x = matrix.x(pathi[j], pathi[j + 1]);
-                y = matrix.y(pathi[j], pathi[j + 1]);
-                pathi[j] = x;
-                pathi[j + 1] = y;
-            }
-        }
-        return path;
-    }
-
-    // http://schepers.cc/getting-to-the-point
-    function catmullRom2bezier(crp, z) {
-        var d = [];
-        for (var i = 0, iLen = crp.length; iLen - 2 * !z > i; i += 2) {
-            var p = [
-                        {x: +crp[i - 2], y: +crp[i - 1]},
-                        {x: +crp[i],     y: +crp[i + 1]},
-                        {x: +crp[i + 2], y: +crp[i + 3]},
-                        {x: +crp[i + 4], y: +crp[i + 5]}
-                    ];
-            if (z) {
-                if (!i) {
-                    p[0] = {x: +crp[iLen - 2], y: +crp[iLen - 1]};
-                } else if (iLen - 4 == i) {
-                    p[3] = {x: +crp[0], y: +crp[1]};
-                } else if (iLen - 2 == i) {
-                    p[2] = {x: +crp[0], y: +crp[1]};
-                    p[3] = {x: +crp[2], y: +crp[3]};
-                }
-            } else {
-                if (iLen - 4 == i) {
-                    p[3] = p[2];
-                } else if (!i) {
-                    p[0] = {x: +crp[i], y: +crp[i + 1]};
-                }
-            }
-            d.push(["C",
-                  (-p[0].x + 6 * p[1].x + p[2].x) / 6,
-                  (-p[0].y + 6 * p[1].y + p[2].y) / 6,
-                  (p[1].x + 6 * p[2].x - p[3].x) / 6,
-                  (p[1].y + 6*p[2].y - p[3].y) / 6,
-                  p[2].x,
-                  p[2].y
-            ]);
-        }
-
-        return d;
-    }
-
-    // export
-    Snap.path = paths;
-
-    /*\
-     * Snap.path.getTotalLength
-     [ method ]
-     **
-     * Returns the length of the given path in pixels
-     **
-     - path (string) SVG path string
-     **
-     = (number) length
-    \*/
-    Snap.path.getTotalLength = getTotalLength;
-    /*\
-     * Snap.path.getPointAtLength
-     [ method ]
-     **
-     * Returns the coordinates of the point located at the given length along the given path
-     **
-     - path (string) SVG path string
-     - length (number) length, in pixels, from the start of the path, excluding non-rendering jumps
-     **
-     = (object) representation of the point:
-     o {
-     o     x: (number) x coordinate,
-     o     y: (number) y coordinate,
-     o     alpha: (number) angle of derivative
-     o }
-    \*/
-    Snap.path.getPointAtLength = getPointAtLength;
-    /*\
-     * Snap.path.getSubpath
-     [ method ]
-     **
-     * Returns the subpath of a given path between given start and end lengths
-     **
-     - path (string) SVG path string
-     - from (number) length, in pixels, from the start of the path to the start of the segment
-     - to (number) length, in pixels, from the start of the path to the end of the segment
-     **
-     = (string) path string definition for the segment
-    \*/
-    Snap.path.getSubpath = function (path, from, to) {
-        if (this.getTotalLength(path) - to < 1e-6) {
-            return getSubpathsAtLength(path, from).end;
-        }
-        var a = getSubpathsAtLength(path, to, 1);
-        return from ? getSubpathsAtLength(a, from).end : a;
-    };
-    /*\
-     * Element.getTotalLength
-     [ method ]
-     **
-     * Returns the length of the path in pixels (only works for `path` elements)
-     = (number) length
-    \*/
-    elproto.getTotalLength = function () {
-        if (this.node.getTotalLength) {
-            return this.node.getTotalLength();
-        }
-    };
-    // SIERRA Element.getPointAtLength()/Element.getTotalLength(): If a <path> is broken into different segments, is the jump distance to the new coordinates set by the _M_ or _m_ commands calculated as part of the path's total length?
-    /*\
-     * Element.getPointAtLength
-     [ method ]
-     **
-     * Returns coordinates of the point located at the given length on the given path (only works for `path` elements)
-     **
-     - length (number) length, in pixels, from the start of the path, excluding non-rendering jumps
-     **
-     = (object) representation of the point:
-     o {
-     o     x: (number) x coordinate,
-     o     y: (number) y coordinate,
-     o     alpha: (number) angle of derivative
-     o }
-    \*/
-    elproto.getPointAtLength = function (length) {
-        return getPointAtLength(this.attr("d"), length);
-    };
-    // SIERRA Element.getSubpath(): Similar to the problem for Element.getPointAtLength(). Unclear how this would work for a segmented path. Overall, the concept of _subpath_ and what I'm calling a _segment_ (series of non-_M_ or _Z_ commands) is unclear.
-    /*\
-     * Element.getSubpath
-     [ method ]
-     **
-     * Returns subpath of a given element from given start and end lengths (only works for `path` elements)
-     **
-     - from (number) length, in pixels, from the start of the path to the start of the segment
-     - to (number) length, in pixels, from the start of the path to the end of the segment
-     **
-     = (string) path string definition for the segment
-    \*/
-    elproto.getSubpath = function (from, to) {
-        return Snap.path.getSubpath(this.attr("d"), from, to);
-    };
-    Snap._.box = box;
-    /*\
-     * Snap.path.findDotsAtSegment
-     [ method ]
-     **
-     * Utility method
-     **
-     * Finds dot coordinates on the given cubic beziér curve at the given t
-     - p1x (number) x of the first point of the curve
-     - p1y (number) y of the first point of the curve
-     - c1x (number) x of the first anchor of the curve
-     - c1y (number) y of the first anchor of the curve
-     - c2x (number) x of the second anchor of the curve
-     - c2y (number) y of the second anchor of the curve
-     - p2x (number) x of the second point of the curve
-     - p2y (number) y of the second point of the curve
-     - t (number) position on the curve (0..1)
-     = (object) point information in format:
-     o {
-     o     x: (number) x coordinate of the point,
-     o     y: (number) y coordinate of the point,
-     o     m: {
-     o         x: (number) x coordinate of the left anchor,
-     o         y: (number) y coordinate of the left anchor
-     o     },
-     o     n: {
-     o         x: (number) x coordinate of the right anchor,
-     o         y: (number) y coordinate of the right anchor
-     o     },
-     o     start: {
-     o         x: (number) x coordinate of the start of the curve,
-     o         y: (number) y coordinate of the start of the curve
-     o     },
-     o     end: {
-     o         x: (number) x coordinate of the end of the curve,
-     o         y: (number) y coordinate of the end of the curve
-     o     },
-     o     alpha: (number) angle of the curve derivative at the point
-     o }
-    \*/
-    Snap.path.findDotsAtSegment = findDotsAtSegment;
-    /*\
-     * Snap.path.bezierBBox
-     [ method ]
-     **
-     * Utility method
-     **
-     * Returns the bounding box of a given cubic beziér curve
-     - p1x (number) x of the first point of the curve
-     - p1y (number) y of the first point of the curve
-     - c1x (number) x of the first anchor of the curve
-     - c1y (number) y of the first anchor of the curve
-     - c2x (number) x of the second anchor of the curve
-     - c2y (number) y of the second anchor of the curve
-     - p2x (number) x of the second point of the curve
-     - p2y (number) y of the second point of the curve
-     * or
-     - bez (array) array of six points for beziér curve
-     = (object) bounding box
-     o {
-     o     x: (number) x coordinate of the left top point of the box,
-     o     y: (number) y coordinate of the left top point of the box,
-     o     x2: (number) x coordinate of the right bottom point of the box,
-     o     y2: (number) y coordinate of the right bottom point of the box,
-     o     width: (number) width of the box,
-     o     height: (number) height of the box
-     o }
-    \*/
-    Snap.path.bezierBBox = bezierBBox;
-    /*\
-     * Snap.path.isPointInsideBBox
-     [ method ]
-     **
-     * Utility method
-     **
-     * Returns `true` if given point is inside bounding box
-     - bbox (string) bounding box
-     - x (string) x coordinate of the point
-     - y (string) y coordinate of the point
-     = (boolean) `true` if point is inside
-    \*/
-    Snap.path.isPointInsideBBox = isPointInsideBBox;
-    Snap.closest = function (x, y, X, Y) {
-        var r = 100,
-            b = box(x - r / 2, y - r / 2, r, r),
-            inside = [],
-            getter = X[0].hasOwnProperty("x") ? function (i) {
-                return {
-                    x: X[i].x,
-                    y: X[i].y
-                };
-            } : function (i) {
-                return {
-                    x: X[i],
-                    y: Y[i]
-                };
-            },
-            found = 0;
-        while (r <= 1e6 && !found) {
-            for (var i = 0, ii = X.length; i < ii; i++) {
-                var xy = getter(i);
-                if (isPointInsideBBox(b, xy.x, xy.y)) {
-                    found++;
-                    inside.push(xy);
-                    break;
-                }
-            }
-            if (!found) {
-                r *= 2;
-                b = box(x - r / 2, y - r / 2, r, r)
-            }
-        }
-        if (r == 1e6) {
-            return;
-        }
-        var len = Infinity,
-            res;
-        for (i = 0, ii = inside.length; i < ii; i++) {
-            var l = Snap.len(x, y, inside[i].x, inside[i].y);
-            if (len > l) {
-                len = l;
-                inside[i].len = l;
-                res = inside[i];
-            }
-        }
-        return res;
-    };
-    /*\
-     * Snap.path.isBBoxIntersect
-     [ method ]
-     **
-     * Utility method
-     **
-     * Returns `true` if two bounding boxes intersect
-     - bbox1 (string) first bounding box
-     - bbox2 (string) second bounding box
-     = (boolean) `true` if bounding boxes intersect
-    \*/
-    Snap.path.isBBoxIntersect = isBBoxIntersect;
-    /*\
-     * Snap.path.intersection
-     [ method ]
-     **
-     * Utility method
-     **
-     * Finds intersections of two paths
-     - path1 (string) path string
-     - path2 (string) path string
-     = (array) dots of intersection
-     o [
-     o     {
-     o         x: (number) x coordinate of the point,
-     o         y: (number) y coordinate of the point,
-     o         t1: (number) t value for segment of path1,
-     o         t2: (number) t value for segment of path2,
-     o         segment1: (number) order number for segment of path1,
-     o         segment2: (number) order number for segment of path2,
-     o         bez1: (array) eight coordinates representing beziér curve for the segment of path1,
-     o         bez2: (array) eight coordinates representing beziér curve for the segment of path2
-     o     }
-     o ]
-    \*/
-    Snap.path.intersection = pathIntersection;
-    Snap.path.intersectionNumber = pathIntersectionNumber;
-    /*\
-     * Snap.path.isPointInside
-     [ method ]
-     **
-     * Utility method
-     **
-     * Returns `true` if given point is inside a given closed path.
-     *
-     * Note: fill mode doesn’t affect the result of this method.
-     - path (string) path string
-     - x (number) x of the point
-     - y (number) y of the point
-     = (boolean) `true` if point is inside the path
-    \*/
-    Snap.path.isPointInside = isPointInsidePath;
-    /*\
-     * Snap.path.getBBox
-     [ method ]
-     **
-     * Utility method
-     **
-     * Returns the bounding box of a given path
-     - path (string) path string
-     = (object) bounding box
-     o {
-     o     x: (number) x coordinate of the left top point of the box,
-     o     y: (number) y coordinate of the left top point of the box,
-     o     x2: (number) x coordinate of the right bottom point of the box,
-     o     y2: (number) y coordinate of the right bottom point of the box,
-     o     width: (number) width of the box,
-     o     height: (number) height of the box
-     o }
-    \*/
-    Snap.path.getBBox = pathBBox;
-    Snap.path.get = getPath;
-    /*\
-     * Snap.path.toRelative
-     [ method ]
-     **
-     * Utility method
-     **
-     * Converts path coordinates into relative values
-     - path (string) path string
-     = (array) path string
-    \*/
-    Snap.path.toRelative = pathToRelative;
-    /*\
-     * Snap.path.toAbsolute
-     [ method ]
-     **
-     * Utility method
-     **
-     * Converts path coordinates into absolute values
-     - path (string) path string
-     = (array) path string
-    \*/
-    Snap.path.toAbsolute = pathToAbsolute;
-    /*\
-     * Snap.path.toCubic
-     [ method ]
-     **
-     * Utility method
-     **
-     * Converts path to a new path where all segments are cubic beziér curves
-     - pathString (string|array) path string or array of segments
-     = (array) array of segments
-    \*/
-    Snap.path.toCubic = path2curve;
-    /*\
-     * Snap.path.map
-     [ method ]
-     **
-     * Transform the path string with the given matrix
-     - path (string) path string
-     - matrix (object) see @Matrix
-     = (string) transformed path string
-    \*/
-    Snap.path.map = mapPath;
-    Snap.path.toString = toString;
-    Snap.path.clone = pathClone;
-});
-
-// Copyright (c) 2013 Adobe Systems Incorporated. All rights reserved.
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-Snap.plugin(function (Snap, Element, Paper, glob) {
-    var mmax = Math.max,
-        mmin = Math.min;
-
-    // Set
-    var Set = function (items) {
-        this.items = [];
-	this.bindings = {};
-        this.length = 0;
-        this.type = "set";
-        if (items) {
-            for (var i = 0, ii = items.length; i < ii; i++) {
-                if (items[i]) {
-                    this[this.items.length] = this.items[this.items.length] = items[i];
-                    this.length++;
-                }
-            }
-        }
-    },
-    setproto = Set.prototype;
-    /*\
-     * Set.push
-     [ method ]
-     **
-     * Adds each argument to the current set
-     = (object) original element
-    \*/
-    setproto.push = function () {
-        var item,
-            len;
-        for (var i = 0, ii = arguments.length; i < ii; i++) {
-            item = arguments[i];
-            if (item) {
-                len = this.items.length;
-                this[len] = this.items[len] = item;
-                this.length++;
-            }
-        }
-        return this;
-    };
-    /*\
-     * Set.pop
-     [ method ]
-     **
-     * Removes last element and returns it
-     = (object) element
-    \*/
-    setproto.pop = function () {
-        this.length && delete this[this.length--];
-        return this.items.pop();
-    };
-    /*\
-     * Set.forEach
-     [ method ]
-     **
-     * Executes given function for each element in the set
-     *
-     * If the function returns `false`, the loop stops running.
-     **
-     - callback (function) function to run
-     - thisArg (object) context object for the callback
-     = (object) Set object
-    \*/
-    setproto.forEach = function (callback, thisArg) {
-        for (var i = 0, ii = this.items.length; i < ii; i++) {
-            if (callback.call(thisArg, this.items[i], i) === false) {
-                return this;
-            }
-        }
-        return this;
-    };
-    /*\
-     * Set.animate
-     [ method ]
-     **
-     * Animates each element in set in sync.
-     *
-     **
-     - attrs (object) key-value pairs of destination attributes
-     - duration (number) duration of the animation in milliseconds
-     - easing (function) #optional easing function from @mina or custom
-     - callback (function) #optional callback function that executes when the animation ends
-     * or
-     - animation (array) array of animation parameter for each element in set in format `[attrs, duration, easing, callback]`
-     > Usage
-     | // animate all elements in set to radius 10
-     | set.animate({r: 10}, 500, mina.easein);
-     | // or
-     | // animate first element to radius 10, but second to radius 20 and in different time
-     | set.animate([{r: 10}, 500, mina.easein], [{r: 20}, 1500, mina.easein]);
-     = (Element) the current element
-    \*/
-    setproto.animate = function (attrs, ms, easing, callback) {
-        if (typeof easing == "function" && !easing.length) {
-            callback = easing;
-            easing = mina.linear;
-        }
-        if (attrs instanceof Snap._.Animation) {
-            callback = attrs.callback;
-            easing = attrs.easing;
-            ms = easing.dur;
-            attrs = attrs.attr;
-        }
-        var args = arguments;
-        if (Snap.is(attrs, "array") && Snap.is(args[args.length - 1], "array")) {
-            var each = true;
-        }
-        var begin,
-            handler = function () {
-                if (begin) {
-                    this.b = begin;
-                } else {
-                    begin = this.b;
-                }
-            },
-            cb = 0,
-            set = this,
-            callbacker = callback && function () {
-                if (++cb == set.length) {
-                    callback.call(this);
-                }
-            };
-        return this.forEach(function (el, i) {
-            eve.once("snap.animcreated." + el.id, handler);
-            if (each) {
-                args[i] && el.animate.apply(el, args[i]);
-            } else {
-                el.animate(attrs, ms, easing, callbacker);
-            }
-        });
-    };
-    /*\
-     * Set.remove
-     [ method ]
-     **
-     * Removes all children of the set.
-     *
-     = (object) Set object
-    \*/
-    setproto.remove = function () {
-        while (this.length) {
-            this.pop().remove();
-        }
-        return this;
-    };
-    /*\
-     * Set.bind
-     [ method ]
-     **
-     * Specifies how to handle a specific attribute when applied
-     * to a set.
-     *
-     **
-     - attr (string) attribute name
-     - callback (function) function to run
-     * or
-     - attr (string) attribute name
-     - element (Element) specific element in the set to apply the attribute to
-     * or
-     - attr (string) attribute name
-     - element (Element) specific element in the set to apply the attribute to
-     - eattr (string) attribute on the element to bind the attribute to
-     = (object) Set object
-    \*/
-    setproto.bind = function (attr, a, b) {
-        var data = {};
-        if (typeof a == "function") {
-            this.bindings[attr] = a;
-        } else {
-            var aname = b || attr;
-            this.bindings[attr] = function (v) {
-                data[aname] = v;
-                a.attr(data);
-            };
-        }
-        return this;
-    };
-    /*\
-     * Set.attr
-     [ method ]
-     **
-     * Equivalent of @Element.attr.
-     = (object) Set object
-    \*/
-    setproto.attr = function (value) {
-        var unbound = {};
-        for (var k in value) {
-            if (this.bindings[k]) {
-                this.bindings[k](value[k]);
-            } else {
-                unbound[k] = value[k];
-            }
-        }
-        for (var i = 0, ii = this.items.length; i < ii; i++) {
-            this.items[i].attr(unbound);
-        }
-        return this;
-    };
-    /*\
-     * Set.clear
-     [ method ]
-     **
-     * Removes all elements from the set
-    \*/
-    setproto.clear = function () {
-        while (this.length) {
-            this.pop();
-        }
-    };
-    /*\
-     * Set.splice
-     [ method ]
-     **
-     * Removes range of elements from the set
-     **
-     - index (number) position of the deletion
-     - count (number) number of element to remove
-     - insertion… (object) #optional elements to insert
-     = (object) set elements that were deleted
-    \*/
-    setproto.splice = function (index, count, insertion) {
-        index = index < 0 ? mmax(this.length + index, 0) : index;
-        count = mmax(0, mmin(this.length - index, count));
-        var tail = [],
-            todel = [],
-            args = [],
-            i;
-        for (i = 2; i < arguments.length; i++) {
-            args.push(arguments[i]);
-        }
-        for (i = 0; i < count; i++) {
-            todel.push(this[index + i]);
-        }
-        for (; i < this.length - index; i++) {
-            tail.push(this[index + i]);
-        }
-        var arglen = args.length;
-        for (i = 0; i < arglen + tail.length; i++) {
-            this.items[index + i] = this[index + i] = i < arglen ? args[i] : tail[i - arglen];
-        }
-        i = this.items.length = this.length -= count - arglen;
-        while (this[i]) {
-            delete this[i++];
-        }
-        return new Set(todel);
-    };
-    /*\
-     * Set.exclude
-     [ method ]
-     **
-     * Removes given element from the set
-     **
-     - element (object) element to remove
-     = (boolean) `true` if object was found and removed from the set
-    \*/
-    setproto.exclude = function (el) {
-        for (var i = 0, ii = this.length; i < ii; i++) if (this[i] == el) {
-            this.splice(i, 1);
-            return true;
-        }
-        return false;
-    };
-    /*\
-     * Set.insertAfter
-     [ method ]
-     **
-     * Inserts set elements after given element.
-     **
-     - element (object) set will be inserted after this element
-     = (object) Set object
-    \*/
-    setproto.insertAfter = function (el) {
-        var i = this.items.length;
-        while (i--) {
-            this.items[i].insertAfter(el);
-        }
-        return this;
-    };
-    /*\
-     * Set.getBBox
-     [ method ]
-     **
-     * Union of all bboxes of the set. See @Element.getBBox.
-     = (object) bounding box descriptor. See @Element.getBBox.
-    \*/
-    setproto.getBBox = function () {
-        var x = [],
-            y = [],
-            x2 = [],
-            y2 = [];
-        for (var i = this.items.length; i--;) if (!this.items[i].removed) {
-            var box = this.items[i].getBBox();
-            x.push(box.x);
-            y.push(box.y);
-            x2.push(box.x + box.width);
-            y2.push(box.y + box.height);
-        }
-        x = mmin.apply(0, x);
-        y = mmin.apply(0, y);
-        x2 = mmax.apply(0, x2);
-        y2 = mmax.apply(0, y2);
-        return {
-            x: x,
-            y: y,
-            x2: x2,
-            y2: y2,
-            width: x2 - x,
-            height: y2 - y,
-            cx: x + (x2 - x) / 2,
-            cy: y + (y2 - y) / 2
-        };
-    };
-    /*\
-     * Set.insertAfter
-     [ method ]
-     **
-     * Creates a clone of the set.
-     **
-     = (object) New Set object
-    \*/
-    setproto.clone = function (s) {
-        s = new Set;
-        for (var i = 0, ii = this.items.length; i < ii; i++) {
-            s.push(this.items[i].clone());
-        }
-        return s;
-    };
-    setproto.toString = function () {
-        return "Snap\u2018s set";
-    };
-    setproto.type = "set";
-    // export
-    /*\
-     * Snap.Set
-     [ property ]
-     **
-     * Set constructor.
-    \*/
-    Snap.Set = Set;
-    /*\
-     * Snap.set
-     [ method ]
-     **
-     * Creates a set and fills it with list of arguments.
-     **
-     = (object) New Set object
-     | var r = paper.rect(0, 0, 10, 10),
-     |     s1 = Snap.set(), // empty set
-     |     s2 = Snap.set(r, paper.circle(100, 100, 20)); // prefilled set
-    \*/
-    Snap.set = function () {
-        var set = new Set;
-        if (arguments.length) {
-            set.push.apply(set, Array.prototype.slice.call(arguments, 0));
-        }
-        return set;
-    };
-});
-
-// Copyright (c) 2013 Adobe Systems Incorporated. All rights reserved.
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-Snap.plugin(function (Snap, Element, Paper, glob) {
-    var names = {},
-        reUnit = /[%a-z]+$/i,
-        Str = String;
-    names.stroke = names.fill = "colour";
-    function getEmpty(item) {
-        var l = item[0];
-        switch (l.toLowerCase()) {
-            case "t": return [l, 0, 0];
-            case "m": return [l, 1, 0, 0, 1, 0, 0];
-            case "r": if (item.length == 4) {
-                return [l, 0, item[2], item[3]];
-            } else {
-                return [l, 0];
-            }
-            case "s": if (item.length == 5) {
-                return [l, 1, 1, item[3], item[4]];
-            } else if (item.length == 3) {
-                return [l, 1, 1];
-            } else {
-                return [l, 1];
-            }
-        }
-    }
-    function equaliseTransform(t1, t2, getBBox) {
-        t1 = t1 || new Snap.Matrix;
-        t2 = t2 || new Snap.Matrix;
-        t1 = Snap.parseTransformString(t1.toTransformString()) || [];
-        t2 = Snap.parseTransformString(t2.toTransformString()) || [];
-        var maxlength = Math.max(t1.length, t2.length),
-            from = [],
-            to = [],
-            i = 0, j, jj,
-            tt1, tt2;
-        for (; i < maxlength; i++) {
-            tt1 = t1[i] || getEmpty(t2[i]);
-            tt2 = t2[i] || getEmpty(tt1);
-            if (tt1[0] != tt2[0] ||
-                tt1[0].toLowerCase() == "r" && (tt1[2] != tt2[2] || tt1[3] != tt2[3]) ||
-                tt1[0].toLowerCase() == "s" && (tt1[3] != tt2[3] || tt1[4] != tt2[4])
-                ) {
-                    t1 = Snap._.transform2matrix(t1, getBBox());
-                    t2 = Snap._.transform2matrix(t2, getBBox());
-                    from = [["m", t1.a, t1.b, t1.c, t1.d, t1.e, t1.f]];
-                    to = [["m", t2.a, t2.b, t2.c, t2.d, t2.e, t2.f]];
-                    break;
-            }
-            from[i] = [];
-            to[i] = [];
-            for (j = 0, jj = Math.max(tt1.length, tt2.length); j < jj; j++) {
-                j in tt1 && (from[i][j] = tt1[j]);
-                j in tt2 && (to[i][j] = tt2[j]);
-            }
-        }
-        return {
-            from: path2array(from),
-            to: path2array(to),
-            f: getPath(from)
-        };
-    }
-    function getNumber(val) {
-        return val;
-    }
-    function getUnit(unit) {
-        return function (val) {
-            return +val.toFixed(3) + unit;
-        };
-    }
-    function getViewBox(val) {
-        return val.join(" ");
-    }
-    function getColour(clr) {
-        return Snap.rgb(clr[0], clr[1], clr[2], clr[3]);
-    }
-    function getPath(path) {
-        var k = 0, i, ii, j, jj, out, a, b = [];
-        for (i = 0, ii = path.length; i < ii; i++) {
-            out = "[";
-            a = ['"' + path[i][0] + '"'];
-            for (j = 1, jj = path[i].length; j < jj; j++) {
-                a[j] = "val[" + k++ + "]";
-            }
-            out += a + "]";
-            b[i] = out;
-        }
-        return Function("val", "return Snap.path.toString.call([" + b + "])");
-    }
-    function path2array(path) {
-        var out = [];
-        for (var i = 0, ii = path.length; i < ii; i++) {
-            for (var j = 1, jj = path[i].length; j < jj; j++) {
-                out.push(path[i][j]);
-            }
-        }
-        return out;
-    }
-    function isNumeric(obj) {
-        return isFinite(obj);
-    }
-    function arrayEqual(arr1, arr2) {
-        if (!Snap.is(arr1, "array") || !Snap.is(arr2, "array")) {
-            return false;
-        }
-        return arr1.toString() == arr2.toString();
-    }
-    Element.prototype.equal = function (name, b) {
-        return eve("snap.util.equal", this, name, b).firstDefined();
-    };
-    eve.on("snap.util.equal", function (name, b) {
-        var A, B, a = Str(this.attr(name) || ""),
-            el = this;
-        if (names[name] == "colour") {
-            A = Snap.color(a);
-            B = Snap.color(b);
-            return {
-                from: [A.r, A.g, A.b, A.opacity],
-                to: [B.r, B.g, B.b, B.opacity],
-                f: getColour
-            };
-        }
-        if (name == "viewBox") {
-            A = this.attr(name).vb.split(" ").map(Number);
-            B = b.split(" ").map(Number);
-            return {
-                from: A,
-                to: B,
-                f: getViewBox
-            };
-        }
-        if (name == "transform" || name == "gradientTransform" || name == "patternTransform") {
-            if (typeof b == "string") {
-                b = Str(b).replace(/\.{3}|\u2026/g, a);
-            }
-            a = this.matrix;
-            if (!Snap._.rgTransform.test(b)) {
-                b = Snap._.transform2matrix(Snap._.svgTransform2string(b), this.getBBox());
-            } else {
-                b = Snap._.transform2matrix(b, this.getBBox());
-            }
-            return equaliseTransform(a, b, function () {
-                return el.getBBox(1);
-            });
-        }
-        if (name == "d" || name == "path") {
-            A = Snap.path.toCubic(a, b);
-            return {
-                from: path2array(A[0]),
-                to: path2array(A[1]),
-                f: getPath(A[0])
-            };
-        }
-        if (name == "points") {
-            A = Str(a).split(Snap._.separator);
-            B = Str(b).split(Snap._.separator);
-            return {
-                from: A,
-                to: B,
-                f: function (val) { return val; }
-            };
-        }
-        if (isNumeric(a) && isNumeric(b)) {
-            return {
-                from: parseFloat(a),
-                to: parseFloat(b),
-                f: getNumber
-            };
-        }
-        var aUnit = a.match(reUnit),
-            bUnit = Str(b).match(reUnit);
-        if (aUnit && arrayEqual(aUnit, bUnit)) {
-            return {
-                from: parseFloat(a),
-                to: parseFloat(b),
-                f: getUnit(aUnit)
-            };
-        } else {
-            return {
-                from: this.asPX(name),
-                to: this.asPX(name, b),
-                f: getNumber
-            };
-        }
-    });
-});
-
-// Copyright (c) 2013 Adobe Systems Incorporated. All rights reserved.
-// 
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-// 
-// http://www.apache.org/licenses/LICENSE-2.0
-// 
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-Snap.plugin(function (Snap, Element, Paper, glob) {
-    var elproto = Element.prototype,
-    has = "hasOwnProperty",
-    supportsTouch = "createTouch" in glob.doc,
-    events = [
-        "click", "dblclick", "mousedown", "mousemove", "mouseout",
-        "mouseover", "mouseup", "touchstart", "touchmove", "touchend",
-        "touchcancel"
-    ],
-    touchMap = {
-        mousedown: "touchstart",
-        mousemove: "touchmove",
-        mouseup: "touchend"
-    },
-    getScroll = function (xy, el) {
-        var name = xy == "y" ? "scrollTop" : "scrollLeft",
-            doc = el && el.node ? el.node.ownerDocument : glob.doc;
-        return doc[name in doc.documentElement ? "documentElement" : "body"][name];
-    },
-    preventDefault = function () {
-        this.returnValue = false;
-    },
-    preventTouch = function () {
-        return this.originalEvent.preventDefault();
-    },
-    stopPropagation = function () {
-        this.cancelBubble = true;
-    },
-    stopTouch = function () {
-        return this.originalEvent.stopPropagation();
-    },
-    addEvent = function (obj, type, fn, element) {
-        var realName = supportsTouch && touchMap[type] ? touchMap[type] : type,
-            f = function (e) {
-                var scrollY = getScroll("y", element),
-                    scrollX = getScroll("x", element);
-                if (supportsTouch && touchMap[has](type)) {
-                    for (var i = 0, ii = e.targetTouches && e.targetTouches.length; i < ii; i++) {
-                        if (e.targetTouches[i].target == obj || obj.contains(e.targetTouches[i].target)) {
-                            var olde = e;
-                            e = e.targetTouches[i];
-                            e.originalEvent = olde;
-                            e.preventDefault = preventTouch;
-                            e.stopPropagation = stopTouch;
-                            break;
-                        }
-                    }
-                }
-                var x = e.clientX + scrollX,
-                    y = e.clientY + scrollY;
-                return fn.call(element, e, x, y);
-            };
-
-        if (type !== realName) {
-            obj.addEventListener(type, f, false);
-        }
-
-        obj.addEventListener(realName, f, false);
-
-        return function () {
-            if (type !== realName) {
-                obj.removeEventListener(type, f, false);
-            }
-
-            obj.removeEventListener(realName, f, false);
-            return true;
-        };
-    },
-    drag = [],
-    dragMove = function (e) {
-        var x = e.clientX,
-            y = e.clientY,
-            scrollY = getScroll("y"),
-            scrollX = getScroll("x"),
-            dragi,
-            j = drag.length;
-        while (j--) {
-            dragi = drag[j];
-            if (supportsTouch) {
-                var i = e.touches && e.touches.length,
-                    touch;
-                while (i--) {
-                    touch = e.touches[i];
-                    if (touch.identifier == dragi.el._drag.id || dragi.el.node.contains(touch.target)) {
-                        x = touch.clientX;
-                        y = touch.clientY;
-                        (e.originalEvent ? e.originalEvent : e).preventDefault();
-                        break;
-                    }
-                }
-            } else {
-                e.preventDefault();
-            }
-            var node = dragi.el.node,
-                o,
-                next = node.nextSibling,
-                parent = node.parentNode,
-                display = node.style.display;
-            // glob.win.opera && parent.removeChild(node);
-            // node.style.display = "none";
-            // o = dragi.el.paper.getElementByPoint(x, y);
-            // node.style.display = display;
-            // glob.win.opera && (next ? parent.insertBefore(node, next) : parent.appendChild(node));
-            // o && eve("snap.drag.over." + dragi.el.id, dragi.el, o);
-            x += scrollX;
-            y += scrollY;
-            eve("snap.drag.move." + dragi.el.id, dragi.move_scope || dragi.el, x - dragi.el._drag.x, y - dragi.el._drag.y, x, y, e);
-        }
-    },
-    dragUp = function (e) {
-        Snap.unmousemove(dragMove).unmouseup(dragUp);
-        var i = drag.length,
-            dragi;
-        while (i--) {
-            dragi = drag[i];
-            dragi.el._drag = {};
-            eve("snap.drag.end." + dragi.el.id, dragi.end_scope || dragi.start_scope || dragi.move_scope || dragi.el, e);
-            eve.off("snap.drag.*." + dragi.el.id);
-        }
-        drag = [];
-    };
-    /*\
-     * Element.click
-     [ method ]
-     **
-     * Adds a click event handler to the element
-     - handler (function) handler for the event
-     = (object) @Element
-    \*/
-    /*\
-     * Element.unclick
-     [ method ]
-     **
-     * Removes a click event handler from the element
-     - handler (function) handler for the event
-     = (object) @Element
-    \*/
-    
-    /*\
-     * Element.dblclick
-     [ method ]
-     **
-     * Adds a double click event handler to the element
-     - handler (function) handler for the event
-     = (object) @Element
-    \*/
-    /*\
-     * Element.undblclick
-     [ method ]
-     **
-     * Removes a double click event handler from the element
-     - handler (function) handler for the event
-     = (object) @Element
-    \*/
-    
-    /*\
-     * Element.mousedown
-     [ method ]
-     **
-     * Adds a mousedown event handler to the element
-     - handler (function) handler for the event
-     = (object) @Element
-    \*/
-    /*\
-     * Element.unmousedown
-     [ method ]
-     **
-     * Removes a mousedown event handler from the element
-     - handler (function) handler for the event
-     = (object) @Element
-    \*/
-    
-    /*\
-     * Element.mousemove
-     [ method ]
-     **
-     * Adds a mousemove event handler to the element
-     - handler (function) handler for the event
-     = (object) @Element
-    \*/
-    /*\
-     * Element.unmousemove
-     [ method ]
-     **
-     * Removes a mousemove event handler from the element
-     - handler (function) handler for the event
-     = (object) @Element
-    \*/
-    
-    /*\
-     * Element.mouseout
-     [ method ]
-     **
-     * Adds a mouseout event handler to the element
-     - handler (function) handler for the event
-     = (object) @Element
-    \*/
-    /*\
-     * Element.unmouseout
-     [ method ]
-     **
-     * Removes a mouseout event handler from the element
-     - handler (function) handler for the event
-     = (object) @Element
-    \*/
-    
-    /*\
-     * Element.mouseover
-     [ method ]
-     **
-     * Adds a mouseover event handler to the element
-     - handler (function) handler for the event
-     = (object) @Element
-    \*/
-    /*\
-     * Element.unmouseover
-     [ method ]
-     **
-     * Removes a mouseover event handler from the element
-     - handler (function) handler for the event
-     = (object) @Element
-    \*/
-    
-    /*\
-     * Element.mouseup
-     [ method ]
-     **
-     * Adds a mouseup event handler to the element
-     - handler (function) handler for the event
-     = (object) @Element
-    \*/
-    /*\
-     * Element.unmouseup
-     [ method ]
-     **
-     * Removes a mouseup event handler from the element
-     - handler (function) handler for the event
-     = (object) @Element
-    \*/
-    
-    /*\
-     * Element.touchstart
-     [ method ]
-     **
-     * Adds a touchstart event handler to the element
-     - handler (function) handler for the event
-     = (object) @Element
-    \*/
-    /*\
-     * Element.untouchstart
-     [ method ]
-     **
-     * Removes a touchstart event handler from the element
-     - handler (function) handler for the event
-     = (object) @Element
-    \*/
-    
-    /*\
-     * Element.touchmove
-     [ method ]
-     **
-     * Adds a touchmove event handler to the element
-     - handler (function) handler for the event
-     = (object) @Element
-    \*/
-    /*\
-     * Element.untouchmove
-     [ method ]
-     **
-     * Removes a touchmove event handler from the element
-     - handler (function) handler for the event
-     = (object) @Element
-    \*/
-    
-    /*\
-     * Element.touchend
-     [ method ]
-     **
-     * Adds a touchend event handler to the element
-     - handler (function) handler for the event
-     = (object) @Element
-    \*/
-    /*\
-     * Element.untouchend
-     [ method ]
-     **
-     * Removes a touchend event handler from the element
-     - handler (function) handler for the event
-     = (object) @Element
-    \*/
-    
-    /*\
-     * Element.touchcancel
-     [ method ]
-     **
-     * Adds a touchcancel event handler to the element
-     - handler (function) handler for the event
-     = (object) @Element
-    \*/
-    /*\
-     * Element.untouchcancel
-     [ method ]
-     **
-     * Removes a touchcancel event handler from the element
-     - handler (function) handler for the event
-     = (object) @Element
-    \*/
-    for (var i = events.length; i--;) {
-        (function (eventName) {
-            Snap[eventName] = elproto[eventName] = function (fn, scope) {
-                if (Snap.is(fn, "function")) {
-                    this.events = this.events || [];
-                    this.events.push({
-                        name: eventName,
-                        f: fn,
-                        unbind: addEvent(this.node || document, eventName, fn, scope || this)
-                    });
-                } else {
-                    for (var i = 0, ii = this.events.length; i < ii; i++) if (this.events[i].name == eventName) {
-                        try {
-                            this.events[i].f.call(this);
-                        } catch (e) {}
-                    }
-                }
-                return this;
-            };
-            Snap["un" + eventName] =
-            elproto["un" + eventName] = function (fn) {
-                var events = this.events || [],
-                    l = events.length;
-                while (l--) if (events[l].name == eventName &&
-                               (events[l].f == fn || !fn)) {
-                    events[l].unbind();
-                    events.splice(l, 1);
-                    !events.length && delete this.events;
-                    return this;
-                }
-                return this;
-            };
-        })(events[i]);
-    }
-    /*\
-     * Element.hover
-     [ method ]
-     **
-     * Adds hover event handlers to the element
-     - f_in (function) handler for hover in
-     - f_out (function) handler for hover out
-     - icontext (object) #optional context for hover in handler
-     - ocontext (object) #optional context for hover out handler
-     = (object) @Element
-    \*/
-    elproto.hover = function (f_in, f_out, scope_in, scope_out) {
-        return this.mouseover(f_in, scope_in).mouseout(f_out, scope_out || scope_in);
-    };
-    /*\
-     * Element.unhover
-     [ method ]
-     **
-     * Removes hover event handlers from the element
-     - f_in (function) handler for hover in
-     - f_out (function) handler for hover out
-     = (object) @Element
-    \*/
-    elproto.unhover = function (f_in, f_out) {
-        return this.unmouseover(f_in).unmouseout(f_out);
-    };
-    var draggable = [];
-    // SIERRA unclear what _context_ refers to for starting, ending, moving the drag gesture.
-    // SIERRA Element.drag(): _x position of the mouse_: Where are the x/y values offset from?
-    // SIERRA Element.drag(): much of this member's doc appears to be duplicated for some reason.
-    // SIERRA Unclear about this sentence: _Additionally following drag events will be triggered: drag.start.<id> on start, drag.end.<id> on end and drag.move.<id> on every move._ Is there a global _drag_ object to which you can assign handlers keyed by an element's ID?
-    /*\
-     * Element.drag
-     [ method ]
-     **
-     * Adds event handlers for an element's drag gesture
-     **
-     - onmove (function) handler for moving
-     - onstart (function) handler for drag start
-     - onend (function) handler for drag end
-     - mcontext (object) #optional context for moving handler
-     - scontext (object) #optional context for drag start handler
-     - econtext (object) #optional context for drag end handler
-     * Additionaly following `drag` events are triggered: `drag.start.<id>` on start, 
-     * `drag.end.<id>` on end and `drag.move.<id>` on every move. When element is dragged over another element 
-     * `drag.over.<id>` fires as well.
-     *
-     * Start event and start handler are called in specified context or in context of the element with following parameters:
-     o x (number) x position of the mouse
-     o y (number) y position of the mouse
-     o event (object) DOM event object
-     * Move event and move handler are called in specified context or in context of the element with following parameters:
-     o dx (number) shift by x from the start point
-     o dy (number) shift by y from the start point
-     o x (number) x position of the mouse
-     o y (number) y position of the mouse
-     o event (object) DOM event object
-     * End event and end handler are called in specified context or in context of the element with following parameters:
-     o event (object) DOM event object
-     = (object) @Element
-    \*/
-    elproto.drag = function (onmove, onstart, onend, move_scope, start_scope, end_scope) {
-        var el = this;
-        if (!arguments.length) {
-            var origTransform;
-            return el.drag(function (dx, dy) {
-                this.attr({
-                    transform: origTransform + (origTransform ? "T" : "t") + [dx, dy]
-                });
-            }, function () {
-                origTransform = this.transform().local;
-            });
-        }
-        function start(e, x, y) {
-            (e.originalEvent || e).preventDefault();
-            el._drag.x = x;
-            el._drag.y = y;
-            el._drag.id = e.identifier;
-            !drag.length && Snap.mousemove(dragMove).mouseup(dragUp);
-            drag.push({el: el, move_scope: move_scope, start_scope: start_scope, end_scope: end_scope});
-            onstart && eve.on("snap.drag.start." + el.id, onstart);
-            onmove && eve.on("snap.drag.move." + el.id, onmove);
-            onend && eve.on("snap.drag.end." + el.id, onend);
-            eve("snap.drag.start." + el.id, start_scope || move_scope || el, x, y, e);
-        }
-        function init(e, x, y) {
-            eve("snap.draginit." + el.id, el, e, x, y);
-        }
-        eve.on("snap.draginit." + el.id, start);
-        el._drag = {};
-        draggable.push({el: el, start: start, init: init});
-        el.mousedown(init);
-        return el;
-    };
-    /*
-     * Element.onDragOver
-     [ method ]
-     **
-     * Shortcut to assign event handler for `drag.over.<id>` event, where `id` is the element's `id` (see @Element.id)
-     - f (function) handler for event, first argument would be the element you are dragging over
-    \*/
-    // elproto.onDragOver = function (f) {
-    //     f ? eve.on("snap.drag.over." + this.id, f) : eve.unbind("snap.drag.over." + this.id);
-    // };
-    /*\
-     * Element.undrag
-     [ method ]
-     **
-     * Removes all drag event handlers from the given element
-    \*/
-    elproto.undrag = function () {
-        var i = draggable.length;
-        while (i--) if (draggable[i].el == this) {
-            this.unmousedown(draggable[i].init);
-            draggable.splice(i, 1);
-            eve.unbind("snap.drag.*." + this.id);
-            eve.unbind("snap.draginit." + this.id);
-        }
-        !draggable.length && Snap.unmousemove(dragMove).unmouseup(dragUp);
-        return this;
-    };
-});
-
-// Copyright (c) 2013 Adobe Systems Incorporated. All rights reserved.
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-Snap.plugin(function (Snap, Element, Paper, glob) {
-    var elproto = Element.prototype,
-        pproto = Paper.prototype,
-        rgurl = /^\s*url\((.+)\)/,
-        Str = String,
-        $ = Snap._.$;
-    Snap.filter = {};
-    /*\
-     * Paper.filter
-     [ method ]
-     **
-     * Creates a `<filter>` element
-     **
-     - filstr (string) SVG fragment of filter provided as a string
-     = (object) @Element
-     * Note: It is recommended to use filters embedded into the page inside an empty SVG element.
-     > Usage
-     | var f = paper.filter('<feGaussianBlur stdDeviation="2"/>'),
-     |     c = paper.circle(10, 10, 10).attr({
-     |         filter: f
-     |     });
-    \*/
-    pproto.filter = function (filstr) {
-        var paper = this;
-        if (paper.type != "svg") {
-            paper = paper.paper;
-        }
-        var f = Snap.parse(Str(filstr)),
-            id = Snap._.id(),
-            width = paper.node.offsetWidth,
-            height = paper.node.offsetHeight,
-            filter = $("filter");
-        $(filter, {
-            id: id,
-            filterUnits: "userSpaceOnUse"
-        });
-        filter.appendChild(f.node);
-        paper.defs.appendChild(filter);
-        return new Element(filter);
-    };
-
-    eve.on("snap.util.getattr.filter", function () {
-        eve.stop();
-        var p = $(this.node, "filter");
-        if (p) {
-            var match = Str(p).match(rgurl);
-            return match && Snap.select(match[1]);
-        }
-    });
-    eve.on("snap.util.attr.filter", function (value) {
-        if (value instanceof Element && value.type == "filter") {
-            eve.stop();
-            var id = value.node.id;
-            if (!id) {
-                $(value.node, {id: value.id});
-                id = value.id;
-            }
-            $(this.node, {
-                filter: Snap.url(id)
-            });
-        }
-        if (!value || value == "none") {
-            eve.stop();
-            this.node.removeAttribute("filter");
-        }
-    });
-    /*\
-     * Snap.filter.blur
-     [ method ]
-     **
-     * Returns an SVG markup string for the blur filter
-     **
-     - x (number) amount of horizontal blur, in pixels
-     - y (number) #optional amount of vertical blur, in pixels
-     = (string) filter representation
-     > Usage
-     | var f = paper.filter(Snap.filter.blur(5, 10)),
-     |     c = paper.circle(10, 10, 10).attr({
-     |         filter: f
-     |     });
-    \*/
-    Snap.filter.blur = function (x, y) {
-        if (x == null) {
-            x = 2;
-        }
-        var def = y == null ? x : [x, y];
-        return Snap.format('\<feGaussianBlur stdDeviation="{def}"/>', {
-            def: def
-        });
-    };
-    Snap.filter.blur.toString = function () {
-        return this();
-    };
-    /*\
-     * Snap.filter.shadow
-     [ method ]
-     **
-     * Returns an SVG markup string for the shadow filter
-     **
-     - dx (number) #optional horizontal shift of the shadow, in pixels
-     - dy (number) #optional vertical shift of the shadow, in pixels
-     - blur (number) #optional amount of blur
-     - color (string) #optional color of the shadow
-     - opacity (number) #optional `0..1` opacity of the shadow
-     * or
-     - dx (number) #optional horizontal shift of the shadow, in pixels
-     - dy (number) #optional vertical shift of the shadow, in pixels
-     - color (string) #optional color of the shadow
-     - opacity (number) #optional `0..1` opacity of the shadow
-     * which makes blur default to `4`. Or
-     - dx (number) #optional horizontal shift of the shadow, in pixels
-     - dy (number) #optional vertical shift of the shadow, in pixels
-     - opacity (number) #optional `0..1` opacity of the shadow
-     = (string) filter representation
-     > Usage
-     | var f = paper.filter(Snap.filter.shadow(0, 2, .3)),
-     |     c = paper.circle(10, 10, 10).attr({
-     |         filter: f
-     |     });
-    \*/
-    Snap.filter.shadow = function (dx, dy, blur, color, opacity) {
-        if (opacity == null) {
-            if (color == null) {
-                opacity = blur;
-                blur = 4;
-                color = "#000";
-            } else {
-                opacity = color;
-                color = blur;
-                blur = 4;
-            }
-        }
-        if (blur == null) {
-            blur = 4;
-        }
-        if (opacity == null) {
-            opacity = 1;
-        }
-        if (dx == null) {
-            dx = 0;
-            dy = 2;
-        }
-        if (dy == null) {
-            dy = dx;
-        }
-        color = Snap.color(color);
-        return Snap.format('<feGaussianBlur in="SourceAlpha" stdDeviation="{blur}"/><feOffset dx="{dx}" dy="{dy}" result="offsetblur"/><feFlood flood-color="{color}"/><feComposite in2="offsetblur" operator="in"/><feComponentTransfer><feFuncA type="linear" slope="{opacity}"/></feComponentTransfer><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>', {
-            color: color,
-            dx: dx,
-            dy: dy,
-            blur: blur,
-            opacity: opacity
-        });
-    };
-    Snap.filter.shadow.toString = function () {
-        return this();
-    };
-    /*\
-     * Snap.filter.grayscale
-     [ method ]
-     **
-     * Returns an SVG markup string for the grayscale filter
-     **
-     - amount (number) amount of filter (`0..1`)
-     = (string) filter representation
-    \*/
-    Snap.filter.grayscale = function (amount) {
-        if (amount == null) {
-            amount = 1;
-        }
-        return Snap.format('<feColorMatrix type="matrix" values="{a} {b} {c} 0 0 {d} {e} {f} 0 0 {g} {b} {h} 0 0 0 0 0 1 0"/>', {
-            a: 0.2126 + 0.7874 * (1 - amount),
-            b: 0.7152 - 0.7152 * (1 - amount),
-            c: 0.0722 - 0.0722 * (1 - amount),
-            d: 0.2126 - 0.2126 * (1 - amount),
-            e: 0.7152 + 0.2848 * (1 - amount),
-            f: 0.0722 - 0.0722 * (1 - amount),
-            g: 0.2126 - 0.2126 * (1 - amount),
-            h: 0.0722 + 0.9278 * (1 - amount)
-        });
-    };
-    Snap.filter.grayscale.toString = function () {
-        return this();
-    };
-    /*\
-     * Snap.filter.sepia
-     [ method ]
-     **
-     * Returns an SVG markup string for the sepia filter
-     **
-     - amount (number) amount of filter (`0..1`)
-     = (string) filter representation
-    \*/
-    Snap.filter.sepia = function (amount) {
-        if (amount == null) {
-            amount = 1;
-        }
-        return Snap.format('<feColorMatrix type="matrix" values="{a} {b} {c} 0 0 {d} {e} {f} 0 0 {g} {h} {i} 0 0 0 0 0 1 0"/>', {
-            a: 0.393 + 0.607 * (1 - amount),
-            b: 0.769 - 0.769 * (1 - amount),
-            c: 0.189 - 0.189 * (1 - amount),
-            d: 0.349 - 0.349 * (1 - amount),
-            e: 0.686 + 0.314 * (1 - amount),
-            f: 0.168 - 0.168 * (1 - amount),
-            g: 0.272 - 0.272 * (1 - amount),
-            h: 0.534 - 0.534 * (1 - amount),
-            i: 0.131 + 0.869 * (1 - amount)
-        });
-    };
-    Snap.filter.sepia.toString = function () {
-        return this();
-    };
-    /*\
-     * Snap.filter.saturate
-     [ method ]
-     **
-     * Returns an SVG markup string for the saturate filter
-     **
-     - amount (number) amount of filter (`0..1`)
-     = (string) filter representation
-    \*/
-    Snap.filter.saturate = function (amount) {
-        if (amount == null) {
-            amount = 1;
-        }
-        return Snap.format('<feColorMatrix type="saturate" values="{amount}"/>', {
-            amount: 1 - amount
-        });
-    };
-    Snap.filter.saturate.toString = function () {
-        return this();
-    };
-    /*\
-     * Snap.filter.hueRotate
-     [ method ]
-     **
-     * Returns an SVG markup string for the hue-rotate filter
-     **
-     - angle (number) angle of rotation
-     = (string) filter representation
-    \*/
-    Snap.filter.hueRotate = function (angle) {
-        angle = angle || 0;
-        return Snap.format('<feColorMatrix type="hueRotate" values="{angle}"/>', {
-            angle: angle
-        });
-    };
-    Snap.filter.hueRotate.toString = function () {
-        return this();
-    };
-    /*\
-     * Snap.filter.invert
-     [ method ]
-     **
-     * Returns an SVG markup string for the invert filter
-     **
-     - amount (number) amount of filter (`0..1`)
-     = (string) filter representation
-    \*/
-    Snap.filter.invert = function (amount) {
-        if (amount == null) {
-            amount = 1;
-        }
-//        <feColorMatrix type="matrix" values="-1 0 0 0 1  0 -1 0 0 1  0 0 -1 0 1  0 0 0 1 0" color-interpolation-filters="sRGB"/>
-        return Snap.format('<feComponentTransfer><feFuncR type="table" tableValues="{amount} {amount2}"/><feFuncG type="table" tableValues="{amount} {amount2}"/><feFuncB type="table" tableValues="{amount} {amount2}"/></feComponentTransfer>', {
-            amount: amount,
-            amount2: 1 - amount
-        });
-    };
-    Snap.filter.invert.toString = function () {
-        return this();
-    };
-    /*\
-     * Snap.filter.brightness
-     [ method ]
-     **
-     * Returns an SVG markup string for the brightness filter
-     **
-     - amount (number) amount of filter (`0..1`)
-     = (string) filter representation
-    \*/
-    Snap.filter.brightness = function (amount) {
-        if (amount == null) {
-            amount = 1;
-        }
-        return Snap.format('<feComponentTransfer><feFuncR type="linear" slope="{amount}"/><feFuncG type="linear" slope="{amount}"/><feFuncB type="linear" slope="{amount}"/></feComponentTransfer>', {
-            amount: amount
-        });
-    };
-    Snap.filter.brightness.toString = function () {
-        return this();
-    };
-    /*\
-     * Snap.filter.contrast
-     [ method ]
-     **
-     * Returns an SVG markup string for the contrast filter
-     **
-     - amount (number) amount of filter (`0..1`)
-     = (string) filter representation
-    \*/
-    Snap.filter.contrast = function (amount) {
-        if (amount == null) {
-            amount = 1;
-        }
-        return Snap.format('<feComponentTransfer><feFuncR type="linear" slope="{amount}" intercept="{amount2}"/><feFuncG type="linear" slope="{amount}" intercept="{amount2}"/><feFuncB type="linear" slope="{amount}" intercept="{amount2}"/></feComponentTransfer>', {
-            amount: amount,
-            amount2: .5 - amount / 2
-        });
-    };
-    Snap.filter.contrast.toString = function () {
-        return this();
-    };
-});
-
-// Copyright (c) 2014 Adobe Systems Incorporated. All rights reserved.
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-Snap.plugin(function (Snap, Element, Paper, glob, Fragment) {
-    var box = Snap._.box,
-        is = Snap.is,
-        firstLetter = /^[^a-z]*([tbmlrc])/i,
-        toString = function () {
-            return "T" + this.dx + "," + this.dy;
-        };
-    /*\
-     * Element.getAlign
-     [ method ]
-     **
-     * Returns shift needed to align the element relatively to given element.
-     * If no elements specified, parent `<svg>` container will be used.
-     - el (object) @optional alignment element
-     - way (string) one of six values: `"top"`, `"middle"`, `"bottom"`, `"left"`, `"center"`, `"right"`
-     = (object|string) Object in format `{dx: , dy: }` also has a string representation as a transformation string
-     > Usage
-     | el.transform(el.getAlign(el2, "top"));
-     * or
-     | var dy = el.getAlign(el2, "top").dy;
-    \*/
-    Element.prototype.getAlign = function (el, way) {
-        if (way == null && is(el, "string")) {
-            way = el;
-            el = null;
-        }
-        el = el || this.paper;
-        var bx = el.getBBox ? el.getBBox() : box(el),
-            bb = this.getBBox(),
-            out = {};
-        way = way && way.match(firstLetter);
-        way = way ? way[1].toLowerCase() : "c";
-        switch (way) {
-            case "t":
-                out.dx = 0;
-                out.dy = bx.y - bb.y;
-            break;
-            case "b":
-                out.dx = 0;
-                out.dy = bx.y2 - bb.y2;
-            break;
-            case "m":
-                out.dx = 0;
-                out.dy = bx.cy - bb.cy;
-            break;
-            case "l":
-                out.dx = bx.x - bb.x;
-                out.dy = 0;
-            break;
-            case "r":
-                out.dx = bx.x2 - bb.x2;
-                out.dy = 0;
-            break;
-            default:
-                out.dx = bx.cx - bb.cx;
-                out.dy = 0;
-            break;
-        }
-        out.toString = toString;
-        return out;
-    };
-    /*\
-     * Element.align
-     [ method ]
-     **
-     * Aligns the element relatively to given one via transformation.
-     * If no elements specified, parent `<svg>` container will be used.
-     - el (object) @optional alignment element
-     - way (string) one of six values: `"top"`, `"middle"`, `"bottom"`, `"left"`, `"center"`, `"right"`
-     = (object) this element
-     > Usage
-     | el.align(el2, "top");
-     * or
-     | el.align("middle");
-    \*/
-    Element.prototype.align = function (el, way) {
-        return this.transform("..." + this.getAlign(el, way));
-    };
-});
-
-// Copyright (c) 2016 Adobe Systems Incorporated. All rights reserved.
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-Snap.plugin(function (Snap, Element, Paper, glob, Fragment) {
-    var elproto = Element.prototype,
-        is = Snap.is,
-        Str = String,
-        has = "hasOwnProperty";
-    function slice(from, to, f) {
-        return function (arr) {
-            var res = arr.slice(from, to);
-            if (res.length == 1) {
-                res = res[0];
-            }
-            return f ? f(res) : res;
-        };
-    }
-    var Animation = function (attr, ms, easing, callback) {
-        if (typeof easing == "function" && !easing.length) {
-            callback = easing;
-            easing = mina.linear;
-        }
-        this.attr = attr;
-        this.dur = ms;
-        easing && (this.easing = easing);
-        callback && (this.callback = callback);
-    };
-    Snap._.Animation = Animation;
-    /*\
-     * Snap.animation
-     [ method ]
-     **
-     * Creates an animation object
-     **
-     - attr (object) attributes of final destination
-     - duration (number) duration of the animation, in milliseconds
-     - easing (function) #optional one of easing functions of @mina or custom one
-     - callback (function) #optional callback function that fires when animation ends
-     = (object) animation object
-    \*/
-    Snap.animation = function (attr, ms, easing, callback) {
-        return new Animation(attr, ms, easing, callback);
-    };
-    /*\
-     * Element.inAnim
-     [ method ]
-     **
-     * Returns a set of animations that may be able to manipulate the current element
-     **
-     = (object) in format:
-     o {
-     o     anim (object) animation object,
-     o     mina (object) @mina object,
-     o     curStatus (number) 0..1 — status of the animation: 0 — just started, 1 — just finished,
-     o     status (function) gets or sets the status of the animation,
-     o     stop (function) stops the animation
-     o }
-    \*/
-    elproto.inAnim = function () {
-        var el = this,
-            res = [];
-        for (var id in el.anims) if (el.anims[has](id)) {
-            (function (a) {
-                res.push({
-                    anim: new Animation(a._attrs, a.dur, a.easing, a._callback),
-                    mina: a,
-                    curStatus: a.status(),
-                    status: function (val) {
-                        return a.status(val);
-                    },
-                    stop: function () {
-                        a.stop();
-                    }
-                });
-            }(el.anims[id]));
-        }
-        return res;
-    };
-    /*\
-     * Snap.animate
-     [ method ]
-     **
-     * Runs generic animation of one number into another with a caring function
-     **
-     - from (number|array) number or array of numbers
-     - to (number|array) number or array of numbers
-     - setter (function) caring function that accepts one number argument
-     - duration (number) duration, in milliseconds
-     - easing (function) #optional easing function from @mina or custom
-     - callback (function) #optional callback function to execute when animation ends
-     = (object) animation object in @mina format
-     o {
-     o     id (string) animation id, consider it read-only,
-     o     duration (function) gets or sets the duration of the animation,
-     o     easing (function) easing,
-     o     speed (function) gets or sets the speed of the animation,
-     o     status (function) gets or sets the status of the animation,
-     o     stop (function) stops the animation
-     o }
-     | var rect = Snap().rect(0, 0, 10, 10);
-     | Snap.animate(0, 10, function (val) {
-     |     rect.attr({
-     |         x: val
-     |     });
-     | }, 1000);
-     | // in given context is equivalent to
-     | rect.animate({x: 10}, 1000);
-    \*/
-    Snap.animate = function (from, to, setter, ms, easing, callback) {
-        if (typeof easing == "function" && !easing.length) {
-            callback = easing;
-            easing = mina.linear;
-        }
-        var now = mina.time(),
-            anim = mina(from, to, now, now + ms, mina.time, setter, easing);
-        callback && eve.once("mina.finish." + anim.id, callback);
-        return anim;
-    };
-    /*\
-     * Element.stop
-     [ method ]
-     **
-     * Stops all the animations for the current element
-     **
-     = (Element) the current element
-    \*/
-    elproto.stop = function () {
-        var anims = this.inAnim();
-        for (var i = 0, ii = anims.length; i < ii; i++) {
-            anims[i].stop();
-        }
-        return this;
-    };
-    /*\
-     * Element.animate
-     [ method ]
-     **
-     * Animates the given attributes of the element
-     **
-     - attrs (object) key-value pairs of destination attributes
-     - duration (number) duration of the animation in milliseconds
-     - easing (function) #optional easing function from @mina or custom
-     - callback (function) #optional callback function that executes when the animation ends
-     = (Element) the current element
-    \*/
-    elproto.animate = function (attrs, ms, easing, callback) {
-        if (typeof easing == "function" && !easing.length) {
-            callback = easing;
-            easing = mina.linear;
-        }
-        if (attrs instanceof Animation) {
-            callback = attrs.callback;
-            easing = attrs.easing;
-            ms = attrs.dur;
-            attrs = attrs.attr;
-        }
-        var fkeys = [], tkeys = [], keys = {}, from, to, f, eq,
-            el = this;
-        for (var key in attrs) if (attrs[has](key)) {
-            if (el.equal) {
-                eq = el.equal(key, Str(attrs[key]));
-                from = eq.from;
-                to = eq.to;
-                f = eq.f;
-            } else {
-                from = +el.attr(key);
-                to = +attrs[key];
-            }
-            var len = is(from, "array") ? from.length : 1;
-            keys[key] = slice(fkeys.length, fkeys.length + len, f);
-            fkeys = fkeys.concat(from);
-            tkeys = tkeys.concat(to);
-        }
-        var now = mina.time(),
-            anim = mina(fkeys, tkeys, now, now + ms, mina.time, function (val) {
-                var attr = {};
-                for (var key in keys) if (keys[has](key)) {
-                    attr[key] = keys[key](val);
-                }
-                el.attr(attr);
-            }, easing);
-        el.anims[anim.id] = anim;
-        anim._attrs = attrs;
-        anim._callback = callback;
-        eve("snap.animcreated." + el.id, anim);
-        eve.once("mina.finish." + anim.id, function () {
-            eve.off("mina.*." + anim.id);
-            delete el.anims[anim.id];
-            callback && callback.call(el);
-        });
-        eve.once("mina.stop." + anim.id, function () {
-            eve.off("mina.*." + anim.id);
-            delete el.anims[anim.id];
-        });
-        return el;
-    };
-});
-
-// Copyright (c) 2017 Adobe Systems Incorporated. All rights reserved.
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-// http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-Snap.plugin(function (Snap, Element, Paper, glob) {
-    // Colours are from https://www.materialui.co
-    var red         = "#ffebee#ffcdd2#ef9a9a#e57373#ef5350#f44336#e53935#d32f2f#c62828#b71c1c#ff8a80#ff5252#ff1744#d50000",
-        pink        = "#FCE4EC#F8BBD0#F48FB1#F06292#EC407A#E91E63#D81B60#C2185B#AD1457#880E4F#FF80AB#FF4081#F50057#C51162",
-        purple      = "#F3E5F5#E1BEE7#CE93D8#BA68C8#AB47BC#9C27B0#8E24AA#7B1FA2#6A1B9A#4A148C#EA80FC#E040FB#D500F9#AA00FF",
-        deeppurple  = "#EDE7F6#D1C4E9#B39DDB#9575CD#7E57C2#673AB7#5E35B1#512DA8#4527A0#311B92#B388FF#7C4DFF#651FFF#6200EA",
-        indigo      = "#E8EAF6#C5CAE9#9FA8DA#7986CB#5C6BC0#3F51B5#3949AB#303F9F#283593#1A237E#8C9EFF#536DFE#3D5AFE#304FFE",
-        blue        = "#E3F2FD#BBDEFB#90CAF9#64B5F6#64B5F6#2196F3#1E88E5#1976D2#1565C0#0D47A1#82B1FF#448AFF#2979FF#2962FF",
-        lightblue   = "#E1F5FE#B3E5FC#81D4FA#4FC3F7#29B6F6#03A9F4#039BE5#0288D1#0277BD#01579B#80D8FF#40C4FF#00B0FF#0091EA",
-        cyan        = "#E0F7FA#B2EBF2#80DEEA#4DD0E1#26C6DA#00BCD4#00ACC1#0097A7#00838F#006064#84FFFF#18FFFF#00E5FF#00B8D4",
-        teal        = "#E0F2F1#B2DFDB#80CBC4#4DB6AC#26A69A#009688#00897B#00796B#00695C#004D40#A7FFEB#64FFDA#1DE9B6#00BFA5",
-        green       = "#E8F5E9#C8E6C9#A5D6A7#81C784#66BB6A#4CAF50#43A047#388E3C#2E7D32#1B5E20#B9F6CA#69F0AE#00E676#00C853",
-        lightgreen  = "#F1F8E9#DCEDC8#C5E1A5#AED581#9CCC65#8BC34A#7CB342#689F38#558B2F#33691E#CCFF90#B2FF59#76FF03#64DD17",
-        lime        = "#F9FBE7#F0F4C3#E6EE9C#DCE775#D4E157#CDDC39#C0CA33#AFB42B#9E9D24#827717#F4FF81#EEFF41#C6FF00#AEEA00",
-        yellow      = "#FFFDE7#FFF9C4#FFF59D#FFF176#FFEE58#FFEB3B#FDD835#FBC02D#F9A825#F57F17#FFFF8D#FFFF00#FFEA00#FFD600",
-        amber       = "#FFF8E1#FFECB3#FFE082#FFD54F#FFCA28#FFC107#FFB300#FFA000#FF8F00#FF6F00#FFE57F#FFD740#FFC400#FFAB00",
-        orange      = "#FFF3E0#FFE0B2#FFCC80#FFB74D#FFA726#FF9800#FB8C00#F57C00#EF6C00#E65100#FFD180#FFAB40#FF9100#FF6D00",
-        deeporange  = "#FBE9E7#FFCCBC#FFAB91#FF8A65#FF7043#FF5722#F4511E#E64A19#D84315#BF360C#FF9E80#FF6E40#FF3D00#DD2C00",
-        brown       = "#EFEBE9#D7CCC8#BCAAA4#A1887F#8D6E63#795548#6D4C41#5D4037#4E342E#3E2723",
-        grey        = "#FAFAFA#F5F5F5#EEEEEE#E0E0E0#BDBDBD#9E9E9E#757575#616161#424242#212121",
-        bluegrey    = "#ECEFF1#CFD8DC#B0BEC5#90A4AE#78909C#607D8B#546E7A#455A64#37474F#263238";
-    /*\
-     * Snap.mui
-     [ property ]
-     **
-     * Contain Material UI colours.
-     | Snap().rect(0, 0, 10, 10).attr({fill: Snap.mui.deeppurple, stroke: Snap.mui.amber[600]});
-     # For colour reference: <a href="https://www.materialui.co">https://www.materialui.co</a>.
-    \*/
-    Snap.mui = {};
-    /*\
-     * Snap.flat
-     [ property ]
-     **
-     * Contain Flat UI colours.
-     | Snap().rect(0, 0, 10, 10).attr({fill: Snap.flat.carrot, stroke: Snap.flat.wetasphalt});
-     # For colour reference: <a href="https://www.materialui.co">https://www.materialui.co</a>.
-    \*/
-    Snap.flat = {};
-    function saveColor(colors) {
-        colors = colors.split(/(?=#)/);
-        var color = new String(colors[5]);
-        color[50] = colors[0];
-        color[100] = colors[1];
-        color[200] = colors[2];
-        color[300] = colors[3];
-        color[400] = colors[4];
-        color[500] = colors[5];
-        color[600] = colors[6];
-        color[700] = colors[7];
-        color[800] = colors[8];
-        color[900] = colors[9];
-        if (colors[10]) {
-            color.A100 = colors[10];
-            color.A200 = colors[11];
-            color.A400 = colors[12];
-            color.A700 = colors[13];
-        }
-        return color;
-    }
-    Snap.mui.red = saveColor(red);
-    Snap.mui.pink = saveColor(pink);
-    Snap.mui.purple = saveColor(purple);
-    Snap.mui.deeppurple = saveColor(deeppurple);
-    Snap.mui.indigo = saveColor(indigo);
-    Snap.mui.blue = saveColor(blue);
-    Snap.mui.lightblue = saveColor(lightblue);
-    Snap.mui.cyan = saveColor(cyan);
-    Snap.mui.teal = saveColor(teal);
-    Snap.mui.green = saveColor(green);
-    Snap.mui.lightgreen = saveColor(lightgreen);
-    Snap.mui.lime = saveColor(lime);
-    Snap.mui.yellow = saveColor(yellow);
-    Snap.mui.amber = saveColor(amber);
-    Snap.mui.orange = saveColor(orange);
-    Snap.mui.deeporange = saveColor(deeporange);
-    Snap.mui.brown = saveColor(brown);
-    Snap.mui.grey = saveColor(grey);
-    Snap.mui.bluegrey = saveColor(bluegrey);
-    Snap.flat.turquoise = "#1abc9c";
-    Snap.flat.greensea = "#16a085";
-    Snap.flat.sunflower = "#f1c40f";
-    Snap.flat.orange = "#f39c12";
-    Snap.flat.emerland = "#2ecc71";
-    Snap.flat.nephritis = "#27ae60";
-    Snap.flat.carrot = "#e67e22";
-    Snap.flat.pumpkin = "#d35400";
-    Snap.flat.peterriver = "#3498db";
-    Snap.flat.belizehole = "#2980b9";
-    Snap.flat.alizarin = "#e74c3c";
-    Snap.flat.pomegranate = "#c0392b";
-    Snap.flat.amethyst = "#9b59b6";
-    Snap.flat.wisteria = "#8e44ad";
-    Snap.flat.clouds = "#ecf0f1";
-    Snap.flat.silver = "#bdc3c7";
-    Snap.flat.wetasphalt = "#34495e";
-    Snap.flat.midnightblue = "#2c3e50";
-    Snap.flat.concrete = "#95a5a6";
-    Snap.flat.asbestos = "#7f8c8d";
-    /*\
-     * Snap.importMUIColors
-     [ method ]
-     **
-     * Imports Material UI colours into global object.
-     | Snap.importMUIColors();
-     | Snap().rect(0, 0, 10, 10).attr({fill: deeppurple, stroke: amber[600]});
-     # For colour reference: <a href="https://www.materialui.co">https://www.materialui.co</a>.
-    \*/
-    Snap.importMUIColors = function () {
-        for (var color in Snap.mui) {
-            if (Snap.mui.hasOwnProperty(color)) {
-                window[color] = Snap.mui[color];
-            }
-        }
-    };
-});
-
-module.exports = Snap
+  return matrix;
+};
 
 
 /***/ }),
@@ -25033,18 +30106,13 @@ __webpack_require__.r(__webpack_exports__);
 // Unique ID creation requires a high quality random # generator. In the browser we therefore
 // require the crypto API and do not support built-in fallback to lower quality random number
 // generators (like Math.random()).
-var getRandomValues;
+// getRandomValues needs to be invoked in a context where "this" is a Crypto implementation. Also,
+// find the complete implementation of crypto (msCrypto) on IE11.
+var getRandomValues = typeof crypto !== 'undefined' && crypto.getRandomValues && crypto.getRandomValues.bind(crypto) || typeof msCrypto !== 'undefined' && typeof msCrypto.getRandomValues === 'function' && msCrypto.getRandomValues.bind(msCrypto);
 var rnds8 = new Uint8Array(16);
 function rng() {
-  // lazy load so that environments that need to polyfill have a chance to do so
   if (!getRandomValues) {
-    // getRandomValues needs to be invoked in a context where "this" is a Crypto implementation. Also,
-    // find the complete implementation of crypto (msCrypto) on IE11.
-    getRandomValues = typeof crypto !== 'undefined' && crypto.getRandomValues && crypto.getRandomValues.bind(crypto) || typeof msCrypto !== 'undefined' && typeof msCrypto.getRandomValues === 'function' && msCrypto.getRandomValues.bind(msCrypto);
-
-    if (!getRandomValues) {
-      throw new Error('crypto.getRandomValues() not supported. See https://github.com/uuidjs/uuid#getrandomvalues-not-supported');
-    }
+    throw new Error('crypto.getRandomValues() not supported. See https://github.com/uuidjs/uuid#getrandomvalues-not-supported');
   }
 
   return getRandomValues(rnds8);
@@ -25240,6 +30308,18 @@ function validate(uuid) {
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (validate);
 
+/***/ }),
+
+/***/ "?cc48":
+/*!************************!*\
+  !*** stream (ignored) ***!
+  \************************/
+/*! unknown exports (runtime-defined) */
+/*! runtime requirements:  */
+/***/ (() => {
+
+/* (ignored) */
+
 /***/ })
 
 /******/ 	});
@@ -25261,7 +30341,7 @@ function validate(uuid) {
 /******/ 		};
 /******/ 	
 /******/ 		// Execute the module function
-/******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
 /******/ 	
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;

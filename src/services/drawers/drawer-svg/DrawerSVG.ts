@@ -1,13 +1,15 @@
-import Scene from '@core/Scene'
-
-import SceneChild from '@core/SceneChild'
-import { IDrawerStreamProps, IDrawerSVGEvents, IDrawerSVGOptions } from '@services/types/drawer'
-import { now } from 'src/Utilites'
-import Drawer from '@services/drawers/Drawer'
-import { ISceneChildPropArguments, IStreamArguments } from '@core/types/scene-child'
 import { IBufferIndex } from '@core/types/shape-base'
-import { ShapePrimitive, Context } from 'src'
+import { ISceneChildPropArguments, IStreamArguments } from '@core/types/scene-child'
+
+import Scene from '@core/Scene'
+import SceneChild from '@core/SceneChild'
+import ShapePrimitive from '@core/shapes/ShapePrimitive'
+
 import { parseColorAndConvert } from 'src/Color'
+import { now } from 'src/Utilites'
+
+import { IDrawerStreamProps, IDrawerSVGEvents, IDrawerSVGOptions } from '@services/types/drawer'
+import Drawer from '@services/drawers/Drawer'
 
 /**
  * Abstract drawer
@@ -126,7 +128,7 @@ class DrawerSVG extends Drawer<IDrawerSVGOptions, IDrawerSVGEvents> {
 				}
 			}
 		}
-	} 
+	}
 
 	public static draw(
 		scene: Scene,
@@ -167,8 +169,6 @@ class DrawerSVG extends Drawer<IDrawerSVGOptions, IDrawerSVGEvents> {
 						// singleRepetitionBounding: currentIndex.singleRepetitionBounding,
 						repetition: currentIndex.repetition,
 						parent: currentIndex.parent,
-						time: scene.currentTime,
-						context: Context,
 					}
 
 					for (let i = 0; i < stream.frameLength; i += 2) {

@@ -86,31 +86,33 @@ function createSimpleAnimationCallback<T>(
 			return function SimpleAnimation(props: ISceneChildPropArguments) {
 				return value(
 					props,
-					props.time <= delay
+					(props.shape.scene?.currentTime || 0) <= delay
 						? 0
-						: props.time - delay >= duration
+						: (props.shape.scene?.currentTime || 0) - delay >= duration
 						? 1
-						: Easings[modeFunction as TEasing](props.time - delay, 0, 1, duration)
+						: Easings[modeFunction as TEasing]((props.shape.scene?.currentTime || 0) - delay, 0, 1, duration)
 				)
 			}
 		else
 			return function SimpleAnimation(props: ISceneChildPropArguments) {
 				return value(
 					props,
-					props.time <= duration ? Easings[modeFunction as TEasing](props.time, 0, 1 - 0, duration) : 1
+					(props.shape.scene?.currentTime || 0) <= duration
+						? Easings[modeFunction as TEasing](props.shape.scene?.currentTime || 0, 0, 1 - 0, duration)
+						: 1
 				)
 			}
 	} else {
 		if (type === 'loop') {
 			if (mode == 'sinusoidal') {
 				return function SimpleAnimation(props: ISceneChildPropArguments) {
-					const frequency = ((props.time || 0) * 2 * Math.PI) / duration
+					const frequency = ((props.shape.scene?.currentTime || 0 || 0) * 2 * Math.PI) / duration
 					return value(props, 0.5 + Math[modeFunction as Exclude<TModeFunction, TEasing>](frequency) * 0.5)
 				}
 			} /* easing */ else {
 				return function SimpleAnimation(props: ISceneChildPropArguments) {
 					const d2 = duration / 2
-					const t = props.time % duration
+					const t = (props.shape.scene?.currentTime || 0) % duration
 					return value(
 						props,
 						t <= d2
@@ -123,7 +125,7 @@ function createSimpleAnimationCallback<T>(
 		else {
 			if (mode == 'sinusoidal') {
 				return function SimpleAnimation(props: ISceneChildPropArguments) {
-					let time = props.time % (duration + delay)
+					let time = (props.shape.scene?.currentTime || 0) % (duration + delay)
 					time = time <= delay ? 0 : time - delay
 					const frequency = ((time || 0) * 2 * Math.PI) / duration
 					return value(props, 0.5 + Math[modeFunction as Exclude<TModeFunction, TEasing>](frequency) * 0.5)
@@ -131,7 +133,7 @@ function createSimpleAnimationCallback<T>(
 			} else {
 				if (delay && delay > 0)
 					return function SimpleAnimation(props: ISceneChildPropArguments) {
-						const time = props.time % (duration + delay)
+						const time = (props.shape.scene?.currentTime || 0) % (duration + delay)
 						return value(
 							props,
 							time <= delay
@@ -143,7 +145,7 @@ function createSimpleAnimationCallback<T>(
 					}
 				else
 					return function SimpleAnimation(props: ISceneChildPropArguments) {
-						const time = props.time % duration
+						const time = (props.shape.scene?.currentTime || 0) % duration
 						return value(props, time <= duration ? Easings[modeFunction as TEasing](time, 0, 1 - 0, duration) : 1)
 					}
 			}

@@ -292,9 +292,7 @@ class ShapeLoop<K extends IShapeLoopProps = IShapeLoopProps> extends ShapePrimit
 	 * @param {ISceneChildPropArguments} propArguments
 	 * @returns {ShapeLoopInformation}
 	 */
-	private getLoop(propArguments: ISceneChildPropArguments = ShapeBase.EMPTY_PROP_ARGUMENTS): ILoopMeta {
-		propArguments.time = this.scene?.currentTime || 0
-
+	private getLoop(propArguments: ISceneChildPropArguments): ILoopMeta {
 		let start = this.props.loop?.start ?? this.loop.start
 		let end = this.props.loop?.end ?? this.loop.end
 		let inc = this.props.loop?.inc ?? this.loop.inc

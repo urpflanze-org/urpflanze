@@ -1,4 +1,4 @@
-import { glMatrix, mat4, vec2, vec3 } from 'gl-matrix'
+import { mat4, vec2, vec3 } from 'gl-matrix'
 
 import { IParentBufferIndex, IShapeBaseSettings, IShapeBounding, TVertexCallback } from '@core/types/shape-base'
 import {
@@ -10,16 +10,13 @@ import {
 	IStreamArguments,
 } from '@core/types/scene-child'
 import { IBufferIndex } from '@core/types/shape-base'
-
-import SceneChild from '@core/SceneChild'
-import Context from '@core/Context'
-import * as glme from '@core/math/gl-matrix-extensions'
 import { clamp } from 'src/Utilites'
+import * as glme from '@core/math/gl-matrix-extensions'
 import Vec2 from '@core/math/Vec2'
-import Bounding from '@core/math/bounding'
 import { PI2 } from '@core/math'
 
-glMatrix.setMatrixArrayType(Array)
+import Bounding from '@core/math/bounding'
+import SceneChild from '@core/SceneChild'
 
 const tmpMatrix = mat4.create()
 const transformMatrix = mat4.create()
@@ -68,18 +65,6 @@ abstract class ShapeBase<GShapeBaseProps extends ISceneChildProps = ISceneChildP
 		row: ShapeBase.getEmptySimpleRepetition(),
 		col: ShapeBase.getEmptySimpleRepetition(),
 	})
-
-	/**
-	 * Empty Prop Arguments
-	 *
-	 * @internal
-	 * @ignore
-	 */
-	public static readonly EMPTY_PROP_ARGUMENTS: ISceneChildPropArguments = {
-		time: 0,
-		context: Context,
-		repetition: ShapeBase.getEmptyRepetition(),
-	}
 
 	/**
 	 *
@@ -156,6 +141,32 @@ abstract class ShapeBase<GShapeBaseProps extends ISceneChildProps = ISceneChildP
 	 */
 	public bUseParent: boolean
 
+	/**
+	 * With this parameter the shape will be created at each recursion,
+	 * In the case of ShapePrimitive fillColor, strokeColor and lineWidth don't need to as they are generated during the buffer stream.
+	 *
+	 * @public
+	 * @type {boolean}
+	 * @example
+	 * ```javascript
+	 * // Use recursion for generate different types of roses
+	 *
+	 * const rose = new Urpflanze.Rose({
+	 * 	repetitions: 3,
+	 * 	n: ({ parent }) => parent.repetition.index, // <- use parent
+	 * 	d: ({ repetition }) => repetition.index,
+	 * 	sideLength: 20,
+	 * 	distance: 30,
+	 * 	bUseParent: true // <- add this for use `parent` as propArgument of `n` property
+	 * })
+	 *
+	 * const shape = new Urpflanze.Shape({
+	 * 	shape: rose,
+	 * 	repetitions: 4,
+	 * 	distance: 100
+	 * })
+	 * ```
+	 */
 	public bUseRecursion: boolean
 
 	/**
@@ -289,11 +300,6 @@ abstract class ShapeBase<GShapeBaseProps extends ISceneChildProps = ISceneChildP
 		let attribute: any = (this.props as any)[key] as any
 
 		if (typeof attribute === 'function') {
-			propArguments = propArguments || ShapeBase.EMPTY_PROP_ARGUMENTS
-
-			propArguments.shape = this
-			propArguments.time = this.scene?.currentTime || 0
-
 			attribute = attribute(propArguments)
 		}
 
@@ -359,29 +365,20 @@ abstract class ShapeBase<GShapeBaseProps extends ISceneChildProps = ISceneChildP
 
 		if (!this.bStaticIndexed || !this.bIndexed) this.indexedBuffer = []
 
+		// prettier-ignore
 		const repetition: IRepetition = {
-			type: ERepetitionType.Ring,
-			angle: 0,
-			index: 1,
-			offset: 1,
-			count: 1,
-			row: {
-				index: 1,
-				offset: 1,
-				count: 1,
-			},
-			col: {
-				index: 1,
-				offset: 1,
-				count: 1,
-			},
+			type: ERepetitionType.Ring, angle: 0, index: 1, offset: 1, count: 1,
+			row: { index: 1, offset: 1, count: 1 },
+			col: { index: 1, offset: 1, count: 1 },
 		}
 
-		const repetitions = this.getProp(
-			'repetitions',
-			{ parent: parentPropArguments, repetition, time: 1, context: Context },
-			1
-		)
+		const propArguments: ISceneChildPropArguments = {
+			repetition,
+			shape: this,
+			parent: parentPropArguments,
+		}
+
+		const repetitions = this.getProp('repetitions', propArguments, 1)
 
 		const repetitionType = Array.isArray(repetitions) ? ERepetitionType.Matrix : ERepetitionType.Ring
 		const repetitionCount = Array.isArray(repetitions)
@@ -400,14 +397,6 @@ abstract class ShapeBase<GShapeBaseProps extends ISceneChildProps = ISceneChildP
 		repetition.col.count = repetitionColCount
 		repetition.row.count = repetitionRowCount
 		repetition.type = repetitionType
-
-		const propArguments: ISceneChildPropArguments = {
-			repetition,
-			context: Context,
-			time: this.scene?.currentTime || 0,
-			shape: this,
-			parent: parentPropArguments,
-		}
 
 		let totalBufferLength = 0
 

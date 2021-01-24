@@ -1,10 +1,24 @@
+## 0.3.0-beta (January 25, 2021)
+
+### Core
+
+- Remove time and Context from ISceneChildPropArguments
+
+### Services
+
+- Update SVGImporter, import fill and stroke color
+
 ## 0.2.4-beta (January 24, 2021)
 
 ### Core
 
+- Minor fix
+
+### Services
+
+- Fix fill and stroke opacity in DrawerSVG
 - Renaming durate to duration
 - Add GCODEExporter
-- Fix fill and stroke opacity in DrawerSVG
 - Minor fix
 
 ## 0.2.3-beta (January 9, 2021)

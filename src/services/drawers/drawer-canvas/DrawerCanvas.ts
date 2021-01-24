@@ -14,7 +14,6 @@ import Vec2 from '@core/math/Vec2'
 import { IStreamArguments } from '@core/types/scene-child'
 import { IBufferIndex } from '@core/types/shape-base'
 import ShapePrimitive from '@core/shapes/ShapePrimitive'
-import Context from '@core/Context'
 
 /**
  *
@@ -451,8 +450,6 @@ class DrawerCanvas<GDrawerCanvasOptions extends IDrawerCanvasOptions = IDrawerCa
 								},
 							},
 							parent: currentIndex.parent,
-							time: scene.currentTime,
-							context: Context,
 						}
 
 						const composite = Drawer.getStreamDrawerProp<IDrawerCanvasStreamProps>(

@@ -213,9 +213,13 @@ function rgbToHsl(r, g, b) {
   !*** ./dist/Utilites.js ***!
   \**************************/
 /*! namespace exports */
+/*! export angle2FromRepetition [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export angleFromRepetition [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export cancelablePromise [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export clamp [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export distanceFromRepetition [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export lerp [provided] [no usage info] [missing usage info prevents renaming] */
+/*! export noise [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export now [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export parseFunction [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export relativeClamp [provided] [no usage info] [missing usage info prevents renaming] */
@@ -223,7 +227,7 @@ function rgbToHsl(r, g, b) {
 /*! export toDegrees [provided] [no usage info] [missing usage info prevents renaming] */
 /*! export toRadians [provided] [no usage info] [missing usage info prevents renaming] */
 /*! other exports [not provided] [no usage info] */
-/*! runtime requirements: __webpack_require__.r, __webpack_exports__, __webpack_require__.d, __webpack_require__.* */
+/*! runtime requirements: __webpack_require__, __webpack_require__.n, __webpack_require__.r, __webpack_exports__, __webpack_require__.d, __webpack_require__.* */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -237,8 +241,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "toArray": () => /* binding */ toArray,
 /* harmony export */   "lerp": () => /* binding */ lerp,
 /* harmony export */   "clamp": () => /* binding */ clamp,
-/* harmony export */   "relativeClamp": () => /* binding */ relativeClamp
+/* harmony export */   "relativeClamp": () => /* binding */ relativeClamp,
+/* harmony export */   "noise": () => /* binding */ noise,
+/* harmony export */   "angleFromRepetition": () => /* binding */ angleFromRepetition,
+/* harmony export */   "angle2FromRepetition": () => /* binding */ angle2FromRepetition,
+/* harmony export */   "distanceFromRepetition": () => /* binding */ distanceFromRepetition
 /* harmony export */ });
+/* harmony import */ var simplex_noise__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! simplex-noise */ "./node_modules/simplex-noise/simplex-noise.js");
+/* harmony import */ var simplex_noise__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(simplex_noise__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _core_types_scene_child__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./core/types/scene-child */ "./dist/core/types/scene-child.js");
+/* harmony import */ var gl_matrix__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! gl-matrix */ "./node_modules/gl-matrix/esm/vec2.js");
+;
+
+// import SceneChild from '@core/SceneChild'
+
+// import Scene from '@core/Scene'
 /**
  * @ignore
  */
@@ -393,34 +410,6 @@ function clamp(min, max, value) {
 function relativeClamp(refMin, refMax, value, toMin, toMax) {
     return clamp(toMin, toMax, ((value - refMin) / (refMax - refMin)) * (toMax - toMin) + toMin);
 }
-//# sourceMappingURL=Utilites.js.map
-
-/***/ }),
-
-/***/ "./dist/core/Context.js":
-/*!******************************!*\
-  !*** ./dist/core/Context.js ***!
-  \******************************/
-/*! namespace exports */
-/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
-/*! other exports [not provided] [no usage info] */
-/*! runtime requirements: __webpack_require__, __webpack_require__.n, __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
-/* harmony export */ });
-/* harmony import */ var simplex_noise__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! simplex-noise */ "./node_modules/simplex-noise/simplex-noise.js");
-/* harmony import */ var simplex_noise__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(simplex_noise__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _types_scene_child__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./types/scene-child */ "./dist/core/types/scene-child.js");
-/* harmony import */ var gl_matrix__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! gl-matrix */ "./node_modules/gl-matrix/esm/vec2.js");
-;
-
-// import SceneChild from '@core/SceneChild'
-
-// import Scene from '@core/Scene'
 /**
  * @internal
  * @ignore
@@ -429,102 +418,110 @@ var noises = {
     random: new (simplex_noise__WEBPACK_IMPORTED_MODULE_0___default())(Math.random),
 };
 /**
- * Utilities function passed to <a href="[base_url]/ISceneChildPropArguments">ISceneChildPropArguments</a>
+ * <a href="https://github.com/jwagner/simplex-noise.js" target="_blank">SimplexNoise</a>
+ * Use 'random' as seed property for random seed.
+ * Return value between -1 and 1
  *
- * @category Core.Utilities
- * @example
- * ```javascript
- * const circle = new Urpflanze.Circle({
- * 	distance: ({ context, repetition }) => context.noise('seed', repetition.index) * 200
- * })
- * ```
+ * @param {string} [seed='random']
+ * @param {number} [x=0]
+ * @param {number} [y=0]
+ * @param {number} [z=0]
+ * @returns {number}
  */
-var Context = {
-    /**
-     * <a href="https://github.com/jwagner/simplex-noise.js" target="_blank">SimplexNoise</a>
-     * Use 'random' as seed property for random seed.
-     * Return value between -1 and 1
-     *
-     * @param {string} [seed='random']
-     * @param {number} [x=0]
-     * @param {number} [y=0]
-     * @param {number} [z=0]
-     * @returns {number}
-     */
-    noise: function (seed, x, y, z) {
-        if (seed === void 0) { seed = 'random'; }
-        if (x === void 0) { x = 0; }
-        if (y === void 0) { y = 0; }
-        if (z === void 0) { z = 0; }
-        if (!noises[seed]) {
-            noises[seed] = new (simplex_noise__WEBPACK_IMPORTED_MODULE_0___default())(seed);
-        }
-        return noises[seed].noise3D(x, y, z);
-    },
-    /**
-     * Return angle (atan) from offset (or center) for matrix repetition.
-     * Offset is array between [-1, -1] and [1, 1].
-     * The return value is bettween -Math.PI / 2 and Math.PI / 2
-     *
-     * @param {IRepetition} repetition
-     * @param {vec2} offsetFromCenter
-     * @returns {number}
-     */
-    angle: function (repetition, offsetFromCenter) {
-        if (offsetFromCenter === void 0) { offsetFromCenter = [0, 0]; }
-        if (repetition.type == _types_scene_child__WEBPACK_IMPORTED_MODULE_1__.ERepetitionType.Matrix) {
-            var centerMatrix = gl_matrix__WEBPACK_IMPORTED_MODULE_2__.fromValues((repetition.col.count - 1) / 2, (repetition.row.count - 1) / 2);
-            centerMatrix[0] += centerMatrix[0] * offsetFromCenter[0];
-            centerMatrix[1] += centerMatrix[1] * offsetFromCenter[1];
-            var x = repetition.col.index - 1 - centerMatrix[0];
-            var y = repetition.row.index - 1 - centerMatrix[1];
-            return x === 0 ? 0 : Math.atan(y / x);
-        }
-        return repetition.angle;
-    },
-    /**
-     * Return angle (atan2, 4 quadrants) from offset (or center) for matrix repetition.
-     * Offset is array between [-1, -1] and [1, 1].
-     * The return value is bettween -Math.PI an Math.PI
-     *
-     * @param {IRepetition} repetition
-     * @param {vec2} offsetFromCenter
-     * @returns {number}
-     */
-    angle2: function (repetition, offsetFromCenter) {
-        if (offsetFromCenter === void 0) { offsetFromCenter = [0, 0]; }
-        if (repetition.type == _types_scene_child__WEBPACK_IMPORTED_MODULE_1__.ERepetitionType.Matrix) {
-            var centerMatrix = gl_matrix__WEBPACK_IMPORTED_MODULE_2__.fromValues((repetition.col.count - 1) / 2, (repetition.row.count - 1) / 2);
-            centerMatrix[0] += centerMatrix[0] * offsetFromCenter[0];
-            centerMatrix[1] += centerMatrix[1] * offsetFromCenter[1];
-            var x = repetition.col.index - 1 - centerMatrix[0];
-            var y = repetition.col.index - 1 - centerMatrix[1];
-            return x === 0 ? 0 : Math.atan2(y, x);
-        }
-        return repetition.angle;
-    },
-    /**
-     * Return distance from offset (or center) for matrix repetition.
-     * The return value is between 0 and 1
-     *
-     * @param {IRepetition} repetition
-     * @param {vec2} offsetFromCenter offset relative to distance prop
-     * @returns {number}
-     */
-    distance: function (repetition, offsetFromCenter) {
-        if (offsetFromCenter === void 0) { offsetFromCenter = [0, 0]; }
-        if (repetition.type == _types_scene_child__WEBPACK_IMPORTED_MODULE_1__.ERepetitionType.Matrix) {
-            var centerMatrix = gl_matrix__WEBPACK_IMPORTED_MODULE_2__.fromValues(0.5, 0.5);
-            centerMatrix[0] += centerMatrix[0] * offsetFromCenter[0];
-            centerMatrix[1] += centerMatrix[1] * offsetFromCenter[1];
-            var current = gl_matrix__WEBPACK_IMPORTED_MODULE_2__.fromValues(repetition.col.offset - 0.5 / repetition.col.count, repetition.row.offset - 0.5 / repetition.row.count);
-            return gl_matrix__WEBPACK_IMPORTED_MODULE_2__.distance(current, centerMatrix);
-        }
-        return 1;
-    },
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Context);
-//# sourceMappingURL=Context.js.map
+function noise(seed, x, y, z) {
+    if (seed === void 0) { seed = 'random'; }
+    if (x === void 0) { x = 0; }
+    if (y === void 0) { y = 0; }
+    if (z === void 0) { z = 0; }
+    if (typeof noises[seed] === 'undefined') {
+        noises[seed] = new (simplex_noise__WEBPACK_IMPORTED_MODULE_0___default())(seed);
+    }
+    return noises[seed].noise3D(x, y, z);
+}
+/**
+ * Return angle (atan) from offset (or center) for matrix repetition.
+ * Offset is array between [-1, -1] and [1, 1].
+ * The return value is between -Math.PI / 2 and Math.PI / 2
+ *
+ * @param {IRepetition} repetition
+ * @param {vec2} offsetFromCenter
+ * @returns {number}
+ */
+function angleFromRepetition(repetition, offsetFromCenter) {
+    if (offsetFromCenter === void 0) { offsetFromCenter = [0, 0]; }
+    if (repetition.type == _core_types_scene_child__WEBPACK_IMPORTED_MODULE_1__.ERepetitionType.Matrix) {
+        var centerMatrix = gl_matrix__WEBPACK_IMPORTED_MODULE_2__.fromValues((repetition.col.count - 1) / 2, (repetition.row.count - 1) / 2);
+        centerMatrix[0] += centerMatrix[0] * offsetFromCenter[0];
+        centerMatrix[1] += centerMatrix[1] * offsetFromCenter[1];
+        var x = repetition.col.index - 1 - centerMatrix[0];
+        var y = repetition.row.index - 1 - centerMatrix[1];
+        return x === 0 ? 0 : Math.atan(y / x);
+    }
+    return (repetition.angle - Math.PI) / 2;
+}
+/**
+ * Return angle (atan2, 4 quadrants) from offset (or center) for matrix repetition.
+ * Offset is array between [-1, -1] and [1, 1].
+ * The return value is between -Math.PI an Math.PI
+ *
+ * @param {IRepetition} repetition
+ * @param {vec2} offsetFromCenter
+ * @returns {number}
+ */
+function angle2FromRepetition(repetition, offsetFromCenter) {
+    if (offsetFromCenter === void 0) { offsetFromCenter = [0, 0]; }
+    if (repetition.type == _core_types_scene_child__WEBPACK_IMPORTED_MODULE_1__.ERepetitionType.Matrix) {
+        var centerMatrix = gl_matrix__WEBPACK_IMPORTED_MODULE_2__.fromValues((repetition.col.count - 1) / 2, (repetition.row.count - 1) / 2);
+        centerMatrix[0] += centerMatrix[0] * offsetFromCenter[0];
+        centerMatrix[1] += centerMatrix[1] * offsetFromCenter[1];
+        var x = repetition.col.index - 1 - centerMatrix[0];
+        var y = repetition.col.index - 1 - centerMatrix[1];
+        return x === 0 ? 0 : Math.atan2(y, x);
+    }
+    return repetition.angle - Math.PI;
+}
+/**
+ * Return distance from offset (or center) for matrix repetition.
+ * The return value is between 0 and 1
+ *
+ * @param {IRepetition} repetition
+ * @param {vec2} offsetFromCenter offset relative to distance prop
+ * @returns {number}
+ */
+function distanceFromRepetition(repetition, offsetFromCenter) {
+    if (offsetFromCenter === void 0) { offsetFromCenter = [0, 0]; }
+    if (repetition.type == _core_types_scene_child__WEBPACK_IMPORTED_MODULE_1__.ERepetitionType.Matrix) {
+        var centerMatrix = gl_matrix__WEBPACK_IMPORTED_MODULE_2__.fromValues(0.5, 0.5);
+        centerMatrix[0] += centerMatrix[0] * offsetFromCenter[0];
+        centerMatrix[1] += centerMatrix[1] * offsetFromCenter[1];
+        var current = gl_matrix__WEBPACK_IMPORTED_MODULE_2__.fromValues(repetition.col.offset - 0.5 / repetition.col.count, repetition.row.offset - 0.5 / repetition.row.count);
+        return gl_matrix__WEBPACK_IMPORTED_MODULE_2__.distance(current, centerMatrix);
+    }
+    return 1;
+}
+// /**
+//  * Get value percentage of scene width.
+//  *
+//  * @param {number} percentage
+//  * @param {SceneChild} sceneChild
+//  * @returns {number}
+//  */
+// percW: (percentage: number, sceneChild: SceneChild | Scene): number => {
+// 	if (sceneChild instanceof Scene) return (sceneChild.width * percentage) / 100
+// 	return sceneChild && sceneChild.scene ? (sceneChild.scene.width * percentage) / 100 : percentage
+// },
+// /**
+//  * Get value percentage of scene height.
+//  *
+//  * @param {number} percentage
+//  * @param {SceneChild} sceneChild
+//  * @returns {number}
+//  */
+// percH: (percentage: number, sceneChild: SceneChild | Scene): number => {
+// 	if (sceneChild instanceof Scene) return (sceneChild.height * percentage) / 100
+// 	return sceneChild && sceneChild.scene ? (sceneChild.scene.height * percentage) / 100 : percentage
+// },
+//# sourceMappingURL=Utilites.js.map
 
 /***/ }),
 
@@ -2040,18 +2037,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-/* harmony import */ var gl_matrix__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! gl-matrix */ "./node_modules/gl-matrix/esm/common.js");
-/* harmony import */ var gl_matrix__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! gl-matrix */ "./node_modules/gl-matrix/esm/mat4.js");
-/* harmony import */ var gl_matrix__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! gl-matrix */ "./node_modules/gl-matrix/esm/vec2.js");
-/* harmony import */ var gl_matrix__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! gl-matrix */ "./node_modules/gl-matrix/esm/vec3.js");
+/* harmony import */ var gl_matrix__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! gl-matrix */ "./node_modules/gl-matrix/esm/mat4.js");
+/* harmony import */ var gl_matrix__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! gl-matrix */ "./node_modules/gl-matrix/esm/vec2.js");
+/* harmony import */ var gl_matrix__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! gl-matrix */ "./node_modules/gl-matrix/esm/vec3.js");
 /* harmony import */ var _types_scene_child__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../types/scene-child */ "./dist/core/types/scene-child.js");
-/* harmony import */ var _SceneChild__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../SceneChild */ "./dist/core/SceneChild.js");
-/* harmony import */ var _Context__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Context */ "./dist/core/Context.js");
-/* harmony import */ var _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../math/gl-matrix-extensions */ "./dist/core/math/gl-matrix-extensions.js");
-/* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../Utilites */ "./dist/Utilites.js");
-/* harmony import */ var _math_Vec2__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../math/Vec2 */ "./dist/core/math/Vec2.js");
-/* harmony import */ var _math_bounding__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../math/bounding */ "./dist/core/math/bounding.js");
-/* harmony import */ var _math__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../math */ "./dist/core/math/index.js");
+/* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../Utilites */ "./dist/Utilites.js");
+/* harmony import */ var _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../math/gl-matrix-extensions */ "./dist/core/math/gl-matrix-extensions.js");
+/* harmony import */ var _math_Vec2__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../math/Vec2 */ "./dist/core/math/Vec2.js");
+/* harmony import */ var _math__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../math */ "./dist/core/math/index.js");
+/* harmony import */ var _math_bounding__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../math/bounding */ "./dist/core/math/bounding.js");
+/* harmony import */ var _SceneChild__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../SceneChild */ "./dist/core/SceneChild.js");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -2084,12 +2079,10 @@ var __assign = (undefined && undefined.__assign) || function () {
 
 
 
-
-gl_matrix__WEBPACK_IMPORTED_MODULE_8__.setMatrixArrayType(Array);
-var tmpMatrix = gl_matrix__WEBPACK_IMPORTED_MODULE_9__.create();
-var transformMatrix = gl_matrix__WEBPACK_IMPORTED_MODULE_9__.create();
-var perspectiveMatrix = gl_matrix__WEBPACK_IMPORTED_MODULE_9__.create();
-var repetitionMatrix = gl_matrix__WEBPACK_IMPORTED_MODULE_9__.create();
+var tmpMatrix = gl_matrix__WEBPACK_IMPORTED_MODULE_7__.create();
+var transformMatrix = gl_matrix__WEBPACK_IMPORTED_MODULE_7__.create();
+var perspectiveMatrix = gl_matrix__WEBPACK_IMPORTED_MODULE_7__.create();
+var repetitionMatrix = gl_matrix__WEBPACK_IMPORTED_MODULE_7__.create();
 /**
  * Main class for shape generation
  *
@@ -2206,12 +2199,8 @@ var ShapeBase = /** @class */ (function (_super) {
      * @returns {*}
      */
     ShapeBase.prototype.getProp = function (key, propArguments, defaultValue) {
-        var _a;
         var attribute = this.props[key];
         if (typeof attribute === 'function') {
-            propArguments = propArguments || ShapeBase.EMPTY_PROP_ARGUMENTS;
-            propArguments.shape = this;
-            propArguments.time = ((_a = this.scene) === null || _a === void 0 ? void 0 : _a.currentTime) || 0;
             attribute = attribute(propArguments);
         }
         return typeof attribute === 'undefined' || Number.isNaN(attribute) ? defaultValue : attribute;
@@ -2267,7 +2256,7 @@ var ShapeBase = /** @class */ (function (_super) {
      * @param {ISceneChildPropArguments} [parentPropArguments]
      */
     ShapeBase.prototype.generate = function (generateId, bDirectSceneChild, parentPropArguments) {
-        var _a, _b, _c;
+        var _a, _b;
         if (bDirectSceneChild === void 0) { bDirectSceneChild = false; }
         if (this.buffer && (this.bStatic || (generateId === this.generateId && !this.bUseParent && !this.bUseRecursion))) {
             return;
@@ -2275,24 +2264,18 @@ var ShapeBase = /** @class */ (function (_super) {
         this.generateId = generateId;
         if (!this.bStaticIndexed || !this.bIndexed)
             this.indexedBuffer = [];
+        // prettier-ignore
         var repetition = {
-            type: _types_scene_child__WEBPACK_IMPORTED_MODULE_0__.ERepetitionType.Ring,
-            angle: 0,
-            index: 1,
-            offset: 1,
-            count: 1,
-            row: {
-                index: 1,
-                offset: 1,
-                count: 1,
-            },
-            col: {
-                index: 1,
-                offset: 1,
-                count: 1,
-            },
+            type: _types_scene_child__WEBPACK_IMPORTED_MODULE_0__.ERepetitionType.Ring, angle: 0, index: 1, offset: 1, count: 1,
+            row: { index: 1, offset: 1, count: 1 },
+            col: { index: 1, offset: 1, count: 1 },
         };
-        var repetitions = this.getProp('repetitions', { parent: parentPropArguments, repetition: repetition, time: 1, context: _Context__WEBPACK_IMPORTED_MODULE_2__.default }, 1);
+        var propArguments = {
+            repetition: repetition,
+            shape: this,
+            parent: parentPropArguments,
+        };
+        var repetitions = this.getProp('repetitions', propArguments, 1);
         var repetitionType = Array.isArray(repetitions) ? _types_scene_child__WEBPACK_IMPORTED_MODULE_0__.ERepetitionType.Matrix : _types_scene_child__WEBPACK_IMPORTED_MODULE_0__.ERepetitionType.Ring;
         var repetitionCount = Array.isArray(repetitions)
             ? repetitions[0] * ((_a = repetitions[1]) !== null && _a !== void 0 ? _a : repetitions[0])
@@ -2307,17 +2290,10 @@ var ShapeBase = /** @class */ (function (_super) {
         repetition.col.count = repetitionColCount;
         repetition.row.count = repetitionRowCount;
         repetition.type = repetitionType;
-        var propArguments = {
-            repetition: repetition,
-            context: _Context__WEBPACK_IMPORTED_MODULE_2__.default,
-            time: ((_c = this.scene) === null || _c === void 0 ? void 0 : _c.currentTime) || 0,
-            shape: this,
-            parent: parentPropArguments,
-        };
         var totalBufferLength = 0;
         var buffers = [];
         var currentIndex = 0;
-        var centerMatrix = gl_matrix__WEBPACK_IMPORTED_MODULE_10__.fromValues((repetitionColCount - 1) / 2, (repetitionRowCount - 1) / 2);
+        var centerMatrix = gl_matrix__WEBPACK_IMPORTED_MODULE_8__.fromValues((repetitionColCount - 1) / 2, (repetitionRowCount - 1) / 2);
         var sceneCenter = this.scene ? [this.scene.center[0], this.scene.center[1], 0] : [0, 0, 0];
         var tmpTotalShapeBounding = [undefined, undefined, undefined, undefined];
         var tmpSingleRepetitionBounding = [undefined, undefined, undefined, undefined];
@@ -2325,7 +2301,7 @@ var ShapeBase = /** @class */ (function (_super) {
             for (var currentColRepetition = 0; currentColRepetition < repetitionColCount; currentColRepetition++, currentIndex++) {
                 repetition.index = currentIndex + 1;
                 repetition.offset = repetitionCount > 1 ? currentIndex / (repetitionCount - 1) : 1;
-                repetition.angle = repetitionType === _types_scene_child__WEBPACK_IMPORTED_MODULE_0__.ERepetitionType.Ring ? (_math__WEBPACK_IMPORTED_MODULE_7__.PI2 / repetitionCount) * currentIndex : 0;
+                repetition.angle = repetitionType === _types_scene_child__WEBPACK_IMPORTED_MODULE_0__.ERepetitionType.Ring ? (_math__WEBPACK_IMPORTED_MODULE_4__.PI2 / repetitionCount) * currentIndex : 0;
                 colRepetition.index = currentColRepetition + 1;
                 colRepetition.offset = repetitionColCount > 1 ? currentColRepetition / (repetitionColCount - 1) : 1;
                 rowRepetition.index = currentRowRepetition + 1;
@@ -2337,10 +2313,10 @@ var ShapeBase = /** @class */ (function (_super) {
                 buffers[currentIndex] = new Float32Array(bufferLength);
                 totalBufferLength += bufferLength;
                 {
-                    var distance = _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_3__.toVec2(this.getProp('distance', propArguments, _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_3__.VEC2_ZERO));
+                    var distance = _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_2__.toVec2(this.getProp('distance', propArguments, _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_2__.VEC2_ZERO));
                     var displace = this.getProp('displace', propArguments, 0);
-                    var scale = _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_3__.toVec3(this.getProp('scale', propArguments, _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_3__.VEC2_ONE), 1);
-                    var translate = _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_3__.toVec3(this.getProp('translate', propArguments, _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_3__.VEC2_ZERO), 0);
+                    var scale = _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_2__.toVec3(this.getProp('scale', propArguments, _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_2__.VEC2_ONE), 1);
+                    var translate = _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_2__.toVec3(this.getProp('translate', propArguments, _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_2__.VEC2_ZERO), 0);
                     var skewX = this.getProp('skewX', propArguments, 0);
                     var skewY = this.getProp('skewY', propArguments, 0);
                     var squeezeX = this.getProp('squeezeX', propArguments, 0);
@@ -2348,17 +2324,17 @@ var ShapeBase = /** @class */ (function (_super) {
                     var rotateX = this.getProp('rotateX', propArguments, 0);
                     var rotateY = this.getProp('rotateY', propArguments, 0);
                     var rotateZ = this.getProp('rotateZ', propArguments, 0);
-                    var perspective = (0,_Utilites__WEBPACK_IMPORTED_MODULE_4__.clamp)(0, 1, this.getProp('perspective', propArguments, 0));
-                    var perspectiveOrigin = _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_3__.toVec3(this.getProp('perspectiveOrigin', propArguments, _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_3__.VEC2_ZERO), 0);
-                    var transformOrigin = _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_3__.toVec3(this.getProp('transformOrigin', propArguments, _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_3__.VEC2_ZERO), 0);
+                    var perspective = (0,_Utilites__WEBPACK_IMPORTED_MODULE_1__.clamp)(0, 1, this.getProp('perspective', propArguments, 0));
+                    var perspectiveOrigin = _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_2__.toVec3(this.getProp('perspectiveOrigin', propArguments, _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_2__.VEC2_ZERO), 0);
+                    var transformOrigin = _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_2__.toVec3(this.getProp('transformOrigin', propArguments, _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_2__.VEC2_ZERO), 0);
                     var offset = void 0;
                     switch (repetitionType) {
                         case _types_scene_child__WEBPACK_IMPORTED_MODULE_0__.ERepetitionType.Ring:
-                            offset = gl_matrix__WEBPACK_IMPORTED_MODULE_11__.fromValues(distance[0], 0, 0);
-                            gl_matrix__WEBPACK_IMPORTED_MODULE_11__.rotateZ(offset, offset, _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_3__.VEC3_ZERO, repetition.angle + displace);
+                            offset = gl_matrix__WEBPACK_IMPORTED_MODULE_9__.fromValues(distance[0], 0, 0);
+                            gl_matrix__WEBPACK_IMPORTED_MODULE_9__.rotateZ(offset, offset, _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_2__.VEC3_ZERO, repetition.angle + displace);
                             break;
                         case _types_scene_child__WEBPACK_IMPORTED_MODULE_0__.ERepetitionType.Matrix:
-                            offset = gl_matrix__WEBPACK_IMPORTED_MODULE_11__.fromValues(distance[1] * (currentColRepetition - centerMatrix[0]), distance[0] * (currentRowRepetition - centerMatrix[1]), 0);
+                            offset = gl_matrix__WEBPACK_IMPORTED_MODULE_9__.fromValues(distance[1] * (currentColRepetition - centerMatrix[0]), distance[0] * (currentRowRepetition - centerMatrix[1]), 0);
                             break;
                     }
                     var perspectiveSize = perspective > 0 ? Math.max(bounding.width, bounding.height) / 2 : 1;
@@ -2377,21 +2353,21 @@ var ShapeBase = /** @class */ (function (_super) {
                         /**
                          * Create Transformation matrix
                          */
-                        gl_matrix__WEBPACK_IMPORTED_MODULE_9__.identity(transformMatrix);
-                        bTransformOrigin && gl_matrix__WEBPACK_IMPORTED_MODULE_9__.translate(transformMatrix, transformMatrix, transformOrigin);
+                        gl_matrix__WEBPACK_IMPORTED_MODULE_7__.identity(transformMatrix);
+                        bTransformOrigin && gl_matrix__WEBPACK_IMPORTED_MODULE_7__.translate(transformMatrix, transformMatrix, transformOrigin);
                         if (translate[0] !== 0 || translate[1] !== 0)
-                            gl_matrix__WEBPACK_IMPORTED_MODULE_9__.translate(transformMatrix, transformMatrix, translate);
+                            gl_matrix__WEBPACK_IMPORTED_MODULE_7__.translate(transformMatrix, transformMatrix, translate);
                         if (skewX !== 0 || skewY !== 0) {
-                            _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_3__.fromSkew(tmpMatrix, [skewX, skewY]);
-                            gl_matrix__WEBPACK_IMPORTED_MODULE_9__.multiply(transformMatrix, transformMatrix, tmpMatrix);
+                            _math_gl_matrix_extensions__WEBPACK_IMPORTED_MODULE_2__.fromSkew(tmpMatrix, [skewX, skewY]);
+                            gl_matrix__WEBPACK_IMPORTED_MODULE_7__.multiply(transformMatrix, transformMatrix, tmpMatrix);
                         }
-                        rotateX !== 0 && gl_matrix__WEBPACK_IMPORTED_MODULE_9__.rotateX(transformMatrix, transformMatrix, rotateX);
-                        rotateY !== 0 && gl_matrix__WEBPACK_IMPORTED_MODULE_9__.rotateY(transformMatrix, transformMatrix, rotateY);
-                        rotateZ !== 0 && gl_matrix__WEBPACK_IMPORTED_MODULE_9__.rotateZ(transformMatrix, transformMatrix, rotateZ);
+                        rotateX !== 0 && gl_matrix__WEBPACK_IMPORTED_MODULE_7__.rotateX(transformMatrix, transformMatrix, rotateX);
+                        rotateY !== 0 && gl_matrix__WEBPACK_IMPORTED_MODULE_7__.rotateY(transformMatrix, transformMatrix, rotateY);
+                        rotateZ !== 0 && gl_matrix__WEBPACK_IMPORTED_MODULE_7__.rotateZ(transformMatrix, transformMatrix, rotateZ);
                         if (scale[0] !== 1 || scale[1] !== 1)
-                            gl_matrix__WEBPACK_IMPORTED_MODULE_9__.scale(transformMatrix, transformMatrix, scale);
+                            gl_matrix__WEBPACK_IMPORTED_MODULE_7__.scale(transformMatrix, transformMatrix, scale);
                         bTransformOrigin &&
-                            gl_matrix__WEBPACK_IMPORTED_MODULE_9__.translate(transformMatrix, transformMatrix, gl_matrix__WEBPACK_IMPORTED_MODULE_11__.scale(transformOrigin, transformOrigin, -1));
+                            gl_matrix__WEBPACK_IMPORTED_MODULE_7__.translate(transformMatrix, transformMatrix, gl_matrix__WEBPACK_IMPORTED_MODULE_9__.scale(transformOrigin, transformOrigin, -1));
                         /**
                          * Create Perspective matrix
                          */
@@ -2401,35 +2377,35 @@ var ShapeBase = /** @class */ (function (_super) {
                                 perspectiveOrigin[1] *= bounding.height / 2;
                                 perspectiveOrigin[2] = 0;
                             }
-                            gl_matrix__WEBPACK_IMPORTED_MODULE_9__.perspective(perspectiveMatrix, -Math.PI / 2, 1, 0, Infinity);
+                            gl_matrix__WEBPACK_IMPORTED_MODULE_7__.perspective(perspectiveMatrix, -Math.PI / 2, 1, 0, Infinity);
                         }
                         /**
                          * Create Repetition matrix
                          */
-                        gl_matrix__WEBPACK_IMPORTED_MODULE_9__.identity(repetitionMatrix);
-                        gl_matrix__WEBPACK_IMPORTED_MODULE_9__.translate(repetitionMatrix, repetitionMatrix, offset);
+                        gl_matrix__WEBPACK_IMPORTED_MODULE_7__.identity(repetitionMatrix);
+                        gl_matrix__WEBPACK_IMPORTED_MODULE_7__.translate(repetitionMatrix, repetitionMatrix, offset);
                         if (bDirectSceneChild) {
-                            gl_matrix__WEBPACK_IMPORTED_MODULE_9__.translate(repetitionMatrix, repetitionMatrix, sceneCenter);
+                            gl_matrix__WEBPACK_IMPORTED_MODULE_7__.translate(repetitionMatrix, repetitionMatrix, sceneCenter);
                         }
                         if (repetitionType === _types_scene_child__WEBPACK_IMPORTED_MODULE_0__.ERepetitionType.Ring)
-                            gl_matrix__WEBPACK_IMPORTED_MODULE_9__.rotateZ(repetitionMatrix, repetitionMatrix, repetition.angle + displace);
+                            gl_matrix__WEBPACK_IMPORTED_MODULE_7__.rotateZ(repetitionMatrix, repetitionMatrix, repetition.angle + displace);
                     }
-                    _math_bounding__WEBPACK_IMPORTED_MODULE_6__.default.clear(tmpSingleRepetitionBounding);
+                    _math_bounding__WEBPACK_IMPORTED_MODULE_5__.default.clear(tmpSingleRepetitionBounding);
                     // Apply matrices on vertex
                     for (var bufferIndex = 0; bufferIndex < bufferLength; bufferIndex += 2) {
                         var vertex = [buffer[bufferIndex], buffer[bufferIndex + 1], perspectiveValue];
                         {
                             // Apply squeeze, can be insert into transformMatrix?
-                            squeezeX !== 0 && _math_Vec2__WEBPACK_IMPORTED_MODULE_5__.default.squeezeX(vertex, squeezeX);
-                            squeezeY !== 0 && _math_Vec2__WEBPACK_IMPORTED_MODULE_5__.default.squeezeY(vertex, squeezeY);
+                            squeezeX !== 0 && _math_Vec2__WEBPACK_IMPORTED_MODULE_3__.default.squeezeX(vertex, squeezeX);
+                            squeezeY !== 0 && _math_Vec2__WEBPACK_IMPORTED_MODULE_3__.default.squeezeY(vertex, squeezeY);
                             // Apply transforms
-                            gl_matrix__WEBPACK_IMPORTED_MODULE_11__.transformMat4(vertex, vertex, transformMatrix);
+                            gl_matrix__WEBPACK_IMPORTED_MODULE_9__.transformMat4(vertex, vertex, transformMatrix);
                             // Apply perspective
                             if (perspectiveValue > 0) {
-                                bPerspectiveOrigin && gl_matrix__WEBPACK_IMPORTED_MODULE_11__.add(vertex, vertex, perspectiveOrigin);
-                                gl_matrix__WEBPACK_IMPORTED_MODULE_11__.transformMat4(vertex, vertex, perspectiveMatrix);
-                                gl_matrix__WEBPACK_IMPORTED_MODULE_11__.scale(vertex, vertex, perspectiveValue);
-                                bPerspectiveOrigin && gl_matrix__WEBPACK_IMPORTED_MODULE_11__.sub(vertex, vertex, perspectiveOrigin);
+                                bPerspectiveOrigin && gl_matrix__WEBPACK_IMPORTED_MODULE_9__.add(vertex, vertex, perspectiveOrigin);
+                                gl_matrix__WEBPACK_IMPORTED_MODULE_9__.transformMat4(vertex, vertex, perspectiveMatrix);
+                                gl_matrix__WEBPACK_IMPORTED_MODULE_9__.scale(vertex, vertex, perspectiveValue);
+                                bPerspectiveOrigin && gl_matrix__WEBPACK_IMPORTED_MODULE_9__.sub(vertex, vertex, perspectiveOrigin);
                             }
                             // custom vertex manipulation
                             if (this.vertexCallback) {
@@ -2443,12 +2419,12 @@ var ShapeBase = /** @class */ (function (_super) {
                                 this.vertexCallback(vertex, vertexRepetition, propArguments);
                             }
                             // final, apply repetition matrix
-                            gl_matrix__WEBPACK_IMPORTED_MODULE_11__.transformMat4(vertex, vertex, repetitionMatrix);
+                            gl_matrix__WEBPACK_IMPORTED_MODULE_9__.transformMat4(vertex, vertex, repetitionMatrix);
                         }
                         buffers[currentIndex][bufferIndex] = vertex[0];
                         buffers[currentIndex][bufferIndex + 1] = vertex[1];
                         // Bounding.add(tmpSingleRepetitionBounding, vertex[0], vertex[1])
-                        _math_bounding__WEBPACK_IMPORTED_MODULE_6__.default.add(tmpTotalShapeBounding, vertex[0], vertex[1]);
+                        _math_bounding__WEBPACK_IMPORTED_MODULE_5__.default.add(tmpTotalShapeBounding, vertex[0], vertex[1]);
                     }
                 }
                 // Bounding.sum(tmpTotalShapeBounding, tmpSingleRepetitionBounding)
@@ -2460,7 +2436,7 @@ var ShapeBase = /** @class */ (function (_super) {
                 }
             }
         }
-        _math_bounding__WEBPACK_IMPORTED_MODULE_6__.default.bind(this.bounding, tmpTotalShapeBounding);
+        _math_bounding__WEBPACK_IMPORTED_MODULE_5__.default.bind(this.bounding, tmpTotalShapeBounding);
         this.buffer = new Float32Array(totalBufferLength);
         for (var i = 0, offset = 0, len = buffers.length; i < len; offset += buffers[i].length, i++)
             this.buffer.set(buffers[i], offset);
@@ -2563,19 +2539,8 @@ var ShapeBase = /** @class */ (function (_super) {
      * @ignore
      */
     ShapeBase.getEmptyRepetition = function () { return (__assign(__assign({ type: _types_scene_child__WEBPACK_IMPORTED_MODULE_0__.ERepetitionType.Ring, angle: 0 }, ShapeBase.getEmptySimpleRepetition()), { row: ShapeBase.getEmptySimpleRepetition(), col: ShapeBase.getEmptySimpleRepetition() })); };
-    /**
-     * Empty Prop Arguments
-     *
-     * @internal
-     * @ignore
-     */
-    ShapeBase.EMPTY_PROP_ARGUMENTS = {
-        time: 0,
-        context: _Context__WEBPACK_IMPORTED_MODULE_2__.default,
-        repetition: ShapeBase.getEmptyRepetition(),
-    };
     return ShapeBase;
-}(_SceneChild__WEBPACK_IMPORTED_MODULE_1__.default));
+}(_SceneChild__WEBPACK_IMPORTED_MODULE_6__.default));
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ShapeBase);
 //# sourceMappingURL=ShapeBase.js.map
 
@@ -2782,8 +2747,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _types_shape_base__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../types/shape-base */ "./dist/core/types/shape-base.js");
 /* harmony import */ var _math_bounding__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../math/bounding */ "./dist/core/math/bounding.js");
 /* harmony import */ var _math__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../math */ "./dist/core/math/index.js");
-/* harmony import */ var _ShapeBase__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ShapeBase */ "./dist/core/shapes/ShapeBase.js");
-/* harmony import */ var _ShapePrimitive__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ShapePrimitive */ "./dist/core/shapes/ShapePrimitive.js");
+/* harmony import */ var _ShapePrimitive__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ShapePrimitive */ "./dist/core/shapes/ShapePrimitive.js");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -2808,7 +2772,6 @@ var __assign = (undefined && undefined.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-
 
 
 
@@ -2994,7 +2957,7 @@ var ShapeLoop = /** @class */ (function (_super) {
             /**
              * Adapt and apply side length
              */
-            var buffer = _ShapePrimitive__WEBPACK_IMPORTED_MODULE_4__.default.adaptBuffer(currentOrSingleLoopBuffer, this.adaptMode);
+            var buffer = _ShapePrimitive__WEBPACK_IMPORTED_MODULE_3__.default.adaptBuffer(currentOrSingleLoopBuffer, this.adaptMode);
             _math_bounding__WEBPACK_IMPORTED_MODULE_1__.default.clear(tmpBounding);
             for (var i = 0; i < bufferLength; i += 2) {
                 buffer[i] = buffer[i] * sideLength[0];
@@ -3014,12 +2977,10 @@ var ShapeLoop = /** @class */ (function (_super) {
      * @returns {ShapeLoopInformation}
      */
     ShapeLoop.prototype.getLoop = function (propArguments) {
-        var _a, _b, _c, _d, _e, _f, _g;
-        if (propArguments === void 0) { propArguments = _ShapeBase__WEBPACK_IMPORTED_MODULE_3__.default.EMPTY_PROP_ARGUMENTS; }
-        propArguments.time = ((_a = this.scene) === null || _a === void 0 ? void 0 : _a.currentTime) || 0;
-        var start = (_c = (_b = this.props.loop) === null || _b === void 0 ? void 0 : _b.start) !== null && _c !== void 0 ? _c : this.loop.start;
-        var end = (_e = (_d = this.props.loop) === null || _d === void 0 ? void 0 : _d.end) !== null && _e !== void 0 ? _e : this.loop.end;
-        var inc = (_g = (_f = this.props.loop) === null || _f === void 0 ? void 0 : _f.inc) !== null && _g !== void 0 ? _g : this.loop.inc;
+        var _a, _b, _c, _d, _e, _f;
+        var start = (_b = (_a = this.props.loop) === null || _a === void 0 ? void 0 : _a.start) !== null && _b !== void 0 ? _b : this.loop.start;
+        var end = (_d = (_c = this.props.loop) === null || _c === void 0 ? void 0 : _c.end) !== null && _d !== void 0 ? _d : this.loop.end;
+        var inc = (_f = (_e = this.props.loop) === null || _e === void 0 ? void 0 : _e.inc) !== null && _f !== void 0 ? _f : this.loop.inc;
         start = (typeof start === 'function' ? start(propArguments) : start);
         end = (typeof end === 'function' ? end(propArguments) : end);
         inc = (typeof inc === 'function' ? inc(propArguments) : inc);
@@ -3036,7 +2997,7 @@ var ShapeLoop = /** @class */ (function (_super) {
     };
     ShapeLoop.PId2 = Math.PI / 2;
     return ShapeLoop;
-}(_ShapePrimitive__WEBPACK_IMPORTED_MODULE_4__.default));
+}(_ShapePrimitive__WEBPACK_IMPORTED_MODULE_3__.default));
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ShapeLoop);
 //# sourceMappingURL=ShapeLoop.js.map
 
@@ -3283,7 +3244,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _math_bounding__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../math/bounding */ "./dist/core/math/bounding.js");
 /* harmony import */ var _Shape__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Shape */ "./dist/core/shapes/Shape.js");
-/* harmony import */ var _Context__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Context */ "./dist/core/Context.js");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -3308,7 +3268,6 @@ var __assign = (undefined && undefined.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-
 
 
 /**
@@ -3487,14 +3446,8 @@ var ShapeRecursive = /** @class */ (function (_super) {
     ShapeRecursive.prototype.addIndex = function (frameLength, repetition
     // singleRepetitionBounding: IShapeBounding
     ) {
-        var _a;
         if (this.shape) {
-            var propArguments = {
-                repetition: repetition,
-                context: _Context__WEBPACK_IMPORTED_MODULE_2__.default,
-                time: ((_a = this.scene) === null || _a === void 0 ? void 0 : _a.currentTime) || 0,
-                shape: this,
-            };
+            var propArguments = { repetition: repetition, shape: this };
             var recursions = Math.floor(this.getProp('recursions', propArguments, 1));
             var recursionVertex = Math.floor(this.getProp('recursionVertex', propArguments, 0));
             // const realFrameLength = ShapeRecursive.summmation(recursions, this.shape.getBufferLength() / 2)
@@ -4471,7 +4424,6 @@ var EShapePrimitiveAdaptMode;
 /*! namespace exports */
 /*! export Animation [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/services/animation/Simple.js .default */
 /*! export Circle [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/Circle.js .default */
-/*! export Context [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/Context.js .default */
 /*! export DrawerCanvas [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/services/drawers/drawer-canvas/DrawerCanvas.js .default */
 /*! export Easings [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/services/animation/Easings.js .default */
 /*! export Group [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/Group.js .default */
@@ -4493,11 +4445,16 @@ var EShapePrimitiveAdaptMode;
 /*! export SuperShape [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/SuperShape.js .default */
 /*! export Triangle [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/shapes/primitives/Triangle.js .default */
 /*! export Vec2 [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/math/Vec2.js .default */
+/*! export angle2FromRepetition [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .angle2FromRepetition */
+/*! export angleFromRepetition [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .angleFromRepetition */
 /*! export author [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/meta.js .author */
 /*! export clamp [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .clamp */
+/*! export distanceFromRepetition [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .distanceFromRepetition */
 /*! export lerp [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .lerp */
 /*! export license [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/meta.js .license */
 /*! export log [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/core/math/index.js .log */
+/*! export noise [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .noise */
+/*! export now [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .now */
 /*! export relativeClamp [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .relativeClamp */
 /*! export toDegrees [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .toDegrees */
 /*! export toRadians [provided] [maybe used in urpflanze-light (runtime-defined)] [usage prevents renaming] -> ./dist/Utilites.js .toRadians */
@@ -4512,30 +4469,34 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "version": () => /* reexport safe */ _meta__WEBPACK_IMPORTED_MODULE_0__.version,
 /* harmony export */   "author": () => /* reexport safe */ _meta__WEBPACK_IMPORTED_MODULE_0__.author,
 /* harmony export */   "license": () => /* reexport safe */ _meta__WEBPACK_IMPORTED_MODULE_0__.license,
-/* harmony export */   "Scene": () => /* reexport safe */ _core_Scene__WEBPACK_IMPORTED_MODULE_1__.default,
-/* harmony export */   "SceneChild": () => /* reexport safe */ _core_SceneChild__WEBPACK_IMPORTED_MODULE_2__.default,
-/* harmony export */   "Group": () => /* reexport safe */ _core_Group__WEBPACK_IMPORTED_MODULE_3__.default,
-/* harmony export */   "ShapePrimitive": () => /* reexport safe */ _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_4__.default,
-/* harmony export */   "ShapeLoop": () => /* reexport safe */ _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_5__.default,
-/* harmony export */   "ShapeBuffer": () => /* reexport safe */ _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_6__.default,
-/* harmony export */   "Shape": () => /* reexport safe */ _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_7__.default,
-/* harmony export */   "ShapeRecursive": () => /* reexport safe */ _core_shapes_ShapeRecursive__WEBPACK_IMPORTED_MODULE_8__.default,
-/* harmony export */   "Line": () => /* reexport safe */ _core_shapes_primitives_Line__WEBPACK_IMPORTED_MODULE_9__.default,
-/* harmony export */   "Triangle": () => /* reexport safe */ _core_shapes_primitives_Triangle__WEBPACK_IMPORTED_MODULE_10__.default,
-/* harmony export */   "Rect": () => /* reexport safe */ _core_shapes_primitives_Rect__WEBPACK_IMPORTED_MODULE_11__.default,
-/* harmony export */   "Polygon": () => /* reexport safe */ _core_shapes_primitives_Polygon__WEBPACK_IMPORTED_MODULE_12__.default,
-/* harmony export */   "Circle": () => /* reexport safe */ _core_shapes_primitives_Circle__WEBPACK_IMPORTED_MODULE_13__.default,
-/* harmony export */   "Rose": () => /* reexport safe */ _core_shapes_primitives_Rose__WEBPACK_IMPORTED_MODULE_14__.default,
-/* harmony export */   "Spiral": () => /* reexport safe */ _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_15__.default,
-/* harmony export */   "Lissajous": () => /* reexport safe */ _core_shapes_primitives_Lissajous__WEBPACK_IMPORTED_MODULE_16__.default,
-/* harmony export */   "SuperShape": () => /* reexport safe */ _core_shapes_primitives_SuperShape__WEBPACK_IMPORTED_MODULE_17__.default,
-/* harmony export */   "lerp": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_18__.lerp,
-/* harmony export */   "clamp": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_18__.clamp,
-/* harmony export */   "relativeClamp": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_18__.relativeClamp,
-/* harmony export */   "toDegrees": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_18__.toDegrees,
-/* harmony export */   "toRadians": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_18__.toRadians,
-/* harmony export */   "Vec2": () => /* reexport safe */ _core_math_Vec2__WEBPACK_IMPORTED_MODULE_19__.default,
-/* harmony export */   "Context": () => /* reexport safe */ _core_Context__WEBPACK_IMPORTED_MODULE_20__.default,
+/* harmony export */   "Scene": () => /* reexport safe */ _core_Scene__WEBPACK_IMPORTED_MODULE_2__.default,
+/* harmony export */   "SceneChild": () => /* reexport safe */ _core_SceneChild__WEBPACK_IMPORTED_MODULE_3__.default,
+/* harmony export */   "Group": () => /* reexport safe */ _core_Group__WEBPACK_IMPORTED_MODULE_4__.default,
+/* harmony export */   "ShapePrimitive": () => /* reexport safe */ _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_5__.default,
+/* harmony export */   "ShapeLoop": () => /* reexport safe */ _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_6__.default,
+/* harmony export */   "ShapeBuffer": () => /* reexport safe */ _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_7__.default,
+/* harmony export */   "Shape": () => /* reexport safe */ _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_8__.default,
+/* harmony export */   "ShapeRecursive": () => /* reexport safe */ _core_shapes_ShapeRecursive__WEBPACK_IMPORTED_MODULE_9__.default,
+/* harmony export */   "Line": () => /* reexport safe */ _core_shapes_primitives_Line__WEBPACK_IMPORTED_MODULE_10__.default,
+/* harmony export */   "Triangle": () => /* reexport safe */ _core_shapes_primitives_Triangle__WEBPACK_IMPORTED_MODULE_11__.default,
+/* harmony export */   "Rect": () => /* reexport safe */ _core_shapes_primitives_Rect__WEBPACK_IMPORTED_MODULE_12__.default,
+/* harmony export */   "Polygon": () => /* reexport safe */ _core_shapes_primitives_Polygon__WEBPACK_IMPORTED_MODULE_13__.default,
+/* harmony export */   "Circle": () => /* reexport safe */ _core_shapes_primitives_Circle__WEBPACK_IMPORTED_MODULE_14__.default,
+/* harmony export */   "Rose": () => /* reexport safe */ _core_shapes_primitives_Rose__WEBPACK_IMPORTED_MODULE_15__.default,
+/* harmony export */   "Spiral": () => /* reexport safe */ _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_16__.default,
+/* harmony export */   "Lissajous": () => /* reexport safe */ _core_shapes_primitives_Lissajous__WEBPACK_IMPORTED_MODULE_17__.default,
+/* harmony export */   "SuperShape": () => /* reexport safe */ _core_shapes_primitives_SuperShape__WEBPACK_IMPORTED_MODULE_18__.default,
+/* harmony export */   "lerp": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_19__.lerp,
+/* harmony export */   "clamp": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_19__.clamp,
+/* harmony export */   "relativeClamp": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_19__.relativeClamp,
+/* harmony export */   "toDegrees": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_19__.toDegrees,
+/* harmony export */   "toRadians": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_19__.toRadians,
+/* harmony export */   "now": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_19__.now,
+/* harmony export */   "noise": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_19__.noise,
+/* harmony export */   "angleFromRepetition": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_19__.angleFromRepetition,
+/* harmony export */   "angle2FromRepetition": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_19__.angle2FromRepetition,
+/* harmony export */   "distanceFromRepetition": () => /* reexport safe */ _Utilites__WEBPACK_IMPORTED_MODULE_19__.distanceFromRepetition,
+/* harmony export */   "Vec2": () => /* reexport safe */ _core_math_Vec2__WEBPACK_IMPORTED_MODULE_20__.default,
 /* harmony export */   "PHI": () => /* reexport safe */ _core_math__WEBPACK_IMPORTED_MODULE_21__.PHI,
 /* harmony export */   "PI2": () => /* reexport safe */ _core_math__WEBPACK_IMPORTED_MODULE_21__.PI2,
 /* harmony export */   "log": () => /* reexport safe */ _core_math__WEBPACK_IMPORTED_MODULE_21__.log,
@@ -4544,26 +4505,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Easings": () => /* reexport safe */ _services_animation_Easings__WEBPACK_IMPORTED_MODULE_24__.default
 /* harmony export */ });
 /* harmony import */ var _meta__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./meta */ "./dist/meta.js");
-/* harmony import */ var _core_Scene__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./core/Scene */ "./dist/core/Scene.js");
-/* harmony import */ var _core_SceneChild__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./core/SceneChild */ "./dist/core/SceneChild.js");
-/* harmony import */ var _core_Group__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./core/Group */ "./dist/core/Group.js");
-/* harmony import */ var _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./core/shapes/ShapePrimitive */ "./dist/core/shapes/ShapePrimitive.js");
-/* harmony import */ var _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./core/shapes/ShapeLoop */ "./dist/core/shapes/ShapeLoop.js");
-/* harmony import */ var _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./core/shapes/ShapeBuffer */ "./dist/core/shapes/ShapeBuffer.js");
-/* harmony import */ var _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./core/shapes/Shape */ "./dist/core/shapes/Shape.js");
-/* harmony import */ var _core_shapes_ShapeRecursive__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./core/shapes/ShapeRecursive */ "./dist/core/shapes/ShapeRecursive.js");
-/* harmony import */ var _core_shapes_primitives_Line__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./core/shapes/primitives/Line */ "./dist/core/shapes/primitives/Line.js");
-/* harmony import */ var _core_shapes_primitives_Triangle__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./core/shapes/primitives/Triangle */ "./dist/core/shapes/primitives/Triangle.js");
-/* harmony import */ var _core_shapes_primitives_Rect__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./core/shapes/primitives/Rect */ "./dist/core/shapes/primitives/Rect.js");
-/* harmony import */ var _core_shapes_primitives_Polygon__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./core/shapes/primitives/Polygon */ "./dist/core/shapes/primitives/Polygon.js");
-/* harmony import */ var _core_shapes_primitives_Circle__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./core/shapes/primitives/Circle */ "./dist/core/shapes/primitives/Circle.js");
-/* harmony import */ var _core_shapes_primitives_Rose__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./core/shapes/primitives/Rose */ "./dist/core/shapes/primitives/Rose.js");
-/* harmony import */ var _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./core/shapes/primitives/Spiral */ "./dist/core/shapes/primitives/Spiral.js");
-/* harmony import */ var _core_shapes_primitives_Lissajous__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./core/shapes/primitives/Lissajous */ "./dist/core/shapes/primitives/Lissajous.js");
-/* harmony import */ var _core_shapes_primitives_SuperShape__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./core/shapes/primitives/SuperShape */ "./dist/core/shapes/primitives/SuperShape.js");
-/* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./Utilites */ "./dist/Utilites.js");
-/* harmony import */ var _core_math_Vec2__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./core/math/Vec2 */ "./dist/core/math/Vec2.js");
-/* harmony import */ var _core_Context__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./core/Context */ "./dist/core/Context.js");
+/* harmony import */ var gl_matrix__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! gl-matrix */ "./node_modules/gl-matrix/esm/common.js");
+/* harmony import */ var _core_Scene__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./core/Scene */ "./dist/core/Scene.js");
+/* harmony import */ var _core_SceneChild__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./core/SceneChild */ "./dist/core/SceneChild.js");
+/* harmony import */ var _core_Group__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./core/Group */ "./dist/core/Group.js");
+/* harmony import */ var _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./core/shapes/ShapePrimitive */ "./dist/core/shapes/ShapePrimitive.js");
+/* harmony import */ var _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./core/shapes/ShapeLoop */ "./dist/core/shapes/ShapeLoop.js");
+/* harmony import */ var _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./core/shapes/ShapeBuffer */ "./dist/core/shapes/ShapeBuffer.js");
+/* harmony import */ var _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./core/shapes/Shape */ "./dist/core/shapes/Shape.js");
+/* harmony import */ var _core_shapes_ShapeRecursive__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./core/shapes/ShapeRecursive */ "./dist/core/shapes/ShapeRecursive.js");
+/* harmony import */ var _core_shapes_primitives_Line__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./core/shapes/primitives/Line */ "./dist/core/shapes/primitives/Line.js");
+/* harmony import */ var _core_shapes_primitives_Triangle__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./core/shapes/primitives/Triangle */ "./dist/core/shapes/primitives/Triangle.js");
+/* harmony import */ var _core_shapes_primitives_Rect__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./core/shapes/primitives/Rect */ "./dist/core/shapes/primitives/Rect.js");
+/* harmony import */ var _core_shapes_primitives_Polygon__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./core/shapes/primitives/Polygon */ "./dist/core/shapes/primitives/Polygon.js");
+/* harmony import */ var _core_shapes_primitives_Circle__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./core/shapes/primitives/Circle */ "./dist/core/shapes/primitives/Circle.js");
+/* harmony import */ var _core_shapes_primitives_Rose__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./core/shapes/primitives/Rose */ "./dist/core/shapes/primitives/Rose.js");
+/* harmony import */ var _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./core/shapes/primitives/Spiral */ "./dist/core/shapes/primitives/Spiral.js");
+/* harmony import */ var _core_shapes_primitives_Lissajous__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./core/shapes/primitives/Lissajous */ "./dist/core/shapes/primitives/Lissajous.js");
+/* harmony import */ var _core_shapes_primitives_SuperShape__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./core/shapes/primitives/SuperShape */ "./dist/core/shapes/primitives/SuperShape.js");
+/* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./Utilites */ "./dist/Utilites.js");
+/* harmony import */ var _core_math_Vec2__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./core/math/Vec2 */ "./dist/core/math/Vec2.js");
 /* harmony import */ var _core_math__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./core/math */ "./dist/core/math/index.js");
 /* harmony import */ var _services_drawers_drawer_canvas_DrawerCanvas__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./services/drawers/drawer-canvas/DrawerCanvas */ "./dist/services/drawers/drawer-canvas/DrawerCanvas.js");
 /* harmony import */ var _services_animation_Simple__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./services/animation/Simple */ "./dist/services/animation/Simple.js");
@@ -4572,6 +4533,9 @@ __webpack_require__.r(__webpack_exports__);
  * Meta
  */
 
+// Set glMatrixArrayType
+
+gl_matrix__WEBPACK_IMPORTED_MODULE_1__.setMatrixArrayType(Array);
 /**
  * Core
  */
@@ -4594,7 +4558,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 // Utilities
-
 
 
 
@@ -5246,29 +5209,35 @@ function createSimpleAnimationCallback(animation, value) {
     if (type === 'static') {
         if (delay && delay > 0)
             return function SimpleAnimation(props) {
-                return value(props, props.time <= delay
+                var _a, _b, _c;
+                return value(props, (((_a = props.shape.scene) === null || _a === void 0 ? void 0 : _a.currentTime) || 0) <= delay
                     ? 0
-                    : props.time - delay >= duration
+                    : (((_b = props.shape.scene) === null || _b === void 0 ? void 0 : _b.currentTime) || 0) - delay >= duration
                         ? 1
-                        : _Easings__WEBPACK_IMPORTED_MODULE_2__.default[modeFunction](props.time - delay, 0, 1, duration));
+                        : _Easings__WEBPACK_IMPORTED_MODULE_2__.default[modeFunction]((((_c = props.shape.scene) === null || _c === void 0 ? void 0 : _c.currentTime) || 0) - delay, 0, 1, duration));
             };
         else
             return function SimpleAnimation(props) {
-                return value(props, props.time <= duration ? _Easings__WEBPACK_IMPORTED_MODULE_2__.default[modeFunction](props.time, 0, 1 - 0, duration) : 1);
+                var _a, _b;
+                return value(props, (((_a = props.shape.scene) === null || _a === void 0 ? void 0 : _a.currentTime) || 0) <= duration
+                    ? _Easings__WEBPACK_IMPORTED_MODULE_2__.default[modeFunction](((_b = props.shape.scene) === null || _b === void 0 ? void 0 : _b.currentTime) || 0, 0, 1 - 0, duration)
+                    : 1);
             };
     }
     else {
         if (type === 'loop') {
             if (mode == 'sinusoidal') {
                 return function SimpleAnimation(props) {
-                    var frequency = ((props.time || 0) * 2 * Math.PI) / duration;
+                    var _a;
+                    var frequency = ((((_a = props.shape.scene) === null || _a === void 0 ? void 0 : _a.currentTime) || 0 || 0) * 2 * Math.PI) / duration;
                     return value(props, 0.5 + Math[modeFunction](frequency) * 0.5);
                 };
             } /* easing */
             else {
                 return function SimpleAnimation(props) {
+                    var _a;
                     var d2 = duration / 2;
-                    var t = props.time % duration;
+                    var t = (((_a = props.shape.scene) === null || _a === void 0 ? void 0 : _a.currentTime) || 0) % duration;
                     return value(props, t <= d2
                         ? _Easings__WEBPACK_IMPORTED_MODULE_2__.default[modeFunction](t, 0, 1, d2)
                         : _Easings__WEBPACK_IMPORTED_MODULE_2__.default[modeFunction](d2 - (t - d2), 0, 1, d2));
@@ -5278,7 +5247,8 @@ function createSimpleAnimationCallback(animation, value) {
         else {
             if (mode == 'sinusoidal') {
                 return function SimpleAnimation(props) {
-                    var time = props.time % (duration + delay);
+                    var _a;
+                    var time = (((_a = props.shape.scene) === null || _a === void 0 ? void 0 : _a.currentTime) || 0) % (duration + delay);
                     time = time <= delay ? 0 : time - delay;
                     var frequency = ((time || 0) * 2 * Math.PI) / duration;
                     return value(props, 0.5 + Math[modeFunction](frequency) * 0.5);
@@ -5287,7 +5257,8 @@ function createSimpleAnimationCallback(animation, value) {
             else {
                 if (delay && delay > 0)
                     return function SimpleAnimation(props) {
-                        var time = props.time % (duration + delay);
+                        var _a;
+                        var time = (((_a = props.shape.scene) === null || _a === void 0 ? void 0 : _a.currentTime) || 0) % (duration + delay);
                         return value(props, time <= delay
                             ? 0
                             : time - delay >= duration
@@ -5296,7 +5267,8 @@ function createSimpleAnimationCallback(animation, value) {
                     };
                 else
                     return function SimpleAnimation(props) {
-                        var time = props.time % duration;
+                        var _a;
+                        var time = (((_a = props.shape.scene) === null || _a === void 0 ? void 0 : _a.currentTime) || 0) % duration;
                         return value(props, time <= duration ? _Easings__WEBPACK_IMPORTED_MODULE_2__.default[modeFunction](time, 0, 1 - 0, duration) : 1);
                     };
             }
@@ -5670,7 +5642,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _FrameBuffer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FrameBuffer */ "./dist/services/drawers/drawer-canvas/FrameBuffer.js");
 /* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../Utilites */ "./dist/Utilites.js");
 /* harmony import */ var _core_math_Vec2__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../core/math/Vec2 */ "./dist/core/math/Vec2.js");
-/* harmony import */ var _core_Context__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../core/Context */ "./dist/core/Context.js");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -5695,7 +5666,6 @@ var __assign = (undefined && undefined.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
-
 
 
 
@@ -6052,8 +6022,6 @@ var DrawerCanvas = /** @class */ (function (_super) {
                                 },
                             },
                             parent: currentIndex.parent,
-                            time: scene.currentTime,
-                            context: _core_Context__WEBPACK_IMPORTED_MODULE_4__.default,
                         };
                         var composite = _Drawer__WEBPACK_IMPORTED_MODULE_0__.default.getStreamDrawerProp(shape, 'composite', propArguments, 'source-over');
                         context.globalCompositeOperation = composite;
@@ -12137,18 +12105,13 @@ __webpack_require__.r(__webpack_exports__);
 // Unique ID creation requires a high quality random # generator. In the browser we therefore
 // require the crypto API and do not support built-in fallback to lower quality random number
 // generators (like Math.random()).
-var getRandomValues;
+// getRandomValues needs to be invoked in a context where "this" is a Crypto implementation. Also,
+// find the complete implementation of crypto (msCrypto) on IE11.
+var getRandomValues = typeof crypto !== 'undefined' && crypto.getRandomValues && crypto.getRandomValues.bind(crypto) || typeof msCrypto !== 'undefined' && typeof msCrypto.getRandomValues === 'function' && msCrypto.getRandomValues.bind(msCrypto);
 var rnds8 = new Uint8Array(16);
 function rng() {
-  // lazy load so that environments that need to polyfill have a chance to do so
   if (!getRandomValues) {
-    // getRandomValues needs to be invoked in a context where "this" is a Crypto implementation. Also,
-    // find the complete implementation of crypto (msCrypto) on IE11.
-    getRandomValues = typeof crypto !== 'undefined' && crypto.getRandomValues && crypto.getRandomValues.bind(crypto) || typeof msCrypto !== 'undefined' && typeof msCrypto.getRandomValues === 'function' && msCrypto.getRandomValues.bind(msCrypto);
-
-    if (!getRandomValues) {
-      throw new Error('crypto.getRandomValues() not supported. See https://github.com/uuidjs/uuid#getrandomvalues-not-supported');
-    }
+    throw new Error('crypto.getRandomValues() not supported. See https://github.com/uuidjs/uuid#getrandomvalues-not-supported');
   }
 
   return getRandomValues(rnds8);
