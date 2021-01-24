@@ -7,6 +7,7 @@ import Drawer from '@services/drawers/Drawer'
 import { ISceneChildPropArguments, IStreamArguments } from '@core/types/scene-child'
 import { IBufferIndex } from '@core/types/shape-base'
 import { ShapePrimitive, Context } from 'src'
+import { parseColorAndConvert } from 'src/Color'
 
 /**
  * Abstract drawer
@@ -101,7 +102,7 @@ class DrawerSVG extends Drawer<IDrawerSVGOptions, IDrawerSVGEvents> {
 				const background = document.createElementNS('http://www.w3.org/2000/svg', 'rect')
 				background.setAttribute('width', this.scene.width + '')
 				background.setAttribute('height', this.scene.height + '')
-				background.setAttribute('fill', this.scene.background)
+				DrawerSVG.setColor(background, 'fill', this.scene.background)
 
 				svg.appendChild(background)
 			}
@@ -111,6 +112,21 @@ class DrawerSVG extends Drawer<IDrawerSVGOptions, IDrawerSVGEvents> {
 			this.container.appendChild(svg)
 		}
 	}
+
+	public static setColor(element: SVGElement, type: 'fill' | 'stroke', color: string) {
+		if (color === 'none') {
+			element.setAttribute(type, 'none')
+		} else {
+			const parsed = parseColorAndConvert(color)
+			if (parsed) {
+				element.setAttribute(type, `rgb(${parsed.r}, ${parsed.g}, ${parsed.b})`)
+				if (parsed.alpha !== 1) {
+					const style = element.getAttribute('style') || ''
+					element.setAttribute('style', style + ` ${type}-opacity: ${parsed.alpha};`)
+				}
+			}
+		}
+	} 
 
 	public static draw(
 		scene: Scene,
@@ -200,9 +216,11 @@ class DrawerSVG extends Drawer<IDrawerSVGOptions, IDrawerSVGEvents> {
 
 					const path = document.createElementNS('http://www.w3.org/2000/svg', 'path')
 					path.setAttribute('d', `M${tempPath.join(' L')} ${shape.isClosed() ? 'Z' : ''}`)
-					path.setAttribute('fill', fill || 'none')
+
+					DrawerSVG.setColor(path, 'fill', fill || 'none')
+
 					if (stroke) {
-						path.setAttribute('stroke', stroke)
+						DrawerSVG.setColor(path, 'stroke', stroke)
 						path.setAttribute('stroke-width', (lineWidth || 1) + '')
 					}
 					paths.push(path)
