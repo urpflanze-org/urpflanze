@@ -1,5 +1,4 @@
 import ShapeBase from '@core/shapes/ShapeBase'
-import Context from '@core/Context'
 import { IBufferIndex } from '@core/types/shape-base'
 import { vec2 } from 'gl-matrix'
 
@@ -308,22 +307,10 @@ export interface ISceneChildPropArguments {
 	recursion?: IRecursionRepetition
 
 	/**
-	 * Global Context object
-	 * @order 3
-	 */
-	context: typeof Context
-
-	/**
-	 * Current Scene time
-	 * @order 4
-	 */
-	time: number
-
-	/**
 	 * Current Shape
 	 * @order 5
 	 */
-	shape?: ShapeBase
+	shape: ShapeBase
 
 	/**
 	 * Parent repetition (if encapsulated)

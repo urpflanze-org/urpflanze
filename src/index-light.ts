@@ -4,6 +4,11 @@
 
 export { version, author, license } from './meta'
 
+// Set glMatrixArrayType
+import { glMatrix } from 'gl-matrix'
+
+glMatrix.setMatrixArrayType(Array)
+
 /**
  * Core
  */
@@ -32,11 +37,20 @@ export { default as Lissajous } from '@core/shapes/primitives/Lissajous'
 export { default as SuperShape } from '@core/shapes/primitives/SuperShape'
 
 // Utilities
-export { lerp, clamp, relativeClamp, toDegrees, toRadians } from 'src/Utilites'
+export {
+	lerp,
+	clamp,
+	relativeClamp,
+	toDegrees,
+	toRadians,
+	now,
+	noise,
+	angleFromRepetition,
+	angle2FromRepetition,
+	distanceFromRepetition,
+} from 'src/Utilites'
 
 export { default as Vec2 } from '@core/math/Vec2'
-
-export { default as Context } from '@core/Context'
 
 export { PHI, PI2, log } from '@core/math'
 

@@ -1,6 +1,6 @@
 import { fromTransformAttribute, fromDefinition, compose, toSVG } from 'transformation-matrix'
-import * as Snap from 'snapsvg-cjs'
 import simplify from 'simplify-js'
+import svgpath from 'svgpath'
 
 import { IProject, ISVGParsed, ISVGParsedPath } from '@services/types/exporters-importers'
 import JSONImporter from '@services/importers/JSONImporter'
@@ -10,6 +10,7 @@ import DrawerCanvas from '@services/drawers/drawer-canvas/DrawerCanvas'
 import ShapePrimitive from '@core/shapes/ShapePrimitive'
 import ShapeBuffer from '@core/shapes/ShapeBuffer'
 import Scene from '@core/Scene'
+import { parseColor } from 'src/Color'
 
 interface ISVGElementConversion {
 	rect: (rect: SVGRectElement) => string
@@ -27,6 +28,13 @@ interface ISVGElementConversion {
  * @class JSONImporter
  */
 class SVGImporter {
+	/**
+	 * Match hex color
+	 * @static
+	 */
+
+	static readonly HEX_REGEX: string = '#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})'
+
 	/**
 	 * Match string is SVG
 	 * @static
@@ -106,6 +114,11 @@ class SVGImporter {
 				new ShapeBuffer({
 					shape: buffer.buffer,
 					bClosed: buffer.closed,
+					style: {
+						fill: buffer.fill,
+						stroke: buffer.stroke,
+						lineWidth: buffer.lineWidth,
+					},
 				})
 			)
 		})
@@ -177,8 +190,8 @@ class SVGImporter {
 			result.push({
 				buffer: buffers[i],
 				closed: SVGImporter.pathIsClosed(paths[i]),
-				fill: SVGImporter.getColor('fill', paths[i]) || (fill ? fill : undefined),
-				stroke: SVGImporter.getColor('stroke', paths[i]) || (stroke ? stroke : undefined),
+				fill: SVGImporter.getColor('fill', paths[i], fill ? fill : undefined),
+				stroke: SVGImporter.getColor('stroke', paths[i], stroke ? stroke : undefined),
 				lineWidth: strokeWidth ? strokeWidth : lineWidth ? parseFloat(lineWidth) : undefined,
 			})
 		}
@@ -197,12 +210,28 @@ class SVGImporter {
 	 * @param {SVGPathElement} path
 	 * @returns {(string | undefined)}
 	 */
-	private static getColor(name: 'fill' | 'stroke', path: SVGPathElement): string | undefined {
+	private static getColor(name: 'fill' | 'stroke', path: SVGPathElement, defaultColor?: string): string | undefined {
+		// get color from attribute
 		const value = path.getAttribute(name)
 
-		if (value) {
-			return value === 'none' ? undefined : value
+		if (value === 'none') return undefined
+
+		if (typeof value !== 'undefined' && value !== null) {
+			const parsed = parseColor(value)
+			if (parsed) {
+				return parsed.type === 'rgb'
+					? `rgb(${parsed.a}, ${parsed.b}, ${parsed.c})`
+					: `hsl(${parsed.a}, ${parsed.b}%, ${parsed.c}%)`
+			}
 		}
+
+		// otherwise get color from style
+
+		if (typeof path.style[name] !== 'undefined') {
+			return path.style[name]
+		}
+
+		return defaultColor
 	}
 
 	/**
@@ -307,27 +336,31 @@ class SVGImporter {
 
 		// Apply transform matrix to path
 		const transform = path.getAttribute('transform') || ''
-		let matrix
+		let matrix = [1, 0, 0, 0, 1, 0]
 		if (transform.length > 0) {
 			const transformMatrix = compose(fromDefinition(fromTransformAttribute(transform)))
 
-			matrix = new Snap.Matrix(
+			matrix = [
 				transformMatrix.a,
 				transformMatrix.b,
 				transformMatrix.c,
 				transformMatrix.d,
 				transformMatrix.e,
-				transformMatrix.f
-			)
+				transformMatrix.f,
+			]
 		}
-		const pathString = Snap.path.map(path.getAttribute('d') || '', matrix)
-		const path_length = Math.floor(Snap.path.getTotalLength(pathString))
+		const pathString = svgpath(path.getAttribute('d') || '')
+			.matrix(matrix)
+			.toString()
+		const path_length = Math.floor(path.getTotalLength())
 		const buffer_length = Math.floor(path_length / steps) * 2
+		const pathFromMatrix = document.createElementNS('http://www.w3.org/2000/svg', 'path')
+		pathFromMatrix.setAttribute('d', pathString)
 
 		// Generate buffer
 		const buffer = new Float32Array(buffer_length)
 		for (let i = 0, j = 0; i < path_length; i += steps, j += 2) {
-			const { x, y } = Snap.path.getPointAtLength(pathString, i) as { x: number; y: number }
+			const { x, y } = pathFromMatrix.getPointAtLength(i) as { x: number; y: number }
 			buffer[j] = rw * (x / width) * 2 - 1
 			buffer[j + 1] = rh * (y / height) * 2 - 1
 
@@ -387,18 +420,17 @@ class SVGImporter {
 	 */
 	static elementToPath(element: SVGElement): Array<SVGPathElement> {
 		const transform = element.getAttribute('transform') || ''
-		const fill = element.getAttribute('fill')
-		const stroke = element.getAttribute('stroke')
-		const lineWidth = element.getAttribute('lineWidth')
+		const fill = element.getAttribute('fill') || element.style?.fill
+		const stroke = element.getAttribute('stroke') || element.style?.stroke
+		const lineWidth = element.getAttribute('lineWidth') || element.style?.strokeWidth
 
 		if (element.nodeName == 'path') {
 			// Separate multiple path
 			const d: string | null = element.getAttribute('d') || ''
 
-			const result = Snap.path
-				.toAbsolute(d)
-				.map((e: Array<any>) => `${e.shift()}${e.join(',')}`)
-				.join(' ')
+			const result = svgpath(d)
+				.abs()
+				.toString()
 				.split('M')
 				.filter((e: string) => e.length > 0)
 				.map((e: string) => 'M' + e)

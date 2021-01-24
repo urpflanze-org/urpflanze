@@ -1,5 +1,3 @@
-import { clamp } from 'src/Utilites'
-
 /**
  * Temporany matrix
  *

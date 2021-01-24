@@ -8,7 +8,6 @@ import {
 } from '@core/types/shape-base'
 
 import Shape from '@core/shapes/Shape'
-import Context from '@core/Context'
 
 /**
  * @category Core.Shapes
@@ -258,12 +257,8 @@ class ShapeRecursive extends Shape<IShapeRecursiveProps> {
 		// singleRepetitionBounding: IShapeBounding
 	): void {
 		if (this.shape) {
-			const propArguments = {
-				repetition,
-				context: Context,
-				time: this.scene?.currentTime || 0,
-				shape: this,
-			}
+			const propArguments = { repetition, shape: this }
+
 			const recursions = Math.floor(this.getProp('recursions', propArguments, 1))
 			const recursionVertex = Math.floor(this.getProp('recursionVertex', propArguments, 0))
 
