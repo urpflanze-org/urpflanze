@@ -154,12 +154,18 @@ class SceneUtilities {
 			const sceneChild: SceneChild = new this.registeredSceneChilds[item](settings) as SceneChild
 
 			if (sceneChild && scene && this.isAPrimitive(sceneChild)) {
-				this.setProp(
+				this.set(
 					sceneChild,
 					'sideLength',
 					{ type: 'transformable-prop', value: SceneChildUtilitiesData.sideLength?.default },
 					scene
 				)
+				// this.setProp(
+				// 	sceneChild,
+				// 	'sideLength',
+				// 	{ type: 'transformable-prop', value: SceneChildUtilitiesData.sideLength?.default },
+				// 	scene
+				// )
 			}
 
 			this.getChildren(sceneChild).forEach(child => this.create(child))
@@ -597,7 +603,7 @@ class SceneUtilities {
 		// Otherwise, set prop without transformation
 		//Equivalent of: if (name in SceneChildPropsData && SceneChildPropsData[name].transformation !== 'none')
 		sceneChild.setProp(name as keyof ISceneChildProps, value as number | vec2)
-
+		delete sceneChild.data.props[name]
 		// Not set to data because exporter override sceneChild.data.props on sceneChild.props (default)
 		//sceneChild.data.props[name] = value
 	}
@@ -635,6 +641,7 @@ class SceneUtilities {
 			//Equivalent of: if (name in SceneChildPropsData && SceneChildPropsData[name].transformation !== 'none')
 			// @ts-ignore
 			sceneChild.style[name] = value
+			delete sceneChild.data.style[name]
 		}
 	}
 
@@ -646,7 +653,7 @@ class SceneUtilities {
 	setSetting(sceneChild: SceneChild, name: TSettingsExtendedKeys, value: TSettingExtendedValue, scene: Scene): void {
 		if (name === 'vertexCallback') {
 			if (sceneChild instanceof ShapeBase && SceneUtilitiesExtended.bValueVertexCallback(value)) {
-				sceneChild.data.props.vertexCallback = value
+				sceneChild.data.vertexCallback = value
 				sceneChild.vertexCallback = SceneUtilitiesExtended.composeVertexCallback(value)
 				// If shape is static vertexCallback has no effect
 				// sceneChild.bUseParent = true

@@ -140,7 +140,7 @@ class SceneUtilitiesExtended {
 		scene: Scene,
 		name: keyof typeof SceneChildUtilitiesData,
 		value: TTransformable | any
-	): string | number | Array<number> {
+	): string | number | [number, number] {
 		const sceneChildProp = SceneChildUtilitiesData[name]
 
 		if (
@@ -148,6 +148,9 @@ class SceneUtilitiesExtended {
 			SceneUtilitiesExtended.bValueTransformable(value)
 		) {
 			value = value.value
+
+			const sceneX = name === 'distance' ? scene.height : scene.width
+			const sceneY = name === 'distance' ? scene.width : scene.height
 
 			switch (sceneChildProp.transformation) {
 				case 'angle':
@@ -158,20 +161,18 @@ class SceneUtilitiesExtended {
 				case 'scene-size-percentage': {
 					if (typeof scene !== 'undefined') {
 						if (Array.isArray(value)) {
-							return [(value[0] * scene.width) / 100, (value[1] * scene.height) / 100]
+							return [(value[0] * sceneX) / 100, (value[1] * sceneY) / 100]
 						}
-						// TODO: hypot? or scene-width/height-percentage?
-						return (value * scene.width) / 100
+						return (value * (scene.center[0] + scene.center[1])) / 100
 					}
 					break
 				}
 				case 'scene-size-percentage-inverse': {
 					if (typeof scene !== 'undefined') {
 						if (Array.isArray(value)) {
-							return [(value[0] * 100) / scene.width, (value[1] * 100) / scene.height]
+							return [(value[0] * 100) / sceneX, (value[1] * 100) / sceneY]
 						}
-						// TODO: hypot? or scene-width/height-percentage?
-						return (value * 100) / scene.width
+						return (value * 100) / (scene.center[0] + scene.center[1])
 					}
 					break
 				}
@@ -200,6 +201,9 @@ class SceneUtilitiesExtended {
 		) {
 			value = value.value
 
+			const sceneX = name === 'distance' ? scene.height : scene.width
+			const sceneY = name === 'distance' ? scene.width : scene.height
+
 			switch (sceneChildProp.transformation) {
 				case 'angle': {
 					if (Array.isArray(value)) {
@@ -210,20 +214,18 @@ class SceneUtilitiesExtended {
 				case 'scene-size-percentage': {
 					if (typeof scene !== 'undefined') {
 						if (Array.isArray(value)) {
-							return [(value[0] * 100) / scene.width, (value[1] * 100) / scene.height]
+							return [(value[0] * 100) / sceneX, (value[1] * 100) / sceneY]
 						}
-						// TODO: hypot? or scene-width/height-percentage?
-						return (value * 100) / scene.width
+						return (value * 100) / (scene.center[0] + scene.center[1])
 					}
 					break
 				}
 				case 'scene-size-percentage-inverse': {
 					if (typeof scene !== 'undefined') {
 						if (Array.isArray(value)) {
-							return [(value[0] * scene.width) / 100, (value[1] * scene.height) / 100]
+							return [(value[0] * sceneX) / 100, (value[1] * sceneY) / 100]
 						}
-						// TODO: hypot? or scene-width/height-percentage?
-						return (value * scene.width) / 100
+						return (value * (scene.center[0] + scene.center[1])) / 100
 					}
 					break
 				}

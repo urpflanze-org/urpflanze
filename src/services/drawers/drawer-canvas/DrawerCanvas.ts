@@ -418,8 +418,6 @@ class DrawerCanvas<GDrawerCanvasOptions extends IDrawerCanvasOptions = IDrawerCa
 			let logFillColorWarn = false
 			let logStrokeColorWarn = false
 
-			let oldComposite = 'source-over'
-
 			scene.currentTime = time
 			scene.getChildren().forEach((sceneChild: SceneChild) => {
 				if (
@@ -435,7 +433,23 @@ class DrawerCanvas<GDrawerCanvasOptions extends IDrawerCanvasOptions = IDrawerCa
 							canvasContext: context,
 							shape,
 							// singleRepetitionBounding: currentIndex.singleRepetitionBounding,
-							repetition: currentIndex.repetition,
+							repetition: {
+								type: currentIndex.repetition.type,
+								angle: currentIndex.repetition.angle,
+								index: currentIndex.repetition.index,
+								count: currentIndex.repetition.count,
+								offset: currentIndex.repetition.offset,
+								row: {
+									index: currentIndex.repetition.row.index,
+									count: currentIndex.repetition.row.count,
+									offset: currentIndex.repetition.row.offset,
+								},
+								col: {
+									index: currentIndex.repetition.col.index,
+									count: currentIndex.repetition.col.count,
+									offset: currentIndex.repetition.col.offset,
+								},
+							},
 							parent: currentIndex.parent,
 							time: scene.currentTime,
 							context: Context,

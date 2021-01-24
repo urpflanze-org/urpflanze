@@ -10,7 +10,15 @@ import {
 /**
  * @category Services.Scene Utilities
  */
-export type TPropInputType = 'range' | 'multiple-range' | 'color' | 'select' | 'checkbox' | 'radio' | 'slider'
+export type TPropInputType =
+	| 'range'
+	| 'multiple-range'
+	| 'color'
+	| 'select'
+	| 'checkbox'
+	| 'radio'
+	| 'slider'
+	| 'function'
 
 /**
  * @category Services.Scene Utilities
@@ -39,7 +47,7 @@ export interface ISceneChildUtiltiesData {
 export type TSceneChildPropsDataKeys =
 	| (Exclude<TSceneChildPropsExtendedKeys, 'loop'> | ('loop.start' | 'loop.end' | 'loop.inc'))
 	| TDrawerPropsExtendedKeys
-	| Exclude<TSettingsExtendedKeys, 'id' | 'name' | 'order' | 'vertexCallback'>
+	| Exclude<TSettingsExtendedKeys, 'id' | 'name' | 'order'>
 
 type TSceneChildUtilitiesData = {
 	[key in TSceneChildPropsDataKeys]: ISceneChildUtiltiesData
@@ -206,7 +214,7 @@ const SceneChildUtilitiesData: TSceneChildUtilitiesData = {
 		type: 'multiple-range',
 		min: -100,
 		max: 100,
-		step: 1,
+		step: 0.1,
 		default: [0, 0],
 		default_animate: 0,
 		initialArray: true,
@@ -247,7 +255,7 @@ const SceneChildUtilitiesData: TSceneChildUtilitiesData = {
 		name: 'perspective',
 		label: 'Perspective',
 		type: 'range',
-		min: -1,
+		min: 0,
 		max: 1,
 		step: 0.01,
 		default: 0,
@@ -264,7 +272,7 @@ const SceneChildUtilitiesData: TSceneChildUtilitiesData = {
 		min: -1,
 		max: 1,
 		step: 0.01,
-		default: [1, 1],
+		default: [0, 0],
 		default_animate: [-1, 1],
 		initialArray: true,
 		transformation: 'none',
@@ -332,6 +340,15 @@ const SceneChildUtilitiesData: TSceneChildUtilitiesData = {
 		dataType: 'settings',
 	},
 
+	vertexCallback: {
+		name: 'vertexCallback',
+		label: 'vertexCallback',
+		type: 'function',
+		default: undefined,
+		transformation: 'none',
+		dataType: 'settings',
+	},
+
 	adaptMode: {
 		name: 'adaptMode',
 		label: 'Adapt',
@@ -349,7 +366,7 @@ const SceneChildUtilitiesData: TSceneChildUtilitiesData = {
 		name: 'sideLength',
 		label: 'Side Length',
 		type: 'multiple-range',
-		min: 0.1,
+		min: 0.01,
 		max: 100,
 		step: 0.1,
 		default: [10, 10],

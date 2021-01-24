@@ -1,4 +1,4 @@
-import { TAnimation } from '@services/types/animation'
+import { ISimpleAnimation, TAnimation } from '@services/types/animation'
 import Simple from '@services/animation/Simple'
 import { TSceneChildProp } from '@core/types/scene-child'
 import Scene from '@core/Scene'
@@ -18,7 +18,7 @@ const Animation = {
 	): TSceneChildProp<any> => {
 		switch (animation.type) {
 			case 'simple': {
-				const simpleAnimation = { ...animation.value }
+				const simpleAnimation: ISimpleAnimation = { ...animation.value }
 
 				simpleAnimation.from = SceneUtilitiesExtended.getTransformedValue(scene, prop_name, simpleAnimation.from)
 				simpleAnimation.to = SceneUtilitiesExtended.getTransformedValue(scene, prop_name, simpleAnimation.to)
