@@ -68,7 +68,7 @@ const spiral = new Urpflanze.Rect({
         sideLength: 30,
 
         // `propArguments.parent` si riferisce all'oggetto `propArguments` della forma `container`
-        displace: propArguments => (propArguments.time / 1000) * (propArguments.parent.repetition.index % 2 === 0 ? 1: -1),
+        displace: propArguments => (scene.currentTime / 1000) * (propArguments.parent.repetition.index % 2 === 0 ? 1: -1),
         distance: propArguments => propArguments.repetition.offset * 140, 
         scale: propArguments =>  propArguments.repetition.offset,
 

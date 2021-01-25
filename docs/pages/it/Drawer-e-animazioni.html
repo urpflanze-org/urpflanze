@@ -27,7 +27,7 @@ const container = new Urpflanze.Shape({
     shape: shape,
     repetitions: 4,
     distance: 100,
-    rotateY: ({ time }) => time * Urpflanze.PI2 / 4000,
+    rotateY: () => scene.currentTime * Urpflanze.PI2 / 4000,
     perspective: .92
 })
 
