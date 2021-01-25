@@ -22,11 +22,11 @@
 				sideLength: () => 160, // Add a function for dynamic generation
 				distance: [4, 0],
 				vertexCallback: (vertex, vertexRepetition, propArguments) => {
-					const y = propArguments.context.noise(
+					const y = Urpflanze.noise(
 						'seed',
 						vertexRepetition.offset * 3,
 						propArguments.repetition.row.offset * 2,
-						propArguments.time / 1000
+						scene.currentTime / 1000
 					)
 
 					vertex[1] += y * 10

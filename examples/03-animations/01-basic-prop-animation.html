@@ -20,7 +20,7 @@
 			const shape = new Urpflanze.Rect({
 				repetitions: 10,
 				sideLength: 20,
-				distance: propArguments => Math.sin(propArguments.time / 1000) * 100,
+				distance: () => Math.sin(scene.currentTime / 1000) * 100,
 			})
 
 			scene.add(shape)

@@ -32,7 +32,7 @@
 				style: {
 					stroke: propArguments => {
 						const hue = propArguments.repetition.col.offset * 360
-						const offset = propArguments.time + 300 * propArguments.repetition.row.offset
+						const offset = scene.currentTime + 300 * propArguments.repetition.row.offset
 
 						const h = Math.floor(hue + offset)
 						return `hsl(${h % 360}, 100%, 50%)`

@@ -18,7 +18,7 @@
 			const scene = new Urpflanze.Scene()
 
 			const group = new Urpflanze.Group({
-				distance: ({ time }) => Urpflanze.relativeClamp(-1, 1, Math.sin(time / 300), 20, 30),
+				distance: () => Urpflanze.relativeClamp(-1, 1, Math.sin(scene.currentTime / 300), 20, 30),
 				sideLength: 8,
 				repetitions: [2],
 			})
@@ -26,7 +26,7 @@
 			const rect = new Urpflanze.Rect({})
 
 			const circle = new Urpflanze.Circle({
-				scale: ({ time }) => Urpflanze.relativeClamp(-1, 1, Math.cos(time / 300), 0.5, 1),
+				scale: () => Urpflanze.relativeClamp(-1, 1, Math.cos(scene.currentTime / 300), 0.5, 1),
 			})
 
 			group.add(rect, circle)
@@ -35,8 +35,8 @@
 				shape: group,
 				repetitions: 8,
 				distance: 60,
-				scale: ({ time, parent, repetition }) => {
-					const repTime = time - repetition.offset * 400 + 400 * parent.repetition.offset
+				scale: ({ parent, repetition }) => {
+					const repTime = scene.currentTime - repetition.offset * 400 + 400 * parent.repetition.offset
 					return Urpflanze.relativeClamp(-1, 1, Math.sin(repTime / 300), 0, 1)
 				},
 				bUseParent: true,
@@ -45,8 +45,8 @@
 			const secondEncap = new Urpflanze.Shape({
 				shape: firstEncap,
 				repetitions: [3],
-				scale: ({ time, parent, repetition }) => {
-					return Urpflanze.relativeClamp(-1, 1, Math.cos((time - repetition.offset * 400) / 300), 0.4, 0.8)
+				scale: ({ parent, repetition }) => {
+					return Urpflanze.relativeClamp(-1, 1, Math.cos((scene.currentTime - repetition.offset * 400) / 300), 0.4, 0.8)
 				},
 
 				distance: 130,
