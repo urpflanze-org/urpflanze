@@ -21,7 +21,7 @@ const rect = new Urpflanze.Rect({
         const y = Math.sin(angle) 
 
         const offset = 20
-        const noise = propArguments.context.noise('seed', vertexRepetition.offset * 2, propArguments.time / 1000) * offset
+        const noise = Urpflanze.noise('seed', vertexRepetition.offset * 2, scene.currentTime / 1000) * offset
 
         vertex[0] += x * noise 
         vertex[1] += y * noise 

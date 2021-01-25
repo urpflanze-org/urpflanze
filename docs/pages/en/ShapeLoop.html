@@ -19,7 +19,7 @@ scene.add(
             end: Math.PI * 2,
             inc: (Math.PI * 2) / 40,
             vertex: (shapeLoopRepetition, propArguments) => {
-                const noise = propArguments.context.noise('seed', shapeLoopRepetition.offset * 4)
+                const noise = Urpflanze.noise('seed', shapeLoopRepetition.offset * 4)
                 const x = shapeLoopRepetition.offset * 2 - 1
                 const y = Math.sin(shapeLoopRepetition.angle) * noise
 
@@ -55,11 +55,11 @@ scene.add(
             end: Math.PI * 2,
             inc: (Math.PI * 2) / 40,
             vertex: (shapeLoopRepetition, propArguments) => {
-                const noise = propArguments.context.noise(
+                const noise = Urpflanze.noise(
                     'seed', 
                     shapeLoopRepetition.offset * 4, 
                     propArguments.repetition.row.offset, 
-                    propArguments.time / 1000
+                    scene.currentTime / 1000
                 )
                 
                 const x = shapeLoopRepetition.offset * 2 - 1
