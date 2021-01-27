@@ -26,7 +26,7 @@ class FrameBuffer {
 		this.frames = {}
 	}
 
-	public getRenderedFrames(): Array<number> {
+	public getStoredFrames(): Array<number> {
 		return Object.keys(this.frames).map(e => +e)
 	}
 }

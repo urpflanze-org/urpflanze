@@ -197,6 +197,8 @@ export interface IShapePrimitiveSettings<T extends IDrawerStreamProps = IDrawerS
 
 /**
  * Shape recursive animate props
+ *
+ * @category Core.Props and Settings Interfaces
  */
 export interface IShapeRecursiveProps extends ISceneChildProps {
 	/**
@@ -223,8 +225,7 @@ export interface IShapeRecursiveProps extends ISceneChildProps {
  *
  * @category Core.Props and Settings Interfaces
  */
-export interface IShapeRecursiveSettings extends IShapeRecursiveProps, IShapeSettings {
-}
+export interface IShapeRecursiveSettings extends IShapeRecursiveProps, IShapeSettings {}
 
 /**
  * Size of a buffer and its position relative to the scene.

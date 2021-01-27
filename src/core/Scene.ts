@@ -68,6 +68,26 @@ class Scene {
 	}
 
 	/**
+	 * Return width percentage
+	 *
+	 * @param {number} [percentage=100]
+	 * @returns {number}
+	 */
+	public getWidth(percentage = 100): number {
+		return (this.width * percentage) / 100
+	}
+
+	/**
+	 * Return height percentage
+	 *
+	 * @param {number} [percentage=100]
+	 * @returns {number}
+	 */
+	public getHeight(percentage = 100): number {
+		return (this.height * percentage) / 100
+	}
+
+	/**
 	 * Resize the scene size
 	 *
 	 * @param {number} width

@@ -35,6 +35,7 @@ export interface IDrawerStreamProps {
  * @category Services.Drawer
  */
 export interface IDrawerCanvasStreamProps extends IDrawerStreamProps {
+	opacity?: TDrawerCanvasProp<number>
 	lineDash?: TDrawerCanvasProp<[number, number]>
 	lineDashOffset?: TDrawerCanvasProp<number>
 	lineJoin?: TDrawerCanvasProp<'bevel' | 'round' | 'miter'>

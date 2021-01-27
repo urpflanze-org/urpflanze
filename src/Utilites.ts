@@ -203,6 +203,8 @@ const noises: {
  * Use 'random' as seed property for random seed.
  * Return value between -1 and 1
  *
+ * @category Utilities
+ *
  * @param {string} [seed='random']
  * @param {number} [x=0]
  * @param {number} [y=0]
@@ -221,6 +223,8 @@ export function noise(seed = 'random', x = 0, y = 0, z = 0): number {
  * Return angle (atan) from offset (or center) for matrix repetition.
  * Offset is array between [-1, -1] and [1, 1].
  * The return value is between -Math.PI / 2 and Math.PI / 2
+ *
+ * @category Utilities
  *
  * @param {IRepetition} repetition
  * @param {vec2} offsetFromCenter
@@ -250,6 +254,8 @@ export function angleFromRepetition(repetition: IRepetition, offsetFromCenter: v
  * Offset is array between [-1, -1] and [1, 1].
  * The return value is between -Math.PI an Math.PI
  *
+ * @category Utilities
+ *
  * @param {IRepetition} repetition
  * @param {vec2} offsetFromCenter
  * @returns {number}
@@ -276,6 +282,8 @@ export function angle2FromRepetition(repetition: IRepetition, offsetFromCenter: 
 /**
  * Return distance from offset (or center) for matrix repetition.
  * The return value is between 0 and 1
+ *
+ * @category Utilities
  *
  * @param {IRepetition} repetition
  * @param {vec2} offsetFromCenter offset relative to distance prop

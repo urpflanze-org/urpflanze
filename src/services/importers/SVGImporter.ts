@@ -7,10 +7,12 @@ import JSONImporter from '@services/importers/JSONImporter'
 
 import DrawerCanvas from '@services/drawers/drawer-canvas/DrawerCanvas'
 
+import { parseColor } from 'src/Color'
+import Scene from '@core/Scene'
 import ShapePrimitive from '@core/shapes/ShapePrimitive'
 import ShapeBuffer from '@core/shapes/ShapeBuffer'
-import Scene from '@core/Scene'
-import { parseColor } from 'src/Color'
+import Shape from '@core/shapes/Shape'
+import Group from '@core/Group'
 
 interface ISVGElementConversion {
 	rect: (rect: SVGRectElement) => string
@@ -109,8 +111,47 @@ class SVGImporter {
 			height: parsed.viewBox[3] - parsed.viewBox[1],
 		})
 
+		const result = SVGImporter.parsedToShape(parsed)
+		if (result !== null) scene.add(result)
+
+		return new DrawerCanvas(scene, undefined)
+	}
+
+	/**
+	 * Convert SVG string to Shape or ShapeBuffer
+	 *
+	 * @static
+	 * @param {string} input
+	 * @param {number} [simplify=0.001]
+	 * @returns {(Shape | ShapeBuffer | null)}
+	 */
+	static parseAsShape(input: string, simplify = 0.001): Shape | ShapeBuffer | null {
+		const svg = SVGImporter.stringToSVG(input)
+		if (svg === null) {
+			console.warn('[Urpflanze:SVGImport] | Cannot convet string to SVG', input)
+		}
+
+		const parsed = SVGImporter.SVGStringToBuffers(input, simplify)
+		if (parsed === null || parsed.buffers.length === 0) {
+			console.warn('[Urpflanze:SVGImport] | Cannot convet string DrawerCanvas', input)
+			return null
+		}
+
+		return SVGImporter.parsedToShape(parsed)
+	}
+
+	/**
+	 * Convert parsed SVG to Shape or ShapeBuffer
+	 *
+	 * @static
+	 * @param {ISVGParsed} parsed
+	 * @returns {(Shape | ShapeBuffer | null)}
+	 */
+	static parsedToShape(parsed: ISVGParsed): Shape | ShapeBuffer | null {
+		const shapes: Array<ShapeBuffer> = new Array(parsed.buffers.length)
+
 		parsed.buffers.forEach(buffer => {
-			scene.add(
+			shapes.push(
 				new ShapeBuffer({
 					shape: buffer.buffer,
 					bClosed: buffer.closed,
@@ -123,7 +164,11 @@ class SVGImporter {
 			)
 		})
 
-		return new DrawerCanvas(scene, undefined)
+		if (shapes.length === 1) return shapes[0]
+
+		const group = new Group()
+		shapes.forEach(s => group.add(s))
+		return new Shape({ shape: group })
 	}
 
 	/**
@@ -142,9 +187,9 @@ class SVGImporter {
 			return null
 		}
 
-		const fill = svg.getAttribute('fill')
-		const stroke = svg.getAttribute('stroke')
-		const lineWidth = svg.getAttribute('line-width')
+		const svgFill = SVGImporter.getStyleAttr('fill', svg)
+		const svgStroke = SVGImporter.getStyleAttr('stroke', svg)
+		const svgLineWidth = SVGImporter.getStyleAttr('stroke-width', svg)
 
 		const viewBox: [number, number, number, number] = SVGImporter.getViewbox(svg)
 
@@ -187,12 +232,24 @@ class SVGImporter {
 						: parseFloat(templineWidth)
 			}
 
+			const fill = SVGImporter.getStyleAttr('fill', paths[i], svgFill ? svgFill : undefined)
+			const stroke = SVGImporter.getStyleAttr('stroke', paths[i], fill ? undefined : svgStroke || 'rgba(0,0,0,0)')
+			const lineWidth = strokeWidth
+				? strokeWidth
+				: stroke
+				? svgLineWidth
+					? parseFloat(svgLineWidth)
+					: 1
+				: svgLineWidth
+				? parseFloat(svgLineWidth)
+				: undefined
+
 			result.push({
 				buffer: buffers[i],
 				closed: SVGImporter.pathIsClosed(paths[i]),
-				fill: SVGImporter.getColor('fill', paths[i], fill ? fill : undefined),
-				stroke: SVGImporter.getColor('stroke', paths[i], stroke ? stroke : undefined),
-				lineWidth: strokeWidth ? strokeWidth : lineWidth ? parseFloat(lineWidth) : undefined,
+				fill,
+				stroke,
+				lineWidth,
 			})
 		}
 
@@ -207,12 +264,16 @@ class SVGImporter {
 	 * @private
 	 * @static
 	 * @param {('fill' | 'stroke')} name
-	 * @param {SVGPathElement} path
+	 * @param {SVGElement} path
 	 * @returns {(string | undefined)}
 	 */
-	private static getColor(name: 'fill' | 'stroke', path: SVGPathElement, defaultColor?: string): string | undefined {
+	private static getStyleAttr(
+		name: 'fill' | 'stroke' | 'stroke-width',
+		element: SVGElement,
+		defaultColor?: string
+	): string | undefined {
 		// get color from attribute
-		const value = path.getAttribute(name)
+		const value = element.getAttribute(name)
 
 		if (value === 'none') return undefined
 
@@ -226,9 +287,9 @@ class SVGImporter {
 		}
 
 		// otherwise get color from style
-
-		if (typeof path.style[name] !== 'undefined') {
-			return path.style[name]
+		const styleName: 'fill' | 'stroke' | 'strokeWidth' = name === 'stroke-width' ? 'strokeWidth' : name
+		if (typeof element.style[styleName] !== 'undefined' && element.style[styleName].length > 0) {
+			return element.style[styleName]
 		}
 
 		return defaultColor
@@ -420,9 +481,9 @@ class SVGImporter {
 	 */
 	static elementToPath(element: SVGElement): Array<SVGPathElement> {
 		const transform = element.getAttribute('transform') || ''
-		const fill = element.getAttribute('fill') || element.style?.fill
-		const stroke = element.getAttribute('stroke') || element.style?.stroke
-		const lineWidth = element.getAttribute('lineWidth') || element.style?.strokeWidth
+		const fill = SVGImporter.getStyleAttr('fill', element, undefined)
+		const stroke = SVGImporter.getStyleAttr('stroke', element, undefined)
+		const lineWidth = SVGImporter.getStyleAttr('stroke-width', element, undefined)
 
 		if (element.nodeName == 'path') {
 			// Separate multiple path

@@ -9,7 +9,6 @@ import { EShapePrimitiveAdaptMode } from '@core/types/shape-base'
 import Bounding from '@core/math/bounding'
 import { PI2 } from '@core/math'
 
-import ShapeBase from '@core/shapes/ShapeBase'
 import ShapePrimitive from '@core/shapes/ShapePrimitive'
 
 /**

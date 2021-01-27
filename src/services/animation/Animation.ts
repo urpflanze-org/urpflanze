@@ -4,6 +4,7 @@ import { TSceneChildProp } from '@core/types/scene-child'
 import Scene from '@core/Scene'
 import SceneUtilitiesExtended from '@services/scene-utilities/SceneUtilitiesExtended'
 import { TDrawerPropsExtendedKeys, TSceneChildPropsExtendedKeys } from '@services/types/scene-utilities'
+import * as Urpflanze from 'src/index-light'
 
 /**
  * @ignore
@@ -27,7 +28,7 @@ const Animation = {
 			}
 			case 'raw': {
 				const rawValue = animation.value
-				return eval(rawValue.raw)
+				return new Function('Urpflanze', 'scene', `"use strict"; return ${rawValue.raw}`)(Urpflanze, scene)
 			}
 			// case 'random': {
 			//     const randomValue = SetProp.getRandomFunctionForProp(prop_name)

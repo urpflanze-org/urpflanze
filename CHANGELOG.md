@@ -1,3 +1,10 @@
+## 0.3.1-beta (January 25, 2021)
+
+### Services
+
+- Update SVGImporter
+- DrawerCanvas add opacity
+
 ## 0.3.0-beta (January 25, 2021)
 
 ### Core

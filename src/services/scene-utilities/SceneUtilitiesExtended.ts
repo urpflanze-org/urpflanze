@@ -16,9 +16,8 @@ import SceneChildUtilitiesData from '@services/scene-utilities/SceneChildUtiliti
  * @class SceneUtilitiesExtended
  */
 class SceneUtilitiesExtended {
-	public static readonly RAW_ARGUMENTS: string = '{ context, repetition, time, shape, shape_loop, data }'
-	public static readonly RAW_ARGUMENTS_WITH_PARENT: string =
-		'{ context, repetition, parent, time, shape, shape_loop, data }'
+	public static readonly RAW_ARGUMENTS: string = '{ repetition, recursion, shape }'
+	public static readonly RAW_ARGUMENTS_WITH_PARENT: string = '{ repetition, recursion, shape, parent }'
 
 	//#region ShapeLoop
 

@@ -21,12 +21,12 @@
 				repetitions: [16],
 				sideLength: 5,
 				distance: 16,
-				rotateZ: ({ context, repetition }) => {
+				rotateZ: ({ repetition }) => {
 					const t = Math.sin(scene.currentTime / 1000)
 
 					const center = [Math.cos(scene.currentTime / 300) * t, Math.sin(scene.currentTime / 300) * t]
 
-					return context.angle(repetition, center)
+					return Urpflanze.angleFromRepetition(repetition, center)
 				},
 			})
 

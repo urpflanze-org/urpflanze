@@ -186,9 +186,9 @@ class DrawerCanvas<GDrawerCanvasOptions extends IDrawerCanvasOptions = IDrawerCa
 		}
 	}
 
-	public getRenderedFrames(): Array<number> {
+	public getStoredFrames(): Array<number> {
 		if (this.bBuffering) {
-			return this.buffer.getRenderedFrames()
+			return this.buffer.getStoredFrames()
 		}
 
 		return []
@@ -469,6 +469,10 @@ class DrawerCanvas<GDrawerCanvasOptions extends IDrawerCanvasOptions = IDrawerCa
 						}
 
 						currentIndex.shape.isClosed() && context.closePath()
+
+						const alpha = Drawer.getStreamDrawerProp<IDrawerCanvasStreamProps>(shape, 'opacity', propArguments, 1)
+
+						context.globalAlpha = alpha
 
 						const shadowColor = Drawer.getStreamDrawerProp<IDrawerCanvasStreamProps>(
 							shape,
