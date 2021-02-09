@@ -33,7 +33,7 @@ const scene = new Urpflanze.Scene()
 scene.add(
     new Urpflanze.Circle({ 
         repetitions: 100,
-        distance: ({ time }) => Math.sin(time / 600) * 100
+        distance: () => Math.sin(scene.currentTime / 600) * 100
     })
 ) 
 
