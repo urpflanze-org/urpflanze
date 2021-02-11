@@ -422,6 +422,8 @@ var noises = {
  * Use 'random' as seed property for random seed.
  * Return value between -1 and 1
  *
+ * @category Utilities
+ *
  * @param {string} [seed='random']
  * @param {number} [x=0]
  * @param {number} [y=0]
@@ -442,6 +444,8 @@ function noise(seed, x, y, z) {
  * Return angle (atan) from offset (or center) for matrix repetition.
  * Offset is array between [-1, -1] and [1, 1].
  * The return value is between -Math.PI / 2 and Math.PI / 2
+ *
+ * @category Utilities
  *
  * @param {IRepetition} repetition
  * @param {vec2} offsetFromCenter
@@ -464,6 +468,8 @@ function angleFromRepetition(repetition, offsetFromCenter) {
  * Offset is array between [-1, -1] and [1, 1].
  * The return value is between -Math.PI an Math.PI
  *
+ * @category Utilities
+ *
  * @param {IRepetition} repetition
  * @param {vec2} offsetFromCenter
  * @returns {number}
@@ -483,6 +489,8 @@ function angle2FromRepetition(repetition, offsetFromCenter) {
 /**
  * Return distance from offset (or center) for matrix repetition.
  * The return value is between 0 and 1
+ *
+ * @category Utilities
  *
  * @param {IRepetition} repetition
  * @param {vec2} offsetFromCenter offset relative to distance prop
@@ -955,6 +963,26 @@ var Scene = /** @class */ (function () {
         this.center = [this.width / 2, this.height / 2];
     }
     /**
+     * Return width percentage
+     *
+     * @param {number} [percentage=100]
+     * @returns {number}
+     */
+    Scene.prototype.getWidth = function (percentage) {
+        if (percentage === void 0) { percentage = 100; }
+        return (this.width * percentage) / 100;
+    };
+    /**
+     * Return height percentage
+     *
+     * @param {number} [percentage=100]
+     * @returns {number}
+     */
+    Scene.prototype.getHeight = function (percentage) {
+        if (percentage === void 0) { percentage = 100; }
+        return (this.height * percentage) / 100;
+    };
+    /**
      * Resize the scene size
      *
      * @param {number} width
@@ -1110,10 +1138,10 @@ var Scene = /** @class */ (function () {
      */
     Scene.prototype.isFirstLevelChild = function (sceneChild) {
         for (var i = 0, len = this.children.length; i < len; i++)
-            if (this.children[i].id == sceneChild.id)
+            if (this.children[i].id === sceneChild.id)
                 return true;
         var parents = this.getParentsOfSceneChild(sceneChild);
-        return parents.length == 1 && parents[0] instanceof _Group__WEBPACK_IMPORTED_MODULE_1__.default;
+        return parents.length === 1 && parents[0] instanceof _Group__WEBPACK_IMPORTED_MODULE_1__.default;
     };
     /**
      * Returns the list of sceneChild hierarchy starting from the scene
@@ -2225,7 +2253,7 @@ var ShapeBase = /** @class */ (function (_super) {
                 return (_this.props[k] = key[k]);
             });
         }
-        this.clearBuffer(bClearIndexed);
+        this.clearBuffer(bClearIndexed, true);
     };
     /**
      *  Unset buffer
@@ -2240,6 +2268,7 @@ var ShapeBase = /** @class */ (function (_super) {
         this.buffer = undefined;
         if (bClearIndexed) {
             this.bIndexed = false;
+            this.indexedBuffer = [];
         }
         this.bStatic = this.isStatic();
         this.bStaticIndexed = this.isStaticIndexed();
@@ -2264,17 +2293,8 @@ var ShapeBase = /** @class */ (function (_super) {
         this.generateId = generateId;
         if (!this.bStaticIndexed || !this.bIndexed)
             this.indexedBuffer = [];
-        // prettier-ignore
-        var repetition = {
-            type: _types_scene_child__WEBPACK_IMPORTED_MODULE_0__.ERepetitionType.Ring, angle: 0, index: 1, offset: 1, count: 1,
-            row: { index: 1, offset: 1, count: 1 },
-            col: { index: 1, offset: 1, count: 1 },
-        };
-        var propArguments = {
-            repetition: repetition,
-            shape: this,
-            parent: parentPropArguments,
-        };
+        var propArguments = ShapeBase.getEmptyPropArguments(this, parentPropArguments);
+        var repetition = propArguments.repetition;
         var repetitions = this.getProp('repetitions', propArguments, 1);
         var repetitionType = Array.isArray(repetitions) ? _types_scene_child__WEBPACK_IMPORTED_MODULE_0__.ERepetitionType.Matrix : _types_scene_child__WEBPACK_IMPORTED_MODULE_0__.ERepetitionType.Ring;
         var repetitionCount = Array.isArray(repetitions)
@@ -2515,6 +2535,26 @@ var ShapeBase = /** @class */ (function (_super) {
         }
     };
     /**
+     * Return empty propArguments
+     *
+     * @static
+     * @param {ShapeBase} shape
+     * @return {*}  {ISceneChildPropArguments}
+     */
+    ShapeBase.getEmptyPropArguments = function (shape, parentPropArguments) {
+        // prettier-ignore
+        var repetition = {
+            type: _types_scene_child__WEBPACK_IMPORTED_MODULE_0__.ERepetitionType.Ring, angle: 0, index: 1, offset: 1, count: 1,
+            row: { index: 1, offset: 1, count: 1 },
+            col: { index: 1, offset: 1, count: 1 },
+        };
+        return {
+            repetition: repetition,
+            shape: shape,
+            parent: parentPropArguments,
+        };
+    };
+    /**
      * Empty buffer
      *
      * @internal
@@ -2642,9 +2682,10 @@ var ShapeBuffer = /** @class */ (function (_super) {
     /**
      * Return length of buffer
      *
+     * @param {ISceneChildPropArguments} propArguments
      * @returns {number}
      */
-    ShapeBuffer.prototype.getBufferLength = function () {
+    ShapeBuffer.prototype.getBufferLength = function (propArguments) {
         if (this.buffer && this.buffer.length > 0)
             return this.buffer.length;
         return this.shape.length * this.getRepetitionCount();
@@ -2748,6 +2789,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _math_bounding__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../math/bounding */ "./dist/core/math/bounding.js");
 /* harmony import */ var _math__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../math */ "./dist/core/math/index.js");
 /* harmony import */ var _ShapePrimitive__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ShapePrimitive */ "./dist/core/shapes/ShapePrimitive.js");
+/* harmony import */ var _ShapeBase__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ShapeBase */ "./dist/core/shapes/ShapeBase.js");
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -2772,6 +2814,7 @@ var __assign = (undefined && undefined.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+
 
 
 
@@ -2892,7 +2935,7 @@ var ShapeLoop = /** @class */ (function (_super) {
             return this.buffer.length;
         if (this.bStaticLoop && typeof this.currentOrSingleLoopBuffer !== 'undefined')
             return this.currentOrSingleLoopBuffer.length * this.getRepetitionCount();
-        var count = this.getLoop(propArguments).count;
+        var count = this.getLoop(propArguments || _ShapeBase__WEBPACK_IMPORTED_MODULE_4__.default.getEmptyPropArguments(this)).count;
         return this.getRepetitionCount() * count * 2;
     };
     /**
@@ -2972,7 +3015,7 @@ var ShapeLoop = /** @class */ (function (_super) {
     /**
      * Return information about a client loop gnerator
      *
-     * @private
+     * @public
      * @param {ISceneChildPropArguments} propArguments
      * @returns {ShapeLoopInformation}
      */
@@ -2986,6 +3029,20 @@ var ShapeLoop = /** @class */ (function (_super) {
         inc = (typeof inc === 'function' ? inc(propArguments) : inc);
         var count = Math.ceil((end - start) / inc);
         return { start: start, end: end, inc: inc, count: count <= 0 ? 0 : count };
+    };
+    /**
+     * Subdivide loop n times
+     *
+     * @param {number} [level=1]
+     */
+    ShapeLoop.prototype.subdivide = function (level) {
+        if (level === void 0) { level = 1; }
+        var currentLoop = this.props.loop || this.loop;
+        // TODO: subdivide function?
+        if (typeof currentLoop.inc === 'number') {
+            currentLoop.inc = (currentLoop.inc || 1) / Math.pow(2, level);
+            this.setProp('loop', currentLoop);
+        }
     };
     /**
      * Set shape from loop generator
@@ -3294,6 +3351,21 @@ var ShapeRecursive = /** @class */ (function (_super) {
         _this.currentGenerationRecursiveBounding = _math_bounding__WEBPACK_IMPORTED_MODULE_0__.default.empty();
         return _this;
     }
+    /**
+     *  Unset buffer
+     *
+     * @param {boolean} [bClearIndexed=false]
+     * @param {boolean} [bPropagateToParents=false]
+     * @param {boolean} [bPropagateToChildren=false]
+     */
+    ShapeRecursive.prototype.clearBuffer = function (bClearIndexed, bPropagateToParents) {
+        if (bClearIndexed === void 0) { bClearIndexed = false; }
+        if (bPropagateToParents === void 0) { bPropagateToParents = true; }
+        if (bClearIndexed) {
+            this.shapeRecursiveBuffer = undefined;
+        }
+        _super.prototype.clearBuffer.call(this, bClearIndexed, bPropagateToParents);
+    };
     // /**
     //  * Set type of recursion
     //  *
@@ -3488,7 +3560,7 @@ var ShapeRecursive = /** @class */ (function (_super) {
                     : recursionBufferIndex;
                 this.indexedBuffer.push(currentIndexed);
                 if (recursions > 1) {
-                    var realVertexCount = this.shape.getBufferLength() / 2;
+                    var realVertexCount = this.shape.getBufferLength(propArguments) / 2;
                     var vertexCount = recursionVertex <= 0 ? realVertexCount : Math.min(recursionVertex, realVertexCount);
                     var storedRecursion = [currentRecursionRepetition];
                     var paretRecursionIndex = 0, added = 1;
@@ -3534,6 +3606,20 @@ var ShapeRecursive = /** @class */ (function (_super) {
         for (var i = 1; i < recursion; i++)
             result += Math.pow(vertexCount, i);
         return result;
+    };
+    /**
+     * Empty recursion repetition
+     *
+     * @static
+     * @return {*}  {IRecursionRepetition}
+     */
+    ShapeRecursive.getEmptyRecursion = function () {
+        return {
+            index: 1,
+            offset: 1,
+            count: 1,
+            level: { index: 1, offset: 1, count: 1 },
+        };
     };
     return ShapeRecursive;
 }(_Shape__WEBPACK_IMPORTED_MODULE_1__.default));
@@ -4107,6 +4193,7 @@ var Spiral = /** @class */ (function (_super) {
     Spiral.prototype.generateLoopBuffer = function (propArguments) {
         this.spiral = this.getProp('spiral', propArguments);
         this.r = Spiral.getRFromTSpiralType(this.spiral);
+        console.log('generateLoopBufferSpiral propArguments', propArguments);
         return _super.prototype.generateLoopBuffer.call(this, propArguments);
     };
     // /**
@@ -4615,6 +4702,7 @@ gl_matrix__WEBPACK_IMPORTED_MODULE_1__.setMatrixArrayType(Array);
 /*! export ERepetitionType [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/core/types/scene-child.js .ERepetitionType */
 /*! export EShapePrimitiveAdaptMode [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/core/types/shape-base.js .EShapePrimitiveAdaptMode */
 /*! export Easings [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/services/animation/Easings.js .default */
+/*! export GCODEExporter [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/services/exporters/GCODEExporter.js .default */
 /*! export Group [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/core/Group.js .default */
 /*! export JSONExporter [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/services/exporters/JSONExporter.js .default */
 /*! export JSONImporter [provided] [maybe used in urpflanze (runtime-defined)] [usage prevents renaming] -> ./dist/services/importers/JSONImporter.js .default */
@@ -4705,8 +4793,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Renderer": () => /* reexport safe */ _services_renderer_Renderer__WEBPACK_IMPORTED_MODULE_7__.default,
 /* harmony export */   "JSONImporter": () => /* reexport safe */ _services_importers_JSONImporter__WEBPACK_IMPORTED_MODULE_8__.default,
 /* harmony export */   "JSONExporter": () => /* reexport safe */ _services_exporters_JSONExporter__WEBPACK_IMPORTED_MODULE_9__.default,
-/* harmony export */   "SVGExporter": () => /* reexport safe */ _services_exporters_SVGExporter__WEBPACK_IMPORTED_MODULE_10__.default,
-/* harmony export */   "SVGImporter": () => /* reexport safe */ _services_importers_SVGImporter__WEBPACK_IMPORTED_MODULE_11__.default
+/* harmony export */   "GCODEExporter": () => /* reexport safe */ _services_exporters_GCODEExporter__WEBPACK_IMPORTED_MODULE_10__.default,
+/* harmony export */   "SVGExporter": () => /* reexport safe */ _services_exporters_SVGExporter__WEBPACK_IMPORTED_MODULE_11__.default,
+/* harmony export */   "SVGImporter": () => /* reexport safe */ _services_importers_SVGImporter__WEBPACK_IMPORTED_MODULE_12__.default
 /* harmony export */ });
 /* harmony import */ var _core_types_scene__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./core/types/scene */ "./dist/core/types/scene.js");
 /* harmony import */ var _core_types_scene_child__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./core/types/scene-child */ "./dist/core/types/scene-child.js");
@@ -4718,11 +4807,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _services_renderer_Renderer__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./services/renderer/Renderer */ "./dist/services/renderer/Renderer.js");
 /* harmony import */ var _services_importers_JSONImporter__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./services/importers/JSONImporter */ "./dist/services/importers/JSONImporter.js");
 /* harmony import */ var _services_exporters_JSONExporter__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./services/exporters/JSONExporter */ "./dist/services/exporters/JSONExporter.js");
-/* harmony import */ var _services_exporters_SVGExporter__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./services/exporters/SVGExporter */ "./dist/services/exporters/SVGExporter.js");
-/* harmony import */ var _services_importers_SVGImporter__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./services/importers/SVGImporter */ "./dist/services/importers/SVGImporter.js");
+/* harmony import */ var _services_exporters_GCODEExporter__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./services/exporters/GCODEExporter */ "./dist/services/exporters/GCODEExporter.js");
+/* harmony import */ var _services_exporters_SVGExporter__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./services/exporters/SVGExporter */ "./dist/services/exporters/SVGExporter.js");
+/* harmony import */ var _services_importers_SVGImporter__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./services/importers/SVGImporter */ "./dist/services/importers/SVGImporter.js");
 /**
  * Types & Interface
  */
+
 
 
 
@@ -4758,9 +4849,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "author": () => /* binding */ author,
 /* harmony export */   "license": () => /* binding */ license
 /* harmony export */ });
-var version = '0.3.0-beta';
+var version = '%VERSION%';
 var author = 'Gennaro Bosone <gennaro.bs@gmail.com>';
-var license = 'GPL-3.0-or-later';
+var license = '%LICENSE%';
 
 //# sourceMappingURL=meta.js.map
 
@@ -4783,6 +4874,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _Simple__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Simple */ "./dist/services/animation/Simple.js");
 /* harmony import */ var _scene_utilities_SceneUtilitiesExtended__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../scene-utilities/SceneUtilitiesExtended */ "./dist/services/scene-utilities/SceneUtilitiesExtended.js");
+/* harmony import */ var _index_light__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../index-light */ "./dist/index-light.js");
 var __assign = (undefined && undefined.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -4794,6 +4886,7 @@ var __assign = (undefined && undefined.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+
 
 
 /**
@@ -4812,7 +4905,7 @@ var Animation = {
             }
             case 'raw': {
                 var rawValue = animation.value;
-                return eval(rawValue.raw);
+                return new Function('Urpflanze', 'scene', "\"use strict\"; return " + rawValue.raw)(_index_light__WEBPACK_IMPORTED_MODULE_2__, scene);
             }
             // case 'random': {
             //     const randomValue = SetProp.getRandomFunctionForProp(prop_name)
@@ -5973,9 +6066,9 @@ var DrawerCanvas = /** @class */ (function (_super) {
             this.dispatch('drawer-canvas:buffer_flush');
         }
     };
-    DrawerCanvas.prototype.getRenderedFrames = function () {
+    DrawerCanvas.prototype.getStoredFrames = function () {
         if (this.bBuffering) {
-            return this.buffer.getRenderedFrames();
+            return this.buffer.getStoredFrames();
         }
         return [];
     };
@@ -6199,6 +6292,8 @@ var DrawerCanvas = /** @class */ (function (_super) {
                             context.lineTo(stream.buffer[stream.frameBufferIndex + i], stream.buffer[stream.frameBufferIndex + i + 1]);
                         }
                         currentIndex.shape.isClosed() && context.closePath();
+                        var alpha = _Drawer__WEBPACK_IMPORTED_MODULE_0__.default.getStreamDrawerProp(shape, 'opacity', propArguments, 1);
+                        context.globalAlpha = alpha;
                         var shadowColor = _Drawer__WEBPACK_IMPORTED_MODULE_0__.default.getStreamDrawerProp(shape, 'shadowColor', propArguments);
                         var shadowBlur = _Drawer__WEBPACK_IMPORTED_MODULE_0__.default.getStreamDrawerProp(shape, 'shadowBlur', propArguments);
                         var shadowOffsetX = _Drawer__WEBPACK_IMPORTED_MODULE_0__.default.getStreamDrawerProp(shape, 'shadowOffsetX', propArguments);
@@ -6322,7 +6417,7 @@ var FrameBuffer = /** @class */ (function () {
     FrameBuffer.prototype.flush = function () {
         this.frames = {};
     };
-    FrameBuffer.prototype.getRenderedFrames = function () {
+    FrameBuffer.prototype.getStoredFrames = function () {
         return Object.keys(this.frames).map(function (e) { return +e; });
     };
     return FrameBuffer;
@@ -6630,6 +6725,155 @@ var Emitter = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./dist/services/exporters/GCODEExporter.js":
+/*!**************************************************!*\
+  !*** ./dist/services/exporters/GCODEExporter.js ***!
+  \**************************************************/
+/*! namespace exports */
+/*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+/*! other exports [not provided] [no usage info] */
+/*! runtime requirements: __webpack_require__, __webpack_exports__, __webpack_require__.r, __webpack_require__.d, __webpack_require__.* */
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Utilites */ "./dist/Utilites.js");
+var __assign = (undefined && undefined.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+
+var GCODEExporter = /** @class */ (function () {
+    function GCODEExporter() {
+    }
+    GCODEExporter.parse = function (drawer, settings) {
+        var scene = drawer.getScene();
+        if (scene) {
+            var bindedSettings = __assign(__assign({}, GCODEExporter.defaults), settings);
+            return GCODEExporter.generate(scene, bindedSettings).join('\n');
+        }
+        return '';
+    };
+    GCODEExporter.useRelativePosition = function () {
+        return 'G91';
+    };
+    GCODEExporter.useAbsolutePosition = function () {
+        return 'G90';
+    };
+    GCODEExporter.home = function (penUpCommand) {
+        return [penUpCommand, 'G28 X0 Y0 Z0'];
+    };
+    GCODEExporter.round = function (value, round) {
+        return Math.round(value * round) / round;
+    };
+    GCODEExporter.setCurrentMachinePosition = function (x, y, round) {
+        return "G28.1 X" + this.round(x, round) + " Y" + this.round(y, round);
+    };
+    GCODEExporter.setCurrentWorkspacePosition = function (x, y, round) {
+        return "G92 X" + this.round(x, round) + " Y" + this.round(y, round);
+    };
+    GCODEExporter.gotoTo = function (x, y, round, velocity) {
+        return typeof velocity !== 'undefined'
+            ? "G1 X" + this.round(x, round) + " Y" + this.round(y, round) + " F" + velocity
+            : "G0 X" + this.round(x, round) + " Y" + this.round(y, round);
+    };
+    GCODEExporter.moveTo = function (penUpCommand, penDownCommand, x, y, round) {
+        return [penUpCommand, this.gotoTo(x, y, round), penDownCommand];
+    };
+    GCODEExporter.lineTo = function (x, y, velocity, round) {
+        return this.gotoTo(x, y, round, velocity);
+    };
+    GCODEExporter.concat = function (result, data) {
+        if (typeof data === 'string')
+            result.push(data);
+        else
+            data.forEach(function (line) { return result.push(line); });
+    };
+    GCODEExporter.generate = function (scene, settings) {
+        // Calculate workspace area
+        var workspaceWidth = settings.maxX - settings.minX;
+        var workspaceHeight = settings.maxY - settings.minY;
+        var workspaceRatio = workspaceWidth / workspaceHeight;
+        // Calculate drawArea from scene
+        var sceneRatio = scene.width / scene.height;
+        var drawArea = [
+            sceneRatio > workspaceRatio ? (workspaceWidth * scene.height) / workspaceHeight : scene.width,
+            sceneRatio > workspaceRatio ? scene.height : (workspaceHeight * scene.width) / workspaceWidth,
+        ];
+        var drawAreaSceneOffset = [(scene.width - drawArea[0]) / 2, (scene.height - drawArea[1]) / 2];
+        // Adapt drawArea to workspace
+        var scale = workspaceRatio > 1 ? scene.width / workspaceWidth : scene.height / workspaceHeight;
+        drawArea[0] /= scale;
+        drawArea[1] /= scale;
+        drawAreaSceneOffset[0] /= scale;
+        drawAreaSceneOffset[1] /= scale;
+        console.log({ drawArea: drawArea, drawAreaSceneOffset: drawAreaSceneOffset, maxSceneInDrawArea: {
+                minX: drawAreaSceneOffset[0],
+                minY: drawAreaSceneOffset[1],
+                maxX: scene.width / scale + drawAreaSceneOffset[0],
+                maxY: scene.height / scale + drawAreaSceneOffset[1],
+            }, scale: scale,
+            workspaceRatio: workspaceRatio,
+            sceneRatio: sceneRatio
+        });
+        var machineCenterPosition = [(settings.maxX + settings.minX) / 2, (settings.maxY + settings.minY) / 2];
+        var gcode = [];
+        this.concat(gcode, settings.penUpCommand);
+        this.concat(gcode, this.useAbsolutePosition());
+        this.concat(gcode, this.setCurrentMachinePosition(settings.minX, settings.minY, settings.round));
+        this.concat(gcode, this.setCurrentWorkspacePosition(settings.minX, settings.minY, settings.round));
+        scene.update(settings.atTime);
+        var sceneChilds = scene.getChildren();
+        for (var i = 0, len = sceneChilds.length; i < len; i++) {
+            sceneChilds[i].generate(0, true);
+            var childBuffer = sceneChilds[i].getBuffer() || [];
+            var childIndexedBuffer = sceneChilds[i].getIndexedBuffer() || [];
+            for (var currentBufferIndex = 0, vertexIndex = 0, len_1 = childIndexedBuffer.length; currentBufferIndex < len_1; currentBufferIndex++) {
+                var currentIndexing = childIndexedBuffer[i];
+                var initialPointX = (0,_Utilites__WEBPACK_IMPORTED_MODULE_0__.clamp)(settings.minX, settings.maxX, settings.minX + childBuffer[vertexIndex] / scale + drawAreaSceneOffset[0]);
+                var initialPointY = (0,_Utilites__WEBPACK_IMPORTED_MODULE_0__.clamp)(settings.minY, settings.maxY, settings.minY + childBuffer[vertexIndex + 1] / scale + drawAreaSceneOffset[1]);
+                this.concat(gcode, this.moveTo(settings.penUpCommand, settings.penDownCommand, initialPointX, initialPointY, settings.round));
+                vertexIndex += 2;
+                for (var len_2 = vertexIndex + currentIndexing.frameLength - 2; vertexIndex < len_2; vertexIndex += 2) {
+                    var currentX = (0,_Utilites__WEBPACK_IMPORTED_MODULE_0__.clamp)(settings.minX, settings.maxX, settings.minX + childBuffer[vertexIndex] / scale + drawAreaSceneOffset[0]);
+                    var currentY = (0,_Utilites__WEBPACK_IMPORTED_MODULE_0__.clamp)(settings.minY, settings.maxY, settings.minY + childBuffer[vertexIndex + 1] / scale + drawAreaSceneOffset[1]);
+                    this.concat(gcode, this.lineTo(currentX, currentY, settings.velocity, settings.round));
+                }
+                if (currentIndexing.shape.isClosed())
+                    this.concat(gcode, this.lineTo(initialPointX, initialPointY, settings.velocity, settings.round));
+            }
+        }
+        this.concat(gcode, this.home(settings.penUpCommand));
+        return gcode;
+    };
+    GCODEExporter.defaults = {
+        atTime: 0,
+        round: 100,
+        minX: 0,
+        minY: 0,
+        maxX: 297,
+        maxY: 210,
+        velocity: 1500,
+        penUpCommand: 'M3 S30',
+        penDownCommand: 'M3 S0',
+    };
+    return GCODEExporter;
+}());
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (GCODEExporter);
+//# sourceMappingURL=GCODEExporter.js.map
+
+/***/ }),
+
 /***/ "./dist/services/exporters/JSONExporter.js":
 /*!*************************************************!*\
   !*** ./dist/services/exporters/JSONExporter.js ***!
@@ -6741,7 +6985,6 @@ var JSONExporter = /** @class */ (function () {
             projectSceneChild.bUseParent = sceneChild.bUseParent;
             projectSceneChild.bUseRecursion = sceneChild.bUseRecursion;
             projectSceneChild.vertexCallback = _Utilites__WEBPACK_IMPORTED_MODULE_5__.parseFunction.parse(sceneChild.data.vertexCallback || sceneChild.vertexCallback);
-            console.log('export', projectSceneChild.vertexCallback, sceneChild.vertexCallback);
         }
         if (sceneChild instanceof _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_4__.default) {
             var style = sceneChild.style;
@@ -7028,10 +7271,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var svgpath__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(svgpath__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _JSONImporter__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./JSONImporter */ "./dist/services/importers/JSONImporter.js");
 /* harmony import */ var _drawers_drawer_canvas_DrawerCanvas__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../drawers/drawer-canvas/DrawerCanvas */ "./dist/services/drawers/drawer-canvas/DrawerCanvas.js");
-/* harmony import */ var _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../core/shapes/ShapePrimitive */ "./dist/core/shapes/ShapePrimitive.js");
-/* harmony import */ var _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../core/shapes/ShapeBuffer */ "./dist/core/shapes/ShapeBuffer.js");
-/* harmony import */ var _core_Scene__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../core/Scene */ "./dist/core/Scene.js");
-/* harmony import */ var _Color__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../Color */ "./dist/Color.js");
+/* harmony import */ var _Color__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../Color */ "./dist/Color.js");
+/* harmony import */ var _core_Scene__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../core/Scene */ "./dist/core/Scene.js");
+/* harmony import */ var _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../core/shapes/ShapePrimitive */ "./dist/core/shapes/ShapePrimitive.js");
+/* harmony import */ var _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../core/shapes/ShapeBuffer */ "./dist/core/shapes/ShapeBuffer.js");
+/* harmony import */ var _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../core/shapes/Shape */ "./dist/core/shapes/Shape.js");
+/* harmony import */ var _core_Group__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../core/Group */ "./dist/core/Group.js");
 var __spreadArrays = (undefined && undefined.__spreadArrays) || function () {
     for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
     for (var r = Array(s), k = 0, i = 0; i < il; i++)
@@ -7039,6 +7284,8 @@ var __spreadArrays = (undefined && undefined.__spreadArrays) || function () {
             r[k] = a[j];
     return r;
 };
+
+
 
 
 
@@ -7105,14 +7352,49 @@ var SVGImporter = /** @class */ (function () {
             return null;
         }
         var emptyProject = _JSONImporter__WEBPACK_IMPORTED_MODULE_3__.default.createEmptyProject();
-        var scene = new _core_Scene__WEBPACK_IMPORTED_MODULE_7__.default({
+        var scene = new _core_Scene__WEBPACK_IMPORTED_MODULE_6__.default({
             color: emptyProject.color,
             background: emptyProject.background,
             width: parsed.viewBox[2] - parsed.viewBox[0],
             height: parsed.viewBox[3] - parsed.viewBox[1],
         });
+        var result = SVGImporter.parsedToShape(parsed);
+        if (result !== null)
+            scene.add(result);
+        return new _drawers_drawer_canvas_DrawerCanvas__WEBPACK_IMPORTED_MODULE_4__.default(scene, undefined);
+    };
+    /**
+     * Convert SVG string to Shape or ShapeBuffer
+     *
+     * @static
+     * @param {string} input
+     * @param {number} [simplify=0.001]
+     * @returns {(Shape | ShapeBuffer | null)}
+     */
+    SVGImporter.parseAsShape = function (input, simplify) {
+        if (simplify === void 0) { simplify = 0.001; }
+        var svg = SVGImporter.stringToSVG(input);
+        if (svg === null) {
+            console.warn('[Urpflanze:SVGImport] | Cannot convet string to SVG', input);
+        }
+        var parsed = SVGImporter.SVGStringToBuffers(input, simplify);
+        if (parsed === null || parsed.buffers.length === 0) {
+            console.warn('[Urpflanze:SVGImport] | Cannot convet string DrawerCanvas', input);
+            return null;
+        }
+        return SVGImporter.parsedToShape(parsed);
+    };
+    /**
+     * Convert parsed SVG to Shape or ShapeBuffer
+     *
+     * @static
+     * @param {ISVGParsed} parsed
+     * @returns {(Shape | ShapeBuffer | null)}
+     */
+    SVGImporter.parsedToShape = function (parsed) {
+        var shapes = new Array(parsed.buffers.length);
         parsed.buffers.forEach(function (buffer) {
-            scene.add(new _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_6__.default({
+            shapes.push(new _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_8__.default({
                 shape: buffer.buffer,
                 bClosed: buffer.closed,
                 style: {
@@ -7122,7 +7404,11 @@ var SVGImporter = /** @class */ (function () {
                 },
             }));
         });
-        return new _drawers_drawer_canvas_DrawerCanvas__WEBPACK_IMPORTED_MODULE_4__.default(scene, undefined);
+        if (shapes.length === 1)
+            return shapes[0];
+        var group = new _core_Group__WEBPACK_IMPORTED_MODULE_10__.default();
+        shapes.forEach(function (s) { return group.add(s); });
+        return new _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_9__.default({ shape: group });
     };
     /**
      * Convert SVG string to buffers
@@ -7140,9 +7426,9 @@ var SVGImporter = /** @class */ (function () {
             console.error('[Urpflanze:SVGImport] | Cannot convert string to svg', input);
             return null;
         }
-        var fill = svg.getAttribute('fill');
-        var stroke = svg.getAttribute('stroke');
-        var lineWidth = svg.getAttribute('line-width');
+        var svgFill = SVGImporter.getStyleAttr('fill', svg);
+        var svgStroke = SVGImporter.getStyleAttr('stroke', svg);
+        var svgLineWidth = SVGImporter.getStyleAttr('stroke-width', svg);
         var viewBox = SVGImporter.getViewbox(svg);
         var groups = svg.querySelectorAll('g');
         groups.forEach(SVGImporter.propagateGroupTransformAndStyleToChildren);
@@ -7169,12 +7455,23 @@ var SVGImporter = /** @class */ (function () {
                         ? SVGImporter.fromPercentage(parseFloat(templineWidth), Math.sqrt((viewBox[2] - viewBox[0]) * (viewBox[3] - viewBox[1])))
                         : parseFloat(templineWidth);
             }
+            var fill = SVGImporter.getStyleAttr('fill', paths[i], svgFill ? svgFill : undefined);
+            var stroke = SVGImporter.getStyleAttr('stroke', paths[i], fill ? undefined : svgStroke || 'rgba(0,0,0,0)');
+            var lineWidth = strokeWidth
+                ? strokeWidth
+                : stroke
+                    ? svgLineWidth
+                        ? parseFloat(svgLineWidth)
+                        : 1
+                    : svgLineWidth
+                        ? parseFloat(svgLineWidth)
+                        : undefined;
             result.push({
                 buffer: buffers[i],
                 closed: SVGImporter.pathIsClosed(paths[i]),
-                fill: SVGImporter.getColor('fill', paths[i], fill ? fill : undefined),
-                stroke: SVGImporter.getColor('stroke', paths[i], stroke ? stroke : undefined),
-                lineWidth: strokeWidth ? strokeWidth : lineWidth ? parseFloat(lineWidth) : undefined,
+                fill: fill,
+                stroke: stroke,
+                lineWidth: lineWidth,
             });
         }
         elements.forEach(function (e) { return e.remove(); });
@@ -7186,16 +7483,16 @@ var SVGImporter = /** @class */ (function () {
      * @private
      * @static
      * @param {('fill' | 'stroke')} name
-     * @param {SVGPathElement} path
+     * @param {SVGElement} path
      * @returns {(string | undefined)}
      */
-    SVGImporter.getColor = function (name, path, defaultColor) {
+    SVGImporter.getStyleAttr = function (name, element, defaultColor) {
         // get color from attribute
-        var value = path.getAttribute(name);
+        var value = element.getAttribute(name);
         if (value === 'none')
             return undefined;
         if (typeof value !== 'undefined' && value !== null) {
-            var parsed = (0,_Color__WEBPACK_IMPORTED_MODULE_8__.parseColor)(value);
+            var parsed = (0,_Color__WEBPACK_IMPORTED_MODULE_5__.parseColor)(value);
             if (parsed) {
                 return parsed.type === 'rgb'
                     ? "rgb(" + parsed.a + ", " + parsed.b + ", " + parsed.c + ")"
@@ -7203,8 +7500,9 @@ var SVGImporter = /** @class */ (function () {
             }
         }
         // otherwise get color from style
-        if (typeof path.style[name] !== 'undefined') {
-            return path.style[name];
+        var styleName = name === 'stroke-width' ? 'strokeWidth' : name;
+        if (typeof element.style[styleName] !== 'undefined' && element.style[styleName].length > 0) {
+            return element.style[styleName];
         }
         return defaultColor;
     };
@@ -7235,7 +7533,7 @@ var SVGImporter = /** @class */ (function () {
         if (paths.length > 0) {
             var width_1 = 0, height_1 = 0;
             for (var i = 0, len = paths.length; i < len; i++) {
-                var box = _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_5__.default.getBounding(SVGImporter.pathToBuffer(paths[i], 1));
+                var box = _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_7__.default.getBounding(SVGImporter.pathToBuffer(paths[i], 1));
                 box.width += box.x;
                 box.height += box.y;
                 if (box.width > width_1)
@@ -7370,11 +7668,10 @@ var SVGImporter = /** @class */ (function () {
      * @returns {Array<SVGPathElement>}
      */
     SVGImporter.elementToPath = function (element) {
-        var _a, _b, _c;
         var transform = element.getAttribute('transform') || '';
-        var fill = element.getAttribute('fill') || ((_a = element.style) === null || _a === void 0 ? void 0 : _a.fill);
-        var stroke = element.getAttribute('stroke') || ((_b = element.style) === null || _b === void 0 ? void 0 : _b.stroke);
-        var lineWidth = element.getAttribute('lineWidth') || ((_c = element.style) === null || _c === void 0 ? void 0 : _c.strokeWidth);
+        var fill = SVGImporter.getStyleAttr('fill', element, undefined);
+        var stroke = SVGImporter.getStyleAttr('stroke', element, undefined);
+        var lineWidth = SVGImporter.getStyleAttr('stroke-width', element, undefined);
         if (element.nodeName == 'path') {
             // Separate multiple path
             var d = element.getAttribute('d') || '';
@@ -8195,7 +8492,7 @@ var SceneChildUtilitiesData = {
         step: 0.1,
         default: 1,
         default_animate: 3,
-        transformation: 'none',
+        transformation: 'scene-size-percentage',
         dataType: 'drawer',
     },
     bClosed: {
@@ -8238,6 +8535,48 @@ var SceneChildUtilitiesData = {
         default: undefined,
         transformation: 'none',
         dataType: 'settings',
+    },
+    // recursion
+    recursions: {
+        animable: true,
+        name: 'recursion',
+        label: 'Recursion',
+        type: 'range',
+        min: 1,
+        max: 8,
+        step: 1,
+        default: 1,
+        default_animate: 2,
+        transformation: 'none',
+        dataType: 'props',
+        type_value: 'int',
+    },
+    recursionScale: {
+        animable: true,
+        name: 'recursionScale',
+        label: 'Recursion Scale',
+        type: 'range',
+        min: 0.1,
+        max: 5,
+        step: 0.1,
+        default: 1,
+        default_animate: 2,
+        transformation: 'none',
+        dataType: 'props',
+    },
+    recursionVertex: {
+        animable: true,
+        name: 'recursionVertex',
+        label: 'Recursion Vertex',
+        type: 'range',
+        min: 1,
+        max: 100,
+        step: 1,
+        default: 10,
+        default_animate: 20,
+        transformation: 'none',
+        dataType: 'props',
+        type_value: 'int',
     },
     // primitive
     sideLength: {
@@ -8505,7 +8844,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/v1.js");
+/* harmony import */ var uuid__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! uuid */ "./node_modules/uuid/dist/esm-browser/v1.js");
 /* harmony import */ var _core_SceneChild__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../core/SceneChild */ "./dist/core/SceneChild.js");
 /* harmony import */ var _core_shapes_primitives_Line__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../core/shapes/primitives/Line */ "./dist/core/shapes/primitives/Line.js");
 /* harmony import */ var _core_shapes_primitives_Triangle__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../core/shapes/primitives/Triangle */ "./dist/core/shapes/primitives/Triangle.js");
@@ -8517,15 +8856,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _core_shapes_primitives_Lissajous__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../core/shapes/primitives/Lissajous */ "./dist/core/shapes/primitives/Lissajous.js");
 /* harmony import */ var _core_shapes_primitives_SuperShape__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../core/shapes/primitives/SuperShape */ "./dist/core/shapes/primitives/SuperShape.js");
 /* harmony import */ var _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../core/shapes/Shape */ "./dist/core/shapes/Shape.js");
-/* harmony import */ var _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../core/shapes/ShapePrimitive */ "./dist/core/shapes/ShapePrimitive.js");
-/* harmony import */ var _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../core/shapes/ShapeLoop */ "./dist/core/shapes/ShapeLoop.js");
-/* harmony import */ var _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../core/shapes/ShapeBuffer */ "./dist/core/shapes/ShapeBuffer.js");
-/* harmony import */ var _core_Scene__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../core/Scene */ "./dist/core/Scene.js");
-/* harmony import */ var _core_Group__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../core/Group */ "./dist/core/Group.js");
-/* harmony import */ var _core_shapes_ShapeBase__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../../core/shapes/ShapeBase */ "./dist/core/shapes/ShapeBase.js");
-/* harmony import */ var _animation_Animation__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../animation/Animation */ "./dist/services/animation/Animation.js");
-/* harmony import */ var _SceneChildUtilitiesData__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./SceneChildUtilitiesData */ "./dist/services/scene-utilities/SceneChildUtilitiesData.js");
-/* harmony import */ var _SceneUtilitiesExtended__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./SceneUtilitiesExtended */ "./dist/services/scene-utilities/SceneUtilitiesExtended.js");
+/* harmony import */ var _core_shapes_ShapeRecursive__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../core/shapes/ShapeRecursive */ "./dist/core/shapes/ShapeRecursive.js");
+/* harmony import */ var _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../core/shapes/ShapePrimitive */ "./dist/core/shapes/ShapePrimitive.js");
+/* harmony import */ var _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../core/shapes/ShapeLoop */ "./dist/core/shapes/ShapeLoop.js");
+/* harmony import */ var _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../core/shapes/ShapeBuffer */ "./dist/core/shapes/ShapeBuffer.js");
+/* harmony import */ var _core_Scene__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../core/Scene */ "./dist/core/Scene.js");
+/* harmony import */ var _core_Group__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../../core/Group */ "./dist/core/Group.js");
+/* harmony import */ var _core_shapes_ShapeBase__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../../core/shapes/ShapeBase */ "./dist/core/shapes/ShapeBase.js");
+/* harmony import */ var _animation_Animation__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../animation/Animation */ "./dist/services/animation/Animation.js");
+/* harmony import */ var _SceneChildUtilitiesData__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./SceneChildUtilitiesData */ "./dist/services/scene-utilities/SceneChildUtilitiesData.js");
+/* harmony import */ var _SceneUtilitiesExtended__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./SceneUtilitiesExtended */ "./dist/services/scene-utilities/SceneUtilitiesExtended.js");
 var __spreadArrays = (undefined && undefined.__spreadArrays) || function () {
     for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
     for (var r = Array(s), k = 0, i = 0; i < il; i++)
@@ -8555,6 +8895,7 @@ var __spreadArrays = (undefined && undefined.__spreadArrays) || function () {
 
 
 
+
 /**
  *
  * @category Services.Scene Utilities
@@ -8562,7 +8903,6 @@ var __spreadArrays = (undefined && undefined.__spreadArrays) || function () {
  */
 var SceneUtilities = /** @class */ (function () {
     function SceneUtilities() {
-        this.registeredSceneChilds = {};
         this.registeredSceneChilds = {};
         this.registeredSceneChilds = {
             Line: _core_shapes_primitives_Line__WEBPACK_IMPORTED_MODULE_1__.default,
@@ -8574,10 +8914,11 @@ var SceneUtilities = /** @class */ (function () {
             Spiral: _core_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_7__.default,
             Lissajous: _core_shapes_primitives_Lissajous__WEBPACK_IMPORTED_MODULE_8__.default,
             SuperShape: _core_shapes_primitives_SuperShape__WEBPACK_IMPORTED_MODULE_9__.default,
-            Group: _core_Group__WEBPACK_IMPORTED_MODULE_15__.default,
+            Group: _core_Group__WEBPACK_IMPORTED_MODULE_16__.default,
             Shape: _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_10__.default,
-            ShapeLoop: _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_12__.default,
-            ShapeBuffer: _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_13__.default,
+            ShapeRecursive: _core_shapes_ShapeRecursive__WEBPACK_IMPORTED_MODULE_11__.default,
+            ShapeLoop: _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_13__.default,
+            ShapeBuffer: _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_14__.default,
         };
     }
     //#region Register scene child
@@ -8643,7 +8984,7 @@ var SceneUtilities = /** @class */ (function () {
         if (item in this.registeredSceneChilds) {
             if (!settings)
                 settings = {};
-            settings.id = settings.id || (0,uuid__WEBPACK_IMPORTED_MODULE_20__.default)();
+            settings.id = settings.id || (0,uuid__WEBPACK_IMPORTED_MODULE_21__.default)();
             if (!settings.name && scene)
                 settings.name = item + '_' + (this.getCountSceneChildOfType(scene, item) + 1);
             if (!settings.data)
@@ -8661,7 +9002,7 @@ var SceneUtilities = /** @class */ (function () {
             // }
             var sceneChild = new this.registeredSceneChilds[item](settings);
             if (sceneChild && scene && this.isAPrimitive(sceneChild)) {
-                this.set(sceneChild, 'sideLength', { type: 'transformable-prop', value: (_a = _SceneChildUtilitiesData__WEBPACK_IMPORTED_MODULE_18__.default.sideLength) === null || _a === void 0 ? void 0 : _a.default }, scene);
+                this.set(sceneChild, 'sideLength', { type: 'transformable-prop', value: (_a = _SceneChildUtilitiesData__WEBPACK_IMPORTED_MODULE_19__.default.sideLength) === null || _a === void 0 ? void 0 : _a.default }, scene);
                 // this.setProp(
                 // 	sceneChild,
                 // 	'sideLength',
@@ -8685,7 +9026,7 @@ var SceneUtilities = /** @class */ (function () {
      */
     SceneUtilities.prototype.getCountSceneChildOfType = function (scene, type) {
         var count = 0;
-        _core_Scene__WEBPACK_IMPORTED_MODULE_14__.default.walk(function (sceneChild) {
+        _core_Scene__WEBPACK_IMPORTED_MODULE_15__.default.walk(function (sceneChild) {
             count += sceneChild.type == type ? 1 : 0;
         }, scene);
         return count;
@@ -8704,22 +9045,22 @@ var SceneUtilities = /** @class */ (function () {
         if (strict === void 0) { strict = false; }
         // copy only props, without name, id
         var setting = sceneChild.getProps();
-        if (sceneChild instanceof _core_shapes_ShapeBase__WEBPACK_IMPORTED_MODULE_16__.default) {
+        if (sceneChild instanceof _core_shapes_ShapeBase__WEBPACK_IMPORTED_MODULE_17__.default) {
             setting.bUseParent = sceneChild.bUseParent;
             setting.bUseRecursion = sceneChild.bUseRecursion;
         }
-        if (sceneChild instanceof _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_13__.default) {
+        if (sceneChild instanceof _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_14__.default) {
             setting.shape = sceneChild.shape;
         }
-        if (sceneChild instanceof _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_11__.default) {
+        if (sceneChild instanceof _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_12__.default) {
             setting.bClosed = sceneChild.bClosed;
             setting.adaptMode = sceneChild.adaptMode;
             setting.vertexCallback = sceneChild.vertexCallback;
         }
-        if (sceneChild instanceof _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_12__.default) {
+        if (sceneChild instanceof _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_13__.default) {
             setting.loopDependencies = sceneChild.loopDependencies;
         }
-        if (sceneChild instanceof _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_12__.default) {
+        if (sceneChild instanceof _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_13__.default) {
             setting.loopDependencies = sceneChild.loopDependencies;
         }
         if (strict) {
@@ -8730,7 +9071,7 @@ var SceneUtilities = /** @class */ (function () {
         }
         var copied = this.create(sceneChild.type, setting, scene);
         if (copied) {
-            if (sceneChild instanceof _core_Group__WEBPACK_IMPORTED_MODULE_15__.default) {
+            if (sceneChild instanceof _core_Group__WEBPACK_IMPORTED_MODULE_16__.default) {
                 sceneChild.getChildren().forEach(function (child) {
                     var copiedChild = _this.copy(child, scene);
                     copiedChild && copied.add(copiedChild);
@@ -8740,7 +9081,7 @@ var SceneUtilities = /** @class */ (function () {
                 var copiedShape = this.copy(sceneChild.shape, scene);
                 copiedShape && (copied.shape = copiedShape);
             }
-            else if (sceneChild instanceof _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_13__.default && copied instanceof _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_13__.default && sceneChild.shape) {
+            else if (sceneChild instanceof _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_14__.default && copied instanceof _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_14__.default && sceneChild.shape) {
                 copied.setShape(new Float32Array(sceneChild.shape));
             }
             return copied;
@@ -8761,7 +9102,7 @@ var SceneUtilities = /** @class */ (function () {
      */
     SceneUtilities.prototype.add = function (parent, sceneChild, settings, scene) {
         var newSceneChild = null;
-        if (parent instanceof _core_Group__WEBPACK_IMPORTED_MODULE_15__.default || parent instanceof _core_Scene__WEBPACK_IMPORTED_MODULE_14__.default) {
+        if (parent instanceof _core_Group__WEBPACK_IMPORTED_MODULE_16__.default || parent instanceof _core_Scene__WEBPACK_IMPORTED_MODULE_15__.default) {
             newSceneChild = this.create(sceneChild, settings, scene);
             newSceneChild && parent.add(newSceneChild);
         }
@@ -8770,7 +9111,7 @@ var SceneUtilities = /** @class */ (function () {
                 newSceneChild = this.create(sceneChild, settings, scene);
                 newSceneChild && parent.setShape(newSceneChild);
             }
-            else if (parent.shape instanceof _core_shapes_ShapeBase__WEBPACK_IMPORTED_MODULE_16__.default) {
+            else if (parent.shape instanceof _core_shapes_ShapeBase__WEBPACK_IMPORTED_MODULE_17__.default) {
                 newSceneChild = this.create(sceneChild, settings, scene);
                 if (newSceneChild) {
                     var newGroup = this.create('Group', undefined, scene);
@@ -8781,7 +9122,7 @@ var SceneUtilities = /** @class */ (function () {
                     newGroup.add(newSceneChild);
                 }
             }
-            else if (parent.shape instanceof _core_Group__WEBPACK_IMPORTED_MODULE_15__.default) {
+            else if (parent.shape instanceof _core_Group__WEBPACK_IMPORTED_MODULE_16__.default) {
                 this.add(parent.shape, sceneChild, undefined, scene);
             }
         }
@@ -8806,7 +9147,7 @@ var SceneUtilities = /** @class */ (function () {
             }
         }
         else {
-            if (from instanceof _core_Group__WEBPACK_IMPORTED_MODULE_15__.default)
+            if (from instanceof _core_Group__WEBPACK_IMPORTED_MODULE_16__.default)
                 from.removeFromId(item.id);
             else if (from instanceof _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_10__.default)
                 from.setShape(undefined);
@@ -8855,7 +9196,7 @@ var SceneUtilities = /** @class */ (function () {
      * @memberof SceneUtilities
      */
     SceneUtilities.prototype.getChildren = function (sceneChild) {
-        if (sceneChild instanceof _core_Group__WEBPACK_IMPORTED_MODULE_15__.default)
+        if (sceneChild instanceof _core_Group__WEBPACK_IMPORTED_MODULE_16__.default)
             return sceneChild.getChildren();
         return sceneChild instanceof _core_shapes_Shape__WEBPACK_IMPORTED_MODULE_10__.default && sceneChild.shape ? [sceneChild.shape] : [];
     };
@@ -8870,7 +9211,7 @@ var SceneUtilities = /** @class */ (function () {
         var result = [];
         var children = this.getChildren(sceneChild);
         for (var i = 0, len = children.length; i < len; i++) {
-            if (children[i] instanceof _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_11__.default)
+            if (children[i] instanceof _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_12__.default)
                 result.push(children[i]);
             else
                 result = result.concat.apply(result, this.getChildrenPrimitives(children[i]));
@@ -8901,7 +9242,7 @@ var SceneUtilities = /** @class */ (function () {
      */
     SceneUtilities.prototype.getCountOfSceneChildType = function (scene, type) {
         var count = 0;
-        _core_Scene__WEBPACK_IMPORTED_MODULE_14__.default.walk(function (sceneChild) {
+        _core_Scene__WEBPACK_IMPORTED_MODULE_15__.default.walk(function (sceneChild) {
             count += sceneChild.type == type ? 1 : 0;
         }, scene);
         return count;
@@ -8927,7 +9268,7 @@ var SceneUtilities = /** @class */ (function () {
      * @memberof SceneUtilities
      */
     SceneUtilities.prototype.isGroup = function (sceneChild) {
-        return sceneChild instanceof _core_Group__WEBPACK_IMPORTED_MODULE_15__.default;
+        return sceneChild instanceof _core_Group__WEBPACK_IMPORTED_MODULE_16__.default;
     };
     /**
      * Check sceneChild are Shape and has a child
@@ -8947,7 +9288,7 @@ var SceneUtilities = /** @class */ (function () {
      * @memberof SceneUtilities
      */
     SceneUtilities.prototype.hasShapeBuffer = function (sceneChild) {
-        return sceneChild instanceof _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_13__.default;
+        return sceneChild instanceof _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_14__.default;
     };
     /**
      * Check scene child is a Primitive
@@ -8957,7 +9298,7 @@ var SceneUtilities = /** @class */ (function () {
      * @memberof SceneUtilities
      */
     SceneUtilities.prototype.isAPrimitive = function (sceneChild) {
-        return sceneChild instanceof _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_11__.default;
+        return sceneChild instanceof _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_12__.default;
     };
     /**
      * Check scene child is a ShapeLoop
@@ -8967,11 +9308,11 @@ var SceneUtilities = /** @class */ (function () {
      * @memberof SceneUtilities
      */
     SceneUtilities.prototype.hasLoop = function (sceneChild) {
-        return sceneChild instanceof _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_12__.default;
+        return sceneChild instanceof _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_13__.default;
     };
     //#endregion
     SceneUtilities.prototype.set = function (sceneChild, name, value, scene) {
-        switch (_SceneChildUtilitiesData__WEBPACK_IMPORTED_MODULE_18__.default[name].dataType) {
+        switch (_SceneChildUtilitiesData__WEBPACK_IMPORTED_MODULE_19__.default[name].dataType) {
             case 'props':
                 return this.setProp(sceneChild, name, value, scene);
             case 'drawer':
@@ -8996,12 +9337,13 @@ var SceneUtilities = /** @class */ (function () {
         else if (typeof sceneChild.data.props === 'undefined') {
             sceneChild.data.props = {};
         }
+        sceneChild.clearBuffer(true, true);
         // Check LoopAnimation
         if (name === 'loop') {
-            if (sceneChild instanceof _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_12__.default && _SceneUtilitiesExtended__WEBPACK_IMPORTED_MODULE_19__.default.bValueLoop(value)) {
+            if (sceneChild instanceof _core_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_13__.default && _SceneUtilitiesExtended__WEBPACK_IMPORTED_MODULE_20__.default.bValueLoop(value)) {
                 var shapeLoopAnimation = value;
                 sceneChild.data.props.loop = value;
-                sceneChild.setProp('loop', _SceneUtilitiesExtended__WEBPACK_IMPORTED_MODULE_19__.default.composeLoop(shapeLoopAnimation));
+                sceneChild.setProp('loop', _SceneUtilitiesExtended__WEBPACK_IMPORTED_MODULE_20__.default.composeLoop(shapeLoopAnimation));
                 // Set loopDependencies
                 var dynamic = shapeLoopAnimation.dynamyc;
                 var realDynamic = sceneChild.loopDependencies.indexOf('propArguments') >= 0;
@@ -9013,26 +9355,25 @@ var SceneUtilities = /** @class */ (function () {
                         dependencies.indexOf('propArguments') >= 0 && dependencies.splice(dependencies.indexOf('propArguments', 1));
                     sceneChild.loopDependencies = dependencies;
                 }
-                sceneChild.clearBuffer(true, true);
             }
             return;
         }
         // Check Animation
-        if (_SceneUtilitiesExtended__WEBPACK_IMPORTED_MODULE_19__.default.bValueAnimation(value)) {
+        if (_SceneUtilitiesExtended__WEBPACK_IMPORTED_MODULE_20__.default.bValueAnimation(value)) {
             sceneChild.data.props[name] = value;
-            sceneChild.setProp(name, _animation_Animation__WEBPACK_IMPORTED_MODULE_17__.default.composeAnimation(scene, name, value));
+            sceneChild.setProp(name, _animation_Animation__WEBPACK_IMPORTED_MODULE_18__.default.composeAnimation(scene, name, value));
             return;
         }
         // Check Transormable prop
-        if (_SceneUtilitiesExtended__WEBPACK_IMPORTED_MODULE_19__.default.bPropInSceneChildUtilitiesData(name) &&
-            _SceneUtilitiesExtended__WEBPACK_IMPORTED_MODULE_19__.default.bValueTransformable(value)) {
+        if (_SceneUtilitiesExtended__WEBPACK_IMPORTED_MODULE_20__.default.bPropInSceneChildUtilitiesData(name) &&
+            _SceneUtilitiesExtended__WEBPACK_IMPORTED_MODULE_20__.default.bValueTransformable(value)) {
             sceneChild.data.props[name] = value;
-            sceneChild.setProp(name, _SceneUtilitiesExtended__WEBPACK_IMPORTED_MODULE_19__.default.getTransformedValue(scene, name, value));
+            sceneChild.setProp(name, _SceneUtilitiesExtended__WEBPACK_IMPORTED_MODULE_20__.default.getTransformedValue(scene, name, value));
             return;
         }
         // Otherwise, set prop without transformation
         //Equivalent of: if (name in SceneChildPropsData && SceneChildPropsData[name].transformation !== 'none')
-        sceneChild.setProp(name, value);
+        sceneChild.setProp(name, value, true);
         delete sceneChild.data.props[name];
         // Not set to data because exporter override sceneChild.data.props on sceneChild.props (default)
         //sceneChild.data.props[name] = value
@@ -9055,9 +9396,16 @@ var SceneUtilities = /** @class */ (function () {
             else if (typeof sceneChild.data.style === 'undefined') {
                 sceneChild.data.style = {};
             }
-            if (_SceneUtilitiesExtended__WEBPACK_IMPORTED_MODULE_19__.default.bValueAnimation(value)) {
+            if (_SceneUtilitiesExtended__WEBPACK_IMPORTED_MODULE_20__.default.bValueAnimation(value)) {
                 sceneChild.data.style[name] = value;
-                sceneChild.style[name] = _animation_Animation__WEBPACK_IMPORTED_MODULE_17__.default.composeAnimation(scene, name, value);
+                sceneChild.style[name] = _animation_Animation__WEBPACK_IMPORTED_MODULE_18__.default.composeAnimation(scene, name, value);
+                return;
+            }
+            // Check Transormable prop
+            if (_SceneUtilitiesExtended__WEBPACK_IMPORTED_MODULE_20__.default.bPropInSceneChildUtilitiesData(name) &&
+                _SceneUtilitiesExtended__WEBPACK_IMPORTED_MODULE_20__.default.bValueTransformable(value)) {
+                sceneChild.data.props[name] = value;
+                sceneChild.style[name] = _SceneUtilitiesExtended__WEBPACK_IMPORTED_MODULE_20__.default.getTransformedValue(scene, name, value);
                 return;
             }
             // Otherwise, set prop without transformation
@@ -9073,31 +9421,31 @@ var SceneUtilities = /** @class */ (function () {
      * SceneChildPropData refactoring
      */
     SceneUtilities.prototype.setSetting = function (sceneChild, name, value, scene) {
+        sceneChild.clearBuffer(true, true);
         if (name === 'vertexCallback') {
-            if (sceneChild instanceof _core_shapes_ShapeBase__WEBPACK_IMPORTED_MODULE_16__.default && _SceneUtilitiesExtended__WEBPACK_IMPORTED_MODULE_19__.default.bValueVertexCallback(value)) {
+            if (sceneChild instanceof _core_shapes_ShapeBase__WEBPACK_IMPORTED_MODULE_17__.default && _SceneUtilitiesExtended__WEBPACK_IMPORTED_MODULE_20__.default.bValueVertexCallback(value)) {
                 sceneChild.data.vertexCallback = value;
-                sceneChild.vertexCallback = _SceneUtilitiesExtended__WEBPACK_IMPORTED_MODULE_19__.default.composeVertexCallback(value);
+                sceneChild.vertexCallback = _SceneUtilitiesExtended__WEBPACK_IMPORTED_MODULE_20__.default.composeVertexCallback(value);
                 // If shape is static vertexCallback has no effect
                 // sceneChild.bUseParent = true
-                sceneChild.clearBuffer(true, true);
             }
             return;
         }
         switch (name) {
             case 'bUseParent':
-                if (sceneChild instanceof _core_shapes_ShapeBase__WEBPACK_IMPORTED_MODULE_16__.default)
+                if (sceneChild instanceof _core_shapes_ShapeBase__WEBPACK_IMPORTED_MODULE_17__.default)
                     sceneChild.bUseParent = value;
                 break;
             case 'bUseRecursion':
-                if (sceneChild instanceof _core_shapes_ShapeBase__WEBPACK_IMPORTED_MODULE_16__.default)
+                if (sceneChild instanceof _core_shapes_ShapeBase__WEBPACK_IMPORTED_MODULE_17__.default)
                     sceneChild.bUseRecursion = value;
                 break;
             case 'bClosed':
-                if (sceneChild instanceof _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_11__.default)
+                if (sceneChild instanceof _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_12__.default)
                     sceneChild.setClosed(value);
                 break;
             case 'adaptMode':
-                if (sceneChild instanceof _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_11__.default)
+                if (sceneChild instanceof _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_12__.default)
                     sceneChild.adapt(value);
                 break;
             default:
@@ -9303,8 +9651,8 @@ var SceneUtilitiesExtended = /** @class */ (function () {
         }
         return value;
     };
-    SceneUtilitiesExtended.RAW_ARGUMENTS = '{ context, repetition, time, shape, shape_loop, data }';
-    SceneUtilitiesExtended.RAW_ARGUMENTS_WITH_PARENT = '{ context, repetition, parent, time, shape, shape_loop, data }';
+    SceneUtilitiesExtended.RAW_ARGUMENTS = '{ repetition, recursion, shape }';
+    SceneUtilitiesExtended.RAW_ARGUMENTS_WITH_PARENT = '{ repetition, recursion, shape, parent }';
     return SceneUtilitiesExtended;
 }());
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SceneUtilitiesExtended);
