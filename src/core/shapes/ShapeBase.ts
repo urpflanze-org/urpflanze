@@ -8,6 +8,7 @@ import {
 	ISceneChildPropArguments,
 	ISceneChildProps,
 	IStreamArguments,
+	IRecursionRepetition,
 } from '@core/types/scene-child'
 import { IBufferIndex } from '@core/types/shape-base'
 import { clamp } from 'src/Utilites'
@@ -609,7 +610,8 @@ abstract class ShapeBase<GShapeBaseProps extends ISceneChildProps = ISceneChildP
 	 */
 	protected abstract addIndex(
 		frameLength: number,
-		currentRepetition: IRepetition
+		currentRepetition: IRepetition,
+		currentRecursion?: IRecursionRepetition
 	): // singleRepetitionBounding: IShapeBounding
 	void
 

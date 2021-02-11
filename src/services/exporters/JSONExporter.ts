@@ -11,10 +11,14 @@ import { parseFunction } from 'src/Utilites'
 import DrawerCanvas from '@services/drawers/drawer-canvas/DrawerCanvas'
 import JSONImporter from '@services/importers/JSONImporter'
 import Timeline from '@services/timeline/Timeline'
-import { IProject, IProjectSceneChild } from '@services/types/exporters-importers'
+import {
+	IProject,
+	IProjectSceneChild,
+	TProjectDrawerProps,
+	TProjectSceneChildProps,
+} from '@services/types/exporters-importers'
 import SceneUtilities from '@services/scene-utilities/SceneUtilities'
-import { ISceneChildProps } from '@core/types/scene-child'
-import { IDrawerStreamProps } from '@services/types/drawer'
+import SceneChildUtilitiesData, { TSceneChildPropsDataKeys } from '@services/scene-utilities/SceneChildUtilitiesData'
 
 /**
  *
@@ -66,13 +70,30 @@ class JSONExporter {
 		return project
 	}
 
+	private static filterDataTye<T>(data: T, dataType: 'props' | 'drawer'): T {
+		const filtered: Partial<T> = {}
+
+		const keys = Object.keys(data)
+		for (let i = 0; i < keys.length; i++) {
+			const name = keys[i]
+
+			if (
+				name in SceneChildUtilitiesData &&
+				SceneChildUtilitiesData[name as TSceneChildPropsDataKeys].dataType === dataType
+			) {
+				filtered[name as keyof T] = data[name as keyof T]
+			}
+		}
+		return filtered as T
+	}
+
 	static parseSceneChild(sceneChild: SceneChild, parentId?: string | number, depth = 0): IProjectSceneChild {
 		const projectSceneChild: IProjectSceneChild = {
 			id: sceneChild.id + '',
 			type: sceneChild.type,
 			name: sceneChild.name,
 			order: sceneChild.order as number,
-			data: { ...sceneChild.data, props: undefined, style: undefined },
+			data: { ...JSON.parse(JSON.stringify(sceneChild.data)), props: undefined, style: undefined },
 			// data: {},
 			depth,
 			bPrimitive: sceneChild instanceof ShapePrimitive,
@@ -81,10 +102,29 @@ class JSONExporter {
 			parentId,
 		}
 
-		const props = sceneChild.getProps()
-		const propsKeys = Object.keys(props) as Array<keyof ISceneChildProps>
-		for (let i = 0, len = propsKeys.length; i < len; i++) props[propsKeys[i]] = parseFunction.parse(props[propsKeys[i]])
-		projectSceneChild.props = { ...props, ...sceneChild.data.props }
+		Object.entries(sceneChild.getProps()).forEach(([key, value]) => {
+			if (
+				key in SceneChildUtilitiesData &&
+				SceneChildUtilitiesData[key as TSceneChildPropsDataKeys].dataType === 'props'
+			) {
+				projectSceneChild.props[key as keyof TProjectSceneChildProps] =
+					sceneChild.data.props[key] || parseFunction.parse(value)
+			}
+		})
+		// const props = sceneChild.getProps()
+		// const propsKeys = Object.keys(props) as Array<keyof ISceneChildProps>
+		// for (let i = 0, len = propsKeys.length; i < len; i++) {
+		// 	const propName = propsKeys[i]
+		// 	if (
+		// 		propName in SceneChildUtilitiesData &&
+		// 		SceneChildUtilitiesData[propName as TSceneChildPropsDataKeys].dataType === 'props'
+		// 	) {
+		// 		projectSceneChild.props[propName] = sceneChild.data.props[propName] || parseFunction.parse(props[propName])
+		// 	}
+		// }
+
+		// for (let i = 0, len = propsKeys.length; i < len; i++) props[propsKeys[i]] = parseFunction.parse(props[propsKeys[i]])
+		// projectSceneChild.props = JSONExporter.filterDataTye({ ...props, ...sceneChild.data.props }, 'props')
 
 		if (sceneChild instanceof ShapeBuffer) {
 			projectSceneChild.shape = sceneChild.shape
@@ -99,12 +139,21 @@ class JSONExporter {
 		}
 
 		if (sceneChild instanceof ShapePrimitive) {
-			const style = sceneChild.style
-			const styleKeys = Object.keys(style) as Array<keyof IDrawerStreamProps>
-			for (let i = 0, len = styleKeys.length; i < len; i++)
-				style[styleKeys[i]] = parseFunction.parse(style[styleKeys[i]])
+			Object.entries(sceneChild.style).forEach(([key, value]) => {
+				if (
+					key in SceneChildUtilitiesData &&
+					SceneChildUtilitiesData[key as TSceneChildPropsDataKeys].dataType === 'drawer'
+				) {
+					projectSceneChild.style[key as keyof TProjectDrawerProps] =
+						sceneChild.data.style[key] || parseFunction.parse(value)
+				}
+			})
+			// const style = sceneChild.style
+			// const styleKeys = Object.keys(style) as Array<keyof IDrawerStreamProps>
+			// for (let i = 0, len = styleKeys.length; i < len; i++)
+			// 	style[styleKeys[i]] = parseFunction.parse(style[styleKeys[i]])
 
-			projectSceneChild.style = { ...style, ...sceneChild.data.style }
+			// projectSceneChild.style = JSONExporter.filterDataTye({ ...style, ...sceneChild.data.style }, 'drawer')
 
 			projectSceneChild.adaptMode = sceneChild.adaptMode
 			projectSceneChild.bClosed = sceneChild.bClosed

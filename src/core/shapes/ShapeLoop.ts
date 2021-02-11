@@ -138,13 +138,13 @@ class ShapeLoop<K extends IShapeLoopProps = IShapeLoopProps> extends ShapePrimit
 	 * @param {boolean} [bPropagateToParents=false]
 	 */
 	public clearBuffer(bClearIndexed = false, bPropagateToParents = true): void {
-		super.clearBuffer(bClearIndexed, bPropagateToParents)
-
 		this.bStaticLoop = this.isStaticLoop()
 
 		if (bClearIndexed) {
 			this.currentOrSingleLoopBuffer = undefined
 		}
+
+		super.clearBuffer(bClearIndexed, bPropagateToParents)
 	}
 
 	/**

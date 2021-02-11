@@ -2,7 +2,7 @@ import ShapeBase from '@core/shapes/ShapeBase'
 import SceneChild from '@core/SceneChild'
 import { IParentBufferIndex, IShapeBounding, IShapeSettings } from '@core/types/shape-base'
 import Scene from '@core/Scene'
-import { IRepetition, ISceneChildPropArguments, ISceneChildProps } from '@core/types/scene-child'
+import { IRecursionRepetition, IRepetition, ISceneChildPropArguments, ISceneChildProps } from '@core/types/scene-child'
 import { IBufferIndex } from '@core/types/shape-base'
 
 /**
@@ -127,7 +127,8 @@ class Shape<K extends ISceneChildProps = ISceneChildProps> extends ShapeBase<K> 
 	 */
 	protected addIndex(
 		frameLength: number,
-		repetition: IRepetition
+		repetition: IRepetition,
+		recursion?: IRecursionRepetition
 		// singleRepetitionBounding: IShapeBounding
 	): void {
 		if (this.shape) {
@@ -155,6 +156,15 @@ class Shape<K extends ISceneChildProps = ISceneChildProps> extends ShapeBase<K> 
 				},
 			}
 
+			if (typeof recursion !== 'undefined') {
+				parent.recursion = {
+					index: recursion.index,
+					offset: recursion.offset,
+					count: recursion.offset,
+					level: recursion.level,
+				}
+			}
+
 			for (let i = 0, len = childIndexedBuffer.length; i < len; i++) {
 				const currentIndexed = { ...childIndexedBuffer[i] }
 				currentIndexed.parent = currentIndexed.parent ? Shape.setIndexedParent(currentIndexed.parent, parent) : parent
@@ -171,11 +181,8 @@ class Shape<K extends ISceneChildProps = ISceneChildProps> extends ShapeBase<K> 
 	 * @param {IParentBufferIndex} parent
 	 * @returns {(IBufferIndex | IParentBufferIndex)}
 	 */
-	static setIndexedParent(
-		current: IBufferIndex | IParentBufferIndex,
-		parent: IParentBufferIndex
-	): IBufferIndex | IParentBufferIndex {
-		return {
+	static setIndexedParent(current: IParentBufferIndex, parent: IParentBufferIndex): IBufferIndex | IParentBufferIndex {
+		const index: IBufferIndex | IParentBufferIndex = {
 			shape: current.shape,
 			// singleRepetitionBounding: current.singleRepetitionBounding,
 			repetition: {
@@ -196,8 +203,20 @@ class Shape<K extends ISceneChildProps = ISceneChildProps> extends ShapeBase<K> 
 				},
 			},
 			frameLength: current.frameLength,
-			parent: current.parent ? Shape.setIndexedParent(current.parent, parent) : parent,
 		}
+
+		if (typeof current.recursion !== 'undefined') {
+			index.recursion = {
+				index: current.recursion.index,
+				offset: current.recursion.offset,
+				count: current.recursion.offset,
+				level: current.recursion.level,
+			}
+		}
+
+		index.parent = current.parent ? Shape.setIndexedParent(current.parent, parent) : parent
+
+		return index
 	}
 
 	/**

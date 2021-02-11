@@ -437,18 +437,18 @@ class SceneUtilities {
 		return count
 	}
 
-	/**
-	 * Walk through sceneChild
-	 *
-	 * @param {SceneChild} sceneChild
-	 * @param {(child: SceneChild) => void} callback
-	 * @memberof SceneUtilities
-	 */
-	walk(sceneChild: SceneChild, callback: (child: SceneChild) => void) {
-		callback(sceneChild)
+	// /**
+	//  * Walk through sceneChild
+	//  *
+	//  * @param {SceneChild} sceneChild
+	//  * @param {(child: SceneChild) => void} callback
+	//  * @memberof SceneUtilities
+	//  */
+	// walk(sceneChild: SceneChild, callback: (child: SceneChild) => void) {
+	// 	callback(sceneChild)
 
-		this.getChildren(sceneChild).forEach(child => callback(child))
-	}
+	// 	this.getChildren(sceneChild).forEach(child => callback(child))
+	// }
 
 	//#endregion
 
@@ -644,7 +644,7 @@ class SceneUtilities {
 				SceneUtilitiesExtended.bPropInSceneChildUtilitiesData(name) &&
 				SceneUtilitiesExtended.bValueTransformable(value)
 			) {
-				sceneChild.data.props[name] = value
+				sceneChild.data.style[name] = value
 
 				//@ts-ignore
 				;(sceneChild as ShapePrimitive).style[name] = SceneUtilitiesExtended.getTransformedValue(scene, name, value)

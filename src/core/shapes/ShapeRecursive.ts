@@ -267,7 +267,8 @@ class ShapeRecursive extends Shape<IShapeRecursiveProps> {
 	 */
 	protected addIndex(
 		frameLength: number,
-		repetition: IRepetition
+		repetition: IRepetition,
+		recursion?: IRecursionRepetition
 		// singleRepetitionBounding: IShapeBounding
 	): void {
 		if (this.shape) {
@@ -299,6 +300,15 @@ class ShapeRecursive extends Shape<IShapeRecursiveProps> {
 						offset: repetition.col.offset,
 					},
 				},
+			}
+
+			if (typeof recursion !== 'undefined') {
+				bufferIndex.recursion = {
+					index: recursion.index,
+					offset: recursion.offset,
+					count: recursion.offset,
+					level: recursion.level,
+				}
 			}
 
 			const childIndexedBuffer = this.shape.getIndexedBuffer() || []

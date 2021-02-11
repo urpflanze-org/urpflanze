@@ -2,11 +2,13 @@ import ShapeBase from '@core/shapes/ShapeBase'
 
 import {
 	EShapePrimitiveAdaptMode,
+	IBufferIndex,
+	IParentBufferIndex,
 	IShapeBounding,
 	IShapePrimitiveProps,
 	IShapePrimitiveSettings,
 } from '@core/types/shape-base'
-import { IRepetition, ISceneChildPropArguments } from '@core/types/scene-child'
+import { IRecursionRepetition, IRepetition, ISceneChildPropArguments } from '@core/types/scene-child'
 import { vec2 } from 'gl-matrix'
 import * as glme from '@core/math/gl-matrix-extensions'
 import Bounding from '@core/math/bounding'
@@ -112,10 +114,11 @@ abstract class ShapePrimitive<
 	 */
 	protected addIndex(
 		frameLength: number,
-		repetition: IRepetition
+		repetition: IRepetition,
+		recursion?: IRecursionRepetition
 		// singleRepetitionBounding: IShapeBounding
 	): void {
-		this.indexedBuffer.push({
+		const index: IParentBufferIndex = {
 			shape: this,
 			frameLength,
 			// singleRepetitionBounding,
@@ -136,7 +139,18 @@ abstract class ShapePrimitive<
 					offset: repetition.col.offset,
 				},
 			},
-		})
+		}
+
+		if (typeof recursion !== 'undefined') {
+			index.recursion = {
+				index: recursion.index,
+				offset: recursion.offset,
+				count: recursion.offset,
+				level: recursion.level,
+			}
+		}
+
+		this.indexedBuffer.push(index as IBufferIndex)
 	}
 
 	/**
