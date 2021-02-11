@@ -78,7 +78,7 @@ class Shape<K extends ISceneChildProps = ISceneChildProps> extends ShapeBase<K> 
 	 * @param {ISceneChildPropArguments} propArguments
 	 * @returns {number}
 	 */
-	public getBufferLength(propArguments: ISceneChildPropArguments): number {
+	public getBufferLength(propArguments?: ISceneChildPropArguments): number {
 		if (this.bStatic && this.buffer && this.buffer.length > 0) return this.buffer.length
 
 		const childBufferLength = this.shape ? this.shape.getBufferLength(propArguments) : 0

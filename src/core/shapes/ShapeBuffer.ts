@@ -88,9 +88,10 @@ class ShapeBuffer extends ShapePrimitive {
 	/**
 	 * Return length of buffer
 	 *
+	 * @param {ISceneChildPropArguments} propArguments
 	 * @returns {number}
 	 */
-	public getBufferLength(): number {
+	public getBufferLength(propArguments?: ISceneChildPropArguments): number {
 		if (this.buffer && this.buffer.length > 0) return this.buffer.length
 
 		return this.shape.length * this.getRepetitionCount()

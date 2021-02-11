@@ -67,7 +67,7 @@ abstract class ShapeBase<GShapeBaseProps extends ISceneChildProps = ISceneChildP
 	})
 
 	/**
-	 *
+	 * Props
 	 */
 	protected props: GShapeBaseProps
 
@@ -324,8 +324,9 @@ abstract class ShapeBase<GShapeBaseProps extends ISceneChildProps = ISceneChildP
 					(this.props[k as keyof ISceneChildProps] = (key as ISceneChildProps)[k as keyof ISceneChildProps] as any)
 			)
 		}
-		this.clearBuffer(bClearIndexed)
+		this.clearBuffer(bClearIndexed, true)
 	}
+
 	/**
 	 *  Unset buffer
 	 *
@@ -338,6 +339,7 @@ abstract class ShapeBase<GShapeBaseProps extends ISceneChildProps = ISceneChildP
 
 		if (bClearIndexed) {
 			this.bIndexed = false
+			this.indexedBuffer = []
 		}
 
 		this.bStatic = this.isStatic()
@@ -365,18 +367,8 @@ abstract class ShapeBase<GShapeBaseProps extends ISceneChildProps = ISceneChildP
 
 		if (!this.bStaticIndexed || !this.bIndexed) this.indexedBuffer = []
 
-		// prettier-ignore
-		const repetition: IRepetition = {
-			type: ERepetitionType.Ring, angle: 0, index: 1, offset: 1, count: 1,
-			row: { index: 1, offset: 1, count: 1 },
-			col: { index: 1, offset: 1, count: 1 },
-		}
-
-		const propArguments: ISceneChildPropArguments = {
-			repetition,
-			shape: this,
-			parent: parentPropArguments,
-		}
+		const propArguments: ISceneChildPropArguments = ShapeBase.getEmptyPropArguments(this, parentPropArguments)
+		const repetition = propArguments.repetition
 
 		const repetitions = this.getProp('repetitions', propArguments, 1)
 
@@ -709,6 +701,31 @@ abstract class ShapeBase<GShapeBaseProps extends ISceneChildProps = ISceneChildP
 
 				j += currentIndexing.frameLength
 			}
+		}
+	}
+
+	/**
+	 * Return empty propArguments
+	 *
+	 * @static
+	 * @param {ShapeBase} shape
+	 * @return {*}  {ISceneChildPropArguments}
+	 */
+	static getEmptyPropArguments(
+		shape: ShapeBase,
+		parentPropArguments?: Partial<ISceneChildPropArguments>
+	): ISceneChildPropArguments {
+		// prettier-ignore
+		const repetition: IRepetition = {
+			type: ERepetitionType.Ring, angle: 0, index: 1, offset: 1, count: 1,
+			row: { index: 1, offset: 1, count: 1 },
+			col: { index: 1, offset: 1, count: 1 },
+		}
+
+		return {
+			repetition,
+			shape,
+			parent: parentPropArguments,
 		}
 	}
 }

@@ -15,6 +15,7 @@ import Lissajous from '@core/shapes/primitives/Lissajous'
 import SuperShape from '@core/shapes/primitives/SuperShape'
 
 import Shape from '@core/shapes/Shape'
+import ShapeRecursive from '@core/shapes/ShapeRecursive'
 import ShapePrimitive from '@core/shapes/ShapePrimitive'
 import ShapeLoop from '@core/shapes/ShapeLoop'
 import ShapeBuffer from '@core/shapes/ShapeBuffer'
@@ -52,8 +53,6 @@ class SceneUtilities {
 	private registeredSceneChilds: { [type: string]: SceneChildInstance } = {}
 
 	constructor() {
-		this.registeredSceneChilds = {}
-
 		this.registeredSceneChilds = {
 			Line,
 			Triangle,
@@ -66,6 +65,7 @@ class SceneUtilities {
 			SuperShape,
 			Group,
 			Shape,
+			ShapeRecursive,
 			ShapeLoop,
 			ShapeBuffer,
 		}
@@ -391,13 +391,13 @@ class SceneUtilities {
 	 * @returns {Array<SceneChild>}
 	 * @memberof SceneUtilities
 	 */
-	getChildrenPrimitives(sceneChild: SceneChild): Array<SceneChild> {
-		let result: Array<SceneChild> = []
+	getChildrenPrimitives(sceneChild: SceneChild): Array<ShapePrimitive> {
+		let result: Array<ShapePrimitive> = []
 
 		const children: Array<SceneChild> = this.getChildren(sceneChild)
 
 		for (let i = 0, len = children.length; i < len; i++) {
-			if (children[i] instanceof ShapePrimitive) result.push(children[i])
+			if (children[i] instanceof ShapePrimitive) result.push(children[i] as ShapePrimitive)
 			else result = result.concat(...this.getChildrenPrimitives(children[i]))
 		}
 
@@ -557,6 +557,8 @@ class SceneUtilities {
 			sceneChild.data.props = {}
 		}
 
+		sceneChild.clearBuffer(true, true)
+
 		// Check LoopAnimation
 		if (name === 'loop') {
 			if (sceneChild instanceof ShapeLoop && SceneUtilitiesExtended.bValueLoop(value)) {
@@ -575,7 +577,6 @@ class SceneUtilities {
 						dependencies.indexOf('propArguments') >= 0 && dependencies.splice(dependencies.indexOf('propArguments', 1))
 					;(sceneChild as ShapeLoop).loopDependencies = dependencies
 				}
-				sceneChild.clearBuffer(true, true)
 			}
 			return
 		}
@@ -602,8 +603,9 @@ class SceneUtilities {
 
 		// Otherwise, set prop without transformation
 		//Equivalent of: if (name in SceneChildPropsData && SceneChildPropsData[name].transformation !== 'none')
-		sceneChild.setProp(name as keyof ISceneChildProps, value as number | vec2)
+		sceneChild.setProp(name as keyof ISceneChildProps, value as number | vec2, true)
 		delete sceneChild.data.props[name]
+
 		// Not set to data because exporter override sceneChild.data.props on sceneChild.props (default)
 		//sceneChild.data.props[name] = value
 	}
@@ -637,6 +639,18 @@ class SceneUtilities {
 				return
 			}
 
+			// Check Transormable prop
+			if (
+				SceneUtilitiesExtended.bPropInSceneChildUtilitiesData(name) &&
+				SceneUtilitiesExtended.bValueTransformable(value)
+			) {
+				sceneChild.data.props[name] = value
+
+				//@ts-ignore
+				;(sceneChild as ShapePrimitive).style[name] = SceneUtilitiesExtended.getTransformedValue(scene, name, value)
+				return
+			}
+
 			// Otherwise, set prop without transformation
 			//Equivalent of: if (name in SceneChildPropsData && SceneChildPropsData[name].transformation !== 'none')
 			// @ts-ignore
@@ -651,13 +665,14 @@ class SceneUtilities {
 	 * SceneChildPropData refactoring
 	 */
 	setSetting(sceneChild: SceneChild, name: TSettingsExtendedKeys, value: TSettingExtendedValue, scene: Scene): void {
+		sceneChild.clearBuffer(true, true)
+
 		if (name === 'vertexCallback') {
 			if (sceneChild instanceof ShapeBase && SceneUtilitiesExtended.bValueVertexCallback(value)) {
 				sceneChild.data.vertexCallback = value
 				sceneChild.vertexCallback = SceneUtilitiesExtended.composeVertexCallback(value)
 				// If shape is static vertexCallback has no effect
 				// sceneChild.bUseParent = true
-				sceneChild.clearBuffer(true, true)
 			}
 			return
 		}

@@ -51,6 +51,20 @@ class ShapeRecursive extends Shape<IShapeRecursiveProps> {
 		this.currentGenerationRecursiveBounding = Bounding.empty()
 	}
 
+	/**
+	 *  Unset buffer
+	 *
+	 * @param {boolean} [bClearIndexed=false]
+	 * @param {boolean} [bPropagateToParents=false]
+	 * @param {boolean} [bPropagateToChildren=false]
+	 */
+	public clearBuffer(bClearIndexed = false, bPropagateToParents = true): void {
+		if (bClearIndexed) {
+			this.shapeRecursiveBuffer = undefined
+		}
+		super.clearBuffer(bClearIndexed, bPropagateToParents)
+	}
+
 	// /**
 	//  * Set type of recursion
 	//  *
@@ -309,7 +323,7 @@ class ShapeRecursive extends Shape<IShapeRecursiveProps> {
 				this.indexedBuffer.push(currentIndexed)
 
 				if (recursions > 1) {
-					const realVertexCount = this.shape.getBufferLength() / 2
+					const realVertexCount = this.shape.getBufferLength(propArguments) / 2
 					const vertexCount = recursionVertex <= 0 ? realVertexCount : Math.min(recursionVertex, realVertexCount)
 
 					const storedRecursion: Array<IRecursionRepetition> = [currentRecursionRepetition]
@@ -365,6 +379,21 @@ class ShapeRecursive extends Shape<IShapeRecursiveProps> {
 		for (let i = 1; i < recursion; i++) result += vertexCount ** i
 
 		return result
+	}
+
+	/**
+	 * Empty recursion repetition
+	 *
+	 * @static
+	 * @return {*}  {IRecursionRepetition}
+	 */
+	static getEmptyRecursion(): IRecursionRepetition {
+		return {
+			index: 1,
+			offset: 1,
+			count: 1,
+			level: { index: 1, offset: 1, count: 1 },
+		}
 	}
 }
 

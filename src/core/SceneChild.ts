@@ -223,7 +223,7 @@ abstract class SceneChild {
 	 * Get length of buffer
 	 *
 	 * @abstract
-	 * @param {ISceneChildPropArguments} [propArguments]
+	 * @param {ISceneChildPropArguments | undefined} [propArguments]
 	 * @returns {number}
 	 */
 	abstract getBufferLength(propArguments?: ISceneChildPropArguments): number

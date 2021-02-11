@@ -10,6 +10,7 @@ import Bounding from '@core/math/bounding'
 import { PI2 } from '@core/math'
 
 import ShapePrimitive from '@core/shapes/ShapePrimitive'
+import ShapeBase from './ShapeBase'
 
 /**
  *
@@ -179,13 +180,13 @@ class ShapeLoop<K extends IShapeLoopProps = IShapeLoopProps> extends ShapePrimit
 	 * @param {ISceneChildPropArguments} [propArguments]
 	 * @returns {number}
 	 */
-	public getBufferLength(propArguments: ISceneChildPropArguments): number {
+	public getBufferLength(propArguments?: ISceneChildPropArguments): number {
 		if (this.bStatic && typeof this.buffer !== 'undefined') return this.buffer.length
 
 		if (this.bStaticLoop && typeof this.currentOrSingleLoopBuffer !== 'undefined')
 			return this.currentOrSingleLoopBuffer.length * this.getRepetitionCount()
 
-		const { count } = this.getLoop(propArguments)
+		const { count } = this.getLoop(propArguments || ShapeBase.getEmptyPropArguments(this))
 
 		return this.getRepetitionCount() * count * 2
 	}
@@ -287,11 +288,11 @@ class ShapeLoop<K extends IShapeLoopProps = IShapeLoopProps> extends ShapePrimit
 	/**
 	 * Return information about a client loop gnerator
 	 *
-	 * @private
+	 * @public
 	 * @param {ISceneChildPropArguments} propArguments
 	 * @returns {ShapeLoopInformation}
 	 */
-	private getLoop(propArguments: ISceneChildPropArguments): ILoopMeta {
+	public getLoop(propArguments: ISceneChildPropArguments): ILoopMeta {
 		let start = this.props.loop?.start ?? this.loop.start
 		let end = this.props.loop?.end ?? this.loop.end
 		let inc = this.props.loop?.inc ?? this.loop.inc
@@ -303,6 +304,21 @@ class ShapeLoop<K extends IShapeLoopProps = IShapeLoopProps> extends ShapePrimit
 		const count = Math.ceil((end - start) / inc)
 
 		return { start, end, inc, count: count <= 0 ? 0 : count }
+	}
+
+	/**
+	 * Subdivide loop n times
+	 *
+	 * @param {number} [level=1]
+	 */
+	public subdivide(level = 1) {
+		const currentLoop: IShapeLoopGenerator = this.props.loop || this.loop
+
+		// TODO: subdivide function?
+		if (typeof currentLoop.inc === 'number') {
+			currentLoop.inc = (currentLoop.inc || 1) / 2 ** level
+			this.setProp('loop', currentLoop)
+		}
 	}
 
 	/**

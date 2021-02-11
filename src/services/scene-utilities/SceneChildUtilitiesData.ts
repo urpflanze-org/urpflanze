@@ -310,7 +310,7 @@ const SceneChildUtilitiesData: TSceneChildUtilitiesData = {
 		step: 0.1,
 		default: 1,
 		default_animate: 3,
-		transformation: 'none',
+		transformation: 'scene-size-percentage',
 		dataType: 'drawer',
 	},
 
@@ -359,6 +359,50 @@ const SceneChildUtilitiesData: TSceneChildUtilitiesData = {
 		dataType: 'settings',
 	},
 
+	// recursion
+	recursions: {
+		animable: true,
+		name: 'recursion',
+		label: 'Recursion',
+		type: 'range',
+		min: 1,
+		max: 8,
+		step: 1,
+		default: 1,
+		default_animate: 2,
+		transformation: 'none',
+		dataType: 'props',
+		type_value: 'int',
+	},
+
+	recursionScale: {
+		animable: true,
+		name: 'recursionScale',
+		label: 'Recursion Scale',
+		type: 'range',
+		min: 0.1,
+		max: 5,
+		step: 0.1,
+		default: 1,
+		default_animate: 2,
+		transformation: 'none',
+		dataType: 'props',
+	},
+
+	recursionVertex: {
+		animable: true,
+		name: 'recursionVertex',
+		label: 'Recursion Vertex',
+		type: 'range',
+		min: 1,
+		max: 100,
+		step: 1,
+		default: 10,
+		default_animate: 20,
+		transformation: 'none',
+		dataType: 'props',
+		type_value: 'int',
+	},
 	// primitive
 
 	sideLength: {

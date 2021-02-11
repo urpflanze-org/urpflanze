@@ -1,3 +1,16 @@
+## 0.3.2-beta (February 11, 2021)
+
+### Core
+
+- Fix getBufferLength
+- Fix clearBuffer for ShapeRecursive
+- Add ShapeLoop subdivide for static inc
+
+### Services
+
+- Add ShapeRecursive props in SceneUtilities
+- init GCODEExporter
+
 ## 0.3.1-beta (January 25, 2021)
 
 ### Services

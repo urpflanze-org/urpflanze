@@ -9,7 +9,7 @@ import {
 	ISpiralProps,
 	ISuperShapeProps,
 } from '@core/types/shape-primitives'
-import { IShapePrimitiveProps } from '@core/types/shape-base'
+import { IShapePrimitiveProps, IShapeRecursiveProps } from '@core/types/shape-base'
 import { ICallableValue, TAnimation, TCallableValue } from '@services/types/animation'
 import { vec2 } from 'gl-matrix'
 import { TSceneChildProp } from '@core/types/scene-child'
@@ -56,6 +56,7 @@ export type TTransformable = {
  * @category Services.Scene Utilities
  */
 export type TSceneChildPropsExtendedKeys = keyof (IShapeLoopProps &
+	IShapeRecursiveProps &
 	IShapeBufferProps &
 	IShapePrimitiveProps &
 	IPolygonProps &

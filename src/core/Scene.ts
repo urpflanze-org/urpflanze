@@ -261,11 +261,11 @@ class Scene {
 	 * @memberof Scene
 	 */
 	public isFirstLevelChild(sceneChild: SceneChild): boolean {
-		for (let i = 0, len = this.children.length; i < len; i++) if (this.children[i].id == sceneChild.id) return true
+		for (let i = 0, len = this.children.length; i < len; i++) if (this.children[i].id === sceneChild.id) return true
 
 		const parents = this.getParentsOfSceneChild(sceneChild)
 
-		return parents.length == 1 && parents[0] instanceof Group
+		return parents.length === 1 && parents[0] instanceof Group
 	}
 
 	/**

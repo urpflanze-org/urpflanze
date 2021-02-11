@@ -96,7 +96,6 @@ class JSONExporter {
 			projectSceneChild.vertexCallback = parseFunction.parse(
 				sceneChild.data.vertexCallback || sceneChild.vertexCallback
 			)
-			console.log('export', projectSceneChild.vertexCallback, sceneChild.vertexCallback)
 		}
 
 		if (sceneChild instanceof ShapePrimitive) {
