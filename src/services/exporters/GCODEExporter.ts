@@ -12,6 +12,7 @@ class GCODEExporter {
 		maxX: 297,
 		maxY: 210,
 		velocity: 1500,
+		unit: 'millimeters',
 		penUpCommand: 'M3 S30',
 		penDownCommand: 'M3 S0',
 	}
@@ -31,11 +32,15 @@ class GCODEExporter {
 		return ''
 	}
 
-	static useRelativePosition() {
+	static setUnit(unit: 'millimeters' | 'inches'): string {
+		return unit === 'inches' ? 'G20' : 'G21'
+	}
+
+	static useRelativePosition(): string {
 		return 'G91'
 	}
 
-	static useAbsolutePosition() {
+	static useAbsolutePosition(): string {
 		return 'G90'
 	}
 
@@ -100,22 +105,25 @@ class GCODEExporter {
 		drawAreaSceneOffset[0] /= scale
 		drawAreaSceneOffset[1] /= scale
 
-		console.log(
-			{ drawArea, drawAreaSceneOffset, maxSceneInDrawArea: {
+		console.log({
+			drawArea,
+			drawAreaSceneOffset,
+			maxSceneInDrawArea: {
 				minX: drawAreaSceneOffset[0],
 				minY: drawAreaSceneOffset[1],
 				maxX: scene.width / scale + drawAreaSceneOffset[0],
 				maxY: scene.height / scale + drawAreaSceneOffset[1],
 			},
-			scale, 
+			scale,
 			workspaceRatio,
-			sceneRatio
- 		})
+			sceneRatio,
+		})
 
 		const machineCenterPosition = [(settings.maxX + settings.minX) / 2, (settings.maxY + settings.minY) / 2]
 
 		const gcode: Array<string> = []
 		this.concat(gcode, settings.penUpCommand)
+		this.concat(gcode, this.setUnit(settings.unit))
 		this.concat(gcode, this.useAbsolutePosition())
 		this.concat(gcode, this.setCurrentMachinePosition(settings.minX, settings.minY, settings.round))
 		this.concat(gcode, this.setCurrentWorkspacePosition(settings.minX, settings.minY, settings.round))
