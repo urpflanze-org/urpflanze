@@ -312,57 +312,66 @@ class ShapeRecursive extends Shape<IShapeRecursiveProps> {
 			}
 
 			const childIndexedBuffer = this.shape.getIndexedBuffer() || []
+
 			for (
 				let childIndexed = 0, childIndexedLen = childIndexedBuffer.length;
 				childIndexed < childIndexedLen;
 				childIndexed++
 			) {
-				let currentIndexed = { ...childIndexedBuffer[childIndexed] }
-				let currentRecursionRepetition: IRecursionRepetition = {
+				const currentIndexed = { ...childIndexedBuffer[childIndexed] }
+				const currentRecursionRepetition: IRecursionRepetition = {
 					index: 1,
 					offset: 1,
 					count: 1,
 					level: { index: 1, offset: recursions > 1 ? 0 : 1, count: recursions },
 				}
 
-				let recursionBufferIndex: IParentBufferIndex = { ...bufferIndex, recursion: currentRecursionRepetition }
+				const recursionBufferIndex: IParentBufferIndex = { ...bufferIndex, recursion: currentRecursionRepetition }
 
 				currentIndexed.parent = currentIndexed.parent
 					? Shape.setIndexedParent(currentIndexed.parent, recursionBufferIndex)
 					: recursionBufferIndex
 				this.indexedBuffer.push(currentIndexed)
+			}
 
-				if (recursions > 1) {
-					const realVertexCount = this.shape.getBufferLength(propArguments) / 2
-					const vertexCount = recursionVertex <= 0 ? realVertexCount : Math.min(recursionVertex, realVertexCount)
+			if (recursions > 1) {
+				const realVertexCount = this.shape.getBufferLength(propArguments) / 2
+				const vertexCount = recursionVertex <= 0 ? realVertexCount : Math.min(recursionVertex, realVertexCount)
 
-					const storedRecursion: Array<IRecursionRepetition> = [currentRecursionRepetition]
+				const storedRecursion: Array<Array<IRecursionRepetition>> = this.indexedBuffer.map(indexed => [
+					(indexed.parent as IParentBufferIndex).recursion as IRecursionRepetition,
+				])
 
-					let paretRecursionIndex = 0,
-						added = 1
+				let paretRecursionIndex = 0,
+					added = 1
 
-					for (let i = 1; i < recursions; i++) {
-						const level_offset = recursions > 1 ? i / (recursions - 1) : 1
-						for (let j = 0, len = vertexCount ** i; j < len; j++, added++) {
-							const recursionOffset = len > 1 ? j / (len - 1) : 1
+				for (let i = 1; i < recursions; i++) {
+					const level_offset = recursions > 1 ? i / (recursions - 1) : 1
+					for (let j = 0, len = vertexCount ** i; j < len; j++, added++) {
+						const recursionOffset = len > 1 ? j / (len - 1) : 1
 
-							currentIndexed = { ...childIndexedBuffer[childIndexed] }
-							currentRecursionRepetition = {
+						for (
+							let childIndexed = 0, childIndexedLen = childIndexedBuffer.length;
+							childIndexed < childIndexedLen;
+							childIndexed++
+						) {
+							const currentIndexed = { ...childIndexedBuffer[childIndexed] }
+							const currentRecursionRepetition: IRecursionRepetition = {
 								index: j + 1,
 								offset: recursionOffset,
 								count: len,
 								level: { index: i + 1, offset: level_offset, count: recursions },
-								parent: storedRecursion[paretRecursionIndex],
+								parent: storedRecursion[childIndexed][paretRecursionIndex],
 							}
 
-							recursionBufferIndex = { ...bufferIndex, recursion: currentRecursionRepetition }
+							const recursionBufferIndex = { ...bufferIndex, recursion: currentRecursionRepetition }
 							currentIndexed.parent = currentIndexed.parent
 								? Shape.setIndexedParent(currentIndexed.parent, recursionBufferIndex)
 								: recursionBufferIndex
 
 							this.indexedBuffer.push(currentIndexed)
 
-							storedRecursion.push(currentRecursionRepetition)
+							storedRecursion[childIndexed].push(currentRecursionRepetition)
 
 							if (added % vertexCount === 0) {
 								paretRecursionIndex += 1
