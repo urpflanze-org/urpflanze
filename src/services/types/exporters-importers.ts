@@ -153,6 +153,7 @@ export interface IGCODESettings {
 	maxY?: number
 	velocity?: number
 	round?: number
+	unit?: 'millimeters' | 'inches'
 	penUpCommand: string
 	penDownCommand: string
 }
