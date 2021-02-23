@@ -90,36 +90,17 @@ class GCODEExporter {
 		const sceneRatio = scene.width / scene.height
 
 		const drawArea = [
-			sceneRatio > workspaceRatio ? (workspaceWidth * scene.height) / workspaceHeight : scene.width,
-			sceneRatio > workspaceRatio ? scene.height : (workspaceHeight * scene.width) / workspaceWidth,
+			workspaceRatio > sceneRatio ? (scene.width * workspaceHeight) / scene.height : workspaceWidth,
+			workspaceRatio > sceneRatio ? workspaceHeight : (scene.height * workspaceWidth) / scene.width,
 		]
 
-		const drawAreaSceneOffset = [(scene.width - drawArea[0]) / 2, (scene.height - drawArea[1]) / 2]
+		const drawAreaSceneOffset = [(workspaceWidth - drawArea[0]) / 2, (workspaceHeight - drawArea[1]) / 2]
 
 		// Adapt drawArea to workspace
 
-		const scale = workspaceRatio > 1 ? scene.width / workspaceWidth : scene.height / workspaceHeight
+		const scale = workspaceRatio > sceneRatio ? scene.width / drawArea[0] : scene.height / drawArea[1]
 
-		drawArea[0] /= scale
-		drawArea[1] /= scale
-		drawAreaSceneOffset[0] /= scale
-		drawAreaSceneOffset[1] /= scale
-
-		console.log({
-			drawArea,
-			drawAreaSceneOffset,
-			maxSceneInDrawArea: {
-				minX: drawAreaSceneOffset[0],
-				minY: drawAreaSceneOffset[1],
-				maxX: scene.width / scale + drawAreaSceneOffset[0],
-				maxY: scene.height / scale + drawAreaSceneOffset[1],
-			},
-			scale,
-			workspaceRatio,
-			sceneRatio,
-		})
-
-		const machineCenterPosition = [(settings.maxX + settings.minX) / 2, (settings.maxY + settings.minY) / 2]
+		// const machineCenterPosition = [(settings.maxX + settings.minX) / 2, (settings.maxY + settings.minY) / 2]
 
 		const gcode: Array<string> = []
 		this.concat(gcode, settings.penUpCommand)
@@ -156,6 +137,7 @@ class GCODEExporter {
 					gcode,
 					this.moveTo(settings.penUpCommand, settings.penDownCommand, initialPointX, initialPointY, settings.round)
 				)
+
 				vertexIndex += 2
 				for (let len = vertexIndex + currentIndexing.frameLength - 2; vertexIndex < len; vertexIndex += 2) {
 					const currentX = clamp(
@@ -170,11 +152,13 @@ class GCODEExporter {
 					)
 					this.concat(gcode, this.lineTo(currentX, currentY, settings.velocity, settings.round))
 				}
+
 				if (currentIndexing.shape.isClosed())
 					this.concat(gcode, this.lineTo(initialPointX, initialPointY, settings.velocity, settings.round))
 			}
 		}
 		this.concat(gcode, this.home(settings.penUpCommand))
+
 		return gcode
 	}
 
