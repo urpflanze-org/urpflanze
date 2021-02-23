@@ -45,7 +45,7 @@ class GCODEExporter {
 	}
 
 	static home(penUpCommand: string): Array<string> {
-		return [penUpCommand, 'G28 X0 Y0 Z0']
+		return [penUpCommand, 'G28 X0 Y0']
 	}
 
 	static round(value: number, round: number) {
@@ -114,8 +114,10 @@ class GCODEExporter {
 		const sceneChilds = scene.getChildren()
 		for (let i = 0, len = sceneChilds.length; i < len; i++) {
 			sceneChilds[i].generate(0, true)
+
 			const childBuffer = sceneChilds[i].getBuffer() || []
 			const childIndexedBuffer = sceneChilds[i].getIndexedBuffer() || []
+
 			for (
 				let currentBufferIndex = 0, vertexIndex = 0, len = childIndexedBuffer.length;
 				currentBufferIndex < len;
@@ -161,40 +163,6 @@ class GCODEExporter {
 
 		return gcode
 	}
-
-	// static getSceneBounding(scene: Scene) {
-	// 	let maxX = Number.MIN_VALUE
-	// 	let minX = Number.MAX_VALUE
-	// 	let maxY = Number.MIN_VALUE
-	// 	let minY = Number.MAX_VALUE
-
-	// 	const sceneChilds = scene.getChildren()
-	// 	for (let i = 0, len = sceneChilds.length; i < len; i++) {
-	// 		sceneChilds[i].generate(0, true)
-	// 		const childBuffer = sceneChilds[i].getBuffer() || []
-	// 		const childIndexedBuffer = sceneChilds[i].getIndexedBuffer() || []
-	// 		for (
-	// 			let currentBufferIndex = 0, vertexIndex = 0, len = childIndexedBuffer.length;
-	// 			currentBufferIndex < len;
-	// 			currentBufferIndex++
-	// 		) {
-	// 			const currentIndexing = childIndexedBuffer[i]
-	// 			if (minX > childBuffer[vertexIndex]) minX = childBuffer[vertexIndex]
-	// 			if (maxX < childBuffer[vertexIndex]) maxX = childBuffer[vertexIndex]
-	// 			if (minY > childBuffer[vertexIndex + 1]) minY = childBuffer[vertexIndex + 1]
-	// 			if (maxY < childBuffer[vertexIndex + 1]) maxY = childBuffer[vertexIndex + 1]
-	// 			vertexIndex += 2
-	// 			for (let len = vertexIndex + currentIndexing.frameLength - 2; vertexIndex < len; vertexIndex += 2) {
-	// 				if (minX > childBuffer[vertexIndex]) minX = childBuffer[vertexIndex]
-	// 				if (maxX < childBuffer[vertexIndex]) maxX = childBuffer[vertexIndex]
-	// 				if (minY > childBuffer[vertexIndex + 1]) minY = childBuffer[vertexIndex + 1]
-	// 				if (maxY < childBuffer[vertexIndex + 1]) maxY = childBuffer[vertexIndex + 1]
-	// 			}
-	// 		}
-	// 	}
-
-	// 	return { minX, maxX, minY, maxY }
-	// }
 }
 
 export default GCODEExporter
