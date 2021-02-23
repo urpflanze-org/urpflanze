@@ -4886,9 +4886,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "author": () => /* binding */ author,
 /* harmony export */   "license": () => /* binding */ license
 /* harmony export */ });
-var version = '%VERSION%';
+var version = '0.3.3';
 var author = 'Gennaro Bosone <gennaro.bs@gmail.com>';
-var license = '%LICENSE%';
+var license = 'GPL-3.0-or-later';
 
 //# sourceMappingURL=meta.js.map
 
