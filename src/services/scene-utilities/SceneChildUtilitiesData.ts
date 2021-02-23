@@ -308,7 +308,7 @@ const SceneChildUtilitiesData: TSceneChildUtilitiesData = {
 		min: 0,
 		max: 30,
 		step: 0.01,
-		default: 1,
+		default: 0.1,
 		default_animate: 3,
 		transformation: 'scene-size-percentage',
 		dataType: 'drawer',

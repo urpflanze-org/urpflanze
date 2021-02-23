@@ -1,3 +1,13 @@
+## 0.3.3-beta (February x, 2021)
+
+### Core
+
+- Fix recursion on not primitive shape
+
+### Services
+
+- Update GCODEExporter, adapt scene to draw area
+
 ## 0.3.2-beta (February 11, 2021)
 
 ### Core
