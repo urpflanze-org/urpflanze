@@ -1960,7 +1960,7 @@ var Shape = /** @class */ (function (_super) {
      * @param {IRepetition} repetition
      * @returns {number} nextIndex
      */
-    Shape.prototype.addIndex = function (frameLength, repetition
+    Shape.prototype.addIndex = function (frameLength, repetition, recursion
     // singleRepetitionBounding: IShapeBounding
     ) {
         if (this.shape) {
@@ -1987,6 +1987,14 @@ var Shape = /** @class */ (function (_super) {
                     },
                 },
             };
+            if (typeof recursion !== 'undefined') {
+                parent_1.recursion = {
+                    index: recursion.index,
+                    offset: recursion.offset,
+                    count: recursion.offset,
+                    level: recursion.level,
+                };
+            }
             for (var i = 0, len = childIndexedBuffer.length; i < len; i++) {
                 var currentIndexed = __assign({}, childIndexedBuffer[i]);
                 currentIndexed.parent = currentIndexed.parent ? Shape.setIndexedParent(currentIndexed.parent, parent_1) : parent_1;
@@ -2003,7 +2011,7 @@ var Shape = /** @class */ (function (_super) {
      * @returns {(IBufferIndex | IParentBufferIndex)}
      */
     Shape.setIndexedParent = function (current, parent) {
-        return {
+        var index = {
             shape: current.shape,
             // singleRepetitionBounding: current.singleRepetitionBounding,
             repetition: {
@@ -2024,8 +2032,17 @@ var Shape = /** @class */ (function (_super) {
                 },
             },
             frameLength: current.frameLength,
-            parent: current.parent ? Shape.setIndexedParent(current.parent, parent) : parent,
         };
+        if (typeof current.recursion !== 'undefined') {
+            index.recursion = {
+                index: current.recursion.index,
+                offset: current.recursion.offset,
+                count: current.recursion.offset,
+                level: current.recursion.level,
+            };
+        }
+        index.parent = current.parent ? Shape.setIndexedParent(current.parent, parent) : parent;
+        return index;
     };
     /**
      * Set shape
@@ -2894,11 +2911,11 @@ var ShapeLoop = /** @class */ (function (_super) {
     ShapeLoop.prototype.clearBuffer = function (bClearIndexed, bPropagateToParents) {
         if (bClearIndexed === void 0) { bClearIndexed = false; }
         if (bPropagateToParents === void 0) { bPropagateToParents = true; }
-        _super.prototype.clearBuffer.call(this, bClearIndexed, bPropagateToParents);
         this.bStaticLoop = this.isStaticLoop();
         if (bClearIndexed) {
             this.currentOrSingleLoopBuffer = undefined;
         }
+        _super.prototype.clearBuffer.call(this, bClearIndexed, bPropagateToParents);
     };
     /**
      * Set single or multiple props
@@ -3166,10 +3183,10 @@ var ShapePrimitive = /** @class */ (function (_super) {
      * @param {IRepetition} repetition
      * @returns {number} nextIndex
      */
-    ShapePrimitive.prototype.addIndex = function (frameLength, repetition
+    ShapePrimitive.prototype.addIndex = function (frameLength, repetition, recursion
     // singleRepetitionBounding: IShapeBounding
     ) {
-        this.indexedBuffer.push({
+        var index = {
             shape: this,
             frameLength: frameLength,
             // singleRepetitionBounding,
@@ -3190,7 +3207,16 @@ var ShapePrimitive = /** @class */ (function (_super) {
                     offset: repetition.col.offset,
                 },
             },
-        });
+        };
+        if (typeof recursion !== 'undefined') {
+            index.recursion = {
+                index: recursion.index,
+                offset: recursion.offset,
+                count: recursion.offset,
+                level: recursion.level,
+            };
+        }
+        this.indexedBuffer.push(index);
     };
     /**
      * Return bClosed
@@ -3515,7 +3541,7 @@ var ShapeRecursive = /** @class */ (function (_super) {
      * @param {IRepetition} repetition
      * @returns {number} nextIndex
      */
-    ShapeRecursive.prototype.addIndex = function (frameLength, repetition
+    ShapeRecursive.prototype.addIndex = function (frameLength, repetition, recursion
     // singleRepetitionBounding: IShapeBounding
     ) {
         if (this.shape) {
@@ -3545,6 +3571,14 @@ var ShapeRecursive = /** @class */ (function (_super) {
                     },
                 },
             };
+            if (typeof recursion !== 'undefined') {
+                bufferIndex.recursion = {
+                    index: recursion.index,
+                    offset: recursion.offset,
+                    count: recursion.offset,
+                    level: recursion.level,
+                };
+            }
             var childIndexedBuffer = this.shape.getIndexedBuffer() || [];
             for (var childIndexed = 0, childIndexedLen = childIndexedBuffer.length; childIndexed < childIndexedLen; childIndexed++) {
                 var currentIndexed = __assign({}, childIndexedBuffer[childIndexed]);
@@ -3559,29 +3593,33 @@ var ShapeRecursive = /** @class */ (function (_super) {
                     ? _Shape__WEBPACK_IMPORTED_MODULE_1__.default.setIndexedParent(currentIndexed.parent, recursionBufferIndex)
                     : recursionBufferIndex;
                 this.indexedBuffer.push(currentIndexed);
-                if (recursions > 1) {
-                    var realVertexCount = this.shape.getBufferLength(propArguments) / 2;
-                    var vertexCount = recursionVertex <= 0 ? realVertexCount : Math.min(recursionVertex, realVertexCount);
-                    var storedRecursion = [currentRecursionRepetition];
-                    var paretRecursionIndex = 0, added = 1;
-                    for (var i = 1; i < recursions; i++) {
-                        var level_offset = recursions > 1 ? i / (recursions - 1) : 1;
-                        for (var j = 0, len = Math.pow(vertexCount, i); j < len; j++, added++) {
-                            var recursionOffset = len > 1 ? j / (len - 1) : 1;
-                            currentIndexed = __assign({}, childIndexedBuffer[childIndexed]);
-                            currentRecursionRepetition = {
+            }
+            if (recursions > 1) {
+                var realVertexCount = this.shape.getBufferLength(propArguments) / 2;
+                var vertexCount = recursionVertex <= 0 ? realVertexCount : Math.min(recursionVertex, realVertexCount);
+                var storedRecursion = this.indexedBuffer.map(function (indexed) { return [
+                    indexed.parent.recursion,
+                ]; });
+                var paretRecursionIndex = 0, added = 1;
+                for (var i = 1; i < recursions; i++) {
+                    var level_offset = recursions > 1 ? i / (recursions - 1) : 1;
+                    for (var j = 0, len = Math.pow(vertexCount, i); j < len; j++, added++) {
+                        var recursionOffset = len > 1 ? j / (len - 1) : 1;
+                        for (var childIndexed = 0, childIndexedLen = childIndexedBuffer.length; childIndexed < childIndexedLen; childIndexed++) {
+                            var currentIndexed = __assign({}, childIndexedBuffer[childIndexed]);
+                            var currentRecursionRepetition = {
                                 index: j + 1,
                                 offset: recursionOffset,
                                 count: len,
                                 level: { index: i + 1, offset: level_offset, count: recursions },
-                                parent: storedRecursion[paretRecursionIndex],
+                                parent: storedRecursion[childIndexed][paretRecursionIndex],
                             };
-                            recursionBufferIndex = __assign(__assign({}, bufferIndex), { recursion: currentRecursionRepetition });
+                            var recursionBufferIndex = __assign(__assign({}, bufferIndex), { recursion: currentRecursionRepetition });
                             currentIndexed.parent = currentIndexed.parent
                                 ? _Shape__WEBPACK_IMPORTED_MODULE_1__.default.setIndexedParent(currentIndexed.parent, recursionBufferIndex)
                                 : recursionBufferIndex;
                             this.indexedBuffer.push(currentIndexed);
-                            storedRecursion.push(currentRecursionRepetition);
+                            storedRecursion[childIndexed].push(currentRecursionRepetition);
                             if (added % vertexCount === 0) {
                                 paretRecursionIndex += 1;
                             }
@@ -4193,7 +4231,6 @@ var Spiral = /** @class */ (function (_super) {
     Spiral.prototype.generateLoopBuffer = function (propArguments) {
         this.spiral = this.getProp('spiral', propArguments);
         this.r = Spiral.getRFromTSpiralType(this.spiral);
-        console.log('generateLoopBufferSpiral propArguments', propArguments);
         return _super.prototype.generateLoopBuffer.call(this, propArguments);
     };
     // /**
@@ -6764,6 +6801,9 @@ var GCODEExporter = /** @class */ (function () {
         }
         return '';
     };
+    GCODEExporter.setUnit = function (unit) {
+        return unit === 'inches' ? 'G20' : 'G21';
+    };
     GCODEExporter.useRelativePosition = function () {
         return 'G91';
     };
@@ -6771,7 +6811,7 @@ var GCODEExporter = /** @class */ (function () {
         return 'G90';
     };
     GCODEExporter.home = function (penUpCommand) {
-        return [penUpCommand, 'G28 X0 Y0 Z0'];
+        return [penUpCommand, 'G28 X0 Y0'];
     };
     GCODEExporter.round = function (value, round) {
         return Math.round(value * round) / round;
@@ -6807,28 +6847,16 @@ var GCODEExporter = /** @class */ (function () {
         // Calculate drawArea from scene
         var sceneRatio = scene.width / scene.height;
         var drawArea = [
-            sceneRatio > workspaceRatio ? (workspaceWidth * scene.height) / workspaceHeight : scene.width,
-            sceneRatio > workspaceRatio ? scene.height : (workspaceHeight * scene.width) / workspaceWidth,
+            workspaceRatio > sceneRatio ? (scene.width * workspaceHeight) / scene.height : workspaceWidth,
+            workspaceRatio > sceneRatio ? workspaceHeight : (scene.height * workspaceWidth) / scene.width,
         ];
-        var drawAreaSceneOffset = [(scene.width - drawArea[0]) / 2, (scene.height - drawArea[1]) / 2];
+        var drawAreaSceneOffset = [(workspaceWidth - drawArea[0]) / 2, (workspaceHeight - drawArea[1]) / 2];
         // Adapt drawArea to workspace
-        var scale = workspaceRatio > 1 ? scene.width / workspaceWidth : scene.height / workspaceHeight;
-        drawArea[0] /= scale;
-        drawArea[1] /= scale;
-        drawAreaSceneOffset[0] /= scale;
-        drawAreaSceneOffset[1] /= scale;
-        console.log({ drawArea: drawArea, drawAreaSceneOffset: drawAreaSceneOffset, maxSceneInDrawArea: {
-                minX: drawAreaSceneOffset[0],
-                minY: drawAreaSceneOffset[1],
-                maxX: scene.width / scale + drawAreaSceneOffset[0],
-                maxY: scene.height / scale + drawAreaSceneOffset[1],
-            }, scale: scale,
-            workspaceRatio: workspaceRatio,
-            sceneRatio: sceneRatio
-        });
-        var machineCenterPosition = [(settings.maxX + settings.minX) / 2, (settings.maxY + settings.minY) / 2];
+        var scale = workspaceRatio > sceneRatio ? scene.width / drawArea[0] : scene.height / drawArea[1];
+        // const machineCenterPosition = [(settings.maxX + settings.minX) / 2, (settings.maxY + settings.minY) / 2]
         var gcode = [];
         this.concat(gcode, settings.penUpCommand);
+        this.concat(gcode, this.setUnit(settings.unit));
         this.concat(gcode, this.useAbsolutePosition());
         this.concat(gcode, this.setCurrentMachinePosition(settings.minX, settings.minY, settings.round));
         this.concat(gcode, this.setCurrentWorkspacePosition(settings.minX, settings.minY, settings.round));
@@ -6864,6 +6892,7 @@ var GCODEExporter = /** @class */ (function () {
         maxX: 297,
         maxY: 210,
         velocity: 1500,
+        unit: 'millimeters',
         penUpCommand: 'M3 S30',
         penDownCommand: 'M3 S0',
     };
@@ -6897,6 +6926,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Utilites__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../Utilites */ "./dist/Utilites.js");
 /* harmony import */ var _importers_JSONImporter__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../importers/JSONImporter */ "./dist/services/importers/JSONImporter.js");
 /* harmony import */ var _scene_utilities_SceneUtilities__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../scene-utilities/SceneUtilities */ "./dist/services/scene-utilities/SceneUtilities.js");
+/* harmony import */ var _scene_utilities_SceneChildUtilitiesData__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../scene-utilities/SceneChildUtilitiesData */ "./dist/services/scene-utilities/SceneChildUtilitiesData.js");
 var __assign = (undefined && undefined.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -6908,6 +6938,7 @@ var __assign = (undefined && undefined.__assign) || function () {
     };
     return __assign.apply(this, arguments);
 };
+
 
 
 
@@ -6958,6 +6989,18 @@ var JSONExporter = /** @class */ (function () {
         }
         return project;
     };
+    JSONExporter.filterDataTye = function (data, dataType) {
+        var filtered = {};
+        var keys = Object.keys(data);
+        for (var i = 0; i < keys.length; i++) {
+            var name_1 = keys[i];
+            if (name_1 in _scene_utilities_SceneChildUtilitiesData__WEBPACK_IMPORTED_MODULE_8__.default &&
+                _scene_utilities_SceneChildUtilitiesData__WEBPACK_IMPORTED_MODULE_8__.default[name_1].dataType === dataType) {
+                filtered[name_1] = data[name_1];
+            }
+        }
+        return filtered;
+    };
     JSONExporter.parseSceneChild = function (sceneChild, parentId, depth) {
         if (depth === void 0) { depth = 0; }
         var projectSceneChild = {
@@ -6965,7 +7008,7 @@ var JSONExporter = /** @class */ (function () {
             type: sceneChild.type,
             name: sceneChild.name,
             order: sceneChild.order,
-            data: __assign(__assign({}, sceneChild.data), { props: undefined, style: undefined }),
+            data: __assign(__assign({}, JSON.parse(JSON.stringify(sceneChild.data))), { props: undefined, style: undefined }),
             // data: {},
             depth: depth,
             bPrimitive: sceneChild instanceof _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_4__.default,
@@ -6973,11 +7016,27 @@ var JSONExporter = /** @class */ (function () {
             style: {},
             parentId: parentId,
         };
-        var props = sceneChild.getProps();
-        var propsKeys = Object.keys(props);
-        for (var i = 0, len = propsKeys.length; i < len; i++)
-            props[propsKeys[i]] = _Utilites__WEBPACK_IMPORTED_MODULE_5__.parseFunction.parse(props[propsKeys[i]]);
-        projectSceneChild.props = __assign(__assign({}, props), sceneChild.data.props);
+        Object.entries(sceneChild.getProps()).forEach(function (_a) {
+            var key = _a[0], value = _a[1];
+            if (key in _scene_utilities_SceneChildUtilitiesData__WEBPACK_IMPORTED_MODULE_8__.default &&
+                _scene_utilities_SceneChildUtilitiesData__WEBPACK_IMPORTED_MODULE_8__.default[key].dataType === 'props') {
+                projectSceneChild.props[key] =
+                    sceneChild.data.props[key] || _Utilites__WEBPACK_IMPORTED_MODULE_5__.parseFunction.parse(value);
+            }
+        });
+        // const props = sceneChild.getProps()
+        // const propsKeys = Object.keys(props) as Array<keyof ISceneChildProps>
+        // for (let i = 0, len = propsKeys.length; i < len; i++) {
+        // 	const propName = propsKeys[i]
+        // 	if (
+        // 		propName in SceneChildUtilitiesData &&
+        // 		SceneChildUtilitiesData[propName as TSceneChildPropsDataKeys].dataType === 'props'
+        // 	) {
+        // 		projectSceneChild.props[propName] = sceneChild.data.props[propName] || parseFunction.parse(props[propName])
+        // 	}
+        // }
+        // for (let i = 0, len = propsKeys.length; i < len; i++) props[propsKeys[i]] = parseFunction.parse(props[propsKeys[i]])
+        // projectSceneChild.props = JSONExporter.filterDataTye({ ...props, ...sceneChild.data.props }, 'props')
         if (sceneChild instanceof _core_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_3__.default) {
             projectSceneChild.shape = sceneChild.shape;
         }
@@ -6987,11 +7046,19 @@ var JSONExporter = /** @class */ (function () {
             projectSceneChild.vertexCallback = _Utilites__WEBPACK_IMPORTED_MODULE_5__.parseFunction.parse(sceneChild.data.vertexCallback || sceneChild.vertexCallback);
         }
         if (sceneChild instanceof _core_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_4__.default) {
-            var style = sceneChild.style;
-            var styleKeys = Object.keys(style);
-            for (var i = 0, len = styleKeys.length; i < len; i++)
-                style[styleKeys[i]] = _Utilites__WEBPACK_IMPORTED_MODULE_5__.parseFunction.parse(style[styleKeys[i]]);
-            projectSceneChild.style = __assign(__assign({}, style), sceneChild.data.style);
+            Object.entries(sceneChild.style).forEach(function (_a) {
+                var key = _a[0], value = _a[1];
+                if (key in _scene_utilities_SceneChildUtilitiesData__WEBPACK_IMPORTED_MODULE_8__.default &&
+                    _scene_utilities_SceneChildUtilitiesData__WEBPACK_IMPORTED_MODULE_8__.default[key].dataType === 'drawer') {
+                    projectSceneChild.style[key] =
+                        sceneChild.data.style[key] || _Utilites__WEBPACK_IMPORTED_MODULE_5__.parseFunction.parse(value);
+                }
+            });
+            // const style = sceneChild.style
+            // const styleKeys = Object.keys(style) as Array<keyof IDrawerStreamProps>
+            // for (let i = 0, len = styleKeys.length; i < len; i++)
+            // 	style[styleKeys[i]] = parseFunction.parse(style[styleKeys[i]])
+            // projectSceneChild.style = JSONExporter.filterDataTye({ ...style, ...sceneChild.data.style }, 'drawer')
             projectSceneChild.adaptMode = sceneChild.adaptMode;
             projectSceneChild.bClosed = sceneChild.bClosed;
         }
@@ -8401,7 +8468,7 @@ var SceneChildUtilitiesData = {
         min: -100,
         max: 100,
         step: 0.1,
-        default: [0, 0],
+        default: 0,
         default_animate: 0,
         initialArray: true,
         transformation: 'scene-size-percentage',
@@ -8415,7 +8482,7 @@ var SceneChildUtilitiesData = {
         min: -5,
         max: 5,
         step: 0.01,
-        default: [1, 1],
+        default: 1,
         default_animate: 3,
         transformation: 'none',
         dataType: 'props',
@@ -8489,8 +8556,8 @@ var SceneChildUtilitiesData = {
         type: 'slider',
         min: 0,
         max: 30,
-        step: 0.1,
-        default: 1,
+        step: 0.01,
+        default: 0.1,
         default_animate: 3,
         transformation: 'scene-size-percentage',
         dataType: 'drawer',
@@ -8558,7 +8625,7 @@ var SceneChildUtilitiesData = {
         type: 'range',
         min: 0.1,
         max: 5,
-        step: 0.1,
+        step: 0.01,
         default: 1,
         default_animate: 2,
         transformation: 'none',
@@ -8587,7 +8654,7 @@ var SceneChildUtilitiesData = {
         min: 0.01,
         max: 100,
         step: 0.1,
-        default: [10, 10],
+        default: 10,
         default_animate: 20,
         transformation: 'scene-size-percentage',
         dataType: 'props',
@@ -8757,7 +8824,7 @@ var SceneChildUtilitiesData = {
         type: 'range',
         min: -3,
         max: 3,
-        step: 0.1,
+        step: 0.01,
         default: 1,
         default_animate: 0.1,
         transformation: 'none',
@@ -8770,7 +8837,7 @@ var SceneChildUtilitiesData = {
         type: 'range',
         min: -3,
         max: 3,
-        step: 0.1,
+        step: 0.01,
         default: 1,
         default_animate: 0.1,
         transformation: 'none',
@@ -8783,7 +8850,7 @@ var SceneChildUtilitiesData = {
         type: 'range',
         min: -3,
         max: 3,
-        step: 0.1,
+        step: 0.01,
         default: 1,
         default_animate: 0.1,
         transformation: 'none',
@@ -9247,17 +9314,17 @@ var SceneUtilities = /** @class */ (function () {
         }, scene);
         return count;
     };
-    /**
-     * Walk through sceneChild
-     *
-     * @param {SceneChild} sceneChild
-     * @param {(child: SceneChild) => void} callback
-     * @memberof SceneUtilities
-     */
-    SceneUtilities.prototype.walk = function (sceneChild, callback) {
-        callback(sceneChild);
-        this.getChildren(sceneChild).forEach(function (child) { return callback(child); });
-    };
+    // /**
+    //  * Walk through sceneChild
+    //  *
+    //  * @param {SceneChild} sceneChild
+    //  * @param {(child: SceneChild) => void} callback
+    //  * @memberof SceneUtilities
+    //  */
+    // walk(sceneChild: SceneChild, callback: (child: SceneChild) => void) {
+    // 	callback(sceneChild)
+    // 	this.getChildren(sceneChild).forEach(child => callback(child))
+    // }
     //#endregion
     //#region checker
     /**
@@ -9404,7 +9471,7 @@ var SceneUtilities = /** @class */ (function () {
             // Check Transormable prop
             if (_SceneUtilitiesExtended__WEBPACK_IMPORTED_MODULE_20__.default.bPropInSceneChildUtilitiesData(name) &&
                 _SceneUtilitiesExtended__WEBPACK_IMPORTED_MODULE_20__.default.bValueTransformable(value)) {
-                sceneChild.data.props[name] = value;
+                sceneChild.data.style[name] = value;
                 sceneChild.style[name] = _SceneUtilitiesExtended__WEBPACK_IMPORTED_MODULE_20__.default.getTransformedValue(scene, name, value);
                 return;
             }

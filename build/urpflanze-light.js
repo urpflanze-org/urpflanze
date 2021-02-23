@@ -1960,7 +1960,7 @@ var Shape = /** @class */ (function (_super) {
      * @param {IRepetition} repetition
      * @returns {number} nextIndex
      */
-    Shape.prototype.addIndex = function (frameLength, repetition
+    Shape.prototype.addIndex = function (frameLength, repetition, recursion
     // singleRepetitionBounding: IShapeBounding
     ) {
         if (this.shape) {
@@ -1987,6 +1987,14 @@ var Shape = /** @class */ (function (_super) {
                     },
                 },
             };
+            if (typeof recursion !== 'undefined') {
+                parent_1.recursion = {
+                    index: recursion.index,
+                    offset: recursion.offset,
+                    count: recursion.offset,
+                    level: recursion.level,
+                };
+            }
             for (var i = 0, len = childIndexedBuffer.length; i < len; i++) {
                 var currentIndexed = __assign({}, childIndexedBuffer[i]);
                 currentIndexed.parent = currentIndexed.parent ? Shape.setIndexedParent(currentIndexed.parent, parent_1) : parent_1;
@@ -2003,7 +2011,7 @@ var Shape = /** @class */ (function (_super) {
      * @returns {(IBufferIndex | IParentBufferIndex)}
      */
     Shape.setIndexedParent = function (current, parent) {
-        return {
+        var index = {
             shape: current.shape,
             // singleRepetitionBounding: current.singleRepetitionBounding,
             repetition: {
@@ -2024,8 +2032,17 @@ var Shape = /** @class */ (function (_super) {
                 },
             },
             frameLength: current.frameLength,
-            parent: current.parent ? Shape.setIndexedParent(current.parent, parent) : parent,
         };
+        if (typeof current.recursion !== 'undefined') {
+            index.recursion = {
+                index: current.recursion.index,
+                offset: current.recursion.offset,
+                count: current.recursion.offset,
+                level: current.recursion.level,
+            };
+        }
+        index.parent = current.parent ? Shape.setIndexedParent(current.parent, parent) : parent;
+        return index;
     };
     /**
      * Set shape
@@ -2894,11 +2911,11 @@ var ShapeLoop = /** @class */ (function (_super) {
     ShapeLoop.prototype.clearBuffer = function (bClearIndexed, bPropagateToParents) {
         if (bClearIndexed === void 0) { bClearIndexed = false; }
         if (bPropagateToParents === void 0) { bPropagateToParents = true; }
-        _super.prototype.clearBuffer.call(this, bClearIndexed, bPropagateToParents);
         this.bStaticLoop = this.isStaticLoop();
         if (bClearIndexed) {
             this.currentOrSingleLoopBuffer = undefined;
         }
+        _super.prototype.clearBuffer.call(this, bClearIndexed, bPropagateToParents);
     };
     /**
      * Set single or multiple props
@@ -3166,10 +3183,10 @@ var ShapePrimitive = /** @class */ (function (_super) {
      * @param {IRepetition} repetition
      * @returns {number} nextIndex
      */
-    ShapePrimitive.prototype.addIndex = function (frameLength, repetition
+    ShapePrimitive.prototype.addIndex = function (frameLength, repetition, recursion
     // singleRepetitionBounding: IShapeBounding
     ) {
-        this.indexedBuffer.push({
+        var index = {
             shape: this,
             frameLength: frameLength,
             // singleRepetitionBounding,
@@ -3190,7 +3207,16 @@ var ShapePrimitive = /** @class */ (function (_super) {
                     offset: repetition.col.offset,
                 },
             },
-        });
+        };
+        if (typeof recursion !== 'undefined') {
+            index.recursion = {
+                index: recursion.index,
+                offset: recursion.offset,
+                count: recursion.offset,
+                level: recursion.level,
+            };
+        }
+        this.indexedBuffer.push(index);
     };
     /**
      * Return bClosed
@@ -3515,7 +3541,7 @@ var ShapeRecursive = /** @class */ (function (_super) {
      * @param {IRepetition} repetition
      * @returns {number} nextIndex
      */
-    ShapeRecursive.prototype.addIndex = function (frameLength, repetition
+    ShapeRecursive.prototype.addIndex = function (frameLength, repetition, recursion
     // singleRepetitionBounding: IShapeBounding
     ) {
         if (this.shape) {
@@ -3545,6 +3571,14 @@ var ShapeRecursive = /** @class */ (function (_super) {
                     },
                 },
             };
+            if (typeof recursion !== 'undefined') {
+                bufferIndex.recursion = {
+                    index: recursion.index,
+                    offset: recursion.offset,
+                    count: recursion.offset,
+                    level: recursion.level,
+                };
+            }
             var childIndexedBuffer = this.shape.getIndexedBuffer() || [];
             for (var childIndexed = 0, childIndexedLen = childIndexedBuffer.length; childIndexed < childIndexedLen; childIndexed++) {
                 var currentIndexed = __assign({}, childIndexedBuffer[childIndexed]);
@@ -3559,29 +3593,33 @@ var ShapeRecursive = /** @class */ (function (_super) {
                     ? _Shape__WEBPACK_IMPORTED_MODULE_1__.default.setIndexedParent(currentIndexed.parent, recursionBufferIndex)
                     : recursionBufferIndex;
                 this.indexedBuffer.push(currentIndexed);
-                if (recursions > 1) {
-                    var realVertexCount = this.shape.getBufferLength(propArguments) / 2;
-                    var vertexCount = recursionVertex <= 0 ? realVertexCount : Math.min(recursionVertex, realVertexCount);
-                    var storedRecursion = [currentRecursionRepetition];
-                    var paretRecursionIndex = 0, added = 1;
-                    for (var i = 1; i < recursions; i++) {
-                        var level_offset = recursions > 1 ? i / (recursions - 1) : 1;
-                        for (var j = 0, len = Math.pow(vertexCount, i); j < len; j++, added++) {
-                            var recursionOffset = len > 1 ? j / (len - 1) : 1;
-                            currentIndexed = __assign({}, childIndexedBuffer[childIndexed]);
-                            currentRecursionRepetition = {
+            }
+            if (recursions > 1) {
+                var realVertexCount = this.shape.getBufferLength(propArguments) / 2;
+                var vertexCount = recursionVertex <= 0 ? realVertexCount : Math.min(recursionVertex, realVertexCount);
+                var storedRecursion = this.indexedBuffer.map(function (indexed) { return [
+                    indexed.parent.recursion,
+                ]; });
+                var paretRecursionIndex = 0, added = 1;
+                for (var i = 1; i < recursions; i++) {
+                    var level_offset = recursions > 1 ? i / (recursions - 1) : 1;
+                    for (var j = 0, len = Math.pow(vertexCount, i); j < len; j++, added++) {
+                        var recursionOffset = len > 1 ? j / (len - 1) : 1;
+                        for (var childIndexed = 0, childIndexedLen = childIndexedBuffer.length; childIndexed < childIndexedLen; childIndexed++) {
+                            var currentIndexed = __assign({}, childIndexedBuffer[childIndexed]);
+                            var currentRecursionRepetition = {
                                 index: j + 1,
                                 offset: recursionOffset,
                                 count: len,
                                 level: { index: i + 1, offset: level_offset, count: recursions },
-                                parent: storedRecursion[paretRecursionIndex],
+                                parent: storedRecursion[childIndexed][paretRecursionIndex],
                             };
-                            recursionBufferIndex = __assign(__assign({}, bufferIndex), { recursion: currentRecursionRepetition });
+                            var recursionBufferIndex = __assign(__assign({}, bufferIndex), { recursion: currentRecursionRepetition });
                             currentIndexed.parent = currentIndexed.parent
                                 ? _Shape__WEBPACK_IMPORTED_MODULE_1__.default.setIndexedParent(currentIndexed.parent, recursionBufferIndex)
                                 : recursionBufferIndex;
                             this.indexedBuffer.push(currentIndexed);
-                            storedRecursion.push(currentRecursionRepetition);
+                            storedRecursion[childIndexed].push(currentRecursionRepetition);
                             if (added % vertexCount === 0) {
                                 paretRecursionIndex += 1;
                             }
@@ -4193,7 +4231,6 @@ var Spiral = /** @class */ (function (_super) {
     Spiral.prototype.generateLoopBuffer = function (propArguments) {
         this.spiral = this.getProp('spiral', propArguments);
         this.r = Spiral.getRFromTSpiralType(this.spiral);
-        console.log('generateLoopBufferSpiral propArguments', propArguments);
         return _super.prototype.generateLoopBuffer.call(this, propArguments);
     };
     // /**
@@ -6508,7 +6545,7 @@ var SceneChildUtilitiesData = {
         min: -100,
         max: 100,
         step: 0.1,
-        default: [0, 0],
+        default: 0,
         default_animate: 0,
         initialArray: true,
         transformation: 'scene-size-percentage',
@@ -6522,7 +6559,7 @@ var SceneChildUtilitiesData = {
         min: -5,
         max: 5,
         step: 0.01,
-        default: [1, 1],
+        default: 1,
         default_animate: 3,
         transformation: 'none',
         dataType: 'props',
@@ -6596,8 +6633,8 @@ var SceneChildUtilitiesData = {
         type: 'slider',
         min: 0,
         max: 30,
-        step: 0.1,
-        default: 1,
+        step: 0.01,
+        default: 0.1,
         default_animate: 3,
         transformation: 'scene-size-percentage',
         dataType: 'drawer',
@@ -6665,7 +6702,7 @@ var SceneChildUtilitiesData = {
         type: 'range',
         min: 0.1,
         max: 5,
-        step: 0.1,
+        step: 0.01,
         default: 1,
         default_animate: 2,
         transformation: 'none',
@@ -6694,7 +6731,7 @@ var SceneChildUtilitiesData = {
         min: 0.01,
         max: 100,
         step: 0.1,
-        default: [10, 10],
+        default: 10,
         default_animate: 20,
         transformation: 'scene-size-percentage',
         dataType: 'props',
@@ -6864,7 +6901,7 @@ var SceneChildUtilitiesData = {
         type: 'range',
         min: -3,
         max: 3,
-        step: 0.1,
+        step: 0.01,
         default: 1,
         default_animate: 0.1,
         transformation: 'none',
@@ -6877,7 +6914,7 @@ var SceneChildUtilitiesData = {
         type: 'range',
         min: -3,
         max: 3,
-        step: 0.1,
+        step: 0.01,
         default: 1,
         default_animate: 0.1,
         transformation: 'none',
@@ -6890,7 +6927,7 @@ var SceneChildUtilitiesData = {
         type: 'range',
         min: -3,
         max: 3,
-        step: 0.1,
+        step: 0.01,
         default: 1,
         default_animate: 0.1,
         transformation: 'none',
@@ -7354,17 +7391,17 @@ var SceneUtilities = /** @class */ (function () {
         }, scene);
         return count;
     };
-    /**
-     * Walk through sceneChild
-     *
-     * @param {SceneChild} sceneChild
-     * @param {(child: SceneChild) => void} callback
-     * @memberof SceneUtilities
-     */
-    SceneUtilities.prototype.walk = function (sceneChild, callback) {
-        callback(sceneChild);
-        this.getChildren(sceneChild).forEach(function (child) { return callback(child); });
-    };
+    // /**
+    //  * Walk through sceneChild
+    //  *
+    //  * @param {SceneChild} sceneChild
+    //  * @param {(child: SceneChild) => void} callback
+    //  * @memberof SceneUtilities
+    //  */
+    // walk(sceneChild: SceneChild, callback: (child: SceneChild) => void) {
+    // 	callback(sceneChild)
+    // 	this.getChildren(sceneChild).forEach(child => callback(child))
+    // }
     //#endregion
     //#region checker
     /**
@@ -7511,7 +7548,7 @@ var SceneUtilities = /** @class */ (function () {
             // Check Transormable prop
             if (_SceneUtilitiesExtended__WEBPACK_IMPORTED_MODULE_20__.default.bPropInSceneChildUtilitiesData(name) &&
                 _SceneUtilitiesExtended__WEBPACK_IMPORTED_MODULE_20__.default.bValueTransformable(value)) {
-                sceneChild.data.props[name] = value;
+                sceneChild.data.style[name] = value;
                 sceneChild.style[name] = _SceneUtilitiesExtended__WEBPACK_IMPORTED_MODULE_20__.default.getTransformedValue(scene, name, value);
                 return;
             }
