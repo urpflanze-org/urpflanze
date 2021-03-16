@@ -31,12 +31,12 @@
 		"watch": "ttsc --watch",
 		"lint": "eslint src --ext .ts",
 		"build": "node ./scripts/typescript-build",
-		"build-library": "npm run build & npx webpack --config ./webpack.config.js --mode development & npx webpack --config ./webpack.config.js --mode production & node ./scripts/post-build.js",
+		"build-library": "npm run build && npx webpack --config ./webpack.config.js --mode development && npx webpack --config ./webpack.config.js --mode production && node ./scripts/post-build.js",
 		"test": "tap",
 		"generate-docs-references": "node ./scripts/generate-docs-references.js",
 		"serve-docs": "webpack serve --config webpack.config.docs.js",
-		"build-docs": "npm run build & npm run generate-docs-references & npx webpack --config webpack.config.docs.js --mode production & npx sass ./docs-src/scss/index.scss ./docs/assets/css/app.css --style compressed",
-		"prepublishOnly": "npm run build & npm run build-library & npm run build-docs"
+		"build-docs": "npm run build && npm run generate-docs-references && npx webpack --config webpack.config.docs.js --mode production && npx sass ./docs-src/scss/index.scss ./docs/assets/css/app.css --style compressed",
+		"prepublishOnly": "npm run build && npm run build-library && npm run build-docs"
 	},
 	"publishConfig": {},
 	"devDependencies": {
