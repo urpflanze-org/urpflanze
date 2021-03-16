@@ -1,3 +1,11 @@
+/** @license Urpflanze v0.4.0
+ * urpflanze.js
+ *
+ * Github: https://github.com/genbs/urpflanze/
+ * 
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
@@ -272,7 +280,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "author": () => (/* binding */ author),
 /* harmony export */   "license": () => (/* binding */ license)
 /* harmony export */ });
-const version = '0.3.3';
+const version = '0.4.0';
 const author = 'Gennaro Bosone <gennaro.bs@gmail.com>';
 const license = 'GPL-3.0-or-later';
 
