@@ -2,7 +2,7 @@
 
 ## Synopsis
 
-This library relies on the [Urpflanze](https://github.com/urpflanze-org/urpflanze) library to generate the scene.
+This library is based on the [Urpflanze](https://github.com/urpflanze-org/urpflanze) package to generate the scene.
 
 It deals with creating two-dimensional shapes, repeating them, manipulating them point by point and encapsulating them.
 
