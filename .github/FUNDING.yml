@@ -1,1 +1,6 @@
 ko_fi: urpflanze
+custom:
+  [
+    'https://etherscan.io/address/0x9086c4bb7015c1d6dc79162d02e7e1239c982c01',
+    'https://explorer.btc.com/btc/address/1CSQq4aMmsA71twvyZHZCjmeB2AmQGCPNq',
+  ]
