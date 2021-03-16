@@ -1,12 +1,14 @@
-import { toRadians, toDegrees } from 'src/Utilites'
-
-import { TVertexCallback } from '@core/types/shape-base'
+import {
+	TVertexCallback,
+	IShapeLoopGenerator,
+	TShapeLoopGeneratorFormula,
+	Scene,
+	toRadians,
+	toDegrees,
+} from '@urpflanze/core'
 
 import { TAnimation } from '@services/types/animation'
-import { IShapeLoopGenerator, TShapeLoopGeneratorFormula } from '@core/types/shape-primitives'
 import { ISceneChildPropsExtendedShapeLoop, TTransformable } from '@services/types/scene-utilities'
-
-import Scene from '@core/Scene'
 
 import SceneChildUtilitiesData from '@services/scene-utilities/SceneChildUtilitiesData'
 

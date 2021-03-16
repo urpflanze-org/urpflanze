@@ -1,7 +1,6 @@
-import { pmod } from '@core/math'
+import { now, pmod } from '@urpflanze/core'
 import Emitter from '@services/events/Emitter'
 import { ISequenceMeta, ITimelineEvents } from '@services/types/timeline'
-import { now } from 'src/Utilites'
 
 /**
  * Is used for sequence time management.

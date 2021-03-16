@@ -1,10 +1,4 @@
-import Group from '@core/Group'
-import Scene from '@core/Scene'
-import SceneChild from '@core/SceneChild'
-import Shape from '@core/shapes/Shape'
-import ShapeBase from '@core/shapes/ShapeBase'
-import ShapeBuffer from '@core/shapes/ShapeBuffer'
-import ShapePrimitive from '@core/shapes/ShapePrimitive'
+import { Group, Scene, SceneChild, Shape, ShapeBase, ShapeBuffer, ShapePrimitive } from '@urpflanze/core'
 
 import { parseFunction } from 'src/Utilites'
 
@@ -139,7 +133,7 @@ class JSONExporter {
 		}
 
 		if (sceneChild instanceof ShapePrimitive) {
-			Object.entries(sceneChild.style).forEach(([key, value]) => {
+			Object.entries(sceneChild.drawer).forEach(([key, value]) => {
 				if (
 					key in SceneChildUtilitiesData &&
 					SceneChildUtilitiesData[key as TSceneChildPropsDataKeys].dataType === 'drawer'
@@ -154,8 +148,8 @@ class JSONExporter {
 			// 	style[styleKeys[i]] = parseFunction.parse(style[styleKeys[i]])
 
 			// projectSceneChild.style = JSONExporter.filterDataTye({ ...style, ...sceneChild.data.style }, 'drawer')
+			if (sceneChild instanceof ShapeBuffer) projectSceneChild.adaptMode = sceneChild.adaptMode
 
-			projectSceneChild.adaptMode = sceneChild.adaptMode
 			projectSceneChild.bClosed = sceneChild.bClosed
 		} else if (sceneChild instanceof Shape || sceneChild instanceof Group) {
 			const children: Array<IProjectSceneChild> = []

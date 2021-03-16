@@ -15,12 +15,28 @@ exec(`npx typedoc --tsconfig ./tsconfig.json --json ${filename}`, (error, stdout
 		return
 	}
 
-	const data = generate(JSON.parse(fs.readFileSync(filename)))
+	const current = generate(JSON.parse(fs.readFileSync(filename)))
 
-	fs.unlinkSync(filename)
+	exec(
+		`npx typedoc --tsconfig ./node_modules/@urpflanze/core/tsconfig.json --json ${filename}`,
+		(error, stdout, stderr) => {
+			if (error) {
+				console.log(`error: ${error.message}`)
+				return
+			}
+			if (stderr) {
+				console.log(`stderr: ${stderr}`)
+				return
+			}
 
-	const references = `${JSON.stringify(data, null, '\t')}`
-	fs.writeFileSync(dest_name, references)
+			const core = generate(JSON.parse(fs.readFileSync(filename)))
+
+			fs.unlinkSync(filename)
+
+			const references = `${JSON.stringify([...core, current], null, '\t')}`
+			fs.writeFileSync(dest_name, references)
+		}
+	)
 })
 
 function generate(typedocJSON) {

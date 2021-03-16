@@ -1,4 +1,4 @@
-import { IBaseRepetition, ISceneChildPropArguments } from '@core/types/scene-child'
+import { IBaseRepetition, ISceneChildPropArguments } from '@urpflanze/core'
 
 /**
  * @category Services.Drawer

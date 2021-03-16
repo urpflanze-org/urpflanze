@@ -1,5 +1,5 @@
-import { EShapePrimitiveAdaptMode } from '@core/types/shape-base'
-import { IShapeLoopAnimation, IVertexCallbackAnimation, TAnimation, TCallableValue } from '@services/types/animation'
+import { EAdaptMode } from '@urpflanze/core'
+import { IShapeLoopAnimation, IVertexCallbackAnimation } from '@services/types/animation'
 import { ISceneChildDrawerData } from '@services/types/drawer'
 import {
 	TDrawerPropsExtendedKeys,
@@ -71,7 +71,7 @@ export interface IProjectSceneChild {
 	shape?: Float32Array
 	depth: number
 
-	adaptMode?: EShapePrimitiveAdaptMode
+	adaptMode?: EAdaptMode
 
 	bClosed?: boolean
 	bUseParent?: boolean

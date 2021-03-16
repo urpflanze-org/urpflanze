@@ -26,7 +26,5 @@ function addLicense(filename) {
 	}
 }
 
-addLicense('urpflanze-light.min.js')
-addLicense('urpflanze-light.js')
 addLicense('urpflanze.js')
 addLicense('urpflanze.min.js')

@@ -10,7 +10,6 @@ module.exports = (env, argv) => {
 	return {
 		entry: {
 			urpflanze: './dist/index.js',
-			'urpflanze-light': './dist/index-light.js',
 		},
 		output: {
 			filename: bProduction ? '[name].min.js' : '[name].js',

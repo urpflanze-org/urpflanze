@@ -1,5 +1,4 @@
-import Scene from '@core/Scene'
-import { clamp } from 'src/Utilites'
+import { clamp, Scene } from '@urpflanze/core'
 import DrawerCanvas from '@services/drawers/drawer-canvas/DrawerCanvas'
 import { IGCODESettings } from '@services/types/exporters-importers'
 

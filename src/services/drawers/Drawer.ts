@@ -1,14 +1,12 @@
-import Scene from '@core/Scene'
+import { Scene, SceneChild, ShapePrimitive, pmod } from '@urpflanze/core'
 
 import Timeline from '@services/timeline/Timeline'
-import SceneChild from '@core/SceneChild'
+
 import SceneUtilities from '@services/scene-utilities/SceneUtilities'
 import Emitter from '@services/events/Emitter'
 import { IDrawerOptions, IDrawerPropArguments, IDrawerStreamProps, TDrawerProp } from '@services/types/drawer'
-import { parseColor } from 'src/Color'
-import ShapePrimitive from '@core/shapes/ShapePrimitive'
-import { pmod } from '@core/math'
 import { TProjectDrawerProps, TProjectSceneChildProps } from '@services/types/exporters-importers'
+import { parseColor } from 'src/Utilites'
 
 /**
  * Abstract Drawer
@@ -126,14 +124,14 @@ abstract class Drawer<IADrawerOptions extends IDrawerOptions, IDrawerEvents> ext
 						})
 					}
 
-					if (sceneChild.data.style) {
-						const style = sceneChild.data.style
+					if (sceneChild.data.drawer) {
+						const drawer = sceneChild.data.drawer
 
-						Object.keys(style).forEach(name => {
+						Object.keys(drawer).forEach(name => {
 							SceneUtilities.setDrawerProp(
 								sceneChild,
 								name as keyof TProjectDrawerProps,
-								style[name],
+								drawer[name],
 								this.scene as Scene
 							)
 						})
@@ -290,7 +288,7 @@ abstract class Drawer<IADrawerOptions extends IDrawerOptions, IDrawerEvents> ext
 		propArguments: IDrawerPropArguments,
 		defaultValue?: any
 	): any {
-		let attribute: TDrawerProp<any> = shape.style[key] as any
+		let attribute: TDrawerProp<any> = shape.drawer[key] as any
 
 		if (typeof attribute === 'function') {
 			attribute = attribute(propArguments)

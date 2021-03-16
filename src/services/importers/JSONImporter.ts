@@ -1,5 +1,4 @@
-import Scene from '@core/Scene'
-import SceneChild from '@core/SceneChild'
+import { Scene, SceneChild } from '@urpflanze/core'
 
 import DrawerCanvas from '@services/drawers/drawer-canvas/DrawerCanvas'
 

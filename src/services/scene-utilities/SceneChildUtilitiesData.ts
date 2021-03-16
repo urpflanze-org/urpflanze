@@ -1,5 +1,4 @@
-import Spiral from '@core/shapes/primitives/Spiral'
-import { EShapePrimitiveAdaptMode } from '@core/types/shape-base'
+import { EAdaptMode, Spiral } from '@urpflanze/core'
 import {
 	TTransformableType,
 	TDrawerPropsExtendedKeys,
@@ -54,10 +53,10 @@ type TSceneChildUtilitiesData = {
 }
 
 const OptionShapePrimitiveAdaptMode = [
-	{ key: 'None', value: EShapePrimitiveAdaptMode.None },
-	{ key: 'Scale', value: EShapePrimitiveAdaptMode.Scale },
-	{ key: 'Center', value: EShapePrimitiveAdaptMode.Center },
-	{ key: 'Fill', value: EShapePrimitiveAdaptMode.Fill },
+	{ key: 'None', value: EAdaptMode.None },
+	{ key: 'Scale', value: EAdaptMode.Scale },
+	{ key: 'Center', value: EAdaptMode.Center },
+	{ key: 'Fill', value: EAdaptMode.Fill },
 ]
 
 const OptionSpiralType = [

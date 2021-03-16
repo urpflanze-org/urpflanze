@@ -6,12 +6,10 @@ import {
 	TSimpleAnimationStatic,
 	TEasing,
 } from '@services/types/animation'
-import { ISceneChildPropArguments, TSceneChildProp } from '@core/types/scene-child'
-
-import { parseColorAndConvert, IConvertedColor } from 'src/Color'
-import { toArray } from 'src/Utilites'
+import { ISceneChildPropArguments, TSceneChildProp } from '@urpflanze/core'
 
 import Easings from '@services/animation/Easings'
+import { IConvertedColor, parseColorAndConvert, toArray } from 'src/Utilites'
 
 /**
  * @category Services.Animation

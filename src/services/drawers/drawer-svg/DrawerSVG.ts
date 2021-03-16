@@ -1,15 +1,16 @@
-import { IBufferIndex } from '@core/types/shape-base'
-import { ISceneChildPropArguments, IStreamArguments } from '@core/types/scene-child'
-
-import Scene from '@core/Scene'
-import SceneChild from '@core/SceneChild'
-import ShapePrimitive from '@core/shapes/ShapePrimitive'
-
-import { parseColorAndConvert } from 'src/Color'
-import { now } from 'src/Utilites'
+import {
+	ShapePrimitive,
+	SceneChild,
+	Scene,
+	IBufferIndex,
+	ISceneChildPropArguments,
+	IStreamArguments,
+	now,
+} from '@urpflanze/core'
 
 import { IDrawerStreamProps, IDrawerSVGEvents, IDrawerSVGOptions } from '@services/types/drawer'
 import Drawer from '@services/drawers/Drawer'
+import { parseColorAndConvert } from 'src/Utilites'
 
 /**
  * Abstract drawer

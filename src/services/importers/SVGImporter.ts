@@ -6,13 +6,8 @@ import { IProject, ISVGParsed, ISVGParsedPath } from '@services/types/exporters-
 import JSONImporter from '@services/importers/JSONImporter'
 
 import DrawerCanvas from '@services/drawers/drawer-canvas/DrawerCanvas'
-
-import { parseColor } from 'src/Color'
-import Scene from '@core/Scene'
-import ShapePrimitive from '@core/shapes/ShapePrimitive'
-import ShapeBuffer from '@core/shapes/ShapeBuffer'
-import Shape from '@core/shapes/Shape'
-import Group from '@core/Group'
+import { Scene, Shape, ShapeBuffer, Group } from '@urpflanze/core'
+import { parseColor } from 'src/Utilites'
 
 interface ISVGElementConversion {
 	rect: (rect: SVGRectElement) => string
@@ -155,7 +150,7 @@ class SVGImporter {
 				new ShapeBuffer({
 					shape: buffer.buffer,
 					bClosed: buffer.closed,
-					style: {
+					drawer: {
 						fill: buffer.fill,
 						stroke: buffer.stroke,
 						lineWidth: buffer.lineWidth,
@@ -333,7 +328,7 @@ class SVGImporter {
 				height = 0
 
 			for (let i = 0, len = paths.length; i < len; i++) {
-				const box = ShapePrimitive.getBounding(SVGImporter.pathToBuffer(paths[i], 1))
+				const box = ShapeBuffer.getBounding(SVGImporter.pathToBuffer(paths[i], 1))
 				box.width += box.x
 				box.height += box.y
 				if (box.width > width) width = box.width

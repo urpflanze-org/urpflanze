@@ -1,5 +1,6 @@
 import { TRenderImageType, TRenderType } from '@services/types/renderer'
-import { now } from 'src/Utilites'
+
+import { now } from '@urpflanze/core'
 
 interface ICapturerSettings {
 	type?: TRenderType

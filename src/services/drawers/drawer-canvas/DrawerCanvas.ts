@@ -1,6 +1,5 @@
-import Scene from '@core/Scene'
+import { Scene, SceneChild, Vec2, IStreamArguments, IBufferIndex, ShapePrimitive, now } from '@urpflanze/core'
 
-import SceneChild from '@core/SceneChild'
 import Drawer from '@services/drawers/Drawer'
 import FrameBuffer from '@services/drawers/drawer-canvas/FrameBuffer'
 import {
@@ -9,11 +8,6 @@ import {
 	IDrawerCanvasPropArguments,
 	IDrawerCanvasStreamProps,
 } from '@services/types/drawer'
-import { now } from 'src/Utilites'
-import Vec2 from '@core/math/Vec2'
-import { IStreamArguments } from '@core/types/scene-child'
-import { IBufferIndex } from '@core/types/shape-base'
-import ShapePrimitive from '@core/shapes/ShapePrimitive'
 
 /**
  *

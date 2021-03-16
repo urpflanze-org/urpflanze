@@ -12,7 +12,7 @@
 		"type": "git",
 		"url": "https://github.com/genbs/urpflanze.git"
 	},
-	"homepage": "https://genbs.github.io/urpflanze/",
+	"homepage": "https://urpflanze-org.github.io/urpflanze/",
 	"bugs": {
 		"url": "https://github.com/genbs/urpflanze/issues",
 		"email": "gennaro.bs@gmail.com"
@@ -58,9 +58,9 @@
 		"webpack-dev-server": "^3.11.0"
 	},
 	"dependencies": {
+		"@urpflanze/core": "^0.4.2",
 		"gl-matrix": "^3.3.0",
 		"jszip": "^3.5.0",
-		"simplex-noise": "^2.4.0",
 		"simplify-js": "^1.2.4",
 		"svgpath": "^2.3.0",
 		"transformation-matrix": "^2.5.0",

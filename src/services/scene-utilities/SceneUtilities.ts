@@ -1,31 +1,29 @@
 import { v1 as uuidv1 } from 'uuid'
 
-import SceneChild from '@core/SceneChild'
-
-// Shapes
-import Line from '@core/shapes/primitives/Line'
-import Triangle from '@core/shapes/primitives/Triangle'
-import Rect from '@core/shapes/primitives/Rect'
-import Polygon from '@core/shapes/primitives/Polygon'
-import Circle from '@core/shapes/primitives/Circle'
-
-import Rose from '@core/shapes/primitives/Rose'
-import Spiral from '@core/shapes/primitives/Spiral'
-import Lissajous from '@core/shapes/primitives/Lissajous'
-import SuperShape from '@core/shapes/primitives/SuperShape'
-
-import Shape from '@core/shapes/Shape'
-import ShapeRecursive from '@core/shapes/ShapeRecursive'
-import ShapePrimitive from '@core/shapes/ShapePrimitive'
-import ShapeLoop from '@core/shapes/ShapeLoop'
-import ShapeBuffer from '@core/shapes/ShapeBuffer'
-
-import Scene from '@core/Scene'
-import Group from '@core/Group'
-import ShapeBase from '@core/shapes/ShapeBase'
+import {
+	Scene,
+	SceneChild,
+	ShapeBase,
+	ShapeBuffer,
+	ShapePrimitive,
+	ShapeLoop,
+	Group,
+	Shape,
+	ISceneChildProps,
+	EAdaptMode,
+	Line,
+	Triangle,
+	Rect,
+	Polygon,
+	Circle,
+	Rose,
+	Spiral,
+	Lissajous,
+	SuperShape,
+	ShapeRecursive,
+} from '@urpflanze/core'
 
 import Animation from '@services/animation/Animation'
-import { ISceneChildProps } from '@core/types/scene-child'
 import { TAnimation } from '@services/types/animation'
 import {
 	TSceneChildPropsExtendedKeys,
@@ -40,7 +38,6 @@ import {
 import { vec2 } from 'gl-matrix'
 import SceneChildUtilitiesData from './SceneChildUtilitiesData'
 import SceneUtilitiesExtended from './SceneUtilitiesExtended'
-import { EShapePrimitiveAdaptMode } from '@core/types/shape-base'
 
 type SceneChildInstance = new (props: any) => SceneChild
 
@@ -216,11 +213,11 @@ class SceneUtilities {
 
 		if (sceneChild instanceof ShapeBuffer) {
 			setting.shape = sceneChild.shape
+			setting.adaptMode = sceneChild.adaptMode
 		}
 
 		if (sceneChild instanceof ShapePrimitive) {
 			setting.bClosed = sceneChild.bClosed
-			setting.adaptMode = sceneChild.adaptMode
 			setting.vertexCallback = sceneChild.vertexCallback
 		}
 
@@ -603,7 +600,7 @@ class SceneUtilities {
 
 		// Otherwise, set prop without transformation
 		//Equivalent of: if (name in SceneChildPropsData && SceneChildPropsData[name].transformation !== 'none')
-		sceneChild.setProp(name as keyof ISceneChildProps, value as number | vec2, true)
+		sceneChild.setProp(name as keyof ISceneChildProps, value as number | [number, number], true)
 		delete sceneChild.data.props[name]
 
 		// Not set to data because exporter override sceneChild.data.props on sceneChild.props (default)
@@ -634,8 +631,8 @@ class SceneUtilities {
 			}
 
 			if (SceneUtilitiesExtended.bValueAnimation(value)) {
-				sceneChild.data.style[name] = value
-				;(sceneChild as ShapePrimitive).style[name] = Animation.composeAnimation(scene, name, value as TAnimation)
+				sceneChild.data.drawer[name] = value
+				;(sceneChild as ShapePrimitive).drawer[name] = Animation.composeAnimation(scene, name, value as TAnimation)
 				return
 			}
 
@@ -688,7 +685,7 @@ class SceneUtilities {
 				if (sceneChild instanceof ShapePrimitive) sceneChild.setClosed(value as boolean)
 				break
 			case 'adaptMode':
-				if (sceneChild instanceof ShapePrimitive) sceneChild.adapt(value as EShapePrimitiveAdaptMode)
+				if (sceneChild instanceof ShapeBuffer) sceneChild.adapt(value as EAdaptMode)
 				break
 			default:
 				if (typeof sceneChild[name] !== 'undefined') {

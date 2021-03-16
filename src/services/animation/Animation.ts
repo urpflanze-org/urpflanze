@@ -1,10 +1,9 @@
 import { ISimpleAnimation, TAnimation } from '@services/types/animation'
 import Simple from '@services/animation/Simple'
-import { TSceneChildProp } from '@core/types/scene-child'
-import Scene from '@core/Scene'
+import * as Urpflanze from '@urpflanze/core'
+import { TSceneChildProp, Scene } from '@urpflanze/core'
 import SceneUtilitiesExtended from '@services/scene-utilities/SceneUtilitiesExtended'
 import { TDrawerPropsExtendedKeys, TSceneChildPropsExtendedKeys } from '@services/types/scene-utilities'
-import * as Urpflanze from 'src/index-light'
 
 /**
  * @ignore

@@ -8,11 +8,12 @@ import {
 	IShapeLoopProps,
 	ISpiralProps,
 	ISuperShapeProps,
-} from '@core/types/shape-primitives'
-import { IShapePrimitiveProps, IShapeRecursiveProps } from '@core/types/shape-base'
+	IShapePrimitiveProps,
+	IShapeRecursiveProps,
+	TSceneChildProp,
+} from '@urpflanze/core'
 import { ICallableValue, TAnimation, TCallableValue } from '@services/types/animation'
 import { vec2 } from 'gl-matrix'
-import { TSceneChildProp } from '@core/types/scene-child'
 import { IDrawerStreamProps, TDrawerProp } from './drawer'
 
 /**
