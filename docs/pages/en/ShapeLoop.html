@@ -1,8 +1,7 @@
 <h1>ShapeLoop</h1>
 
 <p>
-	The ShapeLoop is one of the main classes of Urpflanze. Thanks to them it is possible to create a shape starting from a
-	loop.
+	The ShapeLoop is one of the core classes of Urpflanze. It allows to create loop-generated shapes.
 </p>
 
 <!-- prettier-ignore -->
@@ -28,15 +27,15 @@ scene.add(
         },
         bClosed: false
     })
-) 
+)
 
-new Urpflanze.DrawerCanvas(scene, document.body).draw() 
+new Urpflanze.DrawerCanvas(scene, document.body).draw()
 </script>
 
 <p>
-	The ShapeLoops can be animated, this involves the generation of the shape with each update and a decrease of
-	performance. You can pass the <mark>loopDependencies</mark> array with the list of loop dependencies. To example, if
-	we want to animate based on the propArguments object:
+	The ShapeLoops can be animated, this involves regenerating the shape on each update causing a decrease in
+	performances. You can pass the <mark>loopDependencies</mark> array with the list of the loop dependencies.
+	For example, if we want to animate based on the propArguments object:
 </p>
 
 <!-- prettier-ignore -->
@@ -56,23 +55,23 @@ scene.add(
             inc: (Math.PI * 2) / 40,
             vertex: (shapeLoopRepetition, propArguments) => {
                 const noise = Urpflanze.noise(
-                    'seed', 
-                    shapeLoopRepetition.offset * 4, 
-                    propArguments.repetition.row.offset, 
+                    'seed',
+                    shapeLoopRepetition.offset * 4,
+                    propArguments.repetition.row.offset,
                     scene.currentTime / 1000
                 )
-                
+
                 const x = shapeLoopRepetition.offset * 2 - 1
                 const y = Math.sin(shapeLoopRepetition.angle) * noise
-                
+
                 return [x, y]
             }
         },
         loopDependencies: ['propArguments'],
         bClosed: false
     })
-) 
+)
 
 const drawer = new Urpflanze.DrawerCanvas(scene, document.body)
-drawer.startAnimation() 
+drawer.startAnimation()
 </script>

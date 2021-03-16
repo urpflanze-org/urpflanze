@@ -1,9 +1,9 @@
 <h1>Manage repetitions</h1>
 
 <h2>The propArguments object</h2>
-To manage repetitions, we can pass a function instead of a constant to the properties.<br />
-It accepts only one argument which is of type
-<a href="#/ref/ISceneChildPropArguments">ISceneChildPropArguments</a> that we will call <mark>propArguments</mark>.
+It is also possible to pass a function, instead of a constant, to the properties in order to manage repetitions<br />
+It accepts one argument only, of type
+<a href="#/ref/ISceneChildPropArguments">ISceneChildPropArguments</a>, called <mark>propArguments</mark>.
 <p>
 	Inside <mark>propArguments</mark> we find the <mark>repetition</mark> property which is of type
 	<a href="#/ref/IRepetition">IRepetition</a>. Any object that extends a
@@ -40,13 +40,13 @@ const spiral = new Urpflanze.Rect({
         repetitions: 20,
         sideLength: 30,
 
-        distance: propArguments => propArguments.repetition.offset * 140, 
-        scale: propArguments =>  propArguments.repetition.offset 
+        distance: propArguments => propArguments.repetition.offset * 140,
+        scale: propArguments =>  propArguments.repetition.offset
 })
 
-scene.add(spiral) 
+scene.add(spiral)
 
-new Urpflanze.DrawerCanvas(scene, document.body).draw() 
+new Urpflanze.DrawerCanvas(scene, document.body).draw()
 </script>
 
 <h2>Encapsulation and repetition</h2>
@@ -55,7 +55,7 @@ Let's try to encapsulate the previous shape and animate it by rotating it clockw
 repetition of the container that encapsulates it.
 
 <!-- prettier-ignore -->
-<script id="g-r_2" class="runnable-script">/** 
+<script id="g-r_2" class="runnable-script">/**
  * Spiral of squares pt.2
  */
 const scene = new Urpflanze.Scene()
@@ -68,7 +68,7 @@ const spiral = new Urpflanze.Rect({
 
         // `propArguments.parent` refers to the `propArguments` object of the `container`
         displace: propArguments => (scene.currentTime / 1000) * (propArguments.parent.repetition.index % 2 === 0 ? 1: -1),
-        distance: propArguments => propArguments.repetition.offset * 140, 
+        distance: propArguments => propArguments.repetition.offset * 140,
         scale: propArguments =>  propArguments.repetition.offset,
 
 })
@@ -80,9 +80,9 @@ const continer = new Urpflanze.Shape({
     scale: .4
 })
 
-scene.add(continer) 
+scene.add(continer)
 
-new Urpflanze.DrawerCanvas(scene, document.body).startAnimation() 
+new Urpflanze.DrawerCanvas(scene, document.body).startAnimation()
 </script>
 
 <p>

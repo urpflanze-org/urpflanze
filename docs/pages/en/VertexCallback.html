@@ -15,15 +15,15 @@ const rect = new Urpflanze.Rect({
     vertexCallback: (vertex, vertexRepetition, propArguments) => {
 
         const angle = Math.atan2(vertex[1], vertex[0])
-        
-        const x = Math.cos(angle) 
-        const y = Math.sin(angle) 
+
+        const x = Math.cos(angle)
+        const y = Math.sin(angle)
 
         const offset = 20
         const noise = Urpflanze.noise('seed', vertexRepetition.offset * 2, scene.currentTime / 1000) * offset
 
-        vertex[0] += x * noise 
-        vertex[1] += y * noise 
+        vertex[0] += x * noise
+        vertex[1] += y * noise
     }
 })
 
@@ -31,10 +31,10 @@ rect.subdivide(4) // Only ShapeBuffer can be subdivided
 
 scene.add(rect)
 
-new Urpflanze.DrawerCanvas(scene, document.body).startAnimation() 
+new Urpflanze.DrawerCanvas(scene, document.body).startAnimation()
 </script>
 
 <p>
-	For an animation on the vertexCallback property, the shape must not be static (therefore at least one properties is a
+	For an animation on the vertexCallback property, the shape must not be static (therefore at least one property is a
 	function)
 </p>
