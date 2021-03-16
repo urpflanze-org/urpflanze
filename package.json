@@ -1,22 +1,43 @@
 {
 	"name": "urpflanze",
 	"version": "0.4.0",
-	"description": "A library for developers who want to approach to creative coding, for artists who want to approach to programming or for anyone else who wants to play with math.",
+	"description": "A library for developers who want to approach to creative coding, artists who want to approach coding and for those who find it fun to play with math.",
 	"license": "GPL-3.0-or-later",
+	"docs": "https://docs.urpflanze.org/urpflanze",
+	"keywords": [
+		"urpflanze",
+		"creativecoding",
+		"mathart",
+		"typescript"
+	],
 	"author": {
 		"name": "Gennaro Bosone",
 		"email": "gennaro.bs@gmail.com",
 		"url": "https://github.com/genbs"
 	},
+	"homepage": "https://urpflanze-org.github.io/urpflanze/",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/genbs/urpflanze.git"
 	},
-	"homepage": "https://urpflanze-org.github.io/urpflanze/",
 	"bugs": {
 		"url": "https://github.com/genbs/urpflanze/issues",
 		"email": "gennaro.bs@gmail.com"
 	},
+	"funding": [
+		{
+			"type": "kofi",
+			"url": "https://ko-fi.com/urpflanze"
+		},
+		{
+			"type": "bitcoin",
+			"url": "https://explorer.btc.com/btc/address/1CSQq4aMmsA71twvyZHZCjmeB2AmQGCPNq"
+		},
+		{
+			"type": "ethereum",
+			"url": "https://etherscan.io/address/0x9086c4bb7015c1d6dc79162d02e7e1239c982c01"
+		}
+	],
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
 	"browser": "build/urpflanze.js",
