@@ -1,9 +1,9 @@
 import wiki from './wiki'
 
 import GetExamplesNavigation from '../examples/get-navigation'
-import { NavReferences } from '../references'
 import createList from './create-list'
 import { getCurrentPage, goto } from '../routing/routing'
+import references from '../references'
 
 document.getElementById('menu_btn').addEventListener('click', openMenu, { passive: true })
 document.getElementById('aside-bg').addEventListener('click', closeMenu, { passive: true })
@@ -39,7 +39,16 @@ export function bindNavigation(lang, search) {
 	api.innerText = 'API'
 	nav.append(api)
 
-	const _doc = createList(NavReferences, search, lang)
+	const _doc = document.createDocumentFragment()
+	Object.entries(references).forEach(([module, link]) => {
+		const a = document.createElement('a')
+		a.setAttribute('href', link)
+		a.setAttribute('target', '_blank')
+		const title = document.createElement('h2')
+		title.innerText = module
+		a.appendChild(title)
+		_doc.appendChild(a)
+	})
 	nav.append(_doc)
 }
 

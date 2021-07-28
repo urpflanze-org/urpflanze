@@ -3,12 +3,13 @@
 <h2>DrawerCanvas e Timeline</h2>
 Urpflanze è principalmente una libreria per la generazione di punti, tuttavia esiste di base una classe per mostrare il
 risultato dell'elaborazione degli stessi: il
-<a href="#/ref/DrawerCanvas">DrawerCanvas</a>.<br />
+<a target="_blank" href="https://docs.urpflanze.org/drawer-canvas/#/ref/DrawerCanvas">DrawerCanvas</a>.<br />
 Negli esempi precedenti abbiamo già visto che possiamo utilizzare il metodo <mark>draw()</mark> per renderizzare
 l'immagine in un dato momento ed il metodo <mark>startAnimation()</mark> per far partire l'animazione.
 <p>
-	Per gestire un'animazione è possibile utilizzare la classe <a href="#/ref/Timeline">Timeline</a> per settare la durata
-	e il framerate.
+	Per gestire un'animazione è possibile utilizzare la classe
+	<a target="_blank" href="https://docs.urpflanze.org/drawer-canvas/#/ref/Timeline">Timeline</a> per settare la durata e
+	il framerate.
 </p>
 
 <!-- prettier-ignore -->
@@ -35,32 +36,31 @@ scene.add(container)
 
 const drawer = new Urpflanze.DrawerCanvas(scene, document.body)
 
-const timeline = drawer.getTimeline()
-timeline.setFramerate(4) // Set animation framerate
-timeline.setDuration(4000) // Set animation duration
+drawer.timeline.setFramerate(4) // Set animation framerate
+drawer.timeline.setDuration(4000) // Set animation duration
 
 drawer.startAnimation()
 </script>
 
 <h2>Animazioni semplici</h2>
 Se hai poca dimestichezza con le funzioni periodiche puoi utilizzare le
-<a href="#/ref/ISimpleAnimation">ISimpleAnimation</a>. Essere posso essere di tre tipi, settando la proprietà
-<mark>type</mark>:
+<a target="_blank" href="https://docs.urpflanze.org/animation/#/ref/ISimpleAnimation">ISimpleAnimation</a>. Essere posso
+essere di tre tipi, settando la proprietà <mark>type</mark>:
 
 <ul class="details">
 	<li>
-		<mark>loop</mark>
+		<mark>Loop</mark>
 		<i
 			>l'animazione si ripeterà da <mark>from</mark> a <mark>to</mark> e da <mark>to</mark> a <mark>from</mark> per la
 			durata specificata</i
 		>
 	</li>
 	<li>
-		<mark>uncontrolled-loop</mark>
+		<mark>UncontrolledLoop</mark>
 		<i>l'animazione si ripeterà da <mark>from</mark> a <mark>to</mark> per la durata specificata</i>
 	</li>
 	<li>
-		<mark>static</mark>
+		<mark>Static</mark>
 		<i>
 			l'animazione verra eseguita una sola volta da <mark>from</mark> a <mark>to</mark> per la durata specificata, puoi
 			utilizare la proprietà <mark>delay</mark> per farla partire al tempo desiderato
@@ -70,13 +70,13 @@ Se hai poca dimestichezza con le funzioni periodiche puoi utilizzare le
 
 <p>
 	Attraverso la proprietà <mark>mode</mark> è possibile specificare se essa deve seguire un andamento sinusoidale oppure
-	un <a href="#/ref/TEasing">easing</a>.
+	un <a target="_blank" href="https://docs.urpflanze.org/animation/#/ref/TEasing">easing</a>.
 </p>
 
 <h2>Opzioni per il DrawerCanvas</h2>
 Al DrawerCanvas è possibile passare alcuni argomenti per altre sperimentazioni attraverso l'oggetto
-<a href="#/ref/IDrawerCanvasOptions">DrawerCanvasOptions</a>. Proviamo a fare un esempio settando i
-<mark>ghosts</mark> e con l'utilizzo delle <mark>SimpleAnimation</mark>
+<a target="_blank" href="https://docs.urpflanze.org/drawer-canvas/#/ref/IDrawerCanvasOptions">DrawerCanvasOptions</a>.
+Proviamo a fare un esempio settando i <mark>ghosts</mark> e con l'utilizzo delle <mark>SimpleAnimation</mark>
 
 <!-- prettier-ignore -->
 <script id="d-t_2" class="runnable-script">/** 
@@ -91,8 +91,7 @@ const circles = new Urpflanze.Circle({
         from: 0.6,
         to: 0.1,
         duration: 2000,
-        mode: 'easing',
-        modeFunction: 'quadraticInOut'
+        interpolator: 'quadraticInOut'
     }),
     distance: Urpflanze.Animation.loop({
         from: 20,
@@ -102,14 +101,12 @@ const circles = new Urpflanze.Circle({
     displace: Urpflanze.Animation.uncontrolledLoop({
         from: 0,
         to: Math.PI * 2,
-        duration: 4000,
-        mode: 'easing',
-        modeFunction: 'linear'
+        duration: 4000
     }),
     rotateX: Urpflanze.Animation.uncontrolledLoop({
         from: 0,
         to: Math.PI * 2,
-        duration: 4000,
+        duration: 4000
     }),
 
     style: {
@@ -117,7 +114,7 @@ const circles = new Urpflanze.Circle({
             from: 'hsl(0, 50%, 50%)',
             to: 'hsl(140, 100%, 40%)',
             colorTransitionMode: 'rgb',
-            duration: 2000,
+            duration: 2000
         })
     }
 })

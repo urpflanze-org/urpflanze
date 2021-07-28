@@ -110,4 +110,4 @@ drawer.draw() // Draw scene on canvas
 
 ---
 
-## [More details on the **core** library](https://github.com/urpflanze-org/core)
+### [Core](https://github.com/urpflanze-org/core) · [DrawerCanvas](https://github.com/urpflanze-org/drawer-canvas) · [Animation](https://github.com/urpflanze-org/animation)

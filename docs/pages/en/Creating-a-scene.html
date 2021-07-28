@@ -32,7 +32,7 @@ drawer.draw() // Draw the scene on canvas
 		<div>
 			<h3>Ring</h3>
 			<p>
-				To define a <a href="#/ref/ERepetitionType">Ring</a> repetition just set a numeric value to the <mark>repetitions</mark> property.
+				To define a <a target="_blank" href="https://docs.urpflanze.org/core/#/ref/ERepetitionType">Ring</a> repetition just set a numeric value to the <mark>repetitions</mark> property.
 				The shapes will be distributed over the circumference whose radius is defined by the <mark>distance</mark> property and will rotate towards its center.
 			</p>
 		</div>
@@ -44,7 +44,7 @@ drawer.draw() // Draw the scene on canvas
 		<div>
 			<h3>Matrix</h3>
 			<p>
-				To define a <a href="#/ref/ERepetitionType">Matrix</a> repetition, provide an array of one or two numbers to the <mark>repetitions</mark> property.
+				To define a <a target="_blank" href="https://docs.urpflanze.org/core/#/ref/ERepetitionType">Matrix</a> repetition, provide an array of one or two numbers to the <mark>repetitions</mark> property.
 				If the provided array is defined by a single number (for example: [3]), the matrix will be defined by 3 rows and 3 columns. If, on the other hand, the provided array is defined by two numbers (for example [3, 5]) the matrix will have 3 rows and 5 columns.
 			</p>
 			<p>
@@ -92,6 +92,10 @@ Before continuing it's important to account the hierarchy of the classes that ca
 	<li>
 		<mark>ShapeRecursive</mark>
 		<i>is SceneChild repeating shape that repeats on each vertex. It is also possible to apply properties to it</i>
+	</li>
+	<li>
+		<mark>ShapeFollow</mark>
+		<i>is SceneChild repeating shape that repeats on each vertex of another SceneChild. It is also possible to apply properties to it</i>
 	</li>
 </ul>
 
@@ -180,8 +184,8 @@ drawer.draw()
 
 <h2>Styling</h2>
 
-For the <a href="#/ref/ShapePrimitive">ShapePrimitive</a> - which are the instances of the drawn shapes - it is possible
-set apply border or fill color through the <mark>style</mark> property.
+For the <a target="_blank" href="https://docs.urpflanze.org/core/#/ref/ShapePrimitive">ShapePrimitive</a> - which are the instances of the drawn shapes - it is possible
+set apply border or fill color through the <mark>drawer</mark> property.
 
 <!-- prettier-ignore -->
 <script id="c-e_5" class="runnable-script">/**
@@ -200,14 +204,14 @@ const rects = new Urpflanze.Shape({
 	shape: new Urpflanze.Circle({
 		repetitions: [3, 1],
 		sideLength: 7.5,
-		style: { fill: '#f70' }
+		drawer: { fill: '#f70' }
 	})
 })
 
 const triangles = new Urpflanze.Triangle({
 	sideLength: 10,
 	distance: 150,
-	style: { fill: '#fff' }
+	drawer: { fill: '#fff' }
 })
 
 const lines = new Urpflanze.Line({
@@ -220,14 +224,14 @@ group.add(triangles, lines, rects)
 const center = new Urpflanze.Circle({
 	distance: 0,
 	sideLength: 10,
-	style: { lineWidth: 2 }
+	drawer: { lineWidth: 2 }
 })
 
 const circles = new Urpflanze.Circle({
 	repetitions: 8,
 	distance: 90,
 	sideLength: 80,
-	style: { fill: 'hsla(200, 100%, 60%, .2)' }
+	drawer: { fill: 'hsla(200, 100%, 60%, .2)' }
 })
 
 scene.add(circles, group, center)

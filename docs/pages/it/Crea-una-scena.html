@@ -33,7 +33,7 @@ drawer.draw() // Disegna la scena su canvas
 		<div>
 			<h3>Circolari</h3>
 			<p>
-				Per definire una ripetizione <a href="#/ref/ERepetitionType">Circolare</a> basterà settare un valore numerico alla proprietà <mark>repetitions</mark>.
+				Per definire una ripetizione <a target="_blank" href="https://docs.urpflanze.org/core/#/ref/ERepetitionType">Circolare</a> basterà settare un valore numerico alla proprietà <mark>repetitions</mark>.
 				Le forme si distribuiranno su tutta la circonferenza il cui raggio è definito dalla proprietà <mark>distance</mark> e verranno ruotate verso il centro.
 			</p>
 		</div>
@@ -45,7 +45,7 @@ drawer.draw() // Disegna la scena su canvas
 		<div>
 			<h3>Matrici</h3>
 			<p>
-				Per definire una ripetizione a <a href="#/ref/ERepetitionType">Matrice</a> basterà settare un array di uno o due numeri alla proprietà <mark>repetitions</mark>.
+				Per definire una ripetizione a <a target="_blank" href="https://docs.urpflanze.org/core/#/ref/ERepetitionType">Matrice</a> basterà settare un array di uno o due numeri alla proprietà <mark>repetitions</mark>.
 				Se viene inserito un solo valore (es [3]) la matrice avrà 3 righe e 3 colonne. Se, invece, verranno passati due numeri ad esempio [3, 5] la matrice avrà 3 righe e 5 colonne.
 			</p>
 			<p>
@@ -93,6 +93,10 @@ Prima di continuare è importante spiegare la gerarchia delle classi aggiungibil
 	<li>
 		<mark>ShapeRecursive</mark>
 		<i>è una forma che ripete su ogni vertice uno SceneChild ed è possibile applicare le proprietà</i>
+	</li>
+	<li>
+		<mark>ShapeFollow</mark>
+		<i>è una forma che ripete su ogni vertice uno SceneChild un altro SceneChild ed è possibile applicare le proprietà</i>
 	</li>
 </ul>
 
@@ -181,8 +185,8 @@ drawer.draw()
 
 <h2>Styling</h2>
 
-Per le <a href="#/ref/ShapePrimitive">ShapePrimitive</a> - che sono le forme che verranno disegnate - è possibile
-settare il colore del bordo o di riempimento attraverso la proprietà <mark>style</mark>.
+Per le <a target="_blank" href="https://docs.urpflanze.org/core/#/ref/ShapePrimitive">ShapePrimitive</a> - che sono le forme che verranno disegnate - è possibile
+settare il colore del bordo o di riempimento attraverso la proprietà <mark>drawer</mark>.
 
 <!-- prettier-ignore -->
 <script id="c-e_5" class="runnable-script">/**
@@ -201,14 +205,14 @@ const rects = new Urpflanze.Shape({
 	shape: new Urpflanze.Circle({
 		repetitions: [3, 1],
 		sideLength: 7.5,
-		style: { fill: '#f70' }
+		drawer: { fill: '#f70' }
 	})
 })
 
 const triangles = new Urpflanze.Triangle({
 	sideLength: 10,
 	distance: 150,
-	style: { fill: '#fff' }
+	drawer: { fill: '#fff' }
 })
 
 const lines = new Urpflanze.Line({
@@ -221,14 +225,14 @@ group.add(triangles, lines, rects)
 const center = new Urpflanze.Circle({
 	distance: 0,
 	sideLength: 10,
-	style: { lineWidth: 2 }
+	drawer: { lineWidth: 2 }
 })
 
 const circles = new Urpflanze.Circle({
 	repetitions: 8,
 	distance: 90,
 	sideLength: 80,
-	style: { fill: 'hsla(200, 100%, 60%, .2)' }
+	drawer: { fill: 'hsla(200, 100%, 60%, .2)' }
 })
 
 scene.add(circles, group, center)

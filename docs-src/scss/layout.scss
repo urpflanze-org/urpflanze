@@ -87,3 +87,8 @@ header {
 .dynamic-container {
 	flex: 4.2;
 }
+
+a.kofi-button,
+.btn-container {
+	min-width: 0 !important;
+}
