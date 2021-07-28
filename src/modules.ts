@@ -1,6 +1,5 @@
 export * from './modules-light'
 
-export * from './modules-light'
 export * as Color from '@urpflanze/color/dist/cjs'
 
 export { Renderer, Timeline } from '@urpflanze/drawer-canvas/dist/cjs'
