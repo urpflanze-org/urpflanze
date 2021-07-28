@@ -1,6 +1,6 @@
 {
 	"name": "@urpflanze/js",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"description": "A library for developers who want to approach to creative coding, artists who want to approach coding and for those who find it fun to play with math.",
 	"license": "GPL-3.0-or-later",
 	"docs": "https://docs.urpflanze.org/urpflanze",
@@ -55,7 +55,7 @@
 	"scripts": {
 		"lint": "eslint src --ext .ts",
 		"build-browser": "npx webpack --config webpack.config.js",
-		"build": "tsc --p tsconfig.json && npm run build-browser && tsc --p tsconfig-esm.json && npm run build-docs",
+		"build": "tsc --p tsconfig.json && tsc --p tsconfig-esm.json && npm run build-browser && npm run build-docs",
 		"serve-docs": "webpack serve --config webpack.config.docs.js",
 		"build-docs": "npx webpack --config webpack.config.docs.js --mode production && npx sass ./docs-src/scss/index.scss ./docs/assets/css/app.css --style compressed",
 		"prepublishOnly": "npm run build",
