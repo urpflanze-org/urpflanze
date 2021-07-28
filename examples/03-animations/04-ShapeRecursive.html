@@ -5,7 +5,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
 		<title>Urpflanze | Animations | 01 - Basic prop animation</title>
-    <script src="https://cdn.jsdelivr.net/npm/@urpflanze/js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/@urpflanze/js/build/umd/urpflanze-light.min.js"></script>
 		<style>
 			* {
 				margin: 0;
@@ -23,23 +23,20 @@
 					start: 0,
 					end: Urpflanze.PI2,
 					inc: Urpflanze.PI2 / 30,
-					vertex: ({ angle }) => [Math.cos(angle), Math.sin(angle)],
+					vertex: ({ offset }) => [Math.cos(offset * Urpflanze.PI2), Math.sin(offset * Urpflanze.PI2)],
 				},
 
 				scale: propArguments => {
-					return Urpflanze.Animation.static({
+					return Urpflanze.Animation.Static({
 						from: 0,
 						to: 1,
 						duration: 1000,
 						delay: 1000 * (propArguments.parent.recursion.level.index - 1),
-						mode: 'easing',
-						modeFunction: 'sinusoidalInOut',
+						interpolator: 'sinusoidalInOut',
 					})(propArguments)
 				},
 
-				bUseRecursion: true,
-
-				style: {
+				drawer: {
 					fill: ({ parent }) => {
 						const hue = 60 + parent.recursion.level.offset * 280
 						const sat = parent.recursion.offset * 100
@@ -56,6 +53,7 @@
 				recursions: 5,
 				recursionVertex: 6,
 				recursionScale: 1,
+				shapeUseRecurion: true,
 			})
 
 			scene.add(recursion)

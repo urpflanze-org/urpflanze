@@ -5,7 +5,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
 		<title>Urpflanze | Repetitions | 02 - Repetition on ShapeLoop</title>
-    <script src="https://cdn.jsdelivr.net/npm/@urpflanze/js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/@urpflanze/js/build/umd/urpflanze-light.min.js"></script>
 		<style>
 			* {
 				margin: 0;
@@ -27,9 +27,10 @@
 					inc: 0.1,
 					vertex: (shapeLoopRepetition, propArguments) => {
 						const frequency = propArguments.repetition.index
+						const angle = shapeLoopRepetition.offset * Math.PI * 2
 
 						const x = shapeLoopRepetition.offset * 2 - 1
-						const y = Math.sin(shapeLoopRepetition.angle * frequency)
+						const y = Math.sin(angle * frequency)
 
 						return [x, y]
 					},
