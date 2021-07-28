@@ -1,32 +1,65 @@
 <h1>Renderer <small style="font-size: 1rem">(alpha)</small></h1>
 
+<h2>Esportare l'animazione</h2>
+<p>
+	Con la classe <a target="_blank" href="https://docs.urpflanze.org/drawer-canvas/#/ref/Renderer">Renderer</a> puoi
+	esportare un'animazione in formato video (mp4, webm) o gif
+</p>
+
+<pre class="prettyprint">
+	<code translate="no" class="language-html">&lt;script type="module"&gt;
+		// Create a scene
+		// const scene = ...
+		// const drawer = new Urpflanze.DrawerCanvas(scene, document.body)
+	
+		drawer.timeline.setFramerate([framerate])
+		drawer.timeline.setDuration([duration])
+	
+		const renderer = new Urpflanze.Renderer(drawer)
+	
+		renderer.attach('renderer:video_init', e => console.log('renderer start', e))
+		renderer.attach('renderer:video_start', e => console.log('renderer ffmpeg loaded', e))
+		renderer.attach('renderer:video_progress', e => console.log('renderer render frame', e))
+		renderer.attach('renderer:video_preparing', e => console.log('renderer ffmpeg preparing video', e))
+	
+		function render() {
+			drawer.stopAnimation()
+	
+			renderer.render('video/mp4').then(buffer => {
+				const blob = new Blob([buffer], { type: 'video/mp4' })
+				const videoUrl = window.URL.createObjectURL(blob)
+				const videoElement = document.createElement('video')
+				videoElement.setAttribute('src', videoUrl)
+				videoElement.setAttribute('loop', 'true')
+				videoElement.setAttribute('controls', 'true')
+				document.body.appendChild(videoElement)
+			})
+		}
+	&lt;/script&gt;</code>
+</pre>
+
 <h2>Esportare i frame in formato zip</h2>
-<p>Con la classe <a href="#/ref/Renderer">Renderer</a> puoi esportare tutti i frame dell'animazione</p>
+<p>Puoi esportare tutti i frame dell'animazione</p>
 
 <pre class="prettyprint">
 <code translate="no" class="language-html">&lt;script type="module"&gt;
-	// Create a scene
-	// const scene = ...
-	// const drawer = new Urpflanze.DrawerCanvas(scene, document.body)
-	// const timeline = drawer.getTimeline()
+	// ...
 
-	timeline.setFramerate([framerate])
-	timeline.setDuration([duration])
+	const renderer = new Urpflanze.Renderer(drawer)
 
-	const renderer = new Urpflanze.Renderer()
-
-	renderer.attach('renderer:start', e => console.log('renderer start', e))
-	renderer.attach('renderer:render-frame', e => console.log('renderer render frame', e))
+	renderer.attach('renderer:zip_start', e => console.log('renderer start', e))
+	renderer.attach('renderer:zip_progress', e => console.log('renderer render frame', e))
+	renderer.attach('renderer:zip_preparing', e => console.log('preparing zip', e))
 
 	function render() {
 		drawer.stopAnimation()
 
-		renderer.renderAnimation(drawer, { quality: 1, type: 'image/png' }).then(zipParts => {
+		renderer.zip('image/png'/*, quality, framesForChunk */).then(zipParts => {
 			for (let i = 0, len = zipParts.length; i < len; i++) {
-				const zip = zipParts[i]
 				const name = 'part_' + (i + 1)
 
-				const url = URL.createObjectURL(zip, { type: 'application/octet-stream' })
+				const blob = new Blob([zipParts[i]], { type: 'application/zip' })
+				const chunkURL = window.URL.createObjectURL(blob)
 
 				const link = document.createElement('a')
 				link.setAttribute('_target', '_blank')
@@ -38,83 +71,4 @@
 		})
 	}
 &lt;/script&gt;</code>
-</pre>
-
-<p>
-	Dopo aver scompattato gli zip in un'unica cartella puoi montare il video con un software di montaggio oppure da
-	terminale con <a href="https://ffmpeg.org/" target="_blank">ffmpeg</a>
-</p>
-
-<pre class="prettyprint">
-<code translate="no" class="language-bash">
-	ffmpeg -i %05d.png -c:v libx264 -pix_fmt yuv420p out.mp4
-</code>
-</pre>
-
-<h2>Alternative</h2>
-
-Un'altra possibilità è quella di utilizzare questa libreria
-<a href="https://github.com/mattdesl/mp4-h264" target="_blank">mattdesl/mp4-h264</a>
-
-<pre class="prettyprint">
-<code translate="no" class="language-html">&lt;script type="module"&gt;
-	import loadEncoder from 'https://unpkg.com/mp4-h264'
-
-
-	// Creating a scene
-	// const scene = ...
-	// const drawer = ...
-	// const timeline = drawer.getTimeline()
-
-	timeline.setDuration([duration])
-
-	function createMP4() {
-		render().then(mp4 => {
-			const url = URL.createObjectURL(new Blob([mp4], { type: 'video/mp4' }))
-
-			const video = document.createElement('video')
-			video.src = url
-			video.width = scene.width
-			video.height = scene.height
-			video.controls = true
-
-			document.body.appendChild(video)
-		})
-	}
-
-	async function render() {
-		return new Promise(resolve => {
-			requestAnimationFrame(async () => {
-				drawer.stopAnimation()
-				const timeline = drawer.getTimeline()
-				const sequence = timeline.getSequence()
-				const frames = sequence.frames
-
-				const Encoder = await loadEncoder()
-
-				const encoder = Encoder.create({
-					width: scene.width,
-					height: scene.height,
-					fps: timeline.getFramerate(),
-					sequential: true,
-				})
-
-				const context = drawer.getContext()
-
-				for (let current_frame = 0; current_frame < frames; current_frame++) {
-					// draw current frame
-					timeline.setFrame(current_frame)
-					drawer.draw()
-
-					// store image
-					const imagedata = context.getImageData(0, 0, scene.width, scene.height)
-					encoder.encodeRGB(imagedata.data)
-				}
-
-				resolve(encoder.end())
-			})
-		})
-	}
-&lt;/script&gt;
-</code>
 </pre>

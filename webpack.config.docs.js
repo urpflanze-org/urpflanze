@@ -25,7 +25,7 @@ module.exports = (env, argv) => {
 			ignored: /node_modules/,
 		},
 		devtool: 'source-map',
-		mode: argv.mode,
+		mode: argv.mode || 'development',
 		watch: argv.watch,
 
 		devServer: {

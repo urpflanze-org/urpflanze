@@ -3,11 +3,11 @@
 <h2>DrawerCanvas and Timeline</h2>
 Urpflanze is primarily a library for generating points, however there is a basic class to show the result of their
 processing: the
-<a href="#/ref/DrawerCanvas">DrawerCanvas</a>.<br />
+<a target="_blank" href="https://docs.urpflanze.org/drawer-canvas/">DrawerCanvas</a>.<br />
 In the previous examples we have already seen that we can use the <mark>draw()</mark> method to render the image at a
 given moment and the <mark>startAnimation()</mark> method to start the animation.
 <p>
-	To manage an animation, you can use the <a href="#/ref/Timeline">Timeline</a> class to set the duration and the
+	To manage an animation, you can use the <a target="_blank" href="https://docs.urpflanze.org/drawer-canvas/#/ref/Timeline">Timeline</a> class to set the duration and the
 	framerate.
 </p>
 
@@ -35,32 +35,31 @@ scene.add(container)
 
 const drawer = new Urpflanze.DrawerCanvas(scene, document.body)
 
-const timeline = drawer.getTimeline()
-timeline.setFramerate(4) // Set animation framerate
-timeline.setDuration(4000) // Set animation duration
+drawer.timeline.setFramerate(4) // Set animation framerate
+drawer.timeline.setDuration(4000) // Set animation duration
 
 drawer.startAnimation()
 </script>
 
 <h2>Simple animations</h2>
 If you are unfamiliar with periodic functions you can use the
-<a href="#/ref/ISimpleAnimation">SimpleAnimation</a>. There can be three types by setting the
+<a target="_blank" href="https://docs.urpflanze.org/animation/#/ref/ISimpleAnimation">SimpleAnimation</a>. There can be three types by setting the
 <mark>type</mark> property:
 
 <ul class="details">
 	<li>
-		<mark>loop</mark>
+		<mark>Loop</mark>
 		<i>
 			the animation will repeat from <mark>from</mark> to <mark>to</mark> and from <mark>to</mark> to
 			<mark>from</mark> for the specified duration
 		</i>
 	</li>
 	<li>
-		<mark>uncontrolled-loop</mark>
+		<mark>UncontrolledLoop</mark>
 		<i>the animation will repeat from <mark>from</mark> to <mark>to</mark> for the specified duration</i>
 	</li>
 	<li>
-		<mark>static</mark>
+		<mark>Static</mark>
 		<i>
 			the animation will run once from <mark>from</mark> to <mark>to</mark> for the specified duration, you can use the
 			<mark>delay</mark> property to start it at the desired time
@@ -70,12 +69,12 @@ If you are unfamiliar with periodic functions you can use the
 
 <p>
 	Through the property <mark>mode</mark> it is possible to specify whether it must follow a sinusoidal trend or a
-	<a href="#/ref/TEasing">easing</a>.
+	<a target="_blank" href="https://docs.urpflanze.org/animation/#/ref/TEasing">easing</a>.
 </p>
 
 <h2>Options for the DrawerCanvas</h2> 
 At DrawerCanvas it is possible to pass some topics for other experimentations through
-the object <a href="#/ref/IDrawerCanvasOptions">DrawerCanvasOptions</a>. Let's try to make an example by setting i
+the object <a target="_blank" href="https://docs.urpflanze.org/drawer-canvas/#/ref/IDrawerCanvasOptions">DrawerCanvasOptions</a>. Let's try to make an example by setting i
 <mark>ghosts</mark> and with the use of <mark>SimpleAnimation</mark>
     
 
@@ -88,33 +87,30 @@ const scene = new Urpflanze.Scene()
 const circles = new Urpflanze.Circle({
     repetitions: 4,
     sideLength: 60,
-    scale: Urpflanze.Animation.loop({
+    scale: Urpflanze.Animation.Loop({
         from: 0.6,
         to: 0.1,
         duration: 2000,
-        mode: 'easing',
-        modeFunction: 'quadraticInOut'
+        interpolator: 'quadraticInOut'
     }),
-    distance: Urpflanze.Animation.loop({
+    distance: Urpflanze.Animation.Loop({
         from: 20,
         to: 100,
         duration: 2000
     }),
-    displace: Urpflanze.Animation.uncontrolledLoop({
+    displace: Urpflanze.Animation.UncontrolledLoop({
         from: 0,
         to: Math.PI * 2,
         duration: 4000,
-        mode: 'easing',
-        modeFunction: 'linear'
     }),
-    rotateX: Urpflanze.Animation.uncontrolledLoop({
+    rotateX: Urpflanze.Animation.UncontrolledLoop({
         from: 0,
         to: Math.PI * 2,
         duration: 4000,
     }),
 
     style: {
-        stroke: Urpflanze.Animation.loop({
+        stroke: Urpflanze.Animation.Loop({
             from: 'hsl(0, 50%, 50%)',
             to: 'hsl(140, 100%, 40%)',
             colorTransitionMode: 'rgb',

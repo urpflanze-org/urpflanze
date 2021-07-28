@@ -1,6 +1,5 @@
 import routeExample from '../examples/bind-examples'
 import { closeMenu, activateLink } from '../navigation/navigation'
-import { loadReference } from '../reference/create-reference-page'
 
 let currentPage
 
@@ -33,10 +32,7 @@ export function goto(page) {
 
 		const endpoint = `pages${page.substr(1)}.html`
 
-		if (page.indexOf('ref') >= 0) {
-			loadReference(page.substr(6))
-			onLoadContent()
-		} else if (page.indexOf('#/examples') === 0) {
+		if (page.indexOf('#/examples') === 0) {
 			routeExample(page.substr(2)).then(data => {
 				content.innerHTML = data
 				onLoadContent()
