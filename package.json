@@ -43,7 +43,7 @@
 	],
 	"main": "dist/cjs/index.js",
 	"types": "dist/cjs/index.d.ts",
-	"browser": "build/cjs/urpflanze.js",
+	"browser": "build/umd/urpflanze.js",
 	"module": "build/esm/urpflanze.js",
 	"files": [
 		"build",
