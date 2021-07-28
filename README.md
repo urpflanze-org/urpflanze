@@ -63,19 +63,19 @@ Customizable version
 To install it just run the command:
 
 ```sh
-npm i --save urpflanze
+npm i --save @urpflanze/js
 ```
 
 At the end you can include Urpflanze in your code
 
 ```javascript
-import * as Urpflanze from 'urpflanze'
+import * as Urpflanze from '@urpflanze/js'
 
 const scene = new Urpflanze.Scene()
 
 // or
 
-import { Scene } from 'urpflanze'
+import { Scene } from '@urpflanze/js'
 
 const scene = new Scene()
 ```
