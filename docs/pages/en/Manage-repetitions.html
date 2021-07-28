@@ -63,8 +63,6 @@ repetition of the container that encapsulates it.
 const scene = new Urpflanze.Scene()
 
 const spiral = new Urpflanze.Rect({
-        bUseParent: true, // Set this parameter to true to use the `parent` object in propArguments
-
         repetitions: 20,
         sideLength: 30,
 
@@ -76,10 +74,11 @@ const spiral = new Urpflanze.Rect({
 })
 
 const continer = new Urpflanze.Shape({
+	shapeUseParent: true, // Set this parameter to true to use the `parent` object in propArguments
     shape: spiral,
     repetitions: 6,
     distance: 120,
-    scale: .4
+    scale: .4,
 })
 
 scene.add(continer)
@@ -88,8 +87,8 @@ new Urpflanze.DrawerCanvas(scene, document.body).startAnimation()
 </script>
 
 <p>
-	By setting the parameter <mark>bUseParent</mark> the shape will be generated at each repetition of the shape that
-	encapsulates it.
+	By setting the parameter <mark>shapeUseParent</mark> to the container, the argument shape will be generated at each
+	repetition of the shape that encapsulates it.
 </p>
 
 <h2>Manage matrices</h2>
