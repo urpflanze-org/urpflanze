@@ -64,8 +64,6 @@ del contenitore che la incapsula.
 const scene = new Urpflanze.Scene()
 
 const spiral = new Urpflanze.Rect({
-        bUseParent: true, // Settare questo parametro a true per utilizzare l'oggetto `parent` in propArguments
-
         repetitions: 20,
         sideLength: 30,
 
@@ -77,6 +75,8 @@ const spiral = new Urpflanze.Rect({
 })
 
 const continer = new Urpflanze.Shape({
+	shapeUseParent: true, // Settare questo parametro a true per utilizzare l'oggetto `parent` in propArguments
+
     shape: spiral,
     repetitions: 6,
     distance: 120,
@@ -89,7 +89,8 @@ new Urpflanze.DrawerCanvas(scene, document.body).startAnimation()
 </script>
 
 <p>
-	Settando il parametro <mark>bUseParent</mark> la forma verrà generata ad ogni ripetizione della forma che la incapsula
+	Settando il parametro <mark>shapeUseParent</mark> al contenitore, la forma passata verrà generata ad ogni ripetizione
+	della forma che la incapsula
 </p>
 
 <h2>Gestire le matrici</h2>

@@ -1,6 +1,6 @@
 {
 	"name": "@urpflanze/js",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "A library for developers who want to approach to creative coding, artists who want to approach coding and for those who find it fun to play with math.",
 	"license": "GPL-3.0-or-later",
 	"docs": "https://docs.urpflanze.org/urpflanze",
@@ -43,7 +43,7 @@
 	],
 	"main": "dist/cjs/index.js",
 	"types": "dist/cjs/index.d.ts",
-	"browser": "build/cjs/urpflanze.js",
+	"browser": "build/umd/urpflanze.js",
 	"module": "build/esm/urpflanze.js",
 	"files": [
 		"build",
