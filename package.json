@@ -1,6 +1,6 @@
 {
-	"name": "@urpflanze/urpflanze",
-	"version": "0.4.0",
+	"name": "@urpflanze/js",
+	"version": "0.3.0",
 	"description": "A library for developers who want to approach to creative coding, artists who want to approach coding and for those who find it fun to play with math.",
 	"license": "GPL-3.0-or-later",
 	"docs": "https://docs.urpflanze.org/urpflanze",
@@ -41,9 +41,10 @@
 			"url": "https://etherscan.io/address/0x9086c4bb7015c1d6dc79162d02e7e1239c982c01"
 		}
 	],
-	"main": "dist/index.js",
-	"types": "dist/index.d.ts",
-	"browser": "build/urpflanze.js",
+	"main": "dist/cjs/index.js",
+	"types": "dist/cjs/index.d.ts",
+	"browser": "build/cjs/urpflanze.js",
+	"module": "build/esm/urpflanze.js",
 	"files": [
 		"build",
 		"dist",
@@ -52,19 +53,20 @@
 		"LICENSE"
 	],
 	"scripts": {
-		"watch": "ttsc --watch",
 		"lint": "eslint src --ext .ts",
-		"build": "node ./scripts/typescript-build",
-		"build-library": "npm run build && npx webpack --config ./webpack.config.js --mode development && npx webpack --config ./webpack.config.js --mode production && node ./scripts/post-build.js",
-		"test": "tap",
+		"build-browser": "npx webpack --config webpack.config.js",
+		"build": "tsc --p tsconfig.json && tsc --p tsconfig-esm.json && npm run build-browser",
 		"generate-docs-references": "node ./scripts/generate-docs-references.js",
 		"serve-docs": "webpack serve --config webpack.config.docs.js",
-		"build-docs": "npm run build && npm run generate-docs-references && npx webpack --config webpack.config.docs.js --mode production && npx sass ./docs-src/scss/index.scss ./docs/assets/css/app.css --style compressed",
-		"prepublishOnly": "npm run build && npm run build-library && npm run build-docs"
+		"build-docs": "npm run build && npx webpack --config webpack.config.docs.js --mode production && npx sass ./docs-src/scss/index.scss ./docs/assets/css/app.css --style compressed",
+		"prepublishOnly": "npm run build && npm run build-docs",
+		"release": "standard-version",
+		"release:minor": "standard-version --release-as minor",
+		"release:patch": "standard-version --release-as patch",
+		"release:major": "standard-version --release-as major"
 	},
 	"publishConfig": {},
 	"devDependencies": {
-		"@types/uuid": "^8.3.0",
 		"@typescript-eslint/eslint-plugin": "^4.7.0",
 		"@typescript-eslint/parser": "^4.7.0",
 		"css-loader": "^5.0.1",
@@ -72,22 +74,22 @@
 		"eslint-config-prettier": "^6.15.0",
 		"html-webpack-plugin": "^4.5.0",
 		"sass": "^1.29.0",
-		"tap": "^14.11.0",
+		"standard-version": "^9.3.1",
 		"ttypescript": "^1.5.12",
 		"typedoc": "^0.19.2",
 		"typescript": "^4.0.5",
 		"typescript-transform-paths": "^1.1.15",
 		"webpack": "^5.4.0",
 		"webpack-cli": "^4.2.0",
-		"webpack-dev-server": "^3.11.0"
+		"webpack-dev-server": "^3.11.2"
 	},
 	"dependencies": {
-		"@urpflanze/core": "^0.4.2",
-		"gl-matrix": "^3.3.0",
-		"jszip": "^3.5.0",
-		"simplify-js": "^1.2.4",
-		"svgpath": "^2.3.0",
-		"transformation-matrix": "^2.5.0",
-		"uuid": "^8.3.1"
+		"@urpflanze/animation": "^0.1.0",
+		"@urpflanze/color": "^0.0.4",
+		"@urpflanze/core": "^0.5.6",
+		"@urpflanze/drawer-canvas": "^0.2.0",
+		"@urpflanze/gcode-exporter": "^0.0.5",
+		"@urpflanze/svg-exporter": "^0.0.5",
+		"@urpflanze/svg-importer": "^0.0.3"
 	}
 }
