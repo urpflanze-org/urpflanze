@@ -83,12 +83,12 @@
 		"webpack-dev-server": "^3.11.2"
 	},
 	"dependencies": {
-		"@urpflanze/animation": "^0.1.0",
+		"@urpflanze/animation": "^0.1.2",
 		"@urpflanze/color": "^0.0.4",
-		"@urpflanze/core": "^0.5.6",
-		"@urpflanze/drawer-canvas": "^0.2.0",
+		"@urpflanze/core": "^0.5.7",
+		"@urpflanze/drawer-canvas": "^0.2.1",
 		"@urpflanze/gcode-exporter": "^0.0.5",
 		"@urpflanze/svg-exporter": "^0.0.5",
-		"@urpflanze/svg-importer": "^0.0.3"
+		"@urpflanze/svg-importer": "^0.0.5"
 	}
 }
