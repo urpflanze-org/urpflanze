@@ -83,34 +83,34 @@ Proviamo a fare un esempio settando i <mark>ghosts</mark> e con l'utilizzo delle
  * DrawerCanvas options e SimpleAnimation
  */
  const scene = new Urpflanze.Scene()
-
+console.log(Urpflanze)
 const circles = new Urpflanze.Circle({
-    repetitions: 4,
+    repetitions: 6,
     sideLength: 60,
-    scale: Urpflanze.Animation.loop({
+    scale: Urpflanze.Animation.Loop({
         from: 0.6,
         to: 0.1,
         duration: 2000,
         interpolator: 'quadraticInOut'
     }),
-    distance: Urpflanze.Animation.loop({
-        from: 20,
-        to: 100,
+    distance: Urpflanze.Animation.Loop({
+        from: 40,
+        to: 120,
         duration: 2000
     }),
-    displace: Urpflanze.Animation.uncontrolledLoop({
+    displace: Urpflanze.Animation.UncontrolledLoop({
         from: 0,
         to: Math.PI * 2,
         duration: 4000
     }),
-    rotateX: Urpflanze.Animation.uncontrolledLoop({
+    rotateX: Urpflanze.Animation.UncontrolledLoop({
         from: 0,
         to: Math.PI * 2,
         duration: 4000
     }),
 
-    style: {
-        stroke: Urpflanze.Animation.loop({
+    drawer: {
+        stroke: Urpflanze.Animation.Loop({
             from: 'hsl(0, 50%, 50%)',
             to: 'hsl(140, 100%, 40%)',
             colorTransitionMode: 'rgb',
@@ -124,7 +124,8 @@ scene.add(circles)
 const drawer = new Urpflanze.DrawerCanvas(scene, document.body, {
     ghosts: 120,
     ghostSkipFunction: ghostRepetition => ghostRepetition.index ** 1.65,
-}, 1, 4000)
+}, 4000)
 
+console.log(drawer)
 drawer.startAnimation()
 </script>

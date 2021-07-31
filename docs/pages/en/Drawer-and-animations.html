@@ -85,7 +85,7 @@ the object <a target="_blank" href="https://docs.urpflanze.org/drawer-canvas/#/r
 const scene = new Urpflanze.Scene()
 
 const circles = new Urpflanze.Circle({
-    repetitions: 4,
+    repetitions: 6,
     sideLength: 60,
     scale: Urpflanze.Animation.Loop({
         from: 0.6,
@@ -94,8 +94,8 @@ const circles = new Urpflanze.Circle({
         interpolator: 'quadraticInOut'
     }),
     distance: Urpflanze.Animation.Loop({
-        from: 20,
-        to: 100,
+        from: 40,
+        to: 120,
         duration: 2000
     }),
     displace: Urpflanze.Animation.UncontrolledLoop({
@@ -109,7 +109,7 @@ const circles = new Urpflanze.Circle({
         duration: 4000,
     }),
 
-    style: {
+    drawer: {
         stroke: Urpflanze.Animation.Loop({
             from: 'hsl(0, 50%, 50%)',
             to: 'hsl(140, 100%, 40%)',

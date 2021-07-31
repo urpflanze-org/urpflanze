@@ -8,31 +8,31 @@
 <script id="v-c_1" class="runnable-script">/**
  * VertexCallback
  */
-const scene = new Urpflanze.Scene()
+ const scene = new Urpflanze.Scene()
 
 const rect = new Urpflanze.Rect({
     sideLength: 100,
     scale: () => 1,
     vertexCallback: (vertex, vertexRepetition, propArguments) => {
+        const angle = Urpflanze.Vec2.angle(vertex, scene.center)
 
-        const angle = Math.atan2(vertex[1], vertex[0])
-        
-        const x = Math.cos(angle) 
-        const y = Math.sin(angle) 
+        const x = Math.cos(angle)
+        const y = Math.sin(angle)
 
-        const offset = 20
-        const noise = Urpflanze.noise('seed', vertexRepetition.offset * 2, scene.currentTime / 1000) * offset
+        const offset = 50
+        const noise = Urpflanze.noise('seed', 0.5 + Math.sin(vertexRepetition.offset * Urpflanze.PI2) * 0.5, scene.currentTime / 1000) * offset
 
-        vertex[0] += x * noise 
-        vertex[1] += y * noise 
-    }
+        vertex[0] += x * noise
+        vertex[1] += y * noise
+    },
+    modifiers: [
+        new Urpflanze.Modifiers.Subdivide({ level: 4 })
+    ]
 })
-
-rect.subdivide(4) // Solo le ShapeBuffer possono essere suddivise
 
 scene.add(rect)
 
-new Urpflanze.DrawerCanvas(scene, document.body).startAnimation() 
+new Urpflanze.DrawerCanvas(scene, document.body).startAnimation()
 </script>
 
 <p>

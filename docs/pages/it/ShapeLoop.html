@@ -19,11 +19,13 @@ scene.add(
             end: Math.PI * 2,
             inc: (Math.PI * 2) / 40,
             vertex: (shapeLoopRepetition, propArguments) => {
+                const angle = shapeLoopRepetition.offset * Urpflanze.PI2
                 const noise = Urpflanze.noise('seed', shapeLoopRepetition.offset * 4)
-                const x = shapeLoopRepetition.offset * 2 - 1
-                const y = Math.sin(shapeLoopRepetition.angle) * noise
 
-                return [x, y] // return value between -1 and 1
+                const x = shapeLoopRepetition.offset * 2 - 1
+                const y = Math.sin(angle) * noise
+
+                return [x, y] // valore da -1 a 1
             }
         },
         bClosed: false
@@ -47,9 +49,9 @@ const scene = new Urpflanze.Scene()
 
 scene.add(
     new Urpflanze.ShapeLoop({
-        repetitions: [6, 1],
+        repetitions: [20, 1],
         sideLength: [scene.width / 3, 40],
-        distance: 40,
+        distance: 10,
         loop: {
             start: 0,
             end: Math.PI * 2,
@@ -62,10 +64,10 @@ scene.add(
                     scene.currentTime / 1000
                 )
                 
-                const x = shapeLoopRepetition.offset * 2 - 1
-                const y = Math.sin(shapeLoopRepetition.angle) * noise
+                const x = shapeLoopRepetition.offset * 2 - 1 
+                const y = Math.sin(shapeLoopRepetition.offset * Urpflanze.PI2) * noise
                 
-                return [x, y]
+                return [x, y] // valore da -1 a 1
             }
         },
         loopDependencies: ['propArguments'],

@@ -4,13 +4,18 @@
 The fastest way to include Urpflanze in your project is to use an online hosted version.
 
 <pre class="prettyprint">
-<code translate="no" class="language-html">&lt;!-- Link to the latest minified full version --&gt;
+<code translate="no" class="language-html">&lt;!-- Link to the latest minified full version (UMD) --&gt;
 &lt;script src="https://cdn.jsdelivr.net/npm/@urpflanze/js"&gt;&lt;/script&gt;
 &lt;!-- Customizable link --&gt;
 &lt;script src="https://cdn.jsdelivr.net/npm/@urpflanze/js[@version]/build/urpflanze[-light][.min].js"&gt;&lt;/script&gt;</code>
+
+&lt;!-- ES Modules --&gt;
+&lt;script type="module"&gt;
+	import * as Urpflanze from 'https://esm.run/@urpflanze/js'
+&lt;/script&gt;</code>
 </pre>
 <div class="code-desc">
-	<a href="https://cdn.jsdelivr.net/npm/@urpflanze/js" target="_blank">Full version</a>
+	<a href="https://cdn.jsdelivr.net/npm/@urpflanze/js" target="_blank">Full version (UMD)</a>
 	<a href="https://cdn.jsdelivr.net/npm/@urpflanze/js/build/" target="_blank">All versions</a>
 </div>
 
@@ -24,14 +29,6 @@ You can download the full version, save it somewhere in your project and include
 &lt;!-- Minified version--&gt;
 &lt;script src="path-to/urpflanze.min.js"&gt;&lt;/script&gt;</code>
 </pre>
-<div class="code-desc">
-	<a href="https://raw.githubusercontent.com/urpflanze-org/urpflanze/master/build/urpflanze.js" target="_blank"
-		>Full version</a
-	>
-	<a href="https://raw.githubusercontent.com/urpflanze-org/urpflanze/master/build/urpflanze.min.js" target="_blank"
-		>Minified full version</a
-	>
-</div>
 
 If you are starting out and don't need all the features, you can download the lite version
 
@@ -42,17 +39,6 @@ If you are starting out and don't need all the features, you can download the li
 &lt;!-- Minified light version--&gt;
 &lt;script src="path-to/urpflanze-light.min.js"&gt;&lt;/script&gt;</code>
 </pre>
-<div class="code-desc">
-	<a href="https://raw.githubusercontent.com/urpflanze-org/urpflanze/master/build/urpflanze-light.js" target="_blank">
-		Light version
-	</a>
-	<a
-		href="https://raw.githubusercontent.com/urpflanze-org/urpflanze/master/build/urpflanze-light.min.js"
-		target="_blank"
-	>
-		Minified light version
-	</a>
-</div>
 
 <h2>Install from npm</h2>
 
@@ -79,7 +65,7 @@ import { Scene } from '@urpflanze/js'
 const scene = new Scene()</code>
 </pre>
 <div class="code-desc">
-	<div>To include the light version use <i>urpflanze/dist/index-light</i></div>
+	<div>To include the light version use <i>@urpflanze/js/dist/cjs/index-light</i></div>
 </div>
 
 <div class="next-page">
