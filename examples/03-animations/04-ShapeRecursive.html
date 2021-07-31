@@ -17,14 +17,9 @@
 		<script>
 			const scene = new Urpflanze.Scene()
 
-			const circle = new Urpflanze.ShapeLoop({
+			const circle = new Urpflanze.Polygon({
 				sideLength: 50,
-				loop: {
-					start: 0,
-					end: Urpflanze.PI2,
-					inc: Urpflanze.PI2 / 30,
-					vertex: ({ offset }) => [Math.cos(offset * Urpflanze.PI2), Math.sin(offset * Urpflanze.PI2)],
-				},
+				sideNumber: 30,
 
 				scale: propArguments => {
 					return Urpflanze.Animation.Static({
