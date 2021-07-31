@@ -1,5 +1,5 @@
 /*!
- * @license UrpflanzeJS v"1.0.3"
+ * @license UrpflanzeJS v"1.0.4"
  * urpflanze-light.js
  *
  * Github: https://github.com/urpflanze-org/urpflanze
@@ -143,7 +143,7 @@ const Utilities_1 = __webpack_require__(32);
  * The main purpose is to manage the drawing order and update the child buffers
  *
  * @order 1
- * @category Core.Scene
+ * @category Scene
  * @class Scene
  */
 class Scene {
@@ -498,7 +498,7 @@ let __id = 0;
  * The only implementations of this class are <a href="[base_url]/Group">Group</a> and <a href="[base_url]/ShapeBase">ShapeBase</a>
  *
  * @abstract
- * @category Core.Abstract
+ * @category Scene
  * @order 2
  * @class SceneChild
  */
@@ -598,7 +598,7 @@ const Adapt_1 = __webpack_require__(30);
  * A SceneChild container, propagates properties to children
  *
  * @order 3
- * @category Core.Scene
+ * @category Scene.Containers
  * @extends {SceneChild}
  * @example
  * ```javascript
@@ -924,7 +924,7 @@ const repetitionMatrix = gl_matrix_1.mat4.create();
 /**
  * Main class for shape generation
  *
- * @category Core.Abstract
+ * @category Scene
  * @abstract
  * @class ShapeBase
  * @order 4
@@ -9156,7 +9156,7 @@ exports.ERepetitionType = void 0;
 /**
  * Repetition type enumerator.
  *
- * @category Core.Repetition
+ * @category Types & Interfaces.Repetitions
  * @internal
  */
 var ERepetitionType;
@@ -9202,6 +9202,12 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.EBoundingType = void 0;
+/**
+ *
+ * @category Enums
+ * @export
+ * @enum {number}
+ */
 var EBoundingType;
 (function (EBoundingType) {
     /**
@@ -9321,7 +9327,7 @@ const MATRIX = new Array(4);
 /**
  * Vec2 operation
  *
- * @category Core.Utilities
+ * @category Math
  */
 const Vec2 = {
     /**
@@ -9534,7 +9540,7 @@ exports.mod = exports.PHI = exports.PI2 = exports.log = void 0;
 /**
  * Return logarith value and base
  *
- * @category Core.Utilities
+ * @category Utilities
  *
  * @param n number
  * @param base number
@@ -9542,17 +9548,17 @@ exports.mod = exports.PHI = exports.PI2 = exports.log = void 0;
 const log = (n, base) => Math.log(n) / Math.log(base);
 exports.log = log;
 /**
- * @category Core.Utilities
+ * @category Utilities
  */
 exports.PI2 = Math.PI * 2;
 /**
- * @category Core.Utilities
+ * @category Utilities
  */
 exports.PHI = (1 + Math.sqrt(5)) / 2;
 /**
  * Return a positive module of positive or negative value
  *
- * @category Core.Utilities
+ * @category Utilities
  *
  * @param value number
  * @param base number
@@ -9574,9 +9580,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Adapt = exports.Bounding = exports.EAdaptMode = void 0;
 const Modifier_1 = __webpack_require__(31);
 /**
- *
- *
- * @category Core.Enums
+ * @category Modifiers.Enums
  */
 var EAdaptMode;
 (function (EAdaptMode) {
@@ -9676,6 +9680,13 @@ exports.Bounding = {
         }
     },
 };
+/**
+ * Fit a buffer into a rectangle based on EAdaptMode
+ *
+ * @category Modifiers
+ * @class Adapt
+ * @extends {Modifier}
+ */
 class Adapt extends Modifier_1.Modifier {
     constructor(args) {
         super();
@@ -9744,6 +9755,13 @@ Adapt.MODES = EAdaptMode;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Modifier = void 0;
+/**
+ * Manipulate a buffer after generating
+ *
+ * @abstract
+ * @category Modifiers
+ * @class Modifier
+ */
 class Modifier {
 }
 exports.Modifier = Modifier;
@@ -9756,11 +9774,10 @@ exports.Modifier = Modifier;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.distributePointsInBuffer = exports.interpolate = exports.prepareBufferForInterpolation = exports.distanceFromRepetition = exports.angle2FromRepetition = exports.angleFromRepetition = exports.random = exports.noise = exports.relativeClamp = exports.clamp = exports.lerp = exports.toRadians = exports.toDegrees = exports.now = void 0;
+exports.interpolate = exports.prepareBufferForInterpolation = exports.distributePointsInBuffer = exports.distanceFromRepetition = exports.angle2FromRepetition = exports.angleFromRepetition = exports.random = exports.noise = exports.relativeClamp = exports.clamp = exports.lerp = exports.toRadians = exports.toDegrees = exports.now = void 0;
 const SimplexNoise = __webpack_require__(33);
 const repetitions_1 = __webpack_require__(21);
 const Vec2_1 = __webpack_require__(28);
-// isDef: (object: any): boolean => typeof object !== 'undefined' && object !== null,
 const measurement = typeof performance !== 'undefined' ? performance : Date;
 /**
  * Get current timestamp in milliseconds
@@ -9807,13 +9824,6 @@ function toRadians(degrees) {
     return (degrees * Math.PI) / 180;
 }
 exports.toRadians = toRadians;
-// perf: (name: string, callback: any, log: boolean = false): number => {
-// 	const t1 = now()
-// 	callback()
-// 	const t2 = now()
-// 	log && console.log('perf ' + name + ': ' + (t2 - t1))
-// 	return t2 - t1
-// }
 /**
  * Linear interpolation from `a` when `i` as 0 an `b` when `i' as 1
  *
@@ -9894,13 +9904,23 @@ function noise(seed = 'random', x = 0, y = 0, z = 0) {
 }
 exports.noise = noise;
 /**
- * Random number generator
+ * @internal
+ * @ignore
  */
 const randoms = {};
 /**
- * random number generator
- * @param seed
- * @returns
+ * Random number generator
+ * @example
+ * ```javascript
+ * 	Urpflanze.random('seed') // 0.9367527104914188
+ * ```
+ *
+ * @category Utilities
+ * @param {string} seed
+ * @param {number} min
+ * @param {number} max
+ * @param {number} decimals
+ * @returns {number}
  */
 function random(seed, min = 0, max = 1, decimals) {
     const key = seed + '';
@@ -10021,64 +10041,22 @@ function distanceFromRepetition(repetition, offsetFromCenter = [0, 0]) {
 exports.distanceFromRepetition = distanceFromRepetition;
 /// Interpolation
 /**
+ * Evenly distributes a number of points in a buffer
  *
- * @param from
- * @param to
- * @returns
+ * @category Utilities.Buffer interpolation
+ * @export
+ * @param {Float32Array} buffer current buffer
+ * @param {number} pointsToAdd points to add
+ * @return {*}  {Float32Array}
  */
-function prepareBufferForInterpolation(from, to) {
-    const fromBufferLength = from.length;
-    const toBufferLength = to.length;
-    if (fromBufferLength === toBufferLength) {
-        return [from, to];
-    }
-    const maxBufferLength = fromBufferLength > toBufferLength ? fromBufferLength : toBufferLength;
-    const difference = Math.abs(fromBufferLength - toBufferLength);
-    const minBufferLength = maxBufferLength - difference;
-    /////
-    const b = fromBufferLength < toBufferLength ? to : from;
-    const t = fromBufferLength < toBufferLength ? from : to;
-    const a = distributePointsInBuffer(t, Math.floor(difference / 2));
-    // a[maxBufferLength - 2] = t[minBufferLength - 2]
-    // a[maxBufferLength - 1] = t[minBufferLength - 1]
-    return fromBufferLength > toBufferLength ? [b, a] : [a, b];
-}
-exports.prepareBufferForInterpolation = prepareBufferForInterpolation;
-/**
- *
- * @param from
- * @param to
- * @param offset
- * @returns
- */
-function interpolate(from, to, initialOffset = 0.5) {
-    const [a, b] = prepareBufferForInterpolation(from, to);
-    const maxBufferLength = Math.max(a.length, b.length);
-    const offset = typeof initialOffset === 'number' ? [initialOffset] : initialOffset;
-    const maxPoints = maxBufferLength / 2;
-    if (offset.length !== maxPoints) {
-        const tl = offset.length;
-        for (let i = 0; i < maxPoints; i++) {
-            offset[i] = offset[i % tl];
-        }
-    }
-    ////
-    const result = new Float32Array(maxBufferLength);
-    for (let i = 0, off = 0; i < maxBufferLength; i += 2, off++) {
-        result[i] = (1 - offset[off]) * a[i] + offset[off] * b[i];
-        result[i + 1] = (1 - offset[off]) * a[i + 1] + offset[off] * b[i + 1];
-    }
-    return result;
-}
-exports.interpolate = interpolate;
-function distributePointsInBuffer(buffer, count) {
+function distributePointsInBuffer(buffer, pointsToAdd) {
     const bufferLen = buffer.length;
     const pointsLen = bufferLen / 2;
-    const finalBufferLength = (pointsLen + count) * 2;
+    const finalBufferLength = (pointsLen + pointsToAdd) * 2;
     const edges = pointsLen - 1;
     if (edges > 1) {
         const lastPoint = bufferLen - 2;
-        const newPointsOnEdge = Math.floor(count / edges);
+        const newPointsOnEdge = Math.floor(pointsToAdd / edges);
         const bufferWithPointsEveryEdge = bufferLen + newPointsOnEdge * lastPoint;
         let remainingPoints = (finalBufferLength - bufferWithPointsEveryEdge) / 2;
         const edgeRemainingIndex = Math.round(edges / remainingPoints);
@@ -10114,6 +10092,61 @@ function distributePointsInBuffer(buffer, count) {
     return result;
 }
 exports.distributePointsInBuffer = distributePointsInBuffer;
+/**
+ * Leads two buffers to have the same number of points
+ *
+ * @category Utilities.Buffer interpolation
+ * @param from
+ * @param to
+ * @returns
+ */
+function prepareBufferForInterpolation(from, to) {
+    const fromBufferLength = from.length;
+    const toBufferLength = to.length;
+    if (fromBufferLength === toBufferLength) {
+        return [from, to];
+    }
+    // const maxBufferLength = fromBufferLength > toBufferLength ? fromBufferLength : toBufferLength
+    const difference = Math.abs(fromBufferLength - toBufferLength);
+    // const minBufferLength = maxBufferLength - difference
+    /////
+    const b = fromBufferLength < toBufferLength ? to : from;
+    const t = fromBufferLength < toBufferLength ? from : to;
+    const a = distributePointsInBuffer(t, Math.floor(difference / 2));
+    // a[maxBufferLength - 2] = t[minBufferLength - 2]
+    // a[maxBufferLength - 1] = t[minBufferLength - 1]
+    return fromBufferLength > toBufferLength ? [b, a] : [a, b];
+}
+exports.prepareBufferForInterpolation = prepareBufferForInterpolation;
+/**
+ * Interpolate two buffer
+ *
+ * @category Utilities.Buffer interpolation
+ * @param from
+ * @param to
+ * @param offset
+ * @returns
+ */
+function interpolate(from, to, initialOffset = 0.5) {
+    const [a, b] = prepareBufferForInterpolation(from, to);
+    const maxBufferLength = Math.max(a.length, b.length);
+    const offset = typeof initialOffset === 'number' ? [initialOffset] : initialOffset;
+    const maxPoints = maxBufferLength / 2;
+    if (offset.length !== maxPoints) {
+        const tl = offset.length;
+        for (let i = 0; i < maxPoints; i++) {
+            offset[i] = offset[i % tl];
+        }
+    }
+    ////
+    const result = new Float32Array(maxBufferLength);
+    for (let i = 0, off = 0; i < maxBufferLength; i += 2, off++) {
+        result[i] = (1 - offset[off]) * a[i] + offset[off] * b[i];
+        result[i + 1] = (1 - offset[off]) * a[i + 1] + offset[off] * b[i + 1];
+    }
+    return result;
+}
+exports.interpolate = interpolate;
 //# sourceMappingURL=Utilities.js.map
 
 /***/ }),
@@ -10610,7 +10643,7 @@ const ShapeBase_1 = __webpack_require__(6);
 /**
  * Container of ShapeBase or Group, it applies transformations on each repetition
  *
- * @category Core.Shapes
+ * @category Scene.Containers
  */
 class Shape extends ShapeBase_1.ShapeBase {
     /**
@@ -10795,7 +10828,7 @@ const ShapeBase_1 = __webpack_require__(6);
 const Modifier_1 = __webpack_require__(31);
 const Adapt_1 = __webpack_require__(30);
 /**
- * @category Core.Abstract
+ * @category Scene
  */
 class ShapePrimitive extends ShapeBase_1.ShapeBase {
     /**
@@ -10947,9 +10980,9 @@ const Adapt_1 = __webpack_require__(30);
 const ShapePrimitive_1 = __webpack_require__(35);
 const ShapeBase_1 = __webpack_require__(6);
 /**
- * Shape Loop
+ * Create a shape from loop
  *
- * @category Core.Shapes
+ * @category Shapes.Primitives
  * @public
  * @class ShapeLoop
  * @extends {ShapePrimitive}
@@ -11176,7 +11209,9 @@ exports.ShapeBuffer = void 0;
 const Adapt_1 = __webpack_require__(30);
 const ShapePrimitive_1 = __webpack_require__(35);
 /**
- * @category Core.Shapes
+ * Create a shape from static buffer
+ *
+ * @category Shapes.Primitives
  */
 class ShapeBuffer extends ShapePrimitive_1.ShapePrimitive {
     /**
@@ -11313,7 +11348,9 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ShapeRecursive = void 0;
 const Shape_1 = __webpack_require__(34);
 /**
- * @category Core.Shapes
+ * Repeat `shape` on each vertex recursively
+ *
+ * @category Scene.Containers
  */
 class ShapeRecursive extends Shape_1.Shape {
     /**
@@ -11640,7 +11677,9 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ShapeFollow = void 0;
 const Shape_1 = __webpack_require__(34);
 /**
- * @category Core.Shapes
+ * Repeat `shape` on each point of `follow`
+ *
+ * @category Scene.Containers
  */
 class ShapeFollow extends Shape_1.Shape {
     /**
@@ -11868,7 +11907,7 @@ const Adapt_1 = __webpack_require__(30);
 const ShapeBuffer_1 = __webpack_require__(37);
 /**
  *
- * @category Core.Primitives
+ * @category Shapes.ShapeBuffer
  * @class Line
  * @extends {ShapeBuffer}
  */
@@ -11984,7 +12023,7 @@ const ShapeBuffer_1 = __webpack_require__(37);
 /**
  * Triangle ShapeBuffer
  *
- * @category Core.Primitives
+ * @category Shapes.ShapeBuffer
  */
 class Triangle extends ShapeBuffer_1.ShapeBuffer {
     /**
@@ -12016,7 +12055,7 @@ const Adapt_1 = __webpack_require__(30);
 const ShapeBuffer_1 = __webpack_require__(37);
 /**
  *
- * @category Core.Primitives
+ * @category Shapes.ShapeBuffer
  * @class Rect
  * @extends {ShapeBuffer}
  */
@@ -12051,7 +12090,7 @@ const ShapeLoop_1 = __webpack_require__(36);
 /**
  * Polygon shape
  *
- * @category Core.Primitives
+ * @category Shapes.ShapeLoop
  * @class Polygon
  * @extends {ShapeLoop}
  */
@@ -12097,7 +12136,7 @@ const math_1 = __webpack_require__(29);
 const ShapeLoop_1 = __webpack_require__(36);
 /**
  *
- * @category Core.Primitives
+ * @category Shapes.ShapeLoop
  * @class Circle
  * @extends {ShapeLoop}
  */
@@ -12141,7 +12180,7 @@ const ShapeLoop_1 = __webpack_require__(36);
 /**
  * Polygon shape
  *
- * @category Core.Primitives
+ * @category Shapes.ShapeLoop
  * @class Polygon
  * @extends {ShapeLoop}
  */
@@ -12198,7 +12237,7 @@ const ShapeLoop_1 = __webpack_require__(36);
 /**
  * Rose shape
  *
- * @category Core.Primitives
+ * @category Shapes.ShapeLoop
  * @class Rose
  * @extends {ShapeLoop}
  */
@@ -12275,7 +12314,7 @@ const ShapeLoop_1 = __webpack_require__(36);
 /**
  * Spiral shape
  *
- * @category Core.Primitives
+ * @category Shapes.ShapeLoop
  * @class Spiral
  * @extends {ShapeLoop}
  */
@@ -12374,7 +12413,7 @@ const ShapeLoop_1 = __webpack_require__(36);
 /**
  * Lissajous shape
  *
- * @category Core.Primitives
+ * @category Shapes.ShapeLoop
  * @class Lissajous
  * @extends {ShapeLoop}
  */
@@ -12435,7 +12474,7 @@ const ShapeLoop_1 = __webpack_require__(36);
 /**
  * ShperShape
  *
- * @category Core.Primitives
+ * @category Shapes.ShapeLoop
  * @class SuperShape
  * @extends {ShapeLoop}
  */
@@ -12527,6 +12566,13 @@ exports.Modifiers = Modifiers;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Mirror = void 0;
 const Modifier_1 = __webpack_require__(31);
+/**
+ * Reflects the shape on the x and y axes
+ *
+ * @category Modifiers
+ * @class Mirror
+ * @extends {Modifier}
+ */
 class Mirror extends Modifier_1.Modifier {
     constructor(args = { x: true, y: true }) {
         super();
@@ -12590,6 +12636,13 @@ exports.Smooth = void 0;
 const Utilities_1 = __webpack_require__(32);
 const Close_1 = __webpack_require__(53);
 const Modifier_1 = __webpack_require__(31);
+/**
+ * Smooth the corners
+ *
+ * @category Modifiers
+ * @class Smooth
+ * @extends {Modifier}
+ */
 class Smooth extends Modifier_1.Modifier {
     constructor(args = {}) {
         super();
@@ -12666,6 +12719,13 @@ exports.Smooth = Smooth;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Close = void 0;
 const Modifier_1 = __webpack_require__(31);
+/**
+ * Adds a closing point if it doesn't exist
+ *
+ * @category Modifiers
+ * @class Close
+ * @extends {Modifier}
+ */
 class Close extends Modifier_1.Modifier {
     constructor() {
         super();
@@ -12700,6 +12760,13 @@ exports.Close = Close;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Solidify = void 0;
 const Modifier_1 = __webpack_require__(31);
+/**
+ * Try tracing the edges of a path
+ *
+ * @category Modifiers
+ * @class Solidify
+ * @extends {Modifier}
+ */
 class Solidify extends Modifier_1.Modifier {
     constructor(args = {}) {
         super();
@@ -12826,6 +12893,13 @@ exports.Solidify = Solidify;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Subdivide = void 0;
 const Modifier_1 = __webpack_require__(31);
+/**
+ * Adds points on the edges of a shape
+ *
+ * @category Modifiers
+ * @class Subdivide
+ * @extends {Modifier}
+ */
 class Subdivide extends Modifier_1.Modifier {
     constructor(args = {}) {
         super();
@@ -12889,6 +12963,13 @@ exports.Subdivide = Subdivide;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Offset = void 0;
 const Modifier_1 = __webpack_require__(31);
+/**
+ * Takes a part of the buffer
+ *
+ * @category Modifiers
+ * @class Offset
+ * @extends {Modifier}
+ */
 class Offset extends Modifier_1.Modifier {
     constructor(args = { from: 0, to: undefined }) {
         super();
@@ -12947,6 +13028,7 @@ exports.interpolateColorHSL = exports.interpolateColorRGB = exports.cosp = expor
 /**
  * Return time (from 0 to duration) in milliseconds
  *
+ * @category Utilities
  * @export
  * @param {number} time Current time
  * @param {number} duration Clock duration
@@ -12991,6 +13073,7 @@ exports.clock = clock;
 /**
  * Return offset between 0 and 1 from current time based on duration and other parameters
  *
+ * @category Utilities
  * @export
  * @param {number} time
  * @param {number} duration
@@ -13008,6 +13091,7 @@ const PI2 = Math.PI * 2;
 /**
  * Return sin of period 'durate' in time 'time'
  *
+ * @category Utilities
  * @export
  * @param {number} time
  * @param {number} durate
@@ -13023,6 +13107,7 @@ exports.sinp = sinp;
 /**
  * Return cos of period 'durate' in time 'time'
  *
+ * @category Utilities
  * @export
  * @param {number} time
  * @param {number} durate
@@ -13035,6 +13120,15 @@ function cosp(time, durate, phase = 0, normalize = false) {
     return normalize ? 0.5 + value * 0.5 : value;
 }
 exports.cosp = cosp;
+/**
+ *
+ * @category Utilities
+ * @export
+ * @param {IConvertedColor} start
+ * @param {IConvertedColor} end
+ * @param {number} offset
+ * @return {*}  {string}
+ */
 function interpolateColorRGB(start, end, offset) {
     const r = start.r + offset * (end.r - start.r);
     const g = start.g + offset * (end.g - start.g);
@@ -13043,6 +13137,15 @@ function interpolateColorRGB(start, end, offset) {
     return `rgba(${Math.floor(r)},${Math.floor(g)},${Math.floor(b)},${alpha})`;
 }
 exports.interpolateColorRGB = interpolateColorRGB;
+/**
+ *
+ * @category Utilities
+ * @export
+ * @param {IConvertedColor} start
+ * @param {IConvertedColor} end
+ * @param {number} offset
+ * @return {*}  {string}
+ */
 function interpolateColorHSL(start, end, offset) {
     const h = start.h + offset * (end.h - start.h);
     const s = start.s + offset * (end.s - start.s);
@@ -13065,6 +13168,7 @@ const createInterpolator_1 = __webpack_require__(61);
 /**
  * Create TAnimation from object
  *
+ * @category Animation
  * @param simpleAnimation
  * @returns
  */
@@ -13175,6 +13279,7 @@ const utilities_1 = __webpack_require__(59);
 /**
  * Return a callback for value interpolation passing offset from 0 to 1
  *
+ * @category Interpolation
  * @param simpleAnimation
  * @returns
  */
@@ -13218,6 +13323,7 @@ exports.createInterpolationCallback = createInterpolationCallback;
 /**
  * Return a callback for calculate offset (0 to 1) from elapsed time and animation duration
  *
+ * @category Interpolation
  * @param type
  * @returns
  */
@@ -13788,9 +13894,10 @@ exports.Easings = void 0;
 /**
  * Easing functions
  *
- * @category Services.Animation
+ * @category Interpolation
+ * @export
  */
-const Easings = {
+exports.Easings = {
     /**
      * @param {number} timeOrOffset current time
      * @param {number} start start value
@@ -14192,7 +14299,7 @@ const Easings = {
      * @return {number}
      */
     bounceIn: (timeOrOffset, start, end, duration = 1) => {
-        return end - Easings.bounceOut(duration - timeOrOffset, 0, end, duration) + start;
+        return end - exports.Easings.bounceOut(duration - timeOrOffset, 0, end, duration) + start;
     },
     /**
      * @param {number} t current time
@@ -14224,12 +14331,11 @@ const Easings = {
      */
     bounceInOut: (timeOrOffset, start, end, duration = 1) => {
         if (timeOrOffset < duration / 2) {
-            return Easings.bounceIn(timeOrOffset * 2, 0, end, duration) * 0.5 + start;
+            return exports.Easings.bounceIn(timeOrOffset * 2, 0, end, duration) * 0.5 + start;
         }
-        return Easings.bounceOut(timeOrOffset * 2 - duration, 0, end, duration) * 0.5 + end * 0.5 + start;
+        return exports.Easings.bounceOut(timeOrOffset * 2 - duration, 0, end, duration) * 0.5 + end * 0.5 + start;
     },
 };
-exports.Easings = Easings;
 //# sourceMappingURL=Easings.js.map
 
 /***/ }),
@@ -14242,6 +14348,14 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.UncontrolledLoop = exports.Static = exports.Loop = exports.Compose = exports.Simple = exports.resolveSimpleAnimation = void 0;
 const composeAnimations_1 = __webpack_require__(70);
 const createAnimation_1 = __webpack_require__(60);
+/**
+ * Create animation from ISimpleAnimation.
+ *
+ * @category Animation
+ * @export
+ * @param {ISimpleAnimation} simpleAnimation
+ * @return {*}  {(TAnimationCallback | undefined)}
+ */
 function resolveSimpleAnimation(simpleAnimation) {
     const animation = createAnimation_1.createAnimation(simpleAnimation);
     if (animation) {
@@ -14256,10 +14370,21 @@ function resolveSimpleAnimation(simpleAnimation) {
     }
 }
 exports.resolveSimpleAnimation = resolveSimpleAnimation;
-// Alias
+/**
+ * resolveSimpleAnimations alias
+ * @export
+ * @category Animation
+ */
 exports.Simple = resolveSimpleAnimation;
-// Compose multiple animations
-const Compose = (animations) => {
+/**
+ * Compose multiple animation into one.
+ *
+ * @category Animation
+ * @export
+ * @param {Array<ISimpleAnimation>} animations
+ * @return {*}  {(TAnimationCallback | undefined)}
+ */
+function Compose(animations) {
     const composed = composeAnimations_1.composeAnimations(animations);
     if (composed) {
         return (propArgumentsOrCurrentTime) => {
@@ -14270,9 +14395,17 @@ const Compose = (animations) => {
             return composed(currentTime);
         };
     }
-};
+}
 exports.Compose = Compose;
-const Loop = (loopAnimation) => {
+/**
+ * Create Loop animation.
+ *
+ * @category Animation
+ * @export
+ * @param {(Omit<ISimpleAnimation, 'direction' | 'loop'>)} loopAnimation
+ * @return {*}  {(TAnimationCallback | undefined)}
+ */
+function Loop(loopAnimation) {
     const simpleAnimation = loopAnimation;
     if (typeof simpleAnimation.interpolator === 'undefined') {
         simpleAnimation.interpolator = 'wave';
@@ -14289,21 +14422,37 @@ const Loop = (loopAnimation) => {
     }
     simpleAnimation.loop = true;
     return resolveSimpleAnimation(simpleAnimation);
-};
+}
 exports.Loop = Loop;
-const Static = (staticAnimation) => {
+/**
+ * Create an animation that repeats once
+ *
+ * @category Animation
+ * @export
+ * @param {(Omit<ISimpleAnimation, 'direction' | 'loop'>)} staticAnimation
+ * @return {*}  {(TAnimationCallback | undefined)}
+ */
+function Static(staticAnimation) {
     const simpleAnimation = staticAnimation;
     simpleAnimation.direction = 'normal';
     simpleAnimation.loop = false;
     return resolveSimpleAnimation(simpleAnimation);
-};
+}
 exports.Static = Static;
-const UncontrolledLoop = (uncontrolledLoopAnimation) => {
+/**
+ * Create an animation that repeats in a single direction
+ *
+ * @category Animation
+ * @export
+ * @param {(Omit<ISimpleAnimation, 'direction' | 'loop'>)} uncontrolledLoopAnimation
+ * @return {*}
+ */
+function UncontrolledLoop(uncontrolledLoopAnimation) {
     const simpleAnimation = uncontrolledLoopAnimation;
     simpleAnimation.direction = 'normal';
     simpleAnimation.loop = true;
     return resolveSimpleAnimation(simpleAnimation);
-};
+}
 exports.UncontrolledLoop = UncontrolledLoop;
 //# sourceMappingURL=Animation.js.map
 
@@ -14320,7 +14469,7 @@ const createAnimation_1 = __webpack_require__(60);
 const utilities_1 = __webpack_require__(59);
 /**
  *
- *
+ * @category Utilities
  * @export
  * @param {Array<ISimpleAnimation>} simpleAnimations
  * @return {*}  {(((currentTime: number) => string | number | Array<string | number> | undefined) | undefined)}
@@ -14489,6 +14638,9 @@ const canvas_1 = __webpack_require__(73);
 const Emitter_1 = __webpack_require__(75);
 const Timeline_1 = __webpack_require__(76);
 const utils_1 = __webpack_require__(77);
+const bSupportOffscreen = utils_1.bBrowser &&
+    typeof HTMLCanvasElement !== 'undefined' &&
+    typeof HTMLCanvasElement.prototype.transferControlToOffscreen !== 'undefined';
 /**
  *
  * @category DrawerCanvas
@@ -14521,7 +14673,7 @@ class DrawerCanvas extends Emitter_1.Emitter {
         if (scene) {
             this.setScene(scene);
         }
-        if (!utils_1.bWorker || (utils_1.bWorker && canvasOrContainer instanceof OffscreenCanvas))
+        if (!utils_1.bWorker || (utils_1.bWorker && bSupportOffscreen && canvasOrContainer instanceof OffscreenCanvas))
             this.setCanvas(canvasOrContainer);
     }
     /**
@@ -14539,7 +14691,7 @@ class DrawerCanvas extends Emitter_1.Emitter {
      */
     setCanvas(canvasOrContainer) {
         if (utils_1.bWorker) {
-            if (canvasOrContainer instanceof OffscreenCanvas) {
+            if (bSupportOffscreen && canvasOrContainer instanceof OffscreenCanvas) {
                 this.canvas = canvasOrContainer;
             }
             else {
@@ -14550,7 +14702,8 @@ class DrawerCanvas extends Emitter_1.Emitter {
             if (utils_1.bBrowser) {
                 const canvas = canvas_1.createCanvas(this.drawerOptions.width, this.drawerOptions.height);
                 if (canvasOrContainer instanceof HTMLElement &&
-                    !(canvasOrContainer instanceof HTMLCanvasElement || canvasOrContainer instanceof OffscreenCanvas)) {
+                    !(canvasOrContainer instanceof HTMLCanvasElement ||
+                        (bSupportOffscreen && canvasOrContainer instanceof OffscreenCanvas))) {
                     this.canvas = canvas;
                     while (canvasOrContainer.lastChild)
                         canvasOrContainer.removeChild(canvasOrContainer.lastChild);
