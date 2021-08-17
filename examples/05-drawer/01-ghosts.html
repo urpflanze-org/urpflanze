@@ -20,22 +20,22 @@
 			const circles = new Urpflanze.Circle({
 				repetitions: 7,
 				sideLength: 60,
-				scale: Urpflanze.Animation.loop({
+				scale: Urpflanze.Animation.Loop({
 					from: 0.4,
 					to: 0.8,
 					duration: 2000,
 				}),
-				distance: Urpflanze.Animation.loop({
+				distance: Urpflanze.Animation.Loop({
 					from: 50,
 					to: 150,
 					duration: 2000,
 				}),
-				displace: Urpflanze.Animation.uncontrolledLoop({
+				displace: Urpflanze.Animation.UncontrolledLoop({
 					from: 0,
 					to: Math.PI * 2,
 					duration: 6000,
 				}),
-				rotateX: Urpflanze.Animation.uncontrolledLoop({
+				rotateX: Urpflanze.Animation.UncontrolledLoop({
 					from: 0,
 					to: Math.PI * 2,
 					duration: 2000,

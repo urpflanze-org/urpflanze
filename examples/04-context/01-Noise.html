@@ -31,12 +31,10 @@
 
 					vertex[1] += y * 10
 				},
+				modifiers: new Urpflanze.Modifiers.Subdivide({ level: 10 }),
 			})
 
 			scene.add(lines)
-
-			// Subdivide lines for add points
-			lines.subdivide(10)
 
 			const drawer = new Urpflanze.DrawerCanvas(scene, document.body)
 			drawer.startAnimation()

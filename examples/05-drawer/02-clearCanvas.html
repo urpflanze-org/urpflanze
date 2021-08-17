@@ -22,7 +22,7 @@
 				sideLength: 5,
 				displace: () => scene.currentTime / 3000,
 				distance: () => 80 + Math.sin(scene.currentTime / 1000) * 80,
-				style: {
+				drawer: {
 					fill: () => {
 						const h = (scene.currentTime / 100) % 360
 						return `hsla(${h}, 100%, 50%, .5)`
