@@ -6,6 +6,8 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
+ *
+ * Core: ^0.5.8 | DrawerCanvas: ^0.3.1
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -58,7 +60,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.DrawerCanvas = exports.Animation = void 0;
 __exportStar(__webpack_require__(2), exports);
 exports.Animation = __webpack_require__(57);
-var BrowserDrawerCanvas_1 = __webpack_require__(71);
+var BrowserDrawerCanvas_1 = __webpack_require__(67);
 Object.defineProperty(exports, "DrawerCanvas", ({ enumerable: true, get: function () { return BrowserDrawerCanvas_1.BrowserDrawerCanvas; } }));
 //# sourceMappingURL=modules-light.js.map
 
@@ -181,22 +183,36 @@ class Scene {
         if (typeof settings.color !== 'undefined')
             this.color = settings.color;
         this.children = [];
+        this.anchorSettings = settings.anchor;
+        this.setSize(settings.width || this.width, settings.height || this.height, settings.anchor);
+    }
+    /**
+     * set scene size, center and anchor
+     *
+     * @private
+     * @param {number} width
+     * @param {number} height
+     * @param {(['left' | 'right' | 'center' | number, 'top' | 'bottom' | 'center' | number])} [anchor]
+     */
+    setSize(width, height, anchor) {
+        this.width = width;
+        this.height = height;
         this.center = [this.width / 2, this.height / 2];
         this.anchor =
-            settings.anchor && Array.isArray(settings.anchor)
+            anchor && Array.isArray(anchor)
                 ? [
-                    typeof settings.anchor[0] === 'number'
-                        ? (0.5 + Utilities_1.clamp(-1, 1, settings.anchor[0]) * 0.5) * this.width
-                        : settings.anchor[0] === 'left'
+                    typeof anchor[0] === 'number'
+                        ? (0.5 + Utilities_1.clamp(-1, 1, anchor[0]) * 0.5) * this.width
+                        : anchor[0] === 'left'
                             ? 0
-                            : settings.anchor[0] === 'right'
+                            : anchor[0] === 'right'
                                 ? this.width
                                 : this.center[0],
-                    typeof settings.anchor[1] === 'number'
-                        ? (0.5 + Utilities_1.clamp(-1, 1, settings.anchor[1]) * 0.5) * this.height
-                        : settings.anchor[1] === 'top'
+                    typeof anchor[1] === 'number'
+                        ? (0.5 + Utilities_1.clamp(-1, 1, anchor[1]) * 0.5) * this.height
+                        : anchor[1] === 'top'
                             ? 0
-                            : settings.anchor[1] === 'bottom'
+                            : anchor[1] === 'bottom'
                                 ? this.height
                                 : this.center[1],
                 ]
@@ -228,11 +244,7 @@ class Scene {
      * @memberof Scene
      */
     resize(width, height = width) {
-        this.width = width;
-        this.height = height;
-        this.center = [this.width / 2, this.height / 2];
-        const anchor = [this.width / this.anchor[0], this.height / this.anchor[1]];
-        this.anchor = [this.width / anchor[0], this.height / anchor[1]];
+        this.setSize(width, height, this.anchorSettings);
         this.children.forEach(sceneChild => sceneChild.clearBuffer(true, false));
     }
     /**
@@ -9894,13 +9906,16 @@ const noises = {
  * @param {number} [x=0]
  * @param {number} [y=0]
  * @param {number} [z=0]
+ * @param {number} [min=-1]
+ * @param {number} [max=-1]
  * @returns {number} between -1 and 1
  */
-function noise(seed = 'random', x = 0, y = 0, z = 0) {
+function noise(seed = 'random', x = 0, y = 0, z = 0, min, max) {
     if (typeof noises[seed] === 'undefined') {
         noises[seed] = new SimplexNoise(seed);
     }
-    return noises[seed].noise3D(x, y, z);
+    const value = noises[seed].noise3D(x, y, z);
+    return min !== -1 || max !== 1 ? (0.5 + value * 0.5) * (max - min) + min : value;
 }
 exports.noise = noise;
 /**
@@ -11120,7 +11135,8 @@ class ShapeLoop extends ShapePrimitive_1.ShapePrimitive {
      * @returns {Float32Array}
      */
     generateLoopBuffer(propArguments) {
-        const { start, inc, /*end,*/ count } = this.getLoop(propArguments);
+        const loopMeta = this.getLoop(propArguments);
+        const { start, inc, /*end,*/ count } = loopMeta;
         const sideLength = this.getRepetitionSideLength(propArguments);
         const getVertex = (this.props.loop && this.props.loop.vertex ? this.props.loop.vertex : this.loop.vertex);
         const shapeLoop = {
@@ -11139,7 +11155,7 @@ class ShapeLoop extends ShapePrimitive_1.ShapePrimitive {
             shapeLoop.current = current;
             shapeLoop.index = i + 1;
             shapeLoop.offset = offset;
-            const vertex = getVertex(shapeLoop, propArguments);
+            const vertex = getVertex(shapeLoop, propArguments, loopMeta);
             currentOrSingleLoopBuffer[j] = vertex[0];
             currentOrSingleLoopBuffer[j + 1] = vertex[1];
             // currentOrSingleLoopBuffer[j] *= sideLength[0]
@@ -11189,7 +11205,7 @@ class ShapeLoop extends ShapePrimitive_1.ShapePrimitive {
      * @returns
      */
     static getBuffer(props) {
-        const shape = new this({ ...props, sideLength: props.sideLength || 1 });
+        const shape = new this({ ...props, sideLength: (props === null || props === void 0 ? void 0 : props.sideLength) || 1 });
         shape.generate();
         return shape.getBuffer() || new Float32Array();
     }
@@ -13004,8 +13020,8 @@ __exportStar(__webpack_require__(58), exports);
 __exportStar(__webpack_require__(59), exports);
 __exportStar(__webpack_require__(60), exports);
 __exportStar(__webpack_require__(61), exports);
-__exportStar(__webpack_require__(68), exports);
-__exportStar(__webpack_require__(69), exports);
+__exportStar(__webpack_require__(64), exports);
+__exportStar(__webpack_require__(65), exports);
 //# sourceMappingURL=index.js.map
 
 /***/ }),
@@ -13273,8 +13289,8 @@ function createUpdate(animation, bindedValues, animationFunction, interpolate) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.createInterpolator = exports.createInterpolationCallback = void 0;
 const color_1 = __webpack_require__(62);
-const bezier_easing_1 = __webpack_require__(67);
-const Easings_1 = __webpack_require__(68);
+const bezier_easing_1 = __webpack_require__(63);
+const Easings_1 = __webpack_require__(64);
 const utilities_1 = __webpack_require__(59);
 /**
  * Return a callback for value interpolation passing offset from 0 to 1
@@ -13379,9 +13395,28 @@ exports.createInterpolator = createInterpolator;
 
 /***/ }),
 /* 62 */
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+/***/ ((module) => {
 
-"use strict";
+/*!
+ * @license Urpflanze Color v"0.0.5"
+ * urpflanze-color.js
+ *
+ * Github: https://github.com/urpflanze-org/color
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(true)
+		module.exports = factory();
+	else {}
+})(window, function() {
+return /******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	var __webpack_modules__ = ([
+/* 0 */
+/***/ (function(__unused_webpack_module, exports, __nested_webpack_require_773__) {
+
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -13394,25 +13429,23 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-__exportStar(__webpack_require__(63), exports);
-__exportStar(__webpack_require__(64), exports);
-__exportStar(__webpack_require__(65), exports);
+__exportStar(__nested_webpack_require_773__(1), exports);
+__exportStar(__nested_webpack_require_773__(2), exports);
+__exportStar(__nested_webpack_require_773__(3), exports);
 //# sourceMappingURL=index.js.map
 
 /***/ }),
-/* 63 */
+/* 1 */
 /***/ ((__unused_webpack_module, exports) => {
 
-"use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 //# sourceMappingURL=types.js.map
 
 /***/ }),
-/* 64 */
+/* 2 */
 /***/ ((__unused_webpack_module, exports) => {
 
-"use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.rgbToHsl = exports.hslToRgb = exports.rgbToHex = void 0;
@@ -13505,15 +13538,14 @@ exports.rgbToHsl = rgbToHsl;
 //# sourceMappingURL=conversions.js.map
 
 /***/ }),
-/* 65 */
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/* 3 */
+/***/ ((__unused_webpack_module, exports, __nested_webpack_require_4405__) => {
 
-"use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.parseColor = exports.parseColorAndConvert = void 0;
-const htmlcolors_1 = __webpack_require__(66);
-const conversions_1 = __webpack_require__(64);
+const htmlcolors_1 = __nested_webpack_require_4405__(4);
+const conversions_1 = __nested_webpack_require_4405__(2);
 /**
  * Convert color to IConvertedColor
  * Supported format: 'hsla?' 'rgba?' 'hex{3,8}' number (0xFFFFFF[FF])
@@ -13618,10 +13650,9 @@ exports.parseColor = parseColor;
 //# sourceMappingURL=parsing.js.map
 
 /***/ }),
-/* 66 */
+/* 4 */
 /***/ ((__unused_webpack_module, exports) => {
 
-"use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const colors = {
@@ -13770,8 +13801,48 @@ const colors = {
 exports.default = colors;
 //# sourceMappingURL=htmlcolors.js.map
 
+/***/ })
+/******/ 	]);
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __nested_webpack_require_11788__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __nested_webpack_require_11788__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module is referenced by other modules so it can't be inlined
+/******/ 	var __webpack_exports__ = __nested_webpack_require_11788__(0);
+/******/ 	
+/******/ 	return __webpack_exports__;
+/******/ })()
+;
+});
+//# sourceMappingURL=urpflanze-color.js.map
+
 /***/ }),
-/* 67 */
+/* 63 */
 /***/ ((module) => {
 
 /**
@@ -13884,7 +13955,7 @@ module.exports = function bezier (mX1, mY1, mX2, mY2) {
 
 
 /***/ }),
-/* 68 */
+/* 64 */
 /***/ ((__unused_webpack_module, exports) => {
 
 "use strict";
@@ -14339,14 +14410,14 @@ exports.Easings = {
 //# sourceMappingURL=Easings.js.map
 
 /***/ }),
-/* 69 */
+/* 65 */
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.UncontrolledLoop = exports.Static = exports.Loop = exports.Compose = exports.Simple = exports.resolveSimpleAnimation = void 0;
-const composeAnimations_1 = __webpack_require__(70);
+const composeAnimations_1 = __webpack_require__(66);
 const createAnimation_1 = __webpack_require__(60);
 /**
  * Create animation from ISimpleAnimation.
@@ -14457,7 +14528,7 @@ exports.UncontrolledLoop = UncontrolledLoop;
 //# sourceMappingURL=Animation.js.map
 
 /***/ }),
-/* 70 */
+/* 66 */
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
@@ -14520,15 +14591,15 @@ function interpolate(a, b, offset = 0.5) {
 //# sourceMappingURL=composeAnimations.js.map
 
 /***/ }),
-/* 71 */
+/* 67 */
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.BrowserDrawerCanvas = void 0;
-const DrawerCanvas_1 = __webpack_require__(72);
-const utils_1 = __webpack_require__(77);
+const DrawerCanvas_1 = __webpack_require__(68);
+const utils_1 = __webpack_require__(73);
 /**
  *
  * @category DrawerCanvas
@@ -14536,17 +14607,40 @@ const utils_1 = __webpack_require__(77);
  * @extends {DrawerCanvas}
  */
 class BrowserDrawerCanvas extends DrawerCanvas_1.DrawerCanvas {
-    constructor(scene, canvasOrContainer, drawerOptions, duration = 60000, framerate = 60) {
-        super(scene, canvasOrContainer, drawerOptions, duration, framerate);
+    constructor(scene, canvasOrContainer, drawerOptions, duration = 60000, framerate = 60, tickMode = (drawerOptions === null || drawerOptions === void 0 ? void 0 : drawerOptions.clear) === false ? 'linear' : 'async') {
+        super(scene, canvasOrContainer, drawerOptions, duration, framerate, tickMode);
         this.dpi = 1;
+        this.loop = true;
         this.dpi = (drawerOptions === null || drawerOptions === void 0 ? void 0 : drawerOptions.dpi) || 1;
+        this.loop = (drawerOptions === null || drawerOptions === void 0 ? void 0 : drawerOptions.loop) === false ? false : true;
         this.draw_id = null;
         this.redraw_id = null;
         this.animation_id = null;
         this.draw = this.draw.bind(this);
         this.animate = this.animate.bind(this);
         this.startAnimation = this.startAnimation.bind(this);
-        this.resize(this.drawerOptions.width, this.drawerOptions.height);
+        this.resize(this.drawerOptions.width || (scene === null || scene === void 0 ? void 0 : scene.width) || 400, this.drawerOptions.height || (scene === null || scene === void 0 ? void 0 : scene.height) || 400);
+        this.handleVisibilityChange = this.handleVisibilityChange.bind(this);
+    }
+    setCanvas(canvasOrContainer) {
+        super.setCanvas(canvasOrContainer);
+    }
+    /**
+     * Return option value or default
+     *
+     * @param {K keyof IBrowserDrawerCanvasOptions} name
+     * @param {IBrowserDrawerCanvasOptions[K]} value
+     */
+    setOption(name, value) {
+        if (name === 'loop') {
+            this.loop = value === false ? false : true;
+        }
+        else if (name === 'dpi') {
+            this.dpi = typeof value === 'number' ? value : 1;
+        }
+        else {
+            super.setOption(name, value);
+        }
     }
     resize(width, height, sceneFit, dpi = this.dpi) {
         this.drawerOptions.width = width * dpi;
@@ -14570,8 +14664,23 @@ class BrowserDrawerCanvas extends DrawerCanvas_1.DrawerCanvas {
     animate(timestamp) {
         if (this.timeline.bSequenceStarted()) {
             this.animation_id = requestAnimationFrame(this.animate);
-            if (this.timeline.tick(timestamp))
-                this.draw();
+            if (this.timeline.tick(timestamp)) {
+                if (this.loop || (this.loop === false && this.timeline.getCurrentLoop() === 0))
+                    this.draw();
+                else {
+                    cancelAnimationFrame(this.animation_id);
+                    this.timeline.setTime(this.timeline.getSequence().duration - 0.00001);
+                    this.draw();
+                }
+            }
+        }
+    }
+    handleVisibilityChange() {
+        if (document.hidden) {
+            this.pauseAnimation();
+        }
+        else {
+            this.playAnimation();
         }
     }
     /**
@@ -14579,6 +14688,7 @@ class BrowserDrawerCanvas extends DrawerCanvas_1.DrawerCanvas {
      */
     startAnimation() {
         this.stopAnimation();
+        document.addEventListener('visibilitychange', this.handleVisibilityChange, false);
         this.timeline.start();
         this.animation_id = requestAnimationFrame(this.animate);
     }
@@ -14587,6 +14697,7 @@ class BrowserDrawerCanvas extends DrawerCanvas_1.DrawerCanvas {
      */
     stopAnimation() {
         this.timeline.stop();
+        document.removeEventListener('visibilitychange', this.handleVisibilityChange);
         if (this.animation_id)
             cancelAnimationFrame(this.animation_id);
     }
@@ -14623,7 +14734,7 @@ exports.BrowserDrawerCanvas = BrowserDrawerCanvas;
 //# sourceMappingURL=BrowserDrawerCanvas.js.map
 
 /***/ }),
-/* 72 */
+/* 68 */
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
@@ -14634,10 +14745,10 @@ const color_1 = __webpack_require__(62);
 const Utilities_1 = __webpack_require__(32);
 const math_1 = __webpack_require__(29);
 const Vec2_1 = __webpack_require__(28);
-const canvas_1 = __webpack_require__(73);
-const Emitter_1 = __webpack_require__(75);
-const Timeline_1 = __webpack_require__(76);
-const utils_1 = __webpack_require__(77);
+const canvas_1 = __webpack_require__(69);
+const Emitter_1 = __webpack_require__(71);
+const Timeline_1 = __webpack_require__(72);
+const utils_1 = __webpack_require__(73);
 const bSupportOffscreen = utils_1.bBrowser &&
     typeof HTMLCanvasElement !== 'undefined' &&
     typeof HTMLCanvasElement.prototype.transferControlToOffscreen !== 'undefined';
@@ -14647,7 +14758,7 @@ const bSupportOffscreen = utils_1.bBrowser &&
  * @extends {Emitter<DrawerCanvasEvents>}
  */
 class DrawerCanvas extends Emitter_1.Emitter {
-    constructor(scene, canvasOrContainer, drawerOptions, duration = 60000, framerate = 60) {
+    constructor(scene, canvasOrContainer, drawerOptions, duration = 60000, framerate = 60, tickMode = (drawerOptions === null || drawerOptions === void 0 ? void 0 : drawerOptions.clear) === false ? 'linear' : 'async') {
         var _a, _b, _c, _d, _e;
         super();
         this.drawerOptions = {
@@ -14665,8 +14776,8 @@ class DrawerCanvas extends Emitter_1.Emitter {
             backgroundImage: drawerOptions === null || drawerOptions === void 0 ? void 0 : drawerOptions.backgroundImage,
             backgroundImageFit: (drawerOptions === null || drawerOptions === void 0 ? void 0 : drawerOptions.backgroundImageFit) || 'cover',
         };
-        this.timeline = new Timeline_1.Timeline(duration, framerate);
-        this.timeline.setTime(this.drawerOptions.time);
+        this.timeline = new Timeline_1.Timeline(duration, framerate, tickMode);
+        this.timeline.setTime(this.drawerOptions.time || 0);
         this.draw_id = null;
         this.redraw_id = null;
         this.animation_id = null;
@@ -14685,6 +14796,15 @@ class DrawerCanvas extends Emitter_1.Emitter {
     getOption(name, defaultValue) {
         var _a;
         return (_a = this.drawerOptions[name]) !== null && _a !== void 0 ? _a : defaultValue;
+    }
+    /**
+     * Set Drawer options
+     *
+     * @param {K keyof TDrawerOptions} name
+     * @param {TDrawerOptions[K]} value
+     */
+    setOption(name, value) {
+        this.drawerOptions[name] = value;
     }
     /**
      * Create instance of canvas (HTMLCanvasElement in browser o Canvas in Node)
@@ -14743,13 +14863,13 @@ class DrawerCanvas extends Emitter_1.Emitter {
         const start_time = Utilities_1.now();
         const timeline = this.timeline;
         const drawAtTime = timeline.getTime();
+        const currentFrame = timeline.getFrameAtTime(drawAtTime);
         const drawerOptions = {
             ...this.drawerOptions,
             ghostIndex: undefined,
-            clear: this.drawerOptions.clear || timeline.getCurrentFrame() <= 1,
+            clear: this.drawerOptions.clear || currentFrame <= 0,
             time: drawAtTime,
         };
-        const currentFrame = timeline.getFrameAtTime(drawAtTime);
         this.dispatch('drawer-canvas:before_draw', {
             currentFrame: currentFrame,
             currentTime: drawAtTime,
@@ -14991,30 +15111,15 @@ class DrawerCanvas extends Emitter_1.Emitter {
     }
 }
 exports.DrawerCanvas = DrawerCanvas;
-// const sourceRatio = sourceWidth / sourceHeight
-// let x = 0,
-// 	y = 0,
-// 	bgWidth = width,
-// 	bgHeight = height
-// if (sourceRatio !== ratio) {
-// 	if (options.backgroundImageFit === 'contain') {
-// 		bgWidth = ratio > sourceRatio ? (sourceWidth * height) / sourceHeight : width
-// 		bgHeight = ratio > sourceRatio ? height : (sourceHeight * width) / sourceWidth
-// 	} else {
-// 		bgWidth = ratio < sourceRatio ? (sourceWidth * height) / sourceHeight : width
-// 		bgHeight = ratio < sourceRatio ? height : (sourceHeight * width) / sourceWidth
-// 	}
-// 	x = (width - bgWidth) / 2
-// 	y = (height - bgHeight) / 2
 //# sourceMappingURL=DrawerCanvas.js.map
 
 /***/ }),
-/* 73 */
+/* 69 */
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 /* globals document, ImageData */
 
-const parseFont = __webpack_require__(74)
+const parseFont = __webpack_require__(70)
 
 exports.parseFont = parseFont
 
@@ -15050,7 +15155,7 @@ exports.loadImage = function (src, options) {
 
 
 /***/ }),
-/* 74 */
+/* 70 */
 /***/ ((module) => {
 
 "use strict";
@@ -15159,7 +15264,7 @@ module.exports = function (str) {
 
 
 /***/ }),
-/* 75 */
+/* 71 */
 /***/ ((__unused_webpack_module, exports) => {
 
 "use strict";
@@ -15225,7 +15330,7 @@ exports.Emitter = Emitter;
 //# sourceMappingURL=Emitter.js.map
 
 /***/ }),
-/* 76 */
+/* 72 */
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
@@ -15234,7 +15339,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Timeline = void 0;
 const Utilities_1 = __webpack_require__(32);
 const math_1 = __webpack_require__(29);
-const Emitter_1 = __webpack_require__(75);
+const Emitter_1 = __webpack_require__(71);
 /**
  * Is used for sequence time management.
  * It is necessary to set the duration and the number of frames per second (frame rate).
@@ -15244,11 +15349,12 @@ const Emitter_1 = __webpack_require__(75);
  * @extends {Emitter<ITimelineEvents>}
  */
 class Timeline extends Emitter_1.Emitter {
-    constructor(duration = 60000, framerate = 30) {
+    constructor(duration = 60000, framerate = 30, tickMode = 'linear') {
         super();
         this.fps_samples_size = 30;
         this.fps_samples = [];
         this.fps_samples_index = 0;
+        this.currentLoop = 0;
         this.paused_time = 0;
         this.sequence = {
             duration,
@@ -15262,6 +15368,7 @@ class Timeline extends Emitter_1.Emitter {
         this.currentTime = 0;
         this.last_tick = 0;
         this.start_time = 0;
+        this.tickMode = tickMode;
     }
     //#region sequence meta
     /**
@@ -15383,14 +15490,24 @@ class Timeline extends Emitter_1.Emitter {
             if (!this.start_time) {
                 this.start_time = timestamp;
                 this.last_tick = -this.tick_time;
+                this.currentFrame = -1;
             }
             const currentTime = timestamp - this.start_time;
             const elapsed = currentTime - this.last_tick;
             if (elapsed >= this.tick_time) {
                 this.calculateFPS(1 / (elapsed / 1000));
                 this.last_tick = currentTime;
-                this.currentTime = (currentTime - (elapsed % this.tick_time)) % this.sequence.duration;
-                this.currentFrame = this.getFrameAtTime(this.currentTime);
+                if (this.tickMode !== 'async') {
+                    this.currentFrame = (this.currentFrame + 1) % this.sequence.frames;
+                    this.currentTime = this.getFrameTime(this.currentFrame - 1);
+                    this.currentLoop = currentTime === 0 ? 0 : Math.ceil(this.currentTime / this.sequence.duration) - 1;
+                }
+                else {
+                    const currentTimeFixed = currentTime - (elapsed % this.tick_time);
+                    this.currentLoop = currentTime === 0 ? 0 : Math.ceil(currentTimeFixed / this.sequence.duration) - 1;
+                    this.currentTime = currentTimeFixed % this.sequence.duration;
+                    this.currentFrame = this.getFrameAtTime(this.currentTime);
+                }
                 this.dispatch('timeline:progress', {
                     currentFrame: this.currentFrame,
                     currentTime: this.currentTime,
@@ -15400,6 +15517,12 @@ class Timeline extends Emitter_1.Emitter {
             }
         }
         return false;
+    }
+    /**
+     * Return sequence loop
+     */
+    getCurrentLoop() {
+        return this.currentLoop;
     }
     /**
      * Calculate fps
@@ -15448,7 +15571,7 @@ class Timeline extends Emitter_1.Emitter {
         return Math.round((time % this.sequence.duration) / this.tick_time);
     }
     /**
-     * set current frame
+     * set current frame (0 to sequence.frames - 1)
      *
      * @param {number} frame
      */
@@ -15512,7 +15635,7 @@ Timeline.STOP = 'stop';
 //# sourceMappingURL=Timeline.js.map
 
 /***/ }),
-/* 77 */
+/* 73 */
 /***/ ((__unused_webpack_module, exports) => {
 
 "use strict";

@@ -4,6 +4,10 @@ const path = require('path')
 const package = require('./package.json')
 const version = JSON.stringify(package.version)
 
+const dependencies = package.dependencies
+const coreVersion = dependencies['@urpflanze/core']
+const drawerVersion = dependencies['@urpflanze/drawer-canvas']
+
 const plugins = bProduction => [
 	new webpack.DefinePlugin({
 		'process.env.NODE_ENV': JSON.stringify(bProduction ? 'production' : 'development'),
@@ -13,7 +17,8 @@ const plugins = bProduction => [
 			`@license UrpflanzeJS v${version}` +
 			`\n[file]` +
 			`\n\nGithub: https://github.com/urpflanze-org/urpflanze` +
-			`\n\nThis source code is licensed under the MIT license found in the\nLICENSE file in the root directory of this source tree.`,
+			`\n\nThis source code is licensed under the MIT license found in the\nLICENSE file in the root directory of this source tree.` +
+			`\n\nCore: ${coreVersion} | DrawerCanvas: ${drawerVersion}`,
 	}),
 ]
 
