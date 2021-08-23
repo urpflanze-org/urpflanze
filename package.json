@@ -85,7 +85,7 @@
 	"dependencies": {
 		"@urpflanze/animation": "^0.1.2",
 		"@urpflanze/color": "^0.0.5",
-		"@urpflanze/core": "^0.5.8",
+		"@urpflanze/core": "^0.5.9",
 		"@urpflanze/drawer-canvas": "^0.3.1",
 		"@urpflanze/gcode-exporter": "^0.0.5",
 		"@urpflanze/svg-exporter": "^0.0.5",
