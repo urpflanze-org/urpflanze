@@ -1,4 +1,4 @@
-export * from './core'
+export * from '@urpflanze/core/dist/cjs'
 
 export * as Animation from '@urpflanze/animation/dist/cjs'
 
