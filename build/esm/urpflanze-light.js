@@ -1,5 +1,5 @@
 /*!
- * @license UrpflanzeJS v"1.1.0"
+ * @license UrpflanzeJS v"1.1.1"
  * urpflanze-light.js
  *
  * Github: https://github.com/urpflanze-org/urpflanze
@@ -7,7 +7,7 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  *
- * Core: ^0.5.8 | DrawerCanvas: ^0.3.1
+ * Core: ^0.5.9 | DrawerCanvas: ^0.3.1
  */
 /******/ var __webpack_modules__ = ([
 /* 0 */,
@@ -16,52 +16,14 @@
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Circle": () => (/* reexport safe */ _core__WEBPACK_IMPORTED_MODULE_0__.Circle),
-/* harmony export */   "Group": () => (/* reexport safe */ _core__WEBPACK_IMPORTED_MODULE_0__.Group),
-/* harmony export */   "Line": () => (/* reexport safe */ _core__WEBPACK_IMPORTED_MODULE_0__.Line),
-/* harmony export */   "Lissajous": () => (/* reexport safe */ _core__WEBPACK_IMPORTED_MODULE_0__.Lissajous),
-/* harmony export */   "Modifier": () => (/* reexport safe */ _core__WEBPACK_IMPORTED_MODULE_0__.Modifier),
-/* harmony export */   "Modifiers": () => (/* reexport safe */ _core__WEBPACK_IMPORTED_MODULE_0__.Modifiers),
-/* harmony export */   "PHI": () => (/* reexport safe */ _core__WEBPACK_IMPORTED_MODULE_0__.PHI),
-/* harmony export */   "PI2": () => (/* reexport safe */ _core__WEBPACK_IMPORTED_MODULE_0__.PI2),
-/* harmony export */   "Polygon": () => (/* reexport safe */ _core__WEBPACK_IMPORTED_MODULE_0__.Polygon),
-/* harmony export */   "Rect": () => (/* reexport safe */ _core__WEBPACK_IMPORTED_MODULE_0__.Rect),
-/* harmony export */   "Rose": () => (/* reexport safe */ _core__WEBPACK_IMPORTED_MODULE_0__.Rose),
-/* harmony export */   "Scene": () => (/* reexport safe */ _core__WEBPACK_IMPORTED_MODULE_0__.Scene),
-/* harmony export */   "SceneChild": () => (/* reexport safe */ _core__WEBPACK_IMPORTED_MODULE_0__.SceneChild),
-/* harmony export */   "Shape": () => (/* reexport safe */ _core__WEBPACK_IMPORTED_MODULE_0__.Shape),
-/* harmony export */   "ShapeBase": () => (/* reexport safe */ _core__WEBPACK_IMPORTED_MODULE_0__.ShapeBase),
-/* harmony export */   "ShapeBuffer": () => (/* reexport safe */ _core__WEBPACK_IMPORTED_MODULE_0__.ShapeBuffer),
-/* harmony export */   "ShapeFollow": () => (/* reexport safe */ _core__WEBPACK_IMPORTED_MODULE_0__.ShapeFollow),
-/* harmony export */   "ShapeLoop": () => (/* reexport safe */ _core__WEBPACK_IMPORTED_MODULE_0__.ShapeLoop),
-/* harmony export */   "ShapePrimitive": () => (/* reexport safe */ _core__WEBPACK_IMPORTED_MODULE_0__.ShapePrimitive),
-/* harmony export */   "ShapeRecursive": () => (/* reexport safe */ _core__WEBPACK_IMPORTED_MODULE_0__.ShapeRecursive),
-/* harmony export */   "Spiral": () => (/* reexport safe */ _core__WEBPACK_IMPORTED_MODULE_0__.Spiral),
-/* harmony export */   "Star": () => (/* reexport safe */ _core__WEBPACK_IMPORTED_MODULE_0__.Star),
-/* harmony export */   "SuperShape": () => (/* reexport safe */ _core__WEBPACK_IMPORTED_MODULE_0__.SuperShape),
-/* harmony export */   "Triangle": () => (/* reexport safe */ _core__WEBPACK_IMPORTED_MODULE_0__.Triangle),
-/* harmony export */   "Vec2": () => (/* reexport safe */ _core__WEBPACK_IMPORTED_MODULE_0__.Vec2),
-/* harmony export */   "__esModule": () => (/* reexport safe */ _core__WEBPACK_IMPORTED_MODULE_0__.__esModule),
-/* harmony export */   "angle2FromRepetition": () => (/* reexport safe */ _core__WEBPACK_IMPORTED_MODULE_0__.angle2FromRepetition),
-/* harmony export */   "angleFromRepetition": () => (/* reexport safe */ _core__WEBPACK_IMPORTED_MODULE_0__.angleFromRepetition),
-/* harmony export */   "clamp": () => (/* reexport safe */ _core__WEBPACK_IMPORTED_MODULE_0__.clamp),
-/* harmony export */   "distanceFromRepetition": () => (/* reexport safe */ _core__WEBPACK_IMPORTED_MODULE_0__.distanceFromRepetition),
-/* harmony export */   "distributePointsInBuffer": () => (/* reexport safe */ _core__WEBPACK_IMPORTED_MODULE_0__.distributePointsInBuffer),
-/* harmony export */   "interpolate": () => (/* reexport safe */ _core__WEBPACK_IMPORTED_MODULE_0__.interpolate),
-/* harmony export */   "lerp": () => (/* reexport safe */ _core__WEBPACK_IMPORTED_MODULE_0__.lerp),
-/* harmony export */   "log": () => (/* reexport safe */ _core__WEBPACK_IMPORTED_MODULE_0__.log),
-/* harmony export */   "mod": () => (/* reexport safe */ _core__WEBPACK_IMPORTED_MODULE_0__.mod),
-/* harmony export */   "noise": () => (/* reexport safe */ _core__WEBPACK_IMPORTED_MODULE_0__.noise),
-/* harmony export */   "now": () => (/* reexport safe */ _core__WEBPACK_IMPORTED_MODULE_0__.now),
-/* harmony export */   "prepareBufferForInterpolation": () => (/* reexport safe */ _core__WEBPACK_IMPORTED_MODULE_0__.prepareBufferForInterpolation),
-/* harmony export */   "random": () => (/* reexport safe */ _core__WEBPACK_IMPORTED_MODULE_0__.random),
-/* harmony export */   "relativeClamp": () => (/* reexport safe */ _core__WEBPACK_IMPORTED_MODULE_0__.relativeClamp),
-/* harmony export */   "toDegrees": () => (/* reexport safe */ _core__WEBPACK_IMPORTED_MODULE_0__.toDegrees),
-/* harmony export */   "toRadians": () => (/* reexport safe */ _core__WEBPACK_IMPORTED_MODULE_0__.toRadians),
 /* harmony export */   "Animation": () => (/* reexport module object */ _urpflanze_animation_dist_cjs__WEBPACK_IMPORTED_MODULE_1__),
 /* harmony export */   "DrawerCanvas": () => (/* reexport safe */ _urpflanze_drawer_canvas_dist_cjs_browser_BrowserDrawerCanvas__WEBPACK_IMPORTED_MODULE_2__.BrowserDrawerCanvas)
 /* harmony export */ });
-/* harmony import */ var _core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+/* harmony import */ var _urpflanze_core_dist_cjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+/* harmony import */ var _urpflanze_core_dist_cjs__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_urpflanze_core_dist_cjs__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ var __WEBPACK_REEXPORT_OBJECT__ = {};
+/* harmony reexport (unknown) */ for(const __WEBPACK_IMPORT_KEY__ in _urpflanze_core_dist_cjs__WEBPACK_IMPORTED_MODULE_0__) if(["default","Animation","DrawerCanvas"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) __WEBPACK_REEXPORT_OBJECT__[__WEBPACK_IMPORT_KEY__] = () => _urpflanze_core_dist_cjs__WEBPACK_IMPORTED_MODULE_0__[__WEBPACK_IMPORT_KEY__]
+/* harmony reexport (unknown) */ __webpack_require__.d(__webpack_exports__, __WEBPACK_REEXPORT_OBJECT__);
 /* harmony import */ var _urpflanze_animation_dist_cjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(57);
 /* harmony import */ var _urpflanze_animation_dist_cjs__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_urpflanze_animation_dist_cjs__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _urpflanze_drawer_canvas_dist_cjs_browser_BrowserDrawerCanvas__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(67);
@@ -72,464 +34,105 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 /* 2 */
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Scene": () => (/* reexport safe */ _urpflanze_core_dist_cjs_Scene__WEBPACK_IMPORTED_MODULE_0__.Scene),
-/* harmony export */   "__esModule": () => (/* reexport safe */ _urpflanze_core_dist_cjs_Scene__WEBPACK_IMPORTED_MODULE_0__.__esModule),
-/* harmony export */   "SceneChild": () => (/* reexport safe */ _urpflanze_core_dist_cjs_SceneChild__WEBPACK_IMPORTED_MODULE_1__.SceneChild),
-/* harmony export */   "Group": () => (/* reexport safe */ _urpflanze_core_dist_cjs_Group__WEBPACK_IMPORTED_MODULE_2__.Group),
-/* harmony export */   "ShapeBase": () => (/* reexport safe */ _urpflanze_core_dist_cjs_shapes_ShapeBase__WEBPACK_IMPORTED_MODULE_3__.ShapeBase),
-/* harmony export */   "ShapePrimitive": () => (/* reexport safe */ _urpflanze_core_dist_cjs_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_4__.ShapePrimitive),
-/* harmony export */   "ShapeLoop": () => (/* reexport safe */ _urpflanze_core_dist_cjs_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_5__.ShapeLoop),
-/* harmony export */   "ShapeBuffer": () => (/* reexport safe */ _urpflanze_core_dist_cjs_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_6__.ShapeBuffer),
-/* harmony export */   "Shape": () => (/* reexport safe */ _urpflanze_core_dist_cjs_shapes_Shape__WEBPACK_IMPORTED_MODULE_7__.Shape),
-/* harmony export */   "ShapeRecursive": () => (/* reexport safe */ _urpflanze_core_dist_cjs_shapes_ShapeRecursive__WEBPACK_IMPORTED_MODULE_8__.ShapeRecursive),
-/* harmony export */   "ShapeFollow": () => (/* reexport safe */ _urpflanze_core_dist_cjs_shapes_ShapeFollow__WEBPACK_IMPORTED_MODULE_9__.ShapeFollow),
-/* harmony export */   "Line": () => (/* reexport safe */ _urpflanze_core_dist_cjs_shapes_primitives_Line__WEBPACK_IMPORTED_MODULE_10__.Line),
-/* harmony export */   "Triangle": () => (/* reexport safe */ _urpflanze_core_dist_cjs_shapes_primitives_Triangle__WEBPACK_IMPORTED_MODULE_11__.Triangle),
-/* harmony export */   "Rect": () => (/* reexport safe */ _urpflanze_core_dist_cjs_shapes_primitives_Rect__WEBPACK_IMPORTED_MODULE_12__.Rect),
-/* harmony export */   "Polygon": () => (/* reexport safe */ _urpflanze_core_dist_cjs_shapes_primitives_Polygon__WEBPACK_IMPORTED_MODULE_13__.Polygon),
-/* harmony export */   "Circle": () => (/* reexport safe */ _urpflanze_core_dist_cjs_shapes_primitives_Circle__WEBPACK_IMPORTED_MODULE_14__.Circle),
-/* harmony export */   "Star": () => (/* reexport safe */ _urpflanze_core_dist_cjs_shapes_primitives_Star__WEBPACK_IMPORTED_MODULE_15__.Star),
-/* harmony export */   "Rose": () => (/* reexport safe */ _urpflanze_core_dist_cjs_shapes_primitives_Rose__WEBPACK_IMPORTED_MODULE_16__.Rose),
-/* harmony export */   "Spiral": () => (/* reexport safe */ _urpflanze_core_dist_cjs_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_17__.Spiral),
-/* harmony export */   "Lissajous": () => (/* reexport safe */ _urpflanze_core_dist_cjs_shapes_primitives_Lissajous__WEBPACK_IMPORTED_MODULE_18__.Lissajous),
-/* harmony export */   "SuperShape": () => (/* reexport safe */ _urpflanze_core_dist_cjs_shapes_primitives_SuperShape__WEBPACK_IMPORTED_MODULE_19__.SuperShape),
-/* harmony export */   "Modifier": () => (/* reexport safe */ _urpflanze_core_dist_cjs_modifiers_Modifier__WEBPACK_IMPORTED_MODULE_20__.Modifier),
-/* harmony export */   "Modifiers": () => (/* reexport safe */ _urpflanze_core_dist_cjs_modifiers__WEBPACK_IMPORTED_MODULE_21__.Modifiers),
-/* harmony export */   "lerp": () => (/* reexport safe */ _urpflanze_core_dist_cjs_Utilities__WEBPACK_IMPORTED_MODULE_22__.lerp),
-/* harmony export */   "clamp": () => (/* reexport safe */ _urpflanze_core_dist_cjs_Utilities__WEBPACK_IMPORTED_MODULE_22__.clamp),
-/* harmony export */   "relativeClamp": () => (/* reexport safe */ _urpflanze_core_dist_cjs_Utilities__WEBPACK_IMPORTED_MODULE_22__.relativeClamp),
-/* harmony export */   "toDegrees": () => (/* reexport safe */ _urpflanze_core_dist_cjs_Utilities__WEBPACK_IMPORTED_MODULE_22__.toDegrees),
-/* harmony export */   "toRadians": () => (/* reexport safe */ _urpflanze_core_dist_cjs_Utilities__WEBPACK_IMPORTED_MODULE_22__.toRadians),
-/* harmony export */   "now": () => (/* reexport safe */ _urpflanze_core_dist_cjs_Utilities__WEBPACK_IMPORTED_MODULE_22__.now),
-/* harmony export */   "noise": () => (/* reexport safe */ _urpflanze_core_dist_cjs_Utilities__WEBPACK_IMPORTED_MODULE_22__.noise),
-/* harmony export */   "random": () => (/* reexport safe */ _urpflanze_core_dist_cjs_Utilities__WEBPACK_IMPORTED_MODULE_22__.random),
-/* harmony export */   "angleFromRepetition": () => (/* reexport safe */ _urpflanze_core_dist_cjs_Utilities__WEBPACK_IMPORTED_MODULE_22__.angleFromRepetition),
-/* harmony export */   "angle2FromRepetition": () => (/* reexport safe */ _urpflanze_core_dist_cjs_Utilities__WEBPACK_IMPORTED_MODULE_22__.angle2FromRepetition),
-/* harmony export */   "distanceFromRepetition": () => (/* reexport safe */ _urpflanze_core_dist_cjs_Utilities__WEBPACK_IMPORTED_MODULE_22__.distanceFromRepetition),
-/* harmony export */   "interpolate": () => (/* reexport safe */ _urpflanze_core_dist_cjs_Utilities__WEBPACK_IMPORTED_MODULE_22__.interpolate),
-/* harmony export */   "prepareBufferForInterpolation": () => (/* reexport safe */ _urpflanze_core_dist_cjs_Utilities__WEBPACK_IMPORTED_MODULE_22__.prepareBufferForInterpolation),
-/* harmony export */   "distributePointsInBuffer": () => (/* reexport safe */ _urpflanze_core_dist_cjs_Utilities__WEBPACK_IMPORTED_MODULE_22__.distributePointsInBuffer),
-/* harmony export */   "Vec2": () => (/* reexport safe */ _urpflanze_core_dist_cjs_math_Vec2__WEBPACK_IMPORTED_MODULE_23__.default),
-/* harmony export */   "PHI": () => (/* reexport safe */ _urpflanze_core_dist_cjs_math__WEBPACK_IMPORTED_MODULE_24__.PHI),
-/* harmony export */   "PI2": () => (/* reexport safe */ _urpflanze_core_dist_cjs_math__WEBPACK_IMPORTED_MODULE_24__.PI2),
-/* harmony export */   "log": () => (/* reexport safe */ _urpflanze_core_dist_cjs_math__WEBPACK_IMPORTED_MODULE_24__.log),
-/* harmony export */   "mod": () => (/* reexport safe */ _urpflanze_core_dist_cjs_math__WEBPACK_IMPORTED_MODULE_24__.mod)
-/* harmony export */ });
-/* harmony import */ var _urpflanze_core_dist_cjs_Scene__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3);
-/* harmony import */ var _urpflanze_core_dist_cjs_SceneChild__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4);
-/* harmony import */ var _urpflanze_core_dist_cjs_Group__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5);
-/* harmony import */ var _urpflanze_core_dist_cjs_shapes_ShapeBase__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(6);
-/* harmony import */ var _urpflanze_core_dist_cjs_shapes_ShapePrimitive__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(35);
-/* harmony import */ var _urpflanze_core_dist_cjs_shapes_ShapeLoop__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(36);
-/* harmony import */ var _urpflanze_core_dist_cjs_shapes_ShapeBuffer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(37);
-/* harmony import */ var _urpflanze_core_dist_cjs_shapes_Shape__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(34);
-/* harmony import */ var _urpflanze_core_dist_cjs_shapes_ShapeRecursive__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(38);
-/* harmony import */ var _urpflanze_core_dist_cjs_shapes_ShapeFollow__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(39);
-/* harmony import */ var _urpflanze_core_dist_cjs_shapes_primitives_Line__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(40);
-/* harmony import */ var _urpflanze_core_dist_cjs_shapes_primitives_Triangle__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(41);
-/* harmony import */ var _urpflanze_core_dist_cjs_shapes_primitives_Rect__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(42);
-/* harmony import */ var _urpflanze_core_dist_cjs_shapes_primitives_Polygon__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(43);
-/* harmony import */ var _urpflanze_core_dist_cjs_shapes_primitives_Circle__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(44);
-/* harmony import */ var _urpflanze_core_dist_cjs_shapes_primitives_Star__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(45);
-/* harmony import */ var _urpflanze_core_dist_cjs_shapes_primitives_Rose__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(46);
-/* harmony import */ var _urpflanze_core_dist_cjs_shapes_primitives_Spiral__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(47);
-/* harmony import */ var _urpflanze_core_dist_cjs_shapes_primitives_Lissajous__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(48);
-/* harmony import */ var _urpflanze_core_dist_cjs_shapes_primitives_SuperShape__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(49);
-/* harmony import */ var _urpflanze_core_dist_cjs_modifiers_Modifier__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(31);
-/* harmony import */ var _urpflanze_core_dist_cjs_modifiers__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(50);
-/* harmony import */ var _urpflanze_core_dist_cjs_Utilities__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(32);
-/* harmony import */ var _urpflanze_core_dist_cjs_math_Vec2__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(28);
-/* harmony import */ var _urpflanze_core_dist_cjs_math__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(29);
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//# sourceMappingURL=core.js.map
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.mod = exports.log = exports.PI2 = exports.PHI = exports.Vec2 = exports.distributePointsInBuffer = exports.prepareBufferForInterpolation = exports.interpolate = exports.distanceFromRepetition = exports.angle2FromRepetition = exports.angleFromRepetition = exports.random = exports.noise = exports.now = exports.toRadians = exports.toDegrees = exports.relativeClamp = exports.clamp = exports.lerp = void 0;
+/**
+ * Types & Interface
+ */
+__exportStar(__webpack_require__(3), exports);
+// Set glMatrixArrayType
+const gl_matrix_1 = __webpack_require__(12);
+gl_matrix_1.glMatrix.setMatrixArrayType(Array);
+/**
+ * Core
+ */
+__exportStar(__webpack_require__(23), exports);
+__exportStar(__webpack_require__(24), exports);
+__exportStar(__webpack_require__(25), exports);
+// Shapes
+__exportStar(__webpack_require__(26), exports);
+__exportStar(__webpack_require__(35), exports);
+__exportStar(__webpack_require__(36), exports);
+__exportStar(__webpack_require__(37), exports);
+__exportStar(__webpack_require__(34), exports);
+__exportStar(__webpack_require__(38), exports);
+__exportStar(__webpack_require__(39), exports);
+__exportStar(__webpack_require__(40), exports);
+__exportStar(__webpack_require__(41), exports);
+__exportStar(__webpack_require__(42), exports);
+__exportStar(__webpack_require__(43), exports);
+__exportStar(__webpack_require__(44), exports);
+__exportStar(__webpack_require__(45), exports);
+__exportStar(__webpack_require__(46), exports);
+__exportStar(__webpack_require__(47), exports);
+__exportStar(__webpack_require__(48), exports);
+__exportStar(__webpack_require__(49), exports);
+// Modifiers
+__exportStar(__webpack_require__(31), exports);
+__exportStar(__webpack_require__(50), exports);
+// Utilities
+var Utilities_1 = __webpack_require__(32);
+Object.defineProperty(exports, "lerp", ({ enumerable: true, get: function () { return Utilities_1.lerp; } }));
+Object.defineProperty(exports, "clamp", ({ enumerable: true, get: function () { return Utilities_1.clamp; } }));
+Object.defineProperty(exports, "relativeClamp", ({ enumerable: true, get: function () { return Utilities_1.relativeClamp; } }));
+Object.defineProperty(exports, "toDegrees", ({ enumerable: true, get: function () { return Utilities_1.toDegrees; } }));
+Object.defineProperty(exports, "toRadians", ({ enumerable: true, get: function () { return Utilities_1.toRadians; } }));
+Object.defineProperty(exports, "now", ({ enumerable: true, get: function () { return Utilities_1.now; } }));
+Object.defineProperty(exports, "noise", ({ enumerable: true, get: function () { return Utilities_1.noise; } }));
+Object.defineProperty(exports, "random", ({ enumerable: true, get: function () { return Utilities_1.random; } }));
+Object.defineProperty(exports, "angleFromRepetition", ({ enumerable: true, get: function () { return Utilities_1.angleFromRepetition; } }));
+Object.defineProperty(exports, "angle2FromRepetition", ({ enumerable: true, get: function () { return Utilities_1.angle2FromRepetition; } }));
+Object.defineProperty(exports, "distanceFromRepetition", ({ enumerable: true, get: function () { return Utilities_1.distanceFromRepetition; } }));
+Object.defineProperty(exports, "interpolate", ({ enumerable: true, get: function () { return Utilities_1.interpolate; } }));
+Object.defineProperty(exports, "prepareBufferForInterpolation", ({ enumerable: true, get: function () { return Utilities_1.prepareBufferForInterpolation; } }));
+Object.defineProperty(exports, "distributePointsInBuffer", ({ enumerable: true, get: function () { return Utilities_1.distributePointsInBuffer; } }));
+var Vec2_1 = __webpack_require__(28);
+Object.defineProperty(exports, "Vec2", ({ enumerable: true, get: function () { return Vec2_1.default; } }));
+var math_1 = __webpack_require__(29);
+Object.defineProperty(exports, "PHI", ({ enumerable: true, get: function () { return math_1.PHI; } }));
+Object.defineProperty(exports, "PI2", ({ enumerable: true, get: function () { return math_1.PI2; } }));
+Object.defineProperty(exports, "log", ({ enumerable: true, get: function () { return math_1.log; } }));
+Object.defineProperty(exports, "mod", ({ enumerable: true, get: function () { return math_1.mod; } }));
+//# sourceMappingURL=index.js.map
 
 /***/ }),
 /* 3 */
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.Scene = void 0;
-const SceneChild_1 = __webpack_require__(4);
-const Group_1 = __webpack_require__(5);
-const Shape_1 = __webpack_require__(34);
-const Utilities_1 = __webpack_require__(32);
-/**
- * Container for all SceneChild.
- * The main purpose is to manage the drawing order and update the child buffers
- *
- * @order 1
- * @category Scene
- * @class Scene
- */
-class Scene {
-    /**
-     * Creates an instance of Scene.
-     * You can see the default values in the property definitions
-     */
-    constructor(settings = {}) {
-        /**
-         * Logical number, the drawer will take care of defining the unit of measure
-         */
-        this.width = 400;
-        /**
-         * Logical number, the drawer will take care of defining the unit of measure
-         */
-        this.height = 400;
-        /**
-         * Default background color (black)
-         */
-        this.background = 'hsla(0, 0%, 0%, 1)';
-        /**
-         * Default ScenePrimitive stroke color (white)
-         */
-        this.color = 'hsla(0, 0%, 100%, 1)';
-        /**
-         * Current time
-         */
-        this.currentTime = 0;
-        if (typeof settings.width !== 'undefined')
-            this.width = settings.width;
-        if (typeof settings.height !== 'undefined')
-            this.height = settings.height;
-        if (typeof settings.background !== 'undefined')
-            this.background = settings.background;
-        if (typeof settings.color !== 'undefined')
-            this.color = settings.color;
-        this.children = [];
-        this.anchorSettings = settings.anchor;
-        this.setSize(settings.width || this.width, settings.height || this.height, settings.anchor);
-    }
-    /**
-     * set scene size, center and anchor
-     *
-     * @private
-     * @param {number} width
-     * @param {number} height
-     * @param {(['left' | 'right' | 'center' | number, 'top' | 'bottom' | 'center' | number])} [anchor]
-     */
-    setSize(width, height, anchor) {
-        this.width = width;
-        this.height = height;
-        this.center = [this.width / 2, this.height / 2];
-        this.anchor =
-            anchor && Array.isArray(anchor)
-                ? [
-                    typeof anchor[0] === 'number'
-                        ? (0.5 + Utilities_1.clamp(-1, 1, anchor[0]) * 0.5) * this.width
-                        : anchor[0] === 'left'
-                            ? 0
-                            : anchor[0] === 'right'
-                                ? this.width
-                                : this.center[0],
-                    typeof anchor[1] === 'number'
-                        ? (0.5 + Utilities_1.clamp(-1, 1, anchor[1]) * 0.5) * this.height
-                        : anchor[1] === 'top'
-                            ? 0
-                            : anchor[1] === 'bottom'
-                                ? this.height
-                                : this.center[1],
-                ]
-                : [this.center[0], this.center[1]];
-    }
-    /**
-     * Return width percentage
-     *
-     * @param {number} [percentage=100]
-     * @returns {number}
-     */
-    getWidth(percentage = 100) {
-        return (this.width * percentage) / 100;
-    }
-    /**
-     * Return height percentage
-     *
-     * @param {number} [percentage=100]
-     * @returns {number}
-     */
-    getHeight(percentage = 100) {
-        return (this.height * percentage) / 100;
-    }
-    /**
-     * Resize the scene size
-     *
-     * @param {number} width
-     * @param {number} [height=width]
-     * @memberof Scene
-     */
-    resize(width, height = width) {
-        this.setSize(width, height, this.anchorSettings);
-        this.children.forEach(sceneChild => sceneChild.clearBuffer(true, false));
-    }
-    /**
-     * Update all children, generate a streamable buffer for drawing
-     *
-     * @param {number} [atTime] time in ms
-     * @memberof Scene
-     */
-    update(atTime = 0) {
-        this.currentTime = atTime;
-        for (let i = 0, len = this.children.length; i < len; i++) {
-            this.children[i].generate(this.currentTime, true);
-        }
-    }
-    /**
-     * Traverse the child buffer and use it with callback
-     *
-     * @param {(streamArguments: IStreamArguments) => void} callback
-     * @memberof Scene
-     */
-    stream(callback) {
-        this.children.forEach(sceneChild => sceneChild.stream(callback));
-    }
-    /*
-     |--------------------------------------------------------------------------
-     |  SceneChild
-     |--------------------------------------------------------------------------
-     */
-    /**
-     * Return a list of children
-     *
-     * @returns {Array<SceneChild>}
-     * @memberof Scene
-     */
-    getChildren() {
-        return this.children;
-    }
-    /**
-     * Add SceneChild to Scene, pass `order` as last parameter for drawing priorities
-     *
-     * @param {Array<SceneChild>} items
-     * @param {number} [order]
-     * @memberof Scene
-     */
-    add(...items /**, order: number */) {
-        const order = typeof items[items.length - 1] === 'number' ? items[items.length - 1] : undefined;
-        const len = items.length - (typeof order === 'undefined' ? 0 : 1);
-        for (let i = 0; i < len; i++) {
-            const item = items[i];
-            item.order =
-                typeof order !== 'undefined'
-                    ? order + i
-                    : typeof item.order !== 'undefined'
-                        ? item.order
-                        : this.children.length > 0
-                            ? Math.max.apply(this, this.children.map(e => e.order || 0)) + 1
-                            : 0;
-            Scene.propagateToChilden(item, this);
-            this.children.push(item);
-            item.clearBuffer(true, false);
-            item.generate(0, true);
-        }
-        this.sortChildren();
-    }
-    /**
-     * Sort children by order
-     *
-     * @memberof Scene
-     */
-    sortChildren() {
-        this.children.sort((a, b) => a.order - b.order);
-        this.children = this.children.map((child, index) => {
-            child.order = index;
-            return child;
-        });
-    }
-    /**
-     * Find sceneChild from id or name in the whole scene
-     *
-     * @param {string | number} idOrName
-     * @returns {(SceneChild | null)}
-     * @memberof Scene
-     */
-    find(idOrName) {
-        const children = this.getChildren();
-        for (let i = 0, len = children.length; i < len; i++) {
-            const result = children[i].find(idOrName);
-            if (result !== null)
-                return result;
-        }
-        return null;
-    }
-    /**
-     * Get shape by index
-     *
-     * @param {number} index
-     * @returns {(SceneChild | null)}
-     * @memberof Scene
-     */
-    get(index) {
-        return index >= 0 && index < this.children.length ? this.children[index] : null;
-    }
-    /**
-     * Remove a shape by index
-     *
-     * @param {number} index
-     * @memberof Scene
-     */
-    remove(index) {
-        index >= 0 && index < this.children.length && this.children.splice(index, 1);
-    }
-    /**
-     * Removes all children
-     *
-     * @memberof Scene
-     */
-    removeChildren() {
-        this.children = [];
-    }
-    /**
-     * Remove sceneChild by id or name
-     *
-     * @param {number | number} idOrName
-     * @memberof Scene
-     */
-    removeFromId(idOrName) {
-        for (let i = 0, len = this.children.length; i < len; i++)
-            if (this.children[i].id === idOrName || this.children[i].name === idOrName) {
-                this.children.splice(i, 1);
-                return;
-            }
-    }
-    /**
-     * Return true if sceneChild is direct children
-     *
-     * @param {SceneChild} sceneChild
-     * @returns {boolean}
-     * @memberof Scene
-     */
-    isFirstLevelChild(sceneChild) {
-        for (let i = 0, len = this.children.length; i < len; i++)
-            if (this.children[i].id === sceneChild.id)
-                return true;
-        const parents = this.getParentsOfSceneChild(sceneChild);
-        return parents.length === 1 && parents[0] instanceof Group_1.Group;
-    }
-    /**
-     * Returns the list of sceneChild hierarchy starting from the scene
-     *
-     * @param {SceneChild} sceneChild
-     * @returns {Array<SceneChild>}
-     * @memberof Scene
-     */
-    getParentsOfSceneChild(sceneChild) {
-        const result = Scene.getParentsOfSceneChild(this, sceneChild);
-        if (result) {
-            result.splice(0, 1);
-            return result;
-        }
-        return [];
-    }
-    /**
-     * Returns the list of sceneChild hierarchy starting from the scene
-     *
-     * @static
-     * @param {(Scene | SceneChild)} current
-     * @param {SceneChild} sceneChild
-     * @param {(Array<SceneChild | Scene>)} [parents=[]]
-     * @returns {(Array<SceneChild | Scene> | null)}
-     * @memberof Scene
-     */
-    static getParentsOfSceneChild(current, sceneChild, parents = []) {
-        let result;
-        if (current instanceof SceneChild_1.SceneChild) {
-            if (current.id == sceneChild.id)
-                return parents;
-            if (current instanceof Shape_1.Shape && current.shape) {
-                const tmpParents = parents.slice();
-                tmpParents.push(current);
-                if ((result = Scene.getParentsOfSceneChild(current.shape, sceneChild, tmpParents)))
-                    return result;
-            }
-        }
-        if (current instanceof Scene || current instanceof Group_1.Group) {
-            const children = current.getChildren();
-            parents.push(current);
-            for (let i = 0, len = children.length; i < len; i++) {
-                const child = children[i];
-                if ((result = Scene.getParentsOfSceneChild(child, sceneChild, parents)))
-                    return result;
-            }
-            parents.pop();
-        }
-        return null;
-    }
-    /**
-     * Walk through the scene
-     *
-     * @static
-     * @param {SceneChild} callbackk
-     * @param {(Scene | SceneChild)} current
-     * @memberof Scene
-     */
-    static walk(callback, current) {
-        if (current instanceof SceneChild_1.SceneChild) {
-            if (callback(current) === false)
-                return false;
-            if (current instanceof Shape_1.Shape && current.shape)
-                if (Scene.walk(callback, current.shape) === false)
-                    return false;
-        }
-        if (current instanceof Scene || current instanceof Group_1.Group) {
-            const children = current.getChildren();
-            for (let i = 0, len = children.length; i < len; i++) {
-                const child = children[i];
-                if (Scene.walk(callback, child) === false)
-                    return false;
-            }
-        }
-    }
-    /**
-     * Propagate scene to sceneChild (and children)
-     *
-     * @static
-     * @param {SceneChild} sceneChild
-     * @param {Scene} scene
-     * @memberof Scene
-     */
-    static propagateToChilden(sceneChild, scene) {
-        sceneChild.scene = scene;
-        if (sceneChild instanceof Group_1.Group) {
-            sceneChild.getChildren().forEach((item) => {
-                Scene.propagateToChilden(item, scene);
-            });
-        }
-        else if (sceneChild instanceof Shape_1.Shape && sceneChild.shape) {
-            sceneChild.shape.scene = scene;
-            Scene.propagateToChilden(sceneChild.shape, scene);
-        }
-    }
-}
-exports.Scene = Scene;
-//# sourceMappingURL=Scene.js.map
+__exportStar(__webpack_require__(4), exports);
+__exportStar(__webpack_require__(5), exports);
+__exportStar(__webpack_require__(6), exports);
+__exportStar(__webpack_require__(7), exports);
+__exportStar(__webpack_require__(8), exports);
+__exportStar(__webpack_require__(9), exports);
+__exportStar(__webpack_require__(10), exports);
+__exportStar(__webpack_require__(11), exports);
+//# sourceMappingURL=index.js.map
 
 /***/ }),
 /* 4 */
@@ -537,951 +140,110 @@ exports.Scene = Scene;
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.SceneChild = void 0;
-/**
- * Autoincrement sceneChild default id
- *
- * @internal
- * @ignore
- */
-let __id = 0;
-/**
- * The element to be added into a scene.
- * Preserve props, drawing order, generate and return buffers.
- * The only implementations of this class are <a href="[base_url]/Group">Group</a> and <a href="[base_url]/ShapeBase">ShapeBase</a>
- *
- * @abstract
- * @category Scene
- * @order 2
- * @class SceneChild
- */
-class SceneChild {
-    /**
-     * Creates an instance of SceneChild.
-     * Base values will be assigned in case they are not passed
-     *
-     * @param {ISceneChildSettings} settings
-     */
-    constructor(settings) {
-        var _a;
-        /**
-         * Shape generation id
-         * used for prevent buffer calculation
-         *
-         * @internal
-         * @ignore
-         */
-        this.generateId = -1;
-        this.id = (_a = settings.id) !== null && _a !== void 0 ? _a : ++__id;
-        this.type = settings.type || 'SceneChild';
-        this.name = settings.name || this.type + '_' + this.id;
-        this.data = settings.data || {};
-        this.props = {};
-    }
-    /**
-     * Find this or form or children.
-     * Overridden by classes that extend it
-     *
-     * @param {string | number} idOrName
-     * @returns {(SceneChild | null)}
-     */
-    find(idOrName) {
-        if (this.id === idOrName || this.name === idOrName)
-            return this;
-        return null;
-    }
-    /**
-     * Return the sceneChild properties
-     *
-     * @returns {Props}
-     */
-    getProps() {
-        return this.props;
-    }
-    /**
-     * Return a sceneChild prop or default value
-     *
-     * @param {keyof Props} key
-     * @param {PropArguments} [propArguments]
-     * @param {*} [defaultValue]
-     * @returns {*}
-     */
-    getProp(key, propArguments, defaultValue) {
-        var _a;
-        return ((_a = this.props[key]) !== null && _a !== void 0 ? _a : defaultValue);
-    }
-    /**
-     * Check SceneChild has prop
-     *
-     * @param {keyof Props} key
-     * @returns
-     */
-    hasProp(key) {
-        return typeof this.props[key] !== 'undefined';
-    }
-    /**
-     * Set a single or multiple props
-     *
-     * @param {(keyof ISceneChildProps<PropArguments> | ISceneChildProps<PropArguments>)} key
-     * @param {*} [value]
-     */
-    setPropUnsafe(key, value) {
-        if (typeof key == 'string')
-            this.props[key] = value;
-        else
-            Object.keys(key).forEach((k) => (this.props[k] = key[k]));
-    }
-}
-exports.SceneChild = SceneChild;
-//# sourceMappingURL=SceneChild.js.map
+//# sourceMappingURL=indexedBuffer.js.map
 
 /***/ }),
 /* 5 */
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ ((__unused_webpack_module, exports) => {
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.Group = void 0;
-const Scene_1 = __webpack_require__(3);
-const SceneChild_1 = __webpack_require__(4);
-const ShapeBase_1 = __webpack_require__(6);
-const Adapt_1 = __webpack_require__(30);
-/**
- * A SceneChild container, propagates properties to children
- *
- * @order 3
- * @category Scene.Containers
- * @extends {SceneChild}
- * @example
- * ```javascript
- * // Group example
- *
- * const rect = new Urpflanze.Rect({
- * 	distance: 100 // <- if a property is set the group will not overwrite it
- * })
- * const group = new Urpflanze.Group({
- * 	repetitions: 3,
- * 	distance: 200
- * })
- *
- * group.add(rect)
- * group.add(new Urpflanze.Triangle())
- * ```
- * @class Group
- */
-class Group extends SceneChild_1.SceneChild {
-    /**
-     * Creates an instance of Group
-     *
-     * @param {ISceneChildSettings} [settings={}]
-     * @memberof Group
-     */
-    constructor(settings = {}) {
-        settings.type = 'Group';
-        super(settings);
-        this.children = [];
-        ['id', 'name', 'data', 'order', 'type'].forEach((prop) => {
-            if (prop in settings)
-                delete settings[prop];
-        });
-        this.props = settings;
-    }
-    /**
-     * Check group has static children
-     *
-     * @returns {boolean}
-     * @memberof Group
-     */
-    isStatic() {
-        const children = this.children;
-        for (let i = 0, len = children.length; i < len; i++)
-            if (!children[i].isStatic())
-                return false;
-        return true;
-    }
-    /**
-     * Check group has static children indexed
-     *
-     * @returns {boolean}
-     * @memberof Group
-     */
-    isStaticIndexed() {
-        const children = this.children;
-        for (let i = 0, len = children.length; i < len; i++)
-            if (!children[i].isStaticIndexed())
-                return false;
-        return true;
-    }
-    /**
-     * Add item to Group
-     *
-     * @param {Array<SceneChild>} items
-     * @memberof Group
-     */
-    add(...items) {
-        for (let i = 0, len = items.length; i < len; i++) {
-            const item = items[i];
-            const rawItemProps = item.getProps();
-            Object.keys(this.props).forEach((propKey) => {
-                if (typeof rawItemProps[propKey] === 'undefined')
-                    item.setProp(propKey, this.props[propKey]);
-            });
-            item.order =
-                typeof item.order !== 'undefined'
-                    ? item.order
-                    : this.children.length > 0
-                        ? Math.max.apply(this, this.children.map(e => e.order || 0)) + 1
-                        : 0;
-            this.scene && Scene_1.Scene.propagateToChilden(item, this.scene);
-            this.children.push(item);
-        }
-        this.sortChildren();
-    }
-    /**
-     * Sort children
-     *
-     * @memberof Group
-     */
-    sortChildren() {
-        this.children.sort((a, b) => a.order - b.order);
-        this.children = this.children.map((child, index) => {
-            child.order = index;
-            return child;
-        });
-        this.clearBuffer(true);
-    }
-    /**
-     * Return shape children
-     *
-     * @returns {Array<SceneChild>}
-     * @memberof Group
-     */
-    getChildren() {
-        return this.children;
-    }
-    /**
-     * Find scene child from id or name
-     *
-     * @param {number | string} idOrName
-     * @returns {(SceneChild | null)}
-     * @memberof Group
-     */
-    find(idOrName) {
-        if (this.id === idOrName || this.name === idOrName)
-            return this;
-        const children = this.getChildren();
-        for (let i = 0, len = children.length; i < len; i++) {
-            const result = children[i].find(idOrName);
-            if (result !== null)
-                return result;
-        }
-        return null;
-    }
-    /**
-     * Get item from group
-     *
-     * @param {number} index
-     * @returns {(SceneChild | null)}
-     * @memberof Group
-     */
-    get(index) {
-        return index >= 0 && index < this.children.length ? this.children[index] : null;
-    }
-    /**
-     * Remove item from group
-     *
-     * @param {number} index
-     * @returns {(false | Array<SceneChild>)}
-     * @memberof Group
-     */
-    remove(index) {
-        if (index >= 0 && index < this.children.length) {
-            const removed = this.children.splice(index, 1);
-            this.clearBuffer(true);
-            return removed;
-        }
-        return false;
-    }
-    /**
-     * Remove from id
-     *
-     * @param {number} id
-     * @memberof Scene
-     */
-    removeFromId(id) {
-        for (let i = 0, len = this.children.length; i < len; i++) {
-            if (this.children[i].id == id) {
-                this.children.splice(i, 1);
-                return this.clearBuffer(true);
-            }
-        }
-    }
-    /**
-     * Generate children buffers
-     *
-     * @param {number} generateId
-     * @param {boolean} [bDirectSceneChild=false]
-     * @param {IPropArguments} [parentPropArguments]
-     * @memberof Group
-     */
-    generate(generateId, bDirectSceneChild = false, parentPropArguments) {
-        this.generateId = generateId;
-        this.children.forEach(item => item.generate(generateId, bDirectSceneChild, parentPropArguments));
-    }
-    /**
-     * Sum the children bounding
-     *
-     * @return {IShapeBounding}
-     */
-    getBounding() {
-        const boundings = [];
-        const bounding = Adapt_1.Bounding.empty();
-        if (this.children.length > 0) {
-            this.children.forEach(item => boundings.push(item.getBounding()));
-            for (let i = 0, len = this.children.length; i < len; i++) {
-                bounding.x = bounding.x > boundings[i].x ? boundings[i].x : bounding.x;
-                bounding.y = bounding.y > boundings[i].y ? boundings[i].y : bounding.y;
-                bounding.width = bounding.width < boundings[i].width ? boundings[i].width : bounding.width;
-                bounding.height = bounding.height < boundings[i].height ? boundings[i].height : bounding.height;
-            }
-            bounding.cx = bounding.x + bounding.width / 2;
-            bounding.cy = bounding.y + bounding.height / 2;
-        }
-        return bounding;
-    }
-    /**
-     * Chear children buffer
-     *
-     * @param {boolean} [bClearIndexed=false]
-     * @param {boolean} [bPropagateToParents=false]
-     * @memberof Group
-     */
-    clearBuffer(bClearIndexed = false, bPropagateToParents = true) {
-        this.children.forEach(item => item.clearBuffer(bClearIndexed, false));
-        if (this.scene && bPropagateToParents) {
-            const parents = this.scene.getParentsOfSceneChild(this);
-            parents.length > 0 && parents[parents.length - 1].clearBuffer(bClearIndexed, bPropagateToParents /* true */);
-        }
-        // if (bPropagateToParents && this.scene)
-        // {
-        //     const parents = this.scene.getParentsOfSceneChild(this)
-        //     parents.length > 0 && parents[parents.length - 1].clearBuffer(bClearIndexed, true, false)
-        // }
-        // if (bPropagateToChildren)
-        // {
-        //     this.children.forEach(sceneChild => sceneChild.clearBuffer(bClearIndexed, false, true))
-        // }
-    }
-    /**
-     * Set a single or multiple props
-     *
-     * @abstract
-     * @param {(keyof ISceneChildProps | ISceneChildProps)} key
-     * @param {*} [value]
-     * @memberof SceneChild
-     */
-    setProp(key, value) {
-        if (typeof key === 'object')
-            Object.keys(key).forEach((k) => (this.props[k] = key[k]));
-        else
-            this.props[key] = value;
-        this.children.forEach(item => item.setProp(key, value));
-    }
-    /**
-     * Set a single or multiple props
-     *
-     * @param {(keyof ISceneChildProps | ISceneChildProps)} key
-     * @param {*} [value]
-     * @memberof ShapeBase
-     */
-    setPropUnsafe(key, value) {
-        super.setPropUnsafe(key, value);
-        this.children.forEach(item => item.setPropUnsafe(key, value));
-    }
-    /**
-     * Return length of buffer
-     *
-     * @param {IPropArguments} propArguments
-     * @returns {number}
-     * @memberof Group
-     */
-    getBufferLength(propArguments) {
-        return this.children.map(sceneChild => sceneChild.getBufferLength(propArguments)).reduce((p, c) => p + c, 0);
-    }
-    /**
-     * return a single buffer binded from children
-     *
-     * @returns {Float32Array}
-     * @memberof Group
-     */
-    getBuffer() {
-        const buffers = this.children
-            .map(item => item.getBuffer())
-            .filter(b => b !== undefined);
-        const size = buffers.reduce((currLength, buffer) => currLength + buffer.length, 0);
-        if (size > 0) {
-            const result = new Float32Array(size);
-            result.set(buffers[0], 0);
-            for (let i = 1, offset = 0, len = buffers.length; i < len; i++) {
-                offset += buffers[i - 1].length;
-                result.set(buffers[i], offset);
-            }
-            return result;
-        }
-        return ShapeBase_1.ShapeBase.EMPTY_BUFFER;
-    }
-    /**
-     * return a single buffer binded from children
-     *
-     * @returns {(Array<IBufferIndex> | undefined)}
-     * @memberof Group
-     */
-    getIndexedBuffer() {
-        const indexed = this.children.map(item => item.getIndexedBuffer()).filter(b => b !== undefined);
-        return [].concat.apply([], indexed);
-    }
-    /**
-     * Call strem on children
-     *
-     * @param {(streamArguments: IStreamArguments) => void} callback
-     * @memberof Group
-     */
-    stream(callback) {
-        this.children.forEach(item => item.stream(callback));
-    }
-}
-exports.Group = Group;
-//# sourceMappingURL=Group.js.map
+//# sourceMappingURL=propArguments.js.map
 
 /***/ }),
 /* 6 */
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ ((__unused_webpack_module, exports) => {
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.ShapeBase = void 0;
-const gl_matrix_1 = __webpack_require__(7);
-const types_1 = __webpack_require__(18);
-const glme = __webpack_require__(27);
-const Vec2_1 = __webpack_require__(28);
-const math_1 = __webpack_require__(29);
-const Adapt_1 = __webpack_require__(30);
-const Utilities_1 = __webpack_require__(32);
-const SceneChild_1 = __webpack_require__(4);
-const tmpMatrix = gl_matrix_1.mat4.create();
-const transformMatrix = gl_matrix_1.mat4.create();
-const perspectiveMatrix = gl_matrix_1.mat4.create();
-const repetitionMatrix = gl_matrix_1.mat4.create();
+exports.ERepetitionType = void 0;
 /**
- * Main class for shape generation
+ * Repetition type enumerator.
  *
- * @category Scene
- * @abstract
- * @class ShapeBase
- * @order 4
- * @extends {SceneChild}
- */
-class ShapeBase extends SceneChild_1.SceneChild {
-    /**
-     * Creates an instance of ShapeBase
-     *
-     * @param {ISceneChildSettings} [settings={}]
-     */
-    constructor(settings = {}) {
-        super(settings);
-        /**
-         * Flag used to determine if indexedBuffer has been generated
-         *
-         * @internal
-         * @ignore
-         */
-        this.bIndexed = false;
-        /**
-         * Array used for index a vertex buffer
-         * only for first level scene children
-         *
-         * @internal
-         * @ignore
-         */
-        this.indexedBuffer = [];
-        /**
-         * The bounding inside the scene
-         *
-         * @type {IShapeBounding}
-         */
-        this.bounding = {
-            cx: 0,
-            cy: 0,
-            x: -1,
-            y: -1,
-            width: 2,
-            height: 2,
-        };
-        this.props = {
-            distance: settings.distance,
-            repetitions: settings.repetitions,
-            rotateX: settings.rotateX,
-            rotateY: settings.rotateY,
-            rotateZ: settings.rotateZ,
-            skewX: settings.skewX,
-            skewY: settings.skewY,
-            squeezeX: settings.squeezeX,
-            squeezeY: settings.squeezeY,
-            displace: settings.displace,
-            translate: settings.translate,
-            scale: settings.scale,
-            transformOrigin: settings.transformOrigin,
-            perspective: settings.perspective,
-            perspectiveOrigin: settings.perspectiveOrigin,
-        };
-        this.anchor =
-            settings.anchor && Array.isArray(settings.anchor)
-                ? [
-                    typeof settings.anchor[0] === 'number'
-                        ? Utilities_1.clamp(-1, 1, settings.anchor[0]) * -1
-                        : settings.anchor[0] === 'left'
-                            ? 1
-                            : settings.anchor[0] === 'right'
-                                ? -1
-                                : 0,
-                    typeof settings.anchor[1] === 'number'
-                        ? Utilities_1.clamp(-1, 1, settings.anchor[1]) * -1
-                        : settings.anchor[1] === 'top'
-                            ? 1
-                            : settings.anchor[1] === 'bottom'
-                                ? -1
-                                : 0,
-                ]
-                : [0, 0];
-        this.boundingType =
-            typeof settings.boundingType === 'string'
-                ? settings.boundingType === 'relative'
-                    ? types_1.EBoundingType.Relative
-                    : types_1.EBoundingType.Fixed
-                : settings.boundingType || types_1.EBoundingType.Fixed;
-        this.vertexCallback = settings.vertexCallback;
-    }
-    /**
-     * Check if the shape should be generated every time
-     *
-     * @returns {boolean}
-     */
-    isStatic() {
-        const props = this.props;
-        return (typeof props.repetitions !== 'function' &&
-            typeof props.distance !== 'function' &&
-            typeof props.displace !== 'function' &&
-            typeof props.scale !== 'function' &&
-            typeof props.translate !== 'function' &&
-            typeof props.skewX !== 'function' &&
-            typeof props.skewY !== 'function' &&
-            typeof props.squeezeX !== 'function' &&
-            typeof props.squeezeY !== 'function' &&
-            typeof props.rotateX !== 'function' &&
-            typeof props.rotateY !== 'function' &&
-            typeof props.rotateZ !== 'function' &&
-            typeof props.transformOrigin !== 'function' &&
-            typeof props.perspective !== 'function' &&
-            typeof props.perspectiveOrigin !== 'function');
-    }
-    /**
-     * Check if the indexedBuffer array needs to be recreated every time,
-     * this can happen when a shape generates an array of vertices different in length at each repetition
-     *
-     * @returns {boolean}
-     */
-    isStaticIndexed() {
-        return typeof this.props.repetitions !== 'function';
-    }
-    /**
-     * Return a prop value
-     *
-     * @param {keyof ISceneChildProps} key
-     * @param {PropArguments} [propArguments]
-     * @param {*} [defaultValue]
-     * @returns {*}
-     */
-    getProp(key, propArguments, defaultValue) {
-        let attribute = this.props[key];
-        if (typeof attribute === 'function') {
-            attribute = attribute(propArguments);
-        }
-        return typeof attribute === 'undefined' || Number.isNaN(attribute) ? defaultValue : attribute;
-    }
-    /**
-     * Set a single or multiple props
-     *
-     * @param {(keyof ISceneChildProps<PropArguments> | ISceneChildProps<PropArguments>)} key
-     * @param {*} [value]
-     * @param {boolean} [bClearIndexed=false]
-     */
-    setProp(key, value, bClearIndexed = false) {
-        if (typeof key === 'string') {
-            bClearIndexed = bClearIndexed || key == 'repetitions';
-            this.props[key] = value;
-        }
-        else {
-            bClearIndexed = bClearIndexed || 'repetitions' in key;
-            Object.keys(key).forEach((k) => (this.props[k] = key[k]));
-        }
-        this.clearBuffer(bClearIndexed, true);
-    }
-    /**
-     *  Unset buffer
-     *
-     * @param {boolean} [bClearIndexed=false]
-     * @param {boolean} [bPropagateToParents=false]
-     * @param {boolean} [bPropagateToChildren=false]
-     */
-    clearBuffer(bClearIndexed = false, bPropagateToParents = true) {
-        this.buffer = undefined;
-        if (bClearIndexed) {
-            this.bIndexed = false;
-            this.indexedBuffer = [];
-        }
-        this.bStatic = this.isStatic();
-        this.bStaticIndexed = this.isStaticIndexed();
-        if (bPropagateToParents && this.scene && !this.scene.isFirstLevelChild(this)) {
-            const parents = this.scene.getParentsOfSceneChild(this);
-            parents.length > 0 && parents[parents.length - 1].clearBuffer(bClearIndexed, bPropagateToParents /* true */);
-        }
-    }
-    /**
-     * Update the vertex array if the shape is not static and update the indexedBuffer if it is also not static
-     *
-     * @param {number} generateId generation id
-     * @param {boolean} [bDirectSceneChild=false] adjust shape of center of scene
-     * @param {PropArguments} [parentPropArguments]
-     */
-    generate(generateId = 0, bDirectSceneChild = false, parentPropArguments) {
-        var _a, _b;
-        if (this.buffer && this.bStatic) {
-            return;
-        }
-        this.generateId = generateId;
-        if (!this.bStaticIndexed || !this.bIndexed)
-            this.indexedBuffer = [];
-        const propArguments = ShapeBase.getEmptyPropArguments(this, parentPropArguments);
-        const repetition = propArguments.repetition;
-        const repetitions = this.getProp('repetitions', propArguments, 1);
-        const repetitionType = Array.isArray(repetitions) ? types_1.ERepetitionType.Matrix : types_1.ERepetitionType.Ring;
-        const repetitionCount = Array.isArray(repetitions)
-            ? repetitions[0] * ((_a = repetitions[1]) !== null && _a !== void 0 ? _a : repetitions[0])
-            : repetitions;
-        const repetitionRowCount = Array.isArray(repetitions) ? repetitions[0] : repetitionCount;
-        const repetitionColCount = Array.isArray(repetitions) ? (_b = repetitions[1]) !== null && _b !== void 0 ? _b : repetitions[0] : 1;
-        const rowRepetition = repetition.row;
-        rowRepetition.count = repetitionRowCount;
-        const colRepetition = repetition.col;
-        colRepetition.count = repetitionColCount;
-        repetition.count = repetitionCount;
-        repetition.col.count = repetitionColCount;
-        repetition.row.count = repetitionRowCount;
-        repetition.type = repetitionType;
-        let totalBufferLength = 0;
-        const buffers = [];
-        let currentIndex = 0;
-        const centerMatrix = gl_matrix_1.vec2.fromValues((repetitionColCount - 1) / 2, (repetitionRowCount - 1) / 2);
-        const sceneAnchor = this.scene ? [this.scene.anchor[0], this.scene.anchor[1], 0] : [0, 0, 0];
-        const tmpTotalShapeBounding = [undefined, undefined, undefined, undefined];
-        const tmpSingleRepetitionBounding = [undefined, undefined, undefined, undefined];
-        for (let currentRowRepetition = 0; currentRowRepetition < repetitionRowCount; currentRowRepetition++) {
-            for (let currentColRepetition = 0; currentColRepetition < repetitionColCount; currentColRepetition++, currentIndex++) {
-                repetition.index = currentIndex + 1;
-                repetition.offset = repetitionCount > 1 ? currentIndex / (repetitionCount - 1) : 1;
-                repetition.angle = repetitionType === types_1.ERepetitionType.Ring ? (math_1.PI2 / repetitionCount) * currentIndex : 0;
-                colRepetition.index = currentColRepetition + 1;
-                colRepetition.offset = repetitionColCount > 1 ? currentColRepetition / (repetitionColCount - 1) : 1;
-                rowRepetition.index = currentRowRepetition + 1;
-                rowRepetition.offset = repetitionRowCount > 1 ? currentRowRepetition / (repetitionRowCount - 1) : 1;
-                // Generate primitives buffer recursively
-                const buffer = this.generateBuffer(generateId, propArguments);
-                const bufferLength = buffer.length;
-                const bounding = this.getShapeBounding();
-                buffers[currentIndex] = new Float32Array(bufferLength);
-                totalBufferLength += bufferLength;
-                {
-                    const distance = glme.toVec2(this.getProp('distance', propArguments, glme.VEC2_ZERO));
-                    const displace = this.getProp('displace', propArguments, 0);
-                    const scale = glme.toVec3(this.getProp('scale', propArguments, glme.VEC2_ONE), 1);
-                    const translate = glme.toVec3(this.getProp('translate', propArguments, glme.VEC2_ZERO), 0);
-                    const skewX = this.getProp('skewX', propArguments, 0);
-                    const skewY = this.getProp('skewY', propArguments, 0);
-                    const squeezeX = this.getProp('squeezeX', propArguments, 0);
-                    const squeezeY = this.getProp('squeezeY', propArguments, 0);
-                    const rotateX = this.getProp('rotateX', propArguments, 0);
-                    const rotateY = this.getProp('rotateY', propArguments, 0);
-                    const rotateZ = this.getProp('rotateZ', propArguments, 0);
-                    const perspective = Utilities_1.clamp(0, 1, this.getProp('perspective', propArguments, 0));
-                    const perspectiveOrigin = glme.toVec3(this.getProp('perspectiveOrigin', propArguments, glme.VEC2_ZERO), 0);
-                    const transformOrigin = glme.toVec3(this.getProp('transformOrigin', propArguments, glme.VEC2_ZERO), 0);
-                    let offset;
-                    switch (repetitionType) {
-                        case types_1.ERepetitionType.Ring:
-                            offset = gl_matrix_1.vec3.fromValues(distance[0], 0, 0);
-                            gl_matrix_1.vec3.rotateZ(offset, offset, glme.VEC3_ZERO, repetition.angle + displace);
-                            break;
-                        case types_1.ERepetitionType.Matrix:
-                            offset = gl_matrix_1.vec3.fromValues(distance[1] * (currentColRepetition - centerMatrix[0]), distance[0] * (currentRowRepetition - centerMatrix[1]), 0);
-                            break;
-                    }
-                    const perspectiveSize = perspective > 0 ? Math.max(bounding.width, bounding.height) / 2 : 1;
-                    const perspectiveValue = perspective > 0 ? perspectiveSize + (1 - perspective) * (perspectiveSize * 10) : 0;
-                    const bTransformOrigin = (this.boundingType === types_1.EBoundingType.Relative ? bounding.cx !== 0 || bounding.cy !== 0 : true) ||
-                        perspective !== 0 ||
-                        transformOrigin[0] !== 0 ||
-                        transformOrigin[1] !== 0;
-                    const bPerspectiveOrigin = perspectiveOrigin[0] !== 0 || perspectiveOrigin[1] !== 0;
-                    if (bTransformOrigin) {
-                        if (this.boundingType === types_1.EBoundingType.Relative) {
-                            transformOrigin[0] = transformOrigin[0] * (bounding.width / 2) + bounding.cx;
-                            transformOrigin[1] = transformOrigin[1] * (bounding.height / 2) + bounding.cy;
-                        }
-                        else {
-                            transformOrigin[0] *= bounding.width / 2;
-                            transformOrigin[1] *= bounding.height / 2;
-                        }
-                        transformOrigin[2] = perspectiveValue;
-                    }
-                    /**
-                     * Create Matrices
-                     */
-                    {
-                        /**
-                         * Create Transformation matrix
-                         */
-                        gl_matrix_1.mat4.identity(transformMatrix);
-                        bTransformOrigin && gl_matrix_1.mat4.translate(transformMatrix, transformMatrix, transformOrigin);
-                        if (translate[0] !== 0 || translate[1] !== 0)
-                            gl_matrix_1.mat4.translate(transformMatrix, transformMatrix, translate);
-                        if (skewX !== 0 || skewY !== 0) {
-                            glme.fromSkew(tmpMatrix, [skewX, skewY]);
-                            gl_matrix_1.mat4.multiply(transformMatrix, transformMatrix, tmpMatrix);
-                        }
-                        rotateX !== 0 && gl_matrix_1.mat4.rotateX(transformMatrix, transformMatrix, rotateX);
-                        rotateY !== 0 && gl_matrix_1.mat4.rotateY(transformMatrix, transformMatrix, rotateY);
-                        rotateZ !== 0 && gl_matrix_1.mat4.rotateZ(transformMatrix, transformMatrix, rotateZ);
-                        if (scale[0] !== 1 || scale[1] !== 1)
-                            gl_matrix_1.mat4.scale(transformMatrix, transformMatrix, scale);
-                        bTransformOrigin &&
-                            gl_matrix_1.mat4.translate(transformMatrix, transformMatrix, gl_matrix_1.vec3.scale(transformOrigin, transformOrigin, -1));
-                        /**
-                         * Create Perspective matrix
-                         */
-                        if (perspectiveValue > 0) {
-                            if (bPerspectiveOrigin) {
-                                if (this.boundingType === types_1.EBoundingType.Relative) {
-                                    perspectiveOrigin[0] = perspectiveOrigin[0] * (bounding.width / 2) + bounding.cx;
-                                    perspectiveOrigin[1] = perspectiveOrigin[1] * (bounding.height / 2) + bounding.cy;
-                                }
-                                else {
-                                    perspectiveOrigin[0] *= bounding.width / 2;
-                                    perspectiveOrigin[1] *= bounding.height / 2;
-                                }
-                                perspectiveOrigin[2] = 0;
-                            }
-                            gl_matrix_1.mat4.perspective(perspectiveMatrix, -Math.PI / 2, 1, 0, Infinity);
-                        }
-                        /**
-                         * Create Repetition matrix
-                         */
-                        gl_matrix_1.mat4.identity(repetitionMatrix);
-                        gl_matrix_1.mat4.translate(repetitionMatrix, repetitionMatrix, offset);
-                        if (bDirectSceneChild) {
-                            gl_matrix_1.mat4.translate(repetitionMatrix, repetitionMatrix, sceneAnchor);
-                        }
-                        /**
-                         * Apply anchor
-                         */
-                        const shapeAnchor = [this.anchor[0] * (bounding.width / 2), this.anchor[1] * (bounding.height / 2), 0];
-                        gl_matrix_1.mat4.translate(repetitionMatrix, repetitionMatrix, shapeAnchor);
-                        if (repetitionType === types_1.ERepetitionType.Ring)
-                            gl_matrix_1.mat4.rotateZ(repetitionMatrix, repetitionMatrix, repetition.angle + displace);
-                    }
-                    Adapt_1.Bounding.clear(tmpSingleRepetitionBounding);
-                    // Apply matrices on vertex
-                    for (let bufferIndex = 0; bufferIndex < bufferLength; bufferIndex += 2) {
-                        const vertex = [buffer[bufferIndex], buffer[bufferIndex + 1], perspectiveValue];
-                        {
-                            // Apply squeeze, can be insert into transformMatrix?
-                            squeezeX !== 0 && Vec2_1.default.squeezeX(vertex, squeezeX);
-                            squeezeY !== 0 && Vec2_1.default.squeezeY(vertex, squeezeY);
-                            // Apply transforms
-                            gl_matrix_1.vec3.transformMat4(vertex, vertex, transformMatrix);
-                            // Apply perspective
-                            if (perspectiveValue > 0) {
-                                bPerspectiveOrigin && gl_matrix_1.vec3.add(vertex, vertex, perspectiveOrigin);
-                                gl_matrix_1.vec3.transformMat4(vertex, vertex, perspectiveMatrix);
-                                gl_matrix_1.vec3.scale(vertex, vertex, perspectiveValue);
-                                bPerspectiveOrigin && gl_matrix_1.vec3.sub(vertex, vertex, perspectiveOrigin);
-                            }
-                            // apply repetition matrix
-                            gl_matrix_1.vec3.transformMat4(vertex, vertex, repetitionMatrix);
-                            // custom vertex manipulation
-                            if (typeof this.vertexCallback !== 'undefined') {
-                                const index = bufferIndex / 2;
-                                const count = bufferLength / 2;
-                                const vertexRepetition = {
-                                    index: index + 1,
-                                    count,
-                                    offset: count > 1 ? index / (count - 1) : 1,
-                                };
-                                this.vertexCallback(vertex, vertexRepetition, propArguments);
-                            }
-                        }
-                        buffers[currentIndex][bufferIndex] = vertex[0];
-                        buffers[currentIndex][bufferIndex + 1] = vertex[1];
-                        Adapt_1.Bounding.add(tmpSingleRepetitionBounding, vertex[0], vertex[1]);
-                        Adapt_1.Bounding.add(tmpTotalShapeBounding, vertex[0], vertex[1]);
-                    }
-                }
-                // Bounding.sum(tmpTotalShapeBounding, tmpSingleRepetitionBounding)
-                // After buffer creation, add a frame into indexedBuffer if not static or update bounding
-                const singleRepetitionBounding = { cx: 0, cy: 0, x: -1, y: -1, width: 2, height: 2 };
-                Adapt_1.Bounding.bind(singleRepetitionBounding, tmpSingleRepetitionBounding);
-                if (!this.bStaticIndexed || !this.bIndexed) {
-                    this.addIndex(bufferLength, repetition, singleRepetitionBounding);
-                }
-            }
-        }
-        Adapt_1.Bounding.bind(this.bounding, tmpTotalShapeBounding);
-        this.buffer = new Float32Array(totalBufferLength);
-        for (let i = 0, offset = 0, len = buffers.length; i < len; offset += buffers[i].length, i++)
-            this.buffer.set(buffers[i], offset);
-        this.bIndexed = true;
-    }
-    /**
-     * Return current shape (whit repetions) bounding
-     *
-     * @return {*}  {IShapeBounding}
-     */
-    getBounding() {
-        return this.bounding;
-    }
-    /**
-     * Get number of repetitions
-     *
-     * @returns {number}
-     */
-    getRepetitionCount() {
-        var _a;
-        const repetitions = this.getProp('repetitions', undefined, 1);
-        return Array.isArray(repetitions) ? repetitions[0] * ((_a = repetitions[1]) !== null && _a !== void 0 ? _a : repetitions[0]) : repetitions;
-    }
-    /**
-     * Return buffer
-     *
-     * @returns {(Float32Array | undefined)}
-     */
-    getBuffer() {
-        return this.buffer;
-    }
-    /**
-     * Return indexed buffer
-     *
-     * @returns {(Array<IBufferIndex<Props, PropArguments>> | undefined)}
-     */
-    getIndexedBuffer() {
-        return this.indexedBuffer;
-    }
-    /**
-     * Return number of encapsulation
-     *
-     * @param {IBufferIndex} index
-     * @returns {number}
-     */
-    static getIndexParentLevel(index) {
-        if (typeof index.parent === 'undefined')
-            return 0;
-        let currentParent = index.parent;
-        let currentParentLevel = 1;
-        while (typeof currentParent.parent !== 'undefined') {
-            currentParentLevel++;
-            currentParent = currentParent.parent;
-        }
-        return currentParentLevel;
-    }
-    /**
-     * Stream buffer
-     *
-     * @param {(TStreamCallback} callback
-     */
-    stream(callback) {
-        if (this.buffer && this.indexedBuffer) {
-            for (let i = 0, j = 0, len = this.indexedBuffer.length; i < len; i++) {
-                const currentIndexing = this.indexedBuffer[i];
-                callback({
-                    buffer: this.buffer,
-                    frameLength: currentIndexing.frameLength,
-                    frameBufferIndex: j,
-                    currentIndexing: currentIndexing,
-                    currentShapeIndex: i,
-                    totalShapes: len,
-                });
-                j += currentIndexing.frameLength;
-            }
-        }
-    }
-    /**
-     * Return empty propArguments
-     *
-     * @static
-     * @param {ShapeBase} shape
-     * @return {*}  {PropArguments}
-     */
-    static getEmptyPropArguments(shape, parentPropArguments) {
-        const repetition = {
-            type: types_1.ERepetitionType.Ring,
-            angle: 0,
-            index: 1,
-            offset: 1,
-            count: 1,
-            row: { index: 1, offset: 1, count: 1 },
-            col: { index: 1, offset: 1, count: 1 },
-        };
-        return {
-            repetition,
-            shape,
-            parent: parentPropArguments,
-        };
-    }
-}
-exports.ShapeBase = ShapeBase;
-/**
- * Empty buffer
- *
+ * @category Types & Interfaces.Repetitions
  * @internal
- * @ignore
  */
-ShapeBase.EMPTY_BUFFER = new Float32Array(0);
-/**
- * Empty BaseRepetition
- *
- * @internal
- * @ignore
- */
-ShapeBase.getEmptySimpleRepetition = () => ({
-    index: 1,
-    offset: 1,
-    count: 1,
-});
-/**
- * Empty Repetition
- *
- * @internal
- * @ignore
- */
-ShapeBase.getEmptyRepetition = () => ({
-    type: types_1.ERepetitionType.Ring,
-    angle: 0,
-    ...ShapeBase.getEmptySimpleRepetition(),
-    row: ShapeBase.getEmptySimpleRepetition(),
-    col: ShapeBase.getEmptySimpleRepetition(),
-});
-//# sourceMappingURL=ShapeBase.js.map
+var ERepetitionType;
+(function (ERepetitionType) {
+    /**
+     * Defines the type of repetition of the shape,
+     * in a circular way starting from the center of the scene
+     * @order 1
+     */
+    ERepetitionType[ERepetitionType["Ring"] = 1] = "Ring";
+    /**
+     * Defines the type of repetition of the shape,
+     * on a nxm grid starting from the center of the scene
+     * @order 2
+     */
+    ERepetitionType[ERepetitionType["Matrix"] = 2] = "Matrix";
+})(ERepetitionType = exports.ERepetitionType || (exports.ERepetitionType = {}));
+//# sourceMappingURL=repetitions.js.map
 
 /***/ }),
 /* 7 */
+/***/ ((__unused_webpack_module, exports) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+//# sourceMappingURL=scene-child.js.map
+
+/***/ }),
+/* 8 */
+/***/ ((__unused_webpack_module, exports) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+//# sourceMappingURL=scene.js.map
+
+/***/ }),
+/* 9 */
+/***/ ((__unused_webpack_module, exports) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.EBoundingType = void 0;
+/**
+ *
+ * @category Enums
+ * @export
+ * @enum {number}
+ */
+var EBoundingType;
+(function (EBoundingType) {
+    /**
+     * Relative to the real bounding of the shape
+     * @order 2
+     */
+    EBoundingType[EBoundingType["Relative"] = 1] = "Relative";
+    /**
+     * Fixed to te width and height of the shape
+     * @order 3
+     */
+    EBoundingType[EBoundingType["Fixed"] = 2] = "Fixed";
+})(EBoundingType = exports.EBoundingType || (exports.EBoundingType = {}));
+//# sourceMappingURL=shape-base.js.map
+
+/***/ }),
+/* 10 */
+/***/ ((__unused_webpack_module, exports) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+//////
+//# sourceMappingURL=shape-primitives.js.map
+
+/***/ }),
+/* 11 */
+/***/ ((__unused_webpack_module, exports) => {
+
+
+// Shape
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+//# sourceMappingURL=shapes.js.map
+
+/***/ }),
+/* 12 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -1497,16 +259,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "vec3": () => (/* reexport module object */ _vec3_js__WEBPACK_IMPORTED_MODULE_8__),
 /* harmony export */   "vec4": () => (/* reexport module object */ _vec4_js__WEBPACK_IMPORTED_MODULE_9__)
 /* harmony export */ });
-/* harmony import */ var _common_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8);
-/* harmony import */ var _mat2_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(9);
-/* harmony import */ var _mat2d_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(10);
-/* harmony import */ var _mat3_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(11);
-/* harmony import */ var _mat4_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(12);
-/* harmony import */ var _quat_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(13);
-/* harmony import */ var _quat2_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(16);
-/* harmony import */ var _vec2_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(17);
-/* harmony import */ var _vec3_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(15);
-/* harmony import */ var _vec4_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(14);
+/* harmony import */ var _common_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
+/* harmony import */ var _mat2_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(14);
+/* harmony import */ var _mat2d_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(15);
+/* harmony import */ var _mat3_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(16);
+/* harmony import */ var _mat4_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(17);
+/* harmony import */ var _quat_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(18);
+/* harmony import */ var _quat2_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(21);
+/* harmony import */ var _vec2_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(22);
+/* harmony import */ var _vec3_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(20);
+/* harmony import */ var _vec4_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(19);
 
 
 
@@ -1520,7 +282,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /***/ }),
-/* 8 */
+/* 13 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -1584,7 +346,7 @@ if (!Math.hypot) Math.hypot = function () {
 };
 
 /***/ }),
-/* 9 */
+/* 14 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -1616,7 +378,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "mul": () => (/* binding */ mul),
 /* harmony export */   "sub": () => (/* binding */ sub)
 /* harmony export */ });
-/* harmony import */ var _common_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8);
+/* harmony import */ var _common_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
 
 /**
  * 2x2 Matrix
@@ -2051,7 +813,7 @@ var mul = multiply;
 var sub = subtract;
 
 /***/ }),
-/* 10 */
+/* 15 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -2082,7 +844,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "mul": () => (/* binding */ mul),
 /* harmony export */   "sub": () => (/* binding */ sub)
 /* harmony export */ });
-/* harmony import */ var _common_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8);
+/* harmony import */ var _common_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
 
 /**
  * 2x3 Matrix
@@ -2571,7 +1333,7 @@ var mul = multiply;
 var sub = subtract;
 
 /***/ }),
-/* 11 */
+/* 16 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -2609,7 +1371,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "mul": () => (/* binding */ mul),
 /* harmony export */   "sub": () => (/* binding */ sub)
 /* harmony export */ });
-/* harmony import */ var _common_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8);
+/* harmony import */ var _common_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
 
 /**
  * 3x3 Matrix
@@ -3390,7 +2152,7 @@ var mul = multiply;
 var sub = subtract;
 
 /***/ }),
-/* 12 */
+/* 17 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -3443,7 +2205,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "mul": () => (/* binding */ mul),
 /* harmony export */   "sub": () => (/* binding */ sub)
 /* harmony export */ });
-/* harmony import */ var _common_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8);
+/* harmony import */ var _common_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
 
 /**
  * 4x4 Matrix<br>Format: column-major, when typed out it looks like row-major<br>The matrices are being post multiplied.
@@ -5260,7 +4022,7 @@ var mul = multiply;
 var sub = subtract;
 
 /***/ }),
-/* 13 */
+/* 18 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -5305,10 +4067,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "sqlerp": () => (/* binding */ sqlerp),
 /* harmony export */   "setAxes": () => (/* binding */ setAxes)
 /* harmony export */ });
-/* harmony import */ var _common_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8);
-/* harmony import */ var _mat3_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(11);
-/* harmony import */ var _vec3_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(15);
-/* harmony import */ var _vec4_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(14);
+/* harmony import */ var _common_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
+/* harmony import */ var _mat3_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(16);
+/* harmony import */ var _vec3_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(20);
+/* harmony import */ var _vec4_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(19);
 
 
 
@@ -6021,7 +4783,7 @@ var setAxes = function () {
 }();
 
 /***/ }),
-/* 14 */
+/* 19 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -6068,7 +4830,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "sqrLen": () => (/* binding */ sqrLen),
 /* harmony export */   "forEach": () => (/* binding */ forEach)
 /* harmony export */ });
-/* harmony import */ var _common_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8);
+/* harmony import */ var _common_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
 
 /**
  * 4 Dimensional Vector
@@ -6734,7 +5496,7 @@ var forEach = function () {
 }();
 
 /***/ }),
-/* 15 */
+/* 20 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -6788,7 +5550,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "sqrLen": () => (/* binding */ sqrLen),
 /* harmony export */   "forEach": () => (/* binding */ forEach)
 /* harmony export */ });
-/* harmony import */ var _common_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8);
+/* harmony import */ var _common_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
 
 /**
  * 3 Dimensional Vector
@@ -7578,7 +6340,7 @@ var forEach = function () {
 }();
 
 /***/ }),
-/* 16 */
+/* 21 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -7623,9 +6385,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "exactEquals": () => (/* binding */ exactEquals),
 /* harmony export */   "equals": () => (/* binding */ equals)
 /* harmony export */ });
-/* harmony import */ var _common_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8);
-/* harmony import */ var _quat_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(13);
-/* harmony import */ var _mat4_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(12);
+/* harmony import */ var _common_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
+/* harmony import */ var _quat_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(18);
+/* harmony import */ var _mat4_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(17);
 
 
 
@@ -8463,7 +7225,7 @@ function equals(a, b) {
 }
 
 /***/ }),
-/* 17 */
+/* 22 */
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -8514,7 +7276,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "sqrLen": () => (/* binding */ sqrLen),
 /* harmony export */   "forEach": () => (/* binding */ forEach)
 /* harmony export */ });
-/* harmony import */ var _common_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8);
+/* harmony import */ var _common_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
 
 /**
  * 2 Dimensional Vector
@@ -9141,92 +7903,364 @@ var forEach = function () {
 }();
 
 /***/ }),
-/* 18 */
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
-
-
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-__exportStar(__webpack_require__(19), exports);
-__exportStar(__webpack_require__(20), exports);
-__exportStar(__webpack_require__(21), exports);
-__exportStar(__webpack_require__(22), exports);
-__exportStar(__webpack_require__(23), exports);
-__exportStar(__webpack_require__(24), exports);
-__exportStar(__webpack_require__(25), exports);
-__exportStar(__webpack_require__(26), exports);
-//# sourceMappingURL=index.js.map
-
-/***/ }),
-/* 19 */
-/***/ ((__unused_webpack_module, exports) => {
-
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-//# sourceMappingURL=indexedBuffer.js.map
-
-/***/ }),
-/* 20 */
-/***/ ((__unused_webpack_module, exports) => {
-
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-//# sourceMappingURL=propArguments.js.map
-
-/***/ }),
-/* 21 */
-/***/ ((__unused_webpack_module, exports) => {
-
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.ERepetitionType = void 0;
-/**
- * Repetition type enumerator.
- *
- * @category Types & Interfaces.Repetitions
- * @internal
- */
-var ERepetitionType;
-(function (ERepetitionType) {
-    /**
-     * Defines the type of repetition of the shape,
-     * in a circular way starting from the center of the scene
-     * @order 1
-     */
-    ERepetitionType[ERepetitionType["Ring"] = 1] = "Ring";
-    /**
-     * Defines the type of repetition of the shape,
-     * on a nxm grid starting from the center of the scene
-     * @order 2
-     */
-    ERepetitionType[ERepetitionType["Matrix"] = 2] = "Matrix";
-})(ERepetitionType = exports.ERepetitionType || (exports.ERepetitionType = {}));
-//# sourceMappingURL=repetitions.js.map
-
-/***/ }),
-/* 22 */
-/***/ ((__unused_webpack_module, exports) => {
-
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-//# sourceMappingURL=scene-child.js.map
-
-/***/ }),
 /* 23 */
-/***/ ((__unused_webpack_module, exports) => {
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-//# sourceMappingURL=scene.js.map
+exports.Scene = void 0;
+const SceneChild_1 = __webpack_require__(24);
+const Group_1 = __webpack_require__(25);
+const Shape_1 = __webpack_require__(34);
+const Utilities_1 = __webpack_require__(32);
+/**
+ * Container for all SceneChild.
+ * The main purpose is to manage the drawing order and update the child buffers
+ *
+ * @order 1
+ * @category Scene
+ * @class Scene
+ */
+class Scene {
+    /**
+     * Creates an instance of Scene.
+     * You can see the default values in the property definitions
+     */
+    constructor(settings = {}) {
+        /**
+         * Logical number, the drawer will take care of defining the unit of measure
+         */
+        this.width = 400;
+        /**
+         * Logical number, the drawer will take care of defining the unit of measure
+         */
+        this.height = 400;
+        /**
+         * Default background color (black)
+         */
+        this.background = 'hsla(0, 0%, 0%, 1)';
+        /**
+         * Default ScenePrimitive stroke color (white)
+         */
+        this.color = 'hsla(0, 0%, 100%, 1)';
+        /**
+         * Current time
+         */
+        this.currentTime = 0;
+        if (typeof settings.width !== 'undefined')
+            this.width = settings.width;
+        if (typeof settings.height !== 'undefined')
+            this.height = settings.height;
+        if (typeof settings.background !== 'undefined')
+            this.background = settings.background;
+        if (typeof settings.color !== 'undefined')
+            this.color = settings.color;
+        this.children = [];
+        this.anchorSettings = settings.anchor;
+        this.setSize(settings.width || this.width, settings.height || this.height, settings.anchor);
+    }
+    /**
+     * set scene size, center and anchor
+     *
+     * @private
+     * @param {number} width
+     * @param {number} height
+     * @param {(['left' | 'right' | 'center' | number, 'top' | 'bottom' | 'center' | number])} [anchor]
+     */
+    setSize(width, height, anchor) {
+        this.width = width;
+        this.height = height;
+        this.center = [this.width / 2, this.height / 2];
+        this.anchor =
+            anchor && Array.isArray(anchor)
+                ? [
+                    typeof anchor[0] === 'number'
+                        ? (0.5 + Utilities_1.clamp(-1, 1, anchor[0]) * 0.5) * this.width
+                        : anchor[0] === 'left'
+                            ? 0
+                            : anchor[0] === 'right'
+                                ? this.width
+                                : this.center[0],
+                    typeof anchor[1] === 'number'
+                        ? (0.5 + Utilities_1.clamp(-1, 1, anchor[1]) * 0.5) * this.height
+                        : anchor[1] === 'top'
+                            ? 0
+                            : anchor[1] === 'bottom'
+                                ? this.height
+                                : this.center[1],
+                ]
+                : [this.center[0], this.center[1]];
+    }
+    /**
+     * Return width percentage
+     *
+     * @param {number} [percentage=100]
+     * @returns {number}
+     */
+    getWidth(percentage = 100) {
+        return (this.width * percentage) / 100;
+    }
+    /**
+     * Return height percentage
+     *
+     * @param {number} [percentage=100]
+     * @returns {number}
+     */
+    getHeight(percentage = 100) {
+        return (this.height * percentage) / 100;
+    }
+    /**
+     * Resize the scene size
+     *
+     * @param {number} width
+     * @param {number} [height=width]
+     * @memberof Scene
+     */
+    resize(width, height = width) {
+        this.setSize(width, height, this.anchorSettings);
+        this.children.forEach(sceneChild => sceneChild.clearBuffer(true, false));
+    }
+    /**
+     * Update all children, generate a streamable buffer for drawing
+     *
+     * @param {number} [atTime] time in ms
+     * @memberof Scene
+     */
+    update(atTime = 0) {
+        this.currentTime = atTime;
+        for (let i = 0, len = this.children.length; i < len; i++) {
+            this.children[i].generate(this.currentTime, true);
+        }
+    }
+    /**
+     * Traverse the child buffer and use it with callback
+     *
+     * @param {(streamArguments: IStreamArguments) => void} callback
+     * @memberof Scene
+     */
+    stream(callback) {
+        this.children.forEach(sceneChild => sceneChild.stream(callback));
+    }
+    /*
+     |--------------------------------------------------------------------------
+     |  SceneChild
+     |--------------------------------------------------------------------------
+     */
+    /**
+     * Return a list of children
+     *
+     * @returns {Array<SceneChild>}
+     * @memberof Scene
+     */
+    getChildren() {
+        return this.children;
+    }
+    /**
+     * Add SceneChild to Scene, pass `order` as last parameter for drawing priorities
+     *
+     * @param {Array<SceneChild>} items
+     * @param {number} [order]
+     * @memberof Scene
+     */
+    add(...items /**, order: number */) {
+        const order = typeof items[items.length - 1] === 'number' ? items[items.length - 1] : undefined;
+        const len = items.length - (typeof order === 'undefined' ? 0 : 1);
+        for (let i = 0; i < len; i++) {
+            const item = items[i];
+            item.order =
+                typeof order !== 'undefined'
+                    ? order + i
+                    : typeof item.order !== 'undefined'
+                        ? item.order
+                        : this.children.length > 0
+                            ? Math.max.apply(this, this.children.map(e => e.order || 0)) + 1
+                            : 0;
+            Scene.propagateToChilden(item, this);
+            this.children.push(item);
+            item.clearBuffer(true, false);
+            item.generate(0, true);
+        }
+        this.sortChildren();
+    }
+    /**
+     * Sort children by order
+     *
+     * @memberof Scene
+     */
+    sortChildren() {
+        this.children.sort((a, b) => a.order - b.order);
+        this.children = this.children.map((child, index) => {
+            child.order = index;
+            return child;
+        });
+    }
+    /**
+     * Find sceneChild from id or name in the whole scene
+     *
+     * @param {string | number} idOrName
+     * @returns {(SceneChild | null)}
+     * @memberof Scene
+     */
+    find(idOrName) {
+        const children = this.getChildren();
+        for (let i = 0, len = children.length; i < len; i++) {
+            const result = children[i].find(idOrName);
+            if (result !== null)
+                return result;
+        }
+        return null;
+    }
+    /**
+     * Get shape by index
+     *
+     * @param {number} index
+     * @returns {(SceneChild | null)}
+     * @memberof Scene
+     */
+    get(index) {
+        return index >= 0 && index < this.children.length ? this.children[index] : null;
+    }
+    /**
+     * Remove a shape by index
+     *
+     * @param {number} index
+     * @memberof Scene
+     */
+    remove(index) {
+        index >= 0 && index < this.children.length && this.children.splice(index, 1);
+    }
+    /**
+     * Removes all children
+     *
+     * @memberof Scene
+     */
+    removeChildren() {
+        this.children = [];
+    }
+    /**
+     * Remove sceneChild by id or name
+     *
+     * @param {number | number} idOrName
+     * @memberof Scene
+     */
+    removeFromId(idOrName) {
+        for (let i = 0, len = this.children.length; i < len; i++)
+            if (this.children[i].id === idOrName || this.children[i].name === idOrName) {
+                this.children.splice(i, 1);
+                return;
+            }
+    }
+    /**
+     * Return true if sceneChild is direct children
+     *
+     * @param {SceneChild} sceneChild
+     * @returns {boolean}
+     * @memberof Scene
+     */
+    isFirstLevelChild(sceneChild) {
+        for (let i = 0, len = this.children.length; i < len; i++)
+            if (this.children[i].id === sceneChild.id)
+                return true;
+        const parents = this.getParentsOfSceneChild(sceneChild);
+        return parents.length === 1 && parents[0] instanceof Group_1.Group;
+    }
+    /**
+     * Returns the list of sceneChild hierarchy starting from the scene
+     *
+     * @param {SceneChild} sceneChild
+     * @returns {Array<SceneChild>}
+     * @memberof Scene
+     */
+    getParentsOfSceneChild(sceneChild) {
+        const result = Scene.getParentsOfSceneChild(this, sceneChild);
+        if (result) {
+            result.splice(0, 1);
+            return result;
+        }
+        return [];
+    }
+    /**
+     * Returns the list of sceneChild hierarchy starting from the scene
+     *
+     * @static
+     * @param {(Scene | SceneChild)} current
+     * @param {SceneChild} sceneChild
+     * @param {(Array<SceneChild | Scene>)} [parents=[]]
+     * @returns {(Array<SceneChild | Scene> | null)}
+     * @memberof Scene
+     */
+    static getParentsOfSceneChild(current, sceneChild, parents = []) {
+        let result;
+        if (current instanceof SceneChild_1.SceneChild) {
+            if (current.id == sceneChild.id)
+                return parents;
+            if (current instanceof Shape_1.Shape && current.shape) {
+                const tmpParents = parents.slice();
+                tmpParents.push(current);
+                if ((result = Scene.getParentsOfSceneChild(current.shape, sceneChild, tmpParents)))
+                    return result;
+            }
+        }
+        if (current instanceof Scene || current instanceof Group_1.Group) {
+            const children = current.getChildren();
+            parents.push(current);
+            for (let i = 0, len = children.length; i < len; i++) {
+                const child = children[i];
+                if ((result = Scene.getParentsOfSceneChild(child, sceneChild, parents)))
+                    return result;
+            }
+            parents.pop();
+        }
+        return null;
+    }
+    /**
+     * Walk through the scene
+     *
+     * @static
+     * @param {SceneChild} callbackk
+     * @param {(Scene | SceneChild)} current
+     * @memberof Scene
+     */
+    static walk(callback, current) {
+        if (current instanceof SceneChild_1.SceneChild) {
+            if (callback(current) === false)
+                return false;
+            if (current instanceof Shape_1.Shape && current.shape)
+                if (Scene.walk(callback, current.shape) === false)
+                    return false;
+        }
+        if (current instanceof Scene || current instanceof Group_1.Group) {
+            const children = current.getChildren();
+            for (let i = 0, len = children.length; i < len; i++) {
+                const child = children[i];
+                if (Scene.walk(callback, child) === false)
+                    return false;
+            }
+        }
+    }
+    /**
+     * Propagate scene to sceneChild (and children)
+     *
+     * @static
+     * @param {SceneChild} sceneChild
+     * @param {Scene} scene
+     * @memberof Scene
+     */
+    static propagateToChilden(sceneChild, scene) {
+        sceneChild.scene = scene;
+        if (sceneChild instanceof Group_1.Group) {
+            sceneChild.getChildren().forEach((item) => {
+                Scene.propagateToChilden(item, scene);
+            });
+        }
+        else if (sceneChild instanceof Shape_1.Shape && sceneChild.shape) {
+            sceneChild.shape.scene = scene;
+            Scene.propagateToChilden(sceneChild.shape, scene);
+        }
+    }
+}
+exports.Scene = Scene;
+//# sourceMappingURL=Scene.js.map
 
 /***/ }),
 /* 24 */
@@ -9234,45 +8268,948 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.EBoundingType = void 0;
+exports.SceneChild = void 0;
 /**
+ * Autoincrement sceneChild default id
  *
- * @category Enums
- * @export
- * @enum {number}
+ * @internal
+ * @ignore
  */
-var EBoundingType;
-(function (EBoundingType) {
+let __id = 0;
+/**
+ * The element to be added into a scene.
+ * Preserve props, drawing order, generate and return buffers.
+ * The only implementations of this class are <a href="[base_url]/Group">Group</a> and <a href="[base_url]/ShapeBase">ShapeBase</a>
+ *
+ * @abstract
+ * @category Scene
+ * @order 2
+ * @class SceneChild
+ */
+class SceneChild {
     /**
-     * Relative to the real bounding of the shape
-     * @order 2
+     * Creates an instance of SceneChild.
+     * Base values will be assigned in case they are not passed
+     *
+     * @param {ISceneChildSettings} settings
      */
-    EBoundingType[EBoundingType["Relative"] = 1] = "Relative";
+    constructor(settings) {
+        var _a;
+        /**
+         * Shape generation id
+         * used for prevent buffer calculation
+         *
+         * @internal
+         * @ignore
+         */
+        this.generateId = -1;
+        this.id = (_a = settings.id) !== null && _a !== void 0 ? _a : ++__id;
+        this.type = settings.type || 'SceneChild';
+        this.name = settings.name || this.type + '_' + this.id;
+        this.data = settings.data || {};
+        this.props = {};
+    }
     /**
-     * Fixed to te width and height of the shape
-     * @order 3
+     * Find this or form or children.
+     * Overridden by classes that extend it
+     *
+     * @param {string | number} idOrName
+     * @returns {(SceneChild | null)}
      */
-    EBoundingType[EBoundingType["Fixed"] = 2] = "Fixed";
-})(EBoundingType = exports.EBoundingType || (exports.EBoundingType = {}));
-//# sourceMappingURL=shape-base.js.map
+    find(idOrName) {
+        if (this.id === idOrName || this.name === idOrName)
+            return this;
+        return null;
+    }
+    /**
+     * Return the sceneChild properties
+     *
+     * @returns {Props}
+     */
+    getProps() {
+        return this.props;
+    }
+    /**
+     * Return a sceneChild prop or default value
+     *
+     * @param {keyof Props} key
+     * @param {PropArguments} [propArguments]
+     * @param {*} [defaultValue]
+     * @returns {*}
+     */
+    getProp(key, propArguments, defaultValue) {
+        var _a;
+        return ((_a = this.props[key]) !== null && _a !== void 0 ? _a : defaultValue);
+    }
+    /**
+     * Check SceneChild has prop
+     *
+     * @param {keyof Props} key
+     * @returns
+     */
+    hasProp(key) {
+        return typeof this.props[key] !== 'undefined';
+    }
+    /**
+     * Set a single or multiple props
+     *
+     * @param {(keyof ISceneChildProps<PropArguments> | ISceneChildProps<PropArguments>)} key
+     * @param {*} [value]
+     */
+    setPropUnsafe(key, value) {
+        if (typeof key == 'string')
+            this.props[key] = value;
+        else
+            Object.keys(key).forEach((k) => (this.props[k] = key[k]));
+    }
+}
+exports.SceneChild = SceneChild;
+//# sourceMappingURL=SceneChild.js.map
 
 /***/ }),
 /* 25 */
-/***/ ((__unused_webpack_module, exports) => {
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-//////
-//# sourceMappingURL=shape-primitives.js.map
+exports.Group = void 0;
+const Scene_1 = __webpack_require__(23);
+const SceneChild_1 = __webpack_require__(24);
+const ShapeBase_1 = __webpack_require__(26);
+const Adapt_1 = __webpack_require__(30);
+/**
+ * A SceneChild container, propagates properties to children
+ *
+ * @order 3
+ * @category Scene.Containers
+ * @extends {SceneChild}
+ * @example
+ * ```javascript
+ * // Group example
+ *
+ * const rect = new Urpflanze.Rect({
+ * 	distance: 100 // <- if a property is set the group will not overwrite it
+ * })
+ * const group = new Urpflanze.Group({
+ * 	repetitions: 3,
+ * 	distance: 200
+ * })
+ *
+ * group.add(rect)
+ * group.add(new Urpflanze.Triangle())
+ * ```
+ * @class Group
+ */
+class Group extends SceneChild_1.SceneChild {
+    /**
+     * Creates an instance of Group
+     *
+     * @param {ISceneChildSettings} [settings={}]
+     * @memberof Group
+     */
+    constructor(settings = {}) {
+        settings.type = 'Group';
+        super(settings);
+        this.children = [];
+        ['id', 'name', 'data', 'order', 'type'].forEach((prop) => {
+            if (prop in settings)
+                delete settings[prop];
+        });
+        this.props = settings;
+    }
+    /**
+     * Check group has static children
+     *
+     * @returns {boolean}
+     * @memberof Group
+     */
+    isStatic() {
+        const children = this.children;
+        for (let i = 0, len = children.length; i < len; i++)
+            if (!children[i].isStatic())
+                return false;
+        return true;
+    }
+    /**
+     * Check group has static children indexed
+     *
+     * @returns {boolean}
+     * @memberof Group
+     */
+    isStaticIndexed() {
+        const children = this.children;
+        for (let i = 0, len = children.length; i < len; i++)
+            if (!children[i].isStaticIndexed())
+                return false;
+        return true;
+    }
+    /**
+     * Add item to Group
+     *
+     * @param {Array<SceneChild>} items
+     * @memberof Group
+     */
+    add(...items) {
+        for (let i = 0, len = items.length; i < len; i++) {
+            const item = items[i];
+            const rawItemProps = item.getProps();
+            Object.keys(this.props).forEach((propKey) => {
+                if (typeof rawItemProps[propKey] === 'undefined')
+                    item.setProp(propKey, this.props[propKey]);
+            });
+            item.order =
+                typeof item.order !== 'undefined'
+                    ? item.order
+                    : this.children.length > 0
+                        ? Math.max.apply(this, this.children.map(e => e.order || 0)) + 1
+                        : 0;
+            this.scene && Scene_1.Scene.propagateToChilden(item, this.scene);
+            this.children.push(item);
+        }
+        this.sortChildren();
+    }
+    /**
+     * Sort children
+     *
+     * @memberof Group
+     */
+    sortChildren() {
+        this.children.sort((a, b) => a.order - b.order);
+        this.children = this.children.map((child, index) => {
+            child.order = index;
+            return child;
+        });
+        this.clearBuffer(true);
+    }
+    /**
+     * Return shape children
+     *
+     * @returns {Array<SceneChild>}
+     * @memberof Group
+     */
+    getChildren() {
+        return this.children;
+    }
+    /**
+     * Find scene child from id or name
+     *
+     * @param {number | string} idOrName
+     * @returns {(SceneChild | null)}
+     * @memberof Group
+     */
+    find(idOrName) {
+        if (this.id === idOrName || this.name === idOrName)
+            return this;
+        const children = this.getChildren();
+        for (let i = 0, len = children.length; i < len; i++) {
+            const result = children[i].find(idOrName);
+            if (result !== null)
+                return result;
+        }
+        return null;
+    }
+    /**
+     * Get item from group
+     *
+     * @param {number} index
+     * @returns {(SceneChild | null)}
+     * @memberof Group
+     */
+    get(index) {
+        return index >= 0 && index < this.children.length ? this.children[index] : null;
+    }
+    /**
+     * Remove item from group
+     *
+     * @param {number} index
+     * @returns {(false | Array<SceneChild>)}
+     * @memberof Group
+     */
+    remove(index) {
+        if (index >= 0 && index < this.children.length) {
+            const removed = this.children.splice(index, 1);
+            this.clearBuffer(true);
+            return removed;
+        }
+        return false;
+    }
+    /**
+     * Remove from id
+     *
+     * @param {number} id
+     * @memberof Scene
+     */
+    removeFromId(id) {
+        for (let i = 0, len = this.children.length; i < len; i++) {
+            if (this.children[i].id == id) {
+                this.children.splice(i, 1);
+                return this.clearBuffer(true);
+            }
+        }
+    }
+    /**
+     * Generate children buffers
+     *
+     * @param {number} generateId
+     * @param {boolean} [bDirectSceneChild=false]
+     * @param {IPropArguments} [parentPropArguments]
+     * @memberof Group
+     */
+    generate(generateId, bDirectSceneChild = false, parentPropArguments) {
+        this.generateId = generateId;
+        this.children.forEach(item => item.generate(generateId, bDirectSceneChild, parentPropArguments));
+    }
+    /**
+     * Sum the children bounding
+     *
+     * @return {IShapeBounding}
+     */
+    getBounding() {
+        const boundings = [];
+        const bounding = Adapt_1.Bounding.empty();
+        if (this.children.length > 0) {
+            this.children.forEach(item => boundings.push(item.getBounding()));
+            for (let i = 0, len = this.children.length; i < len; i++) {
+                bounding.x = bounding.x > boundings[i].x ? boundings[i].x : bounding.x;
+                bounding.y = bounding.y > boundings[i].y ? boundings[i].y : bounding.y;
+                bounding.width = bounding.width < boundings[i].width ? boundings[i].width : bounding.width;
+                bounding.height = bounding.height < boundings[i].height ? boundings[i].height : bounding.height;
+            }
+            bounding.cx = bounding.x + bounding.width / 2;
+            bounding.cy = bounding.y + bounding.height / 2;
+        }
+        return bounding;
+    }
+    /**
+     * Chear children buffer
+     *
+     * @param {boolean} [bClearIndexed=false]
+     * @param {boolean} [bPropagateToParents=false]
+     * @memberof Group
+     */
+    clearBuffer(bClearIndexed = false, bPropagateToParents = true) {
+        this.children.forEach(item => item.clearBuffer(bClearIndexed, false));
+        if (this.scene && bPropagateToParents) {
+            const parents = this.scene.getParentsOfSceneChild(this);
+            parents.length > 0 && parents[parents.length - 1].clearBuffer(bClearIndexed, bPropagateToParents /* true */);
+        }
+        // if (bPropagateToParents && this.scene)
+        // {
+        //     const parents = this.scene.getParentsOfSceneChild(this)
+        //     parents.length > 0 && parents[parents.length - 1].clearBuffer(bClearIndexed, true, false)
+        // }
+        // if (bPropagateToChildren)
+        // {
+        //     this.children.forEach(sceneChild => sceneChild.clearBuffer(bClearIndexed, false, true))
+        // }
+    }
+    /**
+     * Set a single or multiple props
+     *
+     * @abstract
+     * @param {(keyof ISceneChildProps | ISceneChildProps)} key
+     * @param {*} [value]
+     * @memberof SceneChild
+     */
+    setProp(key, value) {
+        if (typeof key === 'object')
+            Object.keys(key).forEach((k) => (this.props[k] = key[k]));
+        else
+            this.props[key] = value;
+        this.children.forEach(item => item.setProp(key, value));
+    }
+    /**
+     * Set a single or multiple props
+     *
+     * @param {(keyof ISceneChildProps | ISceneChildProps)} key
+     * @param {*} [value]
+     * @memberof ShapeBase
+     */
+    setPropUnsafe(key, value) {
+        super.setPropUnsafe(key, value);
+        this.children.forEach(item => item.setPropUnsafe(key, value));
+    }
+    /**
+     * Return length of buffer
+     *
+     * @param {IPropArguments} propArguments
+     * @returns {number}
+     * @memberof Group
+     */
+    getBufferLength(propArguments) {
+        return this.children.map(sceneChild => sceneChild.getBufferLength(propArguments)).reduce((p, c) => p + c, 0);
+    }
+    /**
+     * return a single buffer binded from children
+     *
+     * @returns {Float32Array}
+     * @memberof Group
+     */
+    getBuffer() {
+        const buffers = this.children
+            .map(item => item.getBuffer())
+            .filter(b => b !== undefined);
+        const size = buffers.reduce((currLength, buffer) => currLength + buffer.length, 0);
+        if (size > 0) {
+            const result = new Float32Array(size);
+            result.set(buffers[0], 0);
+            for (let i = 1, offset = 0, len = buffers.length; i < len; i++) {
+                offset += buffers[i - 1].length;
+                result.set(buffers[i], offset);
+            }
+            return result;
+        }
+        return ShapeBase_1.ShapeBase.EMPTY_BUFFER;
+    }
+    /**
+     * return a single buffer binded from children
+     *
+     * @returns {(Array<IBufferIndex> | undefined)}
+     * @memberof Group
+     */
+    getIndexedBuffer() {
+        const indexed = this.children.map(item => item.getIndexedBuffer()).filter(b => b !== undefined);
+        return [].concat.apply([], indexed);
+    }
+    /**
+     * Call strem on children
+     *
+     * @param {(streamArguments: IStreamArguments) => void} callback
+     * @memberof Group
+     */
+    stream(callback) {
+        this.children.forEach(item => item.stream(callback));
+    }
+}
+exports.Group = Group;
+//# sourceMappingURL=Group.js.map
 
 /***/ }),
 /* 26 */
-/***/ ((__unused_webpack_module, exports) => {
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 
-// Shape
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-//# sourceMappingURL=shapes.js.map
+exports.ShapeBase = void 0;
+const gl_matrix_1 = __webpack_require__(12);
+const types_1 = __webpack_require__(3);
+const glme = __webpack_require__(27);
+const Vec2_1 = __webpack_require__(28);
+const math_1 = __webpack_require__(29);
+const Adapt_1 = __webpack_require__(30);
+const Utilities_1 = __webpack_require__(32);
+const SceneChild_1 = __webpack_require__(24);
+const tmpMatrix = gl_matrix_1.mat4.create();
+const transformMatrix = gl_matrix_1.mat4.create();
+const perspectiveMatrix = gl_matrix_1.mat4.create();
+const repetitionMatrix = gl_matrix_1.mat4.create();
+/**
+ * Main class for shape generation
+ *
+ * @category Scene
+ * @abstract
+ * @class ShapeBase
+ * @order 4
+ * @extends {SceneChild}
+ */
+class ShapeBase extends SceneChild_1.SceneChild {
+    /**
+     * Creates an instance of ShapeBase
+     *
+     * @param {ISceneChildSettings} [settings={}]
+     */
+    constructor(settings = {}) {
+        super(settings);
+        /**
+         * Flag used to determine if indexedBuffer has been generated
+         *
+         * @internal
+         * @ignore
+         */
+        this.bIndexed = false;
+        /**
+         * Array used for index a vertex buffer
+         * only for first level scene children
+         *
+         * @internal
+         * @ignore
+         */
+        this.indexedBuffer = [];
+        /**
+         * The bounding inside the scene
+         *
+         * @type {IShapeBounding}
+         */
+        this.bounding = {
+            cx: 0,
+            cy: 0,
+            x: -1,
+            y: -1,
+            width: 2,
+            height: 2,
+        };
+        this.props = {
+            distance: settings.distance,
+            repetitions: settings.repetitions,
+            rotateX: settings.rotateX,
+            rotateY: settings.rotateY,
+            rotateZ: settings.rotateZ,
+            skewX: settings.skewX,
+            skewY: settings.skewY,
+            squeezeX: settings.squeezeX,
+            squeezeY: settings.squeezeY,
+            displace: settings.displace,
+            translate: settings.translate,
+            scale: settings.scale,
+            transformOrigin: settings.transformOrigin,
+            perspective: settings.perspective,
+            perspectiveOrigin: settings.perspectiveOrigin,
+        };
+        this.anchor =
+            settings.anchor && Array.isArray(settings.anchor)
+                ? [
+                    typeof settings.anchor[0] === 'number'
+                        ? Utilities_1.clamp(-1, 1, settings.anchor[0]) * -1
+                        : settings.anchor[0] === 'left'
+                            ? 1
+                            : settings.anchor[0] === 'right'
+                                ? -1
+                                : 0,
+                    typeof settings.anchor[1] === 'number'
+                        ? Utilities_1.clamp(-1, 1, settings.anchor[1]) * -1
+                        : settings.anchor[1] === 'top'
+                            ? 1
+                            : settings.anchor[1] === 'bottom'
+                                ? -1
+                                : 0,
+                ]
+                : [0, 0];
+        this.boundingType =
+            typeof settings.boundingType === 'string'
+                ? settings.boundingType === 'relative'
+                    ? types_1.EBoundingType.Relative
+                    : types_1.EBoundingType.Fixed
+                : settings.boundingType || types_1.EBoundingType.Fixed;
+        this.vertexCallback = settings.vertexCallback;
+    }
+    /**
+     * Check if the shape should be generated every time
+     *
+     * @returns {boolean}
+     */
+    isStatic() {
+        const props = this.props;
+        return (typeof props.repetitions !== 'function' &&
+            typeof props.distance !== 'function' &&
+            typeof props.displace !== 'function' &&
+            typeof props.scale !== 'function' &&
+            typeof props.translate !== 'function' &&
+            typeof props.skewX !== 'function' &&
+            typeof props.skewY !== 'function' &&
+            typeof props.squeezeX !== 'function' &&
+            typeof props.squeezeY !== 'function' &&
+            typeof props.rotateX !== 'function' &&
+            typeof props.rotateY !== 'function' &&
+            typeof props.rotateZ !== 'function' &&
+            typeof props.transformOrigin !== 'function' &&
+            typeof props.perspective !== 'function' &&
+            typeof props.perspectiveOrigin !== 'function');
+    }
+    /**
+     * Check if the indexedBuffer array needs to be recreated every time,
+     * this can happen when a shape generates an array of vertices different in length at each repetition
+     *
+     * @returns {boolean}
+     */
+    isStaticIndexed() {
+        return typeof this.props.repetitions !== 'function';
+    }
+    /**
+     * Return a prop value
+     *
+     * @param {keyof ISceneChildProps} key
+     * @param {PropArguments} [propArguments]
+     * @param {*} [defaultValue]
+     * @returns {*}
+     */
+    getProp(key, propArguments, defaultValue) {
+        let attribute = this.props[key];
+        if (typeof attribute === 'function') {
+            attribute = attribute(propArguments);
+        }
+        return typeof attribute === 'undefined' || Number.isNaN(attribute) ? defaultValue : attribute;
+    }
+    /**
+     * Set a single or multiple props
+     *
+     * @param {(keyof ISceneChildProps<PropArguments> | ISceneChildProps<PropArguments>)} key
+     * @param {*} [value]
+     * @param {boolean} [bClearIndexed=false]
+     */
+    setProp(key, value, bClearIndexed = false) {
+        if (typeof key === 'string') {
+            bClearIndexed = bClearIndexed || key == 'repetitions';
+            this.props[key] = value;
+        }
+        else {
+            bClearIndexed = bClearIndexed || 'repetitions' in key;
+            Object.keys(key).forEach((k) => (this.props[k] = key[k]));
+        }
+        this.clearBuffer(bClearIndexed, true);
+    }
+    /**
+     *  Unset buffer
+     *
+     * @param {boolean} [bClearIndexed=false]
+     * @param {boolean} [bPropagateToParents=false]
+     * @param {boolean} [bPropagateToChildren=false]
+     */
+    clearBuffer(bClearIndexed = false, bPropagateToParents = true) {
+        this.buffer = undefined;
+        if (bClearIndexed) {
+            this.bIndexed = false;
+            this.indexedBuffer = [];
+        }
+        this.bStatic = this.isStatic();
+        this.bStaticIndexed = this.isStaticIndexed();
+        if (bPropagateToParents && this.scene && !this.scene.isFirstLevelChild(this)) {
+            const parents = this.scene.getParentsOfSceneChild(this);
+            parents.length > 0 && parents[parents.length - 1].clearBuffer(bClearIndexed, bPropagateToParents /* true */);
+        }
+    }
+    /**
+     * Update the vertex array if the shape is not static and update the indexedBuffer if it is also not static
+     *
+     * @param {number} generateId generation id
+     * @param {boolean} [bDirectSceneChild=false] adjust shape of center of scene
+     * @param {PropArguments} [parentPropArguments]
+     */
+    generate(generateId = 0, bDirectSceneChild = false, parentPropArguments) {
+        var _a, _b;
+        if (this.buffer && this.bStatic) {
+            return;
+        }
+        this.generateId = generateId;
+        if (!this.bStaticIndexed || !this.bIndexed)
+            this.indexedBuffer = [];
+        const propArguments = ShapeBase.getEmptyPropArguments(this, parentPropArguments);
+        const repetition = propArguments.repetition;
+        const repetitions = this.getProp('repetitions', propArguments, 1);
+        const repetitionType = Array.isArray(repetitions) ? types_1.ERepetitionType.Matrix : types_1.ERepetitionType.Ring;
+        const repetitionCount = Array.isArray(repetitions)
+            ? repetitions[0] * ((_a = repetitions[1]) !== null && _a !== void 0 ? _a : repetitions[0])
+            : repetitions;
+        const repetitionRowCount = Array.isArray(repetitions) ? repetitions[0] : repetitionCount;
+        const repetitionColCount = Array.isArray(repetitions) ? (_b = repetitions[1]) !== null && _b !== void 0 ? _b : repetitions[0] : 1;
+        const rowRepetition = repetition.row;
+        rowRepetition.count = repetitionRowCount;
+        const colRepetition = repetition.col;
+        colRepetition.count = repetitionColCount;
+        repetition.count = repetitionCount;
+        repetition.col.count = repetitionColCount;
+        repetition.row.count = repetitionRowCount;
+        repetition.type = repetitionType;
+        let totalBufferLength = 0;
+        const buffers = [];
+        let currentIndex = 0;
+        const centerMatrix = gl_matrix_1.vec2.fromValues((repetitionColCount - 1) / 2, (repetitionRowCount - 1) / 2);
+        const sceneAnchor = this.scene ? [this.scene.anchor[0], this.scene.anchor[1], 0] : [0, 0, 0];
+        const tmpTotalShapeBounding = [undefined, undefined, undefined, undefined];
+        const tmpSingleRepetitionBounding = [undefined, undefined, undefined, undefined];
+        for (let currentRowRepetition = 0; currentRowRepetition < repetitionRowCount; currentRowRepetition++) {
+            for (let currentColRepetition = 0; currentColRepetition < repetitionColCount; currentColRepetition++, currentIndex++) {
+                repetition.index = currentIndex + 1;
+                repetition.offset = repetitionCount > 1 ? currentIndex / (repetitionCount - 1) : 1;
+                repetition.angle = repetitionType === types_1.ERepetitionType.Ring ? (math_1.PI2 / repetitionCount) * currentIndex : 0;
+                colRepetition.index = currentColRepetition + 1;
+                colRepetition.offset = repetitionColCount > 1 ? currentColRepetition / (repetitionColCount - 1) : 1;
+                rowRepetition.index = currentRowRepetition + 1;
+                rowRepetition.offset = repetitionRowCount > 1 ? currentRowRepetition / (repetitionRowCount - 1) : 1;
+                // Generate primitives buffer recursively
+                const buffer = this.generateBuffer(generateId, propArguments);
+                const bufferLength = buffer.length;
+                const bounding = this.getShapeBounding();
+                buffers[currentIndex] = new Float32Array(bufferLength);
+                totalBufferLength += bufferLength;
+                {
+                    const distance = glme.toVec2(this.getProp('distance', propArguments, glme.VEC2_ZERO));
+                    const displace = this.getProp('displace', propArguments, 0);
+                    const scale = glme.toVec3(this.getProp('scale', propArguments, glme.VEC2_ONE), 1);
+                    const translate = glme.toVec3(this.getProp('translate', propArguments, glme.VEC2_ZERO), 0);
+                    const skewX = this.getProp('skewX', propArguments, 0);
+                    const skewY = this.getProp('skewY', propArguments, 0);
+                    const squeezeX = this.getProp('squeezeX', propArguments, 0);
+                    const squeezeY = this.getProp('squeezeY', propArguments, 0);
+                    const rotateX = this.getProp('rotateX', propArguments, 0);
+                    const rotateY = this.getProp('rotateY', propArguments, 0);
+                    const rotateZ = this.getProp('rotateZ', propArguments, 0);
+                    const perspective = Utilities_1.clamp(0, 1, this.getProp('perspective', propArguments, 0));
+                    const perspectiveOrigin = glme.toVec3(this.getProp('perspectiveOrigin', propArguments, glme.VEC2_ZERO), 0);
+                    const transformOrigin = glme.toVec3(this.getProp('transformOrigin', propArguments, glme.VEC2_ZERO), 0);
+                    let offset;
+                    switch (repetitionType) {
+                        case types_1.ERepetitionType.Ring:
+                            offset = gl_matrix_1.vec3.fromValues(distance[0], 0, 0);
+                            gl_matrix_1.vec3.rotateZ(offset, offset, glme.VEC3_ZERO, repetition.angle + displace);
+                            break;
+                        case types_1.ERepetitionType.Matrix:
+                            offset = gl_matrix_1.vec3.fromValues(distance[1] * (currentColRepetition - centerMatrix[0]), distance[0] * (currentRowRepetition - centerMatrix[1]), 0);
+                            break;
+                    }
+                    const perspectiveSize = perspective > 0 ? Math.max(bounding.width, bounding.height) / 2 : 1;
+                    const perspectiveValue = perspective > 0 ? perspectiveSize + (1 - perspective) * (perspectiveSize * 10) : 0;
+                    const bTransformOrigin = (this.boundingType === types_1.EBoundingType.Relative ? bounding.cx !== 0 || bounding.cy !== 0 : true) ||
+                        perspective !== 0 ||
+                        transformOrigin[0] !== 0 ||
+                        transformOrigin[1] !== 0;
+                    const bPerspectiveOrigin = perspectiveOrigin[0] !== 0 || perspectiveOrigin[1] !== 0;
+                    if (bTransformOrigin) {
+                        if (this.boundingType === types_1.EBoundingType.Relative) {
+                            transformOrigin[0] = transformOrigin[0] * (bounding.width / 2) + bounding.cx;
+                            transformOrigin[1] = transformOrigin[1] * (bounding.height / 2) + bounding.cy;
+                        }
+                        else {
+                            transformOrigin[0] *= bounding.width / 2;
+                            transformOrigin[1] *= bounding.height / 2;
+                        }
+                        transformOrigin[2] = perspectiveValue;
+                    }
+                    /**
+                     * Create Matrices
+                     */
+                    {
+                        /**
+                         * Create Transformation matrix
+                         */
+                        gl_matrix_1.mat4.identity(transformMatrix);
+                        bTransformOrigin && gl_matrix_1.mat4.translate(transformMatrix, transformMatrix, transformOrigin);
+                        if (translate[0] !== 0 || translate[1] !== 0)
+                            gl_matrix_1.mat4.translate(transformMatrix, transformMatrix, translate);
+                        if (skewX !== 0 || skewY !== 0) {
+                            glme.fromSkew(tmpMatrix, [skewX, skewY]);
+                            gl_matrix_1.mat4.multiply(transformMatrix, transformMatrix, tmpMatrix);
+                        }
+                        rotateX !== 0 && gl_matrix_1.mat4.rotateX(transformMatrix, transformMatrix, rotateX);
+                        rotateY !== 0 && gl_matrix_1.mat4.rotateY(transformMatrix, transformMatrix, rotateY);
+                        rotateZ !== 0 && gl_matrix_1.mat4.rotateZ(transformMatrix, transformMatrix, rotateZ);
+                        if (scale[0] !== 1 || scale[1] !== 1)
+                            gl_matrix_1.mat4.scale(transformMatrix, transformMatrix, scale);
+                        bTransformOrigin &&
+                            gl_matrix_1.mat4.translate(transformMatrix, transformMatrix, gl_matrix_1.vec3.scale(transformOrigin, transformOrigin, -1));
+                        /**
+                         * Create Perspective matrix
+                         */
+                        if (perspectiveValue > 0) {
+                            if (bPerspectiveOrigin) {
+                                if (this.boundingType === types_1.EBoundingType.Relative) {
+                                    perspectiveOrigin[0] = perspectiveOrigin[0] * (bounding.width / 2) + bounding.cx;
+                                    perspectiveOrigin[1] = perspectiveOrigin[1] * (bounding.height / 2) + bounding.cy;
+                                }
+                                else {
+                                    perspectiveOrigin[0] *= bounding.width / 2;
+                                    perspectiveOrigin[1] *= bounding.height / 2;
+                                }
+                                perspectiveOrigin[2] = 0;
+                            }
+                            gl_matrix_1.mat4.perspective(perspectiveMatrix, -Math.PI / 2, 1, 0, Infinity);
+                        }
+                        /**
+                         * Create Repetition matrix
+                         */
+                        gl_matrix_1.mat4.identity(repetitionMatrix);
+                        gl_matrix_1.mat4.translate(repetitionMatrix, repetitionMatrix, offset);
+                        if (bDirectSceneChild) {
+                            gl_matrix_1.mat4.translate(repetitionMatrix, repetitionMatrix, sceneAnchor);
+                        }
+                        /**
+                         * Apply anchor
+                         */
+                        const shapeAnchor = [this.anchor[0] * (bounding.width / 2), this.anchor[1] * (bounding.height / 2), 0];
+                        gl_matrix_1.mat4.translate(repetitionMatrix, repetitionMatrix, shapeAnchor);
+                        if (repetitionType === types_1.ERepetitionType.Ring)
+                            gl_matrix_1.mat4.rotateZ(repetitionMatrix, repetitionMatrix, repetition.angle + displace);
+                    }
+                    Adapt_1.Bounding.clear(tmpSingleRepetitionBounding);
+                    // Apply matrices on vertex
+                    for (let bufferIndex = 0; bufferIndex < bufferLength; bufferIndex += 2) {
+                        const vertex = [buffer[bufferIndex], buffer[bufferIndex + 1], perspectiveValue];
+                        {
+                            // Apply squeeze, can be insert into transformMatrix?
+                            squeezeX !== 0 && Vec2_1.default.squeezeX(vertex, squeezeX);
+                            squeezeY !== 0 && Vec2_1.default.squeezeY(vertex, squeezeY);
+                            // Apply transforms
+                            gl_matrix_1.vec3.transformMat4(vertex, vertex, transformMatrix);
+                            // Apply perspective
+                            if (perspectiveValue > 0) {
+                                bPerspectiveOrigin && gl_matrix_1.vec3.add(vertex, vertex, perspectiveOrigin);
+                                gl_matrix_1.vec3.transformMat4(vertex, vertex, perspectiveMatrix);
+                                gl_matrix_1.vec3.scale(vertex, vertex, perspectiveValue);
+                                bPerspectiveOrigin && gl_matrix_1.vec3.sub(vertex, vertex, perspectiveOrigin);
+                            }
+                            // apply repetition matrix
+                            gl_matrix_1.vec3.transformMat4(vertex, vertex, repetitionMatrix);
+                            // custom vertex manipulation
+                            if (typeof this.vertexCallback !== 'undefined') {
+                                const index = bufferIndex / 2;
+                                const count = bufferLength / 2;
+                                const vertexRepetition = {
+                                    index: index + 1,
+                                    count,
+                                    offset: count > 1 ? index / (count - 1) : 1,
+                                };
+                                this.vertexCallback(vertex, vertexRepetition, propArguments);
+                            }
+                        }
+                        buffers[currentIndex][bufferIndex] = vertex[0];
+                        buffers[currentIndex][bufferIndex + 1] = vertex[1];
+                        Adapt_1.Bounding.add(tmpSingleRepetitionBounding, vertex[0], vertex[1]);
+                        Adapt_1.Bounding.add(tmpTotalShapeBounding, vertex[0], vertex[1]);
+                    }
+                }
+                // Bounding.sum(tmpTotalShapeBounding, tmpSingleRepetitionBounding)
+                // After buffer creation, add a frame into indexedBuffer if not static or update bounding
+                const singleRepetitionBounding = { cx: 0, cy: 0, x: -1, y: -1, width: 2, height: 2 };
+                Adapt_1.Bounding.bind(singleRepetitionBounding, tmpSingleRepetitionBounding);
+                if (!this.bStaticIndexed || !this.bIndexed) {
+                    this.addIndex(bufferLength, repetition, singleRepetitionBounding);
+                }
+            }
+        }
+        Adapt_1.Bounding.bind(this.bounding, tmpTotalShapeBounding);
+        this.buffer = new Float32Array(totalBufferLength);
+        for (let i = 0, offset = 0, len = buffers.length; i < len; offset += buffers[i].length, i++)
+            this.buffer.set(buffers[i], offset);
+        this.bIndexed = true;
+    }
+    /**
+     * Return current shape (whit repetions) bounding
+     *
+     * @return {*}  {IShapeBounding}
+     */
+    getBounding() {
+        return this.bounding;
+    }
+    /**
+     * Get number of repetitions
+     *
+     * @returns {number}
+     */
+    getRepetitionCount() {
+        var _a;
+        const repetitions = this.getProp('repetitions', undefined, 1);
+        return Array.isArray(repetitions) ? repetitions[0] * ((_a = repetitions[1]) !== null && _a !== void 0 ? _a : repetitions[0]) : repetitions;
+    }
+    /**
+     * Return buffer
+     *
+     * @returns {(Float32Array | undefined)}
+     */
+    getBuffer() {
+        return this.buffer;
+    }
+    /**
+     * Return indexed buffer
+     *
+     * @returns {(Array<IBufferIndex<Props, PropArguments>> | undefined)}
+     */
+    getIndexedBuffer() {
+        return this.indexedBuffer;
+    }
+    /**
+     * Return number of encapsulation
+     *
+     * @param {IBufferIndex} index
+     * @returns {number}
+     */
+    static getIndexParentLevel(index) {
+        if (typeof index.parent === 'undefined')
+            return 0;
+        let currentParent = index.parent;
+        let currentParentLevel = 1;
+        while (typeof currentParent.parent !== 'undefined') {
+            currentParentLevel++;
+            currentParent = currentParent.parent;
+        }
+        return currentParentLevel;
+    }
+    /**
+     * Stream buffer
+     *
+     * @param {(TStreamCallback} callback
+     */
+    stream(callback) {
+        if (this.buffer && this.indexedBuffer) {
+            for (let i = 0, j = 0, len = this.indexedBuffer.length; i < len; i++) {
+                const currentIndexing = this.indexedBuffer[i];
+                callback({
+                    buffer: this.buffer,
+                    frameLength: currentIndexing.frameLength,
+                    frameBufferIndex: j,
+                    currentIndexing: currentIndexing,
+                    currentShapeIndex: i,
+                    totalShapes: len,
+                });
+                j += currentIndexing.frameLength;
+            }
+        }
+    }
+    /**
+     * Return empty propArguments
+     *
+     * @static
+     * @param {ShapeBase} shape
+     * @return {*}  {PropArguments}
+     */
+    static getEmptyPropArguments(shape, parentPropArguments) {
+        const repetition = {
+            type: types_1.ERepetitionType.Ring,
+            angle: 0,
+            index: 1,
+            offset: 1,
+            count: 1,
+            row: { index: 1, offset: 1, count: 1 },
+            col: { index: 1, offset: 1, count: 1 },
+        };
+        return {
+            repetition,
+            shape,
+            parent: parentPropArguments,
+        };
+    }
+}
+exports.ShapeBase = ShapeBase;
+/**
+ * Empty buffer
+ *
+ * @internal
+ * @ignore
+ */
+ShapeBase.EMPTY_BUFFER = new Float32Array(0);
+/**
+ * Empty BaseRepetition
+ *
+ * @internal
+ * @ignore
+ */
+ShapeBase.getEmptySimpleRepetition = () => ({
+    index: 1,
+    offset: 1,
+    count: 1,
+});
+/**
+ * Empty Repetition
+ *
+ * @internal
+ * @ignore
+ */
+ShapeBase.getEmptyRepetition = () => ({
+    type: types_1.ERepetitionType.Ring,
+    angle: 0,
+    ...ShapeBase.getEmptySimpleRepetition(),
+    row: ShapeBase.getEmptySimpleRepetition(),
+    col: ShapeBase.getEmptySimpleRepetition(),
+});
+//# sourceMappingURL=ShapeBase.js.map
 
 /***/ }),
 /* 27 */
@@ -9281,7 +9218,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.toVec3 = exports.toVec2 = exports.fromSkew = exports.VEC2_ONE = exports.VEC2_ZERO = exports.VEC3_ONE = exports.VEC3_ZERO = void 0;
-const gl_matrix_1 = __webpack_require__(7);
+const gl_matrix_1 = __webpack_require__(12);
 exports.VEC3_ZERO = [0, 0, 0];
 exports.VEC3_ONE = [1, 1, 1];
 exports.VEC2_ZERO = [0, 0];
@@ -9555,7 +9492,7 @@ const Vec2 = {
      */
     ONE: Array.from([1, 1]),
 };
-exports.default = Vec2;
+exports["default"] = Vec2;
 //# sourceMappingURL=Vec2.js.map
 
 /***/ }),
@@ -9801,7 +9738,7 @@ exports.Modifier = Modifier;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.interpolate = exports.prepareBufferForInterpolation = exports.distributePointsInBuffer = exports.distanceFromRepetition = exports.angle2FromRepetition = exports.angleFromRepetition = exports.random = exports.noise = exports.relativeClamp = exports.clamp = exports.lerp = exports.toRadians = exports.toDegrees = exports.now = void 0;
 const SimplexNoise = __webpack_require__(33);
-const repetitions_1 = __webpack_require__(21);
+const repetitions_1 = __webpack_require__(6);
 const Vec2_1 = __webpack_require__(28);
 const measurement = typeof performance !== 'undefined' ? performance : Date;
 /**
@@ -9923,7 +9860,7 @@ const noises = {
  * @param {number} [max=-1]
  * @returns {number} between -1 and 1
  */
-function noise(seed = 'random', x = 0, y = 0, z = 0, min, max) {
+function noise(seed = 'random', x = 0, y = 0, z = 0, min = -1, max = 1) {
     if (typeof noises[seed] === 'undefined') {
         noises[seed] = new SimplexNoise(seed);
     }
@@ -10664,9 +10601,9 @@ Better rank ordering method by Stefan Gustavson in 2012.
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Shape = void 0;
-const Scene_1 = __webpack_require__(3);
-const SceneChild_1 = __webpack_require__(4);
-const ShapeBase_1 = __webpack_require__(6);
+const Scene_1 = __webpack_require__(23);
+const SceneChild_1 = __webpack_require__(24);
+const ShapeBase_1 = __webpack_require__(26);
 /**
  * Container of ShapeBase or Group, it applies transformations on each repetition
  *
@@ -10850,7 +10787,7 @@ exports.Shape = Shape;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ShapePrimitive = void 0;
 const glme = __webpack_require__(27);
-const ShapeBase_1 = __webpack_require__(6);
+const ShapeBase_1 = __webpack_require__(26);
 const Modifier_1 = __webpack_require__(31);
 const Adapt_1 = __webpack_require__(30);
 /**
@@ -11003,7 +10940,7 @@ exports.ShapeLoop = void 0;
 const math_1 = __webpack_require__(29);
 const Adapt_1 = __webpack_require__(30);
 const ShapePrimitive_1 = __webpack_require__(35);
-const ShapeBase_1 = __webpack_require__(6);
+const ShapeBase_1 = __webpack_require__(26);
 /**
  * Create a shape from loop
  *
@@ -15740,101 +15677,13 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Animation": () => (/* reexport safe */ _modules_light__WEBPACK_IMPORTED_MODULE_0__.Animation),
-/* harmony export */   "Circle": () => (/* reexport safe */ _modules_light__WEBPACK_IMPORTED_MODULE_0__.Circle),
-/* harmony export */   "DrawerCanvas": () => (/* reexport safe */ _modules_light__WEBPACK_IMPORTED_MODULE_0__.DrawerCanvas),
-/* harmony export */   "Group": () => (/* reexport safe */ _modules_light__WEBPACK_IMPORTED_MODULE_0__.Group),
-/* harmony export */   "Line": () => (/* reexport safe */ _modules_light__WEBPACK_IMPORTED_MODULE_0__.Line),
-/* harmony export */   "Lissajous": () => (/* reexport safe */ _modules_light__WEBPACK_IMPORTED_MODULE_0__.Lissajous),
-/* harmony export */   "Modifier": () => (/* reexport safe */ _modules_light__WEBPACK_IMPORTED_MODULE_0__.Modifier),
-/* harmony export */   "Modifiers": () => (/* reexport safe */ _modules_light__WEBPACK_IMPORTED_MODULE_0__.Modifiers),
-/* harmony export */   "PHI": () => (/* reexport safe */ _modules_light__WEBPACK_IMPORTED_MODULE_0__.PHI),
-/* harmony export */   "PI2": () => (/* reexport safe */ _modules_light__WEBPACK_IMPORTED_MODULE_0__.PI2),
-/* harmony export */   "Polygon": () => (/* reexport safe */ _modules_light__WEBPACK_IMPORTED_MODULE_0__.Polygon),
-/* harmony export */   "Rect": () => (/* reexport safe */ _modules_light__WEBPACK_IMPORTED_MODULE_0__.Rect),
-/* harmony export */   "Rose": () => (/* reexport safe */ _modules_light__WEBPACK_IMPORTED_MODULE_0__.Rose),
-/* harmony export */   "Scene": () => (/* reexport safe */ _modules_light__WEBPACK_IMPORTED_MODULE_0__.Scene),
-/* harmony export */   "SceneChild": () => (/* reexport safe */ _modules_light__WEBPACK_IMPORTED_MODULE_0__.SceneChild),
-/* harmony export */   "Shape": () => (/* reexport safe */ _modules_light__WEBPACK_IMPORTED_MODULE_0__.Shape),
-/* harmony export */   "ShapeBase": () => (/* reexport safe */ _modules_light__WEBPACK_IMPORTED_MODULE_0__.ShapeBase),
-/* harmony export */   "ShapeBuffer": () => (/* reexport safe */ _modules_light__WEBPACK_IMPORTED_MODULE_0__.ShapeBuffer),
-/* harmony export */   "ShapeFollow": () => (/* reexport safe */ _modules_light__WEBPACK_IMPORTED_MODULE_0__.ShapeFollow),
-/* harmony export */   "ShapeLoop": () => (/* reexport safe */ _modules_light__WEBPACK_IMPORTED_MODULE_0__.ShapeLoop),
-/* harmony export */   "ShapePrimitive": () => (/* reexport safe */ _modules_light__WEBPACK_IMPORTED_MODULE_0__.ShapePrimitive),
-/* harmony export */   "ShapeRecursive": () => (/* reexport safe */ _modules_light__WEBPACK_IMPORTED_MODULE_0__.ShapeRecursive),
-/* harmony export */   "Spiral": () => (/* reexport safe */ _modules_light__WEBPACK_IMPORTED_MODULE_0__.Spiral),
-/* harmony export */   "Star": () => (/* reexport safe */ _modules_light__WEBPACK_IMPORTED_MODULE_0__.Star),
-/* harmony export */   "SuperShape": () => (/* reexport safe */ _modules_light__WEBPACK_IMPORTED_MODULE_0__.SuperShape),
-/* harmony export */   "Triangle": () => (/* reexport safe */ _modules_light__WEBPACK_IMPORTED_MODULE_0__.Triangle),
-/* harmony export */   "Vec2": () => (/* reexport safe */ _modules_light__WEBPACK_IMPORTED_MODULE_0__.Vec2),
-/* harmony export */   "__esModule": () => (/* reexport safe */ _modules_light__WEBPACK_IMPORTED_MODULE_0__.__esModule),
-/* harmony export */   "angle2FromRepetition": () => (/* reexport safe */ _modules_light__WEBPACK_IMPORTED_MODULE_0__.angle2FromRepetition),
-/* harmony export */   "angleFromRepetition": () => (/* reexport safe */ _modules_light__WEBPACK_IMPORTED_MODULE_0__.angleFromRepetition),
-/* harmony export */   "clamp": () => (/* reexport safe */ _modules_light__WEBPACK_IMPORTED_MODULE_0__.clamp),
-/* harmony export */   "distanceFromRepetition": () => (/* reexport safe */ _modules_light__WEBPACK_IMPORTED_MODULE_0__.distanceFromRepetition),
-/* harmony export */   "distributePointsInBuffer": () => (/* reexport safe */ _modules_light__WEBPACK_IMPORTED_MODULE_0__.distributePointsInBuffer),
-/* harmony export */   "interpolate": () => (/* reexport safe */ _modules_light__WEBPACK_IMPORTED_MODULE_0__.interpolate),
-/* harmony export */   "lerp": () => (/* reexport safe */ _modules_light__WEBPACK_IMPORTED_MODULE_0__.lerp),
-/* harmony export */   "log": () => (/* reexport safe */ _modules_light__WEBPACK_IMPORTED_MODULE_0__.log),
-/* harmony export */   "mod": () => (/* reexport safe */ _modules_light__WEBPACK_IMPORTED_MODULE_0__.mod),
-/* harmony export */   "noise": () => (/* reexport safe */ _modules_light__WEBPACK_IMPORTED_MODULE_0__.noise),
-/* harmony export */   "now": () => (/* reexport safe */ _modules_light__WEBPACK_IMPORTED_MODULE_0__.now),
-/* harmony export */   "prepareBufferForInterpolation": () => (/* reexport safe */ _modules_light__WEBPACK_IMPORTED_MODULE_0__.prepareBufferForInterpolation),
-/* harmony export */   "random": () => (/* reexport safe */ _modules_light__WEBPACK_IMPORTED_MODULE_0__.random),
-/* harmony export */   "relativeClamp": () => (/* reexport safe */ _modules_light__WEBPACK_IMPORTED_MODULE_0__.relativeClamp),
-/* harmony export */   "toDegrees": () => (/* reexport safe */ _modules_light__WEBPACK_IMPORTED_MODULE_0__.toDegrees),
-/* harmony export */   "toRadians": () => (/* reexport safe */ _modules_light__WEBPACK_IMPORTED_MODULE_0__.toRadians)
-/* harmony export */ });
 /* harmony import */ var _modules_light__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
+/* harmony reexport (unknown) */ var __WEBPACK_REEXPORT_OBJECT__ = {};
+/* harmony reexport (unknown) */ for(const __WEBPACK_IMPORT_KEY__ in _modules_light__WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== "default") __WEBPACK_REEXPORT_OBJECT__[__WEBPACK_IMPORT_KEY__] = () => _modules_light__WEBPACK_IMPORTED_MODULE_0__[__WEBPACK_IMPORT_KEY__]
+/* harmony reexport (unknown) */ __webpack_require__.d(__webpack_exports__, __WEBPACK_REEXPORT_OBJECT__);
 
 //# sourceMappingURL=index-light.js.map
 })();
 
-var __webpack_exports__Animation = __webpack_exports__.Animation;
-var __webpack_exports__Circle = __webpack_exports__.Circle;
-var __webpack_exports__DrawerCanvas = __webpack_exports__.DrawerCanvas;
-var __webpack_exports__Group = __webpack_exports__.Group;
-var __webpack_exports__Line = __webpack_exports__.Line;
-var __webpack_exports__Lissajous = __webpack_exports__.Lissajous;
-var __webpack_exports__Modifier = __webpack_exports__.Modifier;
-var __webpack_exports__Modifiers = __webpack_exports__.Modifiers;
-var __webpack_exports__PHI = __webpack_exports__.PHI;
-var __webpack_exports__PI2 = __webpack_exports__.PI2;
-var __webpack_exports__Polygon = __webpack_exports__.Polygon;
-var __webpack_exports__Rect = __webpack_exports__.Rect;
-var __webpack_exports__Rose = __webpack_exports__.Rose;
-var __webpack_exports__Scene = __webpack_exports__.Scene;
-var __webpack_exports__SceneChild = __webpack_exports__.SceneChild;
-var __webpack_exports__Shape = __webpack_exports__.Shape;
-var __webpack_exports__ShapeBase = __webpack_exports__.ShapeBase;
-var __webpack_exports__ShapeBuffer = __webpack_exports__.ShapeBuffer;
-var __webpack_exports__ShapeFollow = __webpack_exports__.ShapeFollow;
-var __webpack_exports__ShapeLoop = __webpack_exports__.ShapeLoop;
-var __webpack_exports__ShapePrimitive = __webpack_exports__.ShapePrimitive;
-var __webpack_exports__ShapeRecursive = __webpack_exports__.ShapeRecursive;
-var __webpack_exports__Spiral = __webpack_exports__.Spiral;
-var __webpack_exports__Star = __webpack_exports__.Star;
-var __webpack_exports__SuperShape = __webpack_exports__.SuperShape;
-var __webpack_exports__Triangle = __webpack_exports__.Triangle;
-var __webpack_exports__Vec2 = __webpack_exports__.Vec2;
-var __webpack_exports___esModule = __webpack_exports__.__esModule;
-var __webpack_exports__angle2FromRepetition = __webpack_exports__.angle2FromRepetition;
-var __webpack_exports__angleFromRepetition = __webpack_exports__.angleFromRepetition;
-var __webpack_exports__clamp = __webpack_exports__.clamp;
-var __webpack_exports__distanceFromRepetition = __webpack_exports__.distanceFromRepetition;
-var __webpack_exports__distributePointsInBuffer = __webpack_exports__.distributePointsInBuffer;
-var __webpack_exports__interpolate = __webpack_exports__.interpolate;
-var __webpack_exports__lerp = __webpack_exports__.lerp;
-var __webpack_exports__log = __webpack_exports__.log;
-var __webpack_exports__mod = __webpack_exports__.mod;
-var __webpack_exports__noise = __webpack_exports__.noise;
-var __webpack_exports__now = __webpack_exports__.now;
-var __webpack_exports__prepareBufferForInterpolation = __webpack_exports__.prepareBufferForInterpolation;
-var __webpack_exports__random = __webpack_exports__.random;
-var __webpack_exports__relativeClamp = __webpack_exports__.relativeClamp;
-var __webpack_exports__toDegrees = __webpack_exports__.toDegrees;
-var __webpack_exports__toRadians = __webpack_exports__.toRadians;
-export { __webpack_exports__Animation as Animation, __webpack_exports__Circle as Circle, __webpack_exports__DrawerCanvas as DrawerCanvas, __webpack_exports__Group as Group, __webpack_exports__Line as Line, __webpack_exports__Lissajous as Lissajous, __webpack_exports__Modifier as Modifier, __webpack_exports__Modifiers as Modifiers, __webpack_exports__PHI as PHI, __webpack_exports__PI2 as PI2, __webpack_exports__Polygon as Polygon, __webpack_exports__Rect as Rect, __webpack_exports__Rose as Rose, __webpack_exports__Scene as Scene, __webpack_exports__SceneChild as SceneChild, __webpack_exports__Shape as Shape, __webpack_exports__ShapeBase as ShapeBase, __webpack_exports__ShapeBuffer as ShapeBuffer, __webpack_exports__ShapeFollow as ShapeFollow, __webpack_exports__ShapeLoop as ShapeLoop, __webpack_exports__ShapePrimitive as ShapePrimitive, __webpack_exports__ShapeRecursive as ShapeRecursive, __webpack_exports__Spiral as Spiral, __webpack_exports__Star as Star, __webpack_exports__SuperShape as SuperShape, __webpack_exports__Triangle as Triangle, __webpack_exports__Vec2 as Vec2, __webpack_exports___esModule as __esModule, __webpack_exports__angle2FromRepetition as angle2FromRepetition, __webpack_exports__angleFromRepetition as angleFromRepetition, __webpack_exports__clamp as clamp, __webpack_exports__distanceFromRepetition as distanceFromRepetition, __webpack_exports__distributePointsInBuffer as distributePointsInBuffer, __webpack_exports__interpolate as interpolate, __webpack_exports__lerp as lerp, __webpack_exports__log as log, __webpack_exports__mod as mod, __webpack_exports__noise as noise, __webpack_exports__now as now, __webpack_exports__prepareBufferForInterpolation as prepareBufferForInterpolation, __webpack_exports__random as random, __webpack_exports__relativeClamp as relativeClamp, __webpack_exports__toDegrees as toDegrees, __webpack_exports__toRadians as toRadians };
 
 //# sourceMappingURL=urpflanze-light.js.map
