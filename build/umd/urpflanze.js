@@ -1,5 +1,5 @@
 /*!
- * @license UrpflanzeJS v"1.1.2"
+ * @license UrpflanzeJS v"1.1.3"
  * urpflanze.js
  *
  * Github: https://github.com/urpflanze-org/urpflanze
