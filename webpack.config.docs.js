@@ -14,7 +14,7 @@ module.exports = (env, argv) => {
 			new HtmlWebpackPlugin({
 				template: path.join(__dirname, './docs-src/index.html'),
 				filename: path.join(__dirname, './docs/index.html'),
-				baseUrl: bProduction ? '/urpflanze/' : '/docs/',
+				baseUrl: bProduction ? '/' : '/docs/',
 			}),
 
 			new webpack.DefinePlugin({
